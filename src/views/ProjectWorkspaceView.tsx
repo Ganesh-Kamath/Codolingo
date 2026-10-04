@@ -110,13 +110,14 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F9FAFB', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-app, #FDFBF7)', display: 'flex', flexDirection: 'column' }}>
       {/* Top Header */}
       <header
         style={{
-          height: '64px',
+          height: '68px',
           backgroundColor: '#FFFFFF',
-          borderBottom: '1px solid var(--border-default, #E5E7EB)',
+          borderBottom: '1.5px solid var(--border-default, #E5DDD0)',
+          boxShadow: '0 2px 0 var(--border-subtle, #F2EBE1)',
           padding: '0 24px',
           display: 'flex',
           alignItems: 'center',
@@ -132,26 +133,28 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              color: 'var(--text-secondary, #4B5563)',
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              border: 'none',
-              background: 'none',
+              gap: '8px',
+              color: 'var(--text-primary, #1E1B17)',
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: '0.85rem',
+              backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
+              border: '1.5px solid var(--border-default, #E5DDD0)',
+              boxShadow: '0 2px 0 var(--border-default, #E5DDD0)',
               cursor: 'pointer',
-              padding: '6px 10px',
-              borderRadius: '8px'
+              padding: '8px 14px',
+              borderRadius: 'var(--radius-md, 12px)'
             }}
             title="Return to projects list"
           >
-            <Icon name="arrow-left" size={18} stroke={2.5} />
-            <span>Projects</span>
+            <Icon name="arrow-left" size={16} stroke={2.5} />
+            <span>All Projects</span>
           </button>
 
-          <div style={{ width: '1px', height: '24px', backgroundColor: '#E5E7EB' }} />
+          <div style={{ width: '1.5px', height: '24px', backgroundColor: 'var(--border-default, #E5DDD0)' }} />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: 'var(--text-primary, #111827)' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, margin: 0, color: 'var(--text-primary, #1E1B17)' }}>
               {project.title}
             </h2>
             {getDifficultyBadge()}
@@ -165,20 +168,22 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              padding: '8px 14px',
-              borderRadius: 'var(--radius-lg, 10px)',
+              gap: '8px',
+              padding: '8px 16px',
+              borderRadius: 'var(--radius-md, 12px)',
               fontSize: '0.85rem',
-              fontWeight: 700,
-              border: isCompleted ? '1px solid #10B981' : '1px solid #D1D5DB',
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              border: isCompleted ? '1.5px solid #059669' : '1.5px solid var(--border-default)',
               backgroundColor: isCompleted ? '#ECFDF5' : '#FFFFFF',
-              color: isCompleted ? '#065F46' : '#4B5563',
+              color: isCompleted ? '#065F46' : 'var(--text-primary)',
+              boxShadow: isCompleted ? '0 3px 0 #047857' : '0 2px 0 var(--border-default)',
               cursor: 'pointer',
-              transition: 'all 150ms ease'
+              transition: 'all 120ms ease'
             }}
           >
             <Icon name={isCompleted ? 'check' : 'circle'} size={16} stroke={2.5} />
-            <span>{isCompleted ? 'Project Completed' : 'Mark as Done'}</span>
+            <span>{isCompleted ? 'Project Completed ✓' : 'Mark as Built'}</span>
           </button>
         </div>
       </header>
@@ -191,20 +196,20 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
             flex: '1 1 45%',
             maxWidth: '620px',
             minWidth: '340px',
-            backgroundColor: '#FFFFFF',
-            borderRight: '1px solid var(--border-default, #E5E7EB)',
+            backgroundColor: 'var(--bg-app, #FDFBF7)',
+            borderRight: '1.5px solid var(--border-default, #E5DDD0)',
             overflowY: 'auto',
             padding: '32px 28px 80px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '28px'
+            gap: '24px'
           }}
         >
-          {/* Brief Overview */}
-          <div>
+          {/* Brief Overview Card */}
+          <div className="card-plate" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                PROJECT BRIEF
+              <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                SPECIFICATION & ARCHITECTURE
               </span>
               <span style={{ fontSize: '0.75rem', color: '#9CA3AF' }}>•</span>
               <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -212,48 +217,45 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
               </span>
             </div>
 
-            <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 12px' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 12px' }}>
               {project.title}
             </h1>
 
-            <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 20px' }}>
               {project.shortDescription}
             </p>
 
-            <div style={{ marginTop: '20px' }}>
+            <div>
               <Button
                 variant="primary"
                 size="md"
                 onClick={scrollToEditor}
                 icon={<Icon name="code" size={16} />}
-                style={{ fontWeight: 700 }}
               >
-                Start Building in Editor
+                Jump to Code Workspace
               </Button>
             </div>
           </div>
 
-          <div style={{ height: '1px', backgroundColor: '#E5E7EB' }} />
-
-          {/* Project Goal */}
-          <div>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Project Goal Card */}
+          <div className="card-plate" style={{ padding: '22px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Icon name="target" size={18} style={{ color: 'var(--brand-primary)' }} />
               Project Goal
             </h3>
-            <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 10px' }}>
+            <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 14px' }}>
               {project.goal}
             </p>
-            <div style={{ padding: '12px 16px', backgroundColor: '#F9FAFB', borderRadius: '10px', border: '1px solid #E5E7EB', fontSize: '0.88rem', color: '#374151', lineHeight: 1.5 }}>
+            <div style={{ padding: '14px 16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)', fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
               <strong>What you're building:</strong> {project.whatYouAreBuilding}
             </div>
           </div>
 
-          {/* Requirements */}
-          <div>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Icon name="checklist" size={18} style={{ color: '#2563EB' }} />
-              Requirements
+          {/* Requirements Card */}
+          <div className="card-plate" style={{ padding: '22px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Icon name="checklist" size={18} style={{ color: '#4338CA' }} />
+              Architecture Requirements
             </h3>
             <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {project.requirements.map((req, idx) => (
@@ -265,23 +267,24 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
           </div>
 
           {/* Skills & Concepts Involved */}
-          <div>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="card-plate" style={{ padding: '22px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Icon name="cpu" size={18} style={{ color: '#D97706' }} />
-              Concepts & Skills Involved
+              Key Concepts & Skills Involved
             </h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
               {project.skills.map((skill, idx) => (
                 <span
                   key={idx}
                   style={{
                     fontSize: '0.8rem',
                     fontWeight: 700,
-                    color: '#1F2937',
-                    backgroundColor: '#FEF3C7',
+                    color: 'var(--text-primary)',
+                    backgroundColor: 'var(--bg-surface-subtle)',
                     padding: '4px 10px',
                     borderRadius: '8px',
-                    border: '1px solid #FDE68A',
+                    border: '1.5px solid var(--border-default)',
+                    boxShadow: '0 2px 0 var(--border-default)',
                     fontFamily: 'var(--font-mono, monospace)'
                   }}
                 >
@@ -289,28 +292,19 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
                 </span>
               ))}
             </div>
-          </div>
 
-          {/* Useful Python Topics */}
-          <div>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Icon name="book" size={18} style={{ color: '#059669' }} />
-              Useful Python Topics
-            </h3>
-            <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
               {project.topics.map((topic, idx) => (
-                <li key={idx} style={{ fontSize: '0.88rem', color: '#4B5563', lineHeight: 1.4 }}>
-                  <code style={{ backgroundColor: '#F3F4F6', padding: '2px 6px', borderRadius: '4px', fontSize: '0.82rem', fontFamily: 'monospace' }}>
-                    {topic}
-                  </code>
-                </li>
+                <span key={idx} style={{ backgroundColor: '#F3F4F6', padding: '2px 8px', borderRadius: '4px', fontSize: '0.78rem', fontFamily: 'var(--font-mono)' }}>
+                  {topic}
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Things to Think About */}
-          <div style={{ backgroundColor: '#EFF6FF', borderRadius: '12px', border: '1px solid #BFDBFE', padding: '18px 20px' }}>
-            <h3 style={{ fontSize: '0.98rem', fontWeight: 800, color: '#1E40AF', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="card-plate" style={{ backgroundColor: '#EFF6FF', borderColor: '#BFDBFE', boxShadow: '0 4px 0 #BFDBFE', padding: '20px 22px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: '#1E40AF', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Icon name="bulb" size={18} style={{ color: '#2563EB' }} />
               Things to Think About
             </h3>
@@ -324,14 +318,14 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
           </div>
 
           {/* Extensions */}
-          <div style={{ backgroundColor: '#F9FAFB', borderRadius: '12px', border: '1px solid #E5E7EB', padding: '18px 20px' }}>
-            <h3 style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="card-plate" style={{ backgroundColor: '#FFFBEB', borderColor: '#FDE68A', boxShadow: '0 4px 0 #FDE68A', padding: '20px 22px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: '#92400E', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Icon name="sparkles" size={18} style={{ color: '#D97706' }} />
-              Ideas for Taking It Further
+              Ambitious Extensions (Optional)
             </h3>
             <ul style={{ margin: 0, paddingLeft: '18px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {project.extensions.map((ext, idx) => (
-                <li key={idx} style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                <li key={idx} style={{ fontSize: '0.88rem', color: '#78350F', lineHeight: 1.5 }}>
                   {ext}
                 </li>
               ))}
@@ -394,14 +388,14 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
               </button>
 
               <Button
-                variant="primary"
+                variant="success"
                 size="sm"
                 onClick={handleRun}
                 isLoading={isRunning}
                 icon={<Icon name="player-play" size={14} fill="#fff" />}
-                style={{ fontWeight: 700, padding: '6px 14px' }}
+                style={{ fontWeight: 800, padding: '7px 18px' }}
               >
-                RUN
+                RUN CODE
               </Button>
             </div>
           </div>

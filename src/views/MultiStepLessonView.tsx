@@ -713,31 +713,62 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
 
-            {/* Selectable Options */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {/* Selectable Options with Stitch DevRealm Tactile 3D Extrusion */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {(currentBlock.options || []).map((opt, idx) => {
                 const isSelected = selectedOptionId === opt.id;
                 const letter = String.fromCharCode(65 + idx);
 
                 let bgCol = '#FFFFFF';
-                let borderCol = 'var(--border-default, #E5E7EB)';
-                let textCol = 'var(--text-primary, #111827)';
+                let borderCol = 'var(--border-default, #E5DDD0)';
+                let bevelCol = '#E2D9CC';
+                let textCol = 'var(--text-primary, #1E1B17)';
+                let badgeBg = 'var(--bg-surface-subtle, #FAF6EE)';
+                let badgeBorder = 'var(--border-default, #E5DDD0)';
+                let badgeBevel = '#D5C9B7';
+                let badgeColor = 'var(--text-secondary, #57534E)';
 
                 if (exerciseState === 'correct' || exerciseState === 'incorrect') {
                   if (isSelected) {
-                    bgCol = opt.isCorrect ? '#ECFDF5' : '#FEF2F2';
-                    borderCol = opt.isCorrect ? '#10B981' : '#EF4444';
-                    textCol = opt.isCorrect ? '#065F46' : '#991B1B';
+                    if (opt.isCorrect) {
+                      bgCol = '#ECFDF5';
+                      borderCol = '#10B981';
+                      bevelCol = '#047857';
+                      textCol = '#065F46';
+                      badgeBg = '#10B981';
+                      badgeBorder = '#059669';
+                      badgeBevel = '#047857';
+                      badgeColor = '#FFFFFF';
+                    } else {
+                      bgCol = '#FEF2F2';
+                      borderCol = '#EF4444';
+                      bevelCol = '#991B1B';
+                      textCol = '#991B1B';
+                      badgeBg = '#EF4444';
+                      badgeBorder = '#DC2626';
+                      badgeBevel = '#991B1B';
+                      badgeColor = '#FFFFFF';
+                    }
                   } else if (opt.isCorrect && exerciseState === 'incorrect') {
-                    // Clearly highlight the correct answer in green so user immediately learns
+                    // Clearly reveal correct answer in glowing emerald
                     borderCol = '#10B981';
                     bgCol = '#ECFDF5';
+                    bevelCol = '#047857';
                     textCol = '#065F46';
+                    badgeBg = '#10B981';
+                    badgeBorder = '#059669';
+                    badgeBevel = '#047857';
+                    badgeColor = '#FFFFFF';
                   }
                 } else if (isSelected) {
-                  borderCol = '#10B981';
-                  bgCol = '#ECFDF5';
-                  textCol = '#065F46';
+                  borderCol = 'var(--brand-primary, #4338CA)';
+                  bgCol = 'var(--brand-light, #EEF2FF)';
+                  bevelCol = '#312E81';
+                  textCol = 'var(--brand-text, #312E81)';
+                  badgeBg = 'var(--brand-primary, #4338CA)';
+                  badgeBorder = '#312E81';
+                  badgeBevel = '#1E1B4B';
+                  badgeColor = '#FFFFFF';
                 }
 
                 return (
@@ -747,50 +778,56 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                     disabled={exerciseState === 'correct' || exerciseState === 'incorrect'}
                     style={{
                       padding: '16px 20px',
-                      borderRadius: 'var(--radius-lg, 12px)',
+                      borderRadius: 'var(--radius-xl, 18px)',
                       border: `2px solid ${borderCol}`,
+                      boxShadow: `0 4px 0 ${bevelCol}`,
                       backgroundColor: bgCol,
                       color: textCol,
                       textAlign: 'left',
-                      fontWeight: 600,
+                      fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '14px',
+                      gap: '16px',
                       cursor: (exerciseState === 'correct' || exerciseState === 'incorrect') ? 'default' : 'pointer',
-                      transition: 'all 150ms ease',
-                      boxShadow: isSelected ? '0 2px 8px rgba(16, 185, 129, 0.15)' : 'none'
+                      transition: 'transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease',
+                      userSelect: 'none'
                     }}
+                    className={exerciseState === 'unanswered' || exerciseState === 'answering' ? 'hover-elevate' : ''}
                   >
                     <span
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        backgroundColor: (exerciseState === 'correct' || exerciseState === 'incorrect') && opt.isCorrect
-                          ? '#10B981'
-                          : (isSelected ? '#10B981' : '#F3F4F6'),
-                        color: (exerciseState === 'correct' || exerciseState === 'incorrect') && opt.isCorrect
-                          ? '#FFFFFF'
-                          : (isSelected ? '#FFFFFF' : '#4B5563'),
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '12px',
+                        backgroundColor: badgeBg,
+                        border: `1.5px solid ${badgeBorder}`,
+                        boxShadow: `0 2px 0 ${badgeBevel}`,
+                        color: badgeColor,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '0.85rem',
+                        fontFamily: 'var(--font-display)',
+                        fontSize: '0.9rem',
                         fontWeight: 800,
                         flexShrink: 0
                       }}
                     >
                       {letter}
                     </span>
-                    <span style={{ flex: 1, fontSize: '0.98rem', lineHeight: 1.4 }}>{opt.text}</span>
+                    <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.45, fontFamily: 'var(--font-sans)' }}>{opt.text}</span>
                     {(exerciseState === 'correct' || exerciseState === 'incorrect') && (
                       opt.isCorrect ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#10B981', fontSize: '0.8rem', fontWeight: 800 }}>
-                          <span>CORRECT ANSWER</span>
-                          <Icon name="check" size={20} stroke={3} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#10B981', fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+                          <span>CORRECT</span>
+                          <Icon name="check" size={22} stroke={3} />
                         </div>
                       ) : (
-                        isSelected && <Icon name="x" size={20} style={{ color: '#EF4444' }} stroke={3} />
+                        isSelected && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#EF4444', fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+                            <span>MISSED</span>
+                            <Icon name="x" size={22} stroke={3} />
+                          </div>
+                        )
                       )
                     )}
                   </button>
@@ -1109,17 +1146,20 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     }
   };
 
-  // Bottom Fixed Drawer
+  // Bottom Fixed Drawer with Stitch DevRealm Odyssey Tactile Actions
   const renderFooter = () => {
     let footerBg = '#FFFFFF';
-    let borderColor = 'var(--border-default, #E5E7EB)';
+    let borderColor = 'var(--border-default, #E5DDD0)';
+    let drawerShadow = '0 -4px 16px rgba(30, 27, 23, 0.05)';
 
     if (exerciseState === 'correct') {
       footerBg = '#ECFDF5';
-      borderColor = '#A7F3D0';
+      borderColor = '#10B981';
+      drawerShadow = '0 -6px 24px rgba(16, 185, 129, 0.15)';
     } else if (exerciseState === 'incorrect') {
       footerBg = '#FEF2F2';
-      borderColor = '#FECACA';
+      borderColor = '#EF4444';
+      drawerShadow = '0 -6px 24px rgba(239, 68, 68, 0.15)';
     }
 
     const isCodingType = currentBlock.type === 'write_code' || currentBlock.type === 'fix_code' || currentBlock.type === 'mini_challenge' || currentBlock.type === 'refactoring_challenge';
@@ -1139,44 +1179,47 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           left: 0,
           right: 0,
           backgroundColor: footerBg,
-          borderTop: `1px solid ${borderColor}`,
-          padding: '16px 24px',
+          borderTop: `2px solid ${borderColor}`,
+          padding: '18px 24px',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          boxShadow: '0 -4px 16px rgba(0, 0, 0, 0.04)'
+          boxShadow: drawerShadow,
+          transition: 'background-color 150ms ease, border-color 150ms ease'
         }}
       >
-        <div style={{ width: '100%', maxWidth: '780px' }}>
+        <div style={{ width: '100%', maxWidth: '820px' }}>
           {/* Feedback Section */}
           {(exerciseState === 'correct' || exerciseState === 'incorrect') && (
-            <div className="animate-pop-in" style={{ marginBottom: '14px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+            <div className="animate-pop-in" style={{ marginBottom: '16px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
               <div
                 style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '14px',
                   flexShrink: 0,
                   backgroundColor: exerciseState === 'correct' ? '#10B981' : '#EF4444',
+                  border: `2px solid ${exerciseState === 'correct' ? '#059669' : '#DC2626'}`,
+                  boxShadow: `0 3px 0 ${exerciseState === 'correct' ? '#047857' : '#991B1B'}`,
                   color: '#FFF',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
               >
-                <Icon name={exerciseState === 'correct' ? 'check' : 'x'} size={22} stroke={3} />
+                <Icon name={exerciseState === 'correct' ? 'check' : 'x'} size={26} stroke={3.5} />
               </div>
               <div style={{ flex: 1 }}>
-                <h4 style={{ margin: '0 0 4px', fontSize: '1.1rem', fontWeight: 800, color: exerciseState === 'correct' ? '#065F46' : '#991B1B' }}>
+                <h4 style={{ margin: '0 0 4px', fontSize: '1.2rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: exerciseState === 'correct' ? '#065F46' : '#991B1B' }}>
                   {feedbackMsg.title}
                 </h4>
-                <p style={{ margin: 0, fontSize: '0.95rem', color: exerciseState === 'correct' ? '#065F46' : '#7F1D1D', lineHeight: 1.4 }}>
+                <p style={{ margin: 0, fontSize: '0.95rem', color: exerciseState === 'correct' ? '#047857' : '#7F1D1D', lineHeight: 1.45, fontWeight: 500 }}>
                   {feedbackMsg.msg}
                 </p>
                 {feedbackMsg.detail && (
-                  <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: exerciseState === 'correct' ? '#047857' : '#B91C1C', fontStyle: 'italic' }}>
-                    {feedbackMsg.detail}
+                  <p style={{ margin: '6px 0 0', fontSize: '0.85rem', color: exerciseState === 'correct' ? '#065F46' : '#991B1B', fontWeight: 600 }}>
+                    💡 {feedbackMsg.detail}
                   </p>
                 )}
               </div>
@@ -1187,13 +1230,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             {isExplanation || isAnswerChecked ? (
               <Button
-                variant={exerciseState === 'incorrect' ? 'danger' : 'primary'}
+                variant={exerciseState === 'incorrect' ? 'danger' : 'success'}
                 size="lg"
                 onClick={handleNextStep}
                 fullWidth
-                style={{ maxWidth: '280px' }}
+                style={{ maxWidth: '300px' }}
               >
-                CONTINUE
+                {exerciseState === 'incorrect' ? 'GOT IT, CONTINUE' : 'CONTINUE (+20 XP)'}
               </Button>
             ) : isCodingType ? (
               <Button
@@ -1203,7 +1246,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 isLoading={exerciseState === 'validating'}
                 disabled={code.trim() === ''}
                 fullWidth
-                style={{ maxWidth: '280px' }}
+                style={{ maxWidth: '300px' }}
               >
                 RUN CODE
               </Button>
@@ -1214,9 +1257,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={checkBlankAnswer}
                 disabled={blankAnswer.trim() === ''}
                 fullWidth
-                style={{ maxWidth: '280px' }}
+                style={{ maxWidth: '300px' }}
               >
-                CHECK
+                CHECK ANSWER
               </Button>
             ) : isOrderingType ? (
               <Button
@@ -1224,7 +1267,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 size="lg"
                 onClick={checkOrderingAnswer}
                 fullWidth
-                style={{ maxWidth: '280px' }}
+                style={{ maxWidth: '300px' }}
               >
                 CHECK ORDER
               </Button>
@@ -1234,7 +1277,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 size="lg"
                 onClick={checkMatchAnswer}
                 fullWidth
-                style={{ maxWidth: '280px' }}
+                style={{ maxWidth: '300px' }}
               >
                 CHECK MATCHES
               </Button>
@@ -1245,9 +1288,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={checkOptionAnswer}
                 disabled={!selectedOptionId}
                 fullWidth
-                style={{ maxWidth: '280px' }}
+                style={{ maxWidth: '300px' }}
               >
-                CHECK
+                CHECK ANSWER
               </Button>
             )}
           </div>
@@ -1262,12 +1305,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const progressPercentage = currentTotal > 0 ? Math.round((currentStep / currentTotal) * 100) : 100;
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-app, #FDFBF7)' }}>
       {/* Top Header */}
       <header
         style={{
-          height: '64px',
-          borderBottom: '1px solid var(--border-default, #E5E7EB)',
+          height: '68px',
+          borderBottom: '1.5px solid var(--border-default, #E5DDD0)',
+          boxShadow: '0 2px 0 var(--border-subtle, #F2EBE1)',
           padding: '0 24px',
           display: 'flex',
           alignItems: 'center',
@@ -1280,21 +1324,52 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       >
         <button
           onClick={exitLesson}
-          style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', fontWeight: 600, border: 'none', background: 'none', cursor: 'pointer' }}
+          style={{
+            width: '38px',
+            height: '38px',
+            borderRadius: '12px',
+            backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
+            border: '1.5px solid var(--border-default, #E5DDD0)',
+            boxShadow: '0 2px 0 var(--border-default, #E5DDD0)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--text-secondary)',
+            cursor: 'pointer'
+          }}
           title="Exit to learning path"
         >
-          <Icon name="x" size={24} stroke={2.5} />
+          <Icon name="x" size={20} stroke={2.5} />
         </button>
 
-        <div style={{ flex: 1, maxWidth: '440px', margin: '0 24px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>
+        <div style={{ flex: 1, maxWidth: '520px', margin: '0 24px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-secondary)' }}>
             <span>{sessionPhase === 'review' ? `Reviewing Mistakes (${lessonMeta.title})` : lessonMeta.title}</span>
-            <span>{currentStep} / {currentTotal}</span>
+            <span style={{ color: 'var(--brand-primary)' }}>{currentStep} of {currentTotal}</span>
           </div>
-          <ProgressBar progress={progressPercentage} height={10} />
+          <ProgressBar progress={progressPercentage} height={12} />
         </div>
 
-        <div style={{ width: '24px' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 10px',
+              backgroundColor: '#EFF6FF',
+              borderRadius: 'var(--radius-full)',
+              border: '1.5px solid #BFDBFE',
+              color: '#1D4ED8',
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: '0.78rem'
+            }}
+          >
+            <Icon name="shield" size={14} fill="#BFDBFE" />
+            <span>Shield Active</span>
+          </div>
+        </div>
       </header>
 
       {/* Main Block Content */}

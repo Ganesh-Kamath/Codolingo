@@ -31,28 +31,28 @@ export const Card: React.FC<CardProps> = ({
       case 'subtle':
         return {
           backgroundColor: 'var(--bg-surface-subtle)',
-          border: '1px solid var(--border-subtle)'
+          border: '1.5px solid var(--border-subtle)',
+          boxShadow: 'none'
         };
       case 'interactive':
         return {
           backgroundColor: 'var(--bg-surface)',
-          border: '1px solid var(--border-default)',
-          boxShadow: 'var(--shadow-xs)',
-          cursor: 'pointer',
-          transition: 'all var(--transition-base)'
+          border: '1.5px solid var(--border-default)',
+          boxShadow: 'var(--tactile-card)',
+          cursor: 'pointer'
         };
       case 'accent':
         return {
           backgroundColor: 'var(--bg-surface)',
-          border: `1px solid ${accentColor || 'var(--border-default)'}`,
-          boxShadow: 'var(--shadow-xs)'
+          border: `1.5px solid ${accentColor || 'var(--brand-primary)'}`,
+          boxShadow: 'var(--tactile-card)'
         };
       case 'default':
       default:
         return {
           backgroundColor: 'var(--bg-surface)',
-          border: '1px solid var(--border-default)',
-          boxShadow: 'var(--shadow-xs)'
+          border: '1.5px solid var(--border-default)',
+          boxShadow: 'var(--tactile-card)'
         };
     }
   };
@@ -60,12 +60,12 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       style={{
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 'var(--radius-xl)',
         padding: getPaddingStyle(),
         ...getVariantStyles(),
         ...style
       }}
-      className={`codon-card ${variant === 'interactive' ? 'hover-elevate' : ''} ${className}`}
+      className={`card-plate ${variant === 'interactive' ? 'card-plate-interactive' : ''} ${className}`}
       {...props}
     >
       {children}

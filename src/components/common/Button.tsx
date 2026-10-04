@@ -27,40 +27,41 @@ export const Button: React.FC<ButtonProps> = ({
         return {
           backgroundColor: 'var(--brand-primary)',
           color: '#FFFFFF',
-          border: '1px solid var(--brand-hover)',
-          boxShadow: '0 1px 2px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+          border: '1.5px solid var(--brand-bevel)',
+          boxShadow: 'var(--tactile-primary)'
         };
       case 'secondary':
         return {
           backgroundColor: '#FFFFFF',
           color: 'var(--text-primary)',
-          border: '1px solid var(--border-default)',
-          boxShadow: 'var(--shadow-xs)'
+          border: '1.5px solid var(--border-default)',
+          boxShadow: 'var(--tactile-card)'
         };
       case 'outline':
         return {
           backgroundColor: 'transparent',
           color: 'var(--text-primary)',
-          border: '1px solid var(--border-default)'
+          border: '1.5px solid var(--border-strong)'
         };
       case 'ghost':
         return {
           backgroundColor: 'transparent',
           color: 'var(--text-secondary)',
-          border: '1px solid transparent'
+          border: '1.5px solid transparent'
         };
       case 'success':
         return {
-          backgroundColor: 'var(--success-solid)',
+          backgroundColor: 'var(--secondary-solid)',
           color: '#FFFFFF',
-          border: '1px solid var(--success-solid)',
-          boxShadow: '0 1px 2px rgba(16, 185, 129, 0.2)'
+          border: '1.5px solid var(--secondary-bevel)',
+          boxShadow: 'var(--tactile-secondary)'
         };
       case 'danger':
         return {
-          backgroundColor: '#EF4444',
+          backgroundColor: 'var(--error-solid)',
           color: '#FFFFFF',
-          border: '1px solid #DC2626'
+          border: '1.5px solid var(--error-bevel)',
+          boxShadow: 'var(--tactile-danger)'
         };
       default:
         return {};
@@ -71,22 +72,22 @@ export const Button: React.FC<ButtonProps> = ({
     switch (size) {
       case 'sm':
         return {
-          padding: '6px 12px',
+          padding: '8px 14px',
           fontSize: '0.8125rem',
-          borderRadius: 'var(--radius-sm)',
+          borderRadius: 'var(--radius-md)',
           gap: '6px'
         };
       case 'lg':
         return {
-          padding: '12px 22px',
+          padding: '14px 26px',
           fontSize: '1rem',
-          borderRadius: 'var(--radius-md)',
+          borderRadius: 'var(--radius-lg)',
           gap: '10px'
         };
       case 'md':
       default:
         return {
-          padding: '8px 16px',
+          padding: '10px 18px',
           fontSize: '0.875rem',
           borderRadius: 'var(--radius-md)',
           gap: '8px'
@@ -101,16 +102,17 @@ export const Button: React.FC<ButtonProps> = ({
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontWeight: 600,
+        fontFamily: 'var(--font-display)',
+        fontWeight: 700,
         letterSpacing: '-0.01em',
-        transition: 'all var(--transition-fast)',
+        userSelect: 'none',
         cursor: disabled || isLoading ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.55 : 1,
+        opacity: disabled ? 0.5 : 1,
         width: fullWidth ? '100%' : undefined,
         ...getVariantStyles(),
         ...getSizeStyles()
       }}
-      className={className}
+      className={`tactile-btn ${className}`}
       {...props}
     >
       {isLoading ? (

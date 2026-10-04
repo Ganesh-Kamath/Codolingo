@@ -32,18 +32,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     <div
       style={{
         backgroundColor: '#FFFFFF',
-        borderRadius: 'var(--radius-xl, 16px)',
-        border: '1px solid var(--border-default, #E5E7EB)',
-        padding: '22px 24px',
+        borderRadius: 'var(--radius-xl, 20px)',
+        border: '1.5px solid var(--border-default, #E5DDD0)',
+        boxShadow: 'var(--tactile-card, 0 4px 0 #E2D9CC)',
+        padding: '24px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
-        boxShadow: 'var(--shadow-xs, 0 1px 3px rgba(0,0,0,0.05))',
+        transition: 'transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast)',
         position: 'relative',
         overflow: 'hidden'
       }}
-      className="hover-elevate"
+      className="card-plate card-plate-interactive"
     >
       {/* Top Meta row */}
       <div>
@@ -56,7 +56,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               </Badge>
             )}
           </div>
-          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted, #6B7280)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted, #8E8A83)', fontFamily: 'var(--font-display)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Icon name="clock" size={14} />
             {project.estimatedTime}
           </span>
@@ -65,9 +65,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Title */}
         <h3
           style={{
-            fontSize: '1.2rem',
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.25rem',
             fontWeight: 800,
-            color: 'var(--text-primary, #111827)',
+            color: 'var(--text-primary, #1E1B17)',
             margin: '0 0 8px',
             lineHeight: 1.3
           }}
@@ -79,7 +80,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         <p
           style={{
             fontSize: '0.88rem',
-            color: 'var(--text-secondary, #4B5563)',
+            color: 'var(--text-secondary, #57534E)',
             lineHeight: 1.55,
             margin: '0 0 18px',
             display: '-webkit-box',
@@ -99,11 +100,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               style={{
                 fontSize: '0.72rem',
                 fontWeight: 600,
-                color: '#374151',
-                backgroundColor: '#F3F4F6',
+                color: 'var(--text-secondary, #57534E)',
+                backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
                 padding: '3px 8px',
                 borderRadius: '6px',
-                border: '1px solid #E5E7EB',
+                border: '1px solid var(--border-default, #E5DDD0)',
                 fontFamily: 'var(--font-mono, monospace)'
               }}
             >
@@ -111,7 +112,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             </span>
           ))}
           {project.skills.length > 5 && (
-            <span style={{ fontSize: '0.72rem', color: '#9CA3AF', padding: '3px 4px' }}>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted, #8E8A83)', padding: '3px 4px' }}>
               +{project.skills.length - 5}
             </span>
           )}
@@ -119,17 +120,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* Action Footer */}
-      <div style={{ paddingTop: '16px', borderTop: '1px solid #F3F4F6' }}>
+      <div style={{ paddingTop: '16px', borderTop: '1.5px solid var(--border-subtle, #F2EBE1)' }}>
         <Button
-          variant={isCompleted ? 'outline' : 'primary'}
+          variant={isCompleted ? 'secondary' : 'primary'}
           size="md"
           onClick={() => onSelect(project)}
           fullWidth
           icon={<Icon name="code" size={16} />}
           iconPosition="left"
-          style={{ fontWeight: 700 }}
         >
-          {isCompleted ? 'Continue Building' : 'Build Project'}
+          {isCompleted ? 'Resume Workspace' : 'Build Project'}
         </Button>
       </div>
     </div>

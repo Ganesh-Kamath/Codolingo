@@ -25,19 +25,29 @@ html, body {
   flex-direction: column;
 }
 
-/* Typography Hierarchy */
+/* Typography Hierarchy with Stitch DevRealm Odyssey Outfit display */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
 .display-title {
+  font-family: var(--font-display);
   font-size: 2.25rem;
-  line-height: 1.2;
+  line-height: 1.15;
   font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--text-primary);
 }
 
 .heading-1 {
+  font-family: var(--font-display);
   font-size: 1.75rem;
   line-height: 1.25;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
 }
@@ -119,14 +129,117 @@ button:focus-visible, a:focus-visible, input:focus-visible {
   border-color: var(--brand-primary) !important;
 }
 
-.hover-elevate {
+/* Tactile 3D Plates & Buttons (Stitch DevRealm Odyssey Authority) */
+.card-plate {
+  background-color: var(--bg-surface);
+  border: 1.5px solid var(--border-default);
+  box-shadow: var(--tactile-card);
+  border-radius: var(--radius-xl);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
-.hover-elevate:hover {
+.card-plate-interactive {
+  cursor: pointer;
+}
+
+.card-plate-interactive:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md) !important;
-  border-color: var(--brand-border) !important;
+  box-shadow: 0 6px 0 var(--border-strong);
+  border-color: var(--border-strong);
+}
+
+.card-plate-interactive:active {
+  transform: translateY(2px);
+  box-shadow: var(--tactile-card-pressed);
+}
+
+/* Tactile 3D Extrusion Button Classes */
+.tactile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  user-select: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.tactile-btn:active:not(:disabled) {
+  transform: translateY(3px);
+}
+
+.tactile-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.tactile-btn-primary {
+  background-color: var(--brand-primary);
+  color: #FFFFFF;
+  border: 1.5px solid var(--brand-bevel);
+  box-shadow: var(--tactile-primary);
+}
+.tactile-btn-primary:hover:not(:disabled) {
+  background-color: var(--brand-hover);
+}
+.tactile-btn-primary:active:not(:disabled) {
+  box-shadow: var(--tactile-primary-pressed);
+}
+
+.tactile-btn-emerald {
+  background-color: var(--secondary-solid);
+  color: #FFFFFF;
+  border: 1.5px solid var(--secondary-bevel);
+  box-shadow: var(--tactile-secondary);
+}
+.tactile-btn-emerald:hover:not(:disabled) {
+  background-color: var(--secondary-hover);
+}
+.tactile-btn-emerald:active:not(:disabled) {
+  box-shadow: var(--tactile-secondary-pressed);
+}
+
+.tactile-btn-gold {
+  background-color: var(--warning-solid);
+  color: #FFFFFF;
+  border: 1.5px solid var(--warning-bevel);
+  box-shadow: var(--tactile-gold);
+}
+.tactile-btn-gold:hover:not(:disabled) {
+  background-color: var(--warning-hover);
+}
+.tactile-btn-gold:active:not(:disabled) {
+  box-shadow: var(--tactile-gold-pressed);
+}
+
+.tactile-btn-white {
+  background-color: #FFFFFF;
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-default);
+  box-shadow: var(--tactile-card);
+}
+.tactile-btn-white:hover:not(:disabled) {
+  background-color: var(--bg-surface-subtle);
+  border-color: var(--border-strong);
+}
+.tactile-btn-white:active:not(:disabled) {
+  box-shadow: var(--tactile-card-pressed);
+}
+
+.tactile-btn-danger {
+  background-color: var(--error-solid);
+  color: #FFFFFF;
+  border: 1.5px solid var(--error-bevel);
+  box-shadow: var(--tactile-danger);
+}
+.tactile-btn-danger:hover:not(:disabled) {
+  background-color: var(--error-hover);
+}
+.tactile-btn-danger:active:not(:disabled) {
+  box-shadow: var(--tactile-danger-pressed);
 }
 
 /* Scrollbar Polish */

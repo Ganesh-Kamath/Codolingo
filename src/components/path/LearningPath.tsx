@@ -37,8 +37,6 @@ export const LearningPath: React.FC = () => {
     xpReward: 25
   };
 
-
-
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -46,161 +44,322 @@ export const LearningPath: React.FC = () => {
     return 'Good evening';
   };
 
-  return (
-    <div style={{ maxWidth: '860px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
-      {/* 1. TOP STATS BAR */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: '#FFFFFF',
-          borderRadius: 'var(--radius-xl)',
-          border: '1px solid var(--border-default)',
-          padding: '14px 22px',
-          marginBottom: '24px',
-          boxShadow: 'var(--shadow-xs)',
-          flexWrap: 'wrap',
-          gap: '14px'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img
-            src={userProgress.avatarUrl}
-            alt={userProgress.name}
-            style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--brand-primary)' }}
+  // Helper to render the serpentine winding SVG track for a given unit's skills
+  const renderSerpentineTrack = (skills: SkillNode[], unitCheckpoint: { title: string; description: string }) => {
+    const nodeSpacing = 110;
+    const centerX = 160;
+    const totalHeight = skills.length * nodeSpacing + 100;
+
+    // Calculate node coordinates
+    const coords = skills.map((skill, i) => {
+      const offset = (skill.pathOffset || 0) * 60;
+      return {
+        x: centerX + offset,
+        y: 50 + i * nodeSpacing
+      };
+    });
+
+    // Add checkpoint coordinate at the end
+    const checkpointCoord = { x: centerX, y: 50 + skills.length * nodeSpacing };
+
+    // Build smooth cubic bezier SVG path string
+    let pathD = `M ${coords[0]?.x || centerX} ${coords[0]?.y || 50}`;
+    for (let i = 0; i < coords.length - 1; i++) {
+      const curr = coords[i];
+      const next = coords[i + 1];
+      const midY = (curr.y + next.y) / 2;
+      pathD += ` C ${curr.x} ${midY}, ${next.x} ${midY}, ${next.x} ${next.y}`;
+    }
+    if (coords.length > 0) {
+      const last = coords[coords.length - 1];
+      const midY = (last.y + checkpointCoord.y) / 2;
+      pathD += ` C ${last.x} ${midY}, ${checkpointCoord.x} ${midY}, ${checkpointCoord.x} ${checkpointCoord.y}`;
+    }
+
+    return (
+      <div style={{ position: 'relative', width: '100%', minHeight: `${totalHeight}px`, display: 'flex', justifyContent: 'center' }}>
+        {/* SVG Road Track */}
+        <svg
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '320px',
+            height: `${totalHeight}px`,
+            pointerEvents: 'none',
+            zIndex: 1
+          }}
+        >
+          {/* Base outer stone road */}
+          <path
+            d={pathD}
+            fill="none"
+            stroke="#E5DDD0"
+            strokeWidth="18"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <div>
-            <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-              {getGreeting()}, {userProgress.name.split(' ')[0]} 👋
-            </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-              Python Developer Track • Unit 1
-            </div>
-          </div>
-        </div>
+          {/* Inner smooth path */}
+          <path
+            d={pathD}
+            fill="none"
+            stroke="#FDFBF7"
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {/* Dashed center path guide */}
+          <path
+            d={pathD}
+            fill="none"
+            stroke="#D5C9B7"
+            strokeWidth="2.5"
+            strokeDasharray="6 8"
+            strokeLinecap="round"
+          />
+        </svg>
 
-        {/* Gamification Counters */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {/* Streak */}
+        {/* Interactive Skill Stepping-Stone Nodes */}
+        <div style={{ position: 'relative', width: '320px', height: `${totalHeight}px`, zIndex: 10 }}>
+          {skills.map((skill, index) => {
+            const coord = coords[index];
+            const isCompleted = userProgress.completedSkillIds.includes(skill.id);
+            const isCurrent = skill.id === userProgress.currentSkillId;
+            const isUnlocked = isCompleted || isCurrent || skill.status === 'unlocked';
+            const isLocked = !isUnlocked;
+            const mastery = userProgress.skillMastery[skill.id] || 0;
+
+            let bgColor = '#FFFFFF';
+            let borderColor = 'var(--border-default)';
+            let bevelColor = '#E2D9CC';
+            let iconColor = 'var(--text-secondary)';
+
+            if (isCompleted) {
+              bgColor = '#10B981';
+              borderColor = '#059669';
+              bevelColor = '#047857';
+              iconColor = '#FFFFFF';
+            } else if (isCurrent) {
+              bgColor = '#4338CA';
+              borderColor = '#312E81';
+              bevelColor = '#1E1B4B';
+              iconColor = '#FFFFFF';
+            } else if (isLocked) {
+              bgColor = '#F5EFEB';
+              borderColor = '#E5DDD0';
+              bevelColor = '#D5C9B7';
+              iconColor = '#9E978E';
+            }
+
+            return (
+              <div
+                key={skill.id}
+                style={{
+                  position: 'absolute',
+                  left: `${coord.x}px`,
+                  top: `${coord.y}px`,
+                  transform: 'translate(-50%, -50%)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                {/* 3D Physical Node Tile */}
+                <button
+                  onClick={() => {
+                    if (isUnlocked) {
+                      setSelectedSkillForModal(skill);
+                    }
+                  }}
+                  disabled={isLocked}
+                  style={{
+                    width: '76px',
+                    height: '76px',
+                    borderRadius: '50%',
+                    backgroundColor: bgColor,
+                    border: `3px solid ${borderColor}`,
+                    boxShadow: `0 6px 0 ${bevelColor}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: iconColor,
+                    cursor: isLocked ? 'not-allowed' : 'pointer',
+                    transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)',
+                    position: 'relative',
+                    userSelect: 'none'
+                  }}
+                  className={isCurrent ? 'current-node-pulse' : ''}
+                  title={isLocked ? `Locked: Complete prior skills to unlock` : `${skill.title} (Click to inspect)`}
+                >
+                  {isCompleted ? (
+                    <Icon name="check" size={32} stroke={3.5} />
+                  ) : isLocked ? (
+                    <Icon name="lock" size={24} />
+                  ) : (
+                    <Icon name={skill.iconName || 'code'} size={30} stroke={2.2} />
+                  )}
+
+                  {/* Top Badge for Current Node */}
+                  {isCurrent && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '-18px',
+                        backgroundColor: '#F59E0B',
+                        color: '#FFFFFF',
+                        fontSize: '0.625rem',
+                        fontWeight: 900,
+                        fontFamily: 'var(--font-display)',
+                        padding: '2px 8px',
+                        borderRadius: 'var(--radius-full)',
+                        letterSpacing: '0.06em',
+                        border: '1.5px solid #B45309',
+                        boxShadow: '0 2px 0 #B45309'
+                      }}
+                    >
+                      START
+                    </div>
+                  )}
+                </button>
+
+                {/* Skill Title & Mastery Indicators */}
+                <div
+                  style={{
+                    marginTop: '10px',
+                    textAlign: 'center',
+                    maxWidth: '130px',
+                    backgroundColor: 'rgba(253, 251, 247, 0.95)',
+                    padding: '3px 8px',
+                    borderRadius: 'var(--radius-sm)'
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: '0.84rem',
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: isCurrent ? 800 : 700,
+                      color: isLocked ? 'var(--text-muted)' : 'var(--text-primary)',
+                      lineHeight: 1.2
+                    }}
+                  >
+                    {skill.title}
+                  </div>
+
+                  {/* Mastery Pip Dots */}
+                  {isUnlocked && (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '3px',
+                        marginTop: '4px'
+                      }}
+                    >
+                      {[1, 2, 3, 4, 5].map((level) => (
+                        <div
+                          key={level}
+                          style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            backgroundColor: level <= mastery ? '#10B981' : '#D5C9B7'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Unit Milestone Chest / Trophy Node */}
           <div
             style={{
+              position: 'absolute',
+              left: `${checkpointCoord.x}px`,
+              top: `${checkpointCoord.y}px`,
+              transform: 'translate(-50%, -50%)',
               display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
-              backgroundColor: '#FFF1F2',
-              borderRadius: 'var(--radius-full)',
-              border: '1px solid #FECDD3',
-              color: '#E11D48',
-              fontWeight: 700,
-              fontSize: '0.84rem'
+              flexDirection: 'column',
+              alignItems: 'center'
             }}
-            title={`${userProgress.streak} day streak`}
           >
-            <Icon name="flame" size={16} fill="#FDA4AF" />
-            <span>{userProgress.streak}</span>
-            <span style={{ fontSize: '0.72rem', fontWeight: 600 }}>DAYS</span>
-          </div>
-
-          {/* XP */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
-              backgroundColor: '#FEF3C7',
-              borderRadius: 'var(--radius-full)',
-              border: '1px solid #FDE68A',
-              color: '#B45309',
-              fontWeight: 700,
-              fontSize: '0.84rem'
-            }}
-            title={`${userProgress.totalXp} XP`}
-          >
-            <Icon name="sparkles" size={16} fill="#FDE68A" />
-            <span>{userProgress.totalXp.toLocaleString()}</span>
-            <span style={{ fontSize: '0.72rem', fontWeight: 600 }}>XP</span>
-          </div>
-
-          {/* Energy / Shields */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
-              backgroundColor: '#EFF6FF',
-              borderRadius: 'var(--radius-full)',
-              border: '1px solid #BFDBFE',
-              color: '#1D4ED8',
-              fontWeight: 700,
-              fontSize: '0.84rem'
-            }}
-            title="Non-punitive learning shields"
-          >
-            <Icon name="shield" size={16} fill="#BFDBFE" />
-            <span>{userProgress.energy}/{userProgress.maxEnergy}</span>
-          </div>
-
-          {/* Daily Goal Mini Pill */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: '90px' }} className="desktop-only">
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-              <span>Daily Goal</span>
-              <span style={{ color: 'var(--brand-primary)' }}>{userProgress.dailyGoalEarnedXp}/{userProgress.dailyGoalXp} XP</span>
+            <div
+              style={{
+                width: '68px',
+                height: '68px',
+                borderRadius: '20px',
+                backgroundColor: '#FEF3C7',
+                border: '3px solid #FDE68A',
+                boxShadow: '0 6px 0 #B45309',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#D97706',
+                cursor: 'pointer'
+              }}
+              title={`${unitCheckpoint.title}: ${unitCheckpoint.description}`}
+            >
+              <Icon name="award" size={32} stroke={2.5} />
             </div>
-            <ProgressBar progress={(userProgress.dailyGoalEarnedXp / userProgress.dailyGoalXp) * 100} height={5} />
+            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)', marginTop: '8px' }}>
+              {unitCheckpoint.title}
+            </span>
           </div>
         </div>
       </div>
+    );
+  };
 
-      {/* 2. PROMINENT "CONTINUE LEARNING" ACTION BAR */}
+  return (
+    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
+      
+      {/* 1. HERO QUEST SUMMARY BAR */}
       <div
+        className="card-plate animate-slide-up"
         style={{
-          backgroundColor: '#FFFFFF',
-          borderRadius: 'var(--radius-xl)',
-          border: '2px solid var(--brand-primary)',
-          padding: '22px 26px',
-          marginBottom: '36px',
+          padding: '20px 24px',
+          marginBottom: '32px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
           gap: '16px',
-          boxShadow: '0 4px 14px rgba(16, 185, 129, 0.12)'
+          borderLeft: '6px solid var(--brand-primary)'
         }}
-        className="animate-slide-up"
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div
             style={{
-              width: '52px',
-              height: '52px',
+              width: '54px',
+              height: '54px',
               borderRadius: '16px',
               backgroundColor: 'var(--brand-light)',
+              border: '1.5px solid var(--brand-border)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'var(--brand-primary)',
-              boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)'
+              boxShadow: '0 3px 0 var(--brand-border)'
             }}
           >
-            <Icon name={currentSkill.iconName || 'code'} size={26} />
+            <Icon name={currentSkill.iconName || 'code'} size={28} />
           </div>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--brand-text)' }}>
-                Current Objective • Unit 1
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+              <span style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--brand-primary)' }}>
+                Active Quest • Unit 1 Foundations
               </span>
               <Badge variant="brand" size="sm">Mastery {userProgress.skillMastery[currentSkill.id] || 0}/5</Badge>
             </div>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
               {currentSkill.title}: {nextLesson.title}
             </h2>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-              ~{nextLesson.estimatedMinutes} min micro-session • Step-by-step interactive coding
+            <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+              ~{nextLesson.estimatedMinutes} min micro-session • 15 interactive coding challenges
             </div>
           </div>
         </div>
@@ -209,275 +368,260 @@ export const LearningPath: React.FC = () => {
           variant="primary"
           size="lg"
           onClick={() => startLesson(nextLesson.id)}
-          icon={<Icon name="player-play" size={16} fill="#fff" />}
+          icon={<Icon name="player-play" size={18} fill="#fff" />}
           iconPosition="left"
         >
-          Continue Path
+          Resume Quest (+{nextLesson.xpReward} XP)
         </Button>
       </div>
 
-      {/* 3. THE SPATIAL LEARNING PATH */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '48px', position: 'relative' }}>
-        {course.units.map((unit) => {
-          return (
-            <div key={unit.id} style={{ position: 'relative' }}>
-              {/* Unit Header Card */}
-              <div
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: 'var(--radius-xl)',
-                  border: '1px solid var(--border-default)',
-                  padding: '20px 24px',
-                  marginBottom: '32px',
-                  boxShadow: 'var(--shadow-xs)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  borderLeft: `6px solid ${unit.themeColor}`
-                }}
-              >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        fontWeight: 800,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
-                        color: unit.themeColor
-                      }}
-                    >
-                      {unit.title}
-                    </span>
-                    <span style={{ color: 'var(--border-strong)' }}>•</span>
-                    <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                      {unit.subtitle}
-                    </span>
-                  </div>
-                  <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0 }}>
-                    {unit.description}
-                  </p>
-                </div>
+      {/* 2. MAIN WORKSPACE GRID: Serpentine Track (Left) + Companion Dock (Right) */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1fr) 340px',
+          gap: '32px',
+          alignItems: 'start'
+        }}
+      >
+        {/* LEFT COLUMN: THE SERPENTINE JOURNEY PATH */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
+          {course.units.map((unit) => {
+            const completedCount = unit.skills.filter(s => userProgress.completedSkillIds.includes(s.id)).length;
+            const progressPct = Math.round((completedCount / unit.skills.length) * 100);
 
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                    {unit.skills.filter(s => userProgress.completedSkillIds.includes(s.id)).length} of {unit.skills.length} Skills
-                  </span>
-                </div>
-              </div>
-
-              {/* Sinuous Stepping-Stone Node Container */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '36px',
-                  position: 'relative',
-                  padding: '10px 0'
-                }}
-              >
-                {/* SVG Connecting Path Line */}
-                <svg
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    bottom: 0,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '260px',
-                    height: '100%',
-                    pointerEvents: 'none',
-                    zIndex: 0
-                  }}
-                >
-                  <line
-                    x1="130"
-                    y1="20"
-                    x2="130"
-                    y2="95%"
-                    stroke="var(--border-default)"
-                    strokeWidth="4"
-                    strokeDasharray="6 6"
-                  />
-                </svg>
-
-                {/* Skill Nodes */}
-                {unit.skills.map((skill) => {
-                  const isCompleted = userProgress.completedSkillIds.includes(skill.id);
-                  const isCurrent = skill.id === userProgress.currentSkillId;
-                  const isUnlocked = isCompleted || isCurrent || skill.status === 'unlocked';
-                  const isLocked = !isUnlocked;
-                  const mastery = userProgress.skillMastery[skill.id] || 0;
-
-                  // Horizontal offset in pixels (-48px left, 0 center, +48px right)
-                  const xOffset = (skill.pathOffset || 0) * 70;
-
-                  return (
-                    <div
-                      key={skill.id}
-                      style={{
-                        transform: `translateX(${xOffset}px)`,
-                        zIndex: 10,
-                        position: 'relative',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                      }}
-                    >
-                      {/* Node Button */}
-                      <button
-                        onClick={() => {
-                          if (isUnlocked) {
-                            setSelectedSkillForModal(skill);
-                          }
-                        }}
-                        style={{
-                          width: '74px',
-                          height: '74px',
-                          borderRadius: '50%',
-                          backgroundColor: isCompleted
-                            ? '#10B981'
-                            : isCurrent
-                            ? '#FFFFFF'
-                            : isLocked
-                            ? '#F3F4F6'
-                            : '#FFFFFF',
-                          border: isCurrent
-                            ? '4px solid #10B981'
-                            : isCompleted
-                            ? '4px solid #059669'
-                            : '3px solid #E5E7EB',
-                          boxShadow: isCurrent
-                            ? '0 0 0 6px rgba(16, 185, 129, 0.2), 0 8px 16px rgba(16, 185, 129, 0.25)'
-                            : isCompleted
-                            ? '0 4px 10px rgba(16, 185, 129, 0.25)'
-                            : 'var(--shadow-sm)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: isCompleted ? '#FFFFFF' : isCurrent ? '#10B981' : isLocked ? '#9CA3AF' : '#374151',
-                          cursor: isLocked ? 'not-allowed' : 'pointer',
-                          transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
-                          position: 'relative'
-                        }}
-                        className={isCurrent ? 'hover-elevate current-node-pulse' : 'hover-elevate'}
-                        title={isLocked ? `Locked: Complete prior skills to unlock` : `${skill.title} (Click to inspect)`}
-                      >
-                        {isCompleted ? (
-                          <Icon name="check" size={32} stroke={3} />
-                        ) : isLocked ? (
-                          <Icon name="lock" size={24} />
-                        ) : (
-                          <Icon name={skill.iconName || 'code'} size={28} />
-                        )}
-
-                        {/* Top Badge for Current Node */}
-                        {isCurrent && (
-                          <div
-                            style={{
-                              position: 'absolute',
-                              top: '-16px',
-                              backgroundColor: '#10B981',
-                              color: '#FFFFFF',
-                              fontSize: '0.625rem',
-                              fontWeight: 800,
-                              padding: '2px 8px',
-                              borderRadius: 'var(--radius-full)',
-                              letterSpacing: '0.05em',
-                              boxShadow: '0 2px 6px rgba(16, 185, 129, 0.3)'
-                            }}
-                          >
-                            START
-                          </div>
-                        )}
-                      </button>
-
-                      {/* Skill Title Label */}
-                      <div
-                        style={{
-                          marginTop: '8px',
-                          textAlign: 'center',
-                          maxWidth: '120px'
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontSize: '0.84rem',
-                            fontWeight: isCurrent ? 800 : 700,
-                            color: isLocked ? 'var(--text-muted)' : 'var(--text-primary)',
-                            lineHeight: 1.2
-                          }}
-                        >
-                          {skill.title}
-                        </div>
-
-                        {/* Mastery Stars/Dots */}
-                        {isUnlocked && (
-                          <div
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              gap: '3px',
-                              marginTop: '4px'
-                            }}
-                          >
-                            {[1, 2, 3, 4, 5].map((level) => (
-                              <div
-                                key={level}
-                                style={{
-                                  width: '5px',
-                                  height: '5px',
-                                  borderRadius: '50%',
-                                  backgroundColor: level <= mastery ? '#10B981' : '#D1D5DB'
-                                }}
-                              />
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {/* Unit Checkpoint Node */}
+            return (
+              <div key={unit.id} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {/* Unit Header Card */}
                 <div
+                  className="card-plate"
                   style={{
-                    zIndex: 10,
-                    marginTop: '10px',
+                    padding: '20px 24px',
+                    borderLeft: `6px solid ${unit.themeColor}`,
                     display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '12px'
                   }}
                 >
-                  <div
-                    style={{
-                      width: '64px',
-                      height: '64px',
-                      borderRadius: '18px',
-                      backgroundColor: '#F9FAFB',
-                      border: '3px solid #E5E7EB',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#9CA3AF',
-                      boxShadow: 'var(--shadow-xs)'
-                    }}
-                    title={`${unit.checkpoint.title} (${unit.checkpoint.description})`}
-                  >
-                    <Icon name="trophy" size={26} />
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                      <span
+                        style={{
+                          fontSize: '0.78rem',
+                          fontFamily: 'var(--font-display)',
+                          fontWeight: 800,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          color: unit.themeColor
+                        }}
+                      >
+                        {unit.title}
+                      </span>
+                      <span style={{ color: 'var(--border-strong)' }}>•</span>
+                      <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                        {unit.subtitle}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0 }}>
+                      {unit.description}
+                    </p>
                   </div>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)', marginTop: '6px' }}>
-                    {unit.checkpoint.title}
-                  </span>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+                    <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      {completedCount} / {unit.skills.length} Skills ({progressPct}%)
+                    </span>
+                    <div style={{ width: '100px' }}>
+                      <ProgressBar progress={progressPct} height={6} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sinuous SVG Serpentine Track with 3D Stepping-Stone Nodes */}
+                {renderSerpentineTrack(unit.skills, unit.checkpoint)}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* RIGHT COLUMN: STITCH DEVREALM COMPANION DOCK */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', position: 'sticky', top: '88px' }} className="desktop-only">
+          
+          {/* 1. Merlyn the Arch-Mage (AI Familiar Advisor) */}
+          <div
+            className="card-plate"
+            style={{
+              padding: '20px',
+              backgroundColor: '#FAF5FF',
+              borderColor: '#DDD6FE',
+              boxShadow: '0 4px 0 #C4B5FD'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
+              <div
+                style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '12px',
+                  backgroundColor: '#8B5CF6',
+                  color: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 3px 0 #6D28D9'
+                }}
+              >
+                <Icon name="sparkles" size={22} fill="#EDE9FE" />
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#5B21B6' }}>
+                  Merlyn the Arch-Mage
+                </div>
+                <div style={{ fontSize: '0.72rem', color: '#7C3AED', fontWeight: 600 }}>
+                  AI Coding Companion
                 </div>
               </div>
             </div>
-          );
-        })}
+
+            {/* Speech Bubble */}
+            <div
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: 'var(--radius-lg)',
+                padding: '14px 16px',
+                border: '1.5px solid #DDD6FE',
+                fontSize: '0.84rem',
+                color: '#374151',
+                lineHeight: 1.5,
+                marginBottom: '14px',
+                position: 'relative'
+              }}
+            >
+              "Greetings, scholar! When defining loops in Python, remember that <code>range(1, 5)</code> generates 1 through 4. Keep your momentum going!"
+            </div>
+
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <button
+                onClick={() => navigateTo('/app/practice')}
+                style={{
+                  flex: 1,
+                  padding: '8px 10px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: '#FFFFFF',
+                  border: '1.5px solid #DDD6FE',
+                  color: '#5B21B6',
+                  fontSize: '0.75rem',
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 700,
+                  boxShadow: '0 2px 0 #DDD6FE',
+                  cursor: 'pointer'
+                }}
+              >
+                Build in Practice 🛠️
+              </button>
+              <button
+                onClick={() => navigateTo('/app/review')}
+                style={{
+                  flex: 1,
+                  padding: '8px 10px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: '#FFFFFF',
+                  border: '1.5px solid #DDD6FE',
+                  color: '#5B21B6',
+                  fontSize: '0.75rem',
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 700,
+                  boxShadow: '0 2px 0 #DDD6FE',
+                  cursor: 'pointer'
+                }}
+              >
+                Review Mistakes 🛡️
+              </button>
+            </div>
+          </div>
+
+          {/* 2. Daily Quests / Missions Card */}
+          <div className="card-plate" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--text-primary)' }}>
+                Daily Quests
+              </div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)' }}>
+                Resets in 6h
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {/* Mission 1 */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
+                  <span>Earn 50 XP</span>
+                  <span style={{ color: 'var(--brand-primary)' }}>{userProgress.dailyGoalEarnedXp}/50 XP</span>
+                </div>
+                <ProgressBar progress={Math.min(100, (userProgress.dailyGoalEarnedXp / 50) * 100)} height={8} />
+              </div>
+
+              {/* Mission 2 */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
+                  <span>Complete 1 Lesson</span>
+                  <span style={{ color: '#10B981' }}>1 / 1 ✓</span>
+                </div>
+                <ProgressBar progress={100} height={8} />
+              </div>
+
+              {/* Mission 3 */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
+                  <span>Build 1 Practice Project</span>
+                  <span style={{ color: 'var(--text-muted)' }}>0 / 1</span>
+                </div>
+                <ProgressBar progress={0} height={8} />
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Practice Spotlight Card */}
+          <div
+            className="card-plate card-plate-interactive"
+            onClick={() => navigateTo('/app/practice')}
+            style={{ padding: '18px 20px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '12px',
+                  backgroundColor: '#ECFDF5',
+                  border: '1.5px solid #A7F3D0',
+                  boxShadow: '0 2px 0 #A7F3D0',
+                  color: '#059669',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Icon name="code" size={20} stroke={2.5} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                  Python Projects
+                </div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  30 buildable projects from Beginner to Advanced
+                </div>
+              </div>
+              <Icon name="arrow-right" size={16} style={{ color: 'var(--text-muted)' }} />
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      {/* 4. SKILL INSPECTION POPUP DRAWER MODAL */}
+      {/* 3. SKILL INSPECTION POPUP DRAWER MODAL */}
       {selectedSkillForModal && (
         <div
           style={{
@@ -486,7 +630,7 @@ export const LearningPath: React.FC = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(17, 24, 39, 0.6)',
+            backgroundColor: 'rgba(30, 27, 23, 0.65)',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
@@ -497,51 +641,51 @@ export const LearningPath: React.FC = () => {
           onClick={() => setSelectedSkillForModal(null)}
         >
           <div
+            className="card-plate animate-pop-in"
             style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: 'var(--radius-xl)',
               maxWidth: '520px',
               width: '100%',
               padding: '28px',
               boxShadow: 'var(--shadow-xl)',
               position: 'relative'
             }}
-            className="animate-pop-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
               <div
                 style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '54px',
+                  height: '54px',
                   borderRadius: '16px',
                   backgroundColor: 'var(--brand-light)',
+                  border: '1.5px solid var(--brand-border)',
+                  boxShadow: '0 3px 0 var(--brand-border)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'var(--brand-primary)'
                 }}
               >
-                <Icon name={selectedSkillForModal.iconName || 'code'} size={26} />
+                <Icon name={selectedSkillForModal.iconName || 'code'} size={28} />
               </div>
               <div>
                 <Badge variant="brand" size="sm">
                   Mastery {userProgress.skillMastery[selectedSkillForModal.id] || 0} / 5
                 </Badge>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: '2px 0 0' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: '2px 0 0' }}>
                   {selectedSkillForModal.title}
                 </h3>
               </div>
             </div>
 
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '20px' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: '20px' }}>
               {selectedSkillForModal.description}
             </p>
 
             {/* Micro-lessons List */}
             <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>
+              <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px' }}>
                 Skill Micro-Lessons
               </div>
 
@@ -554,10 +698,10 @@ export const LearningPath: React.FC = () => {
                       <div
                         key={les.id}
                         style={{
-                          padding: '10px 14px',
-                          backgroundColor: 'var(--bg-app)',
+                          padding: '12px 14px',
+                          backgroundColor: 'var(--bg-surface-subtle)',
                           borderRadius: 'var(--radius-md)',
-                          border: '1px solid var(--border-default)',
+                          border: '1.5px solid var(--border-default)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between'
@@ -566,13 +710,14 @@ export const LearningPath: React.FC = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                           <span
                             style={{
-                              width: '22px',
-                              height: '22px',
+                              width: '24px',
+                              height: '24px',
                               borderRadius: '50%',
-                              backgroundColor: isDone ? '#10B981' : '#E5E7EB',
-                              color: isDone ? '#FFFFFF' : '#6B7280',
-                              fontSize: '0.72rem',
-                              fontWeight: 700,
+                              backgroundColor: isDone ? '#10B981' : '#E5DDD0',
+                              color: isDone ? '#FFFFFF' : '#57534E',
+                              fontSize: '0.75rem',
+                              fontFamily: 'var(--font-display)',
+                              fontWeight: 800,
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center'
@@ -580,19 +725,19 @@ export const LearningPath: React.FC = () => {
                           >
                             {isDone ? '✓' : idx + 1}
                           </span>
-                          <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                          <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                             {les.title}
                           </span>
                         </div>
 
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                           ~{les.estimatedMinutes} min • +{les.xpReward} XP
                         </span>
                       </div>
                     );
                   })
                 ) : (
-                  <div style={{ padding: '12px', backgroundColor: 'var(--bg-app)', borderRadius: 'var(--radius-md)', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                  <div style={{ padding: '14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
                     Practice sessions unlock as you advance through the curriculum.
                   </div>
                 )}
@@ -615,7 +760,7 @@ export const LearningPath: React.FC = () => {
                   const lessonToRun = selectedSkillForModal.lessons[0] || nextLesson;
                   startLesson(lessonToRun.id);
                 }}
-                icon={<Icon name="player-play" size={14} fill="#fff" />}
+                icon={<Icon name="player-play" size={16} fill="#fff" />}
               >
                 Start Lesson (+20 XP)
               </Button>

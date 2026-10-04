@@ -84,17 +84,20 @@ export const MistakeReviewView: React.FC = () => {
       </div>
 
       {/* Filter Tabs */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
         <button
           onClick={() => setFilter('unresolved')}
           style={{
-            padding: '6px 14px',
+            padding: '8px 18px',
             borderRadius: 'var(--radius-full)',
-            fontSize: '0.84rem',
-            fontWeight: 600,
-            backgroundColor: filter === 'unresolved' ? '#DC2626' : 'var(--bg-surface)',
-            color: filter === 'unresolved' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1px solid ${filter === 'unresolved' ? '#DC2626' : 'var(--border-default)'}`
+            fontSize: '0.85rem',
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            backgroundColor: filter === 'unresolved' ? '#FEF2F2' : 'var(--bg-surface)',
+            color: filter === 'unresolved' ? '#991B1B' : 'var(--text-secondary)',
+            border: `1.5px solid ${filter === 'unresolved' ? '#EF4444' : 'var(--border-default)'}`,
+            boxShadow: filter === 'unresolved' ? '0 3px 0 #DC2626' : '0 2px 0 var(--border-default)',
+            cursor: 'pointer'
           }}
         >
           Needs Repair ({mistakes.filter(m => !m.resolved).length})
@@ -102,13 +105,16 @@ export const MistakeReviewView: React.FC = () => {
         <button
           onClick={() => setFilter('resolved')}
           style={{
-            padding: '6px 14px',
+            padding: '8px 18px',
             borderRadius: 'var(--radius-full)',
-            fontSize: '0.84rem',
-            fontWeight: 600,
-            backgroundColor: filter === 'resolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
-            color: filter === 'resolved' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1px solid ${filter === 'resolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`
+            fontSize: '0.85rem',
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            backgroundColor: filter === 'resolved' ? '#ECFDF5' : 'var(--bg-surface)',
+            color: filter === 'resolved' ? '#065F46' : 'var(--text-secondary)',
+            border: `1.5px solid ${filter === 'resolved' ? '#10B981' : 'var(--border-default)'}`,
+            boxShadow: filter === 'resolved' ? '0 3px 0 #047857' : '0 2px 0 var(--border-default)',
+            cursor: 'pointer'
           }}
         >
           Repaired ({mistakes.filter(m => m.resolved).length})
@@ -116,13 +122,16 @@ export const MistakeReviewView: React.FC = () => {
         <button
           onClick={() => setFilter('all')}
           style={{
-            padding: '6px 14px',
+            padding: '8px 18px',
             borderRadius: 'var(--radius-full)',
-            fontSize: '0.84rem',
-            fontWeight: 600,
-            backgroundColor: filter === 'all' ? 'var(--text-primary)' : 'var(--bg-surface)',
+            fontSize: '0.85rem',
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            backgroundColor: filter === 'all' ? '#1E1B17' : 'var(--bg-surface)',
             color: filter === 'all' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1px solid ${filter === 'all' ? 'var(--text-primary)' : 'var(--border-default)'}`
+            border: `1.5px solid ${filter === 'all' ? '#1E1B17' : 'var(--border-default)'}`,
+            boxShadow: filter === 'all' ? '0 3px 0 #000' : '0 2px 0 var(--border-default)',
+            cursor: 'pointer'
           }}
         >
           All Entries

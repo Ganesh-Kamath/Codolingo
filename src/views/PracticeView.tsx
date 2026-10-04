@@ -93,20 +93,20 @@ export const PracticeView: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '28px 24px 80px' }} className="animate-fade-in">
+    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '28px 24px 80px' }} className="animate-fade-in">
       {/* Top Header & Section Switcher */}
-      <div style={{ marginBottom: '28px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '16px' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
               <Badge variant="brand" size="md">
                 <Icon name="barbell" size={14} style={{ marginRight: 4 }} /> Practice & Build
               </Badge>
-              <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                Hands-on Engineering
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+                Learn in Lessons • Build in Practice
               </span>
             </div>
-            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
               Practice Arena
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
@@ -118,10 +118,12 @@ export const PracticeView: React.FC = () => {
           <div
             style={{
               display: 'inline-flex',
-              padding: '4px',
-              backgroundColor: '#E5E7EB',
-              borderRadius: 'var(--radius-xl, 14px)',
-              gap: '4px'
+              padding: '5px',
+              backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
+              border: '1.5px solid var(--border-default, #E5DDD0)',
+              boxShadow: '0 2px 0 var(--border-default, #E5DDD0)',
+              borderRadius: 'var(--radius-xl, 16px)',
+              gap: '6px'
             }}
           >
             <button
@@ -133,16 +135,17 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 20px',
-                borderRadius: '10px',
-                border: 'none',
+                padding: '10px 22px',
+                borderRadius: '12px',
+                border: activeTab === 'projects' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
                 backgroundColor: activeTab === 'projects' ? '#FFFFFF' : 'transparent',
-                color: activeTab === 'projects' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                fontWeight: activeTab === 'projects' ? 800 : 600,
+                color: activeTab === 'projects' ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
                 fontSize: '0.9rem',
                 cursor: 'pointer',
-                boxShadow: activeTab === 'projects' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-                transition: 'all 150ms ease'
+                boxShadow: activeTab === 'projects' ? '0 3px 0 var(--border-default)' : 'none',
+                transition: 'all 120ms ease'
               }}
             >
               <Icon name="folder" size={18} style={{ color: activeTab === 'projects' ? 'var(--brand-primary)' : 'currentColor' }} />
@@ -158,16 +161,17 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 20px',
-                borderRadius: '10px',
-                border: 'none',
+                padding: '10px 22px',
+                borderRadius: '12px',
+                border: activeTab === 'playground' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
                 backgroundColor: activeTab === 'playground' ? '#FFFFFF' : 'transparent',
-                color: activeTab === 'playground' ? 'var(--text-primary)' : 'var(--text-secondary)',
-                fontWeight: activeTab === 'playground' ? 800 : 600,
+                color: activeTab === 'playground' ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
                 fontSize: '0.9rem',
                 cursor: 'pointer',
-                boxShadow: activeTab === 'playground' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-                transition: 'all 150ms ease'
+                boxShadow: activeTab === 'playground' ? '0 3px 0 var(--border-default)' : 'none',
+                transition: 'all 120ms ease'
               }}
             >
               <Icon name="terminal" size={18} style={{ color: activeTab === 'playground' ? 'var(--brand-primary)' : 'currentColor' }} />
@@ -176,7 +180,7 @@ export const PracticeView: React.FC = () => {
           </div>
         </div>
 
-        <div style={{ height: '1px', backgroundColor: 'var(--border-default, #E5E7EB)' }} />
+        <div style={{ height: '1.5px', backgroundColor: 'var(--border-default, #E5DDD0)' }} />
       </div>
 
       {/* TAB 1: PROJECTS SECTION */}
@@ -201,12 +205,14 @@ export const PracticeView: React.FC = () => {
                   setDifficultyFilter('all');
                 }}
                 style={{
-                  padding: '8px 16px',
+                  padding: '8px 18px',
                   borderRadius: 'var(--radius-full, 9999px)',
-                  border: difficultyFilter === 'all' ? '2px solid var(--text-primary)' : '1px solid #D1D5DB',
-                  backgroundColor: difficultyFilter === 'all' ? '#111827' : '#FFFFFF',
-                  color: difficultyFilter === 'all' ? '#FFFFFF' : '#374151',
-                  fontWeight: 700,
+                  border: difficultyFilter === 'all' ? '1.5px solid #1E1B17' : '1.5px solid var(--border-default)',
+                  backgroundColor: difficultyFilter === 'all' ? '#1E1B17' : '#FFFFFF',
+                  color: difficultyFilter === 'all' ? '#FFFFFF' : 'var(--text-primary)',
+                  boxShadow: difficultyFilter === 'all' ? '0 3px 0 #000' : '0 2px 0 var(--border-default)',
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 800,
                   fontSize: '0.85rem',
                   cursor: 'pointer'
                 }}
@@ -220,12 +226,14 @@ export const PracticeView: React.FC = () => {
                   setDifficultyFilter('beginner');
                 }}
                 style={{
-                  padding: '8px 16px',
+                  padding: '8px 18px',
                   borderRadius: 'var(--radius-full, 9999px)',
-                  border: difficultyFilter === 'beginner' ? '2px solid #10B981' : '1px solid #D1D5DB',
+                  border: difficultyFilter === 'beginner' ? '1.5px solid #059669' : '1.5px solid var(--border-default)',
                   backgroundColor: difficultyFilter === 'beginner' ? '#ECFDF5' : '#FFFFFF',
-                  color: difficultyFilter === 'beginner' ? '#065F46' : '#374151',
-                  fontWeight: 700,
+                  color: difficultyFilter === 'beginner' ? '#065F46' : 'var(--text-primary)',
+                  boxShadow: difficultyFilter === 'beginner' ? '0 3px 0 #047857' : '0 2px 0 var(--border-default)',
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 800,
                   fontSize: '0.85rem',
                   cursor: 'pointer'
                 }}
@@ -239,12 +247,14 @@ export const PracticeView: React.FC = () => {
                   setDifficultyFilter('intermediate');
                 }}
                 style={{
-                  padding: '8px 16px',
+                  padding: '8px 18px',
                   borderRadius: 'var(--radius-full, 9999px)',
-                  border: difficultyFilter === 'intermediate' ? '2px solid #F59E0B' : '1px solid #D1D5DB',
-                  backgroundColor: difficultyFilter === 'intermediate' ? '#FFFBEB' : '#FFFFFF',
-                  color: difficultyFilter === 'intermediate' ? '#92400E' : '#374151',
-                  fontWeight: 700,
+                  border: difficultyFilter === 'intermediate' ? '1.5px solid #D97706' : '1.5px solid var(--border-default)',
+                  backgroundColor: difficultyFilter === 'intermediate' ? '#FEF3C7' : '#FFFFFF',
+                  color: difficultyFilter === 'intermediate' ? '#92400E' : 'var(--text-primary)',
+                  boxShadow: difficultyFilter === 'intermediate' ? '0 3px 0 #B45309' : '0 2px 0 var(--border-default)',
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 800,
                   fontSize: '0.85rem',
                   cursor: 'pointer'
                 }}
@@ -258,12 +268,14 @@ export const PracticeView: React.FC = () => {
                   setDifficultyFilter('advanced');
                 }}
                 style={{
-                  padding: '8px 16px',
+                  padding: '8px 18px',
                   borderRadius: 'var(--radius-full, 9999px)',
-                  border: difficultyFilter === 'advanced' ? '2px solid #8B5CF6' : '1px solid #D1D5DB',
-                  backgroundColor: difficultyFilter === 'advanced' ? '#F5F3FF' : '#FFFFFF',
-                  color: difficultyFilter === 'advanced' ? '#5B21B6' : '#374151',
-                  fontWeight: 700,
+                  border: difficultyFilter === 'advanced' ? '1.5px solid #4338CA' : '1.5px solid var(--border-default)',
+                  backgroundColor: difficultyFilter === 'advanced' ? '#EEF2FF' : '#FFFFFF',
+                  color: difficultyFilter === 'advanced' ? '#312E81' : 'var(--text-primary)',
+                  boxShadow: difficultyFilter === 'advanced' ? '0 3px 0 #312E81' : '0 2px 0 var(--border-default)',
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 800,
                   fontSize: '0.85rem',
                   cursor: 'pointer'
                 }}
