@@ -5,171 +5,551 @@ import { sound } from '../utils/audio';
 import { Icon } from '../components/ui/Icon';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
-import { Card } from '../components/common/Card';
+import { Project, PROJECTS_DATA, ProjectDifficulty } from '../data/projectsData';
+import { ProjectCard } from '../components/projects/ProjectCard';
+import { ProjectWorkspaceView } from './ProjectWorkspaceView';
+import { codeExecutionService } from '../services/codeExecutionService';
+
+type PracticeSubTab = 'projects' | 'playground';
+type DifficultyFilter = 'all' | ProjectDifficulty;
 
 export const PracticeView: React.FC = () => {
-  const { navigateTo } = useApp();
-  const [sandboxCode, setSandboxCode] = useState<string>(
-    '# Free Python Sandbox\n# Test algorithms, snippets, and functions freely\n\ndef greet_learner(name):\n    return f"Welcome back, {name}!"\n\nmessage = greet_learner("Ganesh")\nprint(message)\n'
-  );
-  const [sandboxOutput, setSandboxOutput] = useState<string>('');
-  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<PracticeSubTab>('projects');
+  const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const handleRunSandbox = () => {
-    setIsRunning(true);
+  // Playground state
+  const [playgroundCode, setPlaygroundCode] = useState<string>(
+    '# Python Playground\n# Test algorithms, snippets, and functions freely\n\ndef greet_learner(name):\n    return f"Welcome to the Python Playground, {name}!"\n\nmessage = greet_learner("Learner")\nprint(message)\n\n# Try loops, lists, dictionaries, or custom functions below:\nnumbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers]\nprint(f"Squares: {squares}")\n'
+  );
+  const [playgroundOutput, setPlaygroundOutput] = useState<string>('');
+  const [isPlayingRunning, setIsPlayingRunning] = useState<boolean>(false);
+  const [playgroundTime, setPlaygroundTime] = useState<number | null>(null);
+  const [playgroundError, setPlaygroundError] = useState<boolean>(false);
+
+  // If a project is selected, render the dedicated ProjectWorkspaceView
+  if (selectedProject) {
+    return (
+      <ProjectWorkspaceView
+        project={selectedProject}
+        onBack={() => {
+          sound.playClick();
+          setSelectedProject(null);
+        }}
+      />
+    );
+  }
+
+  // Filter projects by difficulty and search query
+  const filteredProjects = PROJECTS_DATA.filter((project) => {
+    const matchesDifficulty = difficultyFilter === 'all' || project.difficulty === difficultyFilter;
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      query === '' ||
+      project.title.toLowerCase().includes(query) ||
+      project.shortDescription.toLowerCase().includes(query) ||
+      project.skills.some((s) => s.toLowerCase().includes(query)) ||
+      project.topics.some((t) => t.toLowerCase().includes(query));
+
+    return matchesDifficulty && matchesSearch;
+  });
+
+  const beginnerCount = PROJECTS_DATA.filter((p) => p.difficulty === 'beginner').length;
+  const intermediateCount = PROJECTS_DATA.filter((p) => p.difficulty === 'intermediate').length;
+  const advancedCount = PROJECTS_DATA.filter((p) => p.difficulty === 'advanced').length;
+
+  const handleRunPlayground = async () => {
     sound.playClick();
-    setTimeout(() => {
-      sound.playSuccess();
-      setSandboxOutput('Welcome back, Ganesh!\n>>> Process finished successfully (exit code 0)');
-      setIsRunning(false);
-    }, 250);
+    setIsPlayingRunning(true);
+    setPlaygroundError(false);
+
+    try {
+      const res = await codeExecutionService.executeRaw(playgroundCode);
+      setPlaygroundTime(res.executionTimeMs);
+      if (res.error) {
+        setPlaygroundError(true);
+        setPlaygroundOutput(res.stdout ? `${res.stdout}\n\n[Error] ${res.error}` : `Error: ${res.error}`);
+        sound.playError();
+      } else {
+        setPlaygroundOutput(res.stdout);
+        sound.playSuccess();
+      }
+    } catch (err: any) {
+      setPlaygroundError(true);
+      setPlaygroundOutput(`Execution failed: ${err?.message || 'Runtime error'}`);
+      sound.playError();
+    } finally {
+      setIsPlayingRunning(false);
+    }
   };
 
-  const drills = [
-    {
-      id: 'drill_1',
-      title: 'Variable Swap Drill',
-      concept: 'Variables & Memory',
-      difficulty: 'Easy',
-      desc: 'Swap two variables a and b without using a temporary variable.',
-      xp: 40
-    },
-    {
-      id: 'drill_2',
-      title: 'Equality vs Identity',
-      concept: 'Comparison Operators',
-      difficulty: 'Medium',
-      desc: 'Demonstrate the difference between == and is in Python lists.',
-      xp: 60
-    },
-    {
-      id: 'drill_3',
-      title: 'List Comprehension Speedrun',
-      concept: 'Loops & Data Structures',
-      difficulty: 'Intermediate',
-      desc: 'Filter even numbers from a list using a clean one-line list comprehension.',
-      xp: 80
+  const handleResetPlayground = () => {
+    if (window.confirm('Reset playground code to default snippet?')) {
+      setPlaygroundCode('# Python Playground\n# Write and execute any custom Python code here\n\nprint("Hello, world!")\n');
+      setPlaygroundOutput('');
+      sound.playClick();
     }
-  ];
+  };
 
   return (
-    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
-      {/* Header */}
-      <div style={{ marginBottom: '28px', borderBottom: '2px solid var(--border-subtle)', paddingBottom: '24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <Badge variant="brand" size="md"><Icon name="barbell" size={14} style={{ marginRight: 4 }} /> Skill Sharpener</Badge>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 600 }}>Daily Training</span>
-        </div>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
-          Practice Arena
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
-          Reinforce your mental models with rapid-fire coding drills or experiment freely in the scratchpad.
-        </p>
-      </div>
-
-      {/* Grid: Drills + Live Sandbox */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', marginBottom: '32px' }}>
-        {/* Rapid-fire Drills Column */}
-        <div>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '16px', color: 'var(--text-primary)' }}>
-            Daily Workout Drills
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {drills.map(drill => (
-              <Card key={drill.id} variant="default" padding="lg" className="hover-elevate" style={{ borderLeft: '4px solid var(--brand-primary)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                  <Badge variant="neutral" size="sm">{drill.difficulty}</Badge>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#D97706', display: 'flex', alignItems: 'center', gap: '4px', backgroundColor: '#FEF3C7', padding: '4px 8px', borderRadius: '8px' }}>
-                    <Icon name="sparkles" size={14} fill="#FDE68A" />
-                    +{drill.xp} XP
-                  </span>
-                </div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 6px' }}>
-                  {drill.title}
-                </h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.5 }}>
-                  {drill.desc}
-                </p>
-                <Button
-                  variant="outline"
-                  size="md"
-                  onClick={() => navigateTo('/app/lesson/py_lesson_3')}
-                  icon={<Icon name="player-play" size={14} />}
-                  style={{ width: '100%', fontWeight: 700 }}
-                >
-                  Start Drill
-                </Button>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Live Interactive Sandbox Column */}
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Icon name="terminal" size={20} style={{ color: 'var(--brand-primary)' }} />
-              Interactive Scratchpad
-            </h2>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleRunSandbox}
-              isLoading={isRunning}
-              icon={<Icon name="player-play" size={14} fill="#fff" />}
-            >
-              Run Code
-            </Button>
+    <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '28px 24px 80px' }} className="animate-fade-in">
+      {/* Top Header & Section Switcher */}
+      <div style={{ marginBottom: '28px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '16px' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <Badge variant="brand" size="md">
+                <Icon name="barbell" size={14} style={{ marginRight: 4 }} /> Practice & Build
+              </Badge>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                Hands-on Engineering
+              </span>
+            </div>
+            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
+              Practice Arena
+            </h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
+              Build real-world Python applications or experiment freely with custom algorithms in the playground.
+            </p>
           </div>
 
+          {/* Navigation Pill Switcher */}
           <div
             style={{
-              borderRadius: 'var(--radius-lg)',
-              border: '1px solid var(--border-default)',
-              overflow: 'hidden',
-              boxShadow: 'var(--shadow-xs)'
+              display: 'inline-flex',
+              padding: '4px',
+              backgroundColor: '#E5E7EB',
+              borderRadius: 'var(--radius-xl, 14px)',
+              gap: '4px'
             }}
           >
-            <div style={{ height: '240px' }}>
+            <button
+              onClick={() => {
+                sound.playClick();
+                setActiveTab('projects');
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                borderRadius: '10px',
+                border: 'none',
+                backgroundColor: activeTab === 'projects' ? '#FFFFFF' : 'transparent',
+                color: activeTab === 'projects' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                fontWeight: activeTab === 'projects' ? 800 : 600,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                boxShadow: activeTab === 'projects' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                transition: 'all 150ms ease'
+              }}
+            >
+              <Icon name="folder" size={18} style={{ color: activeTab === 'projects' ? 'var(--brand-primary)' : 'currentColor' }} />
+              <span>Projects ({PROJECTS_DATA.length})</span>
+            </button>
+
+            <button
+              onClick={() => {
+                sound.playClick();
+                setActiveTab('playground');
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                borderRadius: '10px',
+                border: 'none',
+                backgroundColor: activeTab === 'playground' ? '#FFFFFF' : 'transparent',
+                color: activeTab === 'playground' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                fontWeight: activeTab === 'playground' ? 800 : 600,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                boxShadow: activeTab === 'playground' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                transition: 'all 150ms ease'
+              }}
+            >
+              <Icon name="terminal" size={18} style={{ color: activeTab === 'playground' ? 'var(--brand-primary)' : 'currentColor' }} />
+              <span>Python Playground</span>
+            </button>
+          </div>
+        </div>
+
+        <div style={{ height: '1px', backgroundColor: 'var(--border-default, #E5E7EB)' }} />
+      </div>
+
+      {/* TAB 1: PROJECTS SECTION */}
+      {activeTab === 'projects' && (
+        <div className="animate-fade-in">
+          {/* Controls Bar: Difficulty Filter Tabs & Search Bar */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '16px',
+              marginBottom: '28px'
+            }}
+          >
+            {/* Difficulty Tabs: All, Beginner, Intermediate, Advanced */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setDifficultyFilter('all');
+                }}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 'var(--radius-full, 9999px)',
+                  border: difficultyFilter === 'all' ? '2px solid var(--text-primary)' : '1px solid #D1D5DB',
+                  backgroundColor: difficultyFilter === 'all' ? '#111827' : '#FFFFFF',
+                  color: difficultyFilter === 'all' ? '#FFFFFF' : '#374151',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                All ({PROJECTS_DATA.length})
+              </button>
+
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setDifficultyFilter('beginner');
+                }}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 'var(--radius-full, 9999px)',
+                  border: difficultyFilter === 'beginner' ? '2px solid #10B981' : '1px solid #D1D5DB',
+                  backgroundColor: difficultyFilter === 'beginner' ? '#ECFDF5' : '#FFFFFF',
+                  color: difficultyFilter === 'beginner' ? '#065F46' : '#374151',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Beginner ({beginnerCount})
+              </button>
+
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setDifficultyFilter('intermediate');
+                }}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 'var(--radius-full, 9999px)',
+                  border: difficultyFilter === 'intermediate' ? '2px solid #F59E0B' : '1px solid #D1D5DB',
+                  backgroundColor: difficultyFilter === 'intermediate' ? '#FFFBEB' : '#FFFFFF',
+                  color: difficultyFilter === 'intermediate' ? '#92400E' : '#374151',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Intermediate ({intermediateCount})
+              </button>
+
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setDifficultyFilter('advanced');
+                }}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: 'var(--radius-full, 9999px)',
+                  border: difficultyFilter === 'advanced' ? '2px solid #8B5CF6' : '1px solid #D1D5DB',
+                  backgroundColor: difficultyFilter === 'advanced' ? '#F5F3FF' : '#FFFFFF',
+                  color: difficultyFilter === 'advanced' ? '#5B21B6' : '#374151',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Advanced ({advancedCount})
+              </button>
+            </div>
+
+            {/* Keyword Search Input */}
+            <div style={{ position: 'relative', width: '100%', maxWidth: '280px' }}>
+              <Icon
+                name="search"
+                size={16}
+                style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9CA3AF' }}
+              />
+              <input
+                type="text"
+                placeholder="Search projects or skills..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px 14px 8px 36px',
+                  borderRadius: '10px',
+                  border: '1px solid var(--border-default, #D1D5DB)',
+                  fontSize: '0.85rem',
+                  outline: 'none',
+                  backgroundColor: '#FFFFFF',
+                  boxSizing: 'border-box'
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    color: '#9CA3AF',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem'
+                  }}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Projects Grid */}
+          {filteredProjects.length === 0 ? (
+            <div
+              style={{
+                padding: '60px 20px',
+                textAlign: 'center',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '16px',
+                border: '1px dashed #D1D5DB'
+              }}
+            >
+              <Icon name="search" size={36} style={{ color: '#9CA3AF', marginBottom: '12px' }} />
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 6px', color: '#374151' }}>
+                No projects matched "{searchQuery}"
+              </h3>
+              <p style={{ color: '#6B7280', fontSize: '0.9rem', margin: '0 0 16px' }}>
+                Try adjusting your search terms or clearing difficulty filters.
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setSearchQuery('');
+                  setDifficultyFilter('all');
+                }}
+              >
+                Reset Filters
+              </Button>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+                gap: '24px'
+              }}
+            >
+              {filteredProjects.map((project) => {
+                const isCompleted = localStorage.getItem(`codolingo_project_completed_${project.id}`) === 'true';
+                return (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    isCompleted={isCompleted}
+                    onSelect={(p) => {
+                      sound.playClick();
+                      setSelectedProject(p);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 2: PYTHON PLAYGROUND SECTION */}
+      {activeTab === 'playground' && (
+        <div className="animate-fade-in">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 4px' }}>
+                Interactive Python Playground
+              </h2>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: 0 }}>
+                A freeform coding sandbox. Write functions, test syntax, experiment with data structures, and run real Python code.
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <button
+                onClick={handleResetPlayground}
+                style={{
+                  background: 'none',
+                  border: '1px solid #D1D5DB',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  color: '#4B5563',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Icon name="history" size={14} />
+                <span>Reset</span>
+              </button>
+
+              <Button
+                variant="primary"
+                size="md"
+                onClick={handleRunPlayground}
+                isLoading={isPlayingRunning}
+                icon={<Icon name="player-play" size={16} fill="#fff" />}
+                style={{ fontWeight: 700 }}
+              >
+                Run Code
+              </Button>
+            </div>
+          </div>
+
+          {/* Playground Editor + Terminal Console */}
+          <div
+            style={{
+              borderRadius: 'var(--radius-xl, 16px)',
+              border: '1px solid #2D3748',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-md, 0 4px 12px rgba(0,0,0,0.08))',
+              backgroundColor: '#1E1E1E'
+            }}
+          >
+            {/* Editor Window Header */}
+            <div
+              style={{
+                height: '42px',
+                backgroundColor: '#252526',
+                borderBottom: '1px solid #333333',
+                padding: '0 16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#EF4444', display: 'inline-block' }} />
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F59E0B', display: 'inline-block' }} />
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10B981', display: 'inline-block' }} />
+                <span style={{ fontSize: '0.78rem', color: '#9CA3AF', fontFamily: 'monospace', marginLeft: '8px' }}>
+                  playground.py
+                </span>
+              </div>
+              <span style={{ fontSize: '0.72rem', color: '#6B7280', fontFamily: 'monospace' }}>
+                Python 3 (Pyodide / WASM Runtime)
+              </span>
+            </div>
+
+            {/* Monaco Editor */}
+            <div style={{ height: '360px' }}>
               <Editor
                 height="100%"
                 defaultLanguage="python"
-                value={sandboxCode}
-                onChange={(val) => setSandboxCode(val || '')}
-                theme="light"
+                value={playgroundCode}
+                onChange={(val) => setPlaygroundCode(val || '')}
+                theme="vs-dark"
                 options={{
-                  fontSize: 13,
-                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: 14,
+                  fontFamily: 'JetBrains Mono, Fira Code, monospace',
                   minimap: { enabled: false },
                   lineNumbers: 'on',
                   scrollBeyondLastLine: false,
-                  automaticLayout: true
+                  automaticLayout: true,
+                  tabSize: 4,
+                  wordWrap: 'on',
+                  padding: { top: 12, bottom: 12 }
                 }}
               />
             </div>
 
-            {/* Sandbox Console */}
+            {/* Terminal Console */}
             <div
               style={{
-                height: '140px',
-                backgroundColor: '#181818',
-                color: '#4ADE80',
-                padding: '12px 16px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.84rem',
-                borderTop: '1px solid #333',
-                overflowY: 'auto'
+                height: '200px',
+                backgroundColor: '#141414',
+                borderTop: '2px solid #2D3748',
+                display: 'flex',
+                flexDirection: 'column'
               }}
             >
-              <div style={{ color: '#888', fontSize: '0.72rem', marginBottom: '6px' }}>TERMINAL CONSOLE:</div>
-              <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
-                {sandboxOutput || '# Output will stream here when executed...'}
-              </pre>
+              <div
+                style={{
+                  height: '34px',
+                  backgroundColor: '#1A1A1A',
+                  padding: '0 16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: '1px solid #282828'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Icon name="terminal" size={14} style={{ color: '#9CA3AF' }} />
+                  <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    TERMINAL OUTPUT
+                  </span>
+                  {playgroundTime !== null && (
+                    <span style={{ fontSize: '0.7rem', color: '#6B7280', fontFamily: 'monospace' }}>
+                      ({playgroundTime} ms)
+                    </span>
+                  )}
+                </div>
+
+                {playgroundOutput && (
+                  <button
+                    onClick={() => setPlaygroundOutput('')}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#888',
+                      fontSize: '0.7rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Clear Console
+                  </button>
+                )}
+              </div>
+
+              <div
+                style={{
+                  flex: 1,
+                  overflowY: 'auto',
+                  padding: '12px 16px',
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '0.86rem',
+                  lineHeight: 1.5,
+                  color: playgroundError ? '#F87171' : '#4ADE80'
+                }}
+              >
+                {playgroundOutput ? (
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>
+                    {playgroundOutput}
+                  </pre>
+                ) : (
+                  <div style={{ color: '#6B7280', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                    Click "Run Code" above to execute your Python script.
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
