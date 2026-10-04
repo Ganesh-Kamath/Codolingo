@@ -1,0 +1,540 @@
+{
+  "lesson_id": "2.4",
+  "title": "Strings",
+  "unit": "Variables and Data",
+  "items": [
+    {
+      "id": "2.4_q1",
+      "type": "micro_lesson",
+      "concept": "string_definition",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.1_q1"
+      ],
+      "title": "What is a String?",
+      "content": "A **string** (`str`) is an ordered sequence of characters used to store and manipulate text data.\n\nIn Python, you create a string literal by enclosing characters in matching quotes:\n```python\nusername = \"developer_42\"\ngreeting = 'Hello!'\n```\nStrings can contain letters, numbers, punctuation, spaces, emojis, and symbols.",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "2.4_q2",
+      "type": "multiple_choice",
+      "concept": "single_vs_double_quotes",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "prompt": "What is the difference between single quotes `'Python'` and double quotes `\"Python\"` in Python?",
+      "options": [
+        "A. Single quotes are for single characters, while double quotes are for words.",
+        "B. There is no functional difference; Python treats single and double quotes identically.",
+        "C. Double quotes run 2x faster than single quotes.",
+        "D. Single quotes cannot contain numbers."
+      ],
+      "correct_answer": "B",
+      "explanation": "Unlike some languages (like C or Java), Python does not distinguish between single characters and strings. Single and double quotes are completely interchangeable."
+    },
+    {
+      "id": "2.4_q3",
+      "type": "micro_lesson",
+      "concept": "quote_nesting",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q2"
+      ],
+      "title": "Apostrophes and Quotes Without Escaping",
+      "content": "If your text contains an apostrophe or single quote, wrap the string in **double quotes**:\n```python\nmessage = \"It's a great day!\"  # Clean and readable\n```\nIf your text contains double quotes, wrap the string in **single quotes**:\n```python\nquote = 'He said, \"Welcome!\"'\n```",
+      "prompt": "",
+      "explanation": "If your text contains an apostrophe or single quote, wrap the string in **double quotes**:\n```python\nmessage = \"It's a great day!\"  # Clean and readable\n```\nIf your text contains double quotes, wrap the string in **single quotes**:\n```python\nquote = 'He said, \"Welcome!\"'\n```. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "2.4_q4",
+      "type": "error_diagnosis",
+      "concept": "quote_conflict_error",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q3"
+      ],
+      "prompt": "Why does this code cause a SyntaxError?\n```python\ntext = 'It's sunny today'\n```",
+      "options": [
+        "A. The word 'sunny' is misspelled.",
+        "B. The apostrophe in `It's` closes the string early at `'It'`, leaving `s sunny today'` as invalid syntax.",
+        "C. Single quotes cannot be used for sentences.",
+        "D. Python does not support contractions."
+      ],
+      "correct_answer": "B",
+      "explanation": "Python matches the second `'` as the closing delimiter of the string. To fix it, use double quotes: `\"It's sunny today\"`."
+    },
+    {
+      "id": "2.4_q5",
+      "type": "fix_the_code",
+      "concept": "quote_conflict_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q4"
+      ],
+      "prompt": "Fix this broken string by wrapping it in double quotes:",
+      "starter_code": "phrase = 'Don't worry'",
+      "solution_code": "phrase = \"Don't worry\"",
+      "explanation": "Wrapping in double quotes prevents the apostrophe from prematurely terminating the string."
+    },
+    {
+      "id": "2.4_q6",
+      "type": "micro_lesson",
+      "concept": "multiline_strings",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "title": "Multi-Line Strings (Triple Quotes)",
+      "content": "To write a string that spans multiple lines while preserving exact line breaks and formatting, use **triple quotes** (`\"\"\"` or `'''`):\n```python\nemail_template = \"\"\"\nHi,\nThank you for signing up!\nBest regards,\nCodolingo\n\"\"\"\n```",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "2.4_q7",
+      "type": "output_prediction",
+      "concept": "multiline_strings",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q6"
+      ],
+      "prompt": "How many lines of text will this print?\n```python\nbanner = \"\"\"\nLINE 1\nLINE 2\nLINE 3\n\"\"\"\nprint(banner)\n```",
+      "options": [
+        "A. 1 line (joined together)",
+        "B. 3 lines",
+        "C. 5 lines (an empty leading line, 3 text lines, and a trailing empty line)",
+        "D. 0 lines"
+      ],
+      "correct_answer": "C",
+      "explanation": "Triple-quoted strings preserve all newlines literally, including the empty line right after the opening quotes and before the closing quotes."
+    },
+    {
+      "id": "2.4_q8",
+      "type": "micro_lesson",
+      "concept": "string_concatenation",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "title": "String Concatenation (+)",
+      "content": "You can join two or more strings together using the plus operator (`+`). This is called **concatenation**:\n```python\nfirst = \"Super\"\nsecond = \"nova\"\ncombined = first + second\nprint(combined)  # Prints: Supernova\n```\nNote: The `+` operator does NOT add spaces automatically! If you want a space, you must include it explicitly.",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "2.4_q9",
+      "type": "code_prediction",
+      "concept": "string_concatenation",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q8"
+      ],
+      "prompt": "What does this code output?\n```python\na = \"Hello\"\nb = \"World\"\nprint(a + b)\n```",
+      "options": [
+        "A. Hello World",
+        "B. HelloWorld",
+        "C. 'Hello' 'World'",
+        "D. Hello\\nWorld"
+      ],
+      "correct_answer": "B",
+      "explanation": "This exercise tests `string concatenation` in Strings. When Python evaluates this code, it applies the standard rules of string concatenation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.4_q10",
+      "type": "fill_in_the_blank",
+      "concept": "string_concatenation",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q8"
+      ],
+      "prompt": "Complete the code to output `'John Doe'` with a space in between:\n```python\nfirst = \"John\"\nlast = \"Doe\"\nfull = first + ___ + last\n```",
+      "accepted_answers": [
+        "\" \"",
+        "' '"
+      ],
+      "explanation": "Adding `\" \"` concatenates a space between the first and last name."
+    },
+    {
+      "id": "2.4_q11",
+      "type": "micro_lesson",
+      "concept": "string_multiplication",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "title": "String Repetition (*)",
+      "content": "You can repeat a string multiple times by multiplying it by an integer using `*`:\n```python\ncheer = \"Hip! \" * 3\nprint(cheer)  # Prints: Hip! Hip! Hip! \n\ndivider = \"-\" * 20\nprint(divider)  # Prints: --------------------\n```",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "2.4_q12",
+      "type": "code_prediction",
+      "concept": "string_multiplication",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q11"
+      ],
+      "prompt": "What does this code print?\n```python\nprint(\"Echo! \" * 2)\n```",
+      "options": [
+        "A. Echo! Echo! ",
+        "B. Echo! 2",
+        "C. TypeError",
+        "D. Echo!Echo!"
+      ],
+      "correct_answer": "A",
+      "explanation": "This exercise tests `string multiplication` in Strings. When Python evaluates this code, it applies the standard rules of string multiplication. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.4_q13",
+      "type": "micro_lesson",
+      "concept": "type_error_string_int",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "1.6_q13",
+        "2.4_q8"
+      ],
+      "title": "The Golden Rule: Can't Concatenate Str and Int",
+      "content": "Python is strongly typed. You CANNOT use `+` between a string and an integer:\n```python\nage = 25\n# message = \"I am \" + age  # TypeError!\n```\nWhy? Because `+` means addition for numbers, but concatenation for text. Python refuses to guess which one you meant!",
+      "prompt": "",
+      "explanation": "Python is strongly typed. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "2.4_q14",
+      "type": "error_diagnosis",
+      "concept": "type_error_string_int",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q13"
+      ],
+      "prompt": "What error does Python raise on line 2?\n```python\nscore = 100\nprint(\"Your score is: \" + score)\n```",
+      "options": [
+        "A. NameError: name 'score' is not defined",
+        "B. TypeError: can only concatenate str (not \"int\") to str",
+        "C. SyntaxError: invalid syntax",
+        "D. ZeroDivisionError"
+      ],
+      "correct_answer": "B",
+      "explanation": "Python throws a `TypeError` because it cannot implicitly concatenate an integer to a string with `+`."
+    },
+    {
+      "id": "2.4_q15",
+      "type": "code_prediction",
+      "concept": "number_strings",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q8"
+      ],
+      "prompt": "What does this code output?\n```python\na = \"10\"\nb = \"20\"\nprint(a + b)\n```",
+      "options": [
+        "A. 30",
+        "B. 1020",
+        "C. '10 + 20'",
+        "D. TypeError"
+      ],
+      "correct_answer": "B",
+      "explanation": "Because `a` and `b` are strings (enclosed in quotes), `+` performs string concatenation, resulting in `'1020'`."
+    },
+    {
+      "id": "2.4_q16",
+      "type": "micro_lesson",
+      "concept": "len_function",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "title": "String Length: len()",
+      "content": "The built-in `len()` function returns the number of characters in a string (including spaces and punctuation):\n```python\nword = \"Python\"\nprint(len(word))  # Prints 6\n\nempty = \"\"\nprint(len(empty))  # Prints 0\n```",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "2.4_q17",
+      "type": "code_prediction",
+      "concept": "len_function",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q16"
+      ],
+      "prompt": "What does `len(\"Hi There\")` return?",
+      "options": [
+        "A. 7",
+        "B. 8",
+        "C. 2",
+        "D. 9"
+      ],
+      "correct_answer": "B",
+      "explanation": "There are 2 characters in 'Hi', 1 space, and 5 characters in 'There' -> `2 + 1 + 5 = 8`."
+    },
+    {
+      "id": "2.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "empty_string",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q16"
+      ],
+      "prompt": "A string containing zero characters is called an ___ string.",
+      "accepted_answers": [
+        "empty"
+      ],
+      "explanation": "An empty string is written `\"\"` or `''` and has length 0."
+    },
+    {
+      "id": "2.4_q19",
+      "type": "match_code_to_concept",
+      "concept": "string_operations",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q8",
+        "2.4_q11",
+        "2.4_q16"
+      ],
+      "prompt": "Match the string operation to its result.",
+      "options": {
+        "`\"ab\" + \"cd\"`": "`\"abcd\"` (Concatenation)",
+        "`\"a\" * 3`": "`\"aaa\"` (Repetition)",
+        "`len(\"cat\")`": "`3` (Length)"
+      },
+      "correct_answer": {
+        "`\"ab\" + \"cd\"`": "`\"abcd\"` (Concatenation)",
+        "`\"a\" * 3`": "`\"aaa\"` (Repetition)",
+        "`len(\"cat\")`": "`3` (Length)"
+      },
+      "explanation": "This exercise tests `string operations` in Strings. When Python validates this code, it applies the standard rules of string operations. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.4_q20",
+      "type": "fix_the_code",
+      "concept": "string_int_fix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "1.4_q3",
+        "2.4_q13"
+      ],
+      "prompt": "Fix this code using comma separation in `print()` so it prints 'Level: 5' without a TypeError:",
+      "starter_code": "level = 5\nprint(\"Level: \" + level)",
+      "solution_code": "level = 5\nprint(\"Level:\", level)",
+      "explanation": "Replacing `+` with `,` allows `print()` to accept and display both arguments."
+    },
+    {
+      "id": "2.4_q21",
+      "type": "output_prediction",
+      "concept": "escape_characters_in_strings",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "1.4_q14",
+        "2.4_q1"
+      ],
+      "prompt": "What does this code output?\n```python\npath = \"folder\\new_file.txt\"\nprint(path)\n```",
+      "options": [
+        "A. folder\\new_file.txt",
+        "B. folder followed by a newline, then ew_file.txt",
+        "C. folder\\new_file",
+        "D. SyntaxError"
+      ],
+      "correct_answer": "B",
+      "explanation": "Because `\\n` represents a newline escape character, Python inserts a line break between `folder` and `ew_file.txt`. To avoid this, write `\\\\n` or use a raw string `r\"...\"`."
+    },
+    {
+      "id": "2.4_q22",
+      "type": "write_the_code",
+      "concept": "string_creation",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "prompt": "Create a variable named `language` assigned to the string `'Python'`.",
+      "starter_code": "# TODO: Implement solution for Strings\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "language = \"Python\"",
+      "explanation": "This exercise tests `string creation` in Strings. When Python validates this code, it applies the standard rules of string creation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.4_q23",
+      "type": "multiple_choice",
+      "concept": "string_immutability_preview",
+      "skill": "understanding",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "prompt": "Are strings in Python mutable (changeable in-place) or immutable (cannot be altered after creation)?",
+      "options": [
+        "A. Mutable: you can alter individual characters directly in an existing string.",
+        "B. Immutable: strings can never be modified in-place; any modification creates a brand new string object in memory.",
+        "C. Strings are only immutable on Tuesdays.",
+        "D. Only double-quoted strings are immutable."
+      ],
+      "correct_answer": "B",
+      "explanation": "Python strings are strictly immutable. Any string operation (like concatenation or replacement) returns a new string rather than altering the original."
+    },
+    {
+      "id": "2.4_q24",
+      "type": "code_prediction",
+      "concept": "string_math_distinction",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.3_q1",
+        "2.4_q15"
+      ],
+      "prompt": "What is the difference between these two lines?\n```python\nprint(4 * 2)\nprint(\"4\" * 2)\n```",
+      "options": [
+        "A. Line 1 prints 8; Line 2 prints 44.",
+        "B. Both lines print 8.",
+        "C. Both lines print 44.",
+        "D. Line 2 raises a TypeError."
+      ],
+      "correct_answer": "A",
+      "explanation": "`4 * 2 = 8` (integer arithmetic). `\"4\" * 2 = \"44\"` (string repetition)."
+    },
+    {
+      "id": "2.4_q25",
+      "type": "mini_challenge",
+      "concept": "string_formatting_divider",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q8",
+        "2.4_q11"
+      ],
+      "prompt": "Write a line of code that creates a string of 10 equal signs `\"=\"`, and prints it.",
+      "starter_code": "# TODO: Implement solution for Strings\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print(\"=\" * 10)",
+      "explanation": "This exercise tests `string formatting divider` in Strings. When Python validates this code, it applies the standard rules of string formatting divider. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.4_q26",
+      "type": "output_prediction",
+      "concept": "concatenation_chain",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q8"
+      ],
+      "prompt": "What does this code output?\n```python\ns = \"a\"\ns = s + \"b\"\ns = s + \"c\"\nprint(s)\n```",
+      "options": [
+        "A. a",
+        "B. c",
+        "C. abc",
+        "D. a + b + c"
+      ],
+      "correct_answer": "C",
+      "explanation": "Starting at `'a'`, adding `'b'` produces `'ab'`, and adding `'c'` produces `'abc'`."
+    },
+    {
+      "id": "2.4_q27",
+      "type": "real_world_scenario",
+      "concept": "cli_header_generation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q11"
+      ],
+      "prompt": "You are building a CLI tool and need to print a decorative border of 40 asterisks `*`. Which approach is most Pythonic?",
+      "correct_answer": "B",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions.",
+      "options": [
+        "A. print('=' + 40)",
+        "B. print('=' * 40)",
+        "C. print('=' ** 40)",
+        "D. print('=' / 40)"
+      ]
+    },
+    {
+      "id": "2.4_q28",
+      "type": "error_diagnosis",
+      "concept": "unmatched_quotes",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q1"
+      ],
+      "prompt": "Why does this code cause a SyntaxError?\n```python\ntext = \"Hello'\n```",
+      "options": [
+        "A. It started with a double quote `\"` but tried to close with a single quote `'`.",
+        "B. You cannot use the word Hello.",
+        "C. Strings cannot be stored in variables.",
+        "D. It needs a semicolon."
+      ],
+      "correct_answer": "A",
+      "explanation": "This exercise tests `unmatched quotes` in Strings. When Python validates this code, it applies the standard rules of unmatched quotes. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.4_q29",
+      "type": "real_world_scenario",
+      "concept": "sql_query_multiline",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.4_q6"
+      ],
+      "prompt": "When storing a long, structured SQL database query in Python, what string format is recommended for readability?\n```python\nquery = \"\"\"\nSELECT id, name, email\nFROM users\nWHERE active = 1\n\"\"\"\n```",
+      "correct_answer": "A",
+      "explanation": "Triple-quoted multi-line strings make large queries, HTML, and documentation readable without manual `\\n` escaping.",
+      "options": [
+        "A. Triple-quoted strings (''' or \"\"\") preserve multi-line formatting without manual \\n escaping.",
+        "B. Concatenating 50 separate single-quoted strings with +.",
+        "C. Converting the query into a list of single characters.",
+        "D. Writing the query in a single line using 500 characters."
+      ]
+    },
+    {
+      "id": "2.4_q30",
+      "type": "real_world_scenario",
+      "concept": "string_synthesis",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.4_q1",
+        "2.4_q3",
+        "2.4_q8",
+        "2.4_q11",
+        "2.4_q16",
+        "2.4_q23"
+      ],
+      "prompt": "Which of the following statements about Python strings is completely TRUE?",
+      "correct_answer": "A",
+      "explanation": "This exercise tests `string synthesis` in Strings. When Python validates this code, it applies the standard rules of string synthesis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution.",
+      "options": [
+        "A. Strings are immutable sequences of Unicode characters; modifying a string creates a new string object.",
+        "B. Strings can be mutated in-place by assigning to index positions like s[0] = 'X'.",
+        "C. Python strings can only contain ASCII characters, not emojis or international text.",
+        "D. String concatenation with + mutates the original string in memory."
+      ]
+    }
+  ],
+  "unit_num": 2,
+  "learning_objectives": [
+    "Manipulate textual data using Strings",
+    "Apply zero-based indexing and slicing syntax correctly",
+    "Differentiate between in-place mutation and immutable string transformations",
+    "Format and clean user-provided text data safely"
+  ],
+  "prerequisites": [
+    "2.3"
+  ]
+}

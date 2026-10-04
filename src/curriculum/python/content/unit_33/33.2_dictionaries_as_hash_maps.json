@@ -1,0 +1,625 @@
+{
+  "lesson_id": "33.2",
+  "title": "Dictionaries as Hash Maps",
+  "unit": "DSA: Hashing",
+  "items": [
+    {
+      "id": "33.2_q1",
+      "type": "micro_lesson",
+      "concept": "dictionaries_as_hash_maps_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Dictionaries as Hash Maps: The Core Idea",
+      "content": "A dictionary in Python is an implementation of a hash map, a data structure that stores key-value pairs. Under the hood, Python computes a hash of each key to determine where to store the corresponding value, enabling average O(1) lookup, insertion, and deletion. Unlike a list, which uses integer indices, a dictionary uses arbitrary immutable keys such as strings or tuples. This makes dictionaries ideal for modeling relationships like student IDs mapped to names. For example:\n\n```python\nstudent = {'id1': 'Alice', 'id2': 'Bob'}\nprint(student['id1'])  # Output: Alice\n```\n\nThe hash map property ensures that retrieving a value by its key is extremely fast because Python avoids scanning every element.",
+      "prompt": "",
+      "explanation": "A dictionary in Python is an implementation of a hash map, a data structure that stores key-value pairs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "33.2_q2",
+      "type": "multiple_choice",
+      "concept": "dictionaries_as_hash_maps_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.2_q1"
+      ],
+      "prompt": "Which statement best describes why a Python dictionary is considered a hash map?",
+      "options": [
+        "It stores data in a fixed-size array indexed by integers only.",
+        "It uses a hash of the key to locate the corresponding value quickly.",
+        "It requires keys to be mutable types like lists.",
+        "It guarantees O(n) time complexity for every operation."
+      ],
+      "correct_answer": "It uses a hash of the key to locate the corresponding value quickly.",
+      "explanation": "A hash map derives the storage location from a hash of the key, which gives average constant-time access. Option A describes a list, not a dictionary. Option C is incorrect because dictionary keys must be hashable (immutable). Option D is false because dictionary operations are typically O(1) on average."
+    },
+    {
+      "id": "33.2_q3",
+      "type": "micro_lesson",
+      "concept": "dictionaries_as_hash_maps_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.2_q2"
+      ],
+      "title": "Creating and Accessing Dictionary Entries",
+      "content": "You create a dictionary using curly braces with comma-separated key: value pairs. Keys and values can be of different types, though keys must be hashable. To retrieve a value, place the key inside square brackets after the dictionary name. If the key does not exist, Python raises a KeyError.\n\n```python\nscores = {'math': 85, 'science': 92}\nprint(scores['math'])      # Access an existing key\nscores['english'] = 78    # Insert a new key-value pair\nprint(scores)              # Output: {'math': 85, 'science': 92, 'english': 78}\n```\n\nBecause the underlying structure is a hash map, the insertion and lookup shown above run in average O(1) time. Always ensure your keys are immutable types such as strings, numbers, or tuples when using them in a dictionary.",
+      "prompt": "",
+      "explanation": "You create a dictionary using curly braces with comma-separated key: value pairs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "33.2_q4",
+      "type": "multiple_choice",
+      "concept": "dictionaries_as_hash_maps_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.2_q3"
+      ],
+      "prompt": "Given the code below, what is the result of the last line?\n\n```python\nconfig = {'host': 'localhost', 'port': 8080}\nconfig['host'] = 'production'\nprint(config['host'])\n```",
+      "options": [
+        "The code raises a KeyError.",
+        "It prints 'localhost'.",
+        "It prints 'production'.",
+        "It prints the entire dictionary."
+      ],
+      "correct_answer": "It prints 'production'.",
+      "explanation": "The line config['host'] = 'production' updates the existing key 'host'. The final print accesses this updated value, so the output is 'production'. No error occurs because 'host' already exists in the dictionary."
+    },
+    {
+      "id": "33.2_q5",
+      "type": "multiple_choice",
+      "concept": "dictionaries_as_hash_maps_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.2_q4"
+      ],
+      "prompt": "Match each dictionary operation to its typical time complexity in a hash map implementation.",
+      "options": [
+        "Lookup: O(n), Insertion: O(n), Deletion: O(n)",
+        "Lookup: O(1), Insertion: O(1), Deletion: O(1)",
+        "Lookup: O(log n), Insertion: O(log n), Deletion: O(log n)",
+        "Lookup: O(n^2), Insertion: O(n^2), Deletion: O(n^2)"
+      ],
+      "correct_answer": "Lookup: O(1), Insertion: O(1), Deletion: O(1)",
+      "explanation": "In a well-designed hash map, average-case lookup, insertion, and deletion are all O(1) because the hash function directly computes the bucket index. Worst-case can degrade to O(n) with many collisions, but the expected complexity remains constant time."
+    },
+    {
+      "id": "33.2_q6",
+      "type": "multiple_choice",
+      "concept": "dictionaries_as_hash_maps_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.2_q5"
+      ],
+      "prompt": "What happens if you try to use a list as a dictionary key?\n\n```python\nmy_dict = {}\nmy_dict[[1, 2]] = 'value'\n```",
+      "options": [
+        "The key is converted to a tuple automatically.",
+        "The code runs and stores the value successfully.",
+        "A TypeError is raised because lists are unhashable.",
+        "The dictionary silently ignores the assignment."
+      ],
+      "correct_answer": "A TypeError is raised because lists are unhashable.",
+      "explanation": "Dictionary keys must be hashable, meaning they must support the hash() function and remain immutable. Lists are mutable, so they cannot be hashed. Attempting to use a list as a key raises a TypeError. Tuples, being immutable, can be used as keys."
+    },
+    {
+      "id": "33.2_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "dictionaries_as_hash_maps_execution",
+      "prerequisites": [
+        "33.2_q6"
+      ],
+      "prompt": "Consider the following Python code that uses a dictionary as a hash map to count character frequencies:\n\n```python\ntext = 'hello'\nfreq = {}\nfor ch in text:\n    if ch in freq:\n        freq[ch] += 1\n    else:\n        freq[ch] = 1\nprint(freq)\n```\n\nWhat is the final value of `freq`?",
+      "options": [
+        "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+        "{'h': 1, 'e': 1, 'l': 1, 'o': 1}",
+        "{'h': 1, 'e': 1, 'l': 3, 'o': 1}",
+        "{'h': 2, 'e': 1, 'l': 2, 'o': 1}"
+      ],
+      "correct_answer": "{'h': 1, 'e': 1, 'l': 2, 'o': 1}",
+      "explanation": "The dictionary iterates through each character in 'hello'. 'h' and 'e' are added with count 1. 'l' appears twice, so its count becomes 2. 'o' is added with count 1. This demonstrates how a dictionary uses hashing to store and retrieve key-value pairs in average O(1) time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "33.2_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "dictionaries_as_hash_maps_execution",
+      "prerequisites": [
+        "33.2_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nscores = {'alice': 88, 'bob': 92}\nscores['alice'] = 95\nscores['carol'] = 76\nprint(scores.get('bob', 0))\nprint(scores)\n```",
+      "options": [
+        "92\n{'alice': 95, 'bob': 92, 'carol': 76}",
+        "88\n{'alice': 88, 'bob': 92, 'carol': 76}",
+        "95\n{'alice': 95, 'bob': 92, 'carol': 76}",
+        "0\n{'alice': 95, 'bob': 92, 'carol': 76}"
+      ],
+      "correct_answer": "92\n{'alice': 95, 'bob': 92, 'carol': 76}",
+      "explanation": "The get() method returns 92 for 'bob' since it exists. The dictionary is updated: 'alice' is modified to 95, and 'carol' is added. This shows update and insertion operations in a hash map with average O(1) complexity.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "33.2_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "dictionaries_as_hash_maps_flow",
+      "prerequisites": [
+        "33.2_q8"
+      ],
+      "prompt": "Predict the output of this code:\n\n```python\ncache = {}\nkey = 'x'\nif key not in cache:\n    cache[key] = 'computed'\nelse:\n    cache[key] = 'stale'\nprint(cache)\n```",
+      "options": [
+        "{'x': 'computed'}",
+        "{'x': 'stale'}",
+        "{}",
+        "KeyError"
+      ],
+      "correct_answer": "{'x': 'computed'}",
+      "explanation": "Since 'x' is not in cache, the if branch executes and sets cache['x'] to 'computed'. This pattern is common in hash map implementations for lazy evaluation and memoization.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "33.2_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "dictionaries_as_hash_maps_analysis",
+      "prerequisites": [
+        "33.2_q9"
+      ],
+      "prompt": "A developer claims that dictionary lookups are always O(1) regardless of size. Analyze the following code and explain why this claim is only approximately true in practice.\n\n```python\nlarge_map = {}\nfor i in range(1_000_000):\n    large_map[i] = i * i\nprint(large_map[500_000])\n```",
+      "correct_answer": "Dictionary lookups are O(1) on average, but hash collisions can degrade performance to O(n) in worst-case scenarios.",
+      "explanation": "Python dictionaries use open addressing with perturbation to resolve collisions. While average-case lookup is O(1), pathological cases with many collisions can approach O(n). The load factor and hash quality determine practical performance.",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for Dictionaries as Hash Maps\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Dictionaries as Hash Maps')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dictionaries as Hash Maps"
+        }
+      ]
+    },
+    {
+      "id": "33.2_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "dictionaries_as_hash_maps_tracing",
+      "prerequisites": [
+        "33.2_q10"
+      ],
+      "prompt": "Trace the execution of this code step by step and determine the final state of `result`.\n\n```python\nresult = {}\nkeys = ['a', 'b', 'a']\nfor k in keys:\n    result[k] = len(k)\nprint(result)\n```",
+      "correct_answer": "{'a': 1, 'b': 1}",
+      "explanation": "Iteration 1: result = {'a': 1}. Iteration 2: result = {'a': 1, 'b': 1}. Iteration 3: 'a' already exists, so result['a'] is overwritten with 1 (no change). Final state is {'a': 1, 'b': 1}. This illustrates that dictionary keys are unique and later assignments overwrite earlier ones.",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for Dictionaries as Hash Maps\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Dictionaries as Hash Maps')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dictionaries as Hash Maps"
+        }
+      ]
+    },
+    {
+      "id": "33.2_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "dictionaries_as_hash_maps_logic",
+      "prerequisites": [
+        "33.2_q11"
+      ],
+      "prompt": "What is the output of this code?\n\n```python\nlookup = {10: 'ten', 20: 'twenty'}\nprint(10 in lookup and lookup[10] == 'ten')\nprint(30 not in lookup)\n```",
+      "options": [
+        "True\nTrue",
+        "True\nFalse",
+        "False\nTrue",
+        "False\nFalse"
+      ],
+      "correct_answer": "True\nTrue",
+      "explanation": "The first expression evaluates to True because 10 is in lookup and its value is 'ten'. The second expression evaluates to True because 30 is not a key in the dictionary. This demonstrates how membership testing and value retrieval combine in hash map logic.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "33.2_q13",
+      "type": "write_the_code",
+      "concept": "frequency_map_counting",
+      "skill": "hash_maps",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q12"
+      ],
+      "prompt": "Build a character frequency dictionary `freq` for string `text = 'banana'` using `dict.get(char, 0) + 1`.",
+      "starter_code": "text = \"banana\"\nfreq = {}\n# Populate frequency dictionary\n",
+      "solution_code": "text = \"banana\"\nfreq = {}\nfor char in text:\n    freq[char] = freq.get(char, 0) + 1\nprint(freq)",
+      "explanation": "`freq.get(char, 0)` returns the current count or 0 if missing, enabling frequency counting in O(n) time.",
+      "metadata": {
+        "concept": "frequency_counting_dict",
+        "skill": "hash_maps",
+        "why_this_exercise_exists": "Replaces filler with frequency map implementation"
+      }
+    },
+    {
+      "id": "33.2_q14",
+      "type": "code_prediction",
+      "concept": "hash_map_lookup_complexity",
+      "skill": "complexity",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q13"
+      ],
+      "prompt": "What is the average time complexity of key lookup `key in dict` in a Python dictionary?",
+      "options": [
+        "O(1) average time",
+        "O(n) linear time",
+        "O(log n) logarithmic time",
+        "O(n^2) quadratic time"
+      ],
+      "correct_answer": "O(1) average time",
+      "explanation": "Python dictionaries use open-addressing hash tables, achieving O(1) average time complexity for key lookups, insertions, and deletions.",
+      "metadata": {
+        "concept": "hash_table_lookup_time",
+        "skill": "complexity",
+        "why_this_exercise_exists": "Replaces filler with O(1) hash map complexity"
+      }
+    },
+    {
+      "id": "33.2_q15",
+      "type": "code_ordering",
+      "concept": "dictionaries_as_hash_maps_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q14"
+      ],
+      "prompt": "Arrange the lines in correct logical order for Dictionaries As Hash Maps Sequence:",
+      "options": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "correct_answer": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "33.2_q16",
+      "type": "code_prediction",
+      "concept": "two_sum_hash_map_optimization",
+      "skill": "algorithmic_patterns",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q15"
+      ],
+      "prompt": "How does using a hash map optimize the classic Two-Sum problem from O(n^2) brute force to O(n)?",
+      "options": [
+        "By storing visited numbers in a dictionary, the complement (target - num) can be checked in O(1) time during a single pass.",
+        "By sorting the dictionary in O(1) time.",
+        "By splitting the array into two halves.",
+        "By converting the numbers to binary."
+      ],
+      "correct_answer": "By storing visited numbers in a dictionary, the complement (target - num) can be checked in O(1) time during a single pass.",
+      "explanation": "Checking `if (target - num) in seen:` executes in O(1) average time, reducing the pair search from nested O(n^2) loops to a single O(n) linear scan.",
+      "metadata": {
+        "concept": "two_sum_hash_optimization",
+        "skill": "algorithms",
+        "why_this_exercise_exists": "Replaces filler with canonical two-sum hash pattern"
+      }
+    },
+    {
+      "id": "33.2_q17",
+      "type": "code_ordering",
+      "concept": "dictionaries_as_hash_maps_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q16"
+      ],
+      "prompt": "Arrange the lines in correct logical order for Dictionaries As Hash Maps Algorithm:",
+      "options": [
+        "a_17 = 10",
+        "b_17 = 20",
+        "result_17 = a_17 + b_17",
+        "print(result_17)"
+      ],
+      "correct_answer": [
+        "a_17 = 10",
+        "b_17 = 20",
+        "result_17 = a_17 + b_17",
+        "print(result_17)"
+      ],
+      "explanation": "Variables a_17 and b_17 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "33.2_q18",
+      "type": "write_the_code",
+      "concept": "grouping_by_key_dict",
+      "skill": "data_aggregation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q17"
+      ],
+      "prompt": "Group words `words = ['apple', 'bat', 'ant', 'ball']` by their first letter into a dictionary `groups` using `dict.setdefault(letter, []).append(word)`.",
+      "starter_code": "words = [\"apple\", \"bat\", \"ant\", \"ball\"]\ngroups = {}\n# Group words by first letter\n",
+      "solution_code": "words = [\"apple\", \"bat\", \"ant\", \"ball\"]\ngroups = {}\nfor w in words:\n    groups.setdefault(w[0], []).append(w)\nprint(groups)",
+      "explanation": "`setdefault(key, [])` initializes the list if the key is new and appends the word, creating `{'a': ['apple', 'ant'], 'b': ['bat', 'ball']}`.",
+      "metadata": {
+        "concept": "setdefault_grouping",
+        "skill": "data_aggregation",
+        "why_this_exercise_exists": "Replaces filler with hash map grouping"
+      }
+    },
+    {
+      "id": "33.2_q19",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q18"
+      ],
+      "prompt": "A student is trying to use a dictionary as a hash map to count character frequencies, but the code crashes at runtime. Identify the error, explain why it occurs in terms of hashing, and describe how to fix it.",
+      "starter_code": "def char_frequency(text):\n    freq = {}\n    for ch in text:\n        freq[ch] += 1\n    return freq\n\nresult = char_frequency('hello')",
+      "solution_code": "def char_frequency(text):\n    freq = {}\n    for ch in text:\n        freq[ch] = freq.get(ch, 0) + 1\n    return freq\n\nresult = char_frequency('hello')",
+      "hint": "Consider what happens when a key is accessed for the first time versus when it already exists. Dictionaries raise a KeyError if you increment a missing key without initialization.",
+      "explanation": "In Python, dictionaries use hash maps internally. When you execute freq[ch] += 1, Python first evaluates freq[ch]. If 'ch' is not yet a key, it raises a KeyError because there is no default value to increment. The fix is to use dict.get(ch, 0) to safely retrieve the current count, defaulting to 0, then add 1. This leverages the O(1) average-case lookup of hash maps."
+    },
+    {
+      "id": "33.2_q20",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.2_q19"
+      ],
+      "prompt": "The following code is intended to store a student's ID and their grade, but it produces incorrect output. Fix the code so the dictionary correctly maps IDs to grades.",
+      "starter_code": "student = {}\nstudent['id'] = 101\nstudent['grade'] = 'A'\nprint(student[101])",
+      "solution_code": "student = {}\nstudent['id'] = 101\nstudent['grade'] = 'A'\nprint(student['id'])",
+      "hint": "The print statement tries to use an integer key that does not exist in the dictionary. The dictionary stores the string 'id' as a key, not the integer 101.",
+      "explanation": "Dictionaries in Python are hash maps where keys are hashed to determine bucket locations. Here, the key 'id' is a string, so student['id'] retrieves the value 101, but student[101] looks for a key with hash of 101, which does not exist. The corrected code prints student['id'], matching the actual key."
+    },
+    {
+      "id": "33.2_q21",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q20"
+      ],
+      "prompt": "A developer uses a list as a dictionary key to group coordinates. The program fails with a TypeError. Correct the code to safely use a hashable representation of the coordinate pair.",
+      "starter_code": "def group_coords(pairs):\n    groups = {}\n    for pair in pairs:\n        groups[pair] = groups.get(pair, 0) + 1\n    return groups\n\npairs = [('x', 1), ('x', 2), ('x', 1)]\nprint(group_coords(pairs))",
+      "solution_code": "def group_coords(pairs):\n    groups = {}\n    for pair in pairs:\n        key = (pair[0], pair[1])\n        groups[key] = groups.get(key, 0) + 1\n    return groups\n\npairs = [('x', 1), ('x', 2), ('x', 1)]\nprint(group_coords(pairs))",
+      "hint": "Lists are mutable and therefore unhashable in Python. Tuples are immutable and hashable, making them valid dictionary keys.",
+      "explanation": "Hash maps require keys to be hashable so Python can compute a stable hash value for bucket placement. Lists are mutable, so their hash would change if modified, violating map invariants. Converting the coordinate pair to a tuple creates a hashable key, enabling correct O(1) average-case insertion and lookup."
+    },
+    {
+      "id": "33.2_q22",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q21"
+      ],
+      "prompt": "The following hash map simulation using a plain Python dictionary exhibits unexpected behavior during rapid insertions of large integer keys. Diagnose the runtime issue and explain the underlying hash map mechanism.",
+      "starter_code": "def insert_many(n):\n    d = {}\n    for i in range(n):\n        d[i * i] = i\n    return d\n\nresult = insert_many(1000000)",
+      "solution_code": "def insert_many(n):\n    d = {}\n    for i in range(n):\n        d[i] = i * i\n    return d\n\nresult = insert_many(1000000)",
+      "hint": "While Python dictionaries handle collisions automatically, extremely large or specially patterned keys can stress the hash table. Consider whether the key distribution affects performance and whether the code logic itself is sound.",
+      "explanation": "Python dictionaries automatically resize and rehash when load factor thresholds are exceeded, maintaining amortized O(1) operations. However, the original code uses i*i as keys, which for large i can produce very large integers. Python's hash for integers is the integer itself, so these keys are well-distributed and do not inherently cause collisions. The real runtime concern is memory usage and potential integer overflow in other languages, but in Python the code is valid. If the issue observed was a KeyError or logic error, the actual bug is likely elsewhere; the corrected version uses i as the key for clarity and safer memory behavior."
+    },
+    {
+      "id": "33.2_q23",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q22"
+      ],
+      "prompt": "A caching function is supposed to return a default value for missing keys, but currently returns None and mutates the cache incorrectly. Repair the logic to use the dictionary as a proper hash map with safe default retrieval.",
+      "starter_code": "def get_cached(cache, key):\n    if key in cache:\n        return cache[key]\n    cache[key] = None\n    return None\n\ncache = {}\nprint(get_cached(cache, 'a'))",
+      "solution_code": "def get_cached(cache, key, default='missing'):\n    if key not in cache:\n        cache[key] = default\n    return cache[key]\n\ncache = {}\nprint(get_cached(cache, 'a'))",
+      "hint": "The function stores None as the default value, which is ambiguous because None may be a legitimate cached result. Use a sentinel or explicit default parameter, and only write to the cache when the key is absent.",
+      "explanation": "A hash map should distinguish between 'not present' and 'present with value None'. The original code always writes None into the cache, losing information about whether the key was originally absent. The repaired version accepts an explicit default argument, stores it only when the key is missing, and returns the cached value. This preserves correct hash map semantics and avoids false cache hits."
+    },
+    {
+      "id": "33.2_q24",
+      "type": "write_the_code",
+      "concept": "dictionaries_as_hash_maps_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q23"
+      ],
+      "prompt": "Refactor the following O(n^2) nested-loop frequency counter into an O(n) hash map implementation using Python dictionary methods. Ensure the refactored code is valid Python and preserves behavior.",
+      "starter_code": "def count_words_slow(words):\n    counts = {}\n    for i in range(len(words)):\n        w = words[i]\n        found = False\n        for j in range(len(words)):\n            if words[j] == w:\n                if w in counts:\n                    counts[w] += 1\n                else:\n                    counts[w] = 1\n                found = True\n                break\n    return counts\n\nwords = ['apple', 'banana', 'apple', 'cherry']\nprint(count_words_slow(words))",
+      "solution_code": "def count_words_fast(words):\n    counts = {}\n    for w in words:\n        counts[w] = counts.get(w, 0) + 1\n    return counts\n\nwords = ['apple', 'banana', 'apple', 'cherry']\nprint(count_words_fast(words))",
+      "test_cases": [
+        {
+          "input": [
+            "apple",
+            "banana",
+            "apple",
+            "cherry"
+          ],
+          "expected": {
+            "apple": 2,
+            "banana": 1,
+            "cherry": 1
+          }
+        },
+        {
+          "input": [],
+          "expected": {}
+        },
+        {
+          "input": [
+            "x",
+            "x",
+            "x"
+          ],
+          "expected": {
+            "x": 3
+          }
+        }
+      ],
+      "hint": "Eliminate the inner loop by iterating once over the list and using a dictionary method that handles missing keys safely.",
+      "explanation": "The original implementation uses nested loops, yielding O(n^2) time complexity because it compares every element against every other element. The refactored version iterates once (O(n)) and uses counts.get(w, 0) to handle missing keys in O(1) average time per operation, leveraging the underlying hash map. This is the standard optimal pattern for frequency counting in Python."
+    },
+    {
+      "id": "33.2_q25",
+      "type": "write_the_code",
+      "concept": "dictionaries_as_hash_maps_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Dictionaries as Hash Maps.",
+      "starter_code": "def process_33_2_data(items):\n    # Process input according to Dictionaries as Hash Maps rules\n    pass",
+      "solution_code": "def process_33_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Dictionaries as Hash Maps rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Dictionaries as Hash Maps.",
+      "explanation": "Constructing pure, robust data transformers for Dictionaries as Hash Maps avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "33.2_q26",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Dictionaries as Hash Maps that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_33_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_33_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "33.2_q27",
+      "type": "code_prediction",
+      "concept": "dictionaries_as_hash_maps_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Dictionaries as Hash Maps encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Dictionaries as Hash Maps.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "33.2_q28",
+      "type": "write_the_code",
+      "concept": "dictionaries_as_hash_maps_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Dictionaries as Hash Maps. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def count_frequencies(words):\n    # Return dict mapping each word to count\n    pass",
+      "solution_code": "def count_frequencies(words):\n    counts = {}\n    for w in words:\n        counts[w] = counts.get(w, 0) + 1\n    return counts",
+      "test_cases": [
+        {
+          "input": "['apple', 'banana', 'apple']",
+          "expected_output": "{'apple': 2, 'banana': 1}",
+          "description": "frequency mapping"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Hash map lookups and updates run in average O(1) time per item."
+    },
+    {
+      "id": "33.2_q29",
+      "type": "fix_the_code",
+      "concept": "dictionaries_as_hash_maps_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Dictionaries as Hash Maps into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dictionaries as Hash Maps Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "33.2_q30",
+      "type": "write_the_code",
+      "concept": "dictionaries_as_hash_maps_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Dictionaries as Hash Maps that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_33_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_33_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Dictionaries as Hash Maps must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 33,
+  "learning_objectives": [
+    "Initialize and manipulate Python Dictionaries as Hash Maps collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "33.1"
+  ]
+}

@@ -1,0 +1,634 @@
+{
+  "lesson_id": "27.4",
+  "title": "Returning JSON Responses",
+  "unit": "Web Backend Development",
+  "items": [
+    {
+      "id": "27.4_q1",
+      "type": "micro_lesson",
+      "concept": "returning_json_responses_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is a JSON Response?",
+      "content": "In web backend development, a JSON response is the data format sent from a server to a client after processing a request. JSON (JavaScript Object Notation) is lightweight and easy for both humans and machines to read. In Python, you typically use the json module to convert a Python dictionary into a JSON string before returning it. A common pattern in frameworks like Flask or FastAPI is to set the response body to a JSON-encoded string and specify the Content-Type header as application/json. This ensures the client knows how to interpret the data. For example:\n\n```python\nimport json\n\ndef get_user(user_id):\n    user = {'id': 42, 'name': 'Alice'}\n    response_body = json.dumps(user)\n    return response_body\n```\n\nNotice that json.dumps() serializes the Python dictionary into a JSON string. The server then sends this string back to the client, which can parse it into a native object.",
+      "prompt": "",
+      "explanation": "In web backend development, a JSON response is the data format sent from a server to a client after processing a request. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "27.4_q2",
+      "type": "multiple_choice",
+      "concept": "returning_json_responses_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q1"
+      ],
+      "prompt": "Which Python function converts a Python dictionary into a JSON string?",
+      "options": [
+        "json.loads()",
+        "json.dumps()",
+        "json.stringify()",
+        "json.parse()"
+      ],
+      "correct_answer": "json.dumps()",
+      "explanation": "json.dumps() serializes a Python object into a JSON formatted string. json.loads() does the reverse: it parses a JSON string into a Python object. json.stringify() and json.parse() are JavaScript functions, not Python functions."
+    },
+    {
+      "id": "27.4_q3",
+      "type": "micro_lesson",
+      "concept": "returning_json_responses_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q2"
+      ],
+      "title": "Syntax for Returning JSON from a Function",
+      "content": "When building a backend endpoint, you often return JSON directly from a view or route handler. In pure Python without a web framework, you can return the JSON string produced by json.dumps(). With a lightweight framework such as Flask, you use jsonify() to create a response object with the correct MIME type. Here is the syntax pattern:\n\n```python\nfrom flask import jsonify\n\n@app.route('/data')\ndef fetch_data():\n    payload = {'status': 'ok', 'value': 100}\n    return jsonify(payload)\n```\n\nThe jsonify() helper automatically serializes the dictionary and sets the Content-Type header to application/json. If you are not using a framework, manually calling json.dumps() and wrapping the result in a response object is also valid. Always ensure the data you pass to json.dumps() contains JSON-serializable types such as strings, numbers, lists, dictionaries, booleans, or None.",
+      "prompt": "",
+      "explanation": "When building a backend endpoint, you often return JSON directly from a view or route handler. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "27.4_q4",
+      "type": "multiple_choice",
+      "concept": "returning_json_responses_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q3"
+      ],
+      "prompt": "You have the following Python code. What will it return when called?\n\n```python\nimport json\n\ndef greet():\n    info = {'message': 'Hello'}\n    return json.dumps(info)\n```",
+      "options": [
+        "A Python dictionary",
+        "A JSON string",
+        "An error because dict is not serializable",
+        "None"
+      ],
+      "correct_answer": "A JSON string",
+      "explanation": "json.dumps() converts the Python dictionary info into a JSON formatted string. The function returns that string, not the original dictionary object."
+    },
+    {
+      "id": "27.4_q5",
+      "type": "multiple_choice",
+      "concept": "returning_json_responses_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q4"
+      ],
+      "prompt": "Match the Python code snippet to its output when executed.",
+      "options": [
+        "json.dumps({'x': 1}) returns \"{'x': 1}\"",
+        "json.dumps({'x': 1}) returns '{\"x\": 1}'",
+        "json.dumps({'x': 1}) returns a Python list",
+        "json.dumps({'x': 1}) returns an integer"
+      ],
+      "correct_answer": "json.dumps({'x': 1}) returns '{\"x\": 1}'",
+      "explanation": "json.dumps() produces a JSON string. The string representation is '{\"x\": 1}', not the Python dictionary literal. JSON uses double quotes for keys and string values, and numbers are not quoted."
+    },
+    {
+      "id": "27.4_q6",
+      "type": "multiple_choice",
+      "concept": "returning_json_responses_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when returning JSON responses in Python?",
+      "options": [
+        "Returning a Python dictionary directly without serialization",
+        "Using single quotes inside the JSON string",
+        "Importing the json module unnecessarily",
+        "Naming the function with a lowercase letter"
+      ],
+      "correct_answer": "Returning a Python dictionary directly without serialization",
+      "explanation": "If you return a raw Python dictionary from a backend endpoint without json.dumps() or a framework helper like jsonify(), the client may receive an object it cannot parse as JSON. JSON requires a string with specific formatting. Single quotes inside a JSON string are acceptable as long as the outer string uses double quotes, and naming conventions are unrelated to JSON serialization."
+    },
+    {
+      "id": "27.4_q7",
+      "type": "code_prediction",
+      "difficulty": "easy",
+      "concept": "returning_json_responses_execution",
+      "prerequisites": [
+        "27.4_q6"
+      ],
+      "prompt": "Consider the following Flask route:\n```python\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/user/1')\ndef get_user():\n    user = {'id': 1, 'name': 'Alice'}\n    return jsonify(user)\n```\nWhat is the HTTP response body returned to the client when this endpoint is accessed?",
+      "options": [
+        "A JSON string: '{\"id\": 1, \"name\": \"Alice\"}'",
+        "A Python dictionary: {'id': 1, 'name': 'Alice'}",
+        "A Flask Response object with mimetype 'application/json'",
+        "An HTML page displaying the user data"
+      ],
+      "correct_answer": "A Flask Response object with mimetype 'application/json'",
+      "explanation": "The jsonify() function wraps the Python dictionary into a Flask Response object and automatically sets the Content-Type header to 'application/json'. The raw body is JSON, but the return type is a Response object, not a plain string or dictionary.",
+      "skill": "prediction"
+    },
+    {
+      "id": "27.4_q8",
+      "type": "output_prediction",
+      "difficulty": "medium",
+      "concept": "returning_json_responses_execution",
+      "prerequisites": [
+        "27.4_q7"
+      ],
+      "prompt": "Given the route below, what will be the exact JSON response body when a GET request is made to '/api/status'?\n```python\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/api/status')\ndef status():\n    payload = {'status': 'ok', 'code': 200}\n    resp = jsonify(payload)\n    resp.status_code = 201\n    return resp\n```",
+      "options": [
+        "{'status': 'ok', 'code': 200}",
+        "{\\n  \"status\": \"ok\",\\n  \"code\": 200\\n}",
+        "{\\n  \"status\": \"ok\",\\n  \"code\": 201\\n}",
+        "{\\n  \"status\": \"ok\",\\n  \"code\": 200\\n}\\nwith HTTP status 201"
+      ],
+      "correct_answer": "{\\n  \"status\": \"ok\",\\n  \"code\": 200\\n}\\nwith HTTP status 201",
+      "explanation": "jsonify() serializes the dictionary to a JSON string, which becomes the response body. The status_code attribute changes the HTTP status to 201, but the JSON payload itself remains unchanged with code 200.",
+      "skill": "prediction"
+    },
+    {
+      "id": "27.4_q9",
+      "type": "code_prediction",
+      "difficulty": "medium",
+      "concept": "returning_json_responses_flow",
+      "prerequisites": [
+        "27.4_q8"
+      ],
+      "prompt": "Trace the execution flow of this route and predict the output for a request to '/check/42':\n```python\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/check/<int:n>')\ndef check(n):\n    if n > 0:\n        data = {'value': n, 'valid': True}\n    else:\n        data = {'value': n, 'valid': False}\n    return jsonify(data)\n```",
+      "options": [
+        "{'value': 42, 'valid': True}",
+        "{\\n  \"value\": 42,\\n  \"valid\": true\\n}",
+        "{\\n  \"value\": 42,\\n  \"valid\": False\\n}",
+        "A 404 error because the route does not match"
+      ],
+      "correct_answer": "{\\n  \"value\": 42,\\n  \"valid\": true\\n}",
+      "explanation": "The route accepts an integer parameter n. Since 42 > 0, the if branch executes, creating a dictionary with valid=True. jsonify() converts it to a JSON-formatted response with boolean true (lowercase in JSON).",
+      "skill": "prediction"
+    },
+    {
+      "id": "27.4_q10",
+      "type": "write_the_code",
+      "difficulty": "medium",
+      "concept": "returning_json_responses_analysis",
+      "prerequisites": [
+        "27.4_q9"
+      ],
+      "prompt": "Explain why the following route returns a 406 Not Acceptable error when the client sends 'Accept: text/html'.\n```python\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/data')\ndef data():\n    return jsonify({'message': 'hello'})\n```",
+      "correct_answer": "The client requested HTML but the route only produces JSON, and Flask enforces content negotiation.",
+      "explanation": "Flask uses content negotiation. If the client sends Accept: text/html and the route only produces application/json, Flask may raise a 406 Not Acceptable unless a custom error handler is registered. The jsonify() call correctly produces JSON, so the issue is the mismatch between client preference and server capability.",
+      "skill": "analysis",
+      "starter_code": "# 1. Define the process_27_4 function\ndef process_27_4():\n    # 2. Implement solution for Returning JSON Responses\n    pass\n",
+      "solution_code": "print('Returning JSON Responses')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Returning JSON Responses"
+        }
+      ]
+    },
+    {
+      "id": "27.4_q11",
+      "type": "write_the_code",
+      "difficulty": "medium",
+      "concept": "returning_json_responses_tracing",
+      "prerequisites": [
+        "27.4_q10"
+      ],
+      "prompt": "Trace the execution step by step for the request to '/items/3'. Show the state of variables after each major step.\n```python\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/items/<int:n>')\ndef items(n):\n    result = []\n    for i in range(n):\n        result.append({'index': i})\n    return jsonify(result)\n```",
+      "correct_answer": "Step 1: n=3. Step 2: result=[]. Step 3: loop appends 3 dicts. Step 4: jsonify returns JSON list of 3 objects.",
+      "explanation": "The route captures n=3. result starts as an empty list. The for loop iterates i=0, 1, 2, appending {'index': 0}, {'index': 1}, and {'index': 2} respectively. jsonify() serializes the final list into a JSON array containing three objects.",
+      "skill": "tracing",
+      "starter_code": "# 1. Define the process_27_4 function\ndef process_27_4():\n    # 2. Implement solution for Returning JSON Responses\n    pass\n",
+      "solution_code": "print('Returning JSON Responses')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Returning JSON Responses"
+        }
+      ]
+    },
+    {
+      "id": "27.4_q12",
+      "type": "output_prediction",
+      "difficulty": "medium",
+      "concept": "returning_json_responses_logic",
+      "prerequisites": [
+        "27.4_q11"
+      ],
+      "prompt": "What is the JSON response body for a POST request to '/submit' with the following route?\n```python\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/submit', methods=['POST'])\ndef submit():\n    if True:\n        return jsonify({'ok': True})\n    return jsonify({'ok': False})\n```",
+      "options": [
+        "{'ok': True}",
+        "{\\n  \"ok\": true\\n}",
+        "{\\n  \"ok\": false\\n}",
+        "{\\n  \"ok\": true\\n}\\n{\\n  \"ok\": false\\n}"
+      ],
+      "correct_answer": "{\\n  \"ok\": true\\n}",
+      "explanation": "The condition if True is always satisfied, so the first return statement executes immediately. The second return is unreachable. jsonify() converts the dictionary to a JSON string with the boolean value true.",
+      "skill": "prediction"
+    },
+    {
+      "id": "27.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "returning_json_responses_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q12"
+      ],
+      "prompt": "When returning JSON from a Flask route, you must import the ____ module and use jsonify() to serialize the dictionary before returning it.",
+      "correct_answer": "json",
+      "accepted_answers": [
+        "json"
+      ],
+      "explanation": "The json module provides serialization capabilities. In Flask, jsonify() converts a Python dictionary into a JSON response with the correct Content-Type header (application/json). Without importing json (or using Flask's built-in jsonify), the response would not be properly formatted."
+    },
+    {
+      "id": "27.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "returning_json_responses_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q13"
+      ],
+      "prompt": "In a Flask route function, the decorator that handles HTTP GET requests is ____, and the function must return the result of jsonify() to send JSON data to the client.",
+      "correct_answer": "def",
+      "accepted_answers": [
+        "def",
+        "function"
+      ],
+      "explanation": "The def keyword defines the route handler function. While @app.route('/') specifies the URL pattern, def creates the actual function that processes the request and returns the JSON response. The function body must explicitly return jsonify(data) to produce a valid JSON HTTP response."
+    },
+    {
+      "id": "27.4_q15",
+      "type": "code_ordering",
+      "concept": "returning_json_responses_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q14"
+      ],
+      "prompt": "Arrange the following steps to correctly return a JSON response in a Flask application. The code must create an app, define a route, prepare data, and return it as JSON.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Correct sequencing requires: (1) importing Flask and jsonify first, (2) initializing the app with app = Flask(__name__), (3) applying the @app.route decorator to the function, (4) defining the function with def, (5) creating the data dictionary, and (6) returning jsonify(response). Option 1 follows this exact order. Option 2 omits app initialization. Option 3 imports after initialization. Option 4 places decorator before app creation."
+    },
+    {
+      "id": "27.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "returning_json_responses_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q15"
+      ],
+      "prompt": "When returning JSON with additional HTTP status information, the pattern is: return jsonify(____), status=200. This ensures the client receives both the JSON payload and the correct HTTP status code.",
+      "correct_answer": "{'message': 'success'}",
+      "accepted_answers": [
+        "{'message': 'success'}",
+        "{'data': 'payload'}",
+        "{'result': 'ok'}"
+      ],
+      "explanation": "The standard Flask pattern for returning JSON with an explicit status code is return jsonify(data), status=CODE. The first argument to jsonify() must be a Python dictionary. The status parameter is a keyword argument that sets the HTTP status code. Common codes include 200 for success, 201 for created, 400 for bad request, and 500 for server error."
+    },
+    {
+      "id": "27.4_q17",
+      "type": "code_ordering",
+      "concept": "returning_json_responses_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q16"
+      ],
+      "prompt": "Arrange the code to implement a robust JSON endpoint that handles missing data by returning an error response with status 404. The algorithm must check data existence, prepare success or error JSON, and return with appropriate status.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct algorithm follows: (1) import dependencies, (2) initialize app, (3) define route, (4) initialize data (simulating a database query that returns None), (5) check if data is None with if, (6) return error JSON with 404 status if missing, (7) return success JSON with 200 status otherwise. Option 1 is correct. Option 2 checks data before initialization. Option 3 has unreachable code after return. Option 4 returns success when data is None and error when data exists, which is inverted logic."
+    },
+    {
+      "id": "27.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "returning_json_responses_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q17"
+      ],
+      "prompt": "A common Flask idiom for JSON responses is to use a helper function or pattern: return ____(data), status=status_code. This avoids repetition and ensures consistent response formatting across all endpoints.",
+      "correct_answer": "jsonify",
+      "accepted_answers": [
+        "jsonify",
+        "json_response"
+      ],
+      "explanation": "jsonify() is the canonical Flask function for creating JSON responses. The idiom return jsonify(data), status=CODE (or without status for default 200) promotes code reuse. Creating a wrapper like def json_response(data, status=200): return jsonify(data), status=status_code allows centralized modification of response behavior, such as adding CORS headers or logging. This pattern is essential for maintainable web APIs."
+    },
+    {
+      "id": "27.4_q19",
+      "type": "fix_the_code",
+      "concept": "returning_json_responses_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q18"
+      ],
+      "prompt": "A Flask route is supposed to return a JSON response, but the client receives an empty body with a 200 status. Inspect the code and identify the root cause.",
+      "starter_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/api/user')\ndef get_user():\n    user = {'name': 'Alice', 'id': 42}\n    return user",
+      "solution_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/api/user')\ndef get_user():\n    user = {'name': 'Alice', 'id': 42}\n    return jsonify(user)",
+      "hint": "Flask needs an explicit JSON wrapper to serialize the dictionary into a proper JSON HTTP response with the correct mimetype.",
+      "explanation": "Returning a raw Python dictionary from a Flask view does not set the Content-Type to application/json. The client may treat it as plain text or receive an empty response. Using jsonify() serializes the dict and sets the proper mimetype."
+    },
+    {
+      "id": "27.4_q20",
+      "type": "fix_the_code",
+      "concept": "returning_json_responses_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.4_q19"
+      ],
+      "prompt": "The following route should return a JSON list of products. Rewrite it so it returns valid JSON.",
+      "starter_code": "from flask import Flask\napp = Flask(__name__)\n@app.route('/products')\ndef list_products():\n    products = ['laptop', 'mouse', 'keyboard']\n    return products",
+      "solution_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/products')\ndef list_products():\n    products = ['laptop', 'mouse', 'keyboard']\n    return jsonify(products)",
+      "hint": "Import and use jsonify to wrap the list before returning.",
+      "explanation": "jsonify converts the Python list into a JSON string and ensures the response mimetype is application/json, which is required for proper client-side parsing."
+    },
+    {
+      "id": "27.4_q21",
+      "type": "fix_the_code",
+      "concept": "returning_json_responses_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q20"
+      ],
+      "prompt": "This endpoint returns user data, but when no user is found it returns None. Fix the route so it always returns valid JSON.",
+      "starter_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/user/<int:user_id>')\ndef get_user(user_id):\n    if user_id == 99:\n        return None\n    return jsonify({'id': user_id, 'name': 'Bob'})",
+      "solution_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/user/<int:user_id>')\ndef get_user(user_id):\n    if user_id == 99:\n        return jsonify({'error': 'Not found'}), 404\n    return jsonify({'id': user_id, 'name': 'Bob'})",
+      "hint": "Returning None produces an invalid JSON body. Return a JSON object with an error key and an appropriate HTTP status code.",
+      "explanation": "A None return in Flask results in an empty response body. To maintain a valid JSON contract, return a JSON error object and a 404 status when the resource is missing."
+    },
+    {
+      "id": "27.4_q22",
+      "type": "fix_the_code",
+      "concept": "returning_json_responses_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q21"
+      ],
+      "prompt": "The route below crashes at runtime with a TypeError. Explain why and how to prevent it.",
+      "starter_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/data')\ndef fetch_data():\n    data = {'value': 1 / 0}\n    return jsonify(data)",
+      "solution_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/data')\ndef fetch_data():\n    try:\n        value = 1 / 0\n    except ZeroDivisionError:\n        return jsonify({'error': 'Computation failed'}), 500\n    return jsonify({'value': value})",
+      "hint": "An unhandled exception inside the route prevents any response from being sent. Wrap risky operations in try/except and return JSON error details.",
+      "explanation": "When an exception is raised inside a Flask view, the framework returns a 500 Internal Server Error with an HTML traceback by default. Catching the exception and returning a JSON error object keeps the API contract consistent."
+    },
+    {
+      "id": "27.4_q23",
+      "type": "fix_the_code",
+      "concept": "returning_json_responses_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q22"
+      ],
+      "prompt": "The route should return active users as JSON and inactive users as an empty JSON object. The current logic is inverted. Correct it.",
+      "starter_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/users/<status>')\ndef get_users(status):\n    if status == 'active':\n        users = []\n        return jsonify(users)\n    return jsonify({'active': True})",
+      "solution_code": "from flask import Flask, jsonify\napp = Flask(__name__)\n@app.route('/users/<status>')\ndef get_users(status):\n    if status == 'active':\n        users = [{'id': 1, 'name': 'Carol'}]\n        return jsonify(users)\n    return jsonify({})",
+      "hint": "Check which branch returns the populated list and which returns the empty object. Swap the contents so active users are returned as a list.",
+      "explanation": "The starter code returns an empty list for active users and a JSON object with an unrelated key for inactive users. The fix ensures active users are returned as a populated JSON list and inactive users receive an empty JSON object."
+    },
+    {
+      "id": "27.4_q24",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.4_q23"
+      ],
+      "prompt": "Refactor the repeated JSON response logic into a reusable helper and apply it to multiple routes.",
+      "starter_code": "from flask import Flask, jsonify\napp = Flask(__name__)\ndef success(data):\n    return jsonify(data)\ndef failure(message, code=400):\n    return jsonify({'error': message}), code\n@app.route('/a')\ndef route_a():\n    return success({'a': 1})\n@app.route('/b')\ndef route_b():\n    return failure('bad input', 422)\n@app.route('/c')\ndef route_c():\n    return success({'c': 3})",
+      "solution_code": "from flask import Flask, jsonify\napp = Flask(__name__)\ndef json_response(data=None, error=None, status=200):\n    if error is not None:\n        return jsonify({'error': error}), status\n    return jsonify(data or {}), status\n@app.route('/a')\ndef route_a():\n    return json_response(data={'a': 1})\n@app.route('/b')\ndef route_b():\n    return json_response(error='bad input', status=422)\n@app.route('/c')\ndef route_c():\n    return json_response(data={'c': 3})",
+      "test_cases": [
+        {
+          "route": "/a",
+          "expected_status": 200,
+          "expected_body": {
+            "a": 1
+          }
+        },
+        {
+          "route": "/b",
+          "expected_status": 422,
+          "expected_body": {
+            "error": "bad input"
+          }
+        },
+        {
+          "route": "/c",
+          "expected_status": 200,
+          "expected_body": {
+            "c": 3
+          }
+        }
+      ],
+      "hint": "Create one helper that accepts optional data, error, and status, then use it across all route handlers to eliminate duplication.",
+      "explanation": "Consolidating JSON response creation into a single helper reduces duplication, enforces consistent status codes and mimetypes, and makes future changes—such as adding logging or default headers—trivial to apply across every endpoint."
+    },
+    {
+      "id": "27.4_q25",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q24"
+      ],
+      "prompt": "Write a Flask route that returns a JSON response containing a user's profile data.",
+      "starter_code": "from flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/profile/<int:user_id>')\ndef get_profile(user_id):\n    # TODO: return JSON with user_id and a sample name\n    pass",
+      "solution_code": "from flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/profile/<int:user_id>')\ndef get_profile(user_id):\n    user_data = {'user_id': user_id, 'name': 'Alice'}\n    return jsonify(user_data)",
+      "test_cases": [
+        {
+          "input": "GET /profile/42",
+          "expected": "200",
+          "description": "Valid integer user_id returns JSON"
+        },
+        {
+          "input": "GET /profile/abc",
+          "expected": "404",
+          "description": "Invalid non-integer user_id returns 404"
+        }
+      ],
+      "hint": "Use jsonify() from Flask to convert a Python dictionary into a JSON HTTP response.",
+      "explanation": "jsonify() serializes the dictionary and sets the Content-Type header to application/json. This ensures the client receives properly formatted JSON."
+    },
+    {
+      "id": "27.4_q26",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.4_q25"
+      ],
+      "prompt": "Extend the previous route to return a 404 JSON error when the user_id is not found in a mock database.",
+      "starter_code": "from flask import Flask, jsonify\n\napp = Flask(__name__)\n\nDATABASE = {1: {'name': 'Bob'}, 2: {'name': 'Carol'}}\n\n@app.route('/profile/<int:user_id>')\ndef get_profile(user_id):\n    # TODO: check DATABASE and return 200 JSON or 404 JSON\n    pass",
+      "solution_code": "from flask import Flask, jsonify\n\napp = Flask(__name__)\n\nDATABASE = {1: {'name': 'Bob'}, 2: {'name': 'Carol'}}\n\n@app.route('/profile/<int:user_id>')\ndef get_profile(user_id):\n    if user_id in DATABASE:\n        return jsonify(DATABASE[user_id]), 200\n    else:\n        return jsonify({'error': 'User not found'}), 404",
+      "test_cases": [
+        {
+          "input": "GET /profile/1",
+          "expected": "200",
+          "description": "Existing user returns profile JSON"
+        },
+        {
+          "input": "GET /profile/3",
+          "expected": "404",
+          "description": "Missing user returns error JSON with 404"
+        }
+      ],
+      "hint": "Return a tuple of (response, status_code) from the route to set custom HTTP status codes.",
+      "explanation": "Returning a tuple allows Flask to use the second element as the HTTP status code. This is essential for REST APIs to communicate success or failure to clients."
+    },
+    {
+      "id": "27.4_q27",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.4_q26"
+      ],
+      "prompt": "Create a Flask route that returns a JSON response including a datetime object. Implement a custom JSON encoder to serialize the datetime.",
+      "starter_code": "from flask import Flask, jsonify\nfrom datetime import datetime\n\napp = Flask(__name__)\n\nclass CustomEncoder(json.JSONEncoder):\n    def default(self, obj):\n        # TODO: handle datetime objects\n        return super().default(obj)\n\n@app.route('/event')\ndef get_event():\n    event_time = datetime(2024, 5, 15, 10, 30)\n    # TODO: return JSON with event_time using CustomEncoder\n    pass",
+      "solution_code": "from flask import Flask, jsonify\nfrom datetime import datetime\nimport json\n\napp = Flask(__name__)\n\nclass CustomEncoder(json.JSONEncoder):\n    def default(self, obj):\n        if isinstance(obj, datetime):\n            return obj.isoformat()\n        return super().default(obj)\n\napp.json_encoder = CustomEncoder\n\n@app.route('/event')\ndef get_event():\n    event_time = datetime(2024, 5, 15, 10, 30)\n    event_data = {'event_time': event_time, 'name': 'Launch'}\n    return jsonify(event_data)",
+      "test_cases": [
+        {
+          "input": "GET /event",
+          "expected": "200",
+          "description": "Event returns ISO-formatted datetime in JSON"
+        },
+        {
+          "input": "GET /event",
+          "expected": "application/json",
+          "description": "Content-Type header is set to application/json"
+        }
+      ],
+      "hint": "Assign your custom encoder to app.json_encoder so Flask uses it automatically for all jsonify() calls.",
+      "explanation": "JSON has no native datetime type, so custom encoders convert datetime objects into strings (e.g., ISO 8601 format) before serialization."
+    },
+    {
+      "id": "27.4_q28",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.4_q27"
+      ],
+      "prompt": "Given a list of product dictionaries, write a Flask route that filters by category and returns only matching products as JSON.",
+      "starter_code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\nPRODUCTS = [\n    {'id': 1, 'name': 'Laptop', 'category': 'Electronics'},\n    {'id': 2, 'name': 'Shirt', 'category': 'Clothing'},\n    {'id': 3, 'name': 'Phone', 'category': 'Electronics'}\n]\n\n@app.route('/products')\ndef list_products():\n    category = request.args.get('category')\n    # TODO: filter and return JSON\n    pass",
+      "solution_code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\nPRODUCTS = [\n    {'id': 1, 'name': 'Laptop', 'category': 'Electronics'},\n    {'id': 2, 'name': 'Shirt', 'category': 'Clothing'},\n    {'id': 3, 'name': 'Phone', 'category': 'Electronics'}\n]\n\n@app.route('/products')\ndef list_products():\n    category = request.args.get('category')\n    if category:\n        filtered = [p for p in PRODUCTS if p['category'] == category]\n    else:\n        filtered = PRODUCTS\n    return jsonify(filtered)",
+      "test_cases": [
+        {
+          "input": "GET /products?category=Electronics",
+          "expected": "200",
+          "description": "Filters by category correctly"
+        },
+        {
+          "input": "GET /products",
+          "expected": "200",
+          "description": "Returns all products when no filter provided"
+        }
+      ],
+      "hint": "Use a list comprehension to build the filtered list, then pass it directly to jsonify().",
+      "explanation": "Query parameters are accessed via request.args. Filtering before serialization keeps the JSON payload small and relevant to the client's request."
+    },
+    {
+      "id": "27.4_q29",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.4_q28"
+      ],
+      "prompt": "Design a real-world API endpoint for a blog that returns paginated posts as JSON. Include page and limit query parameters, default values, and an empty-list response when no posts match.",
+      "starter_code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\nPOSTS = [\n    {'id': 1, 'title': 'Intro to Flask'},\n    {'id': 2, 'title': 'JSON Basics'},\n    {'id': 3, 'title': 'Advanced Patterns'},\n    {'id': 4, 'title': 'Testing APIs'}\n]\n\n@app.route('/posts')\ndef get_posts():\n    # TODO: implement pagination with defaults, validation, and JSON response\n    pass",
+      "solution_code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\nPOSTS = [\n    {'id': 1, 'title': 'Intro to Flask'},\n    {'id': 2, 'title': 'JSON Basics'},\n    {'id': 3, 'title': 'Advanced Patterns'},\n    {'id': 4, 'title': 'Testing APIs'}\n]\n\n@app.route('/posts')\ndef get_posts():\n    page = request.args.get('page', 1, type=int)\n    limit = request.args.get('limit', 2, type=int)\n    if page < 1 or limit < 1:\n        return jsonify({'error': 'page and limit must be positive integers'}), 400\n    start = (page - 1) * limit\n    end = start + limit\n    paginated = POSTS[start:end]\n    return jsonify({'posts': paginated, 'page': page, 'limit': limit, 'total': len(POSTS)})",
+      "test_cases": [
+        {
+          "input": "GET /posts?page=1&limit=2",
+          "expected": "200",
+          "description": "First page returns first two posts"
+        },
+        {
+          "input": "GET /posts?page=3&limit=2",
+          "expected": "200",
+          "description": "Third page returns remaining posts"
+        },
+        {
+          "input": "GET /posts?page=0&limit=2",
+          "expected": "400",
+          "description": "Invalid page returns error JSON"
+        }
+      ],
+      "hint": "Use request.args.get() with a default and type=int to safely parse integers. Slice the list using (page - 1) * limit and (page - 1) * limit + limit.",
+      "explanation": "Pagination prevents overwhelming the client with large datasets. Returning metadata (page, limit, total) helps clients build navigation controls."
+    },
+    {
+      "id": "27.4_q30",
+      "type": "write_the_code",
+      "concept": "returning_json_responses_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.4_q29"
+      ],
+      "prompt": "Build a Flask route that accepts a list of scores via JSON POST body, computes average, min, and max, and returns a nested JSON summary.",
+      "starter_code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\n@app.route('/scores/summary', methods=['POST'])\ndef score_summary():\n    data = request.get_json()\n    # TODO: validate input, compute stats, and return nested JSON\n    pass",
+      "solution_code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\n\n@app.route('/scores/summary', methods=['POST'])\ndef score_summary():\n    data = request.get_json()\n    if not data or 'scores' not in data or not isinstance(data['scores'], list):\n        return jsonify({'error': 'Invalid input: scores list required'}), 400\n    scores = data['scores']\n    if not scores:\n        return jsonify({'error': 'Scores list cannot be empty'}), 400\n    summary = {\n        'average': sum(scores) / len(scores),\n        'min': min(scores),\n        'max': max(scores),\n        'count': len(scores)\n    }\n    return jsonify({'summary': summary})",
+      "test_cases": [
+        {
+          "input": "POST /scores/summary with {'scores': [80, 90, 100]}",
+          "expected": "200",
+          "description": "Valid scores return nested summary JSON"
+        },
+        {
+          "input": "POST /scores/summary with {'scores': []}",
+          "expected": "400",
+          "description": "Empty list returns error JSON"
+        },
+        {
+          "input": "POST /scores/summary with no body",
+          "expected": "400",
+          "description": "Missing JSON returns error JSON"
+        }
+      ],
+      "hint": "Use request.get_json() to parse the request body, then validate presence and type of the 'scores' key before computing statistics.",
+      "explanation": "Robust APIs validate incoming payloads to avoid runtime errors. Returning a nested structure keeps related statistics grouped and easy for clients to consume."
+    }
+  ],
+  "unit_num": 27,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Returning JSON Responses",
+    "Apply idiomatic Python patterns when working with Returning JSON Responses",
+    "Debug common runtime exceptions and logic errors associated with Returning JSON Responses",
+    "Implement production-ready code utilizing Returning JSON Responses"
+  ],
+  "prerequisites": [
+    "27.3"
+  ]
+}

@@ -1,0 +1,723 @@
+{
+  "lesson_id": "12.4",
+  "title": "Tracing Variable State",
+  "unit": "Errors and Basic Debugging",
+  "items": [
+    {
+      "id": "12.4_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "tracing_variable_state_basics",
+      "title": "What Is Tracing a Variable?",
+      "content": "Tracing a variable means following its value as your program runs, line by line. When you trace, you ask: 'What is stored in this variable right now?' This skill is essential for spotting bugs early. Consider this example:\n\n```python\nx = 5\nprint(x)\nx = x + 3\nprint(x)\n```\n\nOn the first line, x holds 5. After the second line, x still holds 5. After the third line, x becomes 8. By tracing each assignment, you can predict outputs and catch mistakes before they cause errors.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+    },
+    {
+      "id": "12.4_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "tracing_variable_state_basics",
+      "prompt": "After executing the following code, what is the final value of score?",
+      "options": [
+        "5",
+        "8",
+        "13",
+        "0"
+      ],
+      "correct_answer": "8",
+      "explanation": "score starts at 5, then 3 is added, giving 8. Tracing each line confirms the final value is 8.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q1"
+      ]
+    },
+    {
+      "id": "12.4_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "tracing_variable_state_syntax",
+      "title": "Using print() to Trace Variables",
+      "content": "The simplest way to trace a variable is to print it. Place print() right after the assignment you want to inspect. This reveals the current state without changing the program. Example:\n\n```python\nage = 10\nprint(age)  # Trace: age is 10\nage = age * 2\nprint(age)  # Trace: age is now 20\n```\n\nNotice that print(age) displays the value at that exact moment. You can trace multiple variables on one line using commas:\n\n```python\na = 1\nb = 2\nprint(a, b)\n```\n\nThis prints '1 2', helping you verify both states simultaneously.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q2"
+      ],
+      "prompt": "",
+      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+    },
+    {
+      "id": "12.4_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "tracing_variable_state_syntax",
+      "prompt": "What does this code print, and why?",
+      "options": [
+        "It prints 5 because x is traced before reassignment.",
+        "It prints 5 and then 15 because x is traced after each update.",
+        "It prints 15 only because the first print is ignored.",
+        "It causes an error because x is not defined."
+      ],
+      "correct_answer": "It prints 5 and then 15 because x is traced after each update.",
+      "explanation": "The first print shows x = 5. The reassignment x = x + 10 updates x to 15. The second print shows 15. Tracing after each line gives the correct sequence.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q3"
+      ]
+    },
+    {
+      "id": "12.4_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "tracing_variable_state_matching",
+      "prompt": "Match the trace step to the correct line of code.",
+      "options": [
+        "Line 1: x = 4  ->  Trace: x is 4",
+        "Line 2: print(x)  ->  Trace: x is 4",
+        "Line 3: x = x + 2  ->  Trace: x is 4",
+        "Line 4: print(x)  ->  Trace: x is 6"
+      ],
+      "correct_answer": "Line 1: x = 4  ->  Trace: x is 4",
+      "explanation": "After Line 1, x is assigned 4. The trace immediately after this assignment records the value 4. The other options describe different lines or incorrect values.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q4"
+      ]
+    },
+    {
+      "id": "12.4_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "tracing_variable_state_pitfalls",
+      "prompt": "Which common mistake can be caught by tracing variable state early?",
+      "options": [
+        "Forgetting to indent a block.",
+        "Using the wrong operator in an assignment.",
+        "Accidentally reusing a variable name and overwriting its value.",
+        "Missing a colon after an if statement."
+      ],
+      "correct_answer": "Accidentally reusing a variable name and overwriting its value.",
+      "explanation": "Tracing reveals when a variable's value changes unexpectedly. If you reuse a name like total for a different purpose, the old value is lost. Catching this early prevents logic errors.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q5"
+      ]
+    },
+    {
+      "id": "12.4_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "tracing_variable_state_execution",
+      "micro_lesson": {
+        "title": "Predicting Variable Changes Step by Step",
+        "content": "When tracing variable state, we follow the program line by line to see how values change. Consider this code:\n\n```python\na = 5\nb = a + 3\na = b - 1\nprint(a)\n```\n\nStart with `a = 5`. Then `b` becomes `5 + 3 = 8`. Finally, `a` is updated to `8 - 1 = 7`. The final output is `7`. Always update variables in order and use the most recent value."
+      },
+      "prompt": "What is the final value of `x` after this code runs?\n\n```python\nx = 10\ny = x * 2\nx = y // 3\nprint(x)\n```",
+      "options": [
+        "6",
+        "7",
+        "3",
+        "20"
+      ],
+      "correct_answer": "6",
+      "explanation": "First, `y` becomes `10 * 2 = 20`. Then `x` is updated to `20 // 3`, which is integer division resulting in `6`. The final print outputs `6`.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q6"
+      ]
+    },
+    {
+      "id": "12.4_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "tracing_variable_state_execution",
+      "micro_lesson": {
+        "title": "Reading Output from Sequential Assignments",
+        "content": "Output prediction requires tracking each variable through every assignment. Watch for reassignments and type conversions. In this example, `name` is first set to a string, then `age` is computed, and finally `name` is updated with a greeting. The `print` statements use the values at the moment they execute.\n\n```python\nname = 'Alice'\nage = 12\nname = name + ' is ' + str(age) + ' years old'\nprint(name)\n```\n\nNotice that `str(age)` converts the integer to a string so concatenation works."
+      },
+      "prompt": "What is printed by this code?\n\n```python\nscore = 85\nbonus = 10\nscore = score + bonus\nprint(score)\n```",
+      "options": [
+        "85",
+        "95",
+        "10",
+        "950"
+      ],
+      "correct_answer": "95",
+      "explanation": "`score` starts at `85`. `bonus` is `10`. The line `score = score + bonus` updates `score` to `95`. The `print(score)` outputs `95`.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q7"
+      ]
+    },
+    {
+      "id": "12.4_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "tracing_variable_state_flow",
+      "micro_lesson": {
+        "title": "Following Control Flow and Variable Updates",
+        "content": "Control flow changes which lines execute. When tracing, check conditions before assuming all lines run. In this snippet, `total` is modified inside a loop, and `multiplier` affects the final value. Trace each iteration carefully.\n\n```python\ntotal = 0\nmultiplier = 3\nfor i in range(2):\n    total = total + i\n    multiplier = multiplier + 1\nfinal = total * multiplier\nprint(final)\n```\n\nFirst iteration: `i = 0`, `total = 0`, `multiplier = 4`. Second iteration: `i = 1`, `total = 1`, `multiplier = 5`. `final = 1 * 5 = 5`."
+      },
+      "prompt": "What value does `result` hold after this code executes?\n\n```python\nresult = 0\nfor i in range(3):\n    result = result + i\n    if i == 1:\n        result = result + 10\nprint(result)\n```",
+      "options": [
+        "6",
+        "12",
+        "15",
+        "16"
+      ],
+      "correct_answer": "15",
+      "explanation": "Iteration 0: `result = 0 + 0 = 0`. Iteration 1: `result = 0 + 1 = 1`, then `result = 1 + 10 = 11`. Iteration 2: `result = 11 + 2 = 13`. The final `print(result)` outputs `13`.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q8"
+      ]
+    },
+    {
+      "id": "12.4_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "tracing_variable_state_analysis",
+      "micro_lesson": {
+        "title": "Analyzing Why a Program Produces a Specific Output",
+        "content": "When analyzing output, compare the expected trace against the actual result. Common mistakes include reading a variable before it is assigned or using an outdated value after reassignment. Consider this code:\n\n```python\na = 4\nb = a + 2\na = b - 3\nprint(b)\n```\n\nThe output is `6` because `a` starts at `4`, `b` becomes `6`, and `a` is later reduced to `3`, but `b` is never changed again."
+      },
+      "prompt": "This code is intended to calculate the perimeter of a rectangle with length 5 and width 3, but it produces an unexpected output. Explain why the output is 8 instead of the expected 16.\n\n```python\nlength = 5\nwidth = 3\nperimeter = length + width\nprint(perimeter)\n```",
+      "correct_answer": "The formula used only adds length and width, not twice each.",
+      "explanation": "The code computes `length + width = 5 + 3 = 8`. A rectangle perimeter is `2 * (length + width)`, so the correct value should be `16`. The bug is an incorrect formula, not a type error or placement issue.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q9"
+      ],
+      "starter_code": "# TODO: Implement solution for Tracing Variable State\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Tracing Variable State')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Tracing Variable State"
+        }
+      ]
+    },
+    {
+      "id": "12.4_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "tracing_variable_state_tracing",
+      "micro_lesson": {
+        "title": "Systematic Line-by-Line Tracing",
+        "content": "Systematic tracing means recording variable values in a table or list as you go. This prevents skipping steps. For the following code, create a trace table:\n\n```python\nx = 2\ny = 5\nx = x + y\ny = x - 3\nprint(x, y)\n```\n\nAfter line 1: `x = 2`. After line 2: `y = 5`. After line 3: `x = 2 + 5 = 7`. After line 4: `y = 7 - 3 = 4`. Final output: `7 4`."
+      },
+      "prompt": "Trace the values of `p` and `q` after each line and give the final output.\n\n```python\np = 1\nq = 4\np = q + 2\nq = p - q\nprint(p, q)\n```",
+      "options": [
+        "p = 6, q = 2; output: 6 2",
+        "p = 3, q = 4; output: 3 4",
+        "p = 6, q = 4; output: 6 4",
+        "p = 5, q = 1; output: 5 1"
+      ],
+      "correct_answer": "p = 6, q = 2; output: 6 2",
+      "explanation": "After `p = 1, q = 4`. Then `p = 4 + 2 = 6`. Then `q = 6 - 4 = 2`. The final print outputs `6 2`.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q10"
+      ]
+    },
+    {
+      "id": "12.4_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "tracing_variable_state_logic",
+      "micro_lesson": {
+        "title": "Combining Logic and Variable State for Output Prediction",
+        "content": "When logic and state interact, trace both the condition and the variables. Here, `count` is incremented inside a conditional block. The `if` guard determines whether the update happens, which directly affects the final output.\n\n```python\ncount = 0\nif count < 5:\n    count = count + 1\nprint(count)\n```\n\nSince `count` starts at `0`, the condition is true, so `count` becomes `1`. The output is `1`."
+      },
+      "prompt": "What is printed by this code?\n\n```python\nvalue = 10\nif value > 5:\n    value = value - 3\nelse:\n    value = value + 3\nprint(value)\n```",
+      "options": [
+        "10",
+        "7",
+        "13",
+        "3"
+      ],
+      "correct_answer": "7",
+      "explanation": "`value` starts at `10`. The condition `10 > 5` is true, so the `if` branch runs and `value` becomes `10 - 3 = 7`. The `else` branch is skipped. The final print outputs `7`.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q11"
+      ]
+    },
+    {
+      "id": "12.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "tracing_variable_state_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q12"
+      ],
+      "prompt": "When tracing a variable's state, you can use the built-in function ____ to display its value in the console.",
+      "correct_answer": "print",
+      "accepted_answers": [
+        "print",
+        "print()"
+      ],
+      "explanation": "The print() function is used to output the current value of a variable to the console during tracing."
+    },
+    {
+      "id": "12.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "tracing_variable_state_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q13"
+      ],
+      "prompt": "To pause execution and inspect a variable's state, developers often use the keyword ____ in debugging workflows.",
+      "correct_answer": "breakpoint",
+      "accepted_answers": [
+        "breakpoint",
+        "breakpoint()"
+      ],
+      "explanation": "The breakpoint() keyword (or simply breakpoint) creates a debugging stop point where you can examine variable states."
+    },
+    {
+      "id": "12.4_q15",
+      "type": "code_ordering",
+      "concept": "tracing_variable_state_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to trace the variable x through each step:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First assign the initial value, then update it, and finally print the result to trace the state change."
+    },
+    {
+      "id": "12.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "tracing_variable_state_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q15"
+      ],
+      "prompt": "A common tracing pattern uses an f-string like: print(f'x = ____').",
+      "correct_answer": "{x}",
+      "accepted_answers": [
+        "{x}",
+        "{x}"
+      ],
+      "explanation": "Inside an f-string, curly braces {} embed the variable value directly into the output string."
+    },
+    {
+      "id": "12.4_q17",
+      "type": "code_ordering",
+      "concept": "tracing_variable_state_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q16"
+      ],
+      "prompt": "Order these lines to correctly trace how total grows inside a loop:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Initialize the accumulator before the loop, update it inside the loop, and print after the loop to trace final state."
+    },
+    {
+      "id": "12.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "tracing_variable_state_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q17"
+      ],
+      "prompt": "The debugging idiom '____' is often used to quickly trace a variable without extra formatting.",
+      "correct_answer": "print(var)",
+      "accepted_answers": [
+        "print(var)",
+        "print(x)",
+        "print(value)"
+      ],
+      "explanation": "A bare print(variable) call is a quick idiom to inspect state during debugging before adding labels."
+    },
+    {
+      "id": "12.4_q19",
+      "type": "fix_the_code",
+      "concept": "tracing_variable_state_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Variable State Errors",
+        "content": "When debugging, tracing variable state means tracking how a variable's value changes through execution. A common error is using a variable before it is assigned or after it has been overwritten. Consider this code:\n\n```\nx = 10\ny = x + 5\nx = 'hello'\nprint(y + x)\n```\n\nAt the final line, `y` is 15 but `x` is now the string `'hello'`. Adding an integer and a string raises a `TypeError`. Always trace each variable's value at every step to catch such mismatches early."
+      },
+      "prompt": "Fix the bug in this code for tracing variable state errors:",
+      "starter_code": "# Fix this code\nPrint('Tracing Variable State')",
+      "solution_code": "print('Tracing Variable State')",
+      "explanation": "This exercise tests `tracing variable state errors` in Tracing Variable State. When Python validates this code, it applies the standard rules of tracing variable state errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "12.4_q20",
+      "type": "fix_the_code",
+      "concept": "tracing_variable_state_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "12.4_q19"
+      ],
+      "prompt": "The code below tries to calculate a total but contains a variable state bug. Fix it so it runs correctly.",
+      "starter_code": "count = 0\nfor i in range(3):\n    count = i\nprint('Total:', count + 1)\n",
+      "solution_code": "count = 0\ntotal = 0\nfor i in range(3):\n    total = total + i\nprint('Total:', total + 1)\n",
+      "hint": "The variable `count` is overwritten in each loop iteration. Use a separate accumulator variable.",
+      "explanation": "The original code overwrites `count` with each loop value, so it ends at 2. By introducing `total` as an accumulator and adding each `i` to it, the final sum is 3, and adding 1 gives 4. This demonstrates why tracing variable state matters."
+    },
+    {
+      "id": "12.4_q21",
+      "type": "fix_the_code",
+      "concept": "tracing_variable_state_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q20"
+      ],
+      "prompt": "This function is meant to return the largest number seen, but it fails on an empty list. Fix the variable initialization and loop logic.",
+      "starter_code": "def max_value(nums):\n    best = 0\n    for n in nums:\n        if n > best:\n            best = n\n    return best\n",
+      "solution_code": "def max_value(nums):\n    if not nums:\n        return None\n    best = nums[0]\n    for n in nums[1:]:\n        if n > best:\n            best = n\n    return best\n",
+      "hint": "Initializing `best` to 0 fails when all numbers are negative or the list is empty. Start with the first element.",
+      "explanation": "The edge case of an empty list or all-negative values caused incorrect results. By setting `best` to `nums[0]` after checking the list is non-empty, the function correctly traces the maximum variable state across all inputs."
+    },
+    {
+      "id": "12.4_q22",
+      "type": "fix_the_code",
+      "concept": "tracing_variable_state_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Variable State Tracking",
+        "content": "Runtime errors often stem from unexpected variable states. A classic example is modifying a list inside a function and expecting the original list to remain unchanged. Trace the variable by printing its state at key points. Consider:\n\n```\ndef modify(items):\n    items.append(4)\n    return items\n\na = [1, 2, 3]\nb = a\nc = modify(b)\nprint(a)\n```\n\nHere, `a` and `b` reference the same list object. Calling `modify(b)` mutates that shared object, so `a` also changes. Understanding object identity and reference state is essential for debugging runtime behavior."
+      },
+      "prompt": "Fix the bug in this code for tracing variable state runtime:",
+      "starter_code": "# Fix this code\nPrint('Tracing Variable State')",
+      "solution_code": "print('Tracing Variable State')",
+      "explanation": "This exercise tests `tracing variable state runtime` in Tracing Variable State. When Python validates this code, it applies the standard rules of tracing variable state runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "12.4_q23",
+      "type": "fix_the_code",
+      "concept": "tracing_variable_state_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q22"
+      ],
+      "prompt": "The following code attempts to classify a number but has a logic error in variable state updates. Correct the conditional branches.",
+      "starter_code": "def classify(n):\n    status = 'unknown'\n    if n > 0:\n        status = 'positive'\n    if n == 0:\n        status = 'positive'\n    return status\n",
+      "solution_code": "def classify(n):\n    status = 'unknown'\n    if n > 0:\n        status = 'positive'\n    elif n == 0:\n        status = 'zero'\n    return status\n",
+      "hint": "The second `if` should be `elif` and the zero case needs its own status string.",
+      "explanation": "The original code set `status` to 'positive' for zero because the second `if` executed after the first. Using `elif` ensures only one branch runs, and assigning 'zero' to the zero case correctly repairs the logic."
+    },
+    {
+      "id": "12.4_q24",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "12.4_q23"
+      ],
+      "prompt": "Refactor this repetitive function to reduce redundant variable assignments and improve clarity while preserving behavior.",
+      "starter_code": "def compute_scores(scores):\n    total = 0\n    count = 0\n    for s in scores:\n        total = total + s\n        count = count + 1\n    average = total / count\n    return total, average\n",
+      "solution_code": "def compute_scores(scores):\n    total = sum(scores)\n    count = len(scores)\n    if count == 0:\n        return 0, 0\n    average = total / count\n    return total, average\n",
+      "test_cases": [
+        {
+          "input": "[10, 20, 30]",
+          "expected": [
+            60,
+            20.0
+          ]
+        },
+        {
+          "input": "[5, 5, 5, 5]",
+          "expected": [
+            20,
+            5.0
+          ]
+        },
+        {
+          "input": "[]",
+          "expected": [
+            0,
+            0
+          ]
+        }
+      ],
+      "hint": "Use built-in functions `sum` and `len`, and guard against division by zero.",
+      "explanation": "The original version manually accumulated `total` and `count` with loop variables, which is error-prone and verbose. The refactored version uses `sum` and `len` to compute state in one line each, adds a guard for empty lists, and returns the same tuple. This reduces cognitive load when tracing variable state."
+    },
+    {
+      "id": "12.4_q25",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q24"
+      ],
+      "prompt": "Write a Python function called `trace_and_sum` that takes a list of numbers. Inside the function, print the value of the running total after each number is added. Return the final sum.",
+      "starter_code": "def trace_and_sum(numbers):\n    total = 0\n    # TODO: add tracing logic and return total\n    return total\n\n# Example usage\nresult = trace_and_sum([10, 20, 30])",
+      "solution_code": "def trace_and_sum(numbers):\n    total = 0\n    for num in numbers:\n        total = total + num\n        print('After adding', num, 'the total is', total)\n    return total\n\n# Example usage\nresult = trace_and_sum([10, 20, 30])\n# Expected prints:\n# After adding 10 the total is 10\n# After adding 20 the total is 30\n# After adding 30 the total is 60",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3]",
+          "expected_output": "6",
+          "expected_prints": [
+            "After adding 1 the total is 1",
+            "After adding 2 the total is 3",
+            "After adding 3 the total is 6"
+          ]
+        },
+        {
+          "input": "[]",
+          "expected_output": "0",
+          "expected_prints": []
+        }
+      ],
+      "hint": "Initialize a variable before the loop, update it inside the loop, and use `print()` to show the intermediate state.",
+      "explanation": "This item practices tracing a variable's state by logging its value after each update. Students must track how `total` changes and verify that the final returned value matches the cumulative sum."
+    },
+    {
+      "id": "12.4_q26",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "12.4_q25"
+      ],
+      "prompt": "Write a Python function `find_max_with_trace` that finds the maximum value in a list. Print the current maximum after each comparison. Return the maximum value.",
+      "starter_code": "def find_max_with_trace(values):\n    max_val = None\n    # TODO: implement comparison and tracing\n    return max_val\n\n# Example usage\nprint(find_max_with_trace([5, 2, 9, 1]))",
+      "solution_code": "def find_max_with_trace(values):\n    if not values:\n        return None\n    max_val = values[0]\n    print('Initial max:', max_val)\n    for val in values[1:]:\n        if val > max_val:\n            max_val = val\n        print('Current max after comparing', val, 'is', max_val)\n    return max_val\n\n# Example usage\nprint(find_max_with_trace([5, 2, 9, 1]))\n# Expected prints:\n# Initial max: 5\n# Current max after comparing 2 is 5\n# Current max after comparing 9 is 9\n# Current max after comparing 1 is 9",
+      "test_cases": [
+        {
+          "input": "[4, 4, 4]",
+          "expected_output": "4",
+          "expected_prints": [
+            "Initial max: 4",
+            "Current max after comparing 4 is 4",
+            "Current max after comparing 4 is 4"
+          ]
+        },
+        {
+          "input": "[-3, -1, -7]",
+          "expected_output": "-1",
+          "expected_prints": [
+            "Initial max: -3",
+            "Current max after comparing -1 is -1",
+            "Current max after comparing -7 is -1"
+          ]
+        }
+      ],
+      "hint": "Start with the first element as the initial maximum. Loop through the rest and update only when a larger value is found.",
+      "explanation": "This builds on tracing by requiring students to observe how a tracked variable (`max_val`) evolves during conditional updates, reinforcing the connection between code execution and variable state."
+    },
+    {
+      "id": "12.4_q27",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "12.4_q26"
+      ],
+      "prompt": "Write a Python function `simulate_bank_account` that processes a list of transactions. Each transaction is a tuple `(action, amount)` where `action` is `'deposit'` or `'withdraw'`. Print the balance after every transaction and return the final balance. If a withdrawal exceeds the balance, print an error and skip that transaction.",
+      "starter_code": "def simulate_bank_account(transactions):\n    balance = 0\n    # TODO: process each transaction with tracing and error handling\n    return balance\n\n# Example usage\ntransactions = [('deposit', 100), ('withdraw', 50), ('withdraw', 200), ('deposit', 30)]\nprint(simulate_bank_account(transactions))",
+      "solution_code": "def simulate_bank_account(transactions):\n    balance = 0\n    print('Starting balance:', balance)\n    for action, amount in transactions:\n        if action == 'deposit':\n            balance = balance + amount\n        elif action == 'withdraw':\n            if amount > balance:\n                print('Error: insufficient funds for withdrawal of', amount)\n            else:\n                balance = balance - amount\n        else:\n            print('Error: unknown action', action)\n            continue\n        print('Balance after', action, 'of', amount, 'is', balance)\n    return balance\n\n# Example usage\ntransactions = [('deposit', 100), ('withdraw', 50), ('withdraw', 200), ('deposit', 30)]\nprint(simulate_bank_account(transactions))\n# Expected prints:\n# Starting balance: 0\n# Balance after deposit of 100 is 100\n# Balance after withdraw of 50 is 50\n# Error: insufficient funds for withdrawal of 200\n# Balance after deposit of 30 is 80",
+      "test_cases": [
+        {
+          "input": "[('deposit', 50), ('withdraw', 25), ('withdraw', 100)]",
+          "expected_output": "25",
+          "expected_prints": [
+            "Starting balance: 0",
+            "Balance after deposit of 50 is 50",
+            "Balance after withdraw of 25 is 25",
+            "Error: insufficient funds for withdrawal of 100"
+          ]
+        },
+        {
+          "input": "[('withdraw', 10), ('deposit', 5)]",
+          "expected_output": "-5",
+          "expected_prints": [
+            "Starting balance: 0",
+            "Error: insufficient funds for withdrawal of 10",
+            "Balance after deposit of 5 is 5"
+          ]
+        }
+      ],
+      "hint": "Use an `if-elif` chain to branch by action. Check the withdrawal condition before updating the balance, and always print the balance after a valid update.",
+      "explanation": "This advanced item requires tracking a mutable state across multiple operations with conditional logic and error cases, simulating real debugging scenarios where incorrect assumptions about variable state lead to failures."
+    },
+    {
+      "id": "12.4_q28",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "12.4_q27"
+      ],
+      "prompt": "You are given a buggy function below. Identify the error by tracing the variable `counter` through each loop iteration. Then fix the code so it correctly counts how many items in a list are greater than 10.",
+      "starter_code": "def count_greater_than_10(items):\n    counter = 0\n    for item in items:\n        if item > 10:\n            counter = counter + 1\n        print('item is', item, 'counter is', counter)\n    return counter\n\n# Test\nprint(count_greater_than_10([5, 12, 8, 15]))",
+      "solution_code": "def count_greater_than_10(items):\n    counter = 0\n    for item in items:\n        if item > 10:\n            counter = counter + 1\n        print('item is', item, 'counter is', counter)\n    return counter\n\n# Test\nprint(count_greater_than_10([5, 12, 8, 15]))\n# Expected prints:\n# item is 5 counter is 0\n# item is 12 counter is 1\n# item is 8 counter is 1\n# item is 15 counter is 2",
+      "test_cases": [
+        {
+          "input": "[11, 11, 11]",
+          "expected_output": "3",
+          "expected_prints": [
+            "item is 11 counter is 1",
+            "item is 11 counter is 2",
+            "item is 11 counter is 3"
+          ]
+        },
+        {
+          "input": "[1, 2, 3]",
+          "expected_output": "0",
+          "expected_prints": [
+            "item is 1 counter is 0",
+            "item is 2 counter is 0",
+            "item is 3 counter is 0"
+          ]
+        }
+      ],
+      "hint": "Trace `counter` manually for the first test case. Notice that the logic is actually correct; the challenge is to verify this by stepping through each iteration.",
+      "explanation": "This mini-challenge forces learners to simulate execution mentally or with print statements to validate variable state transitions, a core debugging skill when code appears correct but produces unexpected results."
+    },
+    {
+      "id": "12.4_q29",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "12.4_q28"
+      ],
+      "prompt": "A retail system logs daily sales as a list of numbers. A developer wrote a function to compute a running average after each sale, but the reported averages are consistently too high. Trace the variable states to find the bug, then correct the implementation.",
+      "starter_code": "def running_average(sales):\n    total = 0\n    count = 0\n    averages = []\n    for sale in sales:\n        total = total + sale\n        count = count + 1\n        avg = total / count\n        averages.append(avg)\n        print('After sale', sale, 'running average is', avg)\n    return averages\n\n# Example\nprint(running_average([100, 200, 300]))",
+      "solution_code": "def running_average(sales):\n    total = 0\n    count = 0\n    averages = []\n    for sale in sales:\n        total = total + sale\n        count = count + 1\n        avg = total / count\n        averages.append(avg)\n        print('After sale', sale, 'running average is', avg)\n    return averages\n\n# Example\nprint(running_average([100, 200, 300]))\n# Expected prints:\n# After sale 100 running average is 100.0\n# After sale 200 running average is 150.0\n# After sale 300 running average is 200.0",
+      "test_cases": [
+        {
+          "input": "[50, 50, 50]",
+          "expected_output": [
+            "50.0",
+            "50.0",
+            "50.0"
+          ],
+          "expected_prints": [
+            "After sale 50 running average is 50.0",
+            "After sale 50 running average is 50.0",
+            "After sale 50 running average is 50.0"
+          ]
+        },
+        {
+          "input": "[0, 100]",
+          "expected_output": [
+            "0.0",
+            "50.0"
+          ],
+          "expected_prints": [
+            "After sale 0 running average is 0.0",
+            "After sale 100 running average is 50.0"
+          ]
+        }
+      ],
+      "hint": "The original code is actually correct. The scenario asks you to trace `total`, `count`, and `avg` to confirm that the running average is computed as `total / count` after each update.",
+      "explanation": "In this synthesis task, students must trace multiple interacting variables (`total`, `count`, `avg`) across iterations, then explain why the algorithm produces the correct running average, connecting tracing to real-world data validation."
+    },
+    {
+      "id": "12.4_q30",
+      "type": "write_the_code",
+      "concept": "tracing_variable_state_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "12.4_q29"
+      ],
+      "prompt": "A function is supposed to return the index of the first element in a list that is greater than its predecessor. If no such element exists, return -1. The provided implementation has a subtle off-by-one error in variable state tracking. Trace the indices and values to locate and fix the bug.",
+      "starter_code": "def first_increase(values):\n    prev = values[0]\n    for i in range(len(values)):\n        current = values[i]\n        if current > prev:\n            return i\n        prev = current\n    return -1\n\n# Test\nprint(first_increase([3, 3, 4, 2]))",
+      "solution_code": "def first_increase(values):\n    if not values:\n        return -1\n    prev = values[0]\n    for i in range(1, len(values)):\n        current = values[i]\n        if current > prev:\n            return i\n        prev = current\n    return -1\n\n# Test\nprint(first_increase([3, 3, 4, 2]))\n# Expected output: 2\n# Trace:\n# i = 1: current = 3, prev = 3, no increase\n# i = 2: current = 4, prev = 3, increase found, return 2",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3, 4]",
+          "expected_output": "1",
+          "expected_trace": [
+            "i = 1: current = 2, prev = 1, increase found, return 1"
+          ]
+        },
+        {
+          "input": "[5, 4, 3, 2, 1]",
+          "expected_output": "-1",
+          "expected_trace": [
+            "i = 1: current = 4, prev = 5, no increase",
+            "i = 2: current = 3, prev = 4, no increase",
+            "i = 3: current = 2, prev = 3, no increase",
+            "i = 4: current = 1, prev = 2, no increase",
+            "return -1"
+          ]
+        },
+        {
+          "input": "[10]",
+          "expected_output": "-1",
+          "expected_trace": [
+            "loop does not execute, return -1"
+          ]
+        }
+      ],
+      "hint": "The loop starts at index 0, so `prev` and `current` compare the same element initially. Start the loop at index 1 and initialize `prev` with the first element.",
+      "explanation": "This mastery challenge requires precise tracing of loop indices and variable assignments across edge cases. Students must diagnose an off-by-one error by comparing intended behavior against actual state transitions, demonstrating expert-level debugging."
+    }
+  ],
+  "unit_num": 12,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Tracing Variable State",
+    "Apply idiomatic Python patterns when working with Tracing Variable State",
+    "Debug common runtime exceptions and logic errors associated with Tracing Variable State",
+    "Implement production-ready code utilizing Tracing Variable State"
+  ],
+  "prerequisites": [
+    "12.3"
+  ]
+}

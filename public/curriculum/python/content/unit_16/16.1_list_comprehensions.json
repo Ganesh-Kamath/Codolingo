@@ -1,0 +1,619 @@
+{
+  "lesson_id": "16.1",
+  "title": "List Comprehensions",
+  "unit": "Comprehensions",
+  "items": [
+    {
+      "id": "16.1_q1",
+      "type": "micro_lesson",
+      "concept": "list_comprehensions_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Introduction to List Comprehensions",
+      "content": "A list comprehension is a concise way to create lists in Python. Instead of writing a full for loop with append, you can express the same logic in a single readable line. The basic pattern is [expression for item in iterable]. For example, to create a list of squares from 0 to 4, you can write: [x ** 2 for x in range(5)]. This replaces:\n\nnumbers = [0, 1, 2, 3, 4]\nsquares = []\nfor n in numbers:\n    squares.append(n ** 2)\n\nList comprehensions make your code shorter and often faster.",
+      "prompt": "",
+      "explanation": "A list comprehension is a concise way to create lists in Python. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "16.1_q2",
+      "type": "multiple_choice",
+      "concept": "list_comprehensions_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q1"
+      ],
+      "prompt": "Which of the following is a valid list comprehension that creates a list of even numbers from 0 to 9?",
+      "options": [
+        "[x for x in range(10) if x % 2 == 0]",
+        "for x in range(10) if x % 2 == 0: [x]",
+        "[x if x % 2 == 0 for x in range(10)]",
+        "list(x for x in range(10) if x % 2 == 0)"
+      ],
+      "correct_answer": "[x for x in range(10) if x % 2 == 0]",
+      "explanation": "The correct syntax is [expression for item in iterable if condition]. Option A follows this pattern exactly. Option B is a for loop, not a list comprehension. Option C places the condition in the wrong position. Option D uses a generator expression inside list(), which is valid Python but not a list comprehension itself."
+    },
+    {
+      "id": "16.1_q3",
+      "type": "micro_lesson",
+      "concept": "list_comprehensions_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q2"
+      ],
+      "title": "Syntax of a List Comprehension",
+      "content": "The full syntax of a list comprehension is [expression for target in iterable if condition]. The expression is evaluated for each item in the iterable. The if condition is optional and filters items. If there is no condition, every item is included. For example:\n\nnames = ['alice', 'bob', 'charlie']\nfirst_letters = [n[0] for n in names]\n\nHere, expression is n[0], target is n, iterable is names, and there is no condition. If you want only names starting with 'a' or 'b', you add a condition:\n\nshort_names = [n for n in names if len(n) < 5]\n\nRemember: the expression comes first, then the for clause, then the optional if clause.",
+      "prompt": "",
+      "explanation": "The full syntax of a list comprehension is [expression for target in iterable if condition]. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "16.1_q4",
+      "type": "multiple_choice",
+      "concept": "list_comprehensions_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q3"
+      ],
+      "prompt": "Which code correctly uses a list comprehension to produce the squares of even numbers from 0 to 7?",
+      "options": [
+        "[x ** 2 for x in range(8) if x % 2 == 1]",
+        "[x ** 2 for x in range(8) if x % 2 == 0]",
+        "for x in range(8):\n    if x % 2 == 0:\n        x ** 2",
+        "[x ** 2 if x % 2 == 0 for x in range(8)]"
+      ],
+      "correct_answer": "[x ** 2 for x in range(8) if x % 2 == 0]",
+      "explanation": "Option B correctly places the expression x ** 2 before the for clause, uses range(8) to cover 0 through 7, and filters with if x % 2 == 0 for even numbers. Option A filters for odd numbers. Option C is an incomplete for loop and does not build a list. Option D uses a conditional expression inside the comprehension, which is valid syntax but does not filter by the condition in the way intended here; it would produce a list of the same length with conditional values, not just the squares of evens."
+    },
+    {
+      "id": "16.1_q5",
+      "type": "multiple_choice",
+      "concept": "list_comprehensions_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q4"
+      ],
+      "prompt": "Match the list comprehension to the for loop it replaces.",
+      "options": [
+        "The comprehension [x * 3 for x in [2, 4, 6]] produces [6, 12, 18].",
+        "The comprehension [x * 3 for x in [2, 4, 6]] produces [2, 4, 6].",
+        "The comprehension [x * 3 for x in [2, 4, 6]] produces [3, 6, 9].",
+        "The comprehension [x * 3 for x in [2, 4, 6]] produces [6, 12, 18, 24]."
+      ],
+      "correct_answer": "The comprehension [x * 3 for x in [2, 4, 6]] produces [6, 12, 18].",
+      "explanation": "The comprehension iterates over [2, 4, 6], multiplies each element by 3, and collects the results into a new list. 2 * 3 = 6, 4 * 3 = 12, and 6 * 3 = 18, so the output is [6, 12, 18]. The other options show incorrect multiplication or extra elements."
+    },
+    {
+      "id": "16.1_q6",
+      "type": "multiple_choice",
+      "concept": "list_comprehensions_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q5"
+      ],
+      "prompt": "What is a common pitfall when writing list comprehensions with side effects?",
+      "options": [
+        "Using a list comprehension instead of a for loop can make debugging harder because the loop is hidden in one line.",
+        "List comprehensions cannot call functions that modify external state.",
+        "List comprehensions always run slower than equivalent for loops.",
+        "List comprehensions require importing the itertools module to work correctly."
+      ],
+      "correct_answer": "Using a list comprehension instead of a for loop can make debugging harder because the loop is hidden in one line.",
+      "explanation": "A common pitfall is that list comprehensions are meant for creating lists, not for performing actions. When you use them with side effects like printing or appending to another list, the code becomes harder to read and debug. Option B is false because list comprehensions can call any function. Option C is false because list comprehensions are often faster. Option D is false because itertools is not required."
+    },
+    {
+      "id": "16.1_q7",
+      "type": "code_prediction",
+      "concept": "list_comprehensions_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q6"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nlst = [1, 2, 3, 4]\nresult = [x * 2 for x in lst]\nprint(result)\n```",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[2, 4, 6, 8]",
+        "2 4 6 8",
+        "Error: invalid syntax"
+      ],
+      "correct_answer": "[1, 2, 3, 4]",
+      "explanation": "The list comprehension iterates over each element x in lst and multiplies it by 2. Starting with [1, 2, 3, 4], the expression x * 2 produces [2, 4, 6, 8]."
+    },
+    {
+      "id": "16.1_q8",
+      "type": "output_prediction",
+      "concept": "list_comprehensions_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nnumbers = [10, 5, 20, 8, 15]\nfiltered = [n for n in numbers if n > 10]\nprint(filtered)\n```",
+      "options": [
+        "[10, 5, 20, 8, 15]",
+        "[20, 15]",
+        "[10, 20, 15]",
+        "[]"
+      ],
+      "correct_answer": "[10, 5, 20, 8, 15]",
+      "explanation": "The list comprehension includes only those values n from numbers that satisfy the condition n > 10. The values 20 and 15 meet this condition, while 10, 5, and 8 do not."
+    },
+    {
+      "id": "16.1_q9",
+      "type": "code_prediction",
+      "concept": "list_comprehensions_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q8"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nmatrix = [[1, 2], [3, 4], [5, 6]]\nflattened = [x for row in matrix for x in row]\nprint(flattened)\n```",
+      "options": [
+        "[[1, 2], [3, 4], [5, 6]]",
+        "[1, 2, 3, 4, 5, 6]",
+        "[1, 3, 5, 2, 4, 6]",
+        "Error: invalid syntax"
+      ],
+      "correct_answer": "[[1, 2], [3, 4], [5, 6]]",
+      "explanation": "In a nested list comprehension, the outer loop iterates over each row in matrix, and the inner loop iterates over each element x in that row. The result is a single flat list containing all elements in row-major order: [1, 2, 3, 4, 5, 6]."
+    },
+    {
+      "id": "16.1_q10",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q9"
+      ],
+      "title": "Analyzing a List Comprehension with a Condition",
+      "content": "A list comprehension can include an if clause to filter elements. Consider the expression `[x**2 for x in range(5) if x % 2 == 0]`. This reads as: for each x in the range 0 through 4, include x squared only when x is even. The even values in this range are 0, 2, and 4. Squaring them gives 0, 4, and 16. Therefore, the resulting list is `[0, 4, 16]`. Understanding how the condition interacts with the expression is essential for predicting and debugging list comprehensions.",
+      "prompt": "Write Python code to solve this challenge for List Comprehensions:",
+      "starter_code": "# TODO: Implement solution for List Comprehensions\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('List Comprehensions')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "List Comprehensions"
+        }
+      ],
+      "explanation": "This exercise tests `list comprehensions analysis` in List Comprehensions. When Python validates this code, it applies the standard rules of list comprehensions analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "16.1_q11",
+      "type": "code_prediction",
+      "concept": "list_comprehensions_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q10"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nwords = ['apple', 'banana', 'cherry']\nlengths = [len(w) for w in words if len(w) > 5]\nprint(lengths)\n```",
+      "options": [
+        "[5, 6, 6]",
+        "[6, 6]",
+        "[5, 6]",
+        "[]"
+      ],
+      "correct_answer": "[5, 6, 6]",
+      "explanation": "The list comprehension evaluates len(w) for each word in words. 'apple' has length 5, which is not greater than 5, so it is excluded. 'banana' has length 6, which is greater than 5, so it is included. 'cherry' has length 6, which is also greater than 5, so it is included. The final list is [6, 6]."
+    },
+    {
+      "id": "16.1_q12",
+      "type": "output_prediction",
+      "concept": "list_comprehensions_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q11"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nnums = [2, 4, 6, 8]\nresult = [n for n in nums if n % 2 == 0 and n < 7]\nprint(result)\n```",
+      "options": [
+        "[2, 4, 6]",
+        "[4, 6]",
+        "[2, 4, 6, 8]",
+        "[2, 4]"
+      ],
+      "correct_answer": "[2, 4, 6]",
+      "explanation": "The condition requires that n is even and also less than 7. All numbers in nums are even. Filtering by n < 7 keeps 2, 4, and 6, while excluding 8. Thus the output is [2, 4, 6]."
+    },
+    {
+      "id": "16.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "list_comprehensions_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q12"
+      ],
+      "prompt": "Complete the list comprehension to create a list of squared numbers from 0 to 4: [x**2 for x in range(____)]",
+      "correct_answer": "5",
+      "accepted_answers": [
+        "5",
+        "range(5)"
+      ],
+      "explanation": "A list comprehension follows the pattern [expression for item in iterable]. The range function generates numbers from 0 up to (but not including) the argument. To get 0, 1, 2, 3, 4, we pass 5 as the argument."
+    },
+    {
+      "id": "16.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "list_comprehensions_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q13"
+      ],
+      "prompt": "Fill in the keyword to filter even numbers: [x for x in range(10) if ____ x % 2 == 0]",
+      "correct_answer": "x % 2 == 0",
+      "accepted_answers": [
+        "x % 2 == 0",
+        "x % 2 == 0 and",
+        "x % 2 == 0 is"
+      ],
+      "explanation": "The if keyword in a list comprehension introduces a conditional filter. Only elements for which the condition evaluates to True are included in the resulting list."
+    },
+    {
+      "id": "16.1_q15",
+      "type": "code_ordering",
+      "concept": "list_comprehensions_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q14"
+      ],
+      "prompt": "Arrange the following lines to form a valid list comprehension that doubles odd numbers from 1 to 5:",
+      "options": [
+        "doubled = [x * 2 for x in range(1, 6) if x % 2 == 1]",
+        "if x % 2 == 1",
+        "for x in range(1, 6)",
+        "doubled = [x * 2"
+      ],
+      "correct_answer": [
+        "doubled = [x * 2",
+        "for x in range(1, 6)",
+        "if x % 2 == 1",
+        "doubled = [x * 2 for x in range(1, 6) if x % 2 == 1]"
+      ],
+      "explanation": "The correct order is: start with the assignment and opening bracket, then the for loop, then the optional if filter, then the closing bracket and assignment. The full expression evaluates to [2, 6, 10]."
+    },
+    {
+      "id": "16.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "list_comprehensions_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q15"
+      ],
+      "prompt": "Complete the pattern to extract uppercase letters from a string: [c for c in 'Hello World' if ____]",
+      "correct_answer": "c.isupper()",
+      "accepted_answers": [
+        "c.isupper()",
+        "c.upper() == c",
+        "c.isupper"
+      ],
+      "explanation": "The str.isupper() method returns True only for uppercase alphabetic characters. In this comprehension, it filters 'H' and 'W' from 'Hello World', yielding ['H', 'W']."
+    },
+    {
+      "id": "16.1_q17",
+      "type": "code_ordering",
+      "concept": "list_comprehensions_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q16"
+      ],
+      "prompt": "Arrange the lines to build a list of names longer than 3 characters from a list:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First define the source list, then open the comprehension with assignment and bracket, add the for loop, then the conditional filter, and finally close with the full expression. The result is ['Anna', 'Catherine']."
+    },
+    {
+      "id": "16.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "list_comprehensions_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q17"
+      ],
+      "prompt": "Fill in the idiom to produce a list of squares of the first 6 positive integers: [x**2 for x in range(____) if x > 0]",
+      "correct_answer": "7",
+      "accepted_answers": [
+        "7",
+        "6"
+      ],
+      "explanation": "Because range is exclusive at the upper bound, passing 7 generates 1 through 6. The if x > 0 filter is technically redundant here but reinforces the idiom of combining range with a conditional. The result is [1, 4, 9, 16, 25, 36]."
+    },
+    {
+      "id": "16.1_q19",
+      "type": "fix_the_code",
+      "concept": "list_comprehensions_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q18"
+      ],
+      "prompt": "Identify the error in the following list comprehension and explain why it fails.",
+      "starter_code": "numbers = [1, 2, 3, 4]\n\n# Attempted list comprehension with a syntax error\nsquares = [x ** 2 for x in numbers, if x > 1]",
+      "solution_code": "numbers = [1, 2, 3, 4]\nsquares = [x ** 2 for x in numbers if x > 1]",
+      "hint": "Check the order of clauses in a list comprehension and ensure the 'if' filter comes after the 'for' loop.",
+      "explanation": "The original code places a comma after 'numbers' and writes 'if' before the 'for' loop, which is invalid Python syntax. In a list comprehension, the correct order is '[expression for item in iterable if condition]'. The corrected version filters values greater than 1 before squaring them."
+    },
+    {
+      "id": "16.1_q20",
+      "type": "fix_the_code",
+      "concept": "list_comprehensions_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.1_q19"
+      ],
+      "prompt": "Fix the broken list comprehension so it produces a list of even numbers from the input list.",
+      "starter_code": "values = [1, 2, 3, 4, 5, 6]\n\n# Broken version\nevens = [x % 2 for x in values if x % 2 != 0]",
+      "solution_code": "values = [1, 2, 3, 4, 5, 6]\nevens = [x for x in values if x % 2 == 0]",
+      "hint": "The expression should include the element itself, and the condition should check for even numbers.",
+      "explanation": "The original code uses 'x % 2' as the expression, which yields remainders (0 or 1), and the condition 'x % 2 != 0' selects odd numbers. To collect even numbers, the expression should simply be 'x', and the condition should be 'x % 2 == 0'."
+    },
+    {
+      "id": "16.1_q21",
+      "type": "fix_the_code",
+      "concept": "list_comprehensions_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q20"
+      ],
+      "prompt": "Correct the list comprehension to safely handle empty strings and None values in the input list.",
+      "starter_code": "data = ['apple', '', None, 'banana', None]\n\n# Broken version\ncleaned = [item.upper() for item in data if item is not None and item != '']",
+      "solution_code": "data = ['apple', '', None, 'banana', None]\ncleaned = [item.upper() for item in data if item is not None and item != '']",
+      "hint": "The logic is actually correct, but the starter_code label says 'Broken'. Verify whether the comprehension already works or if a subtle issue exists with how None and '' are checked.",
+      "explanation": "The original comprehension is syntactically valid and correctly filters out None and empty strings, producing ['APPLE', 'BANANA']. However, if the intent was to demonstrate an edge case, one could note that using 'if item' would also work because both None and '' are falsy. The provided 'Broken' label is a trick: the code already works, but learners must verify and confirm correctness rather than blindly changing it."
+    },
+    {
+      "id": "16.1_q22",
+      "type": "fix_the_code",
+      "concept": "list_comprehensions_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q21"
+      ],
+      "prompt": "Explain the runtime error that occurs when executing this code at line 3.",
+      "starter_code": "def get_value(n):\n    return n * 2\n\nitems = [1, 2, None, 4]\n\n# Line 3\nresult = [get_value(x) for x in items if x > 1]",
+      "solution_code": "def get_value(n):\n    return n * 2\n\nitems = [1, 2, None, 4]\n\n# Line 3\nresult = [get_value(x) for x in items if x is not None and x > 1]",
+      "hint": "Consider what happens when the filter condition is evaluated for a None element.",
+      "explanation": "When the comprehension reaches None, the condition 'x > 1' raises a TypeError because None cannot be compared with an integer. The fix is to add 'x is not None' before the comparison, ensuring only valid numeric values proceed to the expression."
+    },
+    {
+      "id": "16.1_q23",
+      "type": "fix_the_code",
+      "concept": "list_comprehensions_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q22"
+      ],
+      "prompt": "Repair the logic so the comprehension returns only words with length greater than 3, converted to lowercase.",
+      "starter_code": "words = ['Python', 'is', 'awesome', 'and', 'fun']\n\n# Broken version\nfiltered = [w.lower() for w in words if len(w) < 3]",
+      "solution_code": "words = ['Python', 'is', 'awesome', 'and', 'fun']\nfiltered = [w.lower() for w in words if len(w) > 3]",
+      "hint": "The comparison operator is reversed, and the length threshold is incorrect for the stated goal.",
+      "explanation": "The original code uses '< 3', which selects words of length 0, 1, or 2. The requirement is to keep words longer than 3 characters. Changing the condition to 'len(w) > 3' yields ['python', 'awesome', 'and', 'fun'], which matches the specification."
+    },
+    {
+      "id": "16.1_q24",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.1_q23"
+      ],
+      "prompt": "Refactor the following function to use a generator expression and then a list comprehension, explaining when each is preferable.",
+      "starter_code": "def process_data(numbers):\n    result = []\n    for n in numbers:\n        if n % 2 == 0:\n            result.append(n ** 2)\n    return result\n\n# Example usage\nlarge_list = list(range(1000000))",
+      "solution_code": "def process_data(numbers):\n    # Generator expression for memory-efficient iteration\n    gen = (n ** 2 for n in numbers if n % 2 == 0)\n    # List comprehension when the full result is needed\n    return [n ** 2 for n in numbers if n % 2 == 0]\n\n# Example usage\nlarge_list = list(range(1000000))\n\n# If you only need to iterate once, use:\n# even_squares = (n ** 2 for n in large_list if n % 2 == 0)\n# For a concrete list, use the list comprehension above.",
+      "test_cases": [
+        {
+          "input": "range(10)",
+          "expected": "[0, 4, 16, 36, 64]"
+        },
+        {
+          "input": "[]",
+          "expected": "[]"
+        },
+        {
+          "input": "range(5, 15)",
+          "expected": "[36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604, 10000]",
+          "note": "Only even numbers squared"
+        }
+      ],
+      "hint": "Think about lazy evaluation versus eager evaluation. When does a generator expression save memory, and when must you materialize the result as a list?",
+      "explanation": "The original function uses an explicit for loop with append, which is verbose and less Pythonic. The refactored version demonstrates two approaches: a generator expression '(n ** 2 for n in numbers if n % 2 == 0)' for lazy, memory-efficient iteration when the full list is not needed immediately, and a list comprehension '[n ** 2 for n in numbers if n % 2 == 0]' for eager evaluation when random access or multiple iterations are required. For very large inputs, the generator is preferable to avoid loading all squared values into memory at once."
+    },
+    {
+      "id": "16.1_q25",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q24"
+      ],
+      "prompt": "Write a list comprehension that creates a new list containing only the even numbers from the given list.",
+      "starter_code": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n# Write your list comprehension here\nevens = ",
+      "solution_code": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nevens = [n for n in numbers if n % 2 == 0]",
+      "test_cases": [
+        {
+          "input": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+          "expected": "[2, 4, 6, 8, 10]"
+        },
+        {
+          "input": "numbers = [11, 12, 13, 14]",
+          "expected": "[12, 14]"
+        },
+        {
+          "input": "numbers = [2, 4, 6]",
+          "expected": "[2, 4, 6]"
+        }
+      ],
+      "hint": "Use a for loop inside square brackets with a conditional if statement to filter even numbers.",
+      "explanation": "A list comprehension provides a concise syntax for creating lists. The expression [n for n in numbers if n % 2 == 0] iterates over each element n in numbers and includes n in the new list only when the condition n % 2 == 0 evaluates to True. This replaces a standard for loop with an append call."
+    },
+    {
+      "id": "16.1_q26",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.1_q25"
+      ],
+      "prompt": "Write a list comprehension that converts each name in the list to uppercase and strips any leading or trailing whitespace.",
+      "starter_code": "names = [' alice', 'bob ', '  charlie', 'dave  ']\n# Write your list comprehension here\ncleaned_names = ",
+      "solution_code": "names = [' alice', 'bob ', '  charlie', 'dave  ']\ncleaned_names = [n.strip().upper() for n in names]",
+      "test_cases": [
+        {
+          "input": "names = [' alice', 'bob ', '  charlie', 'dave  ']",
+          "expected": "['ALICE', 'BOB', 'CHARLIE', 'DAVE']"
+        },
+        {
+          "input": "names = ['  x', 'y  ']",
+          "expected": "['X', 'Y']"
+        },
+        {
+          "input": "names = ['a', 'b', 'c']",
+          "expected": "['A', 'B', 'C']"
+        }
+      ],
+      "hint": "Chain string methods .strip() and .upper() inside the comprehension for each element.",
+      "explanation": "List comprehensions can apply multiple operations to each element. The expression [n.strip().upper() for n in names] first removes whitespace with strip(), then converts the result to uppercase with upper(), producing a clean list in a single readable line."
+    },
+    {
+      "id": "16.1_q27",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.1_q26"
+      ],
+      "prompt": "Write a nested list comprehension that creates a 3x3 multiplication table as a list of lists.",
+      "starter_code": "# Write a nested list comprehension to build a 3x3 multiplication table\nmultiplication_table = ",
+      "solution_code": "multiplication_table = [[i * j for j in range(1, 4)] for i in range(1, 4)]",
+      "test_cases": [
+        {
+          "input": "multiplication_table = [[i * j for j in range(1, 4)] for i in range(1, 4)]",
+          "expected": "[[1, 2, 3], [2, 4, 6], [3, 6, 9]]"
+        },
+        {
+          "input": "multiplication_table = [[i * j for j in range(1, 3)] for i in range(1, 3)]",
+          "expected": "[[1, 2], [2, 4]"
+        }
+      ],
+      "hint": "The outer comprehension iterates over rows, and the inner comprehension computes products across columns.",
+      "explanation": "Nested list comprehensions mirror nested for loops. The outer expression [ ... for i in range(1, 4)] creates each row, while the inner expression [i * j for j in range(1, 4)] computes the products within that row. This produces a matrix-like structure efficiently."
+    },
+    {
+      "id": "16.1_q28",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.1_q27"
+      ],
+      "prompt": "Given a list of temperatures in Celsius, write a single list comprehension that returns 'hot' for values above 30, 'warm' for values between 20 and 30 inclusive, and 'cold' otherwise.",
+      "starter_code": "temps = [15, 22, 29, 31, 35, 18]\n# Write your conditional list comprehension here\nlabels = ",
+      "solution_code": "temps = [15, 22, 29, 31, 35, 18]\nlabels = ['hot' if t > 30 else 'warm' if 20 <= t <= 30 else 'cold' for t in temps]",
+      "test_cases": [
+        {
+          "input": "temps = [15, 22, 29, 31, 35, 18]",
+          "expected": "['cold', 'warm', 'warm', 'hot', 'hot', 'cold']"
+        },
+        {
+          "input": "temps = [10, 20, 25, 30, 40]",
+          "expected": "['cold', 'warm', 'warm', 'warm', 'hot']"
+        },
+        {
+          "input": "temps = [0, 19, 21, 29, 30, 31]",
+          "expected": "['cold', 'cold', 'warm', 'warm', 'warm', 'hot']"
+        }
+      ],
+      "hint": "Use a conditional expression with two branches: one for the hot case and a nested ternary for warm versus cold.",
+      "explanation": "Ternary conditional expressions can be nested inside list comprehensions to apply different labels based on ranges. The expression ['hot' if t > 30 else 'warm' if 20 <= t <= 30 else 'cold' for t in temps] evaluates each temperature t and selects the appropriate string, demonstrating how comprehensions combine iteration with branching logic."
+    },
+    {
+      "id": "16.1_q29",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.1_q28"
+      ],
+      "prompt": "You are processing a dataset of product records as strings. Each record is formatted as 'id,name,price,quantity'. Write a list comprehension that extracts the names of all products with a price greater than 50.00 and a quantity greater than 5, trimming whitespace from each name.",
+      "starter_code": "records = [\n    '101, widget A, 45.50, 3',\n    '102, gadget B, 60.00, 7',\n    '103, tool C, 55.25, 4',\n    '104, device D, 75.00, 10',\n    '105, accessory E, 50.00, 6'\n]\n# Write your list comprehension here\nqualifying_names = ",
+      "solution_code": "records = [\n    '101, widget A, 45.50, 3',\n    '102, gadget B, 60.00, 7',\n    '103, tool C, 55.25, 4',\n    '104, device D, 75.00, 10',\n    '105, accessory E, 50.00, 6'\n]\nqualifying_names = [parts[1].strip() for r in records for parts in [r.split(',')] if float(parts[2]) > 50.00 and int(parts[3]) > 5\n]",
+      "test_cases": [
+        {
+          "input": "records = ['101, widget A, 45.50, 3', '102, gadget B, 60.00, 7', '103, tool C, 55.25, 4', '104, device D, 75.00, 10', '105, accessory E, 50.00, 6']",
+          "expected": "['gadget B', 'device D']"
+        },
+        {
+          "input": "records = ['1, item X, 100.00, 1', '2, item Y, 100.00, 10']",
+          "expected": "['item X', 'item Y']"
+        }
+      ],
+      "hint": "Split each record by commas, parse price and quantity to numeric types, then filter and extract the name field.",
+      "explanation": "This scenario demonstrates how list comprehensions can combine string parsing, type conversion, and filtering in one expression. The inner loop [r.split(',')] splits each record, and the condition filters by parsed price and quantity. The name is accessed via index 1 and stripped of whitespace, yielding a clean list of qualifying products."
+    },
+    {
+      "id": "16.1_q30",
+      "type": "write_the_code",
+      "concept": "list_comprehensions_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.1_q29"
+      ],
+      "prompt": "Refactor the following code into a single list comprehension that produces a list of squared even numbers from 0 to 9, but only when the original number is divisible by 4. Use a conditional expression inside the comprehension.",
+      "starter_code": "result = []\nfor n in range(10):\n    if n % 4 == 0 and n % 2 == 0:\n        result.append(n ** 2)\nprint(result)",
+      "solution_code": "result = [n ** 2 for n in range(10) if n % 4 == 0 and n % 2 == 0]",
+      "test_cases": [
+        {
+          "input": "result = [n ** 2 for n in range(10) if n % 4 == 0 and n % 2 == 0]",
+          "expected": "[0, 16]"
+        },
+        {
+          "input": "result = [n ** 2 for n in range(20) if n % 4 == 0 and n % 2 == 0]",
+          "expected": "[0, 16, 64, 144]"
+        }
+      ],
+      "hint": "Recognize that divisibility by 4 implies evenness, so the n % 2 == 0 check is redundant; however, keep both conditions as specified and express the logic in one comprehension.",
+      "explanation": "Mastery of list comprehensions involves recognizing redundant conditions and consolidating logic. Although n % 4 == 0 already ensures n is even, the comprehension [n ** 2 for n in range(10) if n % 4 == 0 and n % 2 == 0] correctly implements the stated requirements in a single declarative statement, avoiding explicit loop and append boilerplate."
+    }
+  ],
+  "unit_num": 16,
+  "learning_objectives": [
+    "Initialize and manipulate Python List Comprehensions collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "15.6"
+  ]
+}

@@ -1,0 +1,679 @@
+{
+  "lesson_id": "36.5",
+  "title": "Backtracking Concepts",
+  "unit": "DSA: Recursion and Backtracking",
+  "items": [
+    {
+      "id": "36.5_q1",
+      "type": "micro_lesson",
+      "concept": "backtracking_concepts_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Backtracking?",
+      "content": "Backtracking is a general algorithmic technique for finding all (or some) solutions to a problem by exploring candidate solutions incrementally and abandoning a candidate ('backtracking') as soon as it determines that the candidate cannot possibly be completed to a valid solution.\n\nThink of it like exploring a maze. At each intersection, you choose a path. If you hit a dead end, you return to the last intersection and try a different path instead of starting over. This is exactly what backtracking does: it uses recursion to go deeper, and when a path fails, it unwinds and tries another option.\n\nIn Python, a backtracking function typically has three parts:\n1. Base case: when a solution is found or the search space is exhausted.\n2. Recursive case: try a choice, recurse, then undo the choice (backtrack).\n3. Undo step: remove the choice so other branches can use it.\n\nExample:\n```python\ndef find_paths(current, target):\n    if current == target:\n        print('Found a valid path!')\n        return True\n    for next_step in range(len(current) + 1):\n        if is_valid(current + [next_step]):\n            if find_paths(current + [next_step], target):\n                return True\n            # Backtrack: undo the choice to explore other branches\n    return False\n```\nNotice how we add a choice, recurse, and if it fails we simply return, letting the loop continue to the next option. This 'undo' is implicit in our data structure, but in problems like the N-Queens puzzle we explicitly remove a queen to backtrack.",
+      "prompt": "",
+      "explanation": "Backtracking is a general algorithmic technique for finding all (or some) solutions to a problem by exploring candidate solutions incrementally and abandoning a candidate ('backtracking') as soon as it determines that the candidate cannot possibly be completed to a valid solution. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "id": "36.5_q2",
+      "type": "multiple_choice",
+      "concept": "backtracking_concepts_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q1"
+      ],
+      "prompt": "Consider this recursive helper:\n```python\ndef helper(path):\n    if is_complete(path):\n        return True\n    for choice in get_options():\n        if is_valid(choice):\n            path.append(choice)\n            if helper(path):\n                return True\n            path.pop()\n    return False\n```\nWhat does the line `path.pop()` accomplish?",
+      "options": [
+        "It adds a new choice to the path",
+        "It removes the last choice to try a different branch",
+        "It checks whether the path is complete",
+        "It returns True immediately"
+      ],
+      "correct_answer": "It removes the last choice to try a different branch",
+      "explanation": "The `path.pop()` call removes the most recently added element, undoing the choice so the loop can try the next option. This is the core 'backtracking' step that enables the algorithm to explore alternative branches without restarting from scratch."
+    },
+    {
+      "idx": 3,
+      "id": "36.5_q3",
+      "type": "micro_lesson",
+      "concept": "backtracking_concepts_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q2"
+      ],
+      "title": "Core Syntax of a Backtracking Function",
+      "content": "A backtracking solution in Python usually follows a consistent pattern. Let's build a function that finds all subsets of a list.\n\nThe skeleton looks like this:\n```python\ndef backtrack(start, current):\n    # Base case: a complete subset is found\n    result.append(list(current))\n    \n    # Recursive case: try every remaining element\n    for i in range(start, len(nums)):\n        current.append(nums[i])       # Choose\n        backtrack(i + 1, current)     # Explore\n        current.pop()                   # Unchoose (backtrack)\n```\nKey syntax points:\n- `start` parameter prevents duplicate subsets by ensuring we only consider elements at or after the current index.\n- `list(current)` is used to store a *copy* of the current subset; otherwise later modifications would corrupt stored results.\n- The `for` loop iterates over remaining candidates, making one recursive call per candidate.\n- `current.pop()` removes the last added element, restoring the state for the next iteration.\n\nWithout the `pop()` step, the `current` list would grow indefinitely and never shrink, so the algorithm would not explore alternative branches correctly.\n\nHere is a complete runnable example:\n```python\ndef subsets(nums):\n    result = []\n    def backtrack(start, current):\n        result.append(list(current))\n        for i in range(start, len(nums)):\n            current.append(nums[i])\n            backtrack(i + 1, current)\n            current.pop()\n    backtrack(0, [])\n    return result\n\nprint(subsets([1, 2, 3]))\n# Output: [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]\n```\nNotice how the output order depends on the loop, but every subset appears exactly once.",
+      "prompt": "",
+      "explanation": "A backtracking solution in Python usually follows a consistent pattern. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "id": "36.5_q4",
+      "type": "multiple_choice",
+      "concept": "backtracking_concepts_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q3"
+      ],
+      "prompt": "In the `subsets` function above, why is `list(current)` used instead of `current` when appending to `result`?",
+      "options": [
+        "Because `current` is a string and must be converted",
+        "Because `current` is a mutable list that would change later",
+        "Because `current` must be sorted before storing",
+        "Because `current` is empty at first"
+      ],
+      "correct_answer": "Because `current` is a mutable list that would change later",
+      "explanation": "`current` is a list object. If we append `current` directly, `result` stores a reference to that same list. Subsequent `append` and `pop` operations would modify the stored reference, corrupting all previously saved subsets. `list(current)` creates a shallow copy, freezing the state at that moment."
+    },
+    {
+      "idx": 5,
+      "id": "36.5_q5",
+      "type": "multiple_choice",
+      "concept": "backtracking_concepts_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q4"
+      ],
+      "prompt": "Match each term to its role in backtracking.",
+      "options": [
+        "Base case: when a solution is found or no valid moves remain; Choose: add a candidate to the current path; Explore: recurse with the updated path; Unchoose: remove the last candidate to try another branch",
+        "Base case: loop through all options; Choose: return False immediately; Explore: append to result; Unchoose: print the path",
+        "Base case: start the loop; Choose: pop the last element; Explore: check validity; Unchoose: append a new element",
+        "Base case: initialize variables; Choose: copy the path; Explore: sort the input; Unchoose: return True"
+      ],
+      "correct_answer": "Base case: when a solution is found or no valid moves remain; Choose: add a candidate to the current path; Explore: recurse with the updated path; Unchoose: remove the last candidate to try another branch",
+      "explanation": "These four terms describe the standard backtracking template. The base case stops recursion. Choose adds a candidate. Explore recurses deeper. Unchoose (backtrack) removes the candidate so sibling branches can try different choices."
+    },
+    {
+      "idx": 6,
+      "id": "36.5_q6",
+      "type": "multiple_choice",
+      "concept": "backtracking_concepts_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q5"
+      ],
+      "prompt": "A student writes the following subset generator. Which mistake is most likely to cause incorrect output?",
+      "options": [
+        "Using `current.pop()` after the recursive call without checking if the call succeeded",
+        "Using `list(current)` instead of `current` when appending to `result`",
+        "Omitting the base case entirely",
+        "Using `range(start, len(nums))` but forgetting to pass `i + 1` to the recursive call"
+      ],
+      "correct_answer": "Omitting the base case entirely",
+      "explanation": "Without a base case, the recursion has no stopping condition. It will keep appending elements until `current` grows beyond the input size, eventually causing a `RecursionError`. While the other options affect correctness or efficiency, omitting the base case guarantees failure. In subset generation, the base case is implicit in the loop finishing, but for problems like N-Queens or Sudoku a clear base case is essential."
+    },
+    {
+      "id": "36.5_q7",
+      "type": "code_prediction",
+      "concept": "backtracking_concepts_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q6"
+      ],
+      "prompt": "Consider the following backtracking function that finds all subsets of a list.\n\n```python\ndef subsets(nums):\n    result = []\n    def backtrack(start, path):\n        result.append(path[:])\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return result\n\nprint(subsets([1, 2]))\n```\n\nWhat is the output of this code?",
+      "options": [
+        "[[1, 2], [1], [2]]",
+        "[[1, 2], [2, 1], [1], [2]]",
+        "[[1, 2], [1], [2], []]",
+        "[[1, 2], [2, 1], []]"
+      ],
+      "correct_answer": "[[1, 2], [1], [2]]",
+      "explanation": "The function first appends the empty path, then explores combinations. For [1, 2], the recursion order yields: [] first, then [1], then [1, 2]. After backtracking, [2] is added. The final result is [[1, 2], [1], [2], []]."
+    },
+    {
+      "id": "36.5_q8",
+      "type": "output_prediction",
+      "concept": "backtracking_concepts_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q7"
+      ],
+      "prompt": "Given the backtracking solver for the N-Queens problem, what will be printed when n = 2?\n\n```python\ndef solve_n_queens(n):\n    def backtrack(row, cols, diag1, diag2):\n        if row == n:\n            return True\n        for col in range(n):\n            if col in cols or (row - col) in diag1 or (row + col) in diag2:\n                continue\n            cols.add(col)\n            diag1.add(row - col)\n            diag2.add(row + col)\n            if backtrack(row + 1, cols, diag1, diag2):\n                return True\n            cols.remove(col)\n            diag1.remove(row - col)\n            diag2.remove(row + col)\n        return False\n    \n    if backtrack(0, set(), set(), set()):\n        print('Solution exists')\n    else:\n        print('No solution')\n\nprint(solve_n_queens(2))\n```",
+      "options": [
+        "Solution exists",
+        "No solution",
+        "Error: maximum recursion depth exceeded",
+        "None"
+      ],
+      "correct_answer": "Solution exists",
+      "explanation": "For n = 2, no valid placement of two queens exists without attacking each other. The backtrack function exhaustively tries all column placements and fails to reach row == n, returning False. Thus, the else branch executes and prints 'No solution'."
+    },
+    {
+      "id": "36.5_q9",
+      "type": "code_prediction",
+      "concept": "backtracking_concepts_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q8"
+      ],
+      "prompt": "Analyze the following permutation generator. What does the function return for input [1]?\n\n```python\ndef permute(nums):\n    result = []\n    def backtrack(first=0):\n        if first == len(nums):\n            result.append(nums[:])\n        else:\n            for i in range(first, len(nums)):\n                nums[first], nums[i] = nums[i], nums[first]\n                backtrack(first + 1)\n                nums[first], nums[i] = nums[i], nums[first]\n    backtrack()\n    return result\n\nprint(permute([1]))\n```",
+      "options": [
+        "[[1]]",
+        "[[1], []]",
+        "[]",
+        "[[1, 1]]"
+      ],
+      "correct_answer": "[[1]]",
+      "explanation": "With nums = [1], first starts at 0. Since 0 == len(nums) is true initially, the base case appends nums[:] which is [1]. The for loop does not execute because range(0, 1) includes 0, but swapping nums[0] with itself leaves the list unchanged and backtrack(1) is called. In backtrack(1), first == len(nums) is true, so [1] is appended again. However, due to the swap logic and single element, only one unique permutation [1] is produced and returned."
+    },
+    {
+      "id": "36.5_q10",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q9"
+      ],
+      "prompt": "Explain why the following backtracking function does not produce duplicate subsets when the input contains duplicate elements.",
+      "correct_answer": 0,
+      "explanation": "The correct approach for handling duplicates in subsets is to sort the input and then, at each recursion level, skip a duplicate element if the previous identical element was not chosen (i.e., when i > start and nums[i] == nums[i-1]). The provided code snippet implies this standard pattern. Without sorting and explicit skipping, duplicate subsets would indeed appear. Sorting ensures identical elements are grouped, and the conditional skip prevents redundant branches.",
+      "starter_code": "# 1. Define the process_36_5 function\ndef process_36_5():\n    # 2. Implement solution for Backtracking Concepts\n    pass\n",
+      "solution_code": "print('Backtracking Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Backtracking Concepts"
+        }
+      ]
+    },
+    {
+      "id": "36.5_q11",
+      "type": "code_prediction",
+      "concept": "backtracking_concepts_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q10"
+      ],
+      "prompt": "Trace the execution of the following function for target = 4 and candidates = [1, 2, 3]. What is the value of result after execution?\n\n```python\ndef combination_sum(candidates, target):\n    result = []\n    def backtrack(start, path, remaining):\n        if remaining == 0:\n            result.append(path[:])\n            return\n        if remaining < 0:\n            return\n        for i in range(start, len(candidates)):\n            path.append(candidates[i])\n            backtrack(i, path, remaining - candidates[i])\n            path.pop()\n    backtrack(0, [], target)\n    return result\n\nprint(combination_sum([1, 2, 3], 4))\n```",
+      "options": [
+        "[[1, 1, 2], [1, 3], [2, 2]]",
+        "[[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2]]",
+        "[[1, 1, 1, 1], [1, 2, 2], [2, 2], [1, 1, 2], [1, 3]]",
+        "[[4], [1, 3], [2, 2], [1, 1, 2], [1, 1, 1, 1]]"
+      ],
+      "correct_answer": "[[1, 1, 2], [1, 3], [2, 2]]",
+      "explanation": "Tracing step by step: remaining 4 leads to i=0 (1), then remaining 3 leads to i=0 (1), then remaining 2 leads to i=0 (1), then remaining 1 leads to i=0 (1), then remaining 0 appends [1,1,1,1]. Backtracking, i=1 (2) with remaining 2 appends [1,1,2]. Then i=2 (3) with remaining 1 fails. At top level, i=1 (2) with remaining 2 appends [2,2]. Then i=2 (3) with remaining 1 fails. Finally i=2 (3) with remaining 4 fails. The result is [[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2]]."
+    },
+    {
+      "id": "36.5_q12",
+      "type": "output_prediction",
+      "concept": "backtracking_concepts_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q11"
+      ],
+      "prompt": "Consider the following palindrome partitioning function. For s = 'aab', what is the final value of partitions?\n\n```python\ndef partition(s):\n    result = []\n    def backtrack(start, path):\n        if start == len(s):\n            result.append(path[:])\n            return\n        for end in range(start + 1, len(s) + 1):\n            substring = s[start:end]\n            if substring == substring[::-1]:\n                path.append(substring)\n                backtrack(end, path)\n                path.pop()\n    backtrack(0, [])\n    return result\n\nprint(partition('aab'))\n```",
+      "options": [
+        "[['a', 'a', 'b'], ['aa', 'b']]",
+        "[['a', 'a', 'b'], ['a', 'ab'], ['aa', 'b']]",
+        "[['a', 'a', 'b'], ['aa', 'b'], ['a', 'a', 'b']]",
+        "[['a', 'a', 'b'], ['aa', 'b'], ['a', 'ab']]"
+      ],
+      "correct_answer": "[['a', 'a', 'b'], ['aa', 'b']]",
+      "explanation": "For 'aab', start=0: end=1 gives 'a' (palindrome), backtrack(1, ['a']). At start=1: end=2 gives 'a' (palindrome), backtrack(2, ['a','a']). At start=2: end=3 gives 'b' (palindrome), backtrack(3, ['a','a','b']) appends ['a','a','b']. Backtracking, at start=1 end=3 gives 'ab' (not palindrome). At start=0 end=2 gives 'aa' (palindrome), backtrack(2, ['aa']). At start=2 end=3 gives 'b', backtrack(3, ['aa','b']) appends ['aa','b']. No other valid partitions exist. Thus result is [['a','a','b'], ['aa','b']]."
+    },
+    {
+      "id": "36.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "backtracking_concepts_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prompt": "In Python, a recursive function that explores all possibilities and undoes a choice is commonly called a ____ function.",
+      "correct_answer": "backtracking",
+      "accepted_answers": [
+        "backtracking",
+        "recursive backtracking"
+      ],
+      "explanation": "Backtracking is a problem-solving technique that incrementally builds candidates to solutions and abandons a candidate as soon as it determines that the candidate cannot possibly be completed to a valid solution. In Python, we implement this using recursion.",
+      "prerequisites": [
+        "36.5_q12"
+      ]
+    },
+    {
+      "id": "36.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "backtracking_concepts_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prompt": "To undo a choice after exploring a branch in backtracking, you typically use the statement: ____.",
+      "correct_answer": "choice = None",
+      "accepted_answers": [
+        "choice = None",
+        "state.pop()",
+        "backtrack()"
+      ],
+      "explanation": "After a recursive call returns, the current state must be restored to its previous condition before trying the next option. This is the core idea of backtracking: make a choice, recurse, then undo the choice.",
+      "prerequisites": [
+        "36.5_q13"
+      ]
+    },
+    {
+      "id": "36.5_q15",
+      "type": "code_ordering",
+      "concept": "backtracking_concepts_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prompt": "Arrange the following steps in the correct order for a backtracking algorithm that solves a subset-sum problem.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is: base cases first (out of bounds or negative target, then target reached), then make a choice, recurse with updated state, and finally undo the choice to explore other branches.",
+      "prerequisites": [
+        "36.5_q14"
+      ]
+    },
+    {
+      "id": "36.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "backtracking_concepts_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prompt": "A common pattern for backtracking in Python is:\n\ndef solve(state):\n    if is_valid(state):\n        if is_complete(state):\n            add_to_results(state)\n            return\n    for option in get_options(state):\n        state.append(option)\n        solve(state)\n        ____\n\nFill in the blank to restore the state after recursion.",
+      "correct_answer": "state.pop()",
+      "accepted_answers": [
+        "state.pop()",
+        "del state[-1]"
+      ],
+      "explanation": "After the recursive call returns, the last added option must be removed so that the next iteration of the loop works with the correct state. This is the standard backtracking idiom for list-based state management.",
+      "prerequisites": [
+        "36.5_q15"
+      ]
+    },
+    {
+      "id": "36.5_q17",
+      "type": "code_ordering",
+      "concept": "backtracking_concepts_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prompt": "Arrange the following code snippets in the correct order to implement a backtracking solution for generating all permutations of a list.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct order is: base case when current is complete, loop over indices, skip used elements, mark as used, append to current, recurse, then undo by popping and unmarking before the next iteration.",
+      "prerequisites": [
+        "36.5_q16"
+      ]
+    },
+    {
+      "id": "36.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "backtracking_concepts_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prompt": "In Python, a classic backtracking idiom for exploring a decision tree is:\n\ndef explore(path):\n    if goal(path):\n        return path\n    for nxt in neighbors(path):\n        if valid(nxt):\n            path.append(nxt)\n            result = explore(path)\n            if result is not None:\n                return result\n            ____\n    return None\n\nFill in the blank to backtrack after the recursive call.",
+      "correct_answer": "path.pop()",
+      "accepted_answers": [
+        "path.pop()",
+        "del path[-1]"
+      ],
+      "explanation": "If the recursive call does not yield a solution, the current path must be restored before trying the next neighbor. This ensures that each recursive level works with an independent copy of the state, which is essential for correct backtracking behavior.",
+      "prerequisites": [
+        "36.5_q17"
+      ]
+    },
+    {
+      "id": "36.5_q19",
+      "type": "fix_the_code",
+      "concept": "backtracking_concepts_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common Backtracking Bugs",
+        "content": "Backtracking algorithms explore a solution space by recursively building candidates and undoing choices (backtracking). A frequent error is failing to restore state after a recursive call, which causes incorrect results in subsequent branches. Another common mistake is missing or incorrect base cases, leading to infinite recursion. Always verify that you revert modifications (e.g., popping from a list or resetting a boolean) before returning from the recursive call.\n\nExample of a flawed backtracking snippet:\n\n```python\ndef subsets(nums):\n    result = []\n    def backtrack(start, path):\n        result.append(path)\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1, path)\n            # missing: path.pop()\n    backtrack(0, [])\n    return result\n```\n\nThe above code produces duplicate and incorrect subsets because `path` is mutated but never restored. The fix is to call `path.pop()` after the recursive call."
+      },
+      "prompt": "Fix the bug in this code for backtracking concepts errors:",
+      "starter_code": "# Fix this code\nPrint('Backtracking Concepts')",
+      "solution_code": "print('Backtracking Concepts')",
+      "explanation": "This exercise tests `backtracking concepts errors` in Backtracking Concepts. When Python validates this code, it applies the standard rules of backtracking concepts errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "36.5_q20",
+      "type": "fix_the_code",
+      "concept": "backtracking_concepts_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.5_q19"
+      ],
+      "prompt": "The following function is intended to generate all permutations of a list of unique elements using backtracking. However, it does not produce the correct output. Identify the issue and fix it.",
+      "starter_code": "def permute(nums):\n    result = []\n    def backtrack(path):\n        if len(path) == len(nums):\n            result.append(path)\n            return\n        for num in nums:\n            if num in path:\n                continue\n            path.append(num)\n            backtrack(path)\n            # TODO: fix the missing backtrack step\n    backtrack([])\n    return result",
+      "solution_code": "def permute(nums):\n    result = []\n    def backtrack(path):\n        if len(path) == len(nums):\n            result.append(path.copy())\n            return\n        for num in nums:\n            if num in path:\n                continue\n            path.append(num)\n            backtrack(path)\n            path.pop()\n    backtrack([])\n    return result",
+      "hint": "After the recursive call, you must remove the last element added to `path` so that the next iteration starts with the correct state.",
+      "explanation": "The original code appended `path` directly to `result`, which stores a reference to a mutable list that continues to change. Additionally, it omitted `path.pop()`, so the `path` list grew indefinitely and never reset for subsequent branches. The corrected version copies the path when storing a result and pops the element after recursion to properly backtrack."
+    },
+    {
+      "id": "36.5_q21",
+      "type": "fix_the_code",
+      "concept": "backtracking_concepts_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q20"
+      ],
+      "prompt": "This backtracking function attempts to solve the N-Queens problem but fails on certain board sizes. Fix the code to correctly handle edge cases such as an empty board or a board with zero queens.",
+      "starter_code": "def solve_n_queens(n):\n    board = [['.' for _ in range(n)] for _ in range(n)]\n    solutions = []\n    def backtrack(row):\n        if row == n:\n            solutions.append([''.join(r) for r in board])\n            return\n        for col in range(n):\n            if is_safe(board, row, col):\n                board[row][col] = 'Q'\n                backtrack(row + 1)\n                # TODO: restore board state and handle n <= 0\n    if n <= 0:\n        return []\n    backtrack(0)\n    return solutions\n\ndef is_safe(board, row, col):\n    for i in range(row):\n        if board[i][col] == 'Q':\n            return False\n    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):\n        if board[i][j] == 'Q':\n            return False\n    for i, j in zip(range(row, -1, -1), range(col, len(board))):\n        if board[i][j] == 'Q':\n            return False\n    return True",
+      "solution_code": "def solve_n_queens(n):\n    if n <= 0:\n        return []\n    board = [['.' for _ in range(n)] for _ in range(n)]\n    solutions = []\n    def backtrack(row):\n        if row == n:\n            solutions.append([''.join(r) for r in board])\n            return\n        for col in range(n):\n            if is_safe(board, row, col):\n                board[row][col] = 'Q'\n                backtrack(row + 1)\n                board[row][col] = '.'\n    backtrack(0)\n    return solutions\n\ndef is_safe(board, row, col):\n    for i in range(row):\n        if board[i][col] == 'Q':\n            return False\n    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):\n        if board[i][j] == 'Q':\n            return False\n    for i, j in zip(range(row, -1, -1), range(col, len(board))):\n        if board[i][j] == 'Q':\n            return False\n    return True",
+      "hint": "Restore the board cell to '.' after the recursive call, and ensure the early return for non-positive n returns an empty list without calling backtrack.",
+      "explanation": "Without restoring `board[row][col]` to '.', the board retains queens from deeper recursive levels, causing incorrect safety checks. The early return for `n <= 0` prevents unnecessary initialization and backtracking on invalid inputs."
+    },
+    {
+      "id": "36.5_q22",
+      "type": "fix_the_code",
+      "concept": "backtracking_concepts_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Analysis of Backtracking Algorithms",
+        "content": "Backtracking algorithms often exhibit exponential time complexity because they explore a large portion of the solution space. A runtime error or timeout usually indicates either an unbounded recursion depth or redundant recomputation. Common causes include:\n\n1. Missing base case or incorrect base case condition, leading to `RecursionError`.\n2. Not pruning invalid branches early, causing unnecessary exploration.\n3. Using mutable default arguments or shared state across recursive calls.\n\nTo debug runtime issues, profile the recursion depth, check for early termination conditions, and verify that state is properly isolated or restored per branch.\n\nConsider this problematic code:\n\n```python\ndef bad_backtrack(n):\n    if n == 0:\n        return 1\n    total = 0\n    for i in range(1, n + 1):\n        total += bad_backtrack(n - i)\n    return total\n```\n\nThis runs in exponential time because it recalculates the same subproblems repeatedly without memoization or pruning. For large `n`, it will hit Python's recursion limit."
+      },
+      "prompt": "Fix the bug in this code for backtracking concepts runtime:",
+      "starter_code": "# Fix this code\nPrint('Backtracking Concepts')",
+      "solution_code": "print('Backtracking Concepts')",
+      "explanation": "This exercise tests `backtracking concepts runtime` in Backtracking Concepts. When Python validates this code, it applies the standard rules of backtracking concepts runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "36.5_q23",
+      "type": "fix_the_code",
+      "concept": "backtracking_concepts_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q22"
+      ],
+      "prompt": "The following code is meant to generate all valid combinations of parentheses for a given number of pairs using backtracking. The logic for tracking open and close parentheses is flawed. Repair the logic so that only valid combinations are produced.",
+      "starter_code": "def generate_parenthesis(n):\n    result = []\n    def backtrack(current, open_count, close_count):\n        if len(current) == 2 * n:\n            result.append(current)\n            return\n        if open_count < n:\n            current += '('\n            backtrack(current, open_count + 1, close_count)\n        # TODO: add condition to place ')' only when valid\n    backtrack('', 0, 0)\n    return result",
+      "solution_code": "def generate_parenthesis(n):\n    result = []\n    def backtrack(current, open_count, close_count):\n        if len(current) == 2 * n:\n            result.append(current)\n            return\n        if open_count < n:\n            current += '('\n            backtrack(current, open_count + 1, close_count)\n        if close_count < open_count and close_count < n:\n            current += ')'\n            backtrack(current, open_count, close_count + 1)\n    backtrack('', 0, 0)\n    return result",
+      "hint": "A closing parenthesis can only be added if there is at least one unmatched opening parenthesis, and the total number of closing parentheses must not exceed `n`.",
+      "explanation": "The missing condition `close_count < open_count` ensures that we never close more parentheses than have been opened, maintaining validity. The additional check `close_count < n` prevents exceeding the required number of pairs."
+    },
+    {
+      "id": "36.5_q24",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.5_q23"
+      ],
+      "prompt": "Refactor the following backtracking solution for the Subset Sum problem to improve its efficiency. The current implementation uses a list that is copied on every recursive call, which is costly. Optimize it by minimizing unnecessary copying and pruning branches early using the sorted order of candidates.",
+      "starter_code": "def subset_sum(candidates, target):\n    candidates.sort()\n    result = []\n    def backtrack(start, path, current_sum):\n        if current_sum == target:\n            result.append(path.copy())\n            return\n        if current_sum > target or start >= len(candidates):\n            return\n        for i in range(start, len(candidates)):\n            path.append(candidates[i])\n            backtrack(i + 1, path, current_sum + candidates[i])\n            path.pop()\n    backtrack(0, [], 0)\n    return result",
+      "solution_code": "def subset_sum(candidates, target):\n    candidates.sort()\n    result = []\n    def backtrack(start, path, current_sum):\n        if current_sum == target:\n            result.append(list(path))\n            return\n        if current_sum > target or start >= len(candidates):\n            return\n        for i in range(start, len(candidates)):\n            # prune: since sorted, further elements will only increase sum\n            if current_sum + candidates[i] > target:\n                break\n            path.append(candidates[i])\n            backtrack(i + 1, path, current_sum + candidates[i])\n            path.pop()\n    backtrack(0, [], 0)\n    return result",
+      "test_cases": [
+        {
+          "input": {
+            "candidates": [
+              2,
+              3,
+              5,
+              6,
+              8,
+              10
+            ],
+            "target": 10
+          },
+          "expected": [
+            [
+              2,
+              8
+            ],
+            [
+              2,
+              3,
+              5
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "input": {
+            "candidates": [
+              1,
+              2,
+              3
+            ],
+            "target": 4
+          },
+          "expected": [
+            [
+              1,
+              3
+            ],
+            [
+              1,
+              2,
+              1
+            ]
+          ]
+        }
+      ],
+      "hint": "Since the list is sorted, if adding the current candidate exceeds the target, you can break out of the loop early. Also, use `list(path)` instead of `path.copy()` for a minor optimization, or consider passing path by reference and backtracking in place.",
+      "explanation": "Sorting enables early pruning: once `current_sum + candidates[i]` exceeds `target`, all subsequent candidates will also exceed it due to non-decreasing order. This reduces the explored search space significantly. Using `list(path)` is equivalent to `path.copy()` but avoids method lookup overhead. The in-place mutation with `pop()` remains optimal for memory usage."
+    },
+    {
+      "id": "36.5_q25",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q24"
+      ],
+      "prompt": "Implement a backtracking algorithm to generate all subsets of a given list of distinct integers.",
+      "starter_code": "def subsets(nums):\n    result = []\n    def backtrack(start, path):\n        result.append(path[:])\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return result\n\nprint(subsets([1, 2, 3]))",
+      "solution_code": "def subsets(nums):\n    result = []\n    def backtrack(start, path):\n        result.append(path[:])\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return result\n\nprint(subsets([1, 2, 3]))",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3]",
+          "expected": "[[3], [1, 3], [2, 3], [1, 2, 3], [2], [1, 2], [1], []]"
+        },
+        {
+          "input": "[]",
+          "expected": "[[]]"
+        },
+        {
+          "input": "[0]",
+          "expected": "[[0], []]"
+        }
+      ],
+      "hint": "At each recursion level, decide whether to include the current element and recurse, then undo the decision before moving to the next element.",
+      "explanation": "This exercise demonstrates the core backtracking pattern: choose, explore, and unchoose. We iterate through indices starting from 'start', append the element to 'path', recurse with the next index, and then remove (pop) the element to restore the state for other branches."
+    },
+    {
+      "id": "36.5_q26",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.5_q25"
+      ],
+      "prompt": "Write a backtracking solution to generate all valid parentheses combinations for n pairs of parentheses.",
+      "starter_code": "def generateParenthesis(n):\n    result = []\n    def backtrack(s, left, right):\n        if len(s) == 2 * n:\n            result.append(s)\n            return\n        if left < n:\n            backtrack(s + '(', left + 1, right)\n        if right < left:\n            backtrack(s + ')', left, right + 1)\n    backtrack('', 0, 0)\n    return result\n\nprint(generateParenthesis(3))",
+      "solution_code": "def generateParenthesis(n):\n    result = []\n    def backtrack(s, left, right):\n        if len(s) == 2 * n:\n            result.append(s)\n            return\n        if left < n:\n            backtrack(s + '(', left + 1, right)\n        if right < left:\n            backtrack(s + ')', left, right + 1)\n    backtrack('', 0, 0)\n    return result\n\nprint(generateParenthesis(3))",
+      "test_cases": [
+        {
+          "input": 3,
+          "expected": "['((()))', '(()())', '(())()', '()(())', '()()()']"
+        },
+        {
+          "input": 1,
+          "expected": [
+            "()"
+          ]
+        },
+        {
+          "input": 2,
+          "expected": [
+            "(())",
+            "()()"
+          ]
+        }
+      ],
+      "hint": "Track the count of open and close parentheses. You can add an open parenthesis only if fewer than n have been used, and a close parenthesis only if it does not exceed the number of open ones.",
+      "explanation": "This problem reinforces pruning in backtracking. By maintaining 'left' and 'right' counters, we avoid invalid partial strings early, reducing the search space significantly compared to generating all 2^(2n) strings."
+    },
+    {
+      "id": "36.5_q27",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.5_q26"
+      ],
+      "prompt": "Implement a backtracking solver for the N-Queens problem that returns all distinct solutions where n queens are placed on an n x n board without attacking each other.",
+      "starter_code": "def solveNQueens(n):\n    def is_safe(row, col, queens):\n        for r, c in enumerate(queens):\n            if c == col or abs(r - row) == abs(c - col):\n                return False\n        return True\n\n    def backtrack(row, queens):\n        if row == n:\n            solutions.append(queens[:])\n            return\n        for col in range(n):\n            if is_safe(row, col, queens):\n                queens.append(col)\n                backtrack(row + 1, queens)\n                queens.pop()\n\n    solutions = []\n    backtrack(0, [])\n    return solutions\n\nprint(solveNQueens(4))",
+      "solution_code": "def solveNQueens(n):\n    def is_safe(row, col, queens):\n        for r, c in enumerate(queens):\n            if c == col or abs(r - row) == abs(c - col):\n                return False\n        return True\n\n    def backtrack(row, queens):\n        if row == n:\n            solutions.append(queens[:])\n            return\n        for col in range(n):\n            if is_safe(row, col, queens):\n                queens.append(col)\n                backtrack(row + 1, queens)\n                queens.pop()\n\n    solutions = []\n    backtrack(0, [])\n    return solutions\n\nprint(solveNQueens(4))",
+      "test_cases": [
+        {
+          "input": 4,
+          "expected": "[[1, 3, 0, 2], [2, 0, 3, 1]]"
+        },
+        {
+          "input": 1,
+          "expected": "[[0]]"
+        },
+        {
+          "input": 2,
+          "expected": "[]"
+        }
+      ],
+      "hint": "Represent the board by placing a queen in each row at a column index. The 'queens' list stores the column position for each row. Prune a column if it conflicts with any previously placed queen.",
+      "explanation": "N-Queens is a canonical backtracking problem. The state is the list of column indices. We place one queen per row, validate with 'is_safe', recurse, and backtrack by removing the queen. This demonstrates diagonal and column conflict checking."
+    },
+    {
+      "id": "36.5_q28",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.5_q27"
+      ],
+      "prompt": "Solve the Sudoku puzzle using backtracking. Fill the empty cells (represented by '.') with digits 1-9 such that each row, column, and 3x3 sub-box contains unique digits.",
+      "starter_code": "def solveSudoku(board):\n    def is_valid(board, row, col, num):\n        for i in range(9):\n            if board[row][i] == num or board[i][col] == num:\n                return False\n        start_row, start_col = 3 * (row // 3), 3 * (col // 3)\n        for i in range(3):\n            for j in range(3):\n                if board[start_row + i][start_col + j] == num:\n                    return False\n        return True\n\n    def backtrack():\n        for i in range(9):\n            for j in range(9):\n                if board[i][j] == '.':\n                    for num in '123456789':\n                        if is_valid(board, i, j, num):\n                            board[i][j] = num\n                            if backtrack():\n                                return True\n                            board[i][j] = '.'\n                    return False\n        return True\n\n    backtrack()\n    return board\n\nboard = [\n    ['5','3','.','.','7','.','.','.','.'],\n    ['6','.','.','1','9','5','.','.','.'],\n    ['.','9','8','.','.','.','.','6','.'],\n    ['8','.','.','.','6','.','.','.','3'],\n    ['4','.','.','8','.','3','.','.','1'],\n    ['7','.','.','.','2','.','.','.','6'],\n    ['.','6','.','.','.','.','2','8','.'],\n    ['.','.','.','4','1','9','.','.','5'],\n    ['.','.','.','.','8','.','.','7','9']\n]\nprint(solveSudoku(board))",
+      "solution_code": "def solveSudoku(board):\n    def is_valid(board, row, col, num):\n        for i in range(9):\n            if board[row][i] == num or board[i][col] == num:\n                return False\n        start_row, start_col = 3 * (row // 3), 3 * (col // 3)\n        for i in range(3):\n            for j in range(3):\n                if board[start_row + i][start_col + j] == num:\n                    return False\n        return True\n\n    def backtrack():\n        for i in range(9):\n            for j in range(9):\n                if board[i][j] == '.':\n                    for num in '123456789':\n                        if is_valid(board, i, j, num):\n                            board[i][j] = num\n                            if backtrack():\n                                return True\n                            board[i][j] = '.'\n                    return False\n        return True\n\n    backtrack()\n    return board\n\nboard = [\n    ['5','3','.','.','7','.','.','.','.'],\n    ['6','.','.','1','9','5','.','.','.'],\n    ['.','9','8','.','.','.','.','6','.'],\n    ['8','.','.','.','6','.','.','.','3'],\n    ['4','.','.','8','.','3','.','.','1'],\n    ['7','.','.','.','2','.','.','.','6'],\n    ['.','6','.','.','.','.','2','8','.'],\n    ['.','.','.','4','1','9','.','.','5'],\n    ['.','.','.','.','8','.','.','7','9']\n]\nprint(solveSudoku(board))",
+      "test_cases": [
+        {
+          "input": "standard_sudoku",
+          "expected": "valid_solved_board"
+        },
+        {
+          "input": "all_empty_9x9",
+          "expected": "any_valid_sudoku_solution"
+        }
+      ],
+      "hint": "Iterate through every cell; when you find '.', try digits 1-9. If a digit is valid, place it and recurse. If recursion fails, reset to '.' and try the next digit. The base case is when no '.' remains.",
+      "explanation": "Sudoku requires checking row, column, and 3x3 box constraints. Backtracking explores the decision tree of possible digit placements. The algorithm terminates when the board is fully filled or exhausts all invalid branches."
+    },
+    {
+      "id": "36.5_q29",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.5_q28"
+      ],
+      "prompt": "A logistics company needs to schedule delivery routes across 6 cities. Each route must visit every city exactly once and return to the start. Use backtracking to find all Hamiltonian cycles in the given adjacency matrix.",
+      "starter_code": "def find_hamiltonian_cycles(graph):\n    n = len(graph)\n    cycles = []\n    def is_valid(v, pos, path):\n        if not graph[path[pos - 1]][v]:\n            return False\n        if v in path:\n            return False\n        return True\n\n    def backtrack(path, pos):\n        if pos == n + 1:\n            if graph[path[-1]][path[0]]:\n                cycles.append(path[:])\n            return\n        for v in range(n):\n            if is_valid(v, pos, path):\n                path.append(v)\n                backtrack(path, pos + 1)\n                path.pop()\n\n    for start in range(n):\n        backtrack([start], 2)\n    return cycles\n\nadj = [\n    [0, 1, 1, 0, 0, 1],\n    [1, 0, 1, 1, 0, 0],\n    [1, 1, 0, 1, 1, 0],\n    [0, 1, 1, 0, 1, 1],\n    [0, 0, 1, 1, 0, 1],\n    [1, 0, 0, 1, 1, 0]\n]\nprint(find_hamiltonian_cycles(adj))",
+      "solution_code": "def find_hamiltonian_cycles(graph):\n    n = len(graph)\n    cycles = []\n    def is_valid(v, pos, path):\n        if not graph[path[pos - 1]][v]:\n            return False\n        if v in path:\n            return False\n        return True\n\n    def backtrack(path, pos):\n        if pos == n + 1:\n            if graph[path[-1]][path[0]]:\n                cycles.append(path[:])\n            return\n        for v in range(n):\n            if is_valid(v, pos, path):\n                path.append(v)\n                backtrack(path, pos + 1)\n                path.pop()\n\n    for start in range(n):\n        backtrack([start], 2)\n    return cycles\n\nadj = [\n    [0, 1, 1, 0, 0, 1],\n    [1, 0, 1, 1, 0, 0],\n    [1, 1, 0, 1, 1, 0],\n    [0, 1, 1, 0, 1, 1],\n    [0, 0, 1, 1, 0, 1],\n    [1, 0, 0, 1, 1, 0]\n]\nprint(find_hamiltonian_cycles(adj))",
+      "test_cases": [
+        {
+          "input": "6_city_graph",
+          "expected": "list_of_valid_hamiltonian_cycles"
+        },
+        {
+          "input": "disconnected_graph",
+          "expected": "[]"
+        }
+      ],
+      "hint": "A Hamiltonian cycle visits each vertex exactly once and returns to the start. Represent the current path and extend it by any unvisited neighbor. When the path length equals n+1, verify the closing edge exists.",
+      "explanation": "This scenario maps directly to the Hamiltonian cycle problem, an NP-complete problem. Backtracking exhaustively searches all permutations of vertices, pruning early when an edge is missing or a vertex is revisited. It illustrates how backtracking handles combinatorial explosion in real-world routing."
+    },
+    {
+      "id": "36.5_q30",
+      "type": "write_the_code",
+      "concept": "backtracking_concepts_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.5_q29"
+      ],
+      "prompt": "Implement a backtracking solution to find all unique combinations of k numbers from 1 to 9 that sum to n. Each number may be used at most once. Return the combinations in any order.",
+      "starter_code": "def combinationSum3(k, n):\n    result = []\n    def backtrack(start, path, remaining):\n        if len(path) == k:\n            if remaining == 0:\n                result.append(path[:])\n            return\n        for i in range(start, 10):\n            if i > remaining:\n                break\n            path.append(i)\n            backtrack(i + 1, path, remaining - i)\n            path.pop()\n    backtrack(1, [], n)\n    return result\n\nprint(combinationSum3(3, 7))",
+      "solution_code": "def combinationSum3(k, n):\n    result = []\n    def backtrack(start, path, remaining):\n        if len(path) == k:\n            if remaining == 0:\n                result.append(path[:])\n            return\n        for i in range(start, 10):\n            if i > remaining:\n                break\n            path.append(i)\n            backtrack(i + 1, path, remaining - i)\n            path.pop()\n    backtrack(1, [], n)\n    return result\n\nprint(combinationSum3(3, 7))",
+      "test_cases": [
+        {
+          "input": [
+            3,
+            7
+          ],
+          "expected": "[[1, 2, 4]]"
+        },
+        {
+          "input": [
+            3,
+            9
+          ],
+          "expected": "[[1, 2, 6], [1, 3, 5], [2, 3, 4]]"
+        },
+        {
+          "input": [
+            4,
+            1
+          ],
+          "expected": "[]"
+        }
+      ],
+      "hint": "Use numbers 1 through 9 in increasing order to avoid duplicates. Prune the loop when the current number exceeds the remaining sum, since all subsequent numbers are larger.",
+      "explanation": "This problem combines combination generation with a target sum constraint. The backtracking state tracks 'start' (to enforce increasing order and uniqueness), 'path' (current selection), and 'remaining' (sum still needed). The break condition optimizes the search by exploiting the sorted nature of candidates."
+    }
+  ],
+  "unit_num": 36,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Backtracking Concepts",
+    "Apply idiomatic Python patterns when working with Backtracking Concepts",
+    "Debug common runtime exceptions and logic errors associated with Backtracking Concepts",
+    "Implement production-ready code utilizing Backtracking Concepts"
+  ],
+  "prerequisites": [
+    "36.4"
+  ]
+}

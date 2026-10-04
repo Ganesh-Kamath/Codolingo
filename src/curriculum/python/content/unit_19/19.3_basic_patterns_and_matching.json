@@ -1,0 +1,615 @@
+{
+  "lesson_id": "19.3",
+  "title": "Basic Patterns and Matching",
+  "unit": "Regular Expressions",
+  "items": [
+    {
+      "id": "19.3_q1",
+      "type": "micro_lesson",
+      "title": "What Are Regular Expressions?",
+      "content": "Regular expressions (regex) are sequences of characters that define a search pattern. In Python, you use the re module to work with regex. The re.search() function scans through a string looking for the first location where the pattern produces a match. If a match is found, it returns a match object; otherwise, it returns None. This is useful for validating input, extracting data, or replacing text. For example:\n\n```python\nimport re\n\ntext = 'My email is alice@example.com'\npattern = r'\\w+@\\w+\\.\\w+'\n\nmatch = re.search(pattern, text)\nif match:\n    print('Found:', match.group())\nelse:\n    print('Not found')\n```\n\nHere, r'\\w+@\\w+\\.\\w+' is a raw string pattern that matches word characters, followed by @, then more word characters, a literal dot, and more word characters. The \\w matches any alphanumeric character and underscore.",
+      "concept": "basic_patterns_and_matching_basics",
+      "skill": "recognition",
+      "diff": "easy",
+      "prerequisites": [],
+      "difficulty": "easy",
+      "prompt": "",
+      "explanation": "Regular expressions (regex) are sequences of characters that define a search pattern. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "19.3_q2",
+      "type": "multiple_choice",
+      "prompt": "Which module in Python is used to work with regular expressions?",
+      "options": [
+        "string",
+        "re",
+        "regex",
+        "pattern"
+      ],
+      "correct_answer": "re",
+      "explanation": "The built-in re module provides full support for regular expressions in Python. The other options are not the standard module for regex operations.",
+      "match_code_to_concept": true,
+      "concept": "basic_patterns_and_matching_basics",
+      "skill": "recall",
+      "diff": "easy",
+      "prerequisites": [
+        "19.3_q1"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "19.3_q3",
+      "type": "micro_lesson",
+      "title": "Common Regex Syntax and Metacharacters",
+      "content": "Regex syntax includes literal characters and metacharacters that have special meanings. Here are the most common ones:\n\n- `.` matches any character except a newline.\n- `^` anchors the match to the start of the string.\n- `$` anchors the match to the end of the string.\n- `*` matches zero or more occurrences of the preceding element.\n- `+` matches one or more occurrences of the preceding element.\n- `?` matches zero or one occurrence of the preceding element.\n- `[]` defines a character set; for example, `[0-9]` matches any digit.\n- `\\d` is shorthand for any digit (equivalent to `[0-9]`).\n- `\\w` is shorthand for any word character (alphanumeric plus underscore).\n- `\\s` is shorthand for any whitespace character.\n\nExample:\n\n```python\nimport re\n\nphone = 'Call 415-555-0199'\npattern = r'\\d{3}-\\d{3}-\\d{4}'\n\nif re.search(pattern, phone):\n    print('Valid phone format')\n```\n\nIn this example, `\\d{3}` means exactly three digits, and the literal hyphens separate the groups.",
+      "concept": "basic_patterns_and_matching_syntax",
+      "skill": "understanding",
+      "diff": "easy",
+      "prerequisites": [
+        "19.3_q2"
+      ],
+      "difficulty": "easy",
+      "prompt": "",
+      "explanation": "Regex syntax includes literal characters and metacharacters that have special meanings. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "19.3_q4",
+      "type": "multiple_choice",
+      "prompt": "What does the pattern r'\\d{3}-\\d{3}-\\d{4}' match in the string 'Call 415-555-0199'?",
+      "options": [
+        "The word 'Call'",
+        "The phone number 415-555-0199",
+        "Only the area code 415",
+        "Nothing, because the pattern is invalid"
+      ],
+      "correct_answer": "The phone number 415-555-0199",
+      "explanation": "The pattern uses \\d{3} to match three digits, followed by a hyphen, then three more digits, another hyphen, and four digits. This exactly matches the phone number format in the string.",
+      "match_code_to_concept": true,
+      "concept": "basic_patterns_and_matching_syntax",
+      "skill": "reasoning",
+      "diff": "easy",
+      "prerequisites": [
+        "19.3_q3"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "19.3_q5",
+      "type": "multiple_choice",
+      "prompt": "Given the code below, what does re.search(r'^\\w+', 'Hello World') return?",
+      "options": [
+        "None",
+        "A match object for 'Hello'",
+        "A match object for 'World'",
+        "An error because the pattern is invalid"
+      ],
+      "correct_answer": "A match object for 'Hello'",
+      "explanation": "The ^ anchor ensures the match starts at the beginning of the string. \\w+ matches one or more word characters, so it captures 'Hello' and stops before the space.",
+      "match_code_to_concept": true,
+      "concept": "basic_patterns_and_matching_matching",
+      "skill": "recognition",
+      "diff": "easy",
+      "prerequisites": [
+        "19.3_q4"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "19.3_q6",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is a common pitfall when using regular expressions in Python?",
+      "options": [
+        "Forgetting to import the re module before using it",
+        "Using double quotes inside raw strings without escaping",
+        "Assuming re.search() always returns a string instead of a match object",
+        "All of the above"
+      ],
+      "correct_answer": "All of the above",
+      "explanation": "All three are common issues. You must import re, raw strings still require care with quotes, and re.search() returns a match object (or None), not the matched substring directly. Use .group() to extract the actual text.",
+      "match_code_to_concept": true,
+      "concept": "basic_patterns_and_matching_pitfalls",
+      "skill": "comprehension",
+      "diff": "easy",
+      "prerequisites": [
+        "19.3_q5"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "id": "19.3_q7",
+      "type": "code_prediction",
+      "concept": "basic_patterns_and_matching_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "19.3_q6"
+      ],
+      "prompt": "What will the following Python code output?\n\n```python\nimport re\ntext = 'The rain in Spain stays mainly on the plain.'\npattern = r'Spain'\nresult = re.search(pattern, text)\nprint(result)\n```",
+      "options": [
+        "None",
+        "<re.Match object; span=(10, 14), match='Spain'>",
+        "True",
+        "Match not found"
+      ],
+      "correct_answer": "<re.Match object; span=(10, 14), match='Spain'>",
+      "explanation": "re.search scans through the string looking for the first location where the pattern produces a match. Since 'Spain' appears in the text, it returns a Match object with span (10, 14) and the matched substring 'Spain'."
+    },
+    {
+      "id": "19.3_q8",
+      "type": "output_prediction",
+      "concept": "basic_patterns_and_matching_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nimport re\ns = 'Python3.8 Python3.9 Python3.10'\nnums = re.findall(r'\\d+', s)\nprint(nums)\n```",
+      "options": [
+        "['3', '8', '3', '9', '3', '10']",
+        "['3.8', '3.9', '3.10']",
+        "['3', '8', '3', '9', '3', '10', '.']",
+        "['3.8', '3.9', '3.10', '']"
+      ],
+      "correct_answer": "['3', '8', '3', '9', '3', '10']",
+      "explanation": "The pattern r'\\d+' matches one or more digits. re.findall returns all non-overlapping matches in order. Each number is split into individual digit tokens because there is no dot in the pattern, so the matches are '3', '8', '3', '9', '3', '10'."
+    },
+    {
+      "id": "19.3_q9",
+      "type": "code_prediction",
+      "concept": "basic_patterns_and_matching_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q8"
+      ],
+      "prompt": "What will this code print?\n\n```python\nimport re\ntext = '123abc456'\nif re.match(r'^\\d+', text):\n    print('starts with digits')\nelse:\n    print('does not start with digits')\n```",
+      "options": [
+        "does not start with digits",
+        "starts with digits",
+        "Error: invalid pattern",
+        "starts with digits and ends with digits"
+      ],
+      "correct_answer": "starts with digits",
+      "explanation": "re.match checks for a match only at the beginning of the string. The pattern r'^\\d+' means the string must start with one or more digits. Since '123abc456' begins with digits, the condition is True and the first branch is executed."
+    },
+    {
+      "id": "19.3_q10",
+      "type": "write_the_code",
+      "concept": "basic_patterns_and_matching_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q9"
+      ],
+      "prompt": "Explain the result of the following code snippet:\n\n```python\nimport re\ns = 'cat bat rat'\nresult = re.sub(r'\\b(at)\\b', r'\\1X', s)\nprint(result)\n```",
+      "correct_answer": "It replaces every occurrence of 'at' with 'atX', yielding 'catX batX ratX'.",
+      "explanation": "The pattern r'\\b(at)\\b' uses word boundaries \\b to match 'at' as a whole word. The replacement r'\\1X' uses a backreference \\1 to keep the matched 'at' and appends 'X'. Because re.sub replaces all non-overlapping matches by default, every whole-word 'at' becomes 'atX'.",
+      "starter_code": "# TODO: Implement solution for Basic Patterns and Matching\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Basic Patterns and Matching')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Basic Patterns and Matching"
+        }
+      ]
+    },
+    {
+      "id": "19.3_q11",
+      "type": "code_prediction",
+      "concept": "basic_patterns_and_matching_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q10"
+      ],
+      "prompt": "Trace the execution and determine the final value of matches:\n\n```python\nimport re\ntext = 'aaabaaa'\npattern = r'a+?b'\nmatches = re.findall(pattern, text)\nprint(matches)\n```",
+      "options": [
+        "['aaab', 'aaab']",
+        "['aab', 'aab']",
+        "['aaa', 'aaa']",
+        "['aaab', 'aab']"
+      ],
+      "correct_answer": "['aab', 'aab']",
+      "explanation": "The pattern r'a+?b' uses a lazy quantifier +?, so it matches the shortest possible sequence of one or more 'a' followed by 'b'. In 'aaabaaa', the first match is 'aab' (one 'a', then 'b'). After that, scanning continues from after the 'b', finding another 'aab'. The lazy quantifier prevents 'aaab' from being matched."
+    },
+    {
+      "id": "19.3_q12",
+      "type": "output_prediction",
+      "concept": "basic_patterns_and_matching_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q11"
+      ],
+      "prompt": "What is the output?\n\n```python\nimport re\ntext = 'Hello World'\nif re.match(r'hello|world', text, re.IGNORECASE):\n    print('match found')\nelse:\n    print('no match')\n```",
+      "options": [
+        "no match",
+        "match found",
+        "Error: re.IGNORECASE is not valid",
+        "match found and no match"
+      ],
+      "explanation": "The pattern r'hello|world' uses alternation to match either 'hello' or 'world'. The re.IGNORECASE flag makes the match case-insensitive. Since 'Hello World' starts with 'Hello', which matches 'hello' case-insensitively, the condition is True and 'match found' is printed.",
+      "correct_answer": "no match"
+    },
+    {
+      "id": "19.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "basic_patterns_and_matching_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "micro_lesson": {
+        "title": "Importing the re Module",
+        "content": "To use regular expressions in Python, you must first import the built-in `re` module. The `re` module provides functions for working with patterns. Once imported, you can use methods like `re.match()`, `re.search()`, and `re.findall()` to find patterns in strings. Without importing `re`, attempts to use these functions will raise a `NameError`. Here is a basic example:\n\n```python\nimport re\n\ntext = 'hello123'\npattern = r'\\d+'\n\nmatch = re.search(pattern, text)\nprint(match)\n```\n\nThe `r` prefix before the string creates a raw string, which prevents backslashes from being interpreted as escape sequences. This is especially useful when defining regular expression patterns."
+      },
+      "prompt": "To use regular expressions in Python, you must first ___ the built-in module.",
+      "correct_answer": "import",
+      "accepted_answers": [
+        "import",
+        "load",
+        "include",
+        "bring in"
+      ],
+      "explanation": "The correct term is 'import', which is the Python keyword used to load modules into your current namespace. 'Load' and 'include' are not valid Python keywords for this purpose, and 'bring in' is a descriptive phrase but not valid syntax.",
+      "prerequisites": [
+        "19.3_q12"
+      ]
+    },
+    {
+      "id": "19.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "basic_patterns_and_matching_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Match vs. Search",
+        "content": "The `re` module offers several functions to locate patterns in strings, but they behave differently. `re.match()` only checks for a match at the beginning of the string. If the pattern does not appear at the start, it returns `None` even if the pattern exists elsewhere. `re.search()`, on the other hand, scans the entire string and returns the first location where the pattern is found. `re.findall()` returns a list of all non-overlapping matches. `re.sub()` replaces occurrences of a pattern with a replacement string.\n\nConsider the following examples:\n\n```python\nimport re\n\ntext = 'abc123def'\n\nprint(re.match(r'abc', text))   # Match at start\nprint(re.search(r'123', text))  # Found in middle\nprint(re.findall(r'\\d+', text)) # All digits\nprint(re.sub(r'\\d+', 'X', text)) # Replace digits\n```\n\nUnderstanding when to use `match` versus `search` is essential for writing correct pattern-matching code."
+      },
+      "prompt": "The function that scans the entire string and returns the first location of a pattern is ___.",
+      "correct_answer": "re.search",
+      "accepted_answers": [
+        "re.search",
+        "re.match",
+        "re.findall",
+        "re.sub"
+      ],
+      "explanation": "'re.search' is the function that scans the whole string and returns the first match object. 're.match' only checks the beginning, 're.findall' returns all matches as a list, and 're.sub' performs replacement rather than locating a match.",
+      "prerequisites": [
+        "19.3_q13"
+      ]
+    },
+    {
+      "id": "19.3_q15",
+      "type": "code_ordering",
+      "concept": "basic_patterns_and_matching_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Building a Simple Pattern Match",
+        "content": "When constructing a regular expression workflow, you typically follow a logical sequence: import the module, define the text and pattern, apply the appropriate `re` function, and then inspect the result. The order matters because each step depends on the previous one. For example, calling `re.search()` before importing `re` will cause an error. Similarly, defining the pattern after calling the function will leave the pattern variable undefined. Here is the correct sequence of operations:\n\n```python\nimport re\n\ntext = 'user_42'\npattern = r'user_\\d+'\n\nresult = re.search(pattern, text)\n\nif result:\n    print('Found:', result.group())\nelse:\n    print('Not found')\n```\n\nNotice how the import comes first, followed by data preparation, then the function call, and finally conditional handling of the result."
+      },
+      "prompt": "Arrange the following lines into the correct execution order for a basic regular expression search.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct order is: import the module first, then define the text, define the pattern, and finally call `re.search()` with both arguments. Any other order either uses undefined variables or attempts to search before the module is available.",
+      "prerequisites": [
+        "19.3_q14"
+      ]
+    },
+    {
+      "id": "19.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "basic_patterns_and_matching_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Character Classes and Wildcards",
+        "content": "Regular expressions use special symbols to define patterns. The dot `.` matches any single character except a newline. Square brackets `[]` define a character class, matching any one character inside the brackets. The caret `^` inside brackets negates the class. The asterisk `*` means zero or more repetitions of the preceding element. The plus `+` means one or more repetitions. The question mark `?` means zero or one repetition. Here is an illustration:\n\n```python\nimport re\n\ntext = 'a1b2c3'\n\nprint(re.findall(r'.', text))     # Every character\nprint(re.findall(r'[ab]', text))  # Only a or b\nprint(re.findall(r'\\d+', text))  # One or more digits\n```\n\nThese building blocks allow you to construct precise patterns for validation, extraction, and replacement tasks."
+      },
+      "prompt": "To match one or more digits in a string, the pattern should include ___.",
+      "correct_answer": "re.findall(r'\\d+', text)",
+      "accepted_answers": [
+        "re.findall(r'\\d+', text)",
+        "re.findall(r'\\d*', text)",
+        "re.findall(r'[0-9]+', text)",
+        "re.findall(r'\\d?', text)"
+      ],
+      "explanation": "The pattern `\\d+` uses the `+` quantifier to mean one or more digits. `\\d*` means zero or more, `\\d?` means zero or one, and while `[0-9]+` is functionally similar, the standard idiom taught at this level is `\\d+`.",
+      "prerequisites": [
+        "19.3_q15"
+      ]
+    },
+    {
+      "id": "19.3_q17",
+      "type": "code_ordering",
+      "concept": "basic_patterns_and_matching_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Validating an Email-Like String",
+        "content": "A common use of regular expressions is input validation. Suppose you want to check whether a string resembles an email address by looking for a sequence of letters, followed by an `@` symbol, then more letters, a dot, and a domain suffix. The algorithm proceeds by importing `re`, defining the pattern, applying `re.match()` to ensure the match starts at the beginning, checking whether the result is not `None`, and then extracting or reporting the outcome. Here is the correct sequence:\n\n```python\nimport re\n\nemail = 'test@example.com'\npattern = r'^[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]+$'\n\nmatch = re.match(pattern, email)\n\nif match:\n    print('Valid pattern found')\nelse:\n    print('Invalid pattern')\n```\n\nUsing `re.match()` with the `^` and `$` anchors ensures the entire string conforms to the pattern, not just a substring."
+      },
+      "prompt": "Order the steps to validate a string against a regular expression pattern.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is to import first, then define the data and pattern, call the matching function, and finally evaluate the boolean result. Calling `re.match()` before defining the pattern or before importing `re` will cause errors.",
+      "prerequisites": [
+        "19.3_q16"
+      ]
+    },
+    {
+      "id": "19.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "basic_patterns_and_matching_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Common Regex Idioms",
+        "content": "Experienced Python developers rely on a few idiomatic patterns when working with regular expressions. One common idiom is to use a raw string literal (prefix `r`) for the pattern to avoid backslash escaping issues. Another is to compile a pattern with `re.compile()` when the same pattern is used multiple times, improving efficiency. A third idiom is to use `re.IGNORECASE` as a flag when case-insensitive matching is desired. Here is an example combining these ideas:\n\n```python\nimport re\n\npattern = re.compile(r'python', re.IGNORECASE)\n\ntext1 = 'Python is great'\ntext2 = 'I love python'\n\nprint(pattern.search(text1))\nprint(pattern.search(text2))\n```\n\nCompiling once and reusing the pattern object is cleaner and faster than passing the string to `re.search()` repeatedly."
+      },
+      "prompt": "When reusing the same pattern many times, a common Python idiom is to ___ the pattern first.",
+      "correct_answer": "re.compile",
+      "accepted_answers": [
+        "re.compile",
+        "re.match",
+        "re.search",
+        "re.findall"
+      ],
+      "explanation": "'re.compile' creates a reusable pattern object, which is the standard idiom for repeated matching. 're.match', 're.search', and 're.findall' are functions that operate on a pattern string directly and do not produce a reusable compiled object.",
+      "prerequisites": [
+        "19.3_q17"
+      ]
+    },
+    {
+      "id": "19.3_q19",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for Basic Patterns And Matching Errors:",
+      "starter_code": "Print('Basic Patterns and Matching Item 19')",
+      "solution_code": "print('Basic Patterns and Matching Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `basic patterns and matching errors` in Basic Patterns and Matching. When Python validates this code, it applies the standard rules of basic patterns and matching errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "19.3_q20",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "19.3_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for Basic Patterns And Matching Fix:",
+      "starter_code": "Print('Basic Patterns and Matching Item 20')",
+      "solution_code": "print('Basic Patterns and Matching Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `basic patterns and matching fix` in Basic Patterns and Matching. When Python validates this code, it applies the standard rules of basic patterns and matching fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "19.3_q21",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for Basic Patterns And Matching Edge Cases:",
+      "starter_code": "Print('Basic Patterns and Matching Item 21')",
+      "solution_code": "print('Basic Patterns and Matching Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `basic patterns and matching edge cases` in Basic Patterns and Matching. When Python validates this code, it applies the standard rules of basic patterns and matching edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "19.3_q22",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for Basic Patterns And Matching Runtime:",
+      "starter_code": "Print('Basic Patterns and Matching Item 22')",
+      "solution_code": "print('Basic Patterns and Matching Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `basic patterns and matching runtime` in Basic Patterns and Matching. When Python validates this code, it applies the standard rules of basic patterns and matching runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "19.3_q23",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for Basic Patterns And Matching Logic Repair:",
+      "starter_code": "Print('Basic Patterns and Matching Item 23')",
+      "solution_code": "print('Basic Patterns and Matching Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `basic patterns and matching logic repair` in Basic Patterns and Matching. When Python validates this code, it applies the standard rules of basic patterns and matching logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "19.3_q24",
+      "type": "write_the_code",
+      "concept": "basic_patterns_and_matching_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "19.3_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Basic Patterns and Matching that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_19_3_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_19_3_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Basic Patterns and Matching must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "19.3_q25",
+      "type": "write_the_code",
+      "concept": "basic_patterns_and_matching_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Basic Patterns and Matching.",
+      "starter_code": "def process_19_3_data(items):\n    # Process input according to Basic Patterns and Matching rules\n    pass",
+      "solution_code": "def process_19_3_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Basic Patterns and Matching rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Basic Patterns and Matching.",
+      "explanation": "Constructing pure, robust data transformers for Basic Patterns and Matching avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "19.3_q26",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "19.3_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Basic Patterns and Matching that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_19_3_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_19_3_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "19.3_q27",
+      "type": "code_prediction",
+      "concept": "basic_patterns_and_matching_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "19.3_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Basic Patterns and Matching encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Basic Patterns and Matching.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "19.3_q28",
+      "type": "write_the_code",
+      "concept": "basic_patterns_and_matching_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "19.3_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Basic Patterns and Matching. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Basic Patterns and Matching\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Basic Patterns and Matching ensures testable domain operations."
+    },
+    {
+      "id": "19.3_q29",
+      "type": "fix_the_code",
+      "concept": "basic_patterns_and_matching_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "19.3_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Basic Patterns and Matching into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Basic Patterns and Matching Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "19.3_q30",
+      "type": "write_the_code",
+      "concept": "basic_patterns_and_matching_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "19.3_q29"
+      ],
+      "prompt": "Regex Pattern Extraction: Write a function `extract_hashtags(post)` that finds and returns all unique hashtags (words starting with `#`) in a social media caption.",
+      "starter_code": "import re\ndef extract_hashtags(post):\n    # Return list of hashtags\n    pass",
+      "solution_code": "import re\ndef extract_hashtags(post):\n    return re.findall(r'#\\w+', post)",
+      "test_cases": [
+        {
+          "input": "'Hello #python and #coding world!'",
+          "expected_output": "['#python', '#coding']",
+          "description": "extracts hashtags with re.findall"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "The regex `#\\w+` matches a literal hash followed by one or more alphanumeric word characters."
+    }
+  ],
+  "unit_num": 19,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Basic Patterns and Matching",
+    "Apply idiomatic Python patterns when working with Basic Patterns and Matching",
+    "Debug common runtime exceptions and logic errors associated with Basic Patterns and Matching",
+    "Implement production-ready code utilizing Basic Patterns and Matching"
+  ],
+  "prerequisites": [
+    "19.2"
+  ]
+}

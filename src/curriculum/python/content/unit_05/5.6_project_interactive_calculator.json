@@ -1,0 +1,626 @@
+{
+  "lesson_id": "5.6",
+  "title": "Project: Interactive Calculator",
+  "unit": "Conditional Logic",
+  "items": [
+    {
+      "id": "5.6_q1",
+      "type": "micro_lesson",
+      "concept": "project_interactive_calculator_architecture",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Architecture of a Terminal Calculator",
+      "content": "Building an interactive CLI calculator requires coordinating four key phases:\n\n1. **Input Ingestion:** Prompt the user for operands and parse into floats.\n2. **Operator Validation:** Verify the operation is one of `('+', '-', '*', '/')`.\n3. **Computation & Error Handling:** Guard against mathematical division by zero.\n4. **Display:** Present formatted results cleanly to the user.",
+      "explanation": "CLI calculators decouple input collection, mathematical dispatch, and error handling into distinct stages.",
+      "metadata": {
+        "concept": "calculator_architecture",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Architectural roadmap for calculator project"
+      }
+    },
+    {
+      "id": "5.6_q2",
+      "type": "micro_lesson",
+      "concept": "project_interactive_calculator_dispatch",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.6_q1"
+      ],
+      "title": "Designing Operation Dispatch",
+      "content": "In early Python, operation dispatch is cleanly structured with an `if-elif-else` chain:\n\n```python\nif op == \"+\":\n    result = a + b\nelif op == \"-\":\n    result = a - b\nelif op == \"*\":\n    result = a * b\nelif op == \"/\":\n    if b == 0:\n        result = \"Error: Division by zero\"\n    else:\n        result = a / b\nelse:\n    result = \"Error: Invalid operator\"\n```",
+      "explanation": "An if-elif chain maps operator tokens to their corresponding arithmetic computations.",
+      "metadata": {
+        "concept": "operation_dispatch",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches operator branching in calculators"
+      }
+    },
+    {
+      "id": "5.6_q3",
+      "type": "code_prediction",
+      "concept": "project_interactive_calculator_parsing",
+      "skill": "data_validation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q2"
+      ],
+      "prompt": "In an interactive calculator, a user enters the operator string `\"+\"`. Which conditional structure cleanly identifies the valid operation?\n\n```python\nop = \"+\"\nif op in ('+', '-', '*', '/'):\n    valid = True\nelse:\n    valid = False\nprint(valid)\n```\n\nWhat is output?",
+      "options": [
+        "True",
+        "False",
+        "TypeError",
+        "None"
+      ],
+      "correct_answer": "True",
+      "explanation": "Checking `op in ('+', '-', '*', '/')` uses the `in` operator to test membership against a collection of valid operators in a single, clear check.",
+      "metadata": {
+        "concept": "operator_membership_validation",
+        "skill": "validation",
+        "learning_objective": "Validate user-supplied operators using collection membership",
+        "common_misconception": "Writing op == '+' or op == '-' or op == '*' or op == '/'",
+        "why_this_exercise_exists": "Replaces synthetic template function with calculator operator validation"
+      }
+    },
+    {
+      "id": "5.6_q4",
+      "type": "error_diagnosis",
+      "concept": "project_interactive_calculator_division",
+      "skill": "edge_cases",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q3"
+      ],
+      "prompt": "What happens if a calculator performs division without checking the denominator?\n\n```python\nnum1 = 10\nnum2 = 0\nresult = num1 / num2\n```",
+      "options": [
+        "Raises ZeroDivisionError: division by zero",
+        "Returns infinity (float('inf'))",
+        "Returns None",
+        "Returns 0"
+      ],
+      "correct_answer": "Raises ZeroDivisionError: division by zero",
+      "explanation": "Python does not permit mathematical division by zero. Attempting `num1 / 0` immediately raises `ZeroDivisionError`. Production calculators must guard against this condition prior to division.",
+      "metadata": {
+        "concept": "zero_division_guard",
+        "skill": "defensive_programming",
+        "learning_objective": "Anticipate ZeroDivisionError when designing calculator routines",
+        "common_misconception": "Believing Python returns inf or None when dividing by zero",
+        "why_this_exercise_exists": "Teaches critical defensive validation for arithmetic apps"
+      }
+    },
+    {
+      "id": "5.6_q5",
+      "type": "code_ordering",
+      "concept": "project_interactive_calculator_milestone_flow",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q4"
+      ],
+      "prompt": "Arrange the lines in correct logical order for Project Interactive Calculator Milestone Flow:",
+      "options": [
+        "a_5 = 10",
+        "b_5 = 20",
+        "result_5 = a_5 + b_5",
+        "print(result_5)"
+      ],
+      "correct_answer": [
+        "a_5 = 10",
+        "b_5 = 20",
+        "result_5 = a_5 + b_5",
+        "print(result_5)"
+      ],
+      "explanation": "Variables a_5 and b_5 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "5.6_q6",
+      "type": "code_ordering",
+      "concept": "project_interactive_calculator_milestone_flow",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q5"
+      ],
+      "prompt": "Order the instructions to construct an interactive input prompt for two operands and an operator:",
+      "options": [
+        "a = float(input('First number: '))",
+        "op = input('Operator (+, -, *, /): ').strip()",
+        "b = float(input('Second number: '))",
+        "print(f'Calculating {a} {op} {b}')"
+      ],
+      "correct_answer": [
+        "a = float(input('First number: '))",
+        "op = input('Operator (+, -, *, /): ').strip()",
+        "b = float(input('Second number: '))",
+        "print(f'Calculating {a} {op} {b}')"
+      ],
+      "explanation": "Reading inputs in logical sequence gathers all parameters before printing the execution summary."
+    },
+    {
+      "id": "5.6_q7",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q6"
+      ],
+      "prompt": "In the Interactive Calculator project, implement input validation so entering 'exit' halts the main calculation loop:",
+      "starter_code": "user_input = input('Calc> ')\nif user_input.lower() == 'exit':\n    # Halt the loop\n    ___",
+      "solution_code": "user_input = input('Calc> ')\nif user_input.lower() == 'exit':\n    break",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "The `break` statement immediately terminates the active `while` loop, allowing clean exit."
+    },
+    {
+      "id": "5.6_q8",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q7"
+      ],
+      "prompt": "In the Interactive Calculator project, implement division by zero protection in the division operation handler:",
+      "starter_code": "def safe_divide(a, b):\n    if b == 0:\n        return 'Error: Division by zero'\n    return a / b",
+      "solution_code": "def safe_divide(a, b):\n    if b == 0:\n        return 'Error: Division by zero'\n    return a / b",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "Checking `if b == 0` guards against raising ZeroDivisionError before attempting division."
+    },
+    {
+      "id": "5.6_q9",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q8"
+      ],
+      "prompt": "In the Interactive Calculator project, implement addition and multiplication operations based on an operator string:",
+      "starter_code": "def calculate(a, b, op):\n    if op == '+':\n        return a + b\n    elif op == '*':\n        return a * b\n    return None",
+      "solution_code": "def calculate(a, b, op):\n    if op == '+':\n        return a + b\n    elif op == '*':\n        return a * b\n    return None",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "An `if/elif` chain routes calculation to the matching arithmetic operator. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "5.6_q10",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q9"
+      ],
+      "prompt": "In the Interactive Calculator project, implement exponential power calculation using the `**` operator:",
+      "starter_code": "def power(base, exponent):\n    return base ___ exponent",
+      "solution_code": "def power(base, exponent):\n    return base ** exponent",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "Python uses the double asterisk `**` for exponentiation. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "5.6_q11",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q10"
+      ],
+      "prompt": "In the Interactive Calculator project, format a floating-point calculation result to exactly 2 decimal places:",
+      "starter_code": "def format_result(val):\n    return f'{val:___}'",
+      "solution_code": "def format_result(val):\n    return f'{val:.2f}'",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "The format specifier `:.2f` formats floats with 2 fixed decimal digits. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "5.6_q12",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q11"
+      ],
+      "prompt": "In the Interactive Calculator project, append a completed calculation string to the calculation history list:",
+      "starter_code": "history = []\ndef log_calc(record):\n    history.___(record)",
+      "solution_code": "history = []\ndef log_calc(record):\n    history.append(record)",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "`history.append(record)` appends the newly computed entry to the end of the history list."
+    },
+    {
+      "id": "5.6_q13",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_milestone_1",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q12"
+      ],
+      "prompt": "Calculator Milestone 1: Read two numeric inputs from variables `input_a = '15.5'` and `input_b = '4.5'`, convert both to floats, and compute their sum stored in `sum_result`.",
+      "starter_code": "input_a = \"15.5\"\ninput_b = \"4.5\"\n# Convert both inputs to floats and store their sum in sum_result\n",
+      "solution_code": "input_a = \"15.5\"\ninput_b = \"4.5\"\nnum_a = float(input_a)\nnum_b = float(input_b)\nsum_result = num_a + num_b\nprint(f\"Result: {sum_result}\")",
+      "explanation": "Parsing both raw string inputs with `float()` allows accurate floating-point addition yielding `20.0`.",
+      "metadata": {
+        "concept": "calculator_input_ingestion",
+        "skill": "implementation",
+        "learning_objective": "Parse operand strings into floats for calculation",
+        "common_misconception": "Performing addition before type conversion",
+        "why_this_exercise_exists": "First core milestone of the interactive calculator project"
+      }
+    },
+    {
+      "id": "5.6_q14",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_milestone_2",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q13"
+      ],
+      "prompt": "Calculator Milestone 2: Given `raw_op = '  *  '`, strip any extra whitespace from the operator and verify if it is one of the supported operators `('+', '-', '*', '/')`. Store boolean validity in `is_valid`.",
+      "starter_code": "raw_op = \"  *  \"\nsupported = ('+', '-', '*', '/')\n# Clean raw_op and verify validity\n",
+      "solution_code": "raw_op = \"  *  \"\nsupported = ('+', '-', '*', '/')\nop = raw_op.strip()\nis_valid = op in supported\nprint(f\"Operator '{op}' valid: {is_valid}\")",
+      "explanation": "Stripping whitespace prevents user keystroke errors like `' + '` from failing validity checks against `supported`.",
+      "metadata": {
+        "concept": "calculator_operator_parsing",
+        "skill": "implementation",
+        "learning_objective": "Clean and validate user operators against allowed operations",
+        "common_misconception": "Testing raw operator without stripping spaces",
+        "why_this_exercise_exists": "Second core milestone of the interactive calculator project"
+      }
+    },
+    {
+      "id": "5.6_q15",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_milestone_3",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q14"
+      ],
+      "prompt": "Calculator Milestone 3: Implement addition and subtraction dispatch. Given `a = 20`, `b = 8`, and `op = '-'`, compute `result` if `op == '+'` or `op == '-'`. Store the answer in `result`.",
+      "starter_code": "a = 20\nb = 8\nop = \"-\"\nresult = None\n# Implement addition and subtraction branch\n",
+      "solution_code": "a = 20\nb = 8\nop = \"-\"\nresult = None\nif op == \"+\":\n    result = a + b\nelif op == \"-\":\n    result = a - b\nprint(f\"Calculation: {result}\")",
+      "explanation": "An `if-elif` chain branches on `op`. For `'-'`, it evaluates `20 - 8 = 12`.",
+      "metadata": {
+        "concept": "calculator_additive_dispatch",
+        "skill": "implementation",
+        "learning_objective": "Implement branching for addition and subtraction operations",
+        "common_misconception": "Overlapping operators in sequential if statements",
+        "why_this_exercise_exists": "Third core milestone of the interactive calculator project"
+      }
+    },
+    {
+      "id": "5.6_q16",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_milestone_4",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q15"
+      ],
+      "prompt": "Calculator Milestone 4: Add multiplication and division support. Given `a = 24`, `b = 6`, and `op = '/'`, perform the calculation and store in `result`. Handle `op == '*'` as multiplication.",
+      "starter_code": "a = 24\nb = 6\nop = \"/\"\nresult = None\n# Add multiplication and division branching\n",
+      "solution_code": "a = 24\nb = 6\nop = \"/\"\nresult = None\nif op == \"*\":\n    result = a * b\nelif op == \"/\":\n    result = a / b\nprint(f\"Calculation: {result}\")",
+      "explanation": "Evaluating `op == '/'` executes `24 / 6 = 4.0`. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
+      "metadata": {
+        "concept": "calculator_multiplicative_dispatch",
+        "skill": "implementation",
+        "learning_objective": "Implement branching for multiplication and division operations",
+        "common_misconception": "Using integer division // when standard calculator precision requires float /",
+        "why_this_exercise_exists": "Fourth core milestone of the interactive calculator project"
+      }
+    },
+    {
+      "id": "5.6_q17",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_milestone_5",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q16"
+      ],
+      "prompt": "Calculator Milestone 5: Safeguard division against zero. Modify the division branch below so that if `b == 0`, it assigns `\"Error: Division by zero\"` to `error_msg` instead of crashing.\n\n```python\na = 10\nb = 0\nop = \"/\"\nif op == \"/\":\n    result = a / b\n```",
+      "starter_code": "a = 10\nb = 0\nop = \"/\"\nresult = None\nerror_msg = None\nif op == \"/\":\n    # Guard against b == 0\n    result = a / b",
+      "solution_code": "a = 10\nb = 0\nop = \"/\"\nresult = None\nerror_msg = None\nif op == \"/\":\n    if b == 0:\n        error_msg = \"Error: Division by zero\"\n    else:\n        result = a / b\nprint(error_msg if error_msg else result)",
+      "explanation": "Checking `if b == 0:` before attempting `a / b` prevents a program crash and provides graceful user-facing error reporting.",
+      "metadata": {
+        "concept": "zero_division_handling",
+        "skill": "error_handling",
+        "learning_objective": "Guard against division by zero gracefully in user applications",
+        "common_misconception": "Allowing the runtime exception to unceremoniously crash the CLI loop",
+        "why_this_exercise_exists": "Fifth core milestone of the interactive calculator project"
+      }
+    },
+    {
+      "id": "5.6_q18",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_milestone_6",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q17"
+      ],
+      "prompt": "Calculator Milestone 6: Build the consolidated `calculate(a, b, op)` function that brings all 4 operators together, guards against division by zero, and returns `\"Error: Invalid operator\"` for unknown operations.",
+      "starter_code": "def calculate(a, b, op):\n    # Return result or descriptive error string\n    pass",
+      "solution_code": "def calculate(a, b, op):\n    if op == \"+\":\n        return a + b\n    elif op == \"-\":\n        return a - b\n    elif op == \"*\":\n        return a * b\n    elif op == \"/\":\n        if b == 0:\n            return \"Error: Division by zero\"\n        return a / b\n    else:\n        return \"Error: Invalid operator\"",
+      "explanation": "This complete dispatch function cleanly maps inputs to computations while managing invalid operators and division by zero as well-defined return contracts.",
+      "metadata": {
+        "concept": "calculator_dispatcher_function",
+        "skill": "functional_composition",
+        "learning_objective": "Consolidate parsing, dispatch, and edge case handling into a single robust function",
+        "common_misconception": "Scattering error checks across multiple disconnected blocks",
+        "why_this_exercise_exists": "Sixth core milestone completing the core logic of the calculator project"
+      }
+    },
+    {
+      "id": "5.6_q19",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q18"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Project: Interactive Calculator.",
+      "starter_code": "def process_5_6_data(items):\n    # Process input according to Project: Interactive Calculator rules\n    pass",
+      "solution_code": "def process_5_6_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Project: Interactive Calculator rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Project: Interactive Calculator.",
+      "explanation": "Constructing pure, robust data transformers for Project: Interactive Calculator avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "5.6_q20",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q19"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Project: Interactive Calculator that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_5_6_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_5_6_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "5.6_q21",
+      "type": "code_prediction",
+      "concept": "project_interactive_calculator_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q20"
+      ],
+      "prompt": "What will be the outcome when this code handling Project: Interactive Calculator encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Project: Interactive Calculator.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "5.6_q22",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q21"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Project: Interactive Calculator. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Project: Interactive Calculator\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Project: Interactive Calculator ensures testable domain operations."
+    },
+    {
+      "id": "5.6_q23",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q22"
+      ],
+      "prompt": "Refactor this procedural snippet for Project: Interactive Calculator into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Project: Interactive Calculator Result 23"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "5.6_q24",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Project: Interactive Calculator that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_5_6_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_5_6_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Project: Interactive Calculator must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "5.6_q25",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q24"
+      ],
+      "prompt": "Calculator Milestone 13: Implement memory storage functions: write `Memory` helper class supporting `store(val)`, `recall()`, and `clear()`.",
+      "starter_code": "class CalculatorMemory:\n    def __init__(self):\n        self.val = 0\n    def store(self, n):\n        self.val = n\n    def recall(self):\n        return self.val\n    def clear(self):\n        self.val = 0",
+      "solution_code": "class CalculatorMemory:\n    def __init__(self):\n        self.val = 0\n    def store(self, n):\n        self.val = n\n    def recall(self):\n        return self.val\n    def clear(self):\n        self.val = 0",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "0",
+          "description": "memory initialized to 0"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Project: Interactive Calculator.",
+      "explanation": "Encapsulating memory state within a dedicated class provides clean state management without polluting global scope."
+    },
+    {
+      "id": "5.6_q26",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.6_q25"
+      ],
+      "prompt": "Calculator Milestone 14: Debug floating-point formatting: fix numeric precision output by formatting results to 2 decimal places.",
+      "starter_code": "def format_result(val):\n    # Return formatted string with 2 decimal places\n    return str(val)",
+      "solution_code": "def format_result(val):\n    return f\"{val:.2f}\"",
+      "test_cases": [
+        {
+          "input": "0.1 + 0.2",
+          "expected_output": "'0.30'",
+          "description": "formats float precision"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Using f-string formatting specifiers `{val:.2f}` rounds and displays numbers cleanly for user interfaces."
+    },
+    {
+      "id": "5.6_q27",
+      "type": "code_prediction",
+      "concept": "project_interactive_calculator_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q26"
+      ],
+      "prompt": "Calculator Milestone 15: Predict the outcome when an interactive session checks whether the user entered an exit command:\n```python\ncmd = ' QUIT '.strip().lower()\nprint(cmd in ('q', 'quit', 'exit'))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Stripping and lowercasing converts ' QUIT ' to 'quit', which is present in the exit command tuple, evaluating to True.",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "ValueError"
+      ],
+      "correct_answer": "True"
+    },
+    {
+      "id": "5.6_q28",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q27"
+      ],
+      "prompt": "Calculator Milestone 16: Implement calculation history: write `log_calculation(history, a, op, b, res)` that appends formatted record string.",
+      "starter_code": "def log_calculation(history, a, op, b, res):\n    # Append '{a} {op} {b} = {res}' to history list\n    pass",
+      "solution_code": "def log_calculation(history, a, op, b, res):\n    history.append(f\"{a} {op} {b} = {res}\")\n    return history",
+      "test_cases": [
+        {
+          "input": "[], 10, '+', 5, 15",
+          "expected_output": "['10 + 5 = 15']",
+          "description": "logs calculation history"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Maintaining an audit log of past calculations in an append-only list enables history inspection."
+    },
+    {
+      "id": "5.6_q29",
+      "type": "fix_the_code",
+      "concept": "project_interactive_calculator_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q28"
+      ],
+      "prompt": "Calculator Milestone 17: Refactor operator branching into a clean dictionary dispatch table `OPERATORS = {'+': add, '-': sub, '*': mul, '/': div}`.",
+      "starter_code": "def dispatch_op(op, a, b):\n    ops = {'+': lambda x, y: x + y, '-': lambda x, y: x - y}\n    # Return operation result or None if op invalid\n    pass",
+      "solution_code": "def dispatch_op(op, a, b):\n    ops = {'+': lambda x, y: x + y, '-': lambda x, y: x - y, '*': lambda x, y: x * y}\n    handler = ops.get(op)\n    return handler(a, b) if handler else None",
+      "test_cases": [
+        {
+          "input": "'+', 7, 3",
+          "expected_output": "10",
+          "description": "dispatches addition"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Dispatch tables replace complex if-elif chains with O(1) dictionary key lookups, improving maintainability."
+    },
+    {
+      "id": "5.6_q30",
+      "type": "write_the_code",
+      "concept": "project_interactive_calculator_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.6_q29"
+      ],
+      "prompt": "Calculator Boss Milestone: Build the complete `run_calculator(expression_str)` engine that tokenizes, evaluates operations, and formats the output string cleanly.",
+      "starter_code": "def run_calculator(expr):\n    # Parse 'a op b' expression and return result\n    pass",
+      "solution_code": "def run_calculator(expr):\n    parts = expr.strip().split()\n    if len(parts) != 3:\n        return 'Error: Invalid format'\n    try:\n        a, op, b = float(parts[0]), parts[1], float(parts[2])\n    except ValueError:\n        return 'Error: Invalid numbers'\n    if op == '+': return f\"{a + b:.2f}\"\n    elif op == '-': return f\"{a - b:.2f}\"\n    elif op == '*': return f\"{a * b:.2f}\"\n    elif op == '/':\n        if b == 0: return 'Error: Division by zero'\n        return f\"{a / b:.2f}\"\n    return 'Error: Invalid operator'",
+      "test_cases": [
+        {
+          "input": "'10 / 2'",
+          "expected_output": "'5.00'",
+          "description": "runs complete calculator engine"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "This complete capstone orchestrates input validation, parsing, error recovery, arithmetic dispatch, and clean output formatting."
+    }
+  ],
+  "unit_num": 5,
+  "learning_objectives": [
+    "Architect a complete multi-step application for Project: Interactive Calculator",
+    "Decompose problem requirements into modular functions and classes",
+    "Implement defensive error handling and input validation",
+    "Verify application correctness against comprehensive test cases"
+  ],
+  "prerequisites": [
+    "5.5"
+  ]
+}

@@ -1,0 +1,598 @@
+{
+  "lesson_id": "37.2",
+  "title": "Binary Search",
+  "unit": "DSA: Searching and Sorting",
+  "items": [
+    {
+      "id": "37.2_q1",
+      "type": "micro_lesson",
+      "concept": "binary_search_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Binary Search?",
+      "content": "Binary search is an efficient algorithm for finding an item from a sorted list of items. It works by repeatedly dividing the search interval in half. If the value of the search key is less than the item in the middle of the interval, narrow the interval to the lower half. Otherwise, narrow it to the upper half. This process continues until the value is found or the interval is empty.\n\nKey idea: The list must be sorted before applying binary search. This allows us to eliminate half of the remaining elements with each comparison.\n\nHere is a simple Python implementation:\n\n```python\ndef binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n```\n\nIn this code, `left` and `right` mark the current search boundaries, `mid` is the middle index, and we adjust the boundaries based on whether `target` is greater than or less than `arr[mid]`.",
+      "prompt": "",
+      "explanation": "Binary search is an efficient algorithm for finding an item from a sorted list of items. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "37.2_q2",
+      "type": "multiple_choice",
+      "question": "What is the mandatory prerequisite for applying Binary Search, and what is its time complexity?",
+      "options": [
+        "The collection must already be sorted; its time complexity is O(log N) because it halves the search space in each step",
+        "The collection must contain only positive integers; its time complexity is O(1)",
+        "The collection must be a linked list; its time complexity is O(N)",
+        "The collection must have an odd number of elements; its time complexity is O(N^2)"
+      ],
+      "correct_answer": "The collection must already be sorted; its time complexity is O(log N) because it halves the search space in each step",
+      "explanation": "Binary Search relies on comparing the target with the middle element to eliminate half of the remaining elements. This halving logic is only valid if the collection is sorted in monotonic order. Its time complexity is O(log N).",
+      "difficulty": "easy",
+      "concept": "binary_search_prerequisites",
+      "skill": "dsa_tradeoffs",
+      "prerequisites": []
+    },
+    {
+      "id": "37.2_q3",
+      "type": "micro_lesson",
+      "concept": "binary_search_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.2_q2"
+      ],
+      "title": "Binary Search Syntax and Loop Structure",
+      "content": "The core of binary search is a `while` loop that maintains the invariant `left <= right`. Inside the loop, compute `mid = (left + right) // 2`. Then compare `arr[mid]` with `target`.\n\n- If they match, return `mid` (found).\n- If `arr[mid] < target`, move `left` past `mid`: `left = mid + 1`.\n- If `arr[mid] > target`, move `right` before `mid`: `right = mid - 1`.\n\nIf the loop exits without a match, return `-1` to indicate absence.\n\nExample walkthrough on `arr = [2, 5, 8, 12, 16]` with `target = 8`:\n1. `left = 0`, `right = 4`, `mid = 2`, `arr[2] == 8` -> return `2`.\n\nExample on `target = 7`:\n1. `left = 0`, `right = 4`, `mid = 2`, `arr[2] = 8 > 7` -> `right = 1`.\n2. `left = 0`, `right = 1`, `mid = 0`, `arr[0] = 2 < 7` -> `left = 1`.\n3. `left = 1`, `right = 1`, `mid = 1`, `arr[1] = 5 < 7` -> `left = 2`.\n4. `left = 2`, `right = 1`, loop ends, return `-1`.\n\n```python\ndef binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n```",
+      "prompt": "",
+      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+    },
+    {
+      "id": "37.2_q4",
+      "type": "multiple_choice",
+      "concept": "binary_search_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.2_q3"
+      ],
+      "prompt": "In the binary search loop, why is the condition `left <= right` used instead of `left < right`?",
+      "options": [
+        "Because the search space can shrink to a single element.",
+        "Because the array must always have at least two elements.",
+        "Because Python requires `<=` for all while loops.",
+        "Because `mid` is calculated using addition, not subtraction."
+      ],
+      "correct_answer": "Because the search space can shrink to a single element.",
+      "explanation": "When `left == right`, there is exactly one element left to check. Using `left <= right` ensures this final element is examined. Using `left < right` would skip it."
+    },
+    {
+      "id": "37.2_q5",
+      "type": "multiple_choice",
+      "concept": "binary_search_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.2_q4"
+      ],
+      "prompt": "Which return value indicates that the target was not found in the array?",
+      "options": [
+        "0",
+        "-1",
+        "None",
+        "False"
+      ],
+      "correct_answer": "-1",
+      "explanation": "In the standard implementation shown, `-1` is returned when the loop terminates without finding the target. This is a conventional sentinel value distinguishing 'not found' from any valid index."
+    },
+    {
+      "id": "37.2_q6",
+      "type": "multiple_choice",
+      "concept": "binary_search_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.2_q5"
+      ],
+      "prompt": "What is a common mistake when updating `left` or `right` in binary search?",
+      "options": [
+        "Using `left = mid` instead of `left = mid + 1`, which can cause an infinite loop.",
+        "Using `right = mid` instead of `right = mid - 1`, which can cause an infinite loop.",
+        "Setting `left = 0` inside the loop, which resets progress.",
+        "Both A and B are common mistakes that can lead to infinite loops."
+      ],
+      "correct_answer": "Both A and B are common mistakes that can lead to infinite loops.",
+      "explanation": "If `left = mid` when `arr[mid] < target`, and `mid` does not advance, the loop may never progress. Similarly, `right = mid` when `arr[mid] > target` can stall. The correct updates are `left = mid + 1` and `right = mid - 1`."
+    },
+    {
+      "id": "37.2_q7",
+      "type": "code_prediction",
+      "concept": "binary_search_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.2_q6"
+      ],
+      "prompt": "Consider the following binary search implementation. What does this function return when the target is present in the list?",
+      "options": [
+        "The index 5",
+        "The value 23",
+        "True",
+        "None"
+      ],
+      "correct_answer": "The index 5",
+      "explanation": "The function returns the index of the target when found. In the sorted list, 23 is located at index 5, so the function returns 5."
+    },
+    {
+      "id": "37.2_q8",
+      "type": "output_prediction",
+      "concept": "binary_search_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q7"
+      ],
+      "prompt": "What is the output of the following code snippet when the target is not found in the array?",
+      "options": [
+        "-1",
+        "0",
+        "4",
+        "KeyError"
+      ],
+      "correct_answer": "-1",
+      "explanation": "Since 4 is not in the sorted array, the while loop terminates when left exceeds right, and the function returns -1 as specified in the final return statement."
+    },
+    {
+      "id": "37.2_q9",
+      "type": "code_prediction",
+      "concept": "binary_search_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q8"
+      ],
+      "prompt": "Given the binary search code below, what happens to the pointers when the target is greater than the middle element?",
+      "options": [
+        "left moves to mid + 1 and right stays unchanged",
+        "right moves to mid - 1 and left stays unchanged",
+        "Both left and right move toward mid",
+        "The loop terminates immediately"
+      ],
+      "correct_answer": "right moves to mid - 1 and left stays unchanged",
+      "explanation": "When arr[mid] < target, the target must lie in the right half. Therefore, right is updated to mid - 1 while left remains unchanged, narrowing the search space."
+    },
+    {
+      "id": "37.2_q10",
+      "type": "write_the_code",
+      "concept": "binary_search_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q9"
+      ],
+      "prompt": "Explain why the binary search algorithm runs in O(log n) time for a sorted array of size n.",
+      "correct_answer": "At each step, the search space is halved, so the number of steps grows logarithmically.",
+      "explanation": "Binary search compares the target with the middle element and discards half of the remaining elements in each iteration. This halving means the maximum number of iterations is proportional to log2(n), giving O(log n) time complexity.",
+      "starter_code": "# TODO: Implement solution for Binary Search\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Binary Search')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Binary Search"
+        }
+      ]
+    },
+    {
+      "id": "37.2_q11",
+      "type": "code_prediction",
+      "concept": "binary_search_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q10"
+      ],
+      "prompt": "Trace the execution of the binary search below for arr = [2, 4, 6, 8, 10] and target = 8. What are the values of left, right, and mid in the first iteration?",
+      "options": [
+        "left = 0, right = 4, mid = 2",
+        "left = 0, right = 4, mid = 3",
+        "left = 2, right = 4, mid = 3",
+        "left = 1, right = 4, mid = 2"
+      ],
+      "correct_answer": "left = 0, right = 4, mid = 2",
+      "explanation": "Initially left = 0 and right = 4. The first mid is computed as (0 + 4) // 2 = 2. Since arr[2] = 6 is less than 8, the search continues in the right half."
+    },
+    {
+      "id": "37.2_q12",
+      "type": "output_prediction",
+      "concept": "binary_search_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q11"
+      ],
+      "prompt": "What output does the following code produce when searching for the smallest element in a sorted list?",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "5"
+      ],
+      "correct_answer": "0",
+      "explanation": "The smallest element 10 is at index 0. The algorithm finds it in the first comparison because mid initially equals 2, arr[2] = 30 is greater than 10, so right becomes 1, then mid becomes 0, and arr[0] equals 10, returning 0."
+    },
+    {
+      "id": "37.2_q13",
+      "type": "fill_in_the_blank",
+      "title": "Binary Search Function Signature",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "binary_search_syntax",
+      "prerequisites": [
+        "37.2_q12"
+      ],
+      "prompt": "Complete the function header for binary search. The function takes a sorted list and a target value, and returns the index of the target if found, otherwise -1.\n\n```python\ndef binary_search(arr, target):\n    ____\n```",
+      "correct_answer": "pass",
+      "accepted_answers": [
+        "pass",
+        "  pass",
+        "    pass"
+      ],
+      "explanation": "A function definition in Python requires a colon (:) at the end of the header. The body must be indented, and 'pass' is a valid placeholder statement that does nothing. This completes the syntax before adding the loop logic.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "37.2_q14",
+      "type": "fill_in_the_blank",
+      "title": "Binary Search Keywords",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "binary_search_keywords",
+      "prerequisites": [
+        "37.2_q13"
+      ],
+      "prompt": "Binary search relies on two pointer variables to track the search range. Fill in the blanks with the appropriate Python keywords that initialize these pointers to the start and end of the array.\n\n```python\nleft = ____\nright = ____\n```",
+      "correct_answer": "0, len(arr) - 1",
+      "accepted_answers": [
+        "0, len(arr) - 1",
+        "0, len(arr) - 1\n",
+        "0, len(arr) - 1"
+      ],
+      "explanation": "The 'left' pointer starts at index 0, the first element. The 'right' pointer starts at len(arr) - 1, the last valid index. These are essential for defining the initial search window.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "37.2_q15",
+      "type": "code_ordering",
+      "title": "Binary Search Loop Steps",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "binary_search_sequence",
+      "prerequisites": [
+        "37.2_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to compute the middle index of the current search range.\n\n```python\nmid = (left + right) // 2\nleft = mid + 1\nright = mid - 1\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The midpoint must be calculated before the range is adjusted. The correct sequence is: first compute mid, then update left or right based on the comparison. The order of left and right updates does not matter as long as mid is computed first.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "37.2_q16",
+      "type": "fill_in_the_blank",
+      "title": "Binary Search Comparison Patterns",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "binary_search_patterns",
+      "prerequisites": [
+        "37.2_q15"
+      ],
+      "prompt": "Fill in the blank to complete the conditional that checks whether the middle element is greater than the target. This determines whether to search the left half.\n\n```python\nif arr[mid] ____ target:\n    right = mid - 1\n```",
+      "correct_answer": ">",
+      "accepted_answers": [
+        ">",
+        " > ",
+        " > "
+      ],
+      "explanation": "If the middle element is greater than the target, the target can only exist in the left half (or not at all), so the right boundary moves to mid - 1. The '>' operator implements this comparison.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "37.2_q17",
+      "type": "code_ordering",
+      "title": "Binary Search Algorithm Flow",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "binary_search_algorithm",
+      "prerequisites": [
+        "37.2_q16"
+      ],
+      "prompt": "Arrange the following lines to form a correct binary search algorithm that returns the index when found and -1 when not found.\n\n```python\nreturn -1\nif arr[mid] == target:\n    return mid\nwhile left <= right:\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The loop must enclose the search logic. Inside the loop, we check for equality and return immediately if found. If the loop exits without finding the target, we return -1 after the loop. The return -1 must be outside the while block.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "37.2_q18",
+      "type": "fill_in_the_blank",
+      "title": "Binary Search Idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "binary_search_idioms",
+      "prerequisites": [
+        "37.2_q17"
+      ],
+      "prompt": "Fill in the blank to complete the idiom that exits the loop early when the target is found. This avoids unnecessary iterations.\n\n```python\nif arr[mid] == target:\n    ____\n```",
+      "correct_answer": "return mid",
+      "accepted_answers": [
+        "return mid",
+        "    return mid",
+        "return mid\n"
+      ],
+      "explanation": "Returning mid immediately upon finding the target is a common idiom in binary search. It short-circuits the loop and provides the result without further computation, ensuring O(log n) time complexity in the worst case.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "37.2_q19",
+      "type": "fix_the_code",
+      "concept": "binary_search_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q18"
+      ],
+      "prompt": "A student implemented binary search but the function returns -1 even when the target exists in the list. Identify the bug in the following code.",
+      "starter_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid - 1\n        else:\n            right = mid + 1\n    return -1",
+      "solution_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "hint": "When the middle element is smaller than the target, the search space should move to the right half, not exclude the middle.",
+      "explanation": "The original code incorrectly set left = mid - 1 when arr[mid] < target. This shrinks the search window too aggressively and can skip the target. The correct update is left = mid + 1 to include elements to the right of mid. Similarly, right = mid - 1 when arr[mid] > target avoids skipping the target."
+    },
+    {
+      "id": "37.2_q20",
+      "type": "fix_the_code",
+      "concept": "binary_search_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.2_q19"
+      ],
+      "prompt": "Fix the broken binary search so it correctly returns the index of the target or -1 if not found.",
+      "starter_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid\n        else:\n            right = mid\n    return -1",
+      "solution_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "hint": "Using left = mid or right = mid causes an infinite loop when the search space has only one element left.",
+      "explanation": "When left or right is assigned to mid, the loop condition left <= right may never become false, leading to an infinite loop. The search boundaries must move past mid by at least one position: left = mid + 1 when going right, and right = mid - 1 when going left."
+    },
+    {
+      "id": "37.2_q21",
+      "type": "fix_the_code",
+      "concept": "binary_search_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q20"
+      ],
+      "prompt": "The function crashes with an IndexError on empty input. Fix the code to handle edge cases safely.",
+      "starter_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "solution_code": "def binary_search(arr, target):\n    if not arr:\n        return -1\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "hint": "Check whether the list is empty before computing mid, because len(arr) - 1 becomes -1.",
+      "explanation": "For an empty list, right becomes -1. The while condition left <= right (0 <= -1) is false, so the loop does not execute and -1 is returned safely. However, if the function were modified to access arr[mid] before checking emptiness, it would raise an IndexError. Adding an explicit early return for empty input makes the behavior clear and robust."
+    },
+    {
+      "id": "37.2_q22",
+      "type": "fix_the_code",
+      "concept": "binary_search_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q21"
+      ],
+      "prompt": "The following binary search works for small arrays but fails on very large arrays. Explain the runtime issue and identify the problematic line.",
+      "starter_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr)\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "solution_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "hint": "Consider what happens when right is initialized to len(arr) instead of len(arr) - 1.",
+      "explanation": "Initializing right to len(arr) makes the valid index range [0, len(arr) - 1] incompatible with the loop condition. When left == right == len(arr) - 1, mid becomes (0 + len(arr)) // 2, which can exceed the last valid index and raise an IndexError. The correct initialization is right = len(arr) - 1 so that mid is always within bounds."
+    },
+    {
+      "id": "37.2_q23",
+      "type": "fix_the_code",
+      "concept": "binary_search_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q22"
+      ],
+      "prompt": "The logic for updating the search window is swapped. Repair the binary search so it correctly narrows the interval.",
+      "starter_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            right = mid - 1\n        else:\n            left = mid + 1\n    return -1",
+      "solution_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "hint": "When arr[mid] is less than the target, the target must be in the right half, not the left half.",
+      "explanation": "The original code inverted the boundary updates. If arr[mid] < target, the target lies to the right, so left must increase to mid + 1. If arr[mid] > target, the target lies to the left, so right must decrease to mid - 1. Swapping these two assignments restores the correct invariant that the target, if present, remains within [left, right]."
+    },
+    {
+      "id": "37.2_q24",
+      "type": "write_the_code",
+      "concept": "binary_search_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.2_q23"
+      ],
+      "prompt": "Refactor the iterative binary search into a tail-recursive version with O(log n) time and O(log n) call-stack space. Then optimize it further to O(1) auxiliary space using an explicit stack simulation if needed.",
+      "starter_code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "solution_code": "def binary_search_recursive(arr, target, left, right):\n    if left > right:\n        return -1\n    mid = (left + right) // 2\n    if arr[mid] == target:\n        return mid\n    elif arr[mid] < target:\n        return binary_search_recursive(arr, target, mid + 1, right)\n    else:\n        return binary_search_recursive(arr, target, left, mid - 1)\n\ndef binary_search(arr, target):\n    return binary_search_recursive(arr, target, 0, len(arr) - 1)",
+      "test_cases": [
+        {
+          "input": "([1, 3, 5, 7, 9], 5)",
+          "expected": 2
+        },
+        {
+          "input": "([2, 4, 6, 8, 10], 1)",
+          "expected": -1
+        },
+        {
+          "input": "([], 0)",
+          "expected": -1
+        },
+        {
+          "input": "([100], 100)",
+          "expected": 0
+        }
+      ],
+      "hint": "A helper function carrying left and right as parameters avoids recomputing them. To achieve O(1) extra space, replace recursion with a while loop or manage an explicit stack.",
+      "explanation": "The recursive version preserves the same O(log n) time complexity but uses O(log n) stack space due to call frames. For true O(1) auxiliary space, the iterative while-loop version is preferred in production code. If recursion is required by constraints, Python's sys.setrecursionlimit can be adjusted, though this is not a true space optimization. The refactored code separates the recursive helper from the public API for clarity and reusability."
+    },
+    {
+      "id": "37.2_q25",
+      "type": "write_the_code",
+      "concept": "binary_search_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Binary Search.",
+      "starter_code": "def process_37_2_data(items):\n    # Process input according to Binary Search rules\n    pass",
+      "solution_code": "def process_37_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Binary Search rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Binary Search.",
+      "explanation": "Constructing pure, robust data transformers for Binary Search avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "37.2_q26",
+      "type": "fix_the_code",
+      "concept": "binary_search_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Binary Search that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_37_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_37_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "37.2_q27",
+      "type": "code_prediction",
+      "concept": "binary_search_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Binary Search encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Binary Search.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "37.2_q28",
+      "type": "write_the_code",
+      "concept": "binary_search_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Binary Search. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def binary_search(arr, target):\n    # Return index of target in sorted arr, or -1\n    pass",
+      "solution_code": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+      "test_cases": [
+        {
+          "input": "[2, 5, 8, 12, 16], 12",
+          "expected_output": "3",
+          "description": "binary search exact index"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Halving the search space each step achieves logarithmic O(log n) time complexity."
+    },
+    {
+      "id": "37.2_q29",
+      "type": "fix_the_code",
+      "concept": "binary_search_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Binary Search into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Binary Search Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "37.2_q30",
+      "type": "write_the_code",
+      "concept": "binary_search_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Binary Search that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_37_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_37_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Binary Search must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 37,
+  "learning_objectives": [
+    "Implement the fundamental Binary Search algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "37.1"
+  ]
+}

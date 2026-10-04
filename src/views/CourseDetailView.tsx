@@ -6,13 +6,14 @@ import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { Card } from '../components/common/Card';
 import { ProgressBar } from '../components/common/ProgressBar';
+import { progressionService } from '../services/progressionService';
 
 interface CourseDetailViewProps {
   courseId?: string;
 }
 
 export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = 'python' }) => {
-  const { userProfile, navigateTo } = useApp();
+  const { userProfile, course: learningCourse, navigateTo } = useApp();
   const course = COURSES.find(c => c.id === courseId) || COURSES[0];
 
   const completedCount = userProfile.completedLessonIds.length;
@@ -110,12 +111,14 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {mod.lessons.map((lesson) => {
                 const isCompleted = userProfile.completedLessonIds.includes(lesson.id);
-                const isNext = !isCompleted && lesson.id === 'py_lesson_3';
+                const isNext = !isCompleted && lesson.id === (progressionService.getNextLesson(userProfile, learningCourse) || 'py_lesson_1');
 
                 return (
                   <div
                     key={lesson.id}
-                    onClick={() => navigateTo(`/app/lesson/${lesson.id}`)}
+                    onClick={() => {
+                      if (isCompleted || isNext) navigateTo(`/app/lesson/${lesson.id}`);
+                    }}
                     style={{
                       backgroundColor: '#FFFFFF',
                       borderRadius: 'var(--radius-lg)',
@@ -124,10 +127,11 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      cursor: 'pointer',
+                      cursor: (isCompleted || isNext) ? 'pointer' : 'not-allowed',
+                      opacity: (isCompleted || isNext) ? 1 : 0.6,
                       transition: 'all var(--transition-fast)'
                     }}
-                    className="hover-elevate"
+                    className={(isCompleted || isNext) ? 'hover-elevate' : ''}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                       {/* State icon */}
@@ -184,9 +188,10 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
                       <Button
                         variant={isCompleted ? 'secondary' : isNext ? 'primary' : 'outline'}
                         size="md"
-                        icon={isCompleted ? <Icon name="history" size={14} /> : <Icon name="player-play" size={14} fill={isNext ? '#fff' : 'currentColor'} />}
+                        disabled={!isCompleted && !isNext}
+                        icon={isCompleted ? <Icon name="history" size={14} /> : (isNext ? <Icon name="player-play" size={14} fill="#fff" /> : <Icon name="lock" size={14} />)}
                       >
-                        {isCompleted ? 'Review' : isNext ? 'Start' : 'Open'}
+                        {isCompleted ? 'Review' : isNext ? 'Start' : 'Locked'}
                       </Button>
                     </div>
                   </div>

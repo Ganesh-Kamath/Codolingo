@@ -1,0 +1,617 @@
+{
+  "lesson_id": "26.4",
+  "title": "Basic SQL (CRUD Operations)",
+  "unit": "Databases and SQL",
+  "items": [
+    {
+      "id": "26.4_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "basic_sql_crud_operations_basics",
+      "title": "What Are CRUD Operations?",
+      "content": "CRUD stands for Create, Read, Update, and Delete. These four operations form the foundation of interacting with relational databases. In Python, you typically use a library such as sqlite3 to execute SQL commands against a database file. The Create operation inserts new records using INSERT. The Read operation retrieves data using SELECT. The Update operation modifies existing records using UPDATE. The Delete operation removes records using DELETE. Understanding which CRUD command corresponds to a given task is essential before writing any SQL. Here is a simple Python example using sqlite3 to demonstrate the Create and Read steps:\n\n```python\nimport sqlite3\n\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n\ncursor.execute(\"CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, title TEXT, author TEXT)\")\n\ncursor.execute(\"INSERT INTO books (title, author) VALUES ('1984', 'George Orwell')\")\nconn.commit()\n\ncursor.execute(\"SELECT * FROM books\")\nrows = cursor.fetchall()\nfor row in rows:\n    print(row)\n\nconn.close()\n```\n\nNotice how CREATE TABLE and INSERT handle creation, while SELECT handles reading. Memorizing these four verbs helps you map real-world requirements to the correct SQL statement.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "CRUD stands for Create, Read, Update, and Delete. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "26.4_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "basic_sql_crud_operations_basics",
+      "prompt": "Which SQL command is used to retrieve existing data from a table?",
+      "options": [
+        "INSERT",
+        "SELECT",
+        "UPDATE",
+        "DELETE"
+      ],
+      "correct_answer": "SELECT",
+      "explanation": "SELECT is the SQL command used to read or retrieve data from one or more tables. INSERT adds new rows, UPDATE modifies existing rows, and DELETE removes rows.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q1"
+      ]
+    },
+    {
+      "id": "26.4_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "basic_sql_crud_operations_syntax",
+      "title": "Syntax for CRUD Operations",
+      "content": "Each CRUD operation follows a predictable SQL syntax pattern. For Create, you use INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...). For Read, you use SELECT column_list FROM table_name [WHERE condition]. For Update, you use UPDATE table_name SET column1 = value1, column2 = value2 [WHERE condition]. For Delete, you use DELETE FROM table_name [WHERE condition]. The WHERE clause is optional but highly recommended to avoid unintended changes to the entire table. In Python, placeholders such as ? are used with execute() to safely pass values and prevent SQL injection. Consider the following Python code that performs an Update and a Delete using parameterized queries:\n\n```python\nimport sqlite3\n\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n\ncursor.execute(\"UPDATE books SET author = ? WHERE title = ?\", ('Aldous Huxley', 'Brave New World'))\nconn.commit()\n\ncursor.execute(\"DELETE FROM books WHERE title = ?\", ('1984',))\nconn.commit()\n\nconn.close()\n```\n\nParameterized queries ensure that user input is treated strictly as data, not as executable SQL code.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q2"
+      ],
+      "prompt": "",
+      "explanation": "Each CRUD operation follows a predictable SQL syntax pattern. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "26.4_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "basic_sql_crud_operations_syntax",
+      "prompt": "You want to change the author of a book titled 'Brave New World' to 'Aldous Huxley' without affecting any other records. Which SQL statement achieves this safely?",
+      "options": [
+        "UPDATE books SET author = 'Aldous Huxley' WHERE title = 'Brave New World'",
+        "UPDATE books SET author = 'Aldous Huxley' WHERE title = '1984'",
+        "UPDATE books SET title = 'Aldous Huxley' WHERE author = 'Brave New World'",
+        "UPDATE books SET author = 'Aldous Huxley' WHERE author = 'Brave New World'"
+      ],
+      "correct_answer": "UPDATE books SET author = 'Aldous Huxley' WHERE title = 'Brave New World'",
+      "explanation": "The correct statement targets the row by the unique title and changes only the author column. Option B uses the wrong title, Option C swaps the column and value, and Option D searches by author instead of title, which could match multiple rows.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q3"
+      ]
+    },
+    {
+      "id": "26.4_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "basic_sql_crud_operations_matching",
+      "prompt": "Match each operation to its SQL command.",
+      "options": [
+        "Create: INSERT, Read: SELECT, Update: UPDATE, Delete: DELETE",
+        "Create: SELECT, Read: INSERT, Update: DELETE, Delete: UPDATE",
+        "Create: UPDATE, Read: DELETE, Update: SELECT, Delete: INSERT",
+        "Create: DELETE, Read: UPDATE, Update: INSERT, Delete: SELECT"
+      ],
+      "correct_answer": "Create: INSERT, Read: SELECT, Update: UPDATE, Delete: DELETE",
+      "explanation": "The standard mapping is Create to INSERT, Read to SELECT, Update to UPDATE, and Delete to DELETE. This is the universally accepted CRUD-to-SQL correspondence.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q4"
+      ]
+    },
+    {
+      "id": "26.4_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "basic_sql_crud_operations_pitfalls",
+      "prompt": "What is a common pitfall when running a DELETE statement without a WHERE clause?",
+      "options": [
+        "It deletes every row in the table, potentially causing data loss",
+        "It only deletes the first row automatically",
+        "It creates a backup of the table before deletion",
+        "It raises a syntax error in most SQL dialects"
+      ],
+      "correct_answer": "It deletes every row in the table, potentially causing data loss",
+      "explanation": "Omitting the WHERE clause in a DELETE statement removes all records from the table. This is one of the most dangerous mistakes in SQL because the operation is often irreversible unless you have a backup.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q5"
+      ]
+    },
+    {
+      "id": "26.4_q7",
+      "type": "code_prediction",
+      "concept": "sql_parameterized_queries",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q6"
+      ],
+      "prompt": "In the context of Basic SQL in Python, what is the primary behavior demonstrated here?\n```python\n# Basic SQL in Python\nprint('sql_parameterized_queries')\n```",
+      "options": [
+        "sql_parameterized_queries",
+        "SyntaxError",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "sql_parameterized_queries",
+      "explanation": "This directly illustrates the standard behavior of sql_parameterized_queries: parameterized queries protect against SQL injection attacks."
+    },
+    {
+      "id": "26.4_q8",
+      "type": "multiple_choice",
+      "concept": "sql_parameterized_queries_rules",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q7"
+      ],
+      "prompt": "What is a core design principle when working with Basic SQL in Python in Python?",
+      "options": [
+        "Parameterized queries protect against sql injection attacks",
+        "It bypasses all memory management constraints",
+        "It causes the interpreter to compile to C++ automatically",
+        "It can only be executed in interactive REPL mode"
+      ],
+      "correct_answer": "Parameterized queries protect against sql injection attacks",
+      "explanation": "Understanding this rule is essential: parameterized queries protect against SQL injection attacks."
+    },
+    {
+      "id": "26.4_q9",
+      "type": "fix_the_code",
+      "concept": "sql_parameterized_queries_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q8"
+      ],
+      "prompt": "Fix this code snippet implementing Basic SQL in Python correctly:",
+      "correct_answer": "45",
+      "explanation": "Applying standard Python idioms ensures correct behavior: parameterized queries protect against SQL injection attacks.",
+      "starter_code": "# Basic SQL in Python implementation\n___",
+      "solution_code": "# Basic SQL in Python implementation\ncursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))"
+    },
+    {
+      "id": "26.4_q10",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q9"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Basic SQL (CRUD Operations). Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Basic SQL (CRUD Operations)\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Basic SQL (CRUD Operations) ensures testable domain operations."
+    },
+    {
+      "id": "26.4_q11",
+      "type": "multiple_choice",
+      "concept": "sql_parameterized_queries_tradeoffs",
+      "skill": "evaluation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q10"
+      ],
+      "prompt": "Which common pitfall must programmers avoid when using Basic SQL in Python?",
+      "hint": "Use print('Basic SQL (CRUD Operations) Result 11') to generate the required output.",
+      "explanation": "Careful attention to requirements avoids common traps: parameterized queries protect against SQL injection attacks.",
+      "options": [
+        "Misunderstanding edge cases related to: parameterized queries protect against SQL injection attacks",
+        "Forgetting that Python does not support functions",
+        "Assuming integers are capped at 32 bits",
+        "Using lowercase variable names"
+      ],
+      "correct_answer": "Misunderstanding edge cases related to: parameterized queries protect against SQL injection attacks"
+    },
+    {
+      "id": "26.4_q12",
+      "type": "write_the_code",
+      "concept": "sql_parameterized_queries_application",
+      "skill": "implementation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q11"
+      ],
+      "prompt": "Write the canonical Python code statement for Basic SQL in Python:",
+      "correct_answer": "60",
+      "explanation": "Canonical implementation: cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,)). Parameterized queries protect against sql injection attacks.",
+      "starter_code": "# Complete the statement\n___",
+      "solution_code": "cursor.execute('SELECT * FROM users WHERE id = ?', (user_id,))"
+    },
+    {
+      "id": "26.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "basic_sql_crud_operations_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q12"
+      ],
+      "micro_lesson": {
+        "title": "INSERT Syntax",
+        "content": "The INSERT statement adds new rows to a table. The basic syntax is: INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...). In Python, you can execute SQL using a database cursor. For example:\n\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"INSERT INTO students (name, age) VALUES ('Alice', 20)\")\nconn.commit()\n```\nThis inserts a new record into the students table. Always remember to call commit() to save changes."
+      },
+      "prompt": "Complete the SQL statement to insert a new student named 'Bob' with age 22 into the students table:\ncursor.execute(\"INSERT INTO students (name, age) VALUES (___, ___)\")",
+      "correct_answer": "'Bob', 22",
+      "accepted_answers": [
+        "'Bob', 22",
+        "'Bob', '22'",
+        "'Bob', 22.0"
+      ],
+      "explanation": "The VALUES clause requires the actual values to insert. String literals use single quotes in Python, and integers are written without quotes. The correct values are 'Bob' and 22."
+    },
+    {
+      "id": "26.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "basic_sql_crud_operations_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q13"
+      ],
+      "micro_lesson": {
+        "title": "CRUD Keywords",
+        "content": "CRUD stands for Create, Read, Update, and Delete. These map directly to SQL keywords:\n- Create: INSERT\n- Read: SELECT\n- Update: UPDATE\n- Delete: DELETE\n\nHere is a Python example using sqlite3 to perform each operation:\n\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\n# Create\ncursor.execute(\"CREATE TABLE users (id INTEGER, name TEXT)\")\n\n# Read\ncursor.execute(\"SELECT * FROM users\")\nprint(cursor.fetchall())\n\n# Update\ncursor.execute(\"UPDATE users SET name = 'Charlie' WHERE id = 1\")\n\n# Delete\ncursor.execute(\"DELETE FROM users WHERE id = 2\")\nconn.commit()\n```\nEach keyword targets a specific database action."
+      },
+      "prompt": "Fill in the blank with the correct SQL keyword to retrieve data from a table:\ncursor.execute(\"___ * FROM employees\")",
+      "correct_answer": "SELECT",
+      "accepted_answers": [
+        "SELECT",
+        "select"
+      ],
+      "explanation": "SELECT is the SQL keyword used to read or retrieve data from a database table. It is case-insensitive in most SQL dialects, but conventionally written in uppercase."
+    },
+    {
+      "id": "26.4_q15",
+      "type": "code_ordering",
+      "concept": "basic_sql_crud_operations_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q14"
+      ],
+      "micro_lesson": {
+        "title": "CRUD Operation Order",
+        "content": "When working with a database in Python, you must follow a logical sequence: connect, create cursor, execute statement, commit (if needed), then close. For CRUD operations, the SQL statement itself must be ordered correctly. For example, to update a record and then verify it, you first execute UPDATE, then execute SELECT to read the result.\n\n```python\nimport sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\n\n# Update a record\ncursor.execute(\"UPDATE grades SET score = 95 WHERE student_id = 1\")\n\n# Verify the update by reading\ncursor.execute(\"SELECT score FROM grades WHERE student_id = 1\")\nprint(cursor.fetchone())\n\nconn.close()\n```\nNotice that UPDATE must happen before SELECT if you want to verify the change."
+      },
+      "prompt": "Order these SQL statements to first delete a record and then confirm its removal:\n1. cursor.execute(\"DELETE FROM projects WHERE id = 3\")\n2. cursor.execute(\"SELECT * FROM projects WHERE id = 3\")\n3. cursor.execute(\"SELECT * FROM projects\")",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must delete the record first (statement 1), then query specifically for that record to confirm it no longer exists (statement 2). Statement 3 is unnecessary for confirmation."
+    },
+    {
+      "id": "26.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "basic_sql_crud_operations_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q15"
+      ],
+      "micro_lesson": {
+        "title": "Parameterized Queries Pattern",
+        "content": "To prevent SQL injection and ensure valid syntax, use placeholders in your SQL statements. In Python's sqlite3 module, use ? as a placeholder. The values are passed as a separate tuple to the execute method.\n\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\n# Safe pattern: placeholder with tuple\nname = 'Diana'\nage = 24\ncursor.execute(\"INSERT INTO staff (name, age) VALUES (?, ?)\", (name, age))\nconn.commit()\n```\nThis pattern separates the SQL command from the data, making the code safer and cleaner."
+      },
+      "prompt": "Complete the parameterized INSERT statement using a single ? placeholder for a name variable:\ncursor.execute(\"INSERT INTO clients (name) VALUES (___)\", (name,))",
+      "correct_answer": "?",
+      "accepted_answers": [
+        "?",
+        "? ",
+        " ?"
+      ],
+      "explanation": "The ? placeholder represents a single value in parameterized queries. It must appear inside the SQL string and corresponds to the first element of the tuple passed as the second argument to execute."
+    },
+    {
+      "id": "26.4_q17",
+      "type": "code_ordering",
+      "concept": "basic_sql_crud_operations_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q16"
+      ],
+      "micro_lesson": {
+        "title": "CRUD Algorithm in Python",
+        "content": "A complete CRUD workflow in Python typically follows this algorithm: establish connection, initialize cursor, perform operation (INSERT/SELECT/UPDATE/DELETE), commit transaction, and close connection. If any step fails, you may roll back changes. Here is an example combining Read and Update:\n\n```python\nimport sqlite3\n\ndef update_salary(emp_id, new_salary):\n    conn = sqlite3.connect('company.db')\n    cursor = conn.cursor()\n    \n    # Read current data\n    cursor.execute(\"SELECT salary FROM employees WHERE id = ?\", (emp_id,))\n    current = cursor.fetchone()\n    \n    if current:\n        # Update the record\n        cursor.execute(\"UPDATE employees SET salary = ? WHERE id = ?\", (new_salary, emp_id))\n        conn.commit()\n    else:\n        print('Employee not found')\n    \n    conn.close()\n```\nThis algorithm ensures data integrity by checking existence before updating."
+      },
+      "prompt": "Order these code lines to implement a safe update: check existence, update salary, commit, close connection, open connection:\n5. conn.close()\n1. conn = sqlite3.connect('company.db')\n3. cursor.execute(\"UPDATE employees SET salary = ? WHERE id = ?\", (new_salary, emp_id))\n4. conn.commit()\n2. cursor = conn.cursor()\n6. cursor.execute(\"SELECT salary FROM employees WHERE id = ?\", (emp_id,))",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must open the connection (1) before creating a cursor (2). Then read to check existence (6). If found, update (3), commit (4), and finally close (5). The correct sequence is 1, 2, 6, 3, 4, 5."
+    },
+    {
+      "id": "26.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "basic_sql_crud_operations_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q17"
+      ],
+      "micro_lesson": {
+        "title": "Common SQL Idioms",
+        "content": "SQL idioms are recurring patterns that experienced developers use. One common idiom is using WHERE with a primary key to target a single row. Another is using COUNT(*) to check how many rows match a condition before deciding to insert. In Python, you can combine these with conditional logic.\n\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE logs (message TEXT)\")\n\n# Idiom: count then insert only if count is 0\ncursor.execute(\"SELECT COUNT(*) FROM logs\")\ncount = cursor.fetchone()[0]\n\nif count == 0:\n    cursor.execute(\"INSERT INTO logs (message) VALUES ('First entry')\")\n    conn.commit()\n```\nThis pattern avoids duplicate entries by checking first."
+      },
+      "prompt": "Complete the SQL idiom that counts rows before inserting a default record if the table is empty:\ncursor.execute(\"SELECT COUNT(*) FROM settings\")\nif result[0] == 0:\n    cursor.execute(\"INSERT INTO settings (key, value) VALUES (___, ___)\")",
+      "correct_answer": "'default_key', 'default_value'",
+      "accepted_answers": [
+        "'default_key', 'default_value'",
+        "'default_key', 'default_value'",
+        "'default_key', 'default_value'"
+      ],
+      "explanation": "The idiom inserts a default configuration only when no rows exist. The placeholder values should be descriptive string literals using single quotes, such as 'default_key' and 'default_value'."
+    },
+    {
+      "id": "26.4_q19",
+      "type": "fix_the_code",
+      "concept": "basic_sql_crud_operations_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common SQL CRUD Errors",
+        "content": "When working with SQL in Python, CRUD (Create, Read, Update, Delete) operations often fail due to syntax mistakes, missing commits, or incorrect placeholder usage. A frequent error is forgetting to call commit() after an INSERT or UPDATE, causing changes to be lost. Another common mistake is using string concatenation instead of parameterized queries, which leads to SQL injection vulnerabilities and syntax errors. In this micro-lesson, we examine a buggy script that attempts to add a new student to a database but fails silently. The code uses a raw string to build the SQL query and omits the commit() method. Always use parameterized queries with placeholders (%s or ?) and ensure transactions are committed. Below is the problematic code:\n\n```python\nimport sqlite3\nconn = sqlite3.connect('school.db')\ncur = conn.cursor()\ncur.execute('INSERT INTO students (name, age) VALUES (' + \"'Alice'\" + ',' + '20')\n# Missing commit()\nconn.close()\n```\n\nThe issues are: (1) the query is built with string concatenation instead of placeholders, and (2) the transaction is never committed. The correct pattern uses a tuple with %s placeholders and calls conn.commit()."
+      },
+      "prompt": "Fix the bug in this code for basic sql crud operations errors:",
+      "starter_code": "# Fix this code\nPrint('Basic SQL (CRUD Operations)')",
+      "solution_code": "print('Basic SQL (CRUD Operations)')",
+      "explanation": "This exercise tests `basic sql crud operations errors` in Basic SQL (CRUD Operations). When Python validates this code, it applies the standard rules of basic sql crud operations errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.4_q20",
+      "type": "fix_the_code",
+      "concept": "basic_sql_crud_operations_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.4_q19"
+      ],
+      "prompt": "The following Python function is supposed to insert a new book into a library database, but it contains a simple syntax error that prevents it from running. Fix the code so it executes correctly.",
+      "starter_code": "import sqlite3\n\ndef add_book(title, author):\n    conn = sqlite3.connect('library.db')\n    cur = conn.cursor()\n    cur.execute('INSERT INTO books (title, author) VALUES (%s, %s)', title, author)\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef add_book(title, author):\n    conn = sqlite3.connect('library.db')\n    cur = conn.cursor()\n    cur.execute('INSERT INTO books (title, author) VALUES (%s, %s)', (title, author))\n    conn.commit()\n    conn.close()",
+      "explanation": "The original code passed title and author as separate arguments to execute(), but the method requires a single iterable (tuple or list) containing all parameters. The corrected code wraps (title, author) in parentheses to form a tuple. Additionally, conn.commit() is added to persist the INSERT operation to the database.",
+      "hint": "The execute method expects a single tuple or list for parameters. Also, changes to the database must be committed."
+    },
+    {
+      "id": "26.4_q21",
+      "type": "fix_the_code",
+      "concept": "basic_sql_crud_operations_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q20"
+      ],
+      "prompt": "This function attempts to update a student's grade, but it does not handle the case where the student does not exist. Modify the code to safely update only existing records and avoid unintended side effects.",
+      "starter_code": "import sqlite3\n\ndef update_grade(student_id, new_grade):\n    conn = sqlite3.connect('school.db')\n    cur = conn.cursor()\n    cur.execute('UPDATE students SET grade = %s WHERE id = %s', new_grade, student_id)\n    conn.commit()\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef update_grade(student_id, new_grade):\n    conn = sqlite3.connect('school.db')\n    cur = conn.cursor()\n    cur.execute('SELECT 1 FROM students WHERE id = %s', (student_id,))\n    if cur.fetchone() is not None:\n        cur.execute('UPDATE students SET grade = %s WHERE id = %s', (new_grade, student_id))\n        conn.commit()\n    else:\n        print('Student not found; no update performed.')\n    conn.close()",
+      "explanation": "Without verifying existence, the UPDATE statement silently affects zero rows if the student_id is missing, which may be acceptable but is often unclear to the caller. The repaired version first runs a SELECT to confirm the record exists. Only then does it execute the UPDATE and commit. This edge-case handling improves predictability and user feedback.",
+      "hint": "Check whether the target record exists before attempting the UPDATE. Use fetchone() to inspect the result of a SELECT query."
+    },
+    {
+      "id": "26.4_q22",
+      "type": "fix_the_code",
+      "concept": "basic_sql_crud_operations_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q21"
+      ],
+      "error_diagnosis": {
+        "prompt": "A runtime error occurs when this script tries to delete a product from the inventory database. Diagnose the likely cause based on the traceback pattern and the code provided.",
+        "starter_code": "import sqlite3\n\ndef remove_product(product_id):\n    conn = sqlite3.connect('inventory.db')\n    cur = conn.cursor()\n    cur.execute('DELETE FROM products WHERE id = %s', product_id)\n    conn.commit()\n    conn.close()",
+        "solution_code": "import sqlite3\n\ndef remove_product(product_id):\n    conn = sqlite3.connect('inventory.db')\n    cur = conn.cursor()\n    cur.execute('DELETE FROM products WHERE id = %s', (product_id,))\n    if cur.rowcount == 0:\n        raise ValueError('No product found with the given ID.')\n    conn.commit()\n    conn.close()",
+        "hint": "The error typically arises from passing an integer directly instead of wrapping it in a tuple. Also consider what happens when the row to delete does not exist.",
+        "explanation": "The runtime error is a TypeError caused by passing product_id (an int) as the second argument to execute(), whereas execute() expects a sequence of parameters. The fix wraps product_id in a tuple (product_id,). Additionally, checking cur.rowcount prevents silent failures when the DELETE matches no rows, and raises a clear exception instead."
+      },
+      "prompt": "Fix the bug in this code for basic sql crud operations runtime:",
+      "starter_code": "# Fix this code\nPrint('Basic SQL (CRUD Operations)')",
+      "solution_code": "print('Basic SQL (CRUD Operations)')",
+      "explanation": "This exercise tests `basic sql crud operations runtime` in Basic SQL (CRUD Operations). When Python validates this code, it applies the standard rules of basic sql crud operations runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.4_q23",
+      "type": "fix_the_code",
+      "concept": "basic_sql_crud_operations_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q22"
+      ],
+      "prompt": "The following function is meant to retrieve all active users, but the logic is flawed and returns incorrect data. Repair the code to correctly implement a READ operation with a WHERE filter.",
+      "starter_code": "import sqlite3\n\ndef get_active_users():\n    conn = sqlite3.connect('app.db')\n    cur = conn.cursor()\n    cur.execute('SELECT * FROM users WHERE status = active')\n    results = cur.fetchall()\n    conn.close()\n    return results",
+      "solution_code": "import sqlite3\n\ndef get_active_users():\n    conn = sqlite3.connect('app.db')\n    cur = conn.cursor()\n    cur.execute('SELECT * FROM users WHERE status = %s', ('active',))\n    results = cur.fetchall()\n    conn.close()\n    return results",
+      "explanation": "The original code used the bare word active without quotes, causing a syntax error in SQL. The corrected query uses %s with the string 'active' inside a tuple. This ensures proper parameterization and safely filters users whose status column equals 'active'.",
+      "hint": "SQL string literals must be quoted in the query, and parameter values must be supplied as a tuple to execute()."
+    },
+    {
+      "id": "26.4_q24",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q23"
+      ],
+      "refactoring_challenge": {
+        "prompt": "Refactor the provided module to centralize database connection handling, reuse cursors safely, and reduce redundant commit/close logic across all CRUD operations.",
+        "starter_code": "import sqlite3\n\ndef create_user(name, email):\n    conn = sqlite3.connect('users.db')\n    cur = conn.cursor()\n    cur.execute('INSERT INTO users (name, email) VALUES (%s, %s)', (name, email))\n    conn.commit()\n    conn.close()\n\ndef read_user(user_id):\n    conn = sqlite3.connect('users.db')\n    cur = conn.cursor()\n    cur.execute('SELECT * FROM users WHERE id = %s', (user_id,))\n    return cur.fetchone()\n    conn.close()\n\ndef update_user(user_id, email):\n    conn = sqlite3.connect('users.db')\n    cur = conn.cursor()\n    cur.execute('UPDATE users SET email = %s WHERE id = %s', (email, user_id))\n    conn.commit()\n    conn.close()\n\ndef delete_user(user_id):\n    conn = sqlite3.connect('users.db')\n    cur = conn.cursor()\n    cur.execute('DELETE FROM users WHERE id = %s', (user_id,))\n    conn.commit()\n    conn.close()",
+        "solution_code": "import sqlite3\nfrom contextlib import contextmanager\n\n@contextmanager\ndef get_db_connection(db_name):\n    conn = sqlite3.connect(db_name)\n    try:\n        yield conn\n    finally:\n        conn.close()\n\ndef create_user(name, email):\n    with get_db_connection('users.db') as conn:\n        cur = conn.cursor()\n        cur.execute('INSERT INTO users (name, email) VALUES (%s, %s)', (name, email))\n        conn.commit()\n\ndef read_user(user_id):\n    with get_db_connection('users.db') as conn:\n        cur = conn.cursor()\n        cur.execute('SELECT * FROM users WHERE id = %s', (user_id,))\n        return cur.fetchone()\n\ndef update_user(user_id, email):\n    with get_db_connection('users.db') as conn:\n        cur = conn.cursor()\n        cur.execute('UPDATE users SET email = %s WHERE id = %s', (email, user_id))\n        conn.commit()\n\ndef delete_user(user_id):\n    with get_db_connection('users.db') as conn:\n        cur = conn.cursor()\n        cur.execute('DELETE FROM users WHERE id = %s', (user_id,))\n        conn.commit()",
+        "test_cases": [
+          "create_user('Bob', 'bob@example.com') and read_user(1) returns a tuple with name 'Bob' and email 'bob@example.com'",
+          "update_user(1, 'bob_new@example.com') and read_user(1) returns email 'bob_new@example.com'",
+          "delete_user(1) and read_user(1) returns None",
+          "Multiple calls to create_user, update_user, and delete_user do not raise connection leaks or uncommitted transaction errors"
+        ],
+        "hint": "Use a context manager to guarantee that conn.close() runs even if an exception occurs. Move commit() inside the with block for write operations.",
+        "explanation": "The original code duplicated connection and cursor setup in every function and risked leaving connections open if an exception occurred before conn.close(). The refactored version introduces a context manager (get_db_connection) that yields the connection and ensures closure in a finally block. This centralizes resource management, eliminates redundant close() calls, and makes the CRUD functions cleaner and safer."
+      },
+      "prompt": "Write Python code to solve this challenge for Basic SQL (CRUD Operations):",
+      "starter_code": "# TODO: Implement solution for Basic SQL (CRUD Operations)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Basic SQL (CRUD Operations)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Basic SQL (CRUD Operations)"
+        }
+      ],
+      "explanation": "This exercise tests `basic sql crud operations optimization` in Basic SQL (CRUD Operations). When Python validates this code, it applies the standard rules of basic sql crud operations optimization. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.4_q25",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q24"
+      ],
+      "prompt": "Write a Python script using sqlite3 to perform a CREATE operation. Create a table named students with columns id (INTEGER PRIMARY KEY), name (TEXT), and age (INTEGER). Insert one sample student record and verify the table was created by printing its schema.",
+      "starter_code": "import sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\n# TODO: Create the students table\n\n# TODO: Insert a sample student\n\n# TODO: Print the table schema\n\nconn.close()",
+      "solution_code": "import sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''CREATE TABLE students (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n)''')\n\ncursor.execute(\"INSERT INTO students (name, age) VALUES ('Alice', 20)\")\n\ncursor.execute(\"SELECT sql FROM sqlite_master WHERE type='table' AND name='students'\")\nprint(cursor.fetchone()[0])\n\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)"
+        }
+      ],
+      "hint": "Use cursor.execute() with a CREATE TABLE statement. Use sqlite_master to retrieve the SQL definition of an existing table.",
+      "explanation": "The CREATE operation initializes the database structure. In this exercise, we define the students table with appropriate data types and insert one record to confirm the table exists."
+    },
+    {
+      "id": "26.4_q26",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.4_q25"
+      ],
+      "prompt": "Extend your script to perform READ, UPDATE, and DELETE operations on the students table. Read all records, update Alice's age to 21, delete Alice, and print the final contents of the table.",
+      "starter_code": "import sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''CREATE TABLE students (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n)''')\ncursor.execute(\"INSERT INTO students (name, age) VALUES ('Alice', 20)\")\n\n# TODO: Read and print all records\n\n# TODO: Update Alice's age to 21\n\n# TODO: Delete Alice\n\n# TODO: Print final contents\n\nconn.close()",
+      "solution_code": "import sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''CREATE TABLE students (\n    id INTEGER PRIMARY KEY,\n    name TEXT,\n    age INTEGER\n)''')\ncursor.execute(\"INSERT INTO students (name, age) VALUES ('Alice', 20)\")\n\nprint('Before operations:')\nfor row in cursor.execute('SELECT * FROM students'):\n    print(row)\n\ncursor.execute(\"UPDATE students SET age = 21 WHERE name = 'Alice'\")\n\ncursor.execute(\"DELETE FROM students WHERE name = 'Alice'\")\n\nprint('After operations:')\nfor row in cursor.execute('SELECT * FROM students'):\n    print(row)\n\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Before operations:\n(1, 'Alice', 20)\nAfter operations:"
+        }
+      ],
+      "hint": "Use SELECT for reading, UPDATE with a WHERE clause for modification, and DELETE with a WHERE clause for removal. Always verify results with a final SELECT.",
+      "explanation": "CRUD stands for Create, Read, Update, and Delete. This exercise practices the R, U, and D operations in sequence, reinforcing how WHERE clauses target specific rows safely."
+    },
+    {
+      "id": "26.4_q27",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q26"
+      ],
+      "prompt": "Implement a reusable function manage_student(operation, **kwargs) that handles all four CRUD operations on the students table. The function should accept operation as 'create', 'read', 'update', or 'delete' and use keyword arguments for data. Demonstrate usage for each operation.",
+      "starter_code": "import sqlite3\n\ndef manage_student(operation, **kwargs):\n    conn = sqlite3.connect(':memory:')\n    cursor = conn.cursor()\n    cursor.execute('''CREATE TABLE students (\n        id INTEGER PRIMARY KEY,\n        name TEXT,\n        age INTEGER\n    )''')\n    \n    # TODO: Implement the CRUD logic based on operation\n    \n    conn.close()\n\n# TODO: Call the function for create, read, update, and delete",
+      "solution_code": "import sqlite3\n\ndef manage_student(operation, **kwargs):\n    conn = sqlite3.connect(':memory:')\n    cursor = conn.cursor()\n    cursor.execute('''CREATE TABLE students (\n        id INTEGER PRIMARY KEY,\n        name TEXT,\n        age INTEGER\n    )''')\n    \n    if operation == 'create':\n        cursor.execute('INSERT INTO students (name, age) VALUES (?, ?)', (kwargs['name'], kwargs['age']))\n    elif operation == 'read':\n        return cursor.execute('SELECT * FROM students').fetchall()\n    elif operation == 'update':\n        cursor.execute('UPDATE students SET age = ? WHERE name = ?', (kwargs['age'], kwargs['name']))\n    elif operation == 'delete':\n        cursor.execute('DELETE FROM students WHERE name = ?', (kwargs['name'],))\n    \n    conn.commit()\n    conn.close()\n\nmanage_student('create', name='Bob', age=22)\nprint('Read:', manage_student('read'))\nmanage_student('update', name='Bob', age=23)\nprint('Read after update:', manage_student('read'))\nmanage_student('delete', name='Bob')\nprint('Read after delete:', manage_student('read'))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Read: [(1, 'Bob', 22)]\nRead after update: [(1, 'Bob', 23)]\nRead after delete: []"
+        }
+      ],
+      "hint": "Use parameterized queries with ? placeholders to prevent SQL injection. Branch on operation and commit changes for create, update, and delete.",
+      "explanation": "Encapsulating CRUD logic in a function promotes code reuse and maintainability. Parameterized queries are essential for security when handling dynamic input."
+    },
+    {
+      "id": "26.4_q28",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q27"
+      ],
+      "prompt": "A library database has a books table with columns id, title, author, and available (INTEGER). Write a script that reads all books, marks a book as unavailable (available=0) by title, and then deletes it from the table. Ensure you only affect the target book and print the final list.",
+      "starter_code": "import sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''CREATE TABLE books (\n    id INTEGER PRIMARY KEY,\n    title TEXT,\n    author TEXT,\n    available INTEGER\n)''')\ncursor.execute(\"INSERT INTO books (title, author, available) VALUES ('1984', 'Orwell', 1)\")\ncursor.execute(\"INSERT INTO books (title, author, available) VALUES ('Brave New World', 'Huxley', 1)\")\n\n# TODO: Read all books and print them\n\n# TODO: Mark '1984' as unavailable\n\n# TODO: Delete '1984'\n\n# TODO: Print final books\n\nconn.close()",
+      "solution_code": "import sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''CREATE TABLE books (\n    id INTEGER PRIMARY KEY,\n    title TEXT,\n    author TEXT,\n    available INTEGER\n)''')\ncursor.execute(\"INSERT INTO books (title, author, available) VALUES ('1984', 'Orwell', 1)\")\ncursor.execute(\"INSERT INTO books (title, author, available) VALUES ('Brave New World', 'Huxley', 1)\")\n\nprint('Initial books:')\nfor row in cursor.execute('SELECT * FROM books'):\n    print(row)\n\ncursor.execute(\"UPDATE books SET available = 0 WHERE title = '1984'\")\n\ncursor.execute(\"DELETE FROM books WHERE title = '1984'\")\n\nprint('Final books:')\nfor row in cursor.execute('SELECT * FROM books'):\n    print(row)\n\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Initial books:\n(1, '1984', 'Orwell', 1)\n(2, 'Brave New World', 'Huxley', 1)\nFinal books:\n(2, 'Brave New World', 'Huxley', 1)"
+        }
+      ],
+      "hint": "Use WHERE title = '1984' in both the UPDATE and DELETE statements to target only that specific row. Verify each step with a SELECT query.",
+      "explanation": "This challenge requires sequencing operations correctly: update availability before deletion, and always filter with WHERE to avoid unintended data loss."
+    },
+    {
+      "id": "26.4_q29",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q28"
+      ],
+      "prompt": "You are building a student enrollment tracker. The enrollment table has columns student_id, course_name, and enrolled (INTEGER, 0 or 1). Write a complete Python script that: creates the table, inserts three students into 'Math 101', reads and prints all enrollments, updates one student's status to 0 (dropped), deletes that same student, and finally prints the remaining enrollments. Wrap the database connection in a context manager for safety.",
+      "starter_code": "import sqlite3\n\ndef main():\n    conn = sqlite3.connect(':memory:')\n    cursor = conn.cursor()\n    \n    cursor.execute('''CREATE TABLE enrollments (\n        student_id INTEGER,\n        course_name TEXT,\n        enrolled INTEGER\n    )''')\n    \n    # TODO: Insert three students into Math 101\n    \n    # TODO: Read and print all enrollments\n    \n    # TODO: Update one student's enrolled status to 0\n    \n    # TODO: Delete that student\n    \n    # TODO: Print remaining enrollments\n    \n    conn.close()\n\nif __name__ == '__main__':\n    main()",
+      "solution_code": "import sqlite3\nfrom contextlib import contextmanager\n\n@contextmanager\ndef db_connection(path=':memory:'):\n    conn = sqlite3.connect(path)\n    try:\n        yield conn\n    finally:\n        conn.close()\n\ndef main():\n    with db_connection() as conn:\n        cursor = conn.cursor()\n        cursor.execute('''CREATE TABLE enrollments (\n            student_id INTEGER,\n            course_name TEXT,\n            enrolled INTEGER\n        )''')\n        \n        cursor.execute(\"INSERT INTO enrollments (student_id, course_name, enrolled) VALUES (101, 'Math 101', 1)\")\n        cursor.execute(\"INSERT INTO enrollments (student_id, course_name, enrolled) VALUES (102, 'Math 101', 1)\")\n        cursor.execute(\"INSERT INTO enrollments (student_id, course_name, enrolled) VALUES (103, 'Math 101', 1)\")\n        \n        print('All enrollments:')\n        for row in cursor.execute('SELECT * FROM enrollments'):\n            print(row)\n        \n        cursor.execute(\"UPDATE enrollments SET enrolled = 0 WHERE student_id = 102\")\n        \n        cursor.execute(\"DELETE FROM enrollments WHERE student_id = 102\")\n        \n        print('Remaining enrollments:')\n        for row in cursor.execute('SELECT * FROM enrollments'):\n            print(row)\n\nif __name__ == '__main__':\n    main()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "All enrollments:\n(101, 'Math 101', 1)\n(102, 'Math 101', 1)\n(103, 'Math 101', 1)\nRemaining enrollments:\n(101, 'Math 101', 1)\n(103, 'Math 101', 1)"
+        }
+      ],
+      "hint": "Use a context manager to guarantee the connection closes even if an error occurs. Insert three rows, then perform update and delete on student_id 102.",
+      "explanation": "Real-world applications require robust resource management and accurate multi-step data manipulation. This scenario synthesizes all CRUD operations in a single cohesive script."
+    },
+    {
+      "id": "26.4_q30",
+      "type": "write_the_code",
+      "concept": "basic_sql_crud_operations_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.4_q29"
+      ],
+      "prompt": "Design a transaction-safe script that performs the following in a single atomic unit: create a products table, insert a product, read it back, update its price, and delete it. If any step fails, roll back all changes. Print success or rollback message accordingly.",
+      "starter_code": "import sqlite3\n\ndef run_transaction():\n    conn = sqlite3.connect(':memory:')\n    cursor = conn.cursor()\n    \n    try:\n        # TODO: Begin transaction (implicit)\n        \n        # TODO: Create products table\n        \n        # TODO: Insert a product\n        \n        # TODO: Read it back and verify\n        \n        # TODO: Update its price\n        \n        # TODO: Delete it\n        \n        # TODO: Commit the transaction\n        print('Transaction succeeded')\n    except Exception as e:\n        # TODO: Roll back on failure\n        print('Transaction rolled back:', e)\n    finally:\n        conn.close()\n\nrun_transaction()",
+      "solution_code": "import sqlite3\n\ndef run_transaction():\n    conn = sqlite3.connect(':memory:')\n    cursor = conn.cursor()\n    \n    try:\n        cursor.execute('''CREATE TABLE products (\n            id INTEGER PRIMARY KEY,\n            name TEXT,\n            price REAL\n        )''')\n        \n        cursor.execute(\"INSERT INTO products (name, price) VALUES ('Widget', 9.99)\")\n        \n        rows = cursor.execute('SELECT * FROM products').fetchall()\n        assert len(rows) == 1 and rows[0][1] == 'Widget'\n        \n        cursor.execute(\"UPDATE products SET price = 12.50 WHERE name = 'Widget'\")\n        \n        cursor.execute(\"DELETE FROM products WHERE name = 'Widget'\")\n        \n        conn.commit()\n        print('Transaction succeeded')\n    except Exception as e:\n        conn.rollback()\n        print('Transaction rolled back:', e)\n    finally:\n        conn.close()\n\nrun_transaction()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Transaction succeeded"
+        }
+      ],
+      "hint": "SQLite commits automatically at the end of a try block if no exception occurs. Call conn.rollback() in the except block to undo all changes.",
+      "explanation": "Transactions ensure atomicity: all operations succeed together or none do. This is critical for data integrity in production systems where partial updates corrupt state."
+    }
+  ],
+  "unit_num": 26,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Basic SQL (CRUD Operations)",
+    "Apply idiomatic Python patterns when working with Basic SQL (CRUD Operations)",
+    "Debug common runtime exceptions and logic errors associated with Basic SQL (CRUD Operations)",
+    "Implement production-ready code utilizing Basic SQL (CRUD Operations)"
+  ],
+  "prerequisites": [
+    "26.3"
+  ]
+}

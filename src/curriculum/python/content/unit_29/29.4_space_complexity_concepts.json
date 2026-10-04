@@ -1,0 +1,665 @@
+{
+  "lesson_id": "29.4",
+  "title": "Space Complexity Concepts",
+  "unit": "Performance and Profiling",
+  "items": [
+    {
+      "id": "29.4_q1",
+      "type": "micro_lesson",
+      "concept": "space_complexity_concepts_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Understanding Auxiliary Space Complexity",
+      "content": "Space complexity measures how much memory an algorithm requires as input size `n` grows:\n\n* **O(1) Constant Auxiliary Space:** Allocates a few scalar variables regardless of whether input has 10 or 10,000,000 items.\n* **O(n) Linear Space:** Creates a new list, dictionary, or recursive call stack proportional to input size.",
+      "explanation": "Space complexity quantifies auxiliary memory overhead scaling relative to input size.",
+      "metadata": {
+        "concept": "space_complexity_fundamentals",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Foundational space complexity definitions"
+      }
+    },
+    {
+      "id": "29.4_q2",
+      "type": "output_prediction",
+      "concept": "space_complexity_concepts_basics",
+      "skill": "complexity_analysis",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.4_q1"
+      ],
+      "prompt": "What is the auxiliary space complexity of this function that sums a list in-place?\n\n```python\ndef compute_sum(numbers):\n    total = 0\n    for n in numbers:\n        total += n\n    return total\n```",
+      "options": [
+        "O(1) auxiliary space (constant space beyond the input list)",
+        "O(n) auxiliary space",
+        "O(n^2) auxiliary space",
+        "O(log n) auxiliary space"
+      ],
+      "correct_answer": "O(1) auxiliary space (constant space beyond the input list)",
+      "explanation": "The function only allocates a single scalar variable `total`. It does not create any new lists, dictionaries, or recursive call stacks. Regardless of whether `numbers` has 10 or 10,000,000 items, memory usage remains constant O(1).",
+      "metadata": {
+        "concept": "constant_space_complexity",
+        "skill": "complexity_analysis",
+        "learning_objective": "Determine auxiliary space complexity of iterative accumulators",
+        "common_misconception": "Counting the input size as auxiliary space allocated by the function",
+        "why_this_exercise_exists": "Replaces template function with authentic Big-O space analysis"
+      }
+    },
+    {
+      "id": "29.4_q3",
+      "type": "micro_lesson",
+      "concept": "space_complexity_concepts_generators",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.4_q2"
+      ],
+      "title": "Optimizing Space with Lazy Generators",
+      "content": "List comprehensions eagerly allocate memory for every element upfront (O(n) space).\n\nGenerator expressions evaluate items on-demand one by one:\n\n```python\n# O(1) space stream:\nsquares = (x * x for x in range(1_000_000))\n```\n\nGenerators allow processing datasets larger than available physical RAM.",
+      "explanation": "Generators stream items lazily in O(1) space, avoiding out-of-memory crashes on big data.",
+      "metadata": {
+        "concept": "generator_space_optimization",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches memory optimization with generators"
+      }
+    },
+    {
+      "id": "29.4_q4",
+      "type": "code_prediction",
+      "concept": "space_complexity_concepts_basics",
+      "skill": "complexity_analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q3"
+      ],
+      "prompt": "What is the auxiliary space complexity of creating a duplicate list of squares?\n\n```python\ndef get_squares(numbers):\n    return [x * x for x in numbers]\n```",
+      "options": [
+        "O(n) auxiliary space",
+        "O(1) auxiliary space",
+        "O(n^2) auxiliary space",
+        "O(log n) auxiliary space"
+      ],
+      "correct_answer": "O(n) auxiliary space",
+      "explanation": "The list comprehension constructs a brand new list containing `n` elements in memory. Thus, auxiliary memory scales linearly with input size O(n).",
+      "metadata": {
+        "concept": "linear_space_complexity",
+        "skill": "complexity_analysis",
+        "learning_objective": "Recognize O(n) space allocation in comprehensions and copies",
+        "common_misconception": "Assuming list comprehensions don't consume memory",
+        "why_this_exercise_exists": "Replaces template function with linear space reasoning"
+      }
+    },
+    {
+      "id": "29.4_q5",
+      "type": "output_prediction",
+      "concept": "space_complexity_concepts_basics",
+      "skill": "generator_space_efficiency",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q4"
+      ],
+      "prompt": "How does using a generator expression reduce memory consumption compared to a list comprehension?\n\n```python\n# Generator expression:\nsquares_gen = (x * x for x in range(1_000_000))\n```",
+      "options": [
+        "It yields items on-demand one by one in O(1) space instead of allocating all 1,000,000 items in memory at once.",
+        "It compresses numbers into 8-bit integers.",
+        "It stores items directly on disk.",
+        "It executes on multiple CPU cores."
+      ],
+      "correct_answer": "It yields items on-demand one by one in O(1) space instead of allocating all 1,000,000 items in memory at once.",
+      "explanation": "Generators evaluate lazily. Instead of allocating a 1,000,000-element list in RAM, a generator only keeps track of its current state and produces the next element when requested via `next()`, maintaining O(1) space.",
+      "metadata": {
+        "concept": "lazy_evaluation_space_optimization",
+        "skill": "optimization",
+        "learning_objective": "Optimize memory usage using lazy generator streams",
+        "common_misconception": "Thinking generator expressions immediately build collections in RAM",
+        "why_this_exercise_exists": "Replaces template function with production memory optimization techniques"
+      }
+    },
+    {
+      "id": "29.4_q6",
+      "type": "error_diagnosis",
+      "concept": "space_complexity_concepts_basics",
+      "skill": "call_stack_space",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q5"
+      ],
+      "prompt": "What hidden space complexity exists in deep recursive functions?\n\n```python\ndef countdown(n):\n    if n <= 0:\n        return\n    countdown(n - 1)\n```",
+      "options": [
+        "O(n) auxiliary space consumed by the call stack frames waiting to return.",
+        "O(1) space because no variables are created.",
+        "O(n^2) space due to garbage collection lag.",
+        "None; Python flattens all recursion automatically."
+      ],
+      "correct_answer": "O(n) auxiliary space consumed by the call stack frames waiting to return.",
+      "explanation": "Each recursive call pushes a new stack frame containing execution state and local variables onto the call stack. A recursion depth of `n` requires O(n) memory on the call stack. Exceeding Python's recursion limit triggers a `RecursionError`.",
+      "metadata": {
+        "concept": "recursive_call_stack_space",
+        "skill": "mental_model",
+        "learning_objective": "Analyze call stack space consumption in recursive algorithms",
+        "common_misconception": "Ignoring call stack memory when evaluating algorithm space",
+        "why_this_exercise_exists": "Replaces template function with call-stack memory analysis"
+      }
+    },
+    {
+      "id": "29.4_q7",
+      "type": "code_prediction",
+      "concept": "space_complexity_concepts_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.4_q6"
+      ],
+      "prompt": "Consider the following Python code:\n```python\ndef duplicate_list(items):\n    result = []\n    for item in items:\n        result.append(item)\n    return result\n\noriginal = [1, 2, 3]\ncopy = duplicate_list(original)\nprint(len(copy))\n```\nWhat is the space complexity of the `duplicate_list` function in terms of the input size n?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n^2)",
+        "O(log n)"
+      ],
+      "correct_answer": "O(n)",
+      "explanation": "The function creates a new list `result` that stores n elements, one for each item in the input list. This requires linear extra space relative to the input size."
+    },
+    {
+      "id": "29.4_q8",
+      "type": "output_prediction",
+      "concept": "space_complexity_concepts_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q7"
+      ],
+      "prompt": "Consider the following Python code:\n```python\ndef recursive_sum(n):\n    if n == 0:\n        return 0\n    return n + recursive_sum(n - 1)\n\nprint(recursive_sum(4))\n```\nWhat is the total number of active stack frames at the deepest point of recursion when `recursive_sum(4)` is called?",
+      "options": [
+        "1",
+        "4",
+        "7",
+        "16"
+      ],
+      "correct_answer": "4",
+      "explanation": "At the deepest point, the calls are recursive_sum(4), recursive_sum(3), recursive_sum(2), and recursive_sum(1), totaling 4 active stack frames before reaching the base case."
+    },
+    {
+      "id": "29.4_q9",
+      "type": "code_prediction",
+      "concept": "space_complexity_concepts_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q8"
+      ],
+      "prompt": "Consider the following Python code:\n```python\ndef generate_numbers(n):\n    for i in range(n):\n        yield i\n\nnumbers = generate_numbers(5)\nfor x in numbers:\n    print(x)\n```\nWhich statement best describes the memory usage of `generate_numbers` compared to building a full list of 5 integers?",
+      "options": [
+        "It uses more memory because yield creates multiple generator objects.",
+        "It uses the same amount of memory because the range is still stored.",
+        "It uses less memory because values are produced one at a time.",
+        "It uses no memory because nothing is stored."
+      ],
+      "correct_answer": "It uses less memory because values are produced one at a time.",
+      "explanation": "A generator yields values lazily and only maintains the current state, avoiding storage of all 5 integers simultaneously. This results in O(1) auxiliary space versus O(n) for a full list."
+    },
+    {
+      "id": "29.4_q10",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q9"
+      ],
+      "prompt": "Given this function, explain why its space complexity is O(n):\n```python\ndef build_pairs(data):\n    pairs = []\n    for x in data:\n        for y in data:\n            pairs.append((x, y))\n    return pairs\n```",
+      "correct_answer": "Because the output list `pairs` grows proportionally to n^2, requiring O(n^2) space.",
+      "explanation": "The function appends n * n pairs to the list, so the output size is O(n^2). Since the result must be stored, the auxiliary and total space complexity is O(n^2).",
+      "starter_code": "# 1. Define the process_29_4 function\ndef process_29_4():\n    # 2. Implement solution for Space Complexity Concepts\n    pass\n",
+      "solution_code": "print('Space Complexity Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Space Complexity Concepts"
+        }
+      ]
+    },
+    {
+      "id": "29.4_q11",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q10"
+      ],
+      "prompt": "Trace the memory usage step by step for the following code and identify the peak number of distinct integer objects stored in memory at any point:\n```python\ndef f(n):\n    a = [1] * n\n    b = a\n    a.append(2)\n    return b\n\nf(3)\n```",
+      "correct_answer": "Peak is 4 integers: 3 in the list, plus 1 appended.",
+      "explanation": "Initially `a` references a list with 3 ones. `b = a` shares the same reference. Appending 2 adds one more integer object to the list. The peak distinct integer objects stored is 4 (three 1s and one 2). The list object itself is one container, not an integer.",
+      "starter_code": "# 1. Define the process_29_4 function\ndef process_29_4():\n    # 2. Implement solution for Space Complexity Concepts\n    pass\n",
+      "solution_code": "print('Space Complexity Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Space Complexity Concepts"
+        }
+      ]
+    },
+    {
+      "id": "29.4_q12",
+      "type": "output_prediction",
+      "concept": "space_complexity_concepts_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q11"
+      ],
+      "prompt": "Consider the following Python code:\n```python\ndef modify_in_place(arr):\n    arr.sort()\n    return arr\n\nlst = [3, 1, 2]\nresult = modify_in_place(lst)\nprint(result)\n```\nWhat is printed, and does the function introduce any significant auxiliary space beyond the input list?",
+      "options": [
+        "[1, 2, 3]; yes, Timsort uses O(n) auxiliary space in the worst case.",
+        "[1, 2, 3]; no, sort() modifies the list in place with O(1) extra space.",
+        "[3, 1, 2]; no extra space is used.",
+        "[3, 1, 2]; yes, a new list is returned."
+      ],
+      "correct_answer": "[1, 2, 3]; yes, Timsort uses O(n) auxiliary space in the worst case.",
+      "explanation": "The output is [1, 2, 3] because sort() rearranges the list in place. However, Python's Timsort algorithm may allocate up to O(n) auxiliary space in the worst case, so significant extra memory can be used even though the list itself is not copied."
+    },
+    {
+      "id": "29.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "space_complexity_concepts_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.4_q12"
+      ],
+      "prompt": "The built-in function used to measure memory usage of an object in Python is ___.",
+      "correct_answer": "sys.getsizeof()",
+      "accepted_answers": [
+        "sys.getsizeof()",
+        "getsizeof()"
+      ],
+      "explanation": "The sys.getsizeof() function returns the size of an object in bytes. It is commonly used to estimate space complexity by measuring how much memory a data structure occupies."
+    },
+    {
+      "id": "29.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "space_complexity_concepts_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q13"
+      ],
+      "prompt": "A data structure that grows dynamically and may require extra capacity beyond the number of elements is called a ___ list.",
+      "correct_answer": "dynamic",
+      "accepted_answers": [
+        "dynamic",
+        "resizable"
+      ],
+      "explanation": "Python lists are dynamic arrays. They allocate more memory than strictly necessary to allow for fast appends, which affects space complexity analysis."
+    },
+    {
+      "id": "29.4_q15",
+      "type": "code_ordering",
+      "concept": "space_complexity_concepts_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q14"
+      ],
+      "prompt": "Arrange the following steps to correctly profile memory usage of a list in Python.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is to import the module, create the data structure, initialize any accumulators, and then measure memory. This ensures the object exists before querying its size."
+    },
+    {
+      "id": "29.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "space_complexity_concepts_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q15"
+      ],
+      "prompt": "When a function creates a new list inside a loop to store intermediate results, the space complexity pattern is described as ___ space.",
+      "correct_answer": "auxiliary",
+      "accepted_answers": [
+        "auxiliary",
+        "extra"
+      ],
+      "explanation": "Auxiliary space refers to the temporary extra memory used by an algorithm beyond the input storage. Building a new list inside a loop increases auxiliary space."
+    },
+    {
+      "id": "29.4_q17",
+      "type": "code_ordering",
+      "concept": "space_complexity_concepts_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q16"
+      ],
+      "prompt": "Order the code lines to implement a function that returns the memory size of a list and its elements combined.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The import statement must appear before the function definition so that sys is available when total_size is defined and called."
+    },
+    {
+      "id": "29.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "space_complexity_concepts_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q17"
+      ],
+      "prompt": "A memory-efficient Python idiom for processing large sequences without loading everything into memory at once is the ___ expression.",
+      "correct_answer": "generator",
+      "accepted_answers": [
+        "generator",
+        "yield"
+      ],
+      "explanation": "Generator expressions and functions using yield produce items lazily, reducing auxiliary space compared to building full lists in memory."
+    },
+    {
+      "id": "29.4_q19",
+      "type": "fix_the_code",
+      "concept": "space_complexity_concepts_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Hidden Memory Leaks in Loops",
+        "content": "When analyzing space complexity, a common pitfall is appending to a list inside a loop without ever releasing references. Consider this buggy pattern:\n\n```python\ndef collect_items(n):\n    result = []\n    for i in range(n):\n        result.append(i)\n        # BUG: 'result' grows unbounded and no cleanup occurs\n    return result\n```\n\nIn this example, the space complexity is O(n) because the list stores n elements. However, if the function is called repeatedly in a long-running process, the old lists may persist in memory due to lingering references, causing a memory leak. To diagnose such issues, use `tracemalloc` or monitor memory with `psutil`. Always check whether intermediate data structures are explicitly cleared or allowed to go out of scope."
+      },
+      "prompt": "Fix the bug in this code for space complexity concepts errors:",
+      "starter_code": "# Fix this code\nPrint('Space Complexity Concepts')",
+      "solution_code": "print('Space Complexity Concepts')",
+      "explanation": "This exercise tests `space complexity concepts errors` in Space Complexity Concepts. When Python validates this code, it applies the standard rules of space complexity concepts errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "29.4_q20",
+      "type": "fix_the_code",
+      "concept": "space_complexity_concepts_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.4_q19"
+      ],
+      "prompt": "The following function attempts to return the sum of even numbers from a list, but it unnecessarily stores all even numbers in memory first.",
+      "starter_code": "def sum_evens(nums):\n    evens = []\n    for x in nums:\n        if x % 2 == 0:\n            evens.append(x)\n    return sum(evens)",
+      "solution_code": "def sum_evens(nums):\n    total = 0\n    for x in nums:\n        if x % 2 == 0:\n            total += x\n    return total",
+      "hint": "Avoid creating an intermediate list; accumulate the result directly.",
+      "explanation": "The original code allocated O(k) extra space where k is the count of even numbers. By removing the `evens` list and using a running total, the space complexity drops to O(1), since only a single integer variable is maintained regardless of input size."
+    },
+    {
+      "id": "29.4_q21",
+      "type": "fix_the_code",
+      "concept": "space_complexity_concepts_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q20"
+      ],
+      "prompt": "This recursive function computes the factorial of n, but it may exhaust available memory for moderately large inputs due to deep call stacks.",
+      "starter_code": "def factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)",
+      "solution_code": "def factorial(n):\n    result = 1\n    for i in range(1, n + 1):\n        result *= i\n    return result",
+      "hint": "Replace recursion with an iterative loop to bound stack usage.",
+      "explanation": "The recursive version has O(n) call-stack space, which becomes problematic for large n. The iterative version uses O(1) auxiliary space, making it safer for edge cases such as n = 10000."
+    },
+    {
+      "id": "29.4_q22",
+      "type": "fix_the_code",
+      "concept": "space_complexity_concepts_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "When O(1) Space Still Causes Runtime Failures",
+        "content": "A function can claim O(1) auxiliary space yet fail at runtime because of hidden object retention. For example, a generator expression is memory-efficient, but if you materialize it into a list, you lose that benefit:\n\n```python\ndef process(data):\n    # Intended: O(1) space\n    return [x * 2 for x in data if x > 0]\n```\n\nIf `data` is a generator yielding millions of values, converting it to a list forces O(n) memory allocation. To maintain O(1) space, iterate directly without storing intermediate results. Profiling tools like `memory_profiler` help confirm that memory does not grow with input size."
+      },
+      "prompt": "Fix the bug in this code for space complexity concepts runtime:",
+      "starter_code": "# Fix this code\nPrint('Space Complexity Concepts')",
+      "solution_code": "print('Space Complexity Concepts')",
+      "explanation": "This exercise tests `space complexity concepts runtime` in Space Complexity Concepts. When Python validates this code, it applies the standard rules of space complexity concepts runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "29.4_q23",
+      "type": "fix_the_code",
+      "concept": "space_complexity_concepts_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q22"
+      ],
+      "prompt": "The function below attempts to find duplicates in a list but uses a set that grows without bound, violating expected space constraints for large inputs.",
+      "starter_code": "def find_duplicates(items):\n    seen = set()\n    dupes = []\n    for item in items:\n        if item in seen:\n            dupes.append(item)\n        else:\n            seen.add(item)\n    return dupes",
+      "solution_code": "def find_duplicates(items):\n    seen = set()\n    dupes = set()\n    for item in items:\n        if item in seen:\n            dupes.add(item)\n        else:\n            seen.add(item)\n    return list(dupes)",
+      "hint": "Track duplicates in a separate set to avoid redundant list appends, and return a list only at the end.",
+      "explanation": "The original code used a list for duplicates, which could grow to O(k) where k is the number of duplicate occurrences. Using a set for duplicates ensures each duplicate is stored once, keeping the overall space complexity at O(u), where u is the number of unique elements, which is optimal for this task."
+    },
+    {
+      "id": "29.4_q24",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.4_q23"
+      ],
+      "prompt": "Refactor the following function to process a very large text file without loading the entire file into memory at once.",
+      "starter_code": "def count_lines_with_error(filename):\n    with open(filename, 'r') as f:\n        content = f.read()\n        lines = content.split('\\n')\n        count = 0\n        for line in lines:\n            if 'ERROR' in line:\n                count += 1\n        return count",
+      "solution_code": "def count_lines_with_error(filename):\n    count = 0\n    with open(filename, 'r') as f:\n        for line in f:\n            if 'ERROR' in line:\n                count += 1\n    return count",
+      "test_cases": [
+        {
+          "input": "sample.txt",
+          "expected": 3
+        },
+        {
+          "input": "empty.txt",
+          "expected": 0
+        }
+      ],
+      "hint": "Iterate directly over the file object to stream lines one at a time.",
+      "explanation": "The original implementation read the entire file into memory with `f.read()`, yielding O(n) space where n is the file size. The refactored version streams lines, achieving O(1) auxiliary space and making the function scalable to gigabyte-sized files."
+    },
+    {
+      "id": "29.4_q25",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q24"
+      ],
+      "prompt": "Write a Python function `count_unique_chars(s)` that returns the number of unique characters in a given string `s` without using additional data structures beyond a fixed-size set. Aim for O(1) auxiliary space where possible.",
+      "starter_code": "def count_unique_chars(s):\n    # TODO: implement with minimal extra space\n    pass\n\n# Example usage\nprint(count_unique_chars('hello'))",
+      "solution_code": "def count_unique_chars(s):\n    if not s:\n        return 0\n    unique = set()\n    for ch in s:\n        unique.add(ch)\n    return len(unique)\n\nprint(count_unique_chars('hello'))",
+      "test_cases": [
+        {
+          "input": "'hello'",
+          "expected": 4
+        },
+        {
+          "input": "''",
+          "expected": 0
+        },
+        {
+          "input": "'abcabc'",
+          "expected": 3
+        }
+      ],
+      "hint": "A set automatically handles uniqueness. Consider the space used by the set relative to the input size.",
+      "explanation": "The set `unique` stores at most one entry per distinct character, so its size is bounded by the character set (constant for ASCII). This yields O(1) auxiliary space for fixed alphabets, though O(k) where k is the number of unique characters in the general case."
+    },
+    {
+      "id": "29.4_q26",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.4_q25"
+      ],
+      "prompt": "Refactor the following function to compute the sum of squares of even numbers in a list using a generator expression instead of building an intermediate list. Verify that the peak memory usage remains low.",
+      "starter_code": "def sum_even_squares(nums):\n    evens = [x for x in nums if x % 2 == 0]\n    return sum([x * x for x in evens])\n\nprint(sum_even_squares([1, 2, 3, 4]))",
+      "solution_code": "def sum_even_squares(nums):\n    return sum(x * x for x in nums if x % 2 == 0)\n\nprint(sum_even_squares([1, 2, 3, 4]))",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3, 4]",
+          "expected": 20
+        },
+        {
+          "input": "[0, -2, -3]",
+          "expected": 4
+        },
+        {
+          "input": "[]",
+          "expected": 0
+        }
+      ],
+      "hint": "Replace list comprehensions with generator expressions by using parentheses and avoiding intermediate collections.",
+      "explanation": "The original version creates two temporary lists, each consuming O(n) space. The generator version yields one value at a time, reducing auxiliary space to O(1) beyond the input iterator."
+    },
+    {
+      "id": "29.4_q27",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.4_q26"
+      ],
+      "prompt": "Implement `fib_space_optimized(n)` that returns the nth Fibonacci number using only O(1) extra space. Do not use recursion or auxiliary arrays; update two variables iteratively.",
+      "starter_code": "def fib_space_optimized(n):\n    # TODO: compute nth Fibonacci with O(1) extra space\n    pass\n\nprint(fib_space_optimized(10))",
+      "solution_code": "def fib_space_optimized(n):\n    if n < 0:\n        raise ValueError('n must be non-negative')\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n\nprint(fib_space_optimized(10))",
+      "test_cases": [
+        {
+          "input": "0",
+          "expected": 0
+        },
+        {
+          "input": "1",
+          "expected": 1
+        },
+        {
+          "input": "10",
+          "expected": 55
+        },
+        {
+          "input": "35",
+          "expected": 9227465
+        }
+      ],
+      "hint": "Track only the last two Fibonacci values and update them in a loop.",
+      "explanation": "By maintaining just two scalar variables `a` and `b`, the algorithm avoids the O(n) call stack of recursion and the O(n) array of dynamic programming, achieving true O(1) auxiliary space."
+    },
+    {
+      "id": "29.4_q28",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.4_q27"
+      ],
+      "prompt": "Given a sorted list `arr` in non-decreasing order, remove duplicates in-place so that each element appears only once and return the new length. Do not allocate extra space for another array; modify `arr` in-place with O(1) extra memory.",
+      "starter_code": "def remove_duplicates(arr):\n    # TODO: remove duplicates in-place and return new length\n    pass\n\narr = [1, 1, 2, 2, 3, 3, 3]\nprint(remove_duplicates(arr))",
+      "solution_code": "def remove_duplicates(arr):\n    if not arr:\n        return 0\n    write = 1\n    for read in range(1, len(arr)):\n        if arr[read] != arr[read - 1]:\n            arr[write] = arr[read]\n            write += 1\n    return write\n\narr = [1, 1, 2, 2, 3, 3, 3]\nprint(remove_duplicates(arr))",
+      "test_cases": [
+        {
+          "input": "[1, 1, 2, 2, 3, 3, 3]",
+          "expected": 3
+        },
+        {
+          "input": "[0, 0, 1, 1, 1, 2, 2, 3, 3, 4]",
+          "expected": 5
+        },
+        {
+          "input": "[]",
+          "expected": 0
+        },
+        {
+          "input": "[5]",
+          "expected": 1
+        }
+      ],
+      "hint": "Use a slow pointer to write the next unique element and a fast pointer to scan the array.",
+      "explanation": "The two-pointer technique overwrites duplicates directly in the input list, requiring only the integer `write` as extra state, which is O(1) space."
+    },
+    {
+      "id": "29.4_q29",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.4_q28"
+      ],
+      "prompt": "A streaming service receives 10 million user activity events per hour. Each event is a dictionary with timestamp, user_id, and action. You must compute the count of distinct user_ids per hour without exceeding 512 MB of RAM. Design a solution sketch in Python that prioritizes space efficiency, and explain how you would verify memory usage in practice.",
+      "starter_code": "# TODO: design a memory-bounded approach for distinct user_id counting\n# Consider using a probabilistic data structure or chunked processing\n\ndef count_distinct_users_per_hour(events):\n    # sketch your approach here\n    pass",
+      "solution_code": "from collections import defaultdict\nimport hashlib\n\ndef count_distinct_users_per_hour(events):\n    # Use a fixed-size Bloom filter sketch for O(1) space per event\n    # In production, shard by hour and clear state after aggregation\n    hour_buckets = defaultdict(set)\n    for ev in events:\n        hour = ev['timestamp'][:13]  # 'YYYY-MM-DD HH'\n        hour_buckets[hour].add(ev['user_id'])\n    return {h: len(ids) for h, ids in hour_buckets.items()}\n\n# Verification: profile with memory_profiler or tracemalloc\n# Ensure peak RAM stays under 512 MB by monitoring set sizes\n\nprint(count_distinct_users_per_hour([\n    {'timestamp': '2024-01-01 10:00:00', 'user_id': 101, 'action': 'click'},\n    {'timestamp': '2024-01-01 10:05:00', 'user_id': 102, 'action': 'view'},\n    {'timestamp': '2024-01-01 11:00:00', 'user_id': 101, 'action': 'click'},\n]))",
+      "test_cases": [
+        {
+          "input": "list with 3 events spanning 2 hours",
+          "expected": "distinct counts per hour"
+        }
+      ],
+      "hint": "Avoid storing all raw events; aggregate incrementally and clear per-hour state once processed.",
+      "explanation": "Storing all 10 million events would require gigabytes of RAM. By bucketing into per-hour sets and discarding them after aggregation, peak memory is bounded by the largest hour's distinct users. For further reduction, a HyperLogLog sketch can estimate cardinality with O(1) space per bucket."
+    },
+    {
+      "id": "29.4_q30",
+      "type": "write_the_code",
+      "concept": "space_complexity_concepts_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.4_q29"
+      ],
+      "prompt": "You are given a recursive function `reverse_linked_list(head)` that reverses a singly linked list. The recursive version uses O(n) call stack space. Rewrite it as an iterative in-place version and explain how you would measure and compare the peak memory consumption of both implementations using Python's `tracemalloc`.",
+      "starter_code": "# TODO: implement iterative in-place reversal and memory comparison\n\nclass Node:\n    def __init__(self, val, nxt=None):\n        self.val = val\n        self.nxt = nxt\n\ndef reverse_linked_list(head):\n    # TODO: iterative O(1) space version\n    pass\n\ndef measure_peak_memory(func, *args):\n    # TODO: use tracemalloc to return peak bytes\n    pass",
+      "solution_code": "import tracemalloc\n\nclass Node:\n    def __init__(self, val, nxt=None):\n        self.val = val\n        self.nxt = nxt\n\ndef reverse_linked_list(head):\n    prev = None\n    curr = head\n    while curr:\n        nxt = curr.nxt\n        curr.nxt = prev\n        prev = curr\n        curr = nxt\n    return prev\n\ndef measure_peak_memory(func, *args):\n    tracemalloc.start()\n    func(*args)\n    current, peak = tracemalloc.get_traced_memory()\n    tracemalloc.stop()\n    return peak\n\n# Build a 1000-node list\nhead = Node(1)\ncurr = head\nfor i in range(2, 1001):\n    curr.nxt = Node(i)\n    curr = curr.nxt\n\npeak = measure_peak_memory(reverse_linked_list, head)\nprint(f'Peak memory: {peak} bytes')",
+      "test_cases": [
+        {
+          "input": "empty list",
+          "expected": 0
+        },
+        {
+          "input": "single node",
+          "expected": 0
+        },
+        {
+          "input": "1000 nodes",
+          "expected": "low constant bytes"
+        }
+      ],
+      "hint": "The iterative version only needs two pointers. Use `tracemalloc.start()` before the call and `tracemalloc.get_traced_memory()` afterward.",
+      "explanation": "The iterative reversal uses only `prev` and `curr`, giving O(1) auxiliary space. `tracemalloc` records the peak memory allocation during execution, allowing empirical comparison against the recursive O(n) stack usage."
+    }
+  ],
+  "unit_num": 29,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Space Complexity Concepts",
+    "Apply idiomatic Python patterns when working with Space Complexity Concepts",
+    "Debug common runtime exceptions and logic errors associated with Space Complexity Concepts",
+    "Implement production-ready code utilizing Space Complexity Concepts"
+  ],
+  "prerequisites": [
+    "29.3"
+  ]
+}

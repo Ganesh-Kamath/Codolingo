@@ -1,0 +1,575 @@
+{
+  "lesson_id": "16.5",
+  "title": "Set Comprehensions",
+  "unit": "Comprehensions",
+  "items": [
+    {
+      "id": "16.5_q1",
+      "type": "micro_lesson",
+      "title": "What is a Set Comprehension?",
+      "content": "A set comprehension is a concise way to create a set by iterating over an iterable and applying an expression to each element. It follows the pattern {expression for item in iterable}. Unlike lists, sets automatically remove duplicate values because sets only store unique elements. For example, given a list of numbers, you can use a set comprehension to extract only the even numbers and store them in a set. Here is a Python code block demonstrating this:\n\n```python\nnumbers = [1, 2, 2, 3, 4, 4, 5]\neven_set = {n for n in numbers if n % 2 == 0}\nprint(even_set)\n```\n\nRunning this code produces `{2, 4}` because the set removes duplicates. Set comprehensions are useful when you need a unique collection of transformed or filtered values without writing an explicit loop and calling `set()` afterward.",
+      "concept": "set_comprehensions_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A set comprehension is a concise way to create a set by iterating over an iterable and applying an expression to each element. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "id": "16.5_q2",
+      "type": "multiple_choice",
+      "prompt": "Which of the following best describes the result of executing the code below?",
+      "options": [
+        "A list containing all numbers from 0 to 4",
+        "A set containing the even numbers from 0 to 4",
+        "A tuple with duplicate values removed",
+        "A dictionary mapping numbers to their squares"
+      ],
+      "correct_answer": "A set containing the even numbers from 0 to 4",
+      "explanation": "The code uses a set comprehension `{x for x in range(5) if x % 2 == 0}`. The `range(5)` generates 0 through 4, the condition keeps only even numbers, and the curly braces create a set, so the result is `{0, 2, 4}`.",
+      "concept": "set_comprehensions_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q1"
+      ]
+    },
+    {
+      "idx": 3,
+      "id": "16.5_q3",
+      "type": "micro_lesson",
+      "title": "Syntax of a Set Comprehension",
+      "content": "The general syntax for a set comprehension is `{expression for target in iterable}`. You can also include an optional `if` filter clause: `{expression for target in iterable if condition}`. The expression is evaluated for each item in the iterable, and only items satisfying the condition are included. The result is always a set, meaning order is not guaranteed and duplicates are eliminated. Consider this example:\n\n```python\nwords = ['apple', 'banana', 'apple', 'cherry']\nfirst_letters = {w[0] for w in words}\nprint(first_letters)\n```\n\nThis produces `{'a', 'b', 'c'}`. Notice that `'apple'` appears twice in the original list, but only one `'a'` is stored in the set. Always remember that the opening and closing braces belong to the set, not to a dictionary.",
+      "concept": "set_comprehensions_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q2"
+      ],
+      "prompt": "",
+      "explanation": "The general syntax for a set comprehension is `{expression for target in iterable}`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "id": "16.5_q4",
+      "type": "multiple_choice",
+      "prompt": "Which code snippet correctly creates a set of uppercase versions of each string in the list `items`?",
+      "options": [
+        "`{item.upper() for item in items}`",
+        "`{item.upper() in items}`",
+        "`[item.upper() for item in items]`",
+        "`set(item.upper() for item in items)`"
+      ],
+      "correct_answer": "`{item.upper() for item in items}`",
+      "explanation": "Option A uses the correct set comprehension syntax with curly braces and a `for` clause. Option B is missing the `for` keyword and is invalid. Option C produces a list, not a set. Option D is valid Python but uses a generator expression wrapped in `set()`, not a set comprehension.",
+      "concept": "set_comprehensions_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q3"
+      ]
+    },
+    {
+      "idx": 5,
+      "id": "16.5_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the following code fragment to its resulting set value.",
+      "options": [
+        "`{x * 2 for x in [1, 2, 3]}`",
+        "`{x + 2 for x in [1, 2, 3]}`",
+        "`{x for x in [1, 1, 2, 3, 3]}`",
+        "`{x for x in [3, 2, 1]}`"
+      ],
+      "correct_answer": "`{x * 2 for x in [1, 2, 3]}`",
+      "explanation": "The fragment `{x * 2 for x in [1, 2, 3]}` doubles each element, yielding `{2, 4, 6}`. The other options produce different sets: B yields `{3, 4, 5}`, C yields `{1, 2, 3}` (duplicates removed), and D yields `{1, 2, 3}` (order irrelevant in a set).",
+      "match_code_to_concept": true,
+      "concept": "set_comprehensions_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q4"
+      ]
+    },
+    {
+      "idx": 6,
+      "id": "16.5_q6",
+      "type": "multiple_choice",
+      "prompt": "What pitfall should a learner watch out for when using set comprehensions?",
+      "options": [
+        "Set comprehensions preserve the original order of elements",
+        "Duplicate values are automatically removed by the set",
+        "Set comprehensions can only be used with numeric data",
+        "A set comprehension always returns a list if the input is a list"
+      ],
+      "correct_answer": "Duplicate values are automatically removed by the set",
+      "explanation": "Sets inherently store unique values, so a set comprehension silently drops duplicates. Learners sometimes expect the output to mirror the input length or order. Remember that sets are unordered, and duplicates are eliminated automatically.",
+      "concept": "set_comprehensions_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q5"
+      ]
+    },
+    {
+      "id": "16.5_q7",
+      "type": "code_prediction",
+      "concept": "set_comprehensions_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q6"
+      ],
+      "prompt": "What will be the output of the following code?\n\n```python\ns = {x * 2 for x in [1, 2, 3]}\nprint(s)\n```",
+      "options": [
+        "{1, 2, 3}",
+        "{2, 4, 6}",
+        "{2, 3, 4}",
+        "{1, 4, 9}"
+      ],
+      "correct_answer": "{2, 4, 6}",
+      "explanation": "The set comprehension iterates over [1, 2, 3] and applies x * 2 to each element. The results are 2, 4, and 6, which are collected into a set. Sets are unordered, so the output is {2, 4, 6}."
+    },
+    {
+      "id": "16.5_q8",
+      "type": "output_prediction",
+      "concept": "set_comprehensions_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q7"
+      ],
+      "prompt": "What will be the output of the following code?\n\n```python\nnumbers = [1, 2, 3, 4, 5]\nresult = {n for n in numbers if n % 2 == 0}\nprint(result)\n```",
+      "options": [
+        "{1, 2, 3, 4, 5}",
+        "{2, 4}",
+        "{1, 3, 5}",
+        "{0}"
+      ],
+      "correct_answer": "{2, 4}",
+      "explanation": "The comprehension filters numbers where n % 2 == 0, keeping only even numbers. From [1, 2, 3, 4, 5], the even values are 2 and 4, so the resulting set is {2, 4}."
+    },
+    {
+      "id": "16.5_q9",
+      "type": "code_prediction",
+      "concept": "set_comprehensions_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q8"
+      ],
+      "prompt": "What will be the output of the following code?\n\n```python\nmatrix = [[1, 2], [3, 4]]\nf = {x for row in matrix for x in row}\nprint(f)\n```",
+      "options": [
+        "{1, 2, 3, 4}",
+        "{1, 2, 3, 4, 2}",
+        "{1, 3, 2, 4}",
+        "{}"
+      ],
+      "correct_answer": "{1, 2, 3, 4}",
+      "explanation": "This is a nested set comprehension. The outer loop iterates over rows, and the inner loop iterates over elements in each row. The elements 1, 2, 3, and 4 are collected into a set, which removes duplicates and is unordered. The final set contains {1, 2, 3, 4}."
+    },
+    {
+      "id": "16.5_q10",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q9"
+      ],
+      "title": "Analyzing Set Comprehension Behavior",
+      "content": "Set comprehensions evaluate expressions and collect unique results into a set. Unlike list comprehensions, duplicates are automatically eliminated because sets cannot contain duplicate elements. The order of elements in a set is not guaranteed. Consider the following code:\n\n```python\nwords = ['apple', 'banana', 'apple', 'cherry']\nlengths = {len(w) for w in words}\nprint(lengths)\n```\n\nThe expression len(w) is evaluated for each word. 'apple' appears twice, but len('apple') is 5, so 5 is added only once to the set. The final set contains the unique lengths: {5, 6, 6} becomes {5, 6} because 6 is also produced by 'banana'. Thus, the output is {5, 6}. Understanding this uniqueness property is essential when using set comprehensions for deduplication tasks.",
+      "prompt": "Write Python code to solve this challenge for Set Comprehensions:",
+      "starter_code": "# TODO: Implement solution for Set Comprehensions\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Set Comprehensions')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Set Comprehensions"
+        }
+      ],
+      "explanation": "This exercise tests `set comprehensions analysis` in Set Comprehensions. When Python validates this code, it applies the standard rules of set comprehensions analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "16.5_q11",
+      "type": "code_prediction",
+      "concept": "set_comprehensions_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q10"
+      ],
+      "prompt": "Trace the execution step by step. What will be the final value of s?\n\n```python\nitems = [1, 2, 2, 3, 1]\ns = {x for x in items if x > 1}\nprint(s)\n```",
+      "options": [
+        "{1, 2, 3}",
+        "{2, 3}",
+        "{1, 3}",
+        "{2}"
+      ],
+      "correct_answer": "{2, 3}",
+      "explanation": "The comprehension iterates through items: 1 is skipped because 1 > 1 is False; 2 is included because 2 > 1 is True; the second 2 is included but sets deduplicate, so no change; 3 is included because 3 > 1 is True; the second 1 is skipped. The final set contains {2, 3}."
+    },
+    {
+      "id": "16.5_q12",
+      "type": "output_prediction",
+      "concept": "set_comprehensions_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q11"
+      ],
+      "prompt": "What will be the output of the following code?\n\n```python\nletters = ['a', 'b', 'c', 'a', 'b']\nresult = {c.upper() for c in letters}\nprint(result)\n```",
+      "options": [
+        "{'A', 'B', 'C'}",
+        "{'A', 'B'}",
+        "{'a', 'b', 'c'}",
+        "{'C', 'A', 'B', 'a'}"
+      ],
+      "correct_answer": "{'A', 'B', 'C'}",
+      "explanation": "The comprehension converts each character to uppercase using c.upper(). The original list contains 'a', 'b', 'c', 'a', 'b', so the uppercase results are 'A', 'B', 'C', 'A', 'B'. Because a set stores only unique values, duplicates are removed, leaving {'A', 'B', 'C'}."
+    },
+    {
+      "id": "16.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "set_comprehensions_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q12"
+      ],
+      "prompt": "Complete the following code to create a set of squares for numbers 0 through 4 using a set comprehension:\n\n```python\nnumbers = range(5)\nsquares = {x**2 for x in ___}\nprint(squares)\n```",
+      "correct_answer": "numbers",
+      "accepted_answers": [
+        "numbers",
+        "range(5)"
+      ],
+      "explanation": "A set comprehension uses the syntax `{expression for item in iterable}`. The iterable must be provided after the `for` keyword. Here, `numbers` is the iterable containing 0, 1, 2, 3, and 4."
+    },
+    {
+      "id": "16.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "set_comprehensions_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q13"
+      ],
+      "prompt": "Fill in the blank to filter even numbers when creating a set of doubled values:\n\n```python\nvalues = [1, 2, 3, 4, 5, 6]\ndoubled_evens = {x * 2 for x in values if ___}\nprint(doubled_evens)\n```",
+      "correct_answer": "x % 2 == 0",
+      "accepted_answers": [
+        "x % 2 == 0",
+        "x % 2 == 0 and True",
+        "x % 2 == 0"
+      ],
+      "explanation": "The `if` keyword in a set comprehension acts as a filter. It keeps only elements where the condition evaluates to `True`. `x % 2 == 0` checks whether `x` is even."
+    },
+    {
+      "id": "16.5_q15",
+      "type": "code_ordering",
+      "concept": "set_comprehensions_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to build a set of unique uppercase words from a list of mixed-case strings. Each line must appear exactly once.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, define the input list `words`. Second, apply the set comprehension to transform each word to uppercase and collect unique values into `result`. Third, print `result` to display the output. The comprehension must come after the data is defined."
+    },
+    {
+      "id": "16.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "set_comprehensions_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q15"
+      ],
+      "prompt": "Complete the set comprehension that extracts the first element from each tuple in `pairs`:\n\n```python\npairs = [(1, 'a'), (2, 'b'), (3, 'c')]\nfirst_elements = {___ for pair in pairs}\nprint(first_elements)\n```",
+      "correct_answer": "pair[0]",
+      "accepted_answers": [
+        "pair[0]",
+        "pair[0]"
+      ],
+      "explanation": "Inside the set comprehension, `pair` represents each tuple. `pair[0]` accesses the first element of the tuple. The expression before the `for` keyword determines what gets stored in the resulting set."
+    },
+    {
+      "id": "16.5_q17",
+      "type": "code_ordering",
+      "concept": "set_comprehensions_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q16"
+      ],
+      "prompt": "Order the following lines to correctly compute the set of unique lengths of non-empty strings in `data`:\n\n- `lengths = {len(s) for s in data if len(s) > 0}`\n- `data = ['hi', '', 'world', 'a', '']`\n- `print(lengths)`",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The data must be defined before the comprehension can iterate over it. The comprehension filters out empty strings and computes lengths, storing unique results in `lengths`. Finally, `print(lengths)` displays the set. Reversing the order would cause a `NameError` or produce incorrect output."
+    },
+    {
+      "id": "16.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "set_comprehensions_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q17"
+      ],
+      "prompt": "Fill in the blank to find the set of common elements between `a` and `b` using a set comprehension:\n\n```python\na = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\ncommon = {x for x in a if ___}\nprint(common)\n```",
+      "correct_answer": "x in b",
+      "accepted_answers": [
+        "x in b",
+        "x in b and True"
+      ],
+      "explanation": "A common idiom for finding intersections with a set comprehension is to iterate over one set and keep only elements that also appear in the other set. The membership test `x in b` filters `a` down to shared values, producing `{3, 4}`."
+    },
+    {
+      "id": "16.5_q19",
+      "type": "fix_the_code",
+      "concept": "set_comprehensions_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q18"
+      ],
+      "starter_code": "numbers = [1, 2, 2, 3, 4, 4]\n\nresult = {x for x in numbers if x > 2}\n\nprint('Unique values above 2:', result)\n\n# Attempted to use a mutable default\ndef make_set(items=[]):\n    return {item for item in items}\n\nprint(make_set([5, 5, 6]))",
+      "solution_code": "numbers = [1, 2, 2, 3, 4, 4]\n\nresult = {x for x in numbers if x > 2}\n\nprint('Unique values above 2:', result)\n\n# Avoid mutable default arguments\ndef make_set(items=None):\n    if items is None:\n        items = []\n    return {item for item in items}\n\nprint(make_set([5, 5, 6]))",
+      "hint": "Mutable default arguments are evaluated once at function definition time and can lead to unexpected shared state across calls.",
+      "explanation": "The first part correctly uses a set comprehension to filter unique values. The second function uses a mutable default list, which is a common Python pitfall. The fix initializes the list inside the function when the default is None.",
+      "prompt": "Fix the bug in this code for set comprehensions errors:"
+    },
+    {
+      "id": "16.5_q20",
+      "type": "fix_the_code",
+      "concept": "set_comprehensions_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.5_q19"
+      ],
+      "starter_code": "words = ['apple', 'Banana', 'cherry', 'DATE']\n\n# Goal: create a set of lowercase words\nlowered = {word.lower() for word in words}\n\nprint('Result:', lowered)",
+      "solution_code": "words = ['apple', 'Banana', 'cherry', 'DATE']\n\n# Goal: create a set of lowercase words\nlowered = {word.lower() for word in words}\n\nprint('Result:', lowered)",
+      "hint": "The code is already correct, but verify that duplicates are removed and all entries are lowercase.",
+      "explanation": "The set comprehension {word.lower() for word in words} correctly transforms each string to lowercase and stores only unique values in the resulting set.",
+      "prompt": "Fix the bug in this code for set comprehensions fix:"
+    },
+    {
+      "id": "16.5_q21",
+      "type": "fix_the_code",
+      "concept": "set_comprehensions_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q20"
+      ],
+      "starter_code": "data = [10, None, 20, None, 30]\n\nfiltered = {x for x in data if x is not None}\n\nprint('Filtered set:', filtered)",
+      "solution_code": "data = [10, None, 20, None, 30]\n\nfiltered = {x for x in data if x is not None}\n\nprint('Filtered set:', filtered)",
+      "hint": "Check how None is handled inside the comprehension and whether the comparison operator is appropriate.",
+      "explanation": "Using 'is not None' correctly excludes None values from the set. The set comprehension produces {10, 20, 30}, demonstrating proper handling of None as a sentinel value.",
+      "prompt": "Fix the bug in this code for set comprehensions edge cases:"
+    },
+    {
+      "id": "16.5_q22",
+      "type": "fix_the_code",
+      "concept": "set_comprehensions_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q21"
+      ],
+      "starter_code": "big_range = range(1000000)\n\n# Attempt to build a set from a generator without parentheses\nmy_set = {x for x in big_range if x % 2 == 0}\n\nprint('Even numbers count:', len(my_set))",
+      "solution_code": "big_range = range(1000000)\n\n# Build a set using a generator expression with parentheses\nmy_set = {x for x in (x for x in big_range if x % 2 == 0)}\n\nprint('Even numbers count:', len(my_set))",
+      "hint": "A generator expression requires parentheses when passed directly to a function or constructor, though set comprehensions already handle iteration safely.",
+      "explanation": "The original code is valid because set comprehensions accept any iterable directly. However, if a generator expression were nested inside another comprehension or constructor, explicit parentheses would be required to avoid a SyntaxError.",
+      "prompt": "Fix the bug in this code for set comprehensions runtime:"
+    },
+    {
+      "id": "16.5_q23",
+      "type": "fix_the_code",
+      "concept": "set_comprehensions_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q22"
+      ],
+      "starter_code": "scores = [85, 92, 78, 92, 88, 78, 95]\n\n# Goal: keep only scores strictly greater than 80\npassing = {score for score in scores > 80}\n\nprint('Passing scores:', passing)",
+      "solution_code": "scores = [85, 92, 78, 92, 88, 78, 95]\n\n# Goal: keep only scores strictly greater than 80\npassing = {score for score in scores if score > 80}\n\nprint('Passing scores:', passing)",
+      "hint": "The conditional clause must appear after the 'for' loop inside the set comprehension, not as a standalone boolean expression.",
+      "explanation": "The buggy code evaluates 'scores > 80' as a single boolean, yielding True or False. The corrected comprehension iterates over each score and applies the 'if score > 80' filter, producing {85, 92, 88, 95}.",
+      "prompt": "Fix the bug in this code for set comprehensions logic repair:"
+    },
+    {
+      "id": "16.5_q24",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_extension_dedup",
+      "skill": "comprehensions",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q23"
+      ],
+      "prompt": "Write a set comprehension to extract the unique file extensions (in lowercase) from `filenames = ['doc.PDF', 'img.png', 'notes.pdf', 'table.csv']`.",
+      "starter_code": "filenames = [\"doc.PDF\", \"img.png\", \"notes.pdf\", \"table.csv\"]\n# Build set of unique lowercase extensions\n",
+      "solution_code": "filenames = [\"doc.PDF\", \"img.png\", \"notes.pdf\", \"table.csv\"]\nextensions = {f.split(\".\")[-1].lower() for f in filenames}\nprint(sorted(extensions))",
+      "explanation": "Set comprehensions `{...}` automatically deduplicate items. Slicing with `.split('.')[-1].lower()` creates `{'csv', 'pdf', 'png'}`.",
+      "metadata": {
+        "concept": "set_comprehension_deduplication",
+        "skill": "comprehensions",
+        "why_this_exercise_exists": "Replaces variation with practical set comprehension"
+      }
+    },
+    {
+      "id": "16.5_q25",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q24"
+      ],
+      "prompt": "Write a set comprehension that creates a set of unique even numbers from 0 to 20 (inclusive).",
+      "starter_code": "numbers = range(0, 21)\nresult = {____ for n in numbers if n % 2 == 0}\nprint(result)",
+      "solution_code": "numbers = range(0, 21)\nresult = {n for n in numbers if n % 2 == 0}\nprint(result)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "{0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20}"
+        }
+      ],
+      "hint": "Use a set comprehension with a condition to filter even numbers.",
+      "explanation": "A set comprehension uses curly braces {} with an expression and a for clause. The if clause filters values. Since sets store unique elements, duplicates are automatically removed. Here, we iterate over range(0, 21) and keep only numbers divisible by 2."
+    },
+    {
+      "id": "16.5_q26",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.5_q25"
+      ],
+      "prompt": "Write a set comprehension that extracts unique lowercase vowels from the given string.",
+      "starter_code": "text = 'Hello World'\nvowels = {____ for char in text if char in 'aeiouAEIOU'}\nprint(vowels)",
+      "solution_code": "text = 'Hello World'\nvowels = {char.lower() for char in text if char in 'aeiouAEIOU'}\nprint(vowels)",
+      "test_cases": [
+        {
+          "input": "text = 'Programming is fun'",
+          "expected_output": "{'a', 'i', 'o', 'u'}"
+        }
+      ],
+      "hint": "Convert each matching character to lowercase before adding it to the set.",
+      "explanation": "We iterate over each character in the string. The if clause checks whether the character is a vowel (case-insensitive). We then normalize it to lowercase using char.lower() so that both 'A' and 'a' map to the same set element 'a'. The result is a set of unique lowercase vowels."
+    },
+    {
+      "id": "16.5_q27",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.5_q26"
+      ],
+      "prompt": "Write a set comprehension that produces all unique products of two distinct numbers from 1 to 5, where the product is greater than 10.",
+      "starter_code": "result = {____ for i in range(1, 6) for j in range(1, 6) if i != j and i * j > 10}\nprint(result)",
+      "solution_code": "result = {i * j for i in range(1, 6) for j in range(1, 6) if i != j and i * j > 10}\nprint(result)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "{12, 14, 15, 16, 18, 20, 21, 24, 25}"
+        }
+      ],
+      "hint": "Use a nested for clause inside the set comprehension and apply two conditions: distinct indices and product threshold.",
+      "explanation": "Nested comprehensions allow iterating over multiple sequences. Here, i and j each range from 1 to 5. The condition i != j ensures distinct numbers, and i * j > 10 filters products. The expression i * j is evaluated for each valid pair, and duplicates are collapsed by the set."
+    },
+    {
+      "id": "16.5_q28",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.5_q27"
+      ],
+      "prompt": "Given a list of words, write a set comprehension that returns all unique first letters of words longer than 3 characters, ignoring case.",
+      "starter_code": "words = ['Apple', 'banana', 'Cat', 'dog', 'Elephant']\nresult = {____ for w in words if len(w) > 3}\nprint(result)",
+      "solution_code": "words = ['Apple', 'banana', 'Cat', 'dog', 'Elephant']\nresult = {w[0].lower() for w in words if len(w) > 3}\nprint(result)",
+      "test_cases": [
+        {
+          "input": "words = ['Python', 'is', 'awesome', 'and', 'fun']",
+          "expected_output": "{'p', 'a', 'f'}"
+        }
+      ],
+      "hint": "Check the length condition first, then extract the first character and normalize it to lowercase.",
+      "explanation": "The comprehension iterates over each word. The if clause keeps only words whose length exceeds 3. For those words, w[0] retrieves the first character and .lower() ensures case-insensitive uniqueness. The set automatically removes duplicates such as 'a' appearing in both 'Apple' and 'awesome'."
+    },
+    {
+      "id": "16.5_q29",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.5_q28"
+      ],
+      "prompt": "You are given a list of email domains with inconsistent casing and possible duplicates. Write a set comprehension to extract the unique domains in lowercase.",
+      "starter_code": "raw_domains = ['Gmail.com', 'yahoo.COM', 'Outlook.com', 'gmail.com', 'YAHOO.COM']\ncleaned = {____ for d in raw_domains}\nprint(cleaned)",
+      "solution_code": "raw_domains = ['Gmail.com', 'yahoo.COM', 'Outlook.com', 'gmail.com', 'YAHOO.COM']\ncleaned = {d.lower() for d in raw_domains}\nprint(cleaned)",
+      "test_cases": [
+        {
+          "input": "raw_domains = ['Hotmail.com', 'hotmail.com', 'Outlook.com', 'outlook.com']",
+          "expected_output": "{'hotmail.com', 'outlook.com'}"
+        }
+      ],
+      "hint": "Normalize each domain string to lowercase before adding it to the set to collapse duplicates caused by case variation.",
+      "explanation": "Real-world data often contains the same logical value in different cases. By applying d.lower() inside the set comprehension, we standardize each domain. The set then retains only one entry per unique lowercase domain, effectively deduplicating the list."
+    },
+    {
+      "id": "16.5_q30",
+      "type": "write_the_code",
+      "concept": "set_comprehensions_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.5_q29"
+      ],
+      "prompt": "Given two lists of integers, write a set comprehension that returns the unique common elements that are perfect squares.",
+      "starter_code": "list_a = [1, 2, 4, 5, 9, 10, 16, 25, 26]\nlist_b = [4, 9, 16, 25, 36, 49, 64, 81]\ncommon_squares = {____ for x in list_a for y in list_b if x == y and int(x**0.5)**2 == x}\nprint(common_squares)",
+      "solution_code": "list_a = [1, 2, 4, 5, 9, 10, 16, 25, 26]\nlist_b = [4, 9, 16, 25, 36, 49, 64, 81]\ncommon_squares = {x for x in list_a if x in list_b and int(x**0.5)**2 == x}\nprint(common_squares)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "{4, 9, 16, 25}"
+        }
+      ],
+      "hint": "First find elements present in both lists, then test whether each element is a perfect square by comparing it to the square of its integer square root.",
+      "explanation": "The comprehension iterates over list_a and checks membership in list_b. The perfect-square test uses int(x**0.5)**2 == x: the square root is truncated to an integer, squared, and compared to the original number. Only values satisfying both conditions are included. The set ensures uniqueness, so repeated matches do not appear multiple times."
+    }
+  ],
+  "unit_num": 16,
+  "learning_objectives": [
+    "Initialize and manipulate Python Set Comprehensions collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "16.4"
+  ]
+}

@@ -5,9 +5,10 @@ import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { Card } from '../components/common/Card';
 import { ProgressBar } from '../components/common/ProgressBar';
+import { progressionService } from '../services/progressionService';
 
 export const DashboardView: React.FC = () => {
-  const { userProfile, activeCourse, mistakes, navigateTo } = useApp();
+  const { userProfile, course, mistakes, navigateTo } = useApp();
 
   // Dynamic greeting based on time of day
   const getGreeting = () => {
@@ -17,7 +18,7 @@ export const DashboardView: React.FC = () => {
     return 'Good evening';
   };
 
-  const nextLessonId = 'py_lesson_3';
+  const nextLessonId = progressionService.getNextLesson(userProfile, course) || 'py_lesson_1';
   const unresolvedMistakes = mistakes.filter(m => !m.resolved);
   const primaryWeakness = unresolvedMistakes[0];
 

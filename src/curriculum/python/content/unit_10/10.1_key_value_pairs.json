@@ -1,0 +1,608 @@
+{
+  "lesson_id": "10.1",
+  "title": "Key-Value Pairs",
+  "unit": "Dictionaries",
+  "items": [
+    {
+      "id": "10.1_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "keyvalue_pairs_basics",
+      "title": "What Are Key-Value Pairs?",
+      "content": "A dictionary in Python is a collection of key-value pairs. Each key is unique and maps to a specific value. Think of a dictionary like a real-world dictionary where a word (key) corresponds to its definition (value). In Python, dictionaries are enclosed in curly braces {}.\n\nExample:\nstudent = {'name': 'Alice', 'age': 20, 'grade': 'A'}\nHere, 'name', 'age', and 'grade' are keys, while 'Alice', 20, and 'A' are their corresponding values.\n\nYou can access a value by using its key inside square brackets: student['name'] returns 'Alice'.\n\nKey properties:\n- Keys must be immutable types (e.g., strings, numbers, tuples).\n- Values can be of any data type.\n- Each key appears only once in a dictionary.\n\nPython code block:\nperson = {'city': 'Paris', 'country': 'France'}\nprint(person['city'])  # Output: Paris",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A dictionary in Python is a collection of key-value pairs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "10.1_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "keyvalue_pairs_basics",
+      "prompt": "Which of the following best describes a dictionary in Python?",
+      "options": [
+        "A list that stores items in order and allows duplicates",
+        "A collection of key-value pairs where each key maps to a value",
+        "A single variable that holds only one data type",
+        "A function that performs mathematical calculations"
+      ],
+      "correct_answer": "A collection of key-value pairs where each key maps to a value",
+      "explanation": "A dictionary is defined by its key-value structure. Unlike a list, it does not maintain order by index but by key lookup. Option A describes a list, Option C is incorrect because dictionaries can hold mixed types, and Option D describes a function.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q1"
+      ]
+    },
+    {
+      "id": "10.1_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "keyvalue_pairs_syntax",
+      "title": "Dictionary Syntax and Creation",
+      "content": "To create a dictionary, use curly braces {} with key: value pairs separated by commas. Keys and values are separated by a colon. If a key is a string, it must be enclosed in quotes.\n\nBasic syntax:\nmy_dict = {'key1': value1, 'key2': value2}\n\nYou can also create an empty dictionary and add items later using square bracket assignment:\nempty_dict = {}\nempty_dict['new_key'] = 'new_value'\n\nNote that keys must be hashable (immutable), so lists cannot be used as keys, but strings, integers, and tuples can.\n\nPython code block:\ncolors = {'red': '#FF0000', 'green': '#00FF00', 'blue': '#0000FF'}\nprint(colors['green'])  # Output: #00FF00\n\n# Adding a new key-value pair\ncolors['yellow'] = '#FFFF00'\nprint(colors)  # Output: {'red': '#FF0000', 'green': '#00FF00', 'blue': '#0000FF', 'yellow': '#FFFF00'}",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q2"
+      ],
+      "prompt": "",
+      "explanation": "To create a dictionary, use curly braces {} with key: value pairs separated by commas. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "10.1_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "keyvalue_pairs_syntax",
+      "prompt": "Which of the following is valid Python dictionary syntax?",
+      "options": [
+        "{'name': 'Bob', 25: 'age'}",
+        "{'name': 'Bob', 'age': 25}",
+        "{'name': 'Bob', 'age' 25}",
+        "{'name': 'Bob', 'age': 25}"
+      ],
+      "correct_answer": "{'name': 'Bob', 'age': 25}",
+      "explanation": "This exercise tests `keyvalue pairs syntax` in Key-Value Pairs. When Python validates this code, it applies the standard rules of keyvalue pairs syntax. Understanding how this construct behaves prevents common programming errors and ensures predictable execution.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q3"
+      ]
+    },
+    {
+      "id": "10.1_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "keyvalue_pairs_matching",
+      "prompt": "Match each Python dictionary operation to its correct description.",
+      "options": [
+        "Access a value using square brackets: dict['key']",
+        "Add a new key-value pair using parentheses: dict('key', 'value')",
+        "Remove a key using a slash: dict/key",
+        "Update a value using an equals sign inside brackets: dict[key] = value"
+      ],
+      "correct_answer": "Access a value using square brackets: dict['key']",
+      "explanation": "Option A correctly describes accessing a value by key. Option B incorrectly uses parentheses for adding; square brackets with assignment are used. Option C uses invalid syntax. Option D describes assignment, not access, so it is not the best match for 'accessing' a value.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q4"
+      ]
+    },
+    {
+      "id": "10.1_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "keyvalue_pairs_pitfalls",
+      "prompt": "What will happen if you try to use a list as a key in a Python dictionary?",
+      "options": [
+        "The dictionary will store the list as a key without any error",
+        "Python will raise a TypeError because lists are mutable and unhashable",
+        "The list will be automatically converted to a string key",
+        "The dictionary will create a nested list as the value"
+      ],
+      "correct_answer": "Python will raise a TypeError because lists are mutable and unhashable",
+      "explanation": "Dictionary keys must be hashable, meaning they must be immutable. Lists are mutable, so they cannot be used as keys. Attempting to do so raises a TypeError. Strings, integers, and tuples are hashable and can be used as keys.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q5"
+      ]
+    },
+    {
+      "id": "10.1_q7",
+      "type": "code_prediction",
+      "concept": "keyvalue_pairs_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q6"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nstudent = {'name': 'Alice', 'grade': 92}\nprint(student['name'])\n```",
+      "options": [
+        "Alice",
+        "92",
+        "student",
+        "name"
+      ],
+      "correct_answer": "Alice",
+      "explanation": "The dictionary student stores key-value pairs. Accessing student['name'] retrieves the value associated with the key 'name', which is 'Alice'. The print statement outputs this value."
+    },
+    {
+      "id": "10.1_q8",
+      "type": "output_prediction",
+      "concept": "keyvalue_pairs_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nscores = {'math': 85, 'science': 90, 'english': 78}\nprint(scores.get('science', 'Not found'))\n```",
+      "options": [
+        "85",
+        "90",
+        "Not found",
+        "Error"
+      ],
+      "correct_answer": "90",
+      "explanation": "The .get() method retrieves the value for the key 'science', which is 90. Since the key exists, the default value 'Not found' is not used. The output is 90."
+    },
+    {
+      "id": "10.1_q9",
+      "type": "code_prediction",
+      "concept": "keyvalue_pairs_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q8"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nuser = {'active': True, 'points': 150}\nif user['active']:\n    print('Welcome back')\nelse:\n    print('Please log in')\nprint('Points:', user['points'])\n```",
+      "options": [
+        "Welcome back\nPoints: 150",
+        "Please log in\nPoints: 150",
+        "Welcome back\nPlease log in",
+        "Error"
+      ],
+      "correct_answer": "Welcome back\nPoints: 150",
+      "explanation": "The condition user['active'] evaluates to True, so the first print branch executes. The second print statement always executes regardless of the condition, outputting 'Points: 150'. The newline is produced by the print function."
+    },
+    {
+      "id": "10.1_q10",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q9"
+      ],
+      "prompt": "Analyze the following Python code and explain what it does step by step:\n\n```python\nprices = {'apple': 1.2, 'banana': 0.8}\ntotal = 0\nfor item, cost in prices.items():\n    total += cost\nprint(total)\n```",
+      "correct_answer": "It sums all values in the dictionary and prints 2.0",
+      "explanation": "The code initializes total to 0. It iterates over prices.items(), unpacking each key-value pair into item and cost. It accumulates cost into total. After the loop, total is 2.0 (1.2 + 0.8), which is printed. This demonstrates iterating over dictionary entries to perform aggregation.",
+      "starter_code": "# TODO: Implement solution for Key-Value Pairs\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Key-Value Pairs')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Key-Value Pairs"
+        }
+      ]
+    },
+    {
+      "id": "10.1_q11",
+      "type": "code_prediction",
+      "concept": "keyvalue_pairs_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q10"
+      ],
+      "prompt": "What is the final value of inventory after executing this code?\n\n```python\ninventory = {'apples': 5, 'oranges': 3}\nfor fruit in inventory:\n    if fruit == 'apples':\n        inventory[fruit] += 2\n    else:\n        inventory[fruit] -= 1\n```",
+      "options": [
+        "{'apples': 7, 'oranges': 2}",
+        "{'apples': 5, 'oranges': 2}",
+        "{'apples': 7, 'oranges': 3}",
+        "{'apples': 5, 'oranges': 3}"
+      ],
+      "correct_answer": "{'apples': 7, 'oranges': 2}",
+      "explanation": "The loop iterates over keys 'apples' then 'oranges'. For 'apples', the condition is True, so 2 is added: 5 + 2 = 7. For 'oranges', the condition is False, so 1 is subtracted: 3 - 1 = 2. The final dictionary is {'apples': 7, 'oranges': 2}."
+    },
+    {
+      "id": "10.1_q12",
+      "type": "output_prediction",
+      "concept": "keyvalue_pairs_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q11"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nconfig = {'theme': 'dark', 'volume': 7}\nif 'theme' in config:\n    print(config['theme'])\nelse:\n    print('default')\nprint('Volume:', config.get('volume', 50))\n```",
+      "options": [
+        "dark\nVolume: 7",
+        "default\nVolume: 7",
+        "dark\nVolume: 50",
+        "Error"
+      ],
+      "correct_answer": "dark\nVolume: 7",
+      "explanation": "The 'in' operator checks membership of 'theme' in config, which is True, so the first branch prints 'dark'. The .get('volume', 50) retrieves the existing value 7, so the default 50 is ignored. The output is two lines: 'dark' and 'Volume: 7'."
+    },
+    {
+      "id": "10.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "keyvalue_pairs_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q12"
+      ],
+      "prompt": "Complete the code to create a dictionary with a key 'name' and value 'Alice':\n\nstudent = ____\nprint(student)",
+      "correct_answer": "{'name': 'Alice'}",
+      "accepted_answers": [
+        "{'name': 'Alice'}"
+      ],
+      "explanation": "A dictionary in Python is created using curly braces {} with keys and values separated by a colon. Keys must be immutable types such as strings, numbers, or tuples."
+    },
+    {
+      "id": "10.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "keyvalue_pairs_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q13"
+      ],
+      "prompt": "To create an empty dictionary in Python, use the ____ keyword:\n\nempty = ____\nprint(empty)",
+      "correct_answer": "dict",
+      "accepted_answers": [
+        "dict",
+        "dictionary"
+      ],
+      "explanation": "The dict() keyword is used to create an empty dictionary or to convert an iterable into a dictionary. It is the standard way to initialize an empty dictionary in Python."
+    },
+    {
+      "id": "10.1_q15",
+      "type": "code_ordering",
+      "concept": "keyvalue_pairs_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to create a dictionary, add a new key-value pair, and print the result:\n\n1. print(scores)\n2. scores = {'math': 90}\n3. scores['science'] = 85",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, the dictionary must be created (line 2). Then, a new key-value pair is added using bracket notation (line 3). Finally, the dictionary is printed (line 1) to display the updated contents."
+    },
+    {
+      "id": "10.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "keyvalue_pairs_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q15"
+      ],
+      "prompt": "Which operator is used to access the value associated with a key in a dictionary?\n\nvalue = scores ____ 'math'",
+      "correct_answer": "[",
+      "accepted_answers": [
+        "[",
+        "square brackets"
+      ],
+      "explanation": "Dictionary values are accessed using square bracket notation with the key inside. For example, scores['math'] retrieves the value associated with the key 'math'."
+    },
+    {
+      "id": "10.1_q17",
+      "type": "code_ordering",
+      "concept": "keyvalue_pairs_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q16"
+      ],
+      "prompt": "Arrange the following steps to check if a key exists, retrieve its value, and print a message:\n\n1. print(f'Grade: {grade}')\n2. if 'history' in grades:\n3. grades = {'history': 78, 'art': 92}",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The dictionary must be created first (line 3). Then, use the 'in' operator to check for the key (line 2). If the key exists, retrieve and print the value (line 1)."
+    },
+    {
+      "id": "10.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "keyvalue_pairs_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q17"
+      ],
+      "prompt": "Complete the code using the .get() method to safely retrieve a value with a default:\n\ninfo = {'city': 'Paris'}\ncity = info.____('city', 'Unknown')\nprint(city)",
+      "correct_answer": "get",
+      "accepted_answers": [
+        "get",
+        ".get()"
+      ],
+      "explanation": "The .get() method is a dictionary idiom that retrieves a value for a key and returns a default value if the key does not exist. This avoids a KeyError and makes code more robust."
+    },
+    {
+      "id": "10.1_q19",
+      "type": "fix_the_code",
+      "concept": "keyvalue_pairs_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Dictionary Errors",
+        "content": "Dictionaries store data as key-value pairs. A frequent beginner mistake is using a mutable type like a list as a key, which raises a TypeError because dictionary keys must be hashable. Another common issue is confusing the square bracket access [] with the get() method. The get() method safely returns None (or a default) if a key is missing, while direct access [] raises a KeyError. Always verify that your keys are immutable types such as strings, numbers, or tuples. Below is an example of invalid key usage and the corrected approach:\n\n```python\n# Invalid: list is unhashable\nmy_dict = {[1, 2]: 'value'}  # TypeError\n\n# Valid: tuple is hashable\nmy_dict = {(1, 2): 'value'}\n\n# Safe access with get()\nname = {'first': 'Ada'}.get('last', 'Unknown')\nprint(name)  # Output: Unknown\n```"
+      },
+      "prompt": "Fix the bug in this code for keyvalue pairs errors:",
+      "starter_code": "# Fix this code\nPrint('Key-Value Pairs')",
+      "solution_code": "print('Key-Value Pairs')",
+      "explanation": "This exercise tests `keyvalue pairs errors` in Key-Value Pairs. When Python validates this code, it applies the standard rules of keyvalue pairs errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "10.1_q20",
+      "type": "fix_the_code",
+      "concept": "keyvalue_pairs_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.1_q19"
+      ],
+      "prompt": "Fix the code so it correctly prints the value associated with the key 'color'.",
+      "starter_code": "pet = {'type': 'dog', 'age': 3}\nprint(pet['color'])\n",
+      "solution_code": "pet = {'type': 'dog', 'age': 3}\n# 'color' does not exist, so use get() with a default\nprint(pet.get('color', 'not specified'))\n",
+      "hint": "Use the .get() method with a default value to avoid a KeyError when the key is absent.",
+      "explanation": "The original code raises a KeyError because 'color' is not in the dictionary. Using .get('color', 'not specified') safely returns the default string instead of crashing."
+    },
+    {
+      "id": "10.1_q21",
+      "type": "fix_the_code",
+      "concept": "keyvalue_pairs_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q20"
+      ],
+      "prompt": "Fix the code to correctly count how many times each vowel appears in the string, handling empty strings and uppercase letters.",
+      "starter_code": "text = 'AeIoU'\nvowel_counts = {}\nfor ch in text:\n    if ch in 'aeiou':\n        vowel_counts[ch] += 1\nprint(vowel_counts)\n",
+      "solution_code": "text = 'AeIoU'\nvowel_counts = {}\nfor ch in text.lower():\n    if ch in 'aeiou':\n        vowel_counts[ch] = vowel_counts.get(ch, 0) + 1\nprint(vowel_counts)\n",
+      "hint": "Convert each character to lowercase before checking, and initialize the count with .get() before incrementing.",
+      "explanation": "The starter code fails on two counts: it does not normalize case, so uppercase vowels are skipped, and it attempts to increment a key that may not exist yet. The fixed version uses .lower() and .get(ch, 0) to safely initialize and count each vowel."
+    },
+    {
+      "id": "10.1_q22",
+      "type": "fix_the_code",
+      "concept": "keyvalue_pairs_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Dictionaries",
+        "content": "A runtime error occurs when the program is running, not when it is being parsed. With dictionaries, the most common runtime errors are KeyError (accessing a missing key) and TypeError (using an unhashable type as a key). Another subtle runtime issue is modifying a dictionary while iterating over it, which can cause unexpected behavior or crashes depending on the Python version. Always iterate over a copy of the keys if you plan to delete or modify entries during traversal. Here is an example of a safe deletion pattern:\n\n```python\nscores = {'alice': 10, 'bob': 20, 'carol': 15}\nkeys_to_remove = [k for k, v in scores.items() if v < 18]\nfor k in keys_to_remove:\n    del scores[k]\nprint(scores)  # Output: {'alice': 10, 'bob': 20}\n```\nNotice we iterate over keys_to_remove, a separate list, rather than scores directly."
+      },
+      "prompt": "Fix the bug in this code for keyvalue pairs runtime:",
+      "starter_code": "# Fix this code\nPrint('Key-Value Pairs')",
+      "solution_code": "print('Key-Value Pairs')",
+      "explanation": "This exercise tests `keyvalue pairs runtime` in Key-Value Pairs. When Python validates this code, it applies the standard rules of keyvalue pairs runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "10.1_q23",
+      "type": "fix_the_code",
+      "concept": "keyvalue_pairs_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q22"
+      ],
+      "prompt": "Repair the logic so the function returns the correct price after applying a discount stored in a dictionary.",
+      "starter_code": "prices = {'apple': 1.5, 'banana': 0.8}\ndef apply_discount(item):\n    discount = prices[item].get('discount', 0)\n    return prices[item] - discount\nprint(apply_discount('apple'))\n",
+      "solution_code": "prices = {'apple': {'price': 1.5, 'discount': 0.3}, 'banana': {'price': 0.8, 'discount': 0}}\n\ndef apply_discount(item):\n    info = prices[item]\n    return info['price'] - info['discount']\nprint(apply_discount('apple'))\n",
+      "hint": "The discount is nested inside a sub-dictionary; access it through the nested structure rather than treating the price as a dictionary itself.",
+      "explanation": "The starter code incorrectly assumes the value in prices is a dictionary with a 'discount' key, but the values are plain floats. The corrected version nests price and discount information, then retrieves both fields explicitly."
+    },
+    {
+      "id": "10.1_q24",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.1_q23"
+      ],
+      "prompt": "Refactor the following code to use dictionary comprehensions and eliminate redundant loops while preserving behavior.",
+      "starter_code": "data = [('a', 1), ('b', 2), ('c', 3)]\nresult = {}\nfor key, value in data:\n    if value > 1:\n        result[key] = value * 2\nprint(result)\n",
+      "solution_code": "data = [('a', 1), ('b', 2), ('c', 3)]\nresult = {key: value * 2 for key, value in data if value > 1}\nprint(result)\n",
+      "test_cases": [
+        {
+          "input": "data = [('x', 0), ('y', 5), ('z', 1)]",
+          "expected_output": "{'y': 10}"
+        },
+        {
+          "input": "data = []",
+          "expected_output": "{}"
+        }
+      ],
+      "hint": "A dictionary comprehension combines the loop, conditional filter, and assignment into a single expression.",
+      "explanation": "The original code uses an explicit for-loop with an if-statement and manual assignment. The refactored version uses a dictionary comprehension {key: value * 2 for key, value in data if value > 1}, which is more concise, readable, and efficient for this transformation."
+    },
+    {
+      "id": "10.1_q25",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q24"
+      ],
+      "prompt": "Create a dictionary that stores the prices of three fruits. Then write code to add a new fruit and its price, and print the updated dictionary.",
+      "starter_code": "prices = {'apple': 2, 'banana': 1}\n# TODO: add 'orange' with price 3\n# TODO: print the updated dictionary",
+      "solution_code": "prices = {'apple': 2, 'banana': 1}\nprices['orange'] = 3\nprint(prices)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "{'apple': 2, 'banana': 1, 'orange': 3}"
+        },
+        {
+          "input": "",
+          "expected": "prices contains 'orange'"
+        }
+      ],
+      "hint": "Use square bracket notation with the key to assign a value to a dictionary.",
+      "explanation": "Dictionaries store data as key-value pairs. To add a new entry, use the syntax d[key] = value. This mutates the dictionary in place."
+    },
+    {
+      "id": "10.1_q26",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.1_q25"
+      ],
+      "prompt": "Write a function that takes a dictionary of student names and scores, then returns a new dictionary with only the students who scored above 80.",
+      "starter_code": "def filter_high_scores(scores):\n    # TODO: return a new dictionary with scores > 80\n    pass\n\n# Example usage:\nstudent_scores = {'Alice': 85, 'Bob': 72, 'Charlie': 90, 'Diana': 68}\nprint(filter_high_scores(student_scores))",
+      "solution_code": "def filter_high_scores(scores):\n    return {name: score for name, score in scores.items() if score > 80}\n\nstudent_scores = {'Alice': 85, 'Bob': 72, 'Charlie': 90, 'Diana': 68}\nprint(filter_high_scores(student_scores))",
+      "test_cases": [
+        {
+          "input": "{'Alice': 85, 'Bob': 72, 'Charlie': 90, 'Diana': 68}",
+          "expected": "{'Alice': 85, 'Charlie': 90}"
+        },
+        {
+          "input": "{'X': 50, 'Y': 80}",
+          "expected": "{}"
+        }
+      ],
+      "hint": "Iterate over the dictionary using .items() and use a dictionary comprehension.",
+      "explanation": "Dictionary comprehensions provide a concise way to build a new dictionary by filtering and transforming existing key-value pairs."
+    },
+    {
+      "id": "10.1_q27",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.1_q26"
+      ],
+      "prompt": "Given a dictionary of departments and their employee lists, write code to find the department with the most employees and return its name and count.",
+      "starter_code": "departments = {\n    'Engineering': ['Alice', 'Bob', 'Charlie'],\n    'Sales': ['Diana', 'Eve'],\n    'HR': ['Frank']\n}\n# TODO: find department with max employee count\n# TODO: print department name and count",
+      "solution_code": "departments = {\n    'Engineering': ['Alice', 'Bob', 'Charlie'],\n    'Sales': ['Diana', 'Eve'],\n    'HR': ['Frank']\n}\nmax_dept = max(departments, key=lambda k: len(departments[k]))\nprint(max_dept, len(departments[max_dept]))",
+      "test_cases": [
+        {
+          "input": "departments as above",
+          "expected": "Engineering 3"
+        },
+        {
+          "input": "{'A': ['x'], 'B': ['y', 'z'], 'C': ['w', 'q', 'r']}",
+          "expected": "C 3"
+        }
+      ],
+      "hint": "Use the built-in max() function with a key argument that measures the length of each value list.",
+      "explanation": "The max() function accepts a key parameter to specify how to compare elements. Here, we compare departments by the length of their employee lists."
+    },
+    {
+      "id": "10.1_q28",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.1_q27"
+      ],
+      "prompt": "You are given a dictionary of word frequencies. Write code to remove all entries with a frequency of 0 and return the cleaned dictionary.",
+      "starter_code": "word_freq = {'the': 15, 'cat': 0, 'sat': 3, 'on': 0, 'mat': 1}\n# TODO: remove keys with value 0 and return result",
+      "solution_code": "word_freq = {'the': 15, 'cat': 0, 'sat': 3, 'on': 0, 'mat': 1}\nword_freq = {k: v for k, v in word_freq.items() if v != 0}\nprint(word_freq)",
+      "test_cases": [
+        {
+          "input": "{'a': 0, 'b': 5}",
+          "expected": "{'b': 5}"
+        },
+        {
+          "input": "{'x': 0, 'y': 0}",
+          "expected": "{}"
+        }
+      ],
+      "hint": "A dictionary comprehension can filter out unwanted key-value pairs during creation.",
+      "explanation": "Filtering during dictionary creation avoids the need for a separate loop and temporary storage, making the code both readable and efficient."
+    },
+    {
+      "id": "10.1_q29",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.1_q28"
+      ],
+      "prompt": "A small library needs a program to track book availability. Each book title is a key, and the value is a tuple of (total_copies, available_copies). Write code to initialize this dictionary, add a new book, and update available copies when a book is borrowed.",
+      "starter_code": "# TODO: initialize dictionary with 2 books\n# TODO: add a third book with 5 total and 5 available\n# TODO: borrow one copy of the first book (decrease available)\n# TODO: print final state",
+      "solution_code": "library = {\n    'Python Basics': (3, 3),\n    'Data Science': (2, 2)\n}\nlibrary['Algorithms'] = (5, 5)\nlibrary['Python Basics'] = (library['Python Basics'][0], library['Python Basics'][1] - 1)\nprint(library)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "library contains 'Algorithms' with (5, 5)"
+        },
+        {
+          "input": "",
+          "expected": "'Python Basics' available copies is 2"
+        }
+      ],
+      "hint": "Tuples are immutable, so you must reassign the entire key to a new tuple with updated values.",
+      "explanation": "When dictionary values are immutable like tuples, updating a nested value requires creating a new tuple and reassigning it to the same key."
+    },
+    {
+      "id": "10.1_q30",
+      "type": "write_the_code",
+      "concept": "keyvalue_pairs_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.1_q29"
+      ],
+      "prompt": "Given a dictionary of city names and their coordinates, write a function that returns a new dictionary mapping each city to the distance from the origin (0, 0) using the Euclidean formula sqrt(x^2 + y^2).",
+      "starter_code": "import math\ncities = {\n    'A': (3, 4),\n    'B': (0, 0),\n    'C': (5, 12)\n}\n\ndef distances_from_origin(coords):\n    # TODO: implement using math.sqrt\n    pass\n\nprint(distances_from_origin(cities))",
+      "solution_code": "import math\ncities = {\n    'A': (3, 4),\n    'B': (0, 0),\n    'C': (5, 12)\n}\n\ndef distances_from_origin(coords):\n    return {city: math.sqrt(x**2 + y**2) for city, (x, y) in coords.items()}\n\nprint(distances_from_origin(cities))",
+      "test_cases": [
+        {
+          "input": "cities as above",
+          "expected": "{'A': 5.0, 'B': 0.0, 'C': 13.0}"
+        },
+        {
+          "input": "{'X': (1, 1)}",
+          "expected": "{'X': 1.4142135623730951}"
+        }
+      ],
+      "hint": "Use tuple unpacking in the dictionary comprehension to access x and y directly.",
+      "explanation": "This challenge combines dictionary iteration, tuple unpacking, and mathematical operations. The comprehension efficiently builds the result in a single readable expression."
+    }
+  ],
+  "unit_num": 10,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Key-Value Pairs",
+    "Apply idiomatic Python patterns when working with Key-Value Pairs",
+    "Debug common runtime exceptions and logic errors associated with Key-Value Pairs",
+    "Implement production-ready code utilizing Key-Value Pairs"
+  ],
+  "prerequisites": [
+    "9.6"
+  ]
+}

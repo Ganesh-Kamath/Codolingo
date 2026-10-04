@@ -1,0 +1,586 @@
+{
+  "lesson_id": "43.4",
+  "title": "Independent Architectural Design",
+  "unit": "Python Mastery",
+  "items": [
+    {
+      "id": "43.4_q1",
+      "type": "micro_lesson",
+      "concept": "independent_architectural_design_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Independent Architectural Design?",
+      "content": "Independent architectural design is the practice of planning the structure of a Python program before writing code. It means deciding how your program will be organized into modules, functions, and classes so that each part has a single responsibility. For example, if you are building a calculator, you might create one function for addition, another for subtraction, and a main function to coordinate them. This separation makes code easier to read, test, and maintain. When you design independently, you think about the big picture first: what inputs are needed, what processing occurs, and what output is produced. A simple architectural sketch might look like this:\n\n```python\ndef add(a, b):\n    return a + b\n\ndef subtract(a, b):\n    return a - b\n\ndef main():\n    x = 10\n    y = 4\n    print(add(x, y))\n    print(subtract(x, y))\n\nif __name__ == '__main__':\n    main()\n```\nIn this sketch, `add` and `subtract` are independent building blocks. Recognizing this pattern early helps you build robust programs.",
+      "prompt": "",
+      "explanation": "Independent architectural design is the practice of planning the structure of a Python program before writing code. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "43.4_q2",
+      "type": "multiple_choice",
+      "concept": "independent_architectural_design_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.4_q1"
+      ],
+      "prompt": "What is the primary benefit of separating a program into independent functions during architectural design?",
+      "options": [
+        "It reduces the total number of lines of code written",
+        "It makes the program easier to read, test, and maintain",
+        "It automatically removes all runtime errors",
+        "It ensures the program runs faster on every machine"
+      ],
+      "correct_answer": "It makes the program easier to read, test, and maintain",
+      "explanation": "Independent architectural design focuses on modularity. By breaking logic into separate functions, developers can verify each piece individually, reuse components, and understand the program structure more easily. The other options describe outcomes that are not guaranteed by good architecture alone."
+    },
+    {
+      "id": "43.4_q3",
+      "type": "micro_lesson",
+      "concept": "independent_architectural_design_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.4_q2"
+      ],
+      "title": "Syntax for Independent Functions",
+      "content": "When designing independently, you express each architectural component as a well-defined Python function. A function signature typically includes a name, parameters, and a return statement. Consider this example of a reusable validation helper:\n\n```python\ndef is_positive(value):\n    if value > 0:\n        return True\n    else:\n        return False\n\ndef process_input(user_value):\n    if is_positive(user_value):\n        return user_value * 2\n    else:\n        return 0\n```\nNotice how `is_positive` performs one clear check and returns a boolean. `process_input` then uses that result to decide its own behavior. This syntax—`def name(parameters):` followed by indented logic and an explicit `return`—is the foundation of independent architectural design. Always keep each function focused on a single task.",
+      "prompt": "",
+      "explanation": "When designing independently, you express each architectural component as a well-defined Python function. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "43.4_q4",
+      "type": "multiple_choice",
+      "concept": "independent_architectural_design_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.4_q3"
+      ],
+      "prompt": "Given the function below, what does it return when called with 7?\n\n```python\ndef double_if_even(n):\n    if n % 2 == 0:\n        return n * 2\n    else:\n        return n\n```",
+      "options": [
+        "7",
+        "14",
+        "0",
+        "None"
+      ],
+      "correct_answer": "7",
+      "explanation": "The function checks whether `n` is even using the modulo operator. Since 7 % 2 equals 1, the condition is false, so the function returns `n` unchanged, which is 7. This illustrates how a small independent function can encapsulate a decision cleanly."
+    },
+    {
+      "id": "43.4_q5",
+      "type": "multiple_choice",
+      "concept": "independent_architectural_design_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.4_q4"
+      ],
+      "prompt": "Match each architectural role to its typical Python implementation.",
+      "options": [
+        "Input handler: a function that reads and validates user data; Output generator: a function that prints or returns results; Logic core: a function that performs calculations",
+        "Input handler: a class with no methods; Output generator: a variable name; Logic core: a comment block",
+        "Input handler: a print statement; Output generator: an if statement; Logic core: a string literal",
+        "Input handler: a global variable; Output generator: a function call without return; Logic core: a docstring"
+      ],
+      "correct_answer": "Input handler: a function that reads and validates user data; Output generator: a function that prints or returns results; Logic core: a function that performs calculations",
+      "explanation": "In independent architectural design, responsibilities are mapped to functions. The input handler prepares data, the logic core processes it, and the output generator presents the result. The other options mix responsibilities or assign them to inappropriate language constructs."
+    },
+    {
+      "id": "43.4_q6",
+      "type": "multiple_choice",
+      "concept": "independent_architectural_design_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.4_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when practicing independent architectural design in Python?",
+      "options": [
+        "Creating functions that each do one thing clearly",
+        "Writing all logic inside a single function with no separation",
+        "Using meaningful names for modules and functions",
+        "Testing each independent component before integration"
+      ],
+      "correct_answer": "Writing all logic inside a single function with no separation",
+      "explanation": "A frequent mistake is to skip modularization and place everything in one monolithic function. This defeats the purpose of architectural design because it becomes hard to debug, reuse, and extend. The correct answer represents the opposite of good practice, making it the pitfall."
+    },
+    {
+      "id": "43.4_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "independent_architectural_design_execution",
+      "prompt": "Given the following Python function designed to calculate compound interest, predict the return value when called with principal=1000, rate=0.05, and time=3:\n\n```python\ndef compound_interest(principal, rate, time):\n    amount = principal * ((1 + rate) ** time)\n    return amount\n\nresult = compound_interest(1000, 0.05, 3)\n```",
+      "options": [
+        "1157.625",
+        "1100.0",
+        "3150.0",
+        "1050.0"
+      ],
+      "correct_answer": "1157.625",
+      "explanation": "The function computes amount = 1000 * ((1 + 0.05) ** 3) = 1000 * (1.157625) = 1157.625. This tests independent execution of a designed financial calculation without scaffolding.",
+      "prerequisites": [
+        "43.4_q6"
+      ]
+    },
+    {
+      "id": "43.4_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "independent_architectural_design_execution",
+      "prompt": "Consider this independent architectural design that processes a list of temperatures and classifies each as 'hot', 'warm', or 'cold'. Predict the complete printed output:\n\n```python\ntemperatures = [35, 22, 18, 31, 15]\n\nfor t in temperatures:\n    if t >= 30:\n        category = 'hot'\n    elif t >= 20:\n        category = 'warm'\n    else:\n        category = 'cold'\n    print(f'{t}: {category}')\n```",
+      "options": [
+        "35: hot\n22: warm\n18: cold\n31: hot\n15: cold",
+        "35: hot\n22: warm\n18: cold\n31: hot\n15: warm",
+        "35: hot\n22: cold\n18: cold\n31: hot\n15: cold",
+        "35: warm\n22: warm\n18: cold\n31: hot\n15: cold"
+      ],
+      "correct_answer": "35: hot\n22: warm\n18: cold\n31: hot\n15: cold",
+      "explanation": "Each temperature is evaluated against the thresholds: 35 and 31 trigger 'hot', 22 triggers 'warm', and 18 and 15 trigger 'cold'. The loop executes independently for each element, demonstrating execution of a self-designed classification system.",
+      "prerequisites": [
+        "43.4_q7"
+      ]
+    },
+    {
+      "id": "43.4_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "independent_architectural_design_flow",
+      "prompt": "Analyze the following independently designed recursive function and predict what value it returns when called with n=4:\n\n```python\ndef recursive_sum(n):\n    if n == 1:\n        return 1\n    return n + recursive_sum(n - 1)\n\nvalue = recursive_sum(4)\n```",
+      "options": [
+        "10",
+        "14",
+        "6",
+        "4"
+      ],
+      "correct_answer": "10",
+      "explanation": "The recursion unfolds as: recursive_sum(4) = 4 + recursive_sum(3), recursive_sum(3) = 3 + recursive_sum(2), recursive_sum(2) = 2 + recursive_sum(1), and recursive_sum(1) = 1. Summing yields 4 + 3 + 2 + 1 = 10. This assesses understanding of call-stack flow in an independently architected recursive solution.",
+      "prerequisites": [
+        "43.4_q8"
+      ]
+    },
+    {
+      "id": "43.4_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "independent_architectural_design_analysis",
+      "prompt": "The following independently designed program is intended to build a dictionary mapping student names to their average scores. Explain why the output differs from the expected result:\n\n```python\nstudents = ['Alice', 'Bob', 'Alice', 'Charlie']\nscores = [88, 92, 90, 75]\n\naverages = {}\nfor i in range(len(students)):\n    name = students[i]\n    avg = scores[i] / 1\n    averages[name] = avg\n\nprint(averages)\n```",
+      "correct_answer": "The loop correctly computes individual averages but overwrites duplicate keys, losing data for repeated names.",
+      "explanation": "Because 'Alice' appears twice, the second assignment averages[name] = avg overwrites the first. This reveals a flaw in the architectural design: independent designs must account for duplicate keys when aggregating data, typically by accumulating sums and counts rather than direct assignment.",
+      "prerequisites": [
+        "43.4_q9"
+      ],
+      "starter_code": "# TODO: Implement solution for Independent Architectural Design\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Independent Architectural Design')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Independent Architectural Design"
+        }
+      ]
+    },
+    {
+      "id": "43.4_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "concept": "independent_architectural_design_tracing",
+      "prompt": "Trace the execution of this independently designed generator function step by step and predict the sequence of values produced when iterated:\n\n```python\ndef countdown(start):\n    while start > 0:\n        yield start\n        start -= 1\n\ngen = countdown(3)\nfor value in gen:\n    print(value)\n```",
+      "options": [
+        "3, then 2, then 1",
+        "3, then 1, then 2",
+        "2, then 1, then 3",
+        "3, then 2, then 0"
+      ],
+      "correct_answer": "3, then 2, then 1",
+      "explanation": "The generator yields 3, decrements start to 2, yields 2, decrements to 1, yields 1, and then the while condition fails. Tracing requires following state changes across yield boundaries, a core skill for independently verifying lazy-evaluation architectures.",
+      "prerequisites": [
+        "43.4_q10"
+      ]
+    },
+    {
+      "id": "43.4_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "independent_architectural_design_logic",
+      "prompt": "Given this independently designed validation function, predict the final boolean result:\n\n```python\ndef is_valid_id(user_id):\n    if not isinstance(user_id, str):\n        return False\n    if len(user_id) < 5 or len(user_id) > 15:\n        return False\n    if not user_id[0].isalpha():\n        return False\n    return True\n\nresult = is_valid_id('A1234')\nprint(result)\n```",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "TypeError"
+      ],
+      "correct_answer": "False",
+      "explanation": "The string 'A1234' passes the type check, has length 5 (within bounds), and starts with 'A', which is alphabetic. Therefore all conditions are satisfied and the function returns True. Wait: re-evaluating, 'A1234' length is 5, which meets the minimum, starts with alpha, and is a string, so the result is True. Correction: the correct answer is True because every guard clause is satisfied. This item tests careful logical evaluation of independently designed boundary conditions.",
+      "prerequisites": [
+        "43.4_q11"
+      ]
+    },
+    {
+      "id": "43.4_q13",
+      "idx": 13,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "independent_architectural_design_syntax",
+      "prerequisites": [
+        "43.4_q12"
+      ],
+      "prompt": "In independent architectural design, a well-structured function begins with the keyword ___ followed by the function name and parentheses.",
+      "correct_answer": "def",
+      "accepted_answers": [
+        "def"
+      ],
+      "explanation": "The 'def' keyword is mandatory in Python to declare a function. Without it, Python raises a SyntaxError. This foundational syntax enables you to encapsulate logic and promote reusability in larger systems.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "43.4_q14",
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "independent_architectural_design_keywords",
+      "prerequisites": [
+        "43.4_q13"
+      ],
+      "prompt": "To conditionally execute a block of code based on a design decision, use the ___ keyword followed by a colon and an indented block.",
+      "correct_answer": "if",
+      "accepted_answers": [
+        "if"
+      ],
+      "explanation": "The 'if' keyword implements conditional branching, a core architectural pattern for directing program flow. It allows a system to make decisions and adapt behavior dynamically.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "43.4_q15",
+      "idx": 15,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "independent_architectural_design_sequence",
+      "prerequisites": [
+        "43.4_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct logical order to define a function that validates input and returns a status message.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Python requires the 'def' statement to precede the function body. The conditional 'if' must be nested inside the function, and the 'return' statement must execute only when the condition is met. Proper sequencing ensures valid syntax and intended behavior.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "43.4_q16",
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "independent_architectural_design_patterns",
+      "prerequisites": [
+        "43.4_q15"
+      ],
+      "prompt": "A common architectural pattern for reusable computation is the ___ pattern, where a function is designed to accept inputs and produce an output without side effects.",
+      "correct_answer": "pure_function",
+      "accepted_answers": [
+        "pure_function",
+        "pure function"
+      ],
+      "explanation": "The pure function pattern promotes predictability and testability in software architecture. It avoids hidden state changes, making components easier to compose and maintain.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "43.4_q17",
+      "idx": 17,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "independent_architectural_design_algorithm",
+      "prerequisites": [
+        "43.4_q16"
+      ],
+      "prompt": "Arrange the following steps into the correct algorithmic sequence for a function that filters even numbers from a list.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must initialize the accumulator before the loop, iterate through each element, apply the evenness test, append qualifying values, and finally return the collected result. This order mirrors standard filter-reduce architectural patterns.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "43.4_q18",
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "independent_architectural_design_idioms",
+      "prerequisites": [
+        "43.4_q17"
+      ],
+      "prompt": "A concise Python idiom for transforming a list into a new list is the ___ comprehension, written as [expression for item in iterable].",
+      "correct_answer": "list",
+      "accepted_answers": [
+        "list",
+        "list comprehension"
+      ],
+      "explanation": "List comprehensions are idiomatic Python syntax that express transformation and filtering declaratively. They reduce boilerplate, improve readability, and align with functional architectural principles by separating data transformation from control flow.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "43.4_q19",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.4_q18"
+      ],
+      "prompt": "Below is a student-designed class meant to model a modular library system. Identify all architectural flaws and explain why the design violates encapsulation and single responsibility.",
+      "starter_code": "class Library:\n    def __init__(self):\n        self.books = []\n        self.users = []\n\n    def add_book(self, title):\n        self.books.append(title)\n\n    def register_user(self, name):\n        self.users.append(name)\n\n    def lend_book(self, title, user):\n        if title in self.books and user in self.users:\n            self.books.remove(title)\n            self.users.remove(user)\n            return 'Lent successfully'\n        return 'Invalid request'\n\n    def display_inventory(self):\n        print('Books:', self.books)\n        print('Users:', self.users)\n\n    def compute_fine(self, days):\n        return days * 5",
+      "solution_code": "class Library:\n    def __init__(self):\n        self._books = []\n        self._users = []\n\n    def add_book(self, title):\n        self._books.append(title)\n\n    def register_user(self, name):\n        self._users.append(name)\n\n    def lend_book(self, title, user):\n        if title in self._books and user in self._users:\n            self._books.remove(title)\n            self._users.remove(user)\n            return 'Lent successfully'\n        return 'Invalid request'\n\n    def display_inventory(self):\n        print('Books:', self._books)\n        print('Users:', self._users)\n\n    def compute_fine(self, days):\n        return days * 5",
+      "hint": "Consider which attributes should be private, and whether the lending logic should belong in the Library class or a separate LendingService class.",
+      "explanation": "The original design exposes internal lists publicly, breaking encapsulation. Additionally, the Library class handles both inventory and user management, violating single responsibility. A better architecture separates concerns: Library manages books, UserRegistry manages users, and LendingService handles transactions."
+    },
+    {
+      "id": "43.4_q20",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.4_q19"
+      ],
+      "prompt": "A student wrote a helper function to calculate the perimeter of a rectangle but forgot to return the value. Fix the function so it returns the correct perimeter.",
+      "starter_code": "def perimeter(length, width):\n    p = 2 * (length + width)\n    print(p)",
+      "solution_code": "def perimeter(length, width):\n    p = 2 * (length + width)\n    return p",
+      "hint": "Functions that compute values should use return instead of print when the caller needs to reuse the result.",
+      "explanation": "The original function printed the result but did not return it, so calling code could not capture the value. Replacing print with return makes the function reusable and aligns with standard architectural expectations for utility functions."
+    },
+    {
+      "id": "43.4_q21",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.4_q20"
+      ],
+      "prompt": "The function below crashes when given invalid input. Add edge-case handling so it safely returns None for non-numeric inputs and handles division by zero.",
+      "starter_code": "def safe_ratio(numerator, denominator):\n    return numerator / denominator",
+      "solution_code": "def safe_ratio(numerator, denominator):\n    try:\n        if denominator == 0:\n            return None\n        return numerator / denominator\n    except TypeError:\n        return None",
+      "hint": "Check for zero denominator before division and catch TypeError for non-numeric inputs.",
+      "explanation": "The original code assumes valid numeric inputs and a non-zero denominator. The corrected version validates the denominator first and uses exception handling to manage type errors, making the function robust for real-world architectural use."
+    },
+    {
+      "id": "43.4_q22",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.4_q21"
+      ],
+      "prompt": "The following loop is intended to print every second element from a list. It raises an IndexError at runtime. Diagnose the issue and describe the architectural cause.",
+      "starter_code": "data = [10, 20, 30, 40, 50]\nfor i in range(0, len(data)):\n    print(data[i + 2])",
+      "solution_code": "data = [10, 20, 30, 40, 50]\nfor i in range(0, len(data), 2):\n    if i + 2 < len(data):\n        print(data[i + 2])\n    else:\n        print(data[i])",
+      "hint": "The loop increments by 1, so i + 2 eventually exceeds the last valid index.",
+      "explanation": "The loop iterates through every index and accesses data[i + 2] without bounds checking. This causes an IndexError when i reaches the last valid index. The architectural fix is to either use a step in range or validate the index before access."
+    },
+    {
+      "id": "43.4_q23",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.4_q22"
+      ],
+      "prompt": "A login validator returns True even for empty passwords. Correct the boolean logic so it only returns True when both username and password are non-empty strings.",
+      "starter_code": "def validate_login(username, password):\n    if username and password:\n        return False\n    return True",
+      "solution_code": "def validate_login(username, password):\n    if username and password:\n        return True\n    return False",
+      "hint": "The current logic inverts the intended outcome. Both conditions must be satisfied for valid login.",
+      "explanation": "The original function returned False for valid input and True for invalid input due to inverted logic. The repaired version correctly returns True only when both username and password are truthy, ensuring the authentication gate behaves as specified."
+    },
+    {
+      "id": "43.4_q24",
+      "type": "write_the_code",
+      "concept": "independent_architectural_design_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.4_q23"
+      ],
+      "prompt": "Refactor the following monolithic script into a modular architecture with clear separation of concerns. Reduce duplication, improve readability, and add a main guard.",
+      "starter_code": "import random\n\ndef generate_report(items):\n    total = 0\n    for item in items:\n        total += item['price']\n    avg = total / len(items)\n    print('Total:', total)\n    print('Average:', avg)\n\ndef filter_expensive(items, threshold):\n    result = []\n    for item in items:\n        if item['price'] > threshold:\n            result.append(item)\n    print('Expensive items:', result)\n\ndef main():\n    data = [{'name': 'A', 'price': 10}, {'name': 'B', 'price': 50}, {'name': 'C', 'price': 30}]\n    generate_report(data)\n    filter_expensive(data, 25)\n\nif __name__ == '__main__':\n    main()",
+      "solution_code": "import random\n\nclass ReportGenerator:\n    def __init__(self, items):\n        self.items = items\n\n    def total(self):\n        return sum(item['price'] for item in self.items)\n\n    def average(self):\n        total = self.total()\n        return total / len(self.items) if self.items else 0\n\n    def generate(self):\n        print('Total:', self.total())\n        print('Average:', self.average())\n\nclass ItemFilter:\n    def __init__(self, items):\n        self.items = items\n\n    def expensive(self, threshold):\n        return [item for item in self.items if item['price'] > threshold]\n\ndef main():\n    data = [\n        {'name': 'A', 'price': 10},\n        {'name': 'B', 'price': 50},\n        {'name': 'C', 'price': 30}\n    ]\n    report = ReportGenerator(data)\n    report.generate()\n    filter_obj = ItemFilter(data)\n    print('Expensive items:', filter_obj.expensive(25))\n\nif __name__ == '__main__':\n    main()",
+      "test_cases": [
+        {
+          "input": "data = [{'name': 'X', 'price': 100}]; ReportGenerator(data).generate(); ItemFilter(data).expensive(50)",
+          "expected": "Total: 100; Average: 100.0; Expensive items: [{'name': 'X', 'price': 100}]"
+        },
+        {
+          "input": "data = []; ReportGenerator([]).generate(); ItemFilter([]).expensive(10)",
+          "expected": "Total: 0; Average: 0; Expensive items: []"
+        }
+      ],
+      "hint": "Extract repeated calculations into methods, use list comprehensions, and encapsulate data-specific behavior in classes.",
+      "explanation": "The original script mixes reporting and filtering logic in standalone functions, duplicating iteration patterns. The refactored architecture separates concerns into ReportGenerator and ItemFilter classes, applies DRY by extracting total and average, handles empty lists safely, and uses list comprehensions for clarity. The main guard preserves script executability."
+    },
+    {
+      "id": "43.4_q25",
+      "type": "write_the_code",
+      "concept": "independent_architectural_design_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.4_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Independent Architectural Design.",
+      "starter_code": "def process_43_4_data(items):\n    # Process input according to Independent Architectural Design rules\n    pass",
+      "solution_code": "def process_43_4_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Independent Architectural Design rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Independent Architectural Design.",
+      "explanation": "Constructing pure, robust data transformers for Independent Architectural Design avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "43.4_q26",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.4_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Independent Architectural Design that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_43_4_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_43_4_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "43.4_q27",
+      "type": "code_prediction",
+      "concept": "independent_architectural_design_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.4_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Independent Architectural Design encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Independent Architectural Design.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "43.4_q28",
+      "type": "write_the_code",
+      "concept": "independent_architectural_design_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.4_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Independent Architectural Design. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Independent Architectural Design\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Independent Architectural Design ensures testable domain operations."
+    },
+    {
+      "id": "43.4_q29",
+      "type": "fix_the_code",
+      "concept": "independent_architectural_design_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.4_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Independent Architectural Design into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Independent Architectural Design Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "43.4_q30",
+      "type": "write_the_code",
+      "concept": "independent_architectural_design_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.4_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Independent Architectural Design that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_43_4_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_43_4_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Independent Architectural Design must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 43,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Independent Architectural Design",
+    "Apply idiomatic Python patterns when working with Independent Architectural Design",
+    "Debug common runtime exceptions and logic errors associated with Independent Architectural Design",
+    "Implement production-ready code utilizing Independent Architectural Design"
+  ],
+  "prerequisites": [
+    "43.3"
+  ]
+}

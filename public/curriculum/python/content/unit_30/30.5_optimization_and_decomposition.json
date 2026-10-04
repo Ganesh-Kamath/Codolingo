@@ -1,0 +1,705 @@
+{
+  "lesson_id": "30.5",
+  "title": "Optimization and Decomposition",
+  "unit": "Problem-Solving Methodology",
+  "items": [
+    {
+      "id": "30.5_q1",
+      "type": "micro_lesson",
+      "concept": "optimization_and_decomposition_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Optimization and Decomposition?",
+      "content": "Optimization means making a solution use fewer resources—less time, memory, or steps. Decomposition means breaking one big problem into smaller, manageable pieces. For example, instead of writing one giant function, you split the work into helper functions. This makes code easier to read, test, and improve. A simple example: finding the largest number in a list. You can decompose this into two steps: first, find the maximum of a sub-list, then compare across sub-lists. Here is a basic illustration:\n\n```python\ndef find_max(numbers):\n    if not numbers:\n        return None\n    current_max = numbers[0]\n    for num in numbers:\n        if num > current_max:\n            current_max = num\n    return current_max\n\n# Optimization: avoid repeated work by storing the result\nnumbers = [3, 7, 2, 9, 5]\nresult = find_max(numbers)\nprint('The largest number is:', result)\n```\n\nNotice how `find_max` isolates one task. That is decomposition. Later, you can optimize by using built-in functions like `max()` if the list is large.",
+      "prompt": "",
+      "explanation": "Optimization means making a solution use fewer resources—less time, memory, or steps. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "type": "multiple_choice",
+      "concept": "optimization_and_decomposition_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q1"
+      ],
+      "prompt": "Which statement best describes decomposition in programming?",
+      "options": [
+        "Writing all code inside a single function to keep it together",
+        "Breaking a large problem into smaller, reusable parts",
+        "Using only built-in functions without custom logic",
+        "Avoiding comments so the code stays short"
+      ],
+      "correct_answer": "Breaking a large problem into smaller, reusable parts",
+      "explanation": "Decomposition is the practice of dividing a complex task into smaller sub-tasks. This improves clarity and maintainability.",
+      "id": "30.5_q2"
+    },
+    {
+      "idx": 3,
+      "type": "micro_lesson",
+      "concept": "optimization_and_decomposition_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q2"
+      ],
+      "title": "Syntax for Decomposing Tasks",
+      "content": "When you decompose a problem, you use functions to separate concerns. A helper function performs one specific job. You can also use early returns to reduce nesting, which is a small optimization. Consider a task: calculate the average of valid numbers in a list, ignoring non-numeric entries. You can decompose this into validation, filtering, and averaging. Here is the syntax pattern:\n\n```python\ndef is_number(value):\n    return isinstance(value, (int, float))\n\ndef filter_numbers(data):\n    result = []\n    for item in data:\n        if is_number(item):\n            result.append(item)\n    return result\n\ndef average(values):\n    if not values:\n        return 0\n    return sum(values) / len(values)\n\nraw = [10, 'x', 20, None, 30]\nclean = filter_numbers(raw)\naverage_value = average(clean)\nprint('Average:', average_value)\n```\n\nEach function has one responsibility. This structure makes the code easier to test and optimize later.",
+      "id": "30.5_q3",
+      "prompt": "",
+      "explanation": "When you decompose a problem, you use functions to separate concerns. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "type": "multiple_choice",
+      "concept": "optimization_and_decomposition_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q3"
+      ],
+      "prompt": "In the example above, what is the main benefit of using `filter_numbers` instead of handling filtering inside `average`?",
+      "options": [
+        "It makes the `average` function responsible for type checking too",
+        "It separates validation logic from calculation logic",
+        "It increases the number of lines without improving clarity",
+        "It prevents reuse of the filtering step elsewhere"
+      ],
+      "correct_answer": "It separates validation logic from calculation logic",
+      "explanation": "By extracting filtering into its own function, you isolate one concern. This is decomposition, and it lets you reuse `filter_numbers` in other contexts.",
+      "id": "30.5_q4"
+    },
+    {
+      "idx": 5,
+      "type": "multiple_choice",
+      "concept": "optimization_and_decomposition_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q4"
+      ],
+      "prompt": "Match the optimization or decomposition technique to its purpose.",
+      "options": [
+        "Helper function: reuse a small task across multiple places",
+        "Early return: reduce nested conditional blocks",
+        "Loop unrolling: make loops run faster by expanding iterations",
+        "Variable caching: store repeated computation results"
+      ],
+      "correct_answer": "Helper function: reuse a small task across multiple places",
+      "explanation": "A helper function promotes reuse. An early return simplifies control flow. Caching avoids redundant work, which is a common optimization.",
+      "id": "30.5_q5"
+    },
+    {
+      "idx": 6,
+      "type": "multiple_choice",
+      "concept": "optimization_and_decomposition_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when decomposing a problem too early?",
+      "options": [
+        "Creating many tiny functions that are hard to follow",
+        "Using built-in functions for every small task",
+        "Writing all logic in one long script",
+        "Naming variables with single letters only"
+      ],
+      "correct_answer": "Creating many tiny functions that are hard to follow",
+      "explanation": "Over-decomposition can hurt readability. The goal is to split work meaningfully, not to fragment it into too many small pieces.",
+      "id": "30.5_q6"
+    },
+    {
+      "id": "30.5_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "optimization_and_decomposition_execution",
+      "micro_lesson": {
+        "title": "Decomposing a Problem into Steps",
+        "content": "When solving a problem, breaking it into smaller, manageable steps makes code easier to write and debug. Decomposition means dividing a large task into sub-tasks. Optimization means improving efficiency, such as reducing repeated calculations. In this micro-lesson, we decompose finding the sum of even numbers in a list into: (1) iterate through the list, (2) check if a number is even, and (3) accumulate the sum. This avoids recomputing the same values and keeps logic clear. Consider the following code:\n\n```python\ndef sum_even_numbers(nums):\n    total = 0\n    for n in nums:\n        if n % 2 == 0:\n            total = total + n\n    return total\n\nresult = sum_even_numbers([1, 2, 3, 4, 5])\nprint(result)\n```\n\nPredict what this code prints by tracing the loop and the condition."
+      },
+      "prompt": "What is the output of the following code?\n\n```python\ndef sum_even_numbers(nums):\n    total = 0\n    for n in nums:\n        if n % 2 == 0:\n            total = total + n\n    return total\n\nprint(sum_even_numbers([1, 2, 3, 4, 5]))\n```",
+      "options": [
+        "5",
+        "6",
+        "9",
+        "10"
+      ],
+      "correct_answer": "6",
+      "explanation": "The loop visits 1, 2, 3, 4, and 5. Only 2 and 4 satisfy n % 2 == 0. The accumulator starts at 0, becomes 2 after the first even number, and becomes 6 after the second even number. The function returns 6, which is printed.",
+      "prerequisites": [
+        "30.5_q6"
+      ]
+    },
+    {
+      "id": "30.5_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "optimization_and_decomposition_execution",
+      "micro_lesson": {
+        "title": "Optimizing Repeated Work with Precomputation",
+        "content": "A common optimization is to avoid recalculating values inside a loop when the result does not change. For example, if a value depends only on constant inputs or on data that does not change during iteration, compute it once before the loop. This reduces time complexity and improves readability. Decomposition helps us separate the precomputation step from the iteration step. Below is an example where we precompute the length of a list to avoid calling len() repeatedly.\n\n```python\ndef count_positive(nums):\n    n = len(nums)          # precomputed\n    count = 0\n    for i in range(n):\n        if nums[i] > 0:\n            count = count + 1\n    return count\n\nprint(count_positive([-1, 2, -3, 4]))\n```\n\nObserve how the length is stored in n before the loop begins."
+      },
+      "prompt": "What is the output of the following code?\n\n```python\ndef count_positive(nums):\n    n = len(nums)\n    count = 0\n    for i in range(n):\n        if nums[i] > 0:\n            count = count + 1\n    return count\n\nprint(count_positive([-1, 2, -3, 4]))\n```",
+      "options": [
+        "0",
+        "2",
+        "4",
+        "6"
+      ],
+      "correct_answer": "2",
+      "explanation": "The list has 4 elements. The loop checks -1 (not positive), 2 (positive, count becomes 1), -3 (not positive), and 4 (positive, count becomes 2). The function returns 2, which is printed.",
+      "prerequisites": [
+        "30.5_q7"
+      ]
+    },
+    {
+      "id": "30.5_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "optimization_and_decomposition_flow",
+      "micro_lesson": {
+        "title": "Flow of Decomposed Functions",
+        "content": "When a problem is decomposed, each function should have a single responsibility. The main flow calls helper functions in a logical order. Optimization in flow means ensuring that data is passed efficiently and that helper functions do not perform redundant work. In this example, we decompose the task of finding the maximum even number into two steps: filtering evens, then selecting the maximum. This keeps the logic modular and easy to test.\n\n```python\ndef get_evens(nums):\n    evens = []\n    for n in nums:\n        if n % 2 == 0:\n            evens.append(n)\n    return evens\n\ndef max_even(nums):\n    evens = get_evens(nums)\n    if len(evens) == 0:\n        return None\n    m = evens[0]\n    for e in evens:\n        if e > m:\n            m = e\n    return m\n\nprint(max_even([1, 3, 4, 2, 8]))\n```\n\nTrace how control moves from max_even to get_evens and back."
+      },
+      "prompt": "What is the output of the following code?\n\n```python\ndef get_evens(nums):\n    evens = []\n    for n in nums:\n        if n % 2 == 0:\n            evens.append(n)\n    return evens\n\ndef max_even(nums):\n    evens = get_evens(nums)\n    if len(evens) == 0:\n        return None\n    m = evens[0]\n    for e in evens:\n        if e > m:\n            m = e\n    return m\n\nprint(max_even([1, 3, 4, 2, 8]))\n```",
+      "options": [
+        "None",
+        "2",
+        "4",
+        "8"
+      ],
+      "correct_answer": "8",
+      "explanation": "get_evens returns [4, 2, 8]. max_even initializes m to 4, then compares with 2 (no change), then compares with 8 (m becomes 8). The function returns 8, which is printed.",
+      "prerequisites": [
+        "30.5_q8"
+      ]
+    },
+    {
+      "id": "30.5_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "optimization_and_decomposition_analysis",
+      "micro_lesson": {
+        "title": "Analyzing Decomposed and Optimized Code",
+        "content": "Analysis involves explaining why code behaves a certain way and how decomposition and optimization affect correctness and performance. When code is decomposed, each function should be verifiable in isolation. Optimization should not alter the observable behavior unless the goal is to change efficiency. In the example below, a list is decomposed into two passes: one to filter, one to sum. While not the most optimized single-pass solution, this decomposition makes the intent explicit and easier to debug. Consider the following code and its output."
+      },
+      "prompt": "Explain why the following decomposed code produces the output it does, and discuss whether the decomposition helps or hinders optimization.\n\n```python\ndef filter_evens(nums):\n    result = []\n    for n in nums:\n        if n % 2 == 0:\n            result.append(n)\n    return result\n\ndef sum_list(nums):\n    total = 0\n    for n in nums:\n        total = total + n\n    return total\n\nlst = [2, 5, 6, 7, 8]\nevens = filter_evens(lst)\nprint(sum_list(evens))\n```",
+      "correct_answer": "The output is 16 because filter_evens keeps 2, 6, and 8, and sum_list adds them.",
+      "explanation": "filter_evens returns [2, 6, 8] because those are the even numbers in lst. sum_list then iterates over [2, 6, 8] and computes 2 + 6 + 8 = 16. The decomposition separates filtering from summing, which improves readability but uses two passes instead of one, so it is less time-efficient than a single-pass optimized version.",
+      "prerequisites": [
+        "30.5_q9"
+      ],
+      "starter_code": "# 1. Define the process_30_5 function\ndef process_30_5():\n    # 2. Implement solution for Optimization and Decomposition\n    pass\n",
+      "solution_code": "print('Optimization and Decomposition')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Optimization and Decomposition"
+        }
+      ]
+    },
+    {
+      "id": "30.5_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "concept": "optimization_and_decomposition_tracing",
+      "micro_lesson": {
+        "title": "Tracing Execution Through Decomposed Steps",
+        "content": "Tracing execution means following variable values step by step to verify correctness. When code is decomposed, you trace each function call and return value. Optimization can be verified by ensuring that precomputed values are used correctly and that no redundant calculations occur. Below is a decomposed example with a precomputed length. Trace the values of n, i, and total carefully."
+      },
+      "prompt": "Trace the execution of the following code and record the value of total after each iteration of the loop.\n\n```python\ndef process(nums):\n    n = len(nums)\n    total = 0\n    for i in range(n):\n        if nums[i] > 0:\n            total = total + nums[i]\n    return total\n\nprint(process([0, -2, 3, -1, 4]))\n```",
+      "correct_answer": "After iteration 0: 0, After iteration 1: 0, After iteration 2: 3, After iteration 3: 3, After iteration 4: 7",
+      "explanation": "n is 5. i = 0: nums[0] is 0, not > 0, total stays 0. i = 1: nums[1] is -2, not > 0, total stays 0. i = 2: nums[2] is 3, > 0, total becomes 0 + 3 = 3. i = 3: nums[3] is -1, not > 0, total stays 3. i = 4: nums[4] is 4, > 0, total becomes 3 + 4 = 7. The function returns 7.",
+      "prerequisites": [
+        "30.5_q10"
+      ],
+      "starter_code": "# 1. Define the process_30_5 function\ndef process_30_5():\n    # 2. Implement solution for Optimization and Decomposition\n    pass\n",
+      "solution_code": "print('Optimization and Decomposition')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Optimization and Decomposition"
+        }
+      ]
+    },
+    {
+      "id": "30.5_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "optimization_and_decomposition_logic",
+      "micro_lesson": {
+        "title": "Logic of Decomposition and Optimization Together",
+        "content": "Combining decomposition with optimization requires careful design. A decomposed solution may first filter data and then process it, while an optimized version may merge steps or precompute constants. The logic must remain correct even when efficiency is improved. In this example, we decompose the task into extracting squares and then summing them. The precomputed length avoids calling len() inside the loop, which is a minor optimization that does not change the logic. Study the code and predict the output."
+      },
+      "prompt": "What is the output of the following code?\n\n```python\ndef squares(nums):\n    result = []\n    for n in nums:\n        result.append(n * n)\n    return result\n\ndef sum_all(nums):\n    total = 0\n    for n in nums:\n        total = total + n\n    return total\n\nlst = [1, 2, 3]\ns = squares(lst)\nprint(sum_all(s))\n```",
+      "options": [
+        "6",
+        "9",
+        "12",
+        "14"
+      ],
+      "correct_answer": "14",
+      "explanation": "squares returns [1, 4, 9] because 1*1=1, 2*2=4, and 3*3=9. sum_all then adds 1 + 4 + 9 = 14. The decomposition separates squaring from summing, and the logic is preserved exactly.",
+      "prerequisites": [
+        "30.5_q11"
+      ]
+    },
+    {
+      "id": "30.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "optimization_and_decomposition_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q12"
+      ],
+      "prompt": "To improve performance, you can use the ___ keyword to store a computed value for reuse.",
+      "correct_answer": "cache",
+      "accepted_answers": [
+        "cache",
+        "memo",
+        "store"
+      ],
+      "explanation": "Caching or memoization stores results of expensive function calls so they are not recomputed, which is a core optimization technique."
+    },
+    {
+      "id": "30.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "optimization_and_decomposition_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q13"
+      ],
+      "prompt": "A function that calls itself to solve smaller subproblems is using the ___ approach.",
+      "correct_answer": "recursion",
+      "accepted_answers": [
+        "recursion",
+        "iteration",
+        "decomposition",
+        "recursion with memoization"
+      ],
+      "explanation": "Recursion breaks a problem into smaller instances of the same problem. When combined with memoization, it becomes a powerful optimization strategy."
+    },
+    {
+      "id": "30.5_q15",
+      "type": "code_ordering",
+      "concept": "optimization_and_decomposition_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q14"
+      ],
+      "prompt": "Arrange the following steps to decompose a problem and optimize its solution.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The helper must be defined first with a correct base case, then the main function delegates to it, and finally the call is made. This ordering ensures valid Python execution."
+    },
+    {
+      "id": "30.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "optimization_and_decomposition_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q15"
+      ],
+      "prompt": "A common pattern is to first ___ the problem into smaller parts, solve each part, and then combine the results.",
+      "correct_answer": "decompose",
+      "accepted_answers": [
+        "decompose",
+        "break down",
+        "divide"
+      ],
+      "explanation": "Decomposition is the process of dividing a complex problem into smaller, manageable subproblems before solving and combining them."
+    },
+    {
+      "id": "30.5_q17",
+      "type": "code_ordering",
+      "concept": "optimization_and_decomposition_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q16"
+      ],
+      "prompt": "Order the code lines to implement an optimized algorithm that uses decomposition to sum even numbers in a list.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct decomposition isolates the logic in a function that filters even numbers and accumulates them, then calls it on sample data. The generator-based version is also valid but the loop version is the intended decomposition pattern here."
+    },
+    {
+      "id": "30.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "optimization_and_decomposition_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q17"
+      ],
+      "prompt": "Using a lambda with a built-in function is an idiomatic way to ___ a simple operation without a full function definition.",
+      "correct_answer": "optimize",
+      "accepted_answers": [
+        "optimize",
+        "inline",
+        "simplify",
+        "streamline"
+      ],
+      "explanation": "Lambda expressions combined with built-ins like map or filter allow concise, efficient inline operations, reducing boilerplate and often improving readability and performance for simple transformations."
+    },
+    {
+      "id": "30.5_q19",
+      "type": "fix_the_code",
+      "concept": "optimization_and_decomposition_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Decomposition Errors",
+        "content": "When breaking a complex problem into smaller sub-problems, a common error is failing to return values from helper functions or incorrectly passing arguments. Consider a function that should compute the sum of squares of a list. If a helper function `square` is defined but its result is never used, the main function returns `None`. Always verify that each decomposed step produces an output that is consumed by the caller. Example:\n\n```python\ndef square(x):\n    return x * x\n\ndef sum_of_squares(nums):\n    total = 0\n    for n in nums:\n        square(n)  # error: result ignored\n        total += n\n    return total\n```\n\nThe bug is that `square(n)` computes a value that is discarded. The fix is to add the result: `total += square(n)`."
+      },
+      "prompt": "Fix the bug in this code for optimization and decomposition errors:",
+      "starter_code": "# Fix this code\nPrint('Optimization and Decomposition')",
+      "solution_code": "print('Optimization and Decomposition')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "30.5_q20",
+      "type": "fix_the_code",
+      "concept": "optimization_and_decomposition_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.5_q19"
+      ],
+      "prompt": "Fix the code so it correctly computes the product of all even numbers in a list.",
+      "starter_code": "def product_of_evens(numbers):\n    prod = 1\n    for n in numbers:\n        if n % 2 == 0:\n            prod = n\n    return prod",
+      "solution_code": "def product_of_evens(numbers):\n    prod = 1\n    for n in numbers:\n        if n % 2 == 0:\n            prod *= n\n    return prod",
+      "hint": "Use the multiplication assignment operator to accumulate the product.",
+      "explanation": "The original code assigns `prod = n` inside the loop, resetting the product each time instead of multiplying. Using `prod *= n` accumulates the running product. Also, consider what happens if there are no even numbers; the function should ideally return 1 (the multiplicative identity) or 0 based on requirements. Here, returning 1 is standard for an empty product."
+    },
+    {
+      "id": "30.5_q21",
+      "type": "fix_the_code",
+      "concept": "optimization_and_decomposition_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q20"
+      ],
+      "prompt": "Fix the code to handle edge cases when computing the average of a list.",
+      "starter_code": "def average(values):\n    return sum(values) / len(values)",
+      "solution_code": "def average(values):\n    if not values:\n        return 0\n    return sum(values) / len(values)",
+      "hint": "What happens if the input list is empty?",
+      "explanation": "Dividing by `len(values)` when `values` is empty raises a `ZeroDivisionError`. The fix checks for an empty list and returns 0 (or raises a custom exception) to handle the edge case gracefully. Decomposition helps isolate this check into a guard clause before the core calculation."
+    },
+    {
+      "id": "30.5_q22",
+      "type": "fix_the_code",
+      "concept": "optimization_and_decomposition_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Detecting Runtime Issues from Poor Decomposition",
+        "content": "A poorly decomposed solution can lead to unnecessary repeated work, causing high runtime. For example, if you recompute the maximum of a list inside a loop instead of computing it once beforehand, you introduce O(n^2) behavior. Proper decomposition identifies invariant sub-computations and moves them outside loops. Always profile your decomposed steps to ensure each sub-problem runs in the expected complexity. Example of a bad pattern:\n\n```python\ndef process(data):\n    result = []\n    for item in data:\n        max_val = max(data)  # recomputed every iteration\n        result.append(item + max_val)\n    return result\n```\n\nThis is O(n^2). The optimized decomposition computes `max_val` once before the loop."
+      },
+      "prompt": "Fix the bug in this code for optimization and decomposition runtime:",
+      "starter_code": "# Fix this code\nPrint('Optimization and Decomposition')",
+      "solution_code": "print('Optimization and Decomposition')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "30.5_q23",
+      "type": "fix_the_code",
+      "concept": "optimization_and_decomposition_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q22"
+      ],
+      "prompt": "Fix the logic to correctly determine if a number is a perfect square.",
+      "starter_code": "def is_perfect_square(n):\n    root = int(n ** 0.5)\n    if root * root == n:\n        return True\n    else:\n        return False\n    return False",
+      "solution_code": "def is_perfect_square(n):\n    if n < 0:\n        return False\n    root = int(n ** 0.5)\n    return root * root == n",
+      "hint": "Remove unreachable code and handle negative inputs.",
+      "explanation": "The original function has unreachable code after the `return` statements. It also does not handle negative numbers, which cannot be perfect squares in the real integers. The repaired version uses early return for negatives and a single boolean expression for clarity. Decomposition here means separating input validation from the mathematical check."
+    },
+    {
+      "id": "30.5_q24",
+      "type": "write_the_code",
+      "concept": "optimization_and_decomposition_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.5_q23"
+      ],
+      "prompt": "Refactor the following code to improve readability and efficiency by decomposing responsibilities and using Pythonic constructs.",
+      "starter_code": "def analyze(data):\n    result = []\n    for x in data:\n        if x > 0:\n            result.append(x * 2)\n        elif x < 0:\n            result.append(x // 2)\n        else:\n            result.append(0)\n    return result",
+      "solution_code": "def transform(x):\n    if x > 0:\n        return x * 2\n    if x < 0:\n        return x // 2\n    return 0\n\ndef analyze(data):\n    return [transform(x) for x in data]",
+      "test_cases": [
+        {
+          "input": [
+            1,
+            -2,
+            0,
+            5
+          ],
+          "expected": [
+            2,
+            -1,
+            0,
+            10
+          ]
+        },
+        {
+          "input": [
+            -10,
+            3
+          ],
+          "expected": [
+            -5,
+            6
+          ]
+        },
+        {
+          "input": [],
+          "expected": []
+        }
+      ],
+      "hint": "Extract the per-element logic into a helper function and replace the loop with a list comprehension.",
+      "explanation": "The original function mixes data iteration with element transformation. By decomposing into `transform` for the per-element rule and `analyze` for the collection traversal, the code becomes easier to test and reuse. The list comprehension is more efficient and idiomatic than manual `append` in a loop. This separation of concerns is a core principle of optimization through decomposition."
+    },
+    {
+      "id": "30.5_q25",
+      "type": "write_the_code",
+      "title": "Optimize a Nested Loop for Maximum Sum",
+      "content": "When solving problems with nested loops, we can often reduce time complexity by precomputing values or using mathematical formulas. This exercise asks you to find the maximum sum of any contiguous subarray using an optimized approach (Kadane's algorithm) instead of a brute-force O(n²) nested loop. Decomposition helps by separating the logic into tracking the current subarray sum and the best sum seen so far.",
+      "concept": "optimization_and_decomposition_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q24"
+      ],
+      "prompt": "Write a function `max_subarray_sum(arr)` that returns the maximum sum of any contiguous subarray using an optimized approach. Avoid nested loops.",
+      "starter_code": "def max_subarray_sum(arr):\n    # TODO: implement optimized solution\n    pass",
+      "solution_code": "def max_subarray_sum(arr):\n    if not arr:\n        return 0\n    max_ending_here = max_so_far = arr[0]\n    for x in arr[1:]:\n        max_ending_here = max(x, max_ending_here + x)\n        max_so_far = max(max_so_far, max_ending_here)\n    return max_so_far",
+      "test_cases": [
+        {
+          "input": "[1, -2, 3, 5, -3, 2]",
+          "expected": 8
+        },
+        {
+          "input": "[-4, -2, -7, -1]",
+          "expected": -1
+        },
+        {
+          "input": "[5, -1, 2, 3, -1]",
+          "expected": 9
+        }
+      ],
+      "hint": "Track the best sum ending at the current position and update the global best as you iterate once through the list.",
+      "explanation": "The brute-force method checks every subarray with nested loops, yielding O(n²). By decomposing the problem, we realize we only need one pass: at each element, decide whether to extend the current subarray or start fresh. This reduces complexity to O(n) and uses O(1) extra space."
+    },
+    {
+      "id": "30.5_q26",
+      "type": "write_the_code",
+      "title": "Decompose a Sorting Task with Helper Functions",
+      "content": "Large problems become manageable when decomposed into smaller, reusable functions. Here, you will implement a sorting-related task by breaking it into a helper that compares elements and a main function that orchestrates the process. This demonstrates how decomposition improves readability and maintainability.",
+      "concept": "optimization_and_decomposition_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.5_q25"
+      ],
+      "prompt": "Write a function `sort_by_absolute_value(nums)` that returns a new list sorted by absolute value in ascending order. Use a helper function `compare(a, b)` to encapsulate the comparison logic.",
+      "starter_code": "def compare(a, b):\n    # TODO: return True if a should come before b\n    pass\n\ndef sort_by_absolute_value(nums):\n    # TODO: use compare and return sorted list\n    pass",
+      "solution_code": "def compare(a, b):\n    return abs(a) < abs(b)\n\ndef sort_by_absolute_value(nums):\n    return sorted(nums, key=lambda x: abs(x))",
+      "test_cases": [
+        {
+          "input": "[-3, 1, -2, 4]",
+          "expected": [
+            1,
+            -2,
+            -3,
+            4
+          ]
+        },
+        {
+          "input": "[0, -5, 2]",
+          "expected": [
+            0,
+            2,
+            -5
+          ]
+        },
+        {
+          "input": "[-1, -4, -2]",
+          "expected": [
+            -1,
+            -2,
+            -4
+          ]
+        }
+      ],
+      "hint": "Python's `sorted` accepts a `key` argument. The helper is conceptual here, but you can use `abs` directly in the key.",
+      "explanation": "Decomposition isolates the comparison rule in `compare`, making the main function cleaner. Using `sorted` with `key=abs` is optimal because it leverages built-in C-level sorting (O(n log n)) rather than implementing a slow custom loop."
+    },
+    {
+      "id": "30.5_q27",
+      "type": "write_the_code",
+      "title": "Advanced Memoization for Recursive Fibonacci",
+      "content": "Recursive solutions often repeat work. Optimization via memoization stores previously computed results to avoid redundant calculations. Decomposition is used by separating the recursive logic from the cache management, creating a clean and efficient implementation.",
+      "concept": "optimization_and_decomposition_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.5_q26"
+      ],
+      "prompt": "Write a function `fib_memo(n)` that returns the nth Fibonacci number using memoization. Decompose the solution by using a nested helper or a closure to manage the cache.",
+      "starter_code": "def fib_memo(n):\n    # TODO: implement memoized recursion\n    pass",
+      "solution_code": "def fib_memo(n):\n    cache = {0: 0, 1: 1}\n    def helper(k):\n        if k not in cache:\n            cache[k] = helper(k - 1) + helper(k - 2)\n        return cache[k]\n    return helper(n)",
+      "test_cases": [
+        {
+          "input": "10",
+          "expected": 55
+        },
+        {
+          "input": "0",
+          "expected": 0
+        },
+        {
+          "input": "1",
+          "expected": 1
+        },
+        {
+          "input": "30",
+          "expected": 832040
+        }
+      ],
+      "hint": "Store results in a dictionary. Before computing `fib(k)`, check if it already exists in the cache.",
+      "explanation": "Without memoization, naive recursion is exponential O(2ⁿ). By decomposing the cache into a dictionary and a helper, each Fibonacci number is computed once, reducing complexity to O(n) with O(n) space for the cache."
+    },
+    {
+      "id": "30.5_q28",
+      "type": "write_the_code",
+      "title": "Challenge: Optimize and Decompose a Path-Finding Search",
+      "content": "Given a grid, find the shortest path from the top-left to the bottom-right corner moving only right or down. A naive approach explores all paths recursively. Your task is to decompose the problem and apply dynamic programming to achieve an optimal O(m × n) solution.",
+      "concept": "optimization_and_decomposition_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.5_q27"
+      ],
+      "prompt": "Given a 2D grid of non-negative integers representing costs, find the minimum cost path from (0,0) to (m-1,n-1) moving only right or down. Decompose the solution using a DP table.",
+      "starter_code": "def min_cost_path(grid):\n    # TODO: implement optimized DP solution\n    rows = len(grid)\n    cols = len(grid[0])\n    dp = [[0] * cols for _ in range(rows)]\n    return dp[-1][-1]",
+      "solution_code": "def min_cost_path(grid):\n    rows = len(grid)\n    cols = len(grid[0])\n    dp = [[0] * cols for _ in range(rows)]\n    dp[0][0] = grid[0][0]\n    for i in range(1, rows):\n        dp[i][0] = dp[i - 1][0] + grid[i][0]\n    for j in range(1, cols):\n        dp[0][j] = dp[0][j - 1] + grid[0][j]\n    for i in range(1, rows):\n        for j in range(1, cols):\n            dp[i][j] = grid[i][j] + min(dp[i - 1][j], dp[i][j - 1])\n    return dp[-1][-1]",
+      "test_cases": [
+        {
+          "input": "[[1, 3, 1], [1, 5, 1], [4, 2, 1]]",
+          "expected": 7
+        },
+        {
+          "input": "[[1, 2, 3], [4, 8, 2], [1, 5, 3]]",
+          "expected": 11
+        }
+      ],
+      "hint": "Build a DP table where each cell stores the minimum cost to reach that cell. The first row and column can only be reached from the left or top respectively.",
+      "explanation": "The recursive solution without memoization is exponential due to overlapping subproblems. Decomposing into a bottom-up DP table ensures each cell is computed once, yielding O(m × n) time and O(m × n) space (or O(n) with rolling array optimization)."
+    },
+    {
+      "id": "30.5_q29",
+      "type": "write_the_code",
+      "title": "Scenario: Optimize a Delivery Route Planner",
+      "content": "A logistics company needs to plan routes for 1000 packages. Brute-force checking every permutation is infeasible. You must decompose the problem into subproblems (e.g., nearest-neighbor heuristic or dynamic programming for small clusters) and apply optimization to reduce runtime. This scenario mirrors real-world constraints where scalability matters.",
+      "concept": "optimization_and_decomposition_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.5_q28"
+      ],
+      "prompt": "Given a list of delivery locations as (x, y) coordinates, implement a greedy nearest-neighbor route optimizer that starts at (0, 0) and visits each location exactly once, returning the total distance traveled. Justify why this is a practical optimization over brute force.",
+      "starter_code": "import math\n\ndef total_distance(route):\n    # TODO: compute Euclidean distance between consecutive points\n    pass\n\ndef optimize_route(locations):\n    # TODO: use greedy nearest-neighbor heuristic\n    route = [(0, 0)] + locations\n    return total_distance(route)",
+      "solution_code": "import math\n\ndef total_distance(route):\n    dist = 0\n    for i in range(1, len(route)):\n        x1, y1 = route[i - 1]\n        x2, y2 = route[i]\n        dist += math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)\n    return dist\n\ndef optimize_route(locations):\n    unvisited = list(locations)\n    route = [(0, 0)]\n    current = (0, 0)\n    while unvisited:\n        nearest = min(unvisited, key=lambda p: math.sqrt((p[0] - current[0]) ** 2 + (p[1] - current[1]) ** 2))\n        route.append(nearest)\n        unvisited.remove(nearest)\n        current = nearest\n    return total_distance(route)",
+      "test_cases": [
+        {
+          "input": "[(1, 1), (2, 2), (3, 1)]",
+          "expected": 4.732050807568877
+        },
+        {
+          "input": "[(0, 0), (1, 0), (0, 1)]",
+          "expected": 2.0
+        }
+      ],
+      "hint": "At each step, find the closest unvisited location to the current position and append it to the route.",
+      "explanation": "The optimal traveling salesman problem is NP-hard, so brute force is impossible for large n. The greedy nearest-neighbor heuristic decomposes the route into local decisions, running in O(n²) time. It is not always globally optimal, but it scales to real-world sizes and serves as a practical baseline."
+    },
+    {
+      "id": "30.5_q30",
+      "type": "write_the_code",
+      "title": "Mastery: Combine Decomposition, Memoization, and Optimization",
+      "content": "This mastery item requires you to synthesize decomposition, memoization, and algorithmic optimization. You will solve a variant of the knapsack problem by breaking it into states, caching subproblems, and ensuring the final solution runs efficiently.",
+      "concept": "optimization_and_decomposition_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.5_q29"
+      ],
+      "prompt": "Given weights and values of n items, determine the maximum value achievable with a weight limit W using a top-down memoized DP approach. Decompose the state into `(index, remaining_capacity)`.",
+      "starter_code": "def knapsack(weights, values, W):\n    n = len(weights)\n    memo = {}\n    def solve(i, cap):\n        # TODO: implement memoized recursion\n        pass\n    return solve(0, W)",
+      "solution_code": "def knapsack(weights, values, W):\n    n = len(weights)\n    memo = {}\n    def solve(i, cap):\n        if i == n or cap == 0:\n            return 0\n        key = (i, cap)\n        if key in memo:\n            return memo[key]\n        skip = solve(i + 1, cap)\n        take = 0\n        if weights[i] <= cap:\n            take = values[i] + solve(i + 1, cap - weights[i])\n        memo[key] = max(skip, take)\n        return memo[key]\n    return solve(0, W)",
+      "test_cases": [
+        {
+          "input": "weights=[2, 1, 3], values=[12, 10, 20], W=4",
+          "expected": 30
+        },
+        {
+          "input": "weights=[3, 4, 5], values=[10, 40, 30], W=5",
+          "expected": 40
+        },
+        {
+          "input": "weights=[1, 2, 3], values=[6, 10, 12], W=3",
+          "expected": 18
+        }
+      ],
+      "hint": "Use a tuple `(i, cap)` as the cache key. At each step, either skip the current item or take it if it fits, then recurse on the next index with reduced capacity.",
+      "explanation": "Without memoization, this recursion explores 2ⁿ states. By decomposing the problem into `(index, remaining_capacity)` and caching results, we ensure each state is computed once, giving O(n × W) time and O(n × W) space. This is the classic 0/1 knapsack dynamic programming solution."
+    }
+  ],
+  "unit_num": 30,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Optimization and Decomposition",
+    "Apply idiomatic Python patterns when working with Optimization and Decomposition",
+    "Debug common runtime exceptions and logic errors associated with Optimization and Decomposition",
+    "Implement production-ready code utilizing Optimization and Decomposition"
+  ],
+  "prerequisites": [
+    "30.4"
+  ]
+}

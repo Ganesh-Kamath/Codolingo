@@ -1,0 +1,637 @@
+{
+  "lesson_id": "24.4",
+  "title": "Writing Tests with pytest",
+  "unit": "Testing and Clean Code",
+  "items": [
+    {
+      "id": "24.4_q1",
+      "type": "micro_lesson",
+      "concept": "writing_tests_with_pytest_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is pytest and Why Test?",
+      "content": "pytest is a popular testing framework for Python that makes writing and running tests simple. Instead of using the built-in assert statement manually, pytest provides a rich set of features like fixtures, parameterization, and detailed failure reports. Testing is a core part of clean code because it verifies that your functions behave as expected, prevents regressions, and documents intended behavior. To use pytest, install it with pip and then write test functions whose names start with test_. pytest automatically discovers and runs these functions. For example, consider a simple function that adds two numbers. Without tests, you might not notice if a future change breaks addition. With pytest, you write a test function that calls the function and uses assert to check the result. pytest will report a failure if the assertion does not hold. This lesson focuses on recognizing the basic structure of a pytest test.",
+      "prompt": "",
+      "explanation": "pytest is a popular testing framework for Python that makes writing and running tests simple. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "24.4_q2",
+      "type": "multiple_choice",
+      "concept": "writing_tests_with_pytest_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q1"
+      ],
+      "prompt": "Which of the following is a valid pytest test function name?",
+      "options": [
+        "test_add_numbers()",
+        "def test_add_numbers():",
+        "test_add_numbers",
+        "def test_add_numbers"
+      ],
+      "correct_answer": "def test_add_numbers():",
+      "explanation": "pytest discovers functions whose names start with test_ and that are defined with def. The complete signature including the colon is required for a valid function definition in Python."
+    },
+    {
+      "id": "24.4_q3",
+      "type": "micro_lesson",
+      "concept": "writing_tests_with_pytest_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q2"
+      ],
+      "title": "Writing a Basic pytest Test",
+      "content": "To write a test in pytest, create a function that starts with test_, import the function or module you want to test, and use assert statements to verify outcomes. pytest treats any failed assert as a test failure and provides a clear traceback. Consider a module with a greet function. You can write a test that imports greet and asserts that calling greet('Alice') returns 'Hello, Alice'. It is important to keep tests independent and focused on one behavior. You can also use pytest.raises to check that an exception is raised. Here is a complete example. First, save the following code in greet.py: def greet(name): return 'Hello, ' + name. Then, create test_greet.py with: from greet import greet def test_greet_returns_hello(): result = greet('Bob') assert result == 'Hello, Bob'. Running pytest will execute test_greet_returns_hello and report success if the assertion passes. This syntax is the foundation for more advanced testing patterns.",
+      "prompt": "",
+      "explanation": "To write a test in pytest, create a function that starts with test_, import the function or module you want to test, and use assert statements to verify outcomes. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "24.4_q4",
+      "type": "multiple_choice",
+      "concept": "writing_tests_with_pytest_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q3"
+      ],
+      "prompt": "Given the function below, which pytest assertion correctly verifies its behavior?",
+      "options": [
+        "assert add(2, 3) == 5",
+        "assert add(2, 3) = 5",
+        "assert add(2, 3) is 5",
+        "assert add(2, 3) > 5"
+      ],
+      "correct_answer": "assert add(2, 3) == 5",
+      "explanation": "In Python, the equality operator is ==. The single equals sign is assignment and causes a syntax error in an assert statement. The is operator checks identity, which is not appropriate for comparing integer values. The greater-than operator does not verify the expected result."
+    },
+    {
+      "id": "24.4_q5",
+      "type": "multiple_choice",
+      "concept": "writing_tests_with_pytest_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q4"
+      ],
+      "prompt": "Which pytest feature automatically discovers and runs test functions?",
+      "options": [
+        "pytest.main()",
+        "pytest.discover()",
+        "pytest auto-discovery",
+        "pytest.run_tests()"
+      ],
+      "correct_answer": "pytest auto-discovery",
+      "explanation": "pytest automatically discovers test functions and methods whose names start with test_ when you run pytest from the command line. You do not need to call a special discovery function for basic usage."
+    },
+    {
+      "id": "24.4_q6",
+      "type": "multiple_choice",
+      "concept": "writing_tests_with_pytest_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q5"
+      ],
+      "prompt": "What is a common pitfall when writing pytest tests?",
+      "options": [
+        "Using assert statements with expected values",
+        "Relying on shared mutable state between tests",
+        "Naming test functions with test_ prefix",
+        "Importing the module under test"
+      ],
+      "correct_answer": "Relying on shared mutable state between tests",
+      "explanation": "Tests should be independent. If one test modifies a global variable or shared list that another test depends on, the order of execution can cause flaky failures. pytest does not guarantee execution order, so shared mutable state is a common source of bugs in test suites."
+    },
+    {
+      "id": "24.4_q7",
+      "type": "code_prediction",
+      "concept": "writing_tests_with_pytest_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q6"
+      ],
+      "prompt": "Given the following pytest test file and a target module, what is the expected outcome when running the test suite?\n\n```python\n# test_math.py\nfrom math_utils import add\n\ndef test_add_positive_numbers():\n    result = add(3, 5)\n    assert result == 8\n```\n\n```python\n# math_utils.py\ndef add(a, b):\n    return a + b\n```",
+      "options": [
+        "The test passes and pytest reports 1 passed",
+        "The test fails with an AssertionError",
+        "pytest raises an ImportError",
+        "The test is skipped automatically"
+      ],
+      "correct_answer": "The test passes and pytest reports 1 passed",
+      "explanation": "The add function returns 8 when given 3 and 5, which matches the assert statement. pytest discovers the test function starting with test_ and executes it successfully."
+    },
+    {
+      "id": "24.4_q8",
+      "type": "output_prediction",
+      "concept": "writing_tests_with_pytest_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q7"
+      ],
+      "prompt": "What is the expected terminal output when running the following pytest command?\n\n```python\n# test_strings.py\ndef test_string_length():\n    s = 'hello'\n    assert len(s) == 5\n\ndef test_string_upper():\n    s = 'world'\n    assert s.upper() == 'WORLD'\n\nif __name__ == '__main__':\n    test_string_length()\n    test_string_upper()\n```\n\nRun: `pytest test_strings.py -v`",
+      "options": [
+        "test_strings.py::test_string_length PASSED\n1 passed in 0.01s\n\ntest_strings.py::test_string_upper PASSED\n2 passed in 0.01s",
+        "test_strings.py::test_string_length PASSED\n1 passed in 0.01s\n\nFAILED test_strings.py::test_string_upper - AssertionError",
+        "ERROR: not a valid pytest test module: no test functions\n",
+        "test_strings.py::test_string_length FAILED\n1 failed in 0.01s\n\ntest_strings.py::test_string_upper PASSED\n1 passed in 0.01s"
+      ],
+      "correct_answer": "test_strings.py::test_string_length PASSED\n1 passed in 0.01s\n\ntest_strings.py::test_string_upper PASSED\n2 passed in 0.01s",
+      "explanation": "Both test functions contain valid assertions that evaluate to True. pytest discovers both and reports them as passed. The -v flag shows verbose output with each test name and a summary line."
+    },
+    {
+      "id": "24.4_q9",
+      "type": "code_prediction",
+      "concept": "writing_tests_with_pytest_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q8"
+      ],
+      "prompt": "Consider the following pytest structure with setup and teardown. What happens during execution?\n\n```python\n# test_flow.py\nimport pytest\n\n@pytest.fixture(autouse=True)\ndef setup():\n    print('setting up')\n    yield\n    print('tearing down')\n\ndef test_step_one():\n    assert True\n\ndef test_step_two():\n    assert True\n```\n\nRun: `pytest test_flow.py`",
+      "options": [
+        "setup prints once, both tests run, teardown prints once after all tests",
+        "setup prints before each test, teardown prints after each test",
+        "setup prints twice, teardown prints twice, interleaved with tests",
+        "No output is produced because autouse fixtures are silent"
+      ],
+      "correct_answer": "setup prints once, both tests run, teardown prints once after all tests",
+      "explanation": "An autouse fixture with yield runs setup before the first test and teardown after the last test completes. The setup and teardown blocks execute exactly once around the entire test session."
+    },
+    {
+      "id": "24.4_q10",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q9"
+      ],
+      "prompt": "Analyze the following pytest report and explain what it indicates about the test suite:\n\n```\n============================= test session starts ==============================\nplatform linux -- Python 3.10.0, pytest-7.0.0, pluggy-1.0.0\ncollected 3 items\n\ntest_report.py::test_a PASSED                                            [ 33%]\ntest_report.py::test_b PASSED                                            [ 66%]\ntest_report.py::test_c PASSED                                            [100%]\n\n============================== 3 passed in 0.01s ==============================\n```",
+      "correct_answer": "All three tests passed successfully with no failures or errors",
+      "explanation": "The report shows 3 collected items, each marked with PASSED, and a final summary of 3 passed. There are no failures, errors, or skips, indicating a fully successful test run.",
+      "starter_code": "# TODO: Implement solution for Writing Tests with pytest\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Writing Tests with pytest')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Writing Tests with pytest"
+        }
+      ]
+    },
+    {
+      "id": "24.4_q11",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q10"
+      ],
+      "prompt": "Trace the execution flow of the following test and identify the order of operations:\n\n```python\n# test_trace.py\ndef test_sequence():\n    x = 10\n    y = x + 5\n    assert y == 15\n    z = y * 2\n    assert z == 30\n```",
+      "correct_answer": "x assigned 10, y assigned 15, assert y == 15 passes, z assigned 30, assert z == 30 passes",
+      "explanation": "Execution proceeds sequentially: x is bound to 10, y to 15, the first assert succeeds, z becomes 30, and the second assert also succeeds. pytest reports the test passed if no exception is raised.",
+      "starter_code": "# 1. Define the process_24_4 function\ndef process_24_4():\n    # 2. Implement solution for Writing Tests with pytest\n    pass\n",
+      "solution_code": "print('Writing Tests with pytest')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Writing Tests with pytest"
+        }
+      ]
+    },
+    {
+      "id": "24.4_q12",
+      "type": "output_prediction",
+      "concept": "writing_tests_with_pytest_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q11"
+      ],
+      "prompt": "Given the following test with conditional logic, predict the pytest output when run:\n\n```python\n# test_logic.py\ndef test_conditional():\n    flag = True\n    if flag:\n        result = 42\n    else:\n        result = 0\n    assert result == 42\n```",
+      "options": [
+        "test_logic.py::test_conditional PASSED\n1 passed in 0.01s",
+        "test_logic.py::test_conditional FAILED\nAssertionError: assert 0 == 42",
+        "test_logic.py::test_conditional SKIPPED\n1 skipped in 0.01s",
+        "ERROR: invalid syntax in test_logic.py"
+      ],
+      "correct_answer": "test_logic.py::test_conditional PASSED\n1 passed in 0.01s",
+      "explanation": "The flag variable is True, so the if branch executes and result becomes 42. The assert statement compares result to 42, which is satisfied. pytest reports the test as passed."
+    },
+    {
+      "id": "24.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "writing_tests_with_pytest_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q12"
+      ],
+      "micro_lesson": {
+        "title": "pytest Function and Assertion Syntax",
+        "content": "In pytest, a test is defined as a function whose name starts with test_. To verify behavior, use the assert statement. For example:\n\n```\ndef test_addition():\n    result = 2 + 3\n    assert result == 5\n```\n\nWhen you run pytest, it discovers any function prefixed with test_ and executes it. The assert statement raises an AssertionError if the condition is false, causing the test to fail."
+      },
+      "prompt": "Fill in the blank to complete the statement:\n```python\n___('Writing Tests with pytest')\n```",
+      "correct_answer": "print",
+      "accepted_answers": [
+        "print"
+      ],
+      "explanation": "Automated assertions verify code behavior against known expectations. If an assertion evaluates to False, Python immediately raises an AssertionError to alert developers to the regression."
+    },
+    {
+      "idx": 14,
+      "id": "24.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "writing_tests_with_pytest_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q13"
+      ],
+      "prompt": "Complete the pytest function using the correct keyword to skip a test temporarily: def test_feature(): ____ test_database()",
+      "correct_answer": "skip",
+      "accepted_answers": [
+        "skip",
+        "pytest.skip"
+      ],
+      "explanation": "The pytest.skip() function or the @pytest.mark.skip decorator is used to ignore a test. When writing inline, you call pytest.skip('reason') inside the test body."
+    },
+    {
+      "idx": 15,
+      "id": "24.4_q15",
+      "type": "code_ordering",
+      "concept": "writing_tests_with_pytest_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q14"
+      ],
+      "prompt": "Arrange these lines into the correct pytest test sequence.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "A pytest test must define the function first, then execute the code under test, and finally assert the expected outcome."
+    },
+    {
+      "idx": 16,
+      "id": "24.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "writing_tests_with_pytest_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q15"
+      ],
+      "prompt": "Fill in the blank to match any test file named with the pattern: test_*.py",
+      "correct_answer": "test_",
+      "accepted_answers": [
+        "test_",
+        "test_"
+      ],
+      "explanation": "pytest discovers test modules and functions by default when filenames start with test_ and function names start with test_."
+    },
+    {
+      "idx": 17,
+      "id": "24.4_q17",
+      "type": "code_ordering",
+      "concept": "writing_tests_with_pytest_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q16"
+      ],
+      "prompt": "Order the steps to test a function that doubles a number.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is: define the test, call the function, then assert the result. This ensures the test is runnable and the assertion references the computed value."
+    },
+    {
+      "idx": 18,
+      "id": "24.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "writing_tests_with_pytest_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q17"
+      ],
+      "prompt": "Use the common pytest idiom to parametrize a test with two inputs and expected output: @pytest.mark.parametrize('___', [(2, 3, 5), (1, 1, 2)])\ndef test_sum(a, b, expected):\n    assert a + b == expected",
+      "correct_answer": "argnames",
+      "accepted_answers": [
+        "argnames",
+        "args"
+      ],
+      "explanation": "The first argument to @pytest.mark.parametrize is a string listing the parameter names, conventionally called argnames or args."
+    },
+    {
+      "id": "24.4_q19",
+      "type": "fix_the_code",
+      "concept": "writing_tests_with_pytest_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common pytest Failures",
+        "content": "When writing tests with pytest, errors often arise from incorrect test function names, missing imports, or invalid assertions. A test function must start with test_. If you import pytest incorrectly or use a variable before assignment, pytest will raise a NameError or ImportError. Always verify that your test module is named with test_ prefix and that assertions compare expected versus actual values. For example, if you write `assert add(2, 3) == 5` but the function returns 6, the test fails with an AssertionError. Understanding the traceback helps you locate the faulty line quickly."
+      },
+      "prompt": "Fix the bug in this code for writing tests with pytest errors:",
+      "starter_code": "# Fix this code\nPrint('Writing Tests with pytest')",
+      "solution_code": "print('Writing Tests with pytest')",
+      "explanation": "Automated assertions verify code behavior against known expectations. If an assertion evaluates to False, Python immediately raises an AssertionError to alert developers to the regression."
+    },
+    {
+      "id": "24.4_q20",
+      "type": "fix_the_code",
+      "concept": "writing_tests_with_pytest_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "24.4_q19"
+      ],
+      "prompt": "The following test fails because the function name does not follow pytest conventions and the assertion is incorrect. Fix the code so the test passes.",
+      "starter_code": "def multiply(a, b):\n    return a * b\n\ncheck = multiply(4, 5)\nassert check == 21",
+      "solution_code": "def multiply(a, b):\n    return a * b\n\ndef test_multiply():\n    result = multiply(4, 5)\n    assert result == 20",
+      "hint": "Rename the test function to start with test_. Ensure the expected value matches the actual return value of multiply(4, 5).",
+      "explanation": "pytest discovers functions prefixed with test_. The original code used a variable named check outside a test function and asserted 21, which is incorrect since 4 * 5 equals 20. Moving the logic inside test_multiply and fixing the assertion resolves the failure."
+    },
+    {
+      "id": "24.4_q21",
+      "type": "fix_the_code",
+      "concept": "writing_tests_with_pytest_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q20"
+      ],
+      "prompt": "The test suite does not cover edge cases for a function that divides two numbers. Add missing tests and fix the existing ones so all cases pass.",
+      "starter_code": "def divide(a, b):\n    return a / b\n\ndef test_divide():\n    assert divide(10, 2) == 5",
+      "solution_code": "def divide(a, b):\n    return a / b\n\ndef test_divide_normal():\n    assert divide(10, 2) == 5\n\ndef test_divide_zero_denominator():\n    with pytest.raises(ZeroDivisionError):\n        divide(10, 0)\n\ndef test_divide_negative():\n    assert divide(-10, 2) == -5",
+      "hint": "Import pytest and use pytest.raises for division by zero. Test with a negative numerator to ensure sign handling is correct.",
+      "explanation": "The original test only verified a basic positive case. Edge cases include division by zero, which raises ZeroDivisionError, and negative inputs. Using pytest.raises catches the expected exception, making the suite robust."
+    },
+    {
+      "id": "24.4_q22",
+      "type": "fix_the_code",
+      "concept": "writing_tests_with_pytest_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in pytest Execution",
+        "content": "Runtime errors occur when code executes but produces unexpected behavior or crashes during the test run. Common causes include missing fixtures, incorrect setup and teardown, or side effects from global state. For instance, if a test relies on a fixture that is not defined in the conftest.py or test module, pytest raises a FixtureLookupError at runtime. Another example is a test that modifies a shared mutable object between runs, causing nondeterministic failures. Always isolate test state and verify fixture scope to avoid runtime surprises."
+      },
+      "prompt": "Fix the bug in this code for writing tests with pytest runtime:",
+      "starter_code": "# Fix this code\nPrint('Writing Tests with pytest')",
+      "solution_code": "print('Writing Tests with pytest')",
+      "explanation": "Automated assertions verify code behavior against known expectations. If an assertion evaluates to False, Python immediately raises an AssertionError to alert developers to the regression."
+    },
+    {
+      "id": "24.4_q23",
+      "type": "fix_the_code",
+      "concept": "writing_tests_with_pytest_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q22"
+      ],
+      "prompt": "The following test has a logical flaw: it asserts that a function returns True when it should return False for the given input. Repair the logic and correct the assertion.",
+      "starter_code": "def is_even(n):\n    return n % 2 == 1\n\ndef test_is_even():\n    assert is_even(4) == True",
+      "solution_code": "def is_even(n):\n    return n % 2 == 0\n\ndef test_is_even():\n    assert is_even(4) == True\n    assert is_even(5) == False",
+      "hint": "Check the modulo condition for even numbers. An even number has remainder 0 when divided by 2. Update the function and add a negative test.",
+      "explanation": "The original function returned True for odd numbers because it checked n % 2 == 1. Even numbers satisfy n % 2 == 0. Correcting the function and adding a second assertion for an odd input ensures the logic is fully validated."
+    },
+    {
+      "id": "24.4_q24",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "24.4_q23"
+      ],
+      "prompt": "Refactor the test suite to eliminate duplication, improve readability, and leverage pytest parametrization for a function that validates email addresses.",
+      "starter_code": "import re\n\ndef is_valid_email(email):\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2}$'\n    return re.match(pattern, email) is not None\n\ndef test_valid_email_1():\n    assert is_valid_email('alice@example.com') == True\n\ndef test_valid_email_2():\n    assert is_valid_email('bob@test.org') == True\n\ndef test_invalid_email_1():\n    assert is_valid_email('bad-email') == False\n\ndef test_invalid_email_2():\n    assert is_valid_email('@nodomain.com') == False",
+      "solution_code": "import re\nimport pytest\n\ndef is_valid_email(email):\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2}$'\n    return re.match(pattern, email) is not None\n\n@pytest.mark.parametrize('email,expected', [\n    ('alice@example.com', True),\n    ('bob@test.org', True),\n    ('bad-email', False),\n    ('@nodomain.com', False)\n])\ndef test_is_valid_email(email, expected):\n    assert is_valid_email(email) == expected",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "alice@example.com",
+          "description": "alice@example.com"
+        },
+        {
+          "input": "",
+          "expected_output": "bob@test.org",
+          "description": "bob@test.org"
+        },
+        {
+          "input": "",
+          "expected_output": "bad-email",
+          "description": "bad-email"
+        },
+        {
+          "input": "",
+          "expected_output": "@nodomain.com",
+          "description": "@nodomain.com"
+        }
+      ],
+      "hint": "Use pytest.mark.parametrize to combine valid and invalid cases into a single test function. Keep the regex pattern in the implementation, not in the test data.",
+      "explanation": "The original suite repeated the assertion pattern four times. Parametrization reduces boilerplate, centralizes test data, and makes adding new cases trivial. The function logic remains unchanged, but test maintenance improves significantly."
+    },
+    {
+      "id": "24.4_q25",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q24"
+      ],
+      "prompt": "Write a pytest test function to verify that a function correctly calculates the area of a rectangle given its width and height.",
+      "starter_code": "def rectangle_area(width, height):\n    return width * height\n\n# TODO: Write your pytest test here",
+      "solution_code": "import pytest\n\ndef test_rectangle_area_basic():\n    assert rectangle_area(5, 3) == 15\n\ndef test_rectangle_area_zero():\n    assert rectangle_area(0, 10) == 0",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "test_rectangle_area_basic",
+          "description": "test_rectangle_area_basic"
+        },
+        {
+          "input": "",
+          "expected_output": "test_rectangle_area_zero",
+          "description": "test_rectangle_area_zero"
+        }
+      ],
+      "hint": "Use the assert statement inside a function prefixed with test_. Import pytest at the top of your file.",
+      "explanation": "pytest discovers any function whose name starts with test_ and executes it. The assert statement checks whether the actual return value matches the expected value. If the assertion fails, pytest reports the failure with a traceback."
+    },
+    {
+      "id": "24.4_q26",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "24.4_q25"
+      ],
+      "prompt": "Implement a pytest test that uses pytest.mark.parametrize to check the square function for multiple inputs.",
+      "starter_code": "def square(n):\n    return n * n\n\n# TODO: Add a parameterized pytest test for square",
+      "solution_code": "import pytest\n\n@pytest.mark.parametrize('input_val, expected', [(2, 4), (5, 25), (-3, 9)])\ndef test_square_parametrized(input_val, expected):\n    assert square(input_val) == expected",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "test_square_parametrized",
+          "description": "test_square_parametrized"
+        }
+      ],
+      "hint": "Decorate your test function with @pytest.mark.parametrize and pass a list of tuples containing inputs and expected outputs.",
+      "explanation": "Parameterized tests reduce code duplication by running the same test logic with multiple data sets. pytest expands the decorator into individual test cases, making it easy to validate behavior across a range of values."
+    },
+    {
+      "id": "24.4_q27",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "24.4_q26"
+      ],
+      "prompt": "Write a pytest test that verifies a function raises a ValueError when given invalid input, using pytest.raises and a fixture.",
+      "starter_code": "def divide(a, b):\n    if b == 0:\n        raise ValueError('Cannot divide by zero')\n    return a / b\n\n# TODO: Write an advanced test with a fixture and pytest.raises",
+      "solution_code": "import pytest\n\n@pytest.fixture\ndef invalid_divisor():\n    return 0\n\ndef test_divide_raises_value_error(invalid_divisor):\n    with pytest.raises(ValueError):\n        divide(10, invalid_divisor)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "test_divide_raises_value_error",
+          "description": "test_divide_raises_value_error"
+        }
+      ],
+      "hint": "Use @pytest.fixture to provide test data, then wrap the call in a with pytest.raises(ValueError): block.",
+      "explanation": "pytest.raises acts as a context manager that catches the expected exception. If the specified exception is not raised, the test fails. Fixtures promote reusable setup logic across multiple tests."
+    },
+    {
+      "id": "24.4_q28",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "24.4_q27"
+      ],
+      "prompt": "Complete the test suite for the is_even function. Ensure coverage for positive, negative, and zero cases.",
+      "starter_code": "def is_even(n):\n    return n % 2 == 0\n\n# TODO: Write a complete pytest test suite for is_even",
+      "solution_code": "import pytest\n\ndef test_is_even_positive():\n    assert is_even(4) is True\n\ndef test_is_even_negative():\n    assert is_even(-2) is True\n\ndef test_is_even_zero():\n    assert is_even(0) is True\n\ndef test_is_even_odd():\n    assert is_even(7) is False",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "test_is_even_positive",
+          "description": "test_is_even_positive"
+        },
+        {
+          "input": "",
+          "expected_output": "test_is_even_negative",
+          "description": "test_is_even_negative"
+        },
+        {
+          "input": "",
+          "expected_output": "test_is_even_zero",
+          "description": "test_is_even_zero"
+        },
+        {
+          "input": "",
+          "expected_output": "test_is_even_odd",
+          "description": "test_is_even_odd"
+        }
+      ],
+      "hint": "Test boundary conditions such as zero and negative integers to ensure robust behavior.",
+      "explanation": "A well-designed test suite exercises normal cases, boundary values, and edge cases. Covering positive, negative, zero, and odd inputs ensures the modulo logic is validated comprehensively."
+    },
+    {
+      "id": "24.4_q29",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "24.4_q28"
+      ],
+      "prompt": "You are refactoring a utility module. Write pytest tests for the process_data function that validates input types and handles empty lists before any implementation changes.",
+      "starter_code": "def process_data(items):\n    # TODO: Implement with tests first\n    pass\n\n# TODO: Write pytest tests for type validation and empty input handling",
+      "solution_code": "import pytest\n\ndef process_data(items):\n    if not isinstance(items, list):\n        raise TypeError('Expected a list')\n    if len(items) == 0:\n        return []\n    return [x * 2 for x in items]\n\ndef test_process_data_invalid_type():\n    with pytest.raises(TypeError):\n        process_data('not a list')\n\ndef test_process_data_empty_list():\n    assert process_data([]) == []\n\ndef test_process_data_normal():\n    assert process_data([1, 2, 3]) == [2, 4, 6]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "test_process_data_invalid_type",
+          "description": "test_process_data_invalid_type"
+        },
+        {
+          "input": "",
+          "expected_output": "test_process_data_empty_list",
+          "description": "test_process_data_empty_list"
+        },
+        {
+          "input": "",
+          "expected_output": "test_process_data_normal",
+          "description": "test_process_data_normal"
+        }
+      ],
+      "hint": "Apply test-driven development by defining expected behavior for invalid types, empty inputs, and valid data before writing the implementation.",
+      "explanation": "In real-world scenarios, tests act as executable documentation and safety nets. Testing type validation and empty inputs first prevents regressions when the implementation evolves, aligning with clean code and TDD practices."
+    },
+    {
+      "id": "24.4_q30",
+      "type": "write_the_code",
+      "concept": "writing_tests_with_pytest_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "24.4_q29"
+      ],
+      "prompt": "Create a custom pytest plugin that provides a reusable assertion for checking that a list is sorted in ascending order. Write the plugin and a test that uses it.",
+      "starter_code": "# TODO: Define a custom pytest plugin and a test using it\n\ndef is_sorted(seq):\n    return all(seq[i] <= seq[i+1] for i in range(len(seq)-1))",
+      "solution_code": "import pytest\n\nclass SortedAssertion:\n    def __call__(self, seq):\n        assert all(seq[i] <= seq[i+1] for i in range(len(seq)-1)), 'List is not sorted'\n\n@pytest.fixture\ndef sorted_assertion():\n    return SortedAssertion()\n\ndef test_list_is_sorted(sorted_assertion):\n    sorted_assertion([1, 2, 2, 5])\n    with pytest.raises(AssertionError):\n        sorted_assertion([3, 1, 4])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "test_list_is_sorted",
+          "description": "test_list_is_sorted"
+        }
+      ],
+      "hint": "A custom assertion class can be instantiated and used inside a test. Register it via a fixture so multiple tests can reuse it.",
+      "explanation": "Mastery of pytest involves extending the framework with reusable components. A custom assertion plugin encapsulates domain-specific checks, improving readability and reducing duplication across a large test suite."
+    }
+  ],
+  "unit_num": 24,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Writing Tests with pytest",
+    "Apply idiomatic Python patterns when working with Writing Tests with pytest",
+    "Debug common runtime exceptions and logic errors associated with Writing Tests with pytest",
+    "Implement production-ready code utilizing Writing Tests with pytest"
+  ],
+  "prerequisites": [
+    "24.3"
+  ]
+}

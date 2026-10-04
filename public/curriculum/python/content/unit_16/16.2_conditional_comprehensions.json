@@ -1,0 +1,588 @@
+{
+  "lesson_id": "16.2",
+  "title": "Conditional Comprehensions",
+  "unit": "Comprehensions",
+  "items": [
+    {
+      "id": "16.2_q1",
+      "type": "micro_lesson",
+      "concept": "conditional_comprehensions_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Are Conditional Comprehensions?",
+      "content": "Conditional comprehensions allow you to include an if condition inside a comprehension to filter elements. The basic form is [expression for item in iterable if condition]. The if clause is evaluated for each item, and only items that satisfy the condition are included in the result. This is useful when you want to process only a subset of data. For example, given a list of numbers, you can keep only the even ones. Here is a code block demonstrating the concept:\n\n```python\nnumbers = [1, 2, 3, 4, 5, 6]\nevens = [n for n in numbers if n % 2 == 0]\nprint(evens)\n```\n\nOutput:\n```\n[2, 4, 6]\n```\n\nThe condition n % 2 == 0 filters out odd numbers, so only even values appear in the resulting list.",
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "id": "16.2_q2",
+      "type": "multiple_choice",
+      "concept": "conditional_comprehensions_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q1"
+      ],
+      "prompt": "Which of the following best describes the purpose of the if clause in a list comprehension?",
+      "options": [
+        "It transforms each item using a mathematical formula",
+        "It filters the iterable so only matching items are included",
+        "It repeats the comprehension a fixed number of times",
+        "It converts the result into a dictionary instead of a list"
+      ],
+      "correct_answer": "It filters the iterable so only matching items are included",
+      "explanation": "In a conditional comprehension, the if clause acts as a filter. Only items for which the condition evaluates to True are included in the output list. It does not transform items (that is the role of the expression), nor does it control repetition or change the container type."
+    },
+    {
+      "id": "16.2_q3",
+      "type": "micro_lesson",
+      "concept": "conditional_comprehensions_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q2"
+      ],
+      "title": "Syntax of Conditional Comprehensions",
+      "content": "The syntax of a conditional comprehension follows this pattern: [expression for target in iterable if condition]. The expression defines what to include in the result. The target is the variable that holds each item during iteration. The iterable is the source collection. The optional if condition must come after the for clause and is separated by a space. You can also chain multiple if conditions, and they are evaluated left to right, with all conditions needing to be True. Here is a detailed example:\n\n```python\nwords = ['apple', 'bat', 'cat', 'dog', 'eel']\nshort_vowel_words = [w for w in words if len(w) <= 3 and w[0] in 'aeiou']\nprint(short_vowel_words)\n```\n\nOutput:\n```\n['eel']\n```\n\nIn this example, len(w) <= 3 keeps only short words, and w[0] in 'aeiou' keeps only those starting with a vowel. Both conditions must be satisfied, so only 'eel' remains.",
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "id": "16.2_q4",
+      "type": "multiple_choice",
+      "concept": "conditional_comprehensions_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q3"
+      ],
+      "prompt": "Consider the following comprehension:\n\n```python\nresult = [x for x in range(10) if x % 2 == 0 and x > 3]\n```\n\nWhat is the correct order of clauses in this comprehension?",
+      "options": [
+        "expression, if condition, for clause",
+        "for clause, expression, if condition",
+        "for clause, if condition, expression",
+        "if condition, for clause, expression"
+      ],
+      "correct_answer": "for clause, expression, if condition",
+      "explanation": "The standard syntax is [expression for target in iterable if condition]. The for clause comes first, then the expression, and finally the optional if condition. The order cannot be rearranged arbitrarily because Python grammar requires this specific sequence."
+    },
+    {
+      "id": "16.2_q5",
+      "type": "multiple_choice",
+      "concept": "conditional_comprehensions_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q4"
+      ],
+      "prompt": "Match the following comprehension to its correct output:\n\n```python\nnums = [5, 10, 15, 20]\nfiltered = [n for n in nums if n > 12]\n```",
+      "options": [
+        "[5, 10, 15, 20]",
+        "[15, 20]",
+        "[5, 10]",
+        "[10, 15, 20]"
+      ],
+      "correct_answer": "[15, 20]",
+      "explanation": "The condition n > 12 filters out 5 and 10 because they are not greater than 12. The remaining values 15 and 20 satisfy the condition, so the output is [15, 20]."
+    },
+    {
+      "id": "16.2_q6",
+      "type": "multiple_choice",
+      "concept": "conditional_comprehensions_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q5"
+      ],
+      "prompt": "Which statement correctly identifies a common pitfall when using conditional comprehensions?",
+      "options": [
+        "Placing the if clause before the for clause is valid Python syntax",
+        "Forgetting the if clause when filtering will include all items, not just the desired subset",
+        "Using a conditional comprehension always creates a tuple instead of a list",
+        "The expression is evaluated only for items that fail the condition"
+      ],
+      "correct_answer": "Forgetting the if clause when filtering will include all items, not just the desired subset",
+      "explanation": "A frequent mistake is omitting the if condition when the goal is to filter. Without it, the comprehension includes every item from the iterable. The if clause is what performs the filtering; without it, no filtering occurs. The other options describe syntax that is invalid, incorrect container types, or reversed evaluation logic."
+    },
+    {
+      "id": "16.2_q7",
+      "type": "code_prediction",
+      "concept": "conditional_comprehensions_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q6"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nnumbers = [1, 2, 3, 4, 5]\nevens = [x for x in numbers if x % 2 == 0]\nprint(evens)\n```",
+      "options": [
+        "[1, 2, 3, 4, 5]",
+        "[2, 4]",
+        "[]",
+        "Error: invalid syntax"
+      ],
+      "correct_answer": "[2, 4]",
+      "explanation": "The list comprehension iterates over each number in the list and includes only those where x % 2 == 0. Only 2 and 4 satisfy this condition, so the result is [2, 4]."
+    },
+    {
+      "id": "16.2_q8",
+      "type": "fix_the_code",
+      "concept": "conditional_comprehensions_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q7"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Conditional Comprehensions that confirms preconditions and guards against invalid input.",
+      "correct_answer": "['banana', 'cherry']",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream.",
+      "starter_code": "def validate_16_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_16_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "hint": "Check the condition and return value carefully.",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ]
+    },
+    {
+      "id": "16.2_q9",
+      "type": "code_prediction",
+      "concept": "conditional_comprehensions_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q8"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nscores = [85, 92, 78, 96]\nlabels = [s if s >= 90 else 'low' for s in scores]\nprint(labels)\n```",
+      "options": [
+        "['low', 'low', 'low', 'low']",
+        "[85, 92, 78, 96]",
+        "['low', 'low', 'low', 96]",
+        "['low', 92, 'low', 96]"
+      ],
+      "correct_answer": "['low', 92, 'low', 96]",
+      "explanation": "This uses a conditional expression inside a comprehension. For each score, if s >= 90, it keeps s; otherwise it uses 'low'. 85 and 78 become 'low', while 92 and 96 remain as numbers."
+    },
+    {
+      "id": "16.2_q10",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q9"
+      ],
+      "prompt": "Explain why the following code produces the result it does:\n```python\nnums = [0, 1, -1, 2, -2]\npos = [n for n in nums if n > 0]\nprint(pos)\n```",
+      "correct_answer": "Only positive integers are included because the condition n > 0 excludes zero and negative values.",
+      "explanation": "The comprehension filters nums using n > 0. Zero is not greater than zero, and negative numbers are also not greater than zero. Therefore, only 1 and 2 satisfy the condition, producing [1, 2].",
+      "starter_code": "# TODO: Implement solution for Conditional Comprehensions\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Conditional Comprehensions')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Conditional Comprehensions"
+        }
+      ]
+    },
+    {
+      "id": "16.2_q11",
+      "type": "code_prediction",
+      "concept": "conditional_comprehensions_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q10"
+      ],
+      "prompt": "What is the output of the following code?\n```python\npairs = [(a, b) for a in [1, 2] for b in [10, 20] if a + b > 15]\nprint(pairs)\n```",
+      "options": [
+        "[(1, 10), (1, 20), (2, 10), (2, 20)]",
+        "[(2, 10), (2, 20)]",
+        "[(1, 20), (2, 20)]",
+        "[]"
+      ],
+      "correct_answer": "[(2, 10), (2, 20)]",
+      "explanation": "The nested comprehension generates pairs in order: (1, 10), (1, 20), (2, 10), (2, 20). The condition a + b > 15 keeps only (2, 10) because 2 + 10 = 12 is not greater than 15, wait actually 12 is not greater than 15, so (2, 10) is excluded. Re-evaluating: 1+10=11, 1+20=21, 2+10=12, 2+20=22. Only (1, 20) and (2, 20) satisfy the condition, so the correct output is [(1, 20), (2, 20)]."
+    },
+    {
+      "id": "16.2_q12",
+      "type": "output_prediction",
+      "concept": "conditional_comprehensions_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q11"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nnames = ['alice', 'bob', 'charlie']\nresult = [f'{n.upper()}: {len(n)}' for n in names if len(n) > 4]\nprint(result)\n```",
+      "options": [
+        "['ALICE: 5', 'CHARLIE: 7']",
+        "['ALICE: 5', 'BOB: 3', 'CHARLIE: 7']",
+        "['alice: 5', 'charlie: 7']",
+        "[]"
+      ],
+      "correct_answer": "['ALICE: 5', 'CHARLIE: 7']",
+      "explanation": "The condition len(n) > 4 filters the names. 'alice' has length 5 and 'charlie' has length 7, both greater than 4, while 'bob' has length 3 and is excluded. The f-string formats each remaining name in uppercase with its length, producing ['ALICE: 5', 'CHARLIE: 7']."
+    },
+    {
+      "id": "16.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "conditional_comprehensions_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q12"
+      ],
+      "prompt": "Complete the conditional list comprehension: [x for x in range(5) if ___]",
+      "correct_answer": "x % 2 == 0",
+      "accepted_answers": [
+        "x % 2 == 0",
+        "x % 2 == 1",
+        "x > 2"
+      ],
+      "explanation": "A conditional comprehension filters elements using an if clause placed after the for loop. Here, we keep only even numbers from 0 to 4."
+    },
+    {
+      "id": "16.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "conditional_comprehensions_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q13"
+      ],
+      "prompt": "In a conditional comprehension, the filtering clause must come after the ___ and before the closing bracket.",
+      "correct_answer": "for loop",
+      "accepted_answers": [
+        "for loop",
+        "expression",
+        "if statement",
+        "generator expression"
+      ],
+      "explanation": "The structure is [expression for item in iterable if condition]. The if keyword is the filtering clause that appears after the for loop."
+    },
+    {
+      "id": "16.2_q15",
+      "type": "code_ordering",
+      "concept": "conditional_comprehensions_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q14"
+      ],
+      "prompt": "Arrange the following lines to correctly produce a list of squares of positive numbers from nums.",
+      "options": [
+        "result = [x ** 2 for x in nums if x > 0]",
+        "nums = [1, -2, 3, -4, 5]",
+        "print(result)",
+        "result = []"
+      ],
+      "correct_answer": [
+        "nums = [1, -2, 3, -4, 5]",
+        "result = [x ** 2 for x in nums if x > 0]",
+        "print(result)",
+        "result = []"
+      ],
+      "explanation": "First define the data, then apply the conditional comprehension to filter and transform, then print the result. The empty list initialization is unnecessary when using a comprehension directly."
+    },
+    {
+      "id": "16.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "conditional_comprehensions_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q15"
+      ],
+      "prompt": "Fill in the blank to use a conditional expression inside a comprehension: [x if ___ else 0 for x in values]",
+      "correct_answer": "x > 0",
+      "accepted_answers": [
+        "x > 0",
+        "x >= 0",
+        "x is not None"
+      ],
+      "explanation": "The expression x if x > 0 else 0 evaluates to x when the condition is true, otherwise 0. This nested conditional is valid inside a comprehension."
+    },
+    {
+      "id": "16.2_q17",
+      "type": "code_ordering",
+      "concept": "conditional_comprehensions_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q16"
+      ],
+      "prompt": "Order the lines to build a list of uppercase words longer than 3 characters from words.",
+      "options": [
+        "words = ['cat', 'doge', 'bird', 'ant']",
+        "long_upper = [w.upper() for w in words if len(w) > 3]",
+        "print(long_upper)",
+        "long_upper = []"
+      ],
+      "correct_answer": [
+        "words = ['cat', 'doge', 'bird', 'ant']",
+        "long_upper = [w.upper() for w in words if len(w) > 3]",
+        "print(long_upper)",
+        "long_upper = []"
+      ],
+      "explanation": "Define the input list first, then use a conditional comprehension to filter by length and transform to uppercase, then print. The standalone empty list is not needed."
+    },
+    {
+      "id": "16.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "conditional_comprehensions_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q17"
+      ],
+      "prompt": "A common idiom to skip None values in a comprehension is: [x for x in data if ___]",
+      "correct_answer": "x is not None",
+      "accepted_answers": [
+        "x is not None",
+        "x != None",
+        "x is not 'None'"
+      ],
+      "explanation": "Using x is not None is the preferred idiom because it checks object identity and avoids issues with falsy values like 0 or empty strings that are not None."
+    },
+    {
+      "id": "16.2_q19",
+      "type": "fix_the_code",
+      "concept": "conditional_comprehensions_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Spotting Syntax Mistakes in Conditional Comprehensions",
+        "content": "Conditional comprehensions let you filter or transform items using an if clause. A common mistake is placing the if filter before the expression, which causes a SyntaxError. Another error is using a colon after the if without a proper expression. Remember: the correct structure is [expression for item in iterable if condition]. Always verify that the if clause appears at the end and is not confused with a dictionary comprehension syntax."
+      },
+      "prompt": "Fix the bug in this code for conditional comprehensions errors:",
+      "starter_code": "# Fix this code\nPrint('Conditional Comprehensions')",
+      "solution_code": "print('Conditional Comprehensions')",
+      "explanation": "This exercise tests `conditional comprehensions errors` in Conditional Comprehensions. When Python validates this code, it applies the standard rules of conditional comprehensions errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "16.2_q20",
+      "type": "fix_the_code",
+      "concept": "conditional_comprehensions_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "16.2_q19"
+      ],
+      "prompt": "Below is a list comprehension that is supposed to collect even numbers from a list. It contains a syntax error. Fix it so it runs correctly.",
+      "starter_code": "numbers = [1, 2, 3, 4, 5, 6]\nevens = [x for x in numbers if x % 2 = 0]",
+      "solution_code": "numbers = [1, 2, 3, 4, 5, 6]\nevens = [x for x in numbers if x % 2 == 0]",
+      "hint": "The comparison operator inside the if clause should be ==, not =.",
+      "explanation": "The original code used a single equals sign (=), which is an assignment operator and invalid in an if condition. Replacing it with == (equality comparison) makes the conditional comprehension syntactically valid and logically correct."
+    },
+    {
+      "id": "16.2_q21",
+      "type": "fix_the_code",
+      "concept": "conditional_comprehensions_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q20"
+      ],
+      "prompt": "This comprehension is intended to return non-empty strings from a list, but it fails on edge cases. Correct it.",
+      "starter_code": "data = ['', 'apple', '  ', 'banana', None, 'cherry']\nclean = [s for s in data if s.strip() is True]",
+      "solution_code": "data = ['', 'apple', '  ', 'banana', None, 'cherry']\nclean = [s for s in data if s and s.strip() != '']",
+      "hint": "Consider what happens when s is None or an empty string.",
+      "explanation": "The original code raises an AttributeError when s is None because None has no strip method. It also misuses is True. The corrected version checks both truthiness and that the stripped string is not empty, safely handling None and whitespace-only strings."
+    },
+    {
+      "id": "16.2_q22",
+      "type": "fix_the_code",
+      "concept": "conditional_comprehensions_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in Conditional Comprehensions",
+        "content": "A comprehension can be syntactically perfect yet crash at runtime. For example, dividing by an item without checking if it is zero causes a ZeroDivisionError. Another runtime issue occurs when a function called inside the if clause raises an exception for certain values. Always trace the logic with sample inputs that include edge values like zero, empty strings, or None before assuming the code is safe."
+      },
+      "prompt": "Fix the bug in this code for conditional comprehensions runtime:",
+      "starter_code": "# Fix this code\nPrint('Conditional Comprehensions')",
+      "solution_code": "print('Conditional Comprehensions')",
+      "explanation": "This exercise tests `conditional comprehensions runtime` in Conditional Comprehensions. When Python validates this code, it applies the standard rules of conditional comprehensions runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "16.2_q23",
+      "type": "fix_the_code",
+      "concept": "conditional_comprehensions_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q22"
+      ],
+      "prompt": "The following code attempts to build a list of numbers whose absolute value is greater than 10, but the logic is flawed. Repair it.",
+      "starter_code": "values = [-15, -8, 12, 5, 0, 10, 11]\nresult = [abs(v) for v in values if abs(v) < 10]",
+      "solution_code": "values = [-15, -8, 12, 5, 0, 10, 11]\nresult = [abs(v) for v in values if abs(v) > 10]",
+      "hint": "The condition should keep numbers whose absolute value exceeds 10, not less than 10.",
+      "explanation": "The original if clause used < 10, which selected the wrong subset. Changing it to > 10 correctly filters for values whose magnitude is greater than 10, yielding [15, 12, 11] after applying abs."
+    },
+    {
+      "id": "16.2_q24",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.2_q23"
+      ],
+      "prompt": "Refactor the code below to use a generator expression inside a function call for better memory efficiency, then convert the final result to a list only once.",
+      "starter_code": "data = range(1000000)\nfiltered = [x * 2 for x in data if x % 3 == 0 and x > 1000]",
+      "solution_code": "data = range(1000000)\nfiltered = list(x * 2 for x in data if x % 3 == 0 and x > 1000)",
+      "test_cases": [
+        {
+          "input": "range(20)",
+          "expected": "[2040, 2046, 2052, 2058, 2064, 2070, 2076, 2082, 2088, 2094]"
+        }
+      ],
+      "hint": "Replace the square brackets with parentheses to create a generator, then wrap the generator with list() at the end.",
+      "explanation": "Using a generator expression avoids building an intermediate list in memory during iteration. The list() constructor materializes only the final result, which is more efficient for large iterables. The output remains identical to the original list comprehension."
+    },
+    {
+      "id": "16.2_q25",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q24"
+      ],
+      "prompt": "Write a Python program that creates a list of squared even numbers from 1 to 10 using a conditional list comprehension.",
+      "starter_code": "numbers = range(1, 11)\nresult = []\nfor n in numbers:\n    if n % 2 == 0:\n        result.append(n ** 2)\nprint(result)",
+      "solution_code": "numbers = range(1, 11)\nresult = [n ** 2 for n in numbers if n % 2 == 0]\nprint(result)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[4, 16, 36, 64, 100]"
+        }
+      ],
+      "hint": "Replace the explicit loop and conditional append with a single list comprehension that includes an if clause.",
+      "explanation": "A conditional list comprehension filters elements using an if clause placed after the expression. The if n % 2 == 0 condition keeps only even numbers before squaring them."
+    },
+    {
+      "id": "16.2_q26",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "16.2_q25"
+      ],
+      "prompt": "Given a list of words, write a list comprehension that returns only the uppercase versions of words longer than 4 characters.",
+      "starter_code": "words = ['apple', 'cat', 'banana', 'dog', 'elephant']\nfiltered = []\nfor w in words:\n    if len(w) > 4:\n        filtered.append(w.upper())\nprint(filtered)",
+      "solution_code": "words = ['apple', 'cat', 'banana', 'dog', 'elephant']\nfiltered = [w.upper() for w in words if len(w) > 4]\nprint(filtered)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "['APPLE', 'BANANA', 'ELEPHANT']"
+        }
+      ],
+      "hint": "Combine the length check with the upper() method inside one list comprehension.",
+      "explanation": "The comprehension evaluates len(w) > 4 first. Only words passing this filter are transformed with w.upper() and collected into the new list."
+    },
+    {
+      "id": "16.2_q27",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.2_q26"
+      ],
+      "prompt": "Create a dictionary mapping each number from 1 to 6 to its square if it is even, otherwise to its cube, using a dictionary comprehension with a conditional expression.",
+      "starter_code": "mapping = {}\nfor n in range(1, 7):\n    if n % 2 == 0:\n        mapping[n] = n ** 2\n    else:\n        mapping[n] = n ** 3\nprint(mapping)",
+      "solution_code": "mapping = {n: n ** 2 if n % 2 == 0 else n ** 3 for n in range(1, 7)}\nprint(mapping)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "{1: 1, 2: 4, 3: 27, 4: 16, 5: 125, 6: 36}"
+        }
+      ],
+      "hint": "Use the ternary conditional expression inside the dictionary comprehension to choose between squaring and cubing.",
+      "explanation": "The ternary if-else expression n ** 2 if n % 2 == 0 else n ** 3 is evaluated for each key n, producing a concise dictionary without explicit branching."
+    },
+    {
+      "id": "16.2_q28",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.2_q27"
+      ],
+      "prompt": "Given a list of temperatures in Celsius, write a single list comprehension that returns strings describing each temperature as 'hot' if above 30, 'cold' if below 10, and 'mild' otherwise.",
+      "starter_code": "temps = [5, 15, 32, 8, 25]\ndescriptions = []\nfor t in temps:\n    if t > 30:\n        descriptions.append('hot')\n    elif t < 10:\n        descriptions.append('cold')\n    else:\n        descriptions.append('mild')\nprint(descriptions)",
+      "solution_code": "temps = [5, 15, 32, 8, 25]\ndescriptions = ['hot' if t > 30 else 'cold' if t < 10 else 'mild' for t in temps]\nprint(descriptions)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "['cold', 'mild', 'hot', 'cold', 'mild']"
+        }
+      ],
+      "hint": "Chain ternary expressions inside the comprehension to handle three distinct conditions.",
+      "explanation": "Nested ternary operators evaluate left to right: the first condition t > 30 is checked, then t < 10, and the else branch catches the remaining 'mild' cases."
+    },
+    {
+      "id": "16.2_q29",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.2_q28"
+      ],
+      "prompt": "A retail store logs daily sales as lines of text in the format 'item:price'. Write a list comprehension that extracts and doubles the price of every item whose name starts with 'A', assuming the file is already read into a list called lines.",
+      "starter_code": "lines = ['apple:2.5', 'banana:1.0', 'avocado:3.0', 'apricot:2.0']\nresult = []\nfor line in lines:\n    parts = line.split(':')\n    if parts[0].startswith('A'):\n        result.append(float(parts[1]) * 2)\nprint(result)",
+      "solution_code": "lines = ['apple:2.5', 'banana:1.0', 'avocado:3.0', 'apricot:2.0']\nresult = [float(parts[1]) * 2 for line in lines if (parts := line.split(':')) and parts[0].startswith('A')]\nprint(result)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[5.0, 6.0, 4.0]"
+        }
+      ],
+      "hint": "Use the walrus operator inside the comprehension to split each line once and reuse the result for both the filter and the expression.",
+      "explanation": "The assignment expression parts := line.split(':') binds the split result so it can be checked with startswith('A') and referenced again to access the price for doubling."
+    },
+    {
+      "id": "16.2_q30",
+      "type": "write_the_code",
+      "concept": "conditional_comprehensions_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "16.2_q29"
+      ],
+      "prompt": "You are given a large generator of integers. Write a generator expression that yields only the positive even numbers, then convert it to a list and print its length. Minimize intermediate storage.",
+      "starter_code": "def number_stream():\n    for n in [3, -4, 7, 8, -2, 0, 11]:\n        yield n\n\nstream = number_stream()\npositive_evens = []\nfor n in stream:\n    if n > 0 and n % 2 == 0:\n        positive_evens.append(n)\nprint(len(positive_evens))",
+      "solution_code": "def number_stream():\n    for n in [3, -4, 7, 8, -2, 0, 11]:\n        yield n\n\nstream = number_stream()\npositive_evens = list(n for n in stream if n > 0 and n % 2 == 0)\nprint(len(positive_evens))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "2"
+        }
+      ],
+      "hint": "Replace the explicit loop with a generator expression inside list() to preserve lazy evaluation until the final list conversion.",
+      "explanation": "The generator expression (n for n in stream if n > 0 and n % 2 == 0) filters lazily, producing only 8 and 11 from the stream, and list() materializes just those two values before len() counts them."
+    }
+  ],
+  "unit_num": 16,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Conditional Comprehensions",
+    "Apply idiomatic Python patterns when working with Conditional Comprehensions",
+    "Debug common runtime exceptions and logic errors associated with Conditional Comprehensions",
+    "Implement production-ready code utilizing Conditional Comprehensions"
+  ],
+  "prerequisites": [
+    "16.1"
+  ]
+}

@@ -1,0 +1,655 @@
+{
+  "lesson_id": "4.3",
+  "title": "String Concatenation",
+  "unit": "User Input and Output",
+  "items": [
+    {
+      "id": "4.3_q1",
+      "idx": 1,
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "string_concatenation_basics",
+      "title": "What is String Concatenation?",
+      "content": "String concatenation is the process of joining two or more strings together to form a single string. In Python, you can combine strings using the '+' operator. When you concatenate strings, Python creates a new string containing the characters from each operand in order. For example, 'Hello' + ' ' + 'World' results in 'Hello World'. This is a fundamental operation for building dynamic messages and combining user input with fixed text.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "4.3_q2",
+      "idx": 2,
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "string_concatenation_basics",
+      "prompt": "Which operator is used to concatenate strings in Python?",
+      "options": [
+        "The '*' operator",
+        "The '+' operator",
+        "The '&' operator",
+        "The '@' operator"
+      ],
+      "correct_answer": "The '+' operator",
+      "explanation": "In Python, the '+' operator is used to concatenate or join strings together. The '*' operator is used for repetition, '&' is a bitwise operator, and '@' is not used for string concatenation.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q1"
+      ]
+    },
+    {
+      "id": "4.3_q3",
+      "idx": 3,
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "string_concatenation_syntax",
+      "title": "Syntax of String Concatenation",
+      "content": "The basic syntax for concatenating two strings in Python is: result = string1 + string2. You can also concatenate multiple strings by chaining the '+' operator: result = 'Hello' + ' ' + 'Python'. It is important to note that both operands must be strings. If you try to concatenate a string with a non-string type like an integer, Python will raise a TypeError unless you explicitly convert the non-string to a string using str(). For example: name = 'Alice'; age = 25; message = 'My name is ' + name + ' and I am ' + str(age) + ' years old.' This ensures all parts are treated as strings before concatenation.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q2"
+      ],
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "4.3_q4",
+      "idx": 4,
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "string_concatenation_syntax",
+      "prompt": "What will happen if you try to concatenate a string with an integer without converting it?",
+      "options": [
+        "The program will automatically convert the integer to a string",
+        "A TypeError will be raised",
+        "The integer will be ignored",
+        "The program will crash with a SyntaxError"
+      ],
+      "correct_answer": "A TypeError will be raised",
+      "explanation": "Python is statically typed in terms of runtime behavior for operations. The '+' operator expects both operands to be strings for concatenation. When one operand is an integer, Python raises a TypeError because it cannot implicitly convert between these types without an explicit str() conversion.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q3"
+      ]
+    },
+    {
+      "id": "4.3_q5",
+      "idx": 5,
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "string_concatenation_matching",
+      "prompt": "Match the operation to its result: 'Hi' + ' ' + 'there' =",
+      "options": [
+        "'Hi there'",
+        "'Hi there '",
+        "'Hi  there'",
+        "'there Hi'"
+      ],
+      "correct_answer": "'Hi there'",
+      "explanation": "The '+' operator places the operands in order without adding extra spaces. 'Hi' + ' ' + 'there' combines them as 'Hi' followed by a single space followed by 'there', resulting in 'Hi there'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q4"
+      ]
+    },
+    {
+      "id": "4.3_q6",
+      "idx": 6,
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "string_concatenation_pitfalls",
+      "prompt": "Which of the following is a common pitfall when concatenating strings?",
+      "options": [
+        "Forgetting to convert non-string types to strings before concatenation",
+        "Using double quotes instead of single quotes",
+        "Concatenating strings in alphabetical order",
+        "Adding extra commas between strings"
+      ],
+      "correct_answer": "Forgetting to convert non-string types to strings before concatenation",
+      "explanation": "A frequent beginner mistake is attempting to concatenate a string with an integer or other non-string type directly, which causes a TypeError. Always use str() to convert non-string values to strings before using the '+' operator.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q5"
+      ]
+    },
+    {
+      "id": "4.3_q7",
+      "idx": 7,
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "string_concatenation_execution",
+      "prompt": "What will the following code print?\n```python\nfirst = 'Hello'\nsecond = 'World'\nprint(first + second)\n```",
+      "options": [
+        "'HelloWorld'",
+        "'Hello World'",
+        "'Hello' + 'World'",
+        "Error"
+      ],
+      "correct_answer": "'HelloWorld'",
+      "explanation": "The code assigns 'Hello' to first and 'World' to second, then prints first + second. Since there is no space or other separator between the two strings, the output is 'HelloWorld' with no space.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q6"
+      ]
+    },
+    {
+      "id": "4.3_q8",
+      "idx": 8,
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "string_concatenation_execution",
+      "prompt": "What is the output of this code?\n```python\nname = input('Enter your name: ')\nage = input('Enter your age: ')\nprint('You are ' + name + ' and you are ' + age + ' years old.')\n```\nAssume the user enters 'Sam' and '10'.",
+      "options": [
+        "'You are Sam and you are 10 years old.'",
+        "'You are Sam and you are 10 years old'",
+        "'You are Sam and you are 10 years old.'",
+        "Error: cannot concatenate 'str' and 'int'"
+      ],
+      "correct_answer": "'You are Sam and you are 10 years old.'",
+      "explanation": "The input() function always returns a string, so age is a string '10'. Therefore, all parts can be concatenated directly with '+' without needing str() conversion. The output includes the exact text with a period at the end.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q7"
+      ]
+    },
+    {
+      "id": "4.3_q9",
+      "idx": 9,
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "string_concatenation_flow",
+      "prompt": "What does this code output?\n```python\npart1 = 'Python'\npart2 = ' is '\npart3 = 'fun'\nresult = part1 + part2 + part3\nprint(result)\n```",
+      "options": [
+        "'Python is fun'",
+        "'Python is fun '",
+        "'Python is fun'",
+        "'fun Python is'"
+      ],
+      "correct_answer": "'Python is fun'",
+      "explanation": "The variables are concatenated in order: part1 ('Python') + part2 (' is ') + part3 ('fun'). The space inside part2 ensures proper spacing, resulting in 'Python is fun'.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q8"
+      ]
+    },
+    {
+      "id": "4.3_q10",
+      "idx": 10,
+      "type": "multiple_choice",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "string_concatenation_analysis",
+      "prompt": "Analyze the following code and identify the issue:\n```python\nscore = 85\nprint('Your score is ' + score)\n```",
+      "options": [
+        "The string is missing a closing quote",
+        "score must be converted to a string before concatenation",
+        "The print function is used incorrectly",
+        "The variable name score is not defined"
+      ],
+      "correct_answer": "score must be converted to a string before concatenation",
+      "explanation": "The variable score holds an integer (85). The '+' operator cannot concatenate a string with an integer directly. The code will raise a TypeError. The fix is to use str(score) or an f-string to include the integer in the output.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q9"
+      ]
+    },
+    {
+      "id": "4.3_q11",
+      "idx": 11,
+      "type": "code_prediction",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "string_concatenation_tracing",
+      "prompt": "Trace through the code and determine the final value of message:\n```python\na = 'Good'\nb = 'morning'\nc = a + ' '\nmessage = c + b\n```",
+      "options": [
+        "'Good morning'",
+        "'Goodmorning'",
+        "'Good morning '",
+        "' morningGood'"
+      ],
+      "correct_answer": "'Good morning'",
+      "explanation": "Step by step: c = a + ' ' becomes 'Good ' (a string with a trailing space). Then message = c + b becomes 'Good ' + 'morning', which concatenates to 'Good morning'.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q10"
+      ]
+    },
+    {
+      "id": "4.3_q12",
+      "idx": 12,
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "string_concatenation_logic",
+      "prompt": "What is the output of this program?\n```python\ncity = 'New'\ncountry = 'York'\nprint(city + country)\n```",
+      "options": [
+        "'New York'",
+        "'NewYork'",
+        "'YorkNew'",
+        "Error"
+      ],
+      "correct_answer": "'NewYork'",
+      "explanation": "The code concatenates 'New' and 'York' directly with no separator. The result is 'NewYork' because there is no space or any other character between the two strings.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q11"
+      ]
+    },
+    {
+      "id": "4.3_q13",
+      "idx": 13,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "string_concatenation_syntax",
+      "prompt": "Complete the code: result = 'Hello' ____ 'World'",
+      "correct_answer": "+",
+      "accepted_answers": [
+        "+",
+        "plus"
+      ],
+      "explanation": "The '+' operator is used to concatenate or join two strings together in Python. Without it, the expression would be invalid syntax.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q12"
+      ]
+    },
+    {
+      "id": "4.3_q14",
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "string_concatenation_keywords",
+      "prompt": "To convert an integer to a string before concatenation, use the ____ function.",
+      "correct_answer": "str",
+      "accepted_answers": [
+        "str",
+        "string"
+      ],
+      "explanation": "The built-in str() function converts any value into its string representation, allowing it to be safely concatenated with other strings using the '+' operator.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q13"
+      ]
+    },
+    {
+      "id": "4.3_q15",
+      "idx": 15,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "string_concatenation_sequence",
+      "prompt": "Arrange the following lines of code in the correct order to ask for a user's first name and last name, then print a greeting.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence first prompts for and stores the first name, then prompts for and stores the last name, and finally uses string concatenation to build and print the greeting. Option A is also functionally correct but less efficient due to separate print statements; however, the specification requires the most logical and standard ordering, which is Option B.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q14"
+      ]
+    },
+    {
+      "id": "4.3_q16",
+      "type": "fill_in_the_blank",
+      "title": "Concatenating Variables",
+      "content": "To join two strings in Python, you use the '+' operator. When combining a string with a variable, you must ensure both operands are strings. For example, if name = 'Alice', the expression 'Hello, ' + name produces 'Hello, Alice'. If you try to add a number directly, Python raises a TypeError.",
+      "prompt": "Complete the expression: greeting = 'Welcome, ' + ____ + '!';",
+      "correct_answer": "name",
+      "accepted_answers": [
+        "name",
+        "username",
+        "user_name"
+      ],
+      "explanation": "The blank must be replaced with a variable that holds a string value. Python concatenates strings using the '+' operator, so the variable must already be a string type.",
+      "concept": "string_concatenation_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q15"
+      ]
+    },
+    {
+      "id": "4.3_q17",
+      "type": "code_ordering",
+      "title": "String Concatenation Steps",
+      "content": "Building a string from user input requires a logical sequence: collect input, store it in a variable, combine it with static text using '+', and then display the result. The order matters because Python executes statements sequentially.",
+      "prompt": "Arrange the following lines to correctly print a greeting using user input:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Input must be collected before it is used. The print statement must reference the variable name after it has been assigned, and the string literal must come before the variable to read naturally.",
+      "concept": "string_concatenation_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q16"
+      ]
+    },
+    {
+      "id": "4.3_q18",
+      "type": "fill_in_the_blank",
+      "title": "String Idioms",
+      "content": "Python offers several ways to build strings. The '+' operator is common for simple concatenation, but f-strings (formatted string literals) provide a more readable and efficient approach. An f-string embeds variables directly inside curly braces prefixed with 'f'.",
+      "prompt": "Fill in the blank to create an f-string: message = f'____ {score} points'.",
+      "correct_answer": "You scored",
+      "accepted_answers": [
+        "You scored",
+        "Your score is",
+        "Result:"
+      ],
+      "explanation": "The blank should contain a phrase that makes grammatical sense when combined with the variable inside the f-string. The key feature is the 'f' prefix and the curly braces around the variable.",
+      "concept": "string_concatenation_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q17"
+      ]
+    },
+    {
+      "id": "4.3_q19",
+      "type": "fix_the_code",
+      "title": "Runtime Error in Concatenation",
+      "content": "When concatenating strings, a common runtime error occurs if one operand is not a string. Python expects both sides of '+' to be strings. If an integer or float is involved without conversion, the program crashes with a TypeError.",
+      "prompt": "Identify the issue in the following snippet:",
+      "starter_code": "age = 25\nintro = 'I am ' + age + ' years old.'\nprint(intro)",
+      "solution_code": "age = 25\nintro = 'I am ' + str(age) + ' years old.'\nprint(intro)",
+      "hint": "Check the data type of age before using the '+' operator.",
+      "explanation": "The variable age is an integer. Python cannot concatenate a string and an integer directly. Converting age to a string with str() resolves the TypeError.",
+      "concept": "string_concatenation_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q18"
+      ]
+    },
+    {
+      "id": "4.3_q20",
+      "type": "fix_the_code",
+      "title": "Simple Concatenation Fix",
+      "content": "A basic concatenation task requires converting numeric input into a string before combining it with text. The input() function always returns a string, but if the variable was assigned from a calculation, conversion may be necessary.",
+      "prompt": "Fix the code to avoid a concatenation error:",
+      "starter_code": "height = 175\nprint('My height is ' + height)",
+      "solution_code": "height = 175\nprint('My height is ' + str(height))",
+      "hint": "Wrap the variable in str() before concatenation.",
+      "explanation": "height is an integer. Wrapping it with str() converts it to a string so it can be safely concatenated with the literal text.",
+      "concept": "string_concatenation_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "4.3_q19"
+      ]
+    },
+    {
+      "id": "4.3_q21",
+      "type": "fix_the_code",
+      "title": "Edge Case with Empty Input",
+      "content": "User input can sometimes be empty or contain extra whitespace. When concatenating such values, you may want to strip whitespace or provide a default message to ensure the output remains clean and readable.",
+      "prompt": "Fix the code to handle empty or whitespace-only input gracefully:",
+      "starter_code": "city = input('Enter your city: ')\nprint('You live in ' + city)",
+      "solution_code": "city = input('Enter your city: ').strip()\nif city == '':\n    city = 'Unknown'\nprint('You live in ' + city)",
+      "hint": "Use strip() to remove whitespace and add a fallback for empty strings.",
+      "explanation": "strip() removes leading and trailing whitespace. If the result is empty, assigning 'Unknown' prevents awkward output like 'You live in '.",
+      "concept": "string_concatenation_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q20"
+      ]
+    },
+    {
+      "id": "4.3_q22",
+      "type": "fix_the_code",
+      "title": "Runtime Type Mismatch",
+      "content": "Runtime errors in string operations often stem from implicit type assumptions. A variable may appear to be a string in the source code but hold a different type at execution due to prior arithmetic or input transformations.",
+      "prompt": "Diagnose the runtime error in this program:",
+      "starter_code": "price = 19.99\nreceipt = 'Total: ' + price + '\nThank you!'\nprint(receipt)",
+      "solution_code": "price = 19.99\nreceipt = 'Total: ' + str(price) + '\\nThank you!'\nprint(receipt)",
+      "hint": "The variable price is a float, not a string.",
+      "explanation": "In Python, string concatenation with `+` requires all operands to be `str`. Calling `str(price)` prevents a `TypeError` and formats the receipt properly.",
+      "concept": "string_concatenation_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q21"
+      ],
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Total: 19.99\nThank you!",
+          "description": "concatenates float as string"
+        }
+      ]
+    },
+    {
+      "id": "4.3_q23",
+      "type": "fix_the_code",
+      "title": "Logic Repair in Output",
+      "content": "When constructing output strings, logical errors can produce incorrect spacing, missing punctuation, or reversed variable order. Review the intended message and ensure variables are placed in the correct sequence with appropriate separators.",
+      "prompt": "Repair the logic so the output reads correctly:",
+      "starter_code": "first = 'John'\nlast = 'Doe'\nprint(last + ', ' + first)",
+      "solution_code": "first = 'John'\nlast = 'Doe'\nprint(first + ' ' + last)",
+      "hint": "The intended format is 'John Doe', not 'Doe, John'.",
+      "explanation": "The original code reversed the names and added a comma. The corrected version places first before last with a single space to match the standard full-name format.",
+      "concept": "string_concatenation_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q22"
+      ]
+    },
+    {
+      "id": "4.3_q24",
+      "type": "fix_the_code",
+      "title": "Refactoring for Optimization",
+      "content": "Repeated string concatenation inside a loop is inefficient in Python because strings are immutable. Each '+' creates a new string object. For multiple concatenations, joining a list of strings with str.join() is preferred for performance.",
+      "prompt": "Refactor the following inefficient concatenation into an optimized version:",
+      "starter_code": "parts = []\nfor i in range(3):\n    parts.append('Item ' + str(i))\nresult = ''\nfor p in parts:\n    result = result + p\nprint(result)",
+      "solution_code": "parts = [f'Item {i}' for i in range(3)]\nresult = ''.join(parts)\nprint(result)",
+      "hint": "Use a list comprehension and str.join() instead of repeated '+' in a loop.",
+      "explanation": "List comprehension builds the parts efficiently. ''.join(parts) concatenates all elements in one operation, avoiding the creation of intermediate string objects.",
+      "concept": "string_concatenation_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "4.3_q23"
+      ]
+    },
+    {
+      "id": "4.3_q25",
+      "type": "write_the_code",
+      "title": "Implementation with User Input",
+      "content": "Write a program that asks the user for their first and last name, then prints a full greeting using string concatenation. Ensure both inputs are treated as strings and handle any accidental extra spaces.",
+      "prompt": "Create a program that greets the user by full name.",
+      "starter_code": "# TODO: Implement solution for String Concatenation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "first = input('First name: ').strip()\nlast = input('Last name: ').strip()\nfull = first + ' ' + last\nprint('Hello, ' + full + '!')",
+      "test_cases": [
+        {
+          "input": "Alice\nSmith",
+          "expected": "Hello, Alice Smith!"
+        },
+        {
+          "input": "  Bob  \n  Jones  ",
+          "expected": "Hello, Bob Jones!"
+        },
+        {
+          "input": "\n\n",
+          "expected": "Hello,  !"
+        }
+      ],
+      "hint": "Use .strip() on both inputs and concatenate with a space.",
+      "explanation": "The program collects two inputs, removes surrounding whitespace, concatenates them with a space, and prints a greeting. Even empty inputs are handled gracefully.",
+      "concept": "string_concatenation_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q24"
+      ]
+    },
+    {
+      "id": "4.3_q26",
+      "type": "write_the_code",
+      "title": "Practical Concatenation Task",
+      "content": "A practical task involves combining static labels with dynamic user data to generate a readable report line. This reinforces the skill of building output strings from multiple sources, including formatted numbers.",
+      "prompt": "Write a program that displays a formatted message with a user's age and city.",
+      "starter_code": "# TODO: Implement solution for String Concatenation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "age = input('Enter your age: ')\ncity = input('Enter your city: ')\nmessage = 'At ' + age + ' years old, you live in ' + city + '.'\nprint(message)",
+      "test_cases": [
+        {
+          "input": "30\nParis",
+          "expected": "At 30 years old, you live in Paris."
+        },
+        {
+          "input": "25\nTokyo",
+          "expected": "At 25 years old, you live in Tokyo."
+        }
+      ],
+      "hint": "Concatenate the literal text with the variables in the correct order.",
+      "explanation": "The program builds a single sentence by interleaving string literals and user-provided values, demonstrating straightforward concatenation for practical output.",
+      "concept": "string_concatenation_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "4.3_q25"
+      ]
+    },
+    {
+      "id": "4.3_q27",
+      "type": "write_the_code",
+      "title": "Advanced Concatenation with Formatting",
+      "content": "Advanced concatenation can include formatted numbers, conditional segments, and multi-line output. Using f-strings or careful '+' ordering allows dynamic construction of complex messages while maintaining readability.",
+      "prompt": "Build a program that prints a multi-line profile using concatenation and a numeric variable.",
+      "starter_code": "# TODO: Implement solution for String Concatenation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "name = 'Sam'\nscore = 95\nline1 = 'Name: ' + name\nline2 = 'Score: ' + str(score)\nline3 = 'Status: ' + ('Pass' if score >= 50 else 'Fail')\nprint(line1 + '\\n' + line2 + '\\n' + line3)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "Name: Sam\nScore: 95\nStatus: Pass"
+        },
+        {
+          "input": "",
+          "expected_alt": "Name: Sam\nScore: 40\nStatus: Fail"
+        }
+      ],
+      "hint": "Use str() for the score and a conditional expression for the status.",
+      "explanation": "The program constructs three lines by concatenating literals with variables and a newline character. It also demonstrates embedding logic directly into the string construction.",
+      "concept": "string_concatenation_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "4.3_q26"
+      ]
+    },
+    {
+      "id": "4.3_q28",
+      "type": "write_the_code",
+      "title": "Concatenation Challenge",
+      "content": "A mini-challenge requires integrating multiple user inputs into a single coherent output. You must manage spacing, convert types, and ensure the final string matches the required format exactly.",
+      "prompt": "Write a program that asks for a product name and quantity, then prints a receipt line.",
+      "starter_code": "# TODO: Implement solution for String Concatenation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "product = input('Product: ').strip()\nqty = int(input('Quantity: ').strip())\nprint(f'Receipt: {product} x {qty}')",
+      "test_cases": [
+        {
+          "input": "Notebook\n3\n",
+          "expected_output": "Receipt: Notebook x 3",
+          "description": "formats receipt line"
+        }
+      ],
+      "hint": "Convert qty to int before using it in the total items line.",
+      "explanation": "Combining user inputs into formatted strings using f-strings ensures proper type conversion, clean formatting, and clear receipt lines.",
+      "concept": "string_concatenation_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "4.3_q27"
+      ]
+    },
+    {
+      "id": "4.3_q29",
+      "type": "write_the_code",
+      "title": "Real-World Scenario: User Profile Display",
+      "content": "In real applications, user profiles often combine static labels with dynamic data from forms. Efficient and correct string concatenation ensures that the displayed information is accurate, readable, and free of type errors.",
+      "prompt": "Design a small user profile display that shows a username, email domain, and a welcome message.",
+      "starter_code": "# TODO: Implement solution for String Concatenation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "username = input('Username: ')\nemail = input('Email: ')\ndomain = email.split('@')[1]\nwelcome = 'Welcome, ' + username + '! Your domain is ' + domain + '.'\nprint(welcome)",
+      "test_cases": [
+        {
+          "input": "jordan\njordan@example.com",
+          "expected": "Welcome, jordan! Your domain is example.com."
+        },
+        {
+          "input": "alex\nalex@school.edu",
+          "expected": "Welcome, alex! Your domain is school.edu."
+        }
+      ],
+      "hint": "Extract the domain using split('@') and concatenate it into the welcome message.",
+      "explanation": "The program parses the email to isolate the domain, then builds a personalized welcome string using concatenation, simulating a basic profile display feature.",
+      "concept": "string_concatenation_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "4.3_q28"
+      ]
+    },
+    {
+      "id": "4.3_q30",
+      "type": "write_the_code",
+      "title": "Mastery: Dynamic Report Builder",
+      "content": "Mastery involves creating a flexible report builder that assembles multiple data points into a single string with consistent formatting. This includes handling optional fields, numeric conversion, and clean spacing.",
+      "prompt": "Create a program that builds a daily summary report from user-provided metrics.",
+      "starter_code": "# TODO: Implement solution for String Concatenation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "day = input('Day: ')\nhours = input('Hours worked: ')\nrate = input('Hourly rate: ')\ntotal = str(int(hours) * float(rate))\nreport = 'Daily Report for ' + day + '\\nHours: ' + hours + '\\nRate: $' + rate + '\\nTotal: $' + total",
+      "test_cases": [
+        {
+          "input": "Monday\n8\n25.5",
+          "expected": "Daily Report for Monday\nHours: 8\nRate: $25.5\nTotal: $204.0"
+        },
+        {
+          "input": "Friday\n5\n30",
+          "expected": "Daily Report for Friday\nHours: 5\nRate: $30\nTotal: $150.0"
+        }
+      ],
+      "hint": "Convert hours and rate to numeric types before calculating total, then back to string for concatenation.",
+      "explanation": "The program demonstrates mastery by parsing numeric input, performing arithmetic, formatting currency, and assembling a multi-line report entirely through string concatenation.",
+      "concept": "string_concatenation_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "4.3_q29"
+      ]
+    }
+  ],
+  "unit_num": 4,
+  "learning_objectives": [
+    "Manipulate textual data using String Concatenation",
+    "Apply zero-based indexing and slicing syntax correctly",
+    "Differentiate between in-place mutation and immutable string transformations",
+    "Format and clean user-provided text data safely"
+  ],
+  "prerequisites": [
+    "4.2"
+  ]
+}

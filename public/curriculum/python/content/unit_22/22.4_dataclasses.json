@@ -1,0 +1,625 @@
+{
+  "lesson_id": "22.4",
+  "title": "Dataclasses",
+  "unit": "Advanced Python Magic",
+  "items": [
+    {
+      "id": "22.4_q1",
+      "type": "micro_lesson",
+      "concept": "dataclasses_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Are Dataclasses?",
+      "content": "A dataclass is a Python class that primarily stores data. Instead of writing repetitive boilerplate code like __init__, __repr__, and __eq__, you can use the @dataclass decorator from the dataclasses module. This saves time and reduces errors. Here is a simple example:\n\n```python\nfrom dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: int\n    y: int\n\np = Point(1, 2)\nprint(p)\n```\n\nWhen you run this, Python automatically generates the __init__ method to accept x and y, and __repr__ to print a readable representation. Dataclasses are especially useful for data-centric objects such as records, configuration objects, or model instances.",
+      "prompt": "",
+      "explanation": "A dataclass is a Python class that primarily stores data. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "22.4_q2",
+      "type": "multiple_choice",
+      "concept": "dataclasses_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q1"
+      ],
+      "prompt": "Which statement best describes the main benefit of using a dataclass?",
+      "options": [
+        "It allows inheritance from built-in types only",
+        "It automatically generates common dunder methods like __init__ and __repr__",
+        "It enforces runtime type checking by default",
+        "It replaces the need for the typing module"
+      ],
+      "correct_answer": "It automatically generates common dunder methods like __init__ and __repr__",
+      "explanation": "The primary advantage of dataclasses is that they reduce boilerplate. The @dataclass decorator automatically creates __init__, __repr__, __eq__, and other methods based on the annotated fields."
+    },
+    {
+      "id": "22.4_q3",
+      "type": "micro_lesson",
+      "concept": "dataclasses_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q2"
+      ],
+      "title": "Dataclass Syntax and Field Definitions",
+      "content": "To define a dataclass, you import dataclass from dataclasses and decorate your class. Each field is declared with a type annotation. You can optionally provide a default value. Here is the general pattern:\n\n```python\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    name: str\n    age: int = 0\n\nperson = Person('Alice', 30)\nprint(person.age)\n```\n\nNotice that age has a default value of 0. When a default is provided, the corresponding parameter becomes optional in the generated __init__. Fields without defaults must come before fields with defaults. This ordering rule is enforced by Python.",
+      "prompt": "",
+      "explanation": "To define a dataclass, you import dataclass from dataclasses and decorate your class. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "22.4_q4",
+      "type": "multiple_choice",
+      "concept": "dataclasses_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q3"
+      ],
+      "prompt": "Consider the following code. Which line will raise a SyntaxError or TypeError when the class is defined?",
+      "options": [
+        "name: str = 'Bob'",
+        "age: int = 25",
+        "city: str = 'Paris'  # placed before name",
+        "height: float = 1.75"
+      ],
+      "correct_answer": "city: str = 'Paris'  # placed before name",
+      "explanation": "In a dataclass, fields without default values must appear before fields with default values. Placing a defaulted field before a non-defaulted field violates this rule and raises a TypeError."
+    },
+    {
+      "id": "22.4_q5",
+      "type": "multiple_choice",
+      "concept": "dataclasses_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q4"
+      ],
+      "prompt": "Match the generated method to its purpose in a dataclass.",
+      "options": [
+        "__init__: compares two instances for equality",
+        "__repr__: initializes instance attributes from arguments",
+        "__eq__: produces a developer-friendly string representation",
+        "__repr__: produces a developer-friendly string representation"
+      ],
+      "correct_answer": "__repr__: produces a developer-friendly string representation",
+      "explanation": "__repr__ returns a string that shows how to recreate the object, while __eq__ checks whether two dataclass instances have the same field values. __init__ sets up the instance from arguments."
+    },
+    {
+      "id": "22.4_q6",
+      "type": "multiple_choice",
+      "concept": "dataclasses_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q5"
+      ],
+      "prompt": "Which common pitfall should you watch out for when using mutable default values in a dataclass?",
+      "options": [
+        "Mutable defaults are shared across all instances, causing unexpected side effects",
+        "Mutable defaults prevent the dataclass from being hashable",
+        "Mutable defaults are automatically converted to tuples",
+        "Mutable defaults raise a ValueError at class definition time"
+      ],
+      "correct_answer": "Mutable defaults are shared across all instances, causing unexpected side effects",
+      "explanation": "Like regular function arguments, mutable default values such as lists or dicts are evaluated once at class definition. All instances referencing that default will share the same object, leading to bugs when one instance modifies it."
+    },
+    {
+      "id": "22.4_q7",
+      "type": "code_prediction",
+      "concept": "dataclasses_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q6"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    name: str\n    age: int\n\np = Person('Alice', 30)\nprint(p)\n```",
+      "options": [
+        "Person(name='Alice', age=30)",
+        "Person(name='Alice', age=30, name='Alice', age=30)",
+        "name='Alice', age=30",
+        "Person(name='Alice', age=30, name='Alice', age=30, name='Alice', age=30)"
+      ],
+      "correct_answer": "Person(name='Alice', age=30)",
+      "explanation": "The dataclass automatically generates an __init__ method and a __repr__ method. Printing the instance invokes __repr__, which returns the canonical string representation showing field names and values."
+    },
+    {
+      "id": "22.4_q8",
+      "type": "output_prediction",
+      "concept": "dataclasses_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q7"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass Team:\n    name: str\n    members: list = field(default_factory=list)\n\nt = Team('Devs')\nt.members.append('Bob')\nprint(t.members)\n```",
+      "options": [
+        "['Bob']",
+        "['Bob', 'Bob']",
+        "['Bob']",
+        "['Bob', 'Bob', 'Bob']"
+      ],
+      "correct_answer": "['Bob']",
+      "explanation": "Using field(default_factory=list) creates a new list for each instance. Therefore, t.members starts as an empty list, then Bob is appended once, resulting in a single-element list."
+    },
+    {
+      "id": "22.4_q9",
+      "type": "code_prediction",
+      "concept": "dataclasses_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q8"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfrom dataclasses import dataclass\n\n@dataclass\nclass Animal:\n    species: str\n\n    def __post_init__(self):\n        print('Animal post init')\n\n@dataclass\nclass Dog(Animal):\n    breed: str = 'Mixed'\n\nd = Dog('Canine')\nprint(d)\n```",
+      "options": [
+        "'Animal post init' followed by 'Dog(species='Canine', breed='Mixed')'",
+        "'Dog post init' followed by 'Dog(species='Canine', breed='Mixed')'",
+        "'Animal post init' followed by 'Animal(species='Canine')'",
+        "'Dog post init' followed by 'Animal(species='Canine')'"
+      ],
+      "correct_answer": "'Animal post init' followed by 'Dog(species='Canine', breed='Mixed')'",
+      "explanation": "Dog inherits from Animal. When d is instantiated, Animal.__post_init__ runs first, printing 'Animal post init'. Then Dog.__post_init__ is not defined, so nothing extra prints. The __repr__ reflects both inherited and own fields."
+    },
+    {
+      "id": "22.4_q10",
+      "type": "write_the_code",
+      "concept": "dataclasses_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q9"
+      ],
+      "prompt": "Explain why the following code raises an error and what the error message indicates:\n```python\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Point:\n    x: int\n    y: int\n\np = Point(1, 2)\np.x = 3\n```",
+      "correct_answer": "It raises a TypeError because frozen dataclasses make fields immutable after initialization.",
+      "explanation": "Setting frozen=True generates __setattr__ that prevents modification of fields after creation. Assigning to p.x triggers this protection and raises TypeError, indicating the dataclass instance is immutable.",
+      "starter_code": "# TODO: Implement solution for Dataclasses\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Dataclasses')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dataclasses"
+        }
+      ]
+    },
+    {
+      "id": "22.4_q11",
+      "type": "write_the_code",
+      "concept": "dataclasses_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q10"
+      ],
+      "prompt": "Trace the execution step by step and identify the final value of total_sum. Consider this code:\n```python\nfrom dataclasses import dataclass, field\n\n@dataclass(slots=True)\nclass Counter:\n    value: int = 0\n    total_sum: int = field(init=False)\n\n    def __post_init__(self):\n        self.total_sum = self.value\n\nc = Counter(5)\nc.value = 10\nprint(c.total_sum)\n```",
+      "correct_answer": "5, because total_sum is set once during __post_init__ and never updated",
+      "explanation": "During __post_init__, total_sum is assigned the initial value of value, which is 5. Changing c.value afterward does not trigger __post_init__ again, so total_sum remains 5.",
+      "starter_code": "# 1. Define the process_22_4 function\ndef process_22_4():\n    # 2. Implement solution for Dataclasses\n    pass\n",
+      "solution_code": "print('Dataclasses')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dataclasses"
+        }
+      ]
+    },
+    {
+      "id": "22.4_q12",
+      "type": "output_prediction",
+      "concept": "dataclasses_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q11"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfrom dataclasses import dataclass, field\n\n@dataclass(order=True)\nclass Task:\n    priority: int = field(compare=False)\n    name: str = field(compare=False)\n\nt1 = Task(1, 'Write')\nt2 = Task(2, 'Review')\n\nprint(t1 < t2)\n```",
+      "options": [
+        "False, because priority is excluded from ordering comparisons",
+        "True, because priority values are compared even though compare=False",
+        "True, because name is compared lexicographically",
+        "False, because both fields are excluded from ordering and no comparison is possible"
+      ],
+      "correct_answer": "False, because priority is excluded from ordering comparisons",
+      "explanation": "With order=True, dataclasses generates comparison methods based on fields that participate in ordering. Since both priority and name have compare=False, no fields are available for ordering, so the generated __lt__ returns NotImplemented, which causes the comparison to evaluate as False in this context."
+    },
+    {
+      "id": "22.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "dataclasses_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.4_q12"
+      ],
+      "prompt": "Complete the dataclass definition by filling in the blank: @dataclass\nclass Person:\n    name: str = '___'\n    age: int = 0",
+      "correct_answer": "Person",
+      "accepted_answers": [
+        "Person"
+      ],
+      "explanation": "The @dataclass decorator automatically generates special methods like __init__ and __repr__. The class name is used as the default value for the name parameter in this simplified example, though in practice the name field would be assigned when an instance is created. Remember that dataclasses require type annotations for fields."
+    },
+    {
+      "id": "22.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "dataclasses_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q13"
+      ],
+      "prompt": "Fill in the blank to make the dataclass immutable: @dataclass(frozen=___)\nclass Point:\n    x: float\n    y: float",
+      "correct_answer": "True",
+      "accepted_answers": [
+        "True",
+        "true"
+      ],
+      "explanation": "Setting frozen=True prevents instances of the dataclass from being modified after creation. This makes the object immutable, meaning attempts to change x or y after instantiation will raise a FrozenInstanceError. This is useful for hashable objects and thread-safe data structures."
+    },
+    {
+      "id": "22.4_q15",
+      "type": "code_ordering",
+      "concept": "dataclasses_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to create a valid dataclass with a post-initialization method:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct order is: first the decorator, then the class definition, then the field declarations with type annotations, and finally any methods defined with proper indentation. The __post_init__ method is called automatically after the __init__ generated by the dataclass decorator."
+    },
+    {
+      "id": "22.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "dataclasses_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q15"
+      ],
+      "prompt": "Fill in the blank to use a default factory for a mutable default: @dataclass\nclass Team:\n    members: list = ___",
+      "correct_answer": "field(default_factory=list)",
+      "accepted_answers": [
+        "field(default_factory=list)",
+        "field(default_factory=list)"
+      ],
+      "explanation": "Using a mutable object like a list as a default argument directly in the class definition is a common bug because the same list instance is shared across all instances. The field() function with default_factory=list creates a new list for each instance, ensuring data encapsulation and preventing unintended side effects."
+    },
+    {
+      "id": "22.4_q17",
+      "type": "code_ordering",
+      "concept": "dataclasses_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q16"
+      ],
+      "prompt": "Arrange the following lines to implement a comparison method that sorts employees by salary in descending order:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence starts with the decorator and class definition, followed by field declarations, and then the custom comparison method. The __lt__ method defines less-than comparison; returning self.salary > other.salary ensures that higher salaries are considered 'less than' for reverse sorting, or alternatively you could use total_ordering from functools for more complete comparison support."
+    },
+    {
+      "id": "22.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "dataclasses_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q17"
+      ],
+      "prompt": "Fill in the blank to use asdict for serialization: from dataclasses import asdict\nrecord = asdict(___)",
+      "correct_answer": "employee",
+      "accepted_answers": [
+        "employee"
+      ],
+      "explanation": "The asdict() function converts a dataclass instance into a regular dictionary with field names as keys and their values. This is a common idiom for serialization to JSON or for passing data to APIs that expect dictionary structures. It preserves the structure of the dataclass without requiring custom serialization methods."
+    },
+    {
+      "id": "22.4_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "dataclasses_errors",
+      "prerequisites": [
+        "22.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common Dataclass Definition Errors",
+        "content": "Dataclasses automate boilerplate methods like __init__ and __repr__, but they impose strict rules. A frequent mistake is forgetting to import dataclasses from the dataclasses module. Another common error is using mutable default arguments, which dataclasses do not guard against. For example, a default list like items: list = [] is evaluated once at class creation, causing shared state across instances. Always use None as the default and instantiate inside __post_init__. Additionally, dataclasses require type hints for fields; omitting them raises a TypeError. Review the code below, identify all issues, and explain why each breaks dataclass behavior."
+      },
+      "prompt": "Inspect the following dataclass definition. Identify every syntax or semantic error that prevents it from functioning correctly.",
+      "starter_code": "from dataclasses import dataclass\n\n@dataclass\nclass Inventory:\n    name: str\n    items: list = []\n    \n    def __post_init__(self):\n        self.items.append('default')",
+      "solution_code": "from dataclasses import dataclass\nfrom typing import List\n\n@dataclass\nclass Inventory:\n    name: str\n    items: List[str] = None\n    \n    def __post_init__(self):\n        if self.items is None:\n            self.items = []\n        self.items.append('default')",
+      "hint": "Check the import statement, the default value for items, and whether __post_init__ handles the default safely.",
+      "explanation": "The original code fails because it does not import dataclass correctly (missing 'dataclass' from the module name), uses a mutable default list which is shared across all instances, and appends to that shared list in __post_init__. The corrected version imports dataclass properly, uses None as the sentinel default, and initializes a new list inside __post_init__.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "22.4_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "easy",
+      "concept": "dataclasses_fix",
+      "prerequisites": [
+        "22.4_q19"
+      ],
+      "prompt": "The code below attempts to create a dataclass with a field that should not appear in __repr__. Fix the code so the dataclass is valid and the field is excluded from the string representation.",
+      "starter_code": "from dataclasses import dataclass, field\n\n@dataclass\nclass Config:\n    host: str\n    port: int = 8080\n    secret: str = field(repr=False)\n\ncfg = Config('localhost', secret='abc')",
+      "solution_code": "from dataclasses import dataclass, field\n\n@dataclass\nclass Config:\n    host: str\n    port: int = 8080\n    secret: str = field(repr=False)\n\ncfg = Config('localhost', secret='abc')\nprint(cfg)",
+      "hint": "Ensure the field decorator is used correctly and that the instance creation passes arguments in the right order.",
+      "explanation": "The starter code is actually valid Python, but the fix ensures that the dataclass is fully functional and demonstrates usage. The field(repr=False) correctly hides secret from __repr__. The corrected snippet confirms the class instantiates without error and produces a representation that omits secret.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "22.4_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "dataclasses_edge_cases",
+      "prerequisites": [
+        "22.4_q20"
+      ],
+      "prompt": "This dataclass uses a frozen instance but tries to modify a field after creation. Correct the code so the class remains immutable and the logic still produces the expected result.",
+      "starter_code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Point:\n    x: int\n    y: int\n    \n    def move(self, dx, dy):\n        self.x += dx\n        self.y += dy\n\np = Point(1, 2)\np.move(3, 4)\nprint(p)",
+      "solution_code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Point:\n    x: int\n    y: int\n    \n    def move(self, dx, dy):\n        return Point(self.x + dx, self.y + dy)\n\np = Point(1, 2)\np2 = p.move(3, 4)\nprint(p2)",
+      "hint": "Frozen dataclasses cannot assign to attributes. Instead of mutating self, return a new Point instance with updated coordinates.",
+      "explanation": "Because frozen=True prevents attribute assignment, self.x += dx raises an FrozenInstanceError. The corrected implementation returns a new Point object with the updated x and y values, preserving immutability while achieving the intended movement semantics.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "22.4_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "dataclasses_runtime",
+      "prerequisites": [
+        "22.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Behavior and Inheritance Pitfalls in Dataclasses",
+        "content": "Dataclasses generate methods at class creation time. When a dataclass inherits from another dataclass, the child class may inadvertently inherit generated methods that expect different field layouts, leading to runtime errors. Another runtime issue occurs when __slots__ is used alongside dataclasses; combining them can cause AttributeError because dataclasses manage __dict__ by default. Always verify that inherited dataclasses define compatible fields and that __slots__ is not enabled unless you explicitly set slots=True and handle __dict__ carefully. The code below crashes at runtime; diagnose why."
+      },
+      "prompt": "Analyze the runtime error in this snippet. Explain what causes the failure when an instance is created.",
+      "starter_code": "from dataclasses import dataclass\n\n@dataclass\nclass Base:\n    value: int\n\n@dataclass\nclass Derived(Base):\n    extra: str = 'x'\n\nobj = Derived(value=10, extra='y')\nprint(obj.value)",
+      "solution_code": "from dataclasses import dataclass\n\n@dataclass\nclass Base:\n    value: int\n\n@dataclass\nclass Derived(Base):\n    extra: str = 'x'\n\nobj = Derived(value=10, extra='y')\nprint(obj.value)",
+      "hint": "Consider whether the parent class is a dataclass and whether the child redefines fields in a way that conflicts with generated methods.",
+      "explanation": "This specific snippet actually works because both classes are dataclasses and the child properly extends the parent. However, a common runtime pitfall is when a non-dataclass parent is mixed in, causing __init__ generation to fail. The key lesson is that dataclass inheritance requires both parent and child to be decorated with @dataclass, and field order must remain consistent to avoid TypeError during instantiation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "22.4_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "dataclasses_logic_repair",
+      "prerequisites": [
+        "22.4_q22"
+      ],
+      "prompt": "The dataclass below is intended to compare two Book objects by title and then by year. However, the comparison logic is broken. Repair the code so that equality and ordering work as specified.",
+      "starter_code": "from dataclasses import dataclass, field\n\n@dataclass\nclass Book:\n    title: str\n    year: int\n    \n    def __eq__(self, other):\n        return self.title == other.title and self.year == other.year\n    \n    def __lt__(self, other):\n        if self.title == other.title:\n            return self.year < other.year\n        return self.title < other.title",
+      "solution_code": "from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    year: int\n    \n    def __eq__(self, other):\n        if not isinstance(other, Book):\n            return NotImplemented\n        return self.title == other.title and self.year == other.year\n    \n    def __lt__(self, other):\n        if not isinstance(other, Book):\n            return NotImplemented\n        if self.title == other.title:\n            return self.year < other.year\n        return self.title < other.title",
+      "hint": "Add type checking in comparison methods and ensure NotImplemented is returned for unsupported operand types.",
+      "explanation": "The original __eq__ and __lt__ lack isinstance checks, which can cause AttributeError if compared to non-Book objects. The repaired version validates the operand type and returns NotImplemented, allowing Python to fall back to the reflected operation or raise a clear TypeError. This ensures robust comparison semantics for the Book dataclass.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "22.4_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "diff": "hard",
+      "concept": "dataclasses_optimization",
+      "prerequisites": [
+        "22.4_q23"
+      ],
+      "prompt": "Refactor the following verbose class into an optimized dataclass that reduces memory overhead and improves instantiation speed. The class represents a node in a tree structure and is instantiated millions of times.",
+      "starter_code": "class TreeNode:\n    def __init__(self, value, children=None):\n        self.value = value\n        if children is None:\n            self.children = []\n        else:\n            self.children = list(children)\n    \n    def add_child(self, node):\n        self.children.append(node)\n    \n    def __repr__(self):\n        return f'TreeNode({self.value!r}, {self.children!r})'",
+      "solution_code": "from dataclasses import dataclass, field\n\n@dataclass(slots=True)\nclass TreeNode:\n    value: int\n    children: list = field(default_factory=list)\n    \n    def add_child(self, node):\n        self.children.append(node)\n\n    def __repr__(self):\n        return f'TreeNode({self.value!r}, {self.children!r})'",
+      "test_cases": [
+        {
+          "input": "node = TreeNode(1)\nassert node.children",
+          "expected_output": "[]\nchild = TreeNode(2)\nnode.add_child(child)\nassert len(node.children) == 1",
+          "description": "Verifies: node = TreeNode(1)\nassert node.children == []\nchild = TreeNode(2)\nnode.add_child(child)\nassert len(node.children) == 1"
+        },
+        {
+          "input": "root = TreeNode(10, [TreeNode(20), TreeNode(30)])\nassert root.value",
+          "expected_output": "10\nassert len(root.children) == 2",
+          "description": "Verifies: root = TreeNode(10, [TreeNode(20), TreeNode(30)])\nassert root.value == 10\nassert len(root.children) == 2"
+        }
+      ],
+      "hint": "Use @dataclass with slots=True, replace the mutable default with default_factory, and preserve the add_child method.",
+      "explanation": "The refactored version uses slots=True to eliminate __dict__ overhead, which significantly reduces memory per instance and speeds up attribute access. default_factory=list safely creates a new list per instance instead of sharing one. The logic of add_child remains unchanged, and the repr is preserved for debugging. This optimization is critical when creating millions of nodes.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "22.4_q25",
+      "type": "write_the_code",
+      "concept": "dataclasses_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q24"
+      ],
+      "prompt": "Create a dataclass named Employee that stores first_name, last_name, and salary. Use appropriate type hints and ensure the class is properly initialized.",
+      "starter_code": "from dataclasses import dataclass\n\n@dataclass\nclass Employee:\n    pass",
+      "solution_code": "from dataclasses import dataclass\n\n@dataclass\nclass Employee:\n    first_name: str\n    last_name: str\n    salary: float",
+      "test_cases": [
+        {
+          "input": "emp = Employee('Alice', 'Smith', 75000.0)\nassert emp.first_name",
+          "expected_output": "'Alice'\nassert emp.salary == 75000.0",
+          "description": "Verifies: emp = Employee('Alice', 'Smith', 75000.0)\nassert emp.first_name == 'Alice'\nassert emp.salary == 75000.0"
+        },
+        {
+          "input": "emp2 = Employee('Bob', 'Jones', 82000.50)\nassert emp2.last_name",
+          "expected_output": "'Jones'",
+          "description": "Verifies: emp2 = Employee('Bob', 'Jones', 82000.50)\nassert emp2.last_name == 'Jones'"
+        }
+      ],
+      "hint": "Remember to import dataclass and define fields with type annotations inside the class body.",
+      "explanation": "A dataclass automatically generates __init__, __repr__, and __eq__ methods based on the annotated fields. Type hints improve readability and enable static analysis tools."
+    },
+    {
+      "id": "22.4_q26",
+      "type": "write_the_code",
+      "concept": "dataclasses_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.4_q25"
+      ],
+      "prompt": "Extend the Employee dataclass to include a full_name property that concatenates first_name and last_name. Set a default salary of 0.0 and use post_init to log a creation message.",
+      "starter_code": "from dataclasses import dataclass, field\n\n@dataclass\nclass Employee:\n    first_name: str\n    last_name: str\n    salary: float = 0.0\n\n    def __post_init__(self):\n        print('Employee created')",
+      "solution_code": "from dataclasses import dataclass\n\n@dataclass\nclass Employee:\n    first_name: str\n    last_name: str\n    salary: float = 0.0\n\n    def __post_init__(self):\n        print('Employee created: ' + self.full_name)\n\n    @property\n    def full_name(self):\n        return self.first_name + ' ' + self.last_name",
+      "test_cases": [
+        {
+          "input": "e = Employee('Carol', 'White')\nassert e.full_name",
+          "expected_output": "'Carol White'\nassert e.salary == 0.0",
+          "description": "Verifies: e = Employee('Carol', 'White')\nassert e.full_name == 'Carol White'\nassert e.salary == 0.0"
+        },
+        {
+          "input": "e2 = Employee('Dave', 'Green', 60000)\nassert e2.full_name",
+          "expected_output": "'Dave Green'",
+          "description": "Verifies: e2 = Employee('Dave', 'Green', 60000)\nassert e2.full_name == 'Dave Green'"
+        }
+      ],
+      "hint": "Use @property to define computed attributes and default arguments for optional fields.",
+      "explanation": "Default values reduce boilerplate when creating instances. __post_init__ runs after initialization, making it ideal for derived computations or side effects."
+    },
+    {
+      "id": "22.4_q27",
+      "type": "write_the_code",
+      "concept": "dataclasses_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.4_q26"
+      ],
+      "prompt": "Design an immutable, memory-efficient dataclass named Config that uses slots, frozen=True, and keyword-only fields for host, port, and debug_mode.",
+      "starter_code": "from dataclasses import dataclass, field\n\n@dataclass\nclass Config:\n    pass",
+      "solution_code": "from dataclasses import dataclass, field\n\n@dataclass(frozen=True, slots=True)\nclass Config:\n    host: str\n    port: int\n    debug_mode: bool = field(kw_only=True)",
+      "test_cases": [
+        {
+          "input": "c = Config(host='localhost', port=8080)\nassert c.host",
+          "expected_output": "'localhost'\nassert c.debug_mode is False",
+          "description": "Verifies: c = Config(host='localhost', port=8080)\nassert c.host == 'localhost'\nassert c.debug_mode is False"
+        },
+        {
+          "input": "",
+          "expected_output": "try:\n    c.port = 9000\nexcept Exception as e:\n    assert isinstance(e, Exception)",
+          "description": "try:\n    c.port = 9000\nexcept Exception as e:\n    assert isinstance(e, Exception)"
+        }
+      ],
+      "hint": "Apply frozen=True to prevent mutation and slots=True to restrict __dict__ usage for memory savings.",
+      "explanation": "Frozen dataclasses enforce immutability by raising FrozenInstanceError on attribute reassignment. Slots eliminate per-instance __dict__ overhead, which is valuable in large-scale applications."
+    },
+    {
+      "id": "22.4_q28",
+      "type": "write_the_code",
+      "concept": "dataclasses_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.4_q27"
+      ],
+      "prompt": "Given a dataclass User with name and age, write code to create a new User instance with age incremented by 1 using replace, then convert it to a dictionary with renamed keys 'user_name' and 'user_age'.",
+      "starter_code": "from dataclasses import dataclass, asdict, replace\n\n@dataclass\nclass User:\n    name: str\n    age: int\n\nu = User('Eve', 30)\nnew_user = replace(u, age=u.age + 1)\nresult = asdict(new_user)\nprint(result)",
+      "solution_code": "from dataclasses import dataclass, asdict, replace\n\n@dataclass\nclass User:\n    name: str\n    age: int\n\nu = User('Eve', 30)\nnew_user = replace(u, age=u.age + 1)\nresult = asdict(new_user)\nrenamed = {'user_name': result['name'], 'user_age': result['age']}\nprint(renamed)",
+      "test_cases": [
+        {
+          "input": "assert renamed['user_name']",
+          "expected_output": "'Eve'\nassert renamed['user_age'] == 31",
+          "description": "Verifies: assert renamed['user_name'] == 'Eve'\nassert renamed['user_age'] == 31"
+        },
+        {
+          "input": "u2 = User('Frank', 45)\nnew_u2 = replace(u2, age=u2.age + 1)\nassert asdict(new_u2)['age']",
+          "expected_output": "46",
+          "description": "Verifies: u2 = User('Frank', 45)\nnew_u2 = replace(u2, age=u2.age + 1)\nassert asdict(new_u2)['age'] == 46"
+        }
+      ],
+      "hint": "Use replace for shallow copies with modified fields and asdict to serialize the dataclass before renaming keys.",
+      "explanation": "replace returns a new instance without mutating the original, preserving functional purity. asdict produces a plain dictionary, enabling easy transformation for APIs or JSON serialization."
+    },
+    {
+      "id": "22.4_q29",
+      "type": "write_the_code",
+      "concept": "dataclasses_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.4_q28"
+      ],
+      "prompt": "Model a hospital system using dataclasses. Create a base Patient class with id and name, then subclass InPatient and OutPatient. InPatient should store room_number and assigned_nurse; OutPatient should store appointment_time. Ensure post_init validates that room_number is positive for InPatient.",
+      "starter_code": "from dataclasses import dataclass, field\nfrom datetime import datetime\n\n@dataclass\nclass Patient:\n    id: int\n    name: str\n\n@dataclass\nclass InPatient(Patient):\n    room_number: int\n\n@dataclass\nclass OutPatient(Patient):\n    appointment_time: datetime\n\n# Validation logic required",
+      "solution_code": "from dataclasses import dataclass, field\nfrom datetime import datetime\n\n@dataclass\nclass Patient:\n    id: int\n    name: str\n\n@dataclass\nclass InPatient(Patient):\n    room_number: int\n\n    def __post_init__(self):\n        if self.room_number <= 0:\n            raise ValueError('room_number must be positive')\n\n@dataclass\nclass OutPatient(Patient):\n    appointment_time: datetime",
+      "test_cases": [
+        {
+          "input": "ip = InPatient(id=1, name='Grace', room_number=101)\nassert ip.room_number",
+          "expected_output": "101\n\nip_bad = InPatient(id=2, name='Hank', room_number=-5)\nassert False in [True for _ in [ip_bad]]",
+          "description": "Verifies: ip = InPatient(id=1, name='Grace', room_number=101)\nassert ip.room_number == 101\n\nip_bad = InPatient(id=2, name='Hank', room_number=-5)\nassert False in [True for _ in [ip_bad]]"
+        },
+        {
+          "input": "",
+          "expected_output": "op = OutPatient(id=3, name='Ivy', appointment_time=datetime.now())\nassert isinstance(op.appointment_time, datetime)",
+          "description": "op = OutPatient(id=3, name='Ivy', appointment_time=datetime.now())\nassert isinstance(op.appointment_time, datetime)"
+        }
+      ],
+      "hint": "Override __post_init__ in the subclass to add validation specific to inpatient records.",
+      "explanation": "Inheriting from a dataclass preserves automatic method generation in subclasses. Post-initialization hooks allow domain-specific validation without breaking the dataclass contract."
+    },
+    {
+      "id": "22.4_q30",
+      "type": "write_the_code",
+      "concept": "dataclasses_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.4_q29"
+      ],
+      "prompt": "Implement a Task dataclass with title, due_date, and tags. Use a default_factory for tags, exclude tags from equality checks, and add metadata indicating each tag's priority level. Write a test that verifies two tasks with different tags are still equal when compared by title and due_date only.",
+      "starter_code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass Task:\n    title: str\n    due_date: str\n    tags: List[str] = field(default_factory=list)\n\n    def __eq__(self, other):\n        pass",
+      "solution_code": "from dataclasses import dataclass, field\nfrom typing import List\n\n@dataclass\nclass Task:\n    title: str\n    due_date: str\n    tags: List[str] = field(default_factory=list, metadata={'priority': 'low'})\n\n    def __eq__(self, other):\n        if not isinstance(other, Task):\n            return NotImplemented\n        return self.title == other.title and self.due_date == other.due_date",
+      "test_cases": [
+        {
+          "input": "t1 = Task(title='Study', due_date='2024-01-01', tags=['urgent'])\nt2 = Task(title='Study', due_date='2024-01-01', tags=['review'])\nassert t1",
+          "expected_output": "t2\nassert t1.tags == ['urgent']\nassert t2.tags == ['review']",
+          "description": "Verifies: t1 = Task(title='Study', due_date='2024-01-01', tags=['urgent'])\nt2 = Task(title='Study', due_date='2024-01-01', tags=['review'])\nassert t1 == t2\nassert t1.tags == ['urgent']\nassert t2.tags == ['review']"
+        },
+        {
+          "input": "t3 = Task(title='Rest', due_date='2024-01-02')\nassert t3.tags",
+          "expected_output": "[]",
+          "description": "Verifies: t3 = Task(title='Rest', due_date='2024-01-02')\nassert t3.tags == []"
+        }
+      ],
+      "hint": "Override __eq__ to compare only the specified fields and use metadata to annotate field properties without affecting behavior.",
+      "explanation": "Customizing equality lets you define domain-specific identity semantics. metadata enriches schema information for serializers or documentation generators while remaining invisible to core dataclass operations."
+    }
+  ],
+  "unit_num": 22,
+  "learning_objectives": [
+    "Design and instantiate Python classes demonstrating Dataclasses",
+    "Manage instance state using the __init__ constructor and self",
+    "Implement object-oriented principles including encapsulation and inheritance",
+    "Structure modular programs using classes and composition"
+  ],
+  "prerequisites": [
+    "22.3"
+  ]
+}

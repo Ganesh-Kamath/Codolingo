@@ -1,0 +1,628 @@
+{
+  "lesson_id": "6.7",
+  "title": "Nested Loops",
+  "unit": "Loops and Repetition",
+  "items": [
+    {
+      "id": "6.7_q1",
+      "type": "micro_lesson",
+      "concept": "nested_loops_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Nested Loops and Execution Ordering",
+      "content": "A nested loop is a loop inside another loop. For EVERY single iteration of the outer loop, the inner loop executes completely from start to finish:\n\n```python\nfor i in range(2):\n    for j in range(3):\n        print(f\"i={i}, j={j}\")\n```\n\nTotal iterations equal the product of both loops: `2 * 3 = 6` total steps.",
+      "explanation": "Inner loops run to completion for every single step of their enclosing outer loop.",
+      "metadata": {
+        "concept": "nested_loop_execution_order",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches nested loop step order"
+      }
+    },
+    {
+      "id": "6.7_q2",
+      "type": "output_prediction",
+      "concept": "nested_loops_basics",
+      "skill": "mental_model",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.7_q1"
+      ],
+      "prompt": "Predict the output of the following nested loop:\n\n```python\nfor row in range(2):\n    for col in range(3):\n        print(f\"({row},{col})\", end=\" \")\n    print()\n```",
+      "options": [
+        "(0,0) (0,1) (0,2) \n(1,0) (1,1) (1,2) ",
+        "(0,0) (1,0) \n(0,1) (1,1) \n(0,2) (1,2) ",
+        "(0,0) (0,1) (1,0) (1,1)",
+        "(2,3)"
+      ],
+      "correct_answer": "(0,0) (0,1) (0,2) \n(1,0) (1,1) (1,2) ",
+      "explanation": "For each iteration of the outer loop (`row = 0`, then `row = 1`), the inner loop runs completely through `col = 0, 1, 2`. This generates a 2D coordinate grid.",
+      "metadata": {
+        "concept": "nested_loop_execution_order",
+        "skill": "tracing",
+        "learning_objective": "Trace nested loop row-column execution ordering",
+        "common_misconception": "Thinking outer and inner loops step in lockstep",
+        "why_this_exercise_exists": "Replaces synthetic template function with coordinate grid iteration"
+      }
+    },
+    {
+      "id": "6.7_q3",
+      "type": "micro_lesson",
+      "concept": "nested_loops_grid_traversal",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.7_q2"
+      ],
+      "title": "Traversing 2D Grids and Matrices",
+      "content": "Nested loops are the standard tool for processing two-dimensional data (like spreadsheets, images, or game boards):\n\n```python\ngrid = [\n    [1, 2, 3],\n    [4, 5, 6]\n]\n\nfor row in grid:\n    for val in row:\n        print(val, end=\" \")\n    print()\n```",
+      "explanation": "Outer loops iterate over rows while inner loops iterate through column elements in 2D structures.",
+      "metadata": {
+        "concept": "2d_grid_processing",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches matrix iteration"
+      }
+    },
+    {
+      "id": "6.7_q4",
+      "type": "code_prediction",
+      "concept": "nested_loops_basics",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q3"
+      ],
+      "prompt": "How many times does the `count += 1` statement execute in this block?\n\n```python\ncount = 0\nfor i in range(4):\n    for j in range(3):\n        count += 1\nprint(count)\n```",
+      "options": [
+        "12",
+        "7",
+        "4",
+        "3"
+      ],
+      "correct_answer": "12",
+      "explanation": "The outer loop runs 4 times. For each outer iteration, the inner loop runs 3 times. Total executions = 4 * 3 = 12.",
+      "metadata": {
+        "concept": "nested_iteration_multiplication",
+        "skill": "complexity_awareness",
+        "learning_objective": "Calculate total iterations of nested independent loops",
+        "common_misconception": "Adding loop iterations (4 + 3) instead of multiplying",
+        "why_this_exercise_exists": "Replaces template function with iteration counting essential for Big-O analysis"
+      }
+    },
+    {
+      "id": "6.7_q5",
+      "type": "output_prediction",
+      "concept": "nested_loops_basics",
+      "skill": "matrix_processing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q4"
+      ],
+      "prompt": "Trace this 2D matrix sum:\n\n```python\nmatrix = [\n    [1, 2],\n    [3, 4]\n]\ntotal = 0\nfor row in matrix:\n    for val in row:\n        total += val\nprint(total)\n```",
+      "options": [
+        "10",
+        "7",
+        "4",
+        "14"
+      ],
+      "correct_answer": "10",
+      "explanation": "The outer loop iterates over each row (`[1, 2]`, then `[3, 4]`). The inner loop extracts each number. 1 + 2 + 3 + 4 = 10.",
+      "metadata": {
+        "concept": "matrix_nested_iteration",
+        "skill": "data_structures",
+        "learning_objective": "Iterate through 2D nested lists to aggregate values",
+        "common_misconception": "Summing whole sublists directly without inner iteration",
+        "why_this_exercise_exists": "Replaces template function with realistic 2D data processing"
+      }
+    },
+    {
+      "id": "6.7_q6",
+      "type": "fix_the_code",
+      "concept": "nested_loops_basics",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q5"
+      ],
+      "prompt": "Fix the following code so that it prints a right triangle pattern of asterisks with heights 1 through 3:\n\n```python\n# Desired output:\n# *\n# **\n# ***\nfor i in range(1, 4):\n    # Fix line below so it prints i asterisks:\n    for j in range(1):\n        print(\"*\" * i)\n        break\n```",
+      "starter_code": "for i in range(1, 4):\n    for j in range(1):\n        print(\"*\" * i)\n        break",
+      "solution_code": "for i in range(1, 4):\n    row = \"\"\n    for j in range(i):\n        row += \"*\"\n    print(row)",
+      "explanation": "Inner loop `range(i)` runs `i` times for each row `i` (1, then 2, then 3), accumulating `*` into `row` before printing.",
+      "metadata": {
+        "concept": "dependent_nested_loops",
+        "skill": "pattern_generation",
+        "learning_objective": "Implement nested loops where the inner range depends on the outer loop variable",
+        "common_misconception": "Using fixed ranges for inner loops when triangle shapes require variable bounds",
+        "why_this_exercise_exists": "Replaces template function with dependent loop iteration"
+      }
+    },
+    {
+      "id": "6.7_q7",
+      "type": "code_prediction",
+      "concept": "nested_loop_multiplication",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q6"
+      ],
+      "prompt": "How many total lines will be printed by this nested loop?\n```python\nfor i in range(3):\n    for j in range(2):\n        print(f'{i}:{j}')\n```",
+      "options": [
+        "6 lines",
+        "5 lines",
+        "3 lines",
+        "2 lines"
+      ],
+      "correct_answer": "6 lines",
+      "explanation": "The outer loop runs 3 times. For each outer iteration, the inner loop runs 2 times. Total iterations = 3 * 2 = 6."
+    },
+    {
+      "id": "6.7_q8",
+      "type": "multiple_choice",
+      "concept": "nested_loop_break_scope",
+      "skill": "reasoning",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.7_q7"
+      ],
+      "prompt": "If a `break` statement executes inside the innermost of two nested loops, what happens?",
+      "options": [
+        "Only the innermost loop terminates; the outer loop continues its next iteration",
+        "Both loops terminate immediately",
+        "The outer loop resets to index 0",
+        "A LoopBreakException is raised"
+      ],
+      "correct_answer": "Only the innermost loop terminates; the outer loop continues its next iteration",
+      "explanation": "In Python, `break` only exits the immediately enclosing loop construct. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "6.7_q9",
+      "type": "fix_the_code",
+      "concept": "nested_loop_counter_reset",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q8"
+      ],
+      "prompt": "Fix this code so `inner_count` is reset to 0 at the start of every outer iteration:",
+      "correct_answer": "45",
+      "explanation": "Variables scoped to an inner loop must be reinitialized inside the outer loop body, otherwise they retain their previous state.",
+      "starter_code": "inner_count = 0\nfor outer in range(3):\n    while inner_count < 2:\n        print(outer, inner_count)\n        inner_count += 1",
+      "solution_code": "for outer in range(3):\n    inner_count = 0\n    while inner_count < 2:\n        print(outer, inner_count)\n        inner_count += 1"
+    },
+    {
+      "id": "6.7_q10",
+      "type": "write_the_code",
+      "concept": "nested_loops_basics",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q9"
+      ],
+      "prompt": "Write a nested loop to flatten a 2D list `grid = [[10, 20], [30, 40]]` into a 1D list called `flat` containing `[10, 20, 30, 40]`.",
+      "starter_code": "grid = [[10, 20], [30, 40]]\nflat = []\n# Iterate and append elements to flat\n",
+      "solution_code": "grid = [[10, 20], [30, 40]]\nflat = []\nfor sublist in grid:\n    for item in sublist:\n        flat.append(item)\nprint(flat)",
+      "explanation": "Iterating over each sublist and then over each element inside it appends items one by one into the flat 1D list.",
+      "metadata": {
+        "concept": "matrix_flattening",
+        "skill": "data_manipulation",
+        "learning_objective": "Flatten multi-dimensional lists into 1D sequences using nested loops",
+        "common_misconception": "Appending sublists directly resulting in nested structures",
+        "why_this_exercise_exists": "Replaces template function with an essential data transformation routine"
+      }
+    },
+    {
+      "id": "6.7_q11",
+      "type": "code_prediction",
+      "concept": "matrix_flattening_order",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q10"
+      ],
+      "prompt": "What does this code output?\n```python\ngrid = [[1, 2], [3, 4]]\nfor row in grid:\n    for val in row:\n        print(val, end=' ')\n```",
+      "options": [
+        "1 2 3 4 ",
+        "1 3 2 4 ",
+        "4 3 2 1 ",
+        "[[1, 2], [3, 4]]"
+      ],
+      "correct_answer": "1 2 3 4 ",
+      "explanation": "Row-major traversal processes row [1, 2] first, then row [3, 4], printing '1 2 3 4 '."
+    },
+    {
+      "id": "6.7_q12",
+      "type": "write_the_code",
+      "concept": "coordinate_pairs",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q11"
+      ],
+      "prompt": "Write a nested list comprehension to generate all pairs `(x, y)` for `x in range(2)` and `y in range(2)`:",
+      "correct_answer": "60",
+      "explanation": "In list comprehensions, multiple `for` clauses evaluate left-to-right from outer to inner.",
+      "starter_code": "# Generate pairs [(0, 0), (0, 1), (1, 0), (1, 1)]\npairs = ___",
+      "solution_code": "pairs = [(x, y) for x in range(2) for y in range(2)]"
+    },
+    {
+      "id": "6.7_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "nested_loops_syntax",
+      "micro_lesson": {
+        "title": "Introduction to Nested Loops Syntax",
+        "content": "A nested loop is a loop placed inside another loop. The inner loop completes all its iterations for each single iteration of the outer loop. This structure is useful when you need to perform repetitive tasks multiple times within multiple iterations. The basic syntax uses indentation to show which loop belongs to which. For example:\n\n```python\nfor i in range(2):\n    for j in range(3):\n        print(i, j)\n```\n\nIn this example, the outer loop runs 2 times, and for each outer iteration, the inner loop runs 3 times, producing 6 total print statements."
+      },
+      "prompt": "Complete the code by filling in the blank: to create a nested loop where the outer loop runs 3 times and the inner loop runs 2 times, use `for i in range(____):` followed by `for j in range(____):`.",
+      "correct_answer": "3, 2",
+      "accepted_answers": [
+        "3, 2",
+        "3 and 2",
+        "3 and 2"
+      ],
+      "explanation": "The outer loop must iterate 3 times, so range(3) is used. The inner loop must iterate 2 times for each outer iteration, so range(2) is used. These values control how many times each loop executes.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.7_q12"
+      ]
+    },
+    {
+      "id": "6.7_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "nested_loops_keywords",
+      "micro_lesson": {
+        "title": "Keywords Used in Nested Loops",
+        "content": "When working with nested loops, you will frequently use the `for` and `in` keywords to create iterators, and the `range()` function to define the number of iterations. Additionally, `print()` is commonly used inside the inner loop to display results. Understanding how these keywords interact is essential for writing correct nested loop structures. Remember that indentation defines which block of code belongs to the inner loop versus the outer loop.\n\n```python\nfor row in range(4):\n    for col in range(2):\n        print('row', row, 'col', col)\n```\n\nThe `for` keyword introduces each loop, `in` connects the variable to the iterable, and `range()` supplies the sequence of numbers."
+      },
+      "prompt": "Fill in the blank: In a nested loop, the keyword `____` introduces the loop, and `____` connects the loop variable to the sequence.",
+      "correct_answer": "for, in",
+      "accepted_answers": [
+        "for, in",
+        "for and in",
+        "for; in"
+      ],
+      "explanation": "The `for` keyword starts the loop declaration, and `in` specifies which iterable the loop variable will take values from. These two keywords are required together in Python loop syntax.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q13"
+      ]
+    },
+    {
+      "id": "6.7_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "nested_loops_sequence",
+      "micro_lesson": {
+        "title": "Correct Sequence for Nested Loops",
+        "content": "When sequencing nested loops, the outer loop must be defined first, followed by the inner loop indented beneath it. The statements that depend on both loop variables must be placed inside the inner loop so they execute for every combination of the outer and inner variables. Incorrect ordering leads to syntax errors or unexpected output. Here is the correct pattern:\n\n```python\nfor x in range(2):\n    for y in range(3):\n        print(x, y)\n```\n\nNotice that `print(x, y)` is indented to the same level as the inner loop body, ensuring it runs after both loop variables are assigned in each iteration."
+      },
+      "prompt": "Arrange the following lines of code into the correct order to form a valid nested loop that prints pairs of numbers.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The outer loop must be declared first, then the inner loop indented beneath it, and finally the print statement indented inside the inner loop. Only option 3 follows this required structure and will execute without indentation errors.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q14"
+      ]
+    },
+    {
+      "id": "6.7_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "nested_loops_patterns",
+      "micro_lesson": {
+        "title": "Common Patterns in Nested Loops",
+        "content": "A common pattern with nested loops is generating a rectangular grid of output. To print a 4 by 3 grid, you nest a loop that runs 4 times as the outer loop and a loop that runs 3 times as the inner loop. Another useful pattern is using nested loops to build multiplication tables or coordinate pairs. Always ensure the inner loop is fully contained within the outer loop by proper indentation.\n\n```python\nfor r in range(4):\n    for c in range(3):\n        print(r, c)\n```\n\nThis produces 12 lines of output, representing every combination of row and column indices."
+      },
+      "prompt": "Fill in the blank: To print a grid with 5 rows and 4 columns using nested loops, the outer loop should use `range(____)` and the inner loop should use `range(____)`.",
+      "correct_answer": "5, 4",
+      "accepted_answers": [
+        "5, 4",
+        "5 and 4",
+        "5 and 4"
+      ],
+      "explanation": "The outer loop controls the rows, so it needs 5 iterations, meaning range(5). The inner loop controls the columns, so it needs 4 iterations, meaning range(4). This creates the desired 5 by 4 grid.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q15"
+      ]
+    },
+    {
+      "id": "6.7_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "nested_loops_algorithm",
+      "micro_lesson": {
+        "title": "Algorithm for a Nested Loop Task",
+        "content": "When designing an algorithm with nested loops, identify the outer task first and the inner task second. For example, if you need to visit every cell in a 2 by 3 matrix, the outer loop selects the row index and the inner loop selects the column index. The action inside the inner loop operates on the current row and column. A correct algorithm sequence is:\n\n```python\nfor row in range(2):\n    for col in range(3):\n        print(f'Visiting {row}, {col}')\n```\n\nThis ensures every cell is visited exactly once in row-major order."
+      },
+      "prompt": "Arrange the following algorithm steps into the correct order for visiting every position in a 2 by 3 grid.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The outer loop must iterate over rows first, then the inner loop over columns, with the print statement inside the inner loop. Option 1 is the only sequence that is syntactically valid and logically correct for visiting every grid cell.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q16"
+      ]
+    },
+    {
+      "id": "6.7_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "nested_loops_idioms",
+      "micro_lesson": {
+        "title": "Idiomatic Uses of Nested Loops",
+        "content": "An idiomatic use of nested loops is to generate combinations or Cartesian products of two sequences. A common pattern is pairing each element of one list with each element of another list. You can also use nested loops to simulate two-dimensional structures like matrices. Keep the inner loop focused on the fine-grained iteration while the outer loop manages the broader grouping. Here is an idiomatic example:\n\n```python\ncolors = ['red', 'blue']\nfor c1 in colors:\n    for c2 in colors:\n        print(c1, c2)\n```\n\nThis prints every ordered pair of colors, demonstrating a Cartesian product implemented with nested loops."
+      },
+      "prompt": "Fill in the blank: A common idiom for nested loops is to compute the ____ of two sequences, such as pairing every element of one list with every element of another.",
+      "correct_answer": "Cartesian product",
+      "accepted_answers": [
+        "Cartesian product",
+        "cartesian product",
+        "Cartesian product of"
+      ],
+      "explanation": "The Cartesian product is the standard mathematical and programming term for the set of all possible ordered pairs formed from two sequences. Nested loops naturally implement this concept by iterating over both sequences completely.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q17"
+      ]
+    },
+    {
+      "id": "6.7_q19",
+      "type": "fix_the_code",
+      "concept": "nested_loops_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q18"
+      ],
+      "starter_code": "for i in range(3):\n    for j in range(2):\n        print(i, j)",
+      "solution_code": "for i in range(3):\n    for j in range(2):\n        print(i + j)",
+      "hint": "Check the indentation and the expression being printed inside the inner loop.",
+      "explanation": "The original code prints the loop variables i and j, which is valid but may not be the intended behavior. A common error is accidentally printing the wrong variables or missing proper indentation, causing a SyntaxError. Here, the logic is correct but the expected output requires summing i and j instead.",
+      "prompt": "Fix the bug in this code for nested loops errors:"
+    },
+    {
+      "id": "6.7_q20",
+      "type": "fix_the_code",
+      "concept": "nested_loops_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.7_q19"
+      ],
+      "prompt": "Fix the code so it prints all pairs of numbers from 0 to 2 and 0 to 1.",
+      "starter_code": "for i in range(3):\n    for j in range(2):\n        print(i, j)\nprint('done')",
+      "solution_code": "for i in range(3):\n    for j in range(2):\n        print(i, j)\nprint('done')",
+      "hint": "Ensure the inner loop is properly indented and the outer loop structure is intact.",
+      "explanation": "The starter code is already syntactically correct. The fix involves confirming that the indentation matches Python standards: the inner loop body must be indented one level more than the outer loop. No changes are needed to the logic, only to verify structure."
+    },
+    {
+      "id": "6.7_q21",
+      "type": "fix_the_code",
+      "concept": "nested_loops_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q20"
+      ],
+      "prompt": "Fix the code to handle the edge case where the inner range should not be empty.",
+      "starter_code": "def print_pairs(n, m):\n    for i in range(n):\n        for j in range(m):\n            print(i, j)\nprint_pairs(0, 5)",
+      "solution_code": "def print_pairs(n, m):\n    if m <= 0:\n        print('No inner iterations')\n        return\n    for i in range(n):\n        for j in range(m):\n            print(i, j)\nprint_pairs(0, 5)",
+      "hint": "Consider what happens when the inner range is empty and how to communicate that gracefully.",
+      "explanation": "When n is 0, the outer loop does not execute, which is fine. However, if m were 0 or negative, range(m) would be empty and the function would silently do nothing. Adding a guard clause prevents silent failures and makes the behavior explicit for edge cases."
+    },
+    {
+      "id": "6.7_q22",
+      "type": "fix_the_code",
+      "concept": "nested_loops_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q21"
+      ],
+      "prompt": "Identify and explain the runtime error in this nested loop.",
+      "starter_code": "for i in range(3):\n    for j in range(2):\n        print(matrix[i][j])\nmatrix = [[1, 2], [3, 4]]",
+      "solution_code": "for i in range(len(matrix)):\n    for j in range(len(matrix[i])):\n        print(matrix[i][j])\nmatrix = [[1, 2], [3, 4]]",
+      "hint": "Check the dimensions of matrix against the ranges used in the loops.",
+      "explanation": "The original code uses range(3) for the outer loop, but matrix only has 2 rows (indices 0 and 1). This causes an IndexError at runtime when i equals 2. The fix is to use len(matrix) for the outer loop and len(matrix[i]) for the inner loop to match actual dimensions."
+    },
+    {
+      "id": "6.7_q23",
+      "type": "fix_the_code",
+      "concept": "nested_loops_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q22"
+      ],
+      "prompt": "Repair the logic so the nested loops print only even sums of i and j.",
+      "starter_code": "for i in range(3):\n    for j in range(3):\n        if (i + j) % 2 == 0:\n            print(i + j)",
+      "solution_code": "for i in range(3):\n    for j in range(3):\n        total = i + j\n        if total % 2 == 0:\n            print(total)",
+      "hint": "The condition is correct, but ensure the value being printed is explicitly computed before the condition check.",
+      "explanation": "The starter code is functionally correct but can be improved by assigning total = i + j before the conditional. This makes the logic clearer, avoids recalculating the sum, and prepares the code for future modifications such as printing both i and j alongside the total."
+    },
+    {
+      "id": "6.7_q24",
+      "type": "fix_the_code",
+      "concept": "nested_loops_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.7_q23"
+      ],
+      "prompt": "Refactor the nested loops into a more efficient and Pythonic solution.",
+      "starter_code": "result = []\nfor i in range(5):\n    for j in range(5):\n        if i != j:\n            result.append(i * j)\nprint(result)",
+      "solution_code": "result = [i * j for i in range(5) for j in range(5) if i != j]\nprint(result)",
+      "hint": "Consider using a list comprehension to replace explicit nested loops and manual list building.",
+      "explanation": "The original code uses nested for loops with an if condition and append, which is O(n^2) in time and requires mutable state. The refactored version uses a single list comprehension with the same nested iteration and condition, reducing lines of code, improving readability, and avoiding repeated method calls to append."
+    },
+    {
+      "id": "6.7_q25",
+      "type": "write_the_code",
+      "concept": "nested_loops_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q24"
+      ],
+      "prompt": "Write a program that prints a 4x4 grid of asterisks (*) using nested for loops. The outer loop should control the rows and the inner loop should control the columns.",
+      "starter_code": "rows = 4\nfor i in range(rows):\n    # TODO: print 4 asterisks per row\n",
+      "solution_code": "rows = 4\nfor i in range(rows):\n    for j in range(4):\n        print('*', end='')\n    print()\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "* * * *\n* * * *\n* * * *\n* * * *\n"
+        }
+      ],
+      "hint": "Use a nested loop where the inner loop runs 4 times for each iteration of the outer loop. Remember to use end='' to keep asterisks on the same line and print() after each row to move to the next line.",
+      "explanation": "This item assesses the student's ability to implement a basic nested loop structure. The outer loop iterates over rows, and the inner loop prints the required number of asterisks for each column. Proper indentation and the use of end='' are critical to producing the correct grid output."
+    },
+    {
+      "id": "6.7_q26",
+      "type": "write_the_code",
+      "concept": "nested_loops_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.7_q25"
+      ],
+      "prompt": "Write a program that prints a multiplication table for numbers 1 through 5 using nested loops. Each row should display the product of the row number and column number, separated by a tab character.",
+      "starter_code": "for i in range(1, 6):\n    # TODO: print products for columns 1 to 5\n",
+      "solution_code": "for i in range(1, 6):\n    for j in range(1, 6):\n        print(i * j, end='\t')\n    print()\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "1\t2\t3\t4\t5\n2\t4\t6\t8\t10\n3\t6\t9\t12\t15\n4\t8\t12\t16\t20\n5\t10\t15\t20\t25\n"
+        }
+      ],
+      "hint": "The outer loop iterates through the row multiplier (1 to 5). The inner loop iterates through the column multiplier (1 to 5). Multiply i and j, then print with end='\\t' to align columns, and print() after each row.",
+      "explanation": "This practical application reinforces how nested loops can generate tabular data. Students must manage loop ranges starting from 1 instead of 0 and use tab separation for clean formatting, demonstrating real-world utility of nested iteration."
+    },
+    {
+      "id": "6.7_q27",
+      "type": "write_the_code",
+      "concept": "nested_loops_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.7_q26"
+      ],
+      "prompt": "Write a program that prints a hollow square of size N (where N is an integer >= 3) using nested loops. Only the border of the square should be printed with '#', and the interior should be blank spaces.",
+      "starter_code": "N = 5\nfor i in range(N):\n    for j in range(N):\n        # TODO: decide when to print '#' vs ' '\n",
+      "solution_code": "N = 5\nfor i in range(N):\n    for j in range(N):\n        if i == 0 or i == N - 1 or j == 0 or j == N - 1:\n            print('#', end='')\n        else:\n            print(' ', end='')\n    print()\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "#####\n#   #\n#   #\n#   #\n#####\n"
+        },
+        {
+          "input": "",
+          "expected_output": "###\n# #\n###\n"
+        }
+      ],
+      "hint": "A cell is on the border if its row index is 0 or N-1, or its column index is 0 or N-1. Use an if-else inside the inner loop to choose between '#' and a space. Remember to print() after each row.",
+      "explanation": "This advanced item requires students to combine nested loops with conditional logic to produce a pattern with selective output. It tests boundary condition reasoning and the ability to manage two-dimensional grid traversal."
+    },
+    {
+      "id": "6.7_q28",
+      "type": "write_the_code",
+      "concept": "nested_loops_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.7_q27"
+      ],
+      "prompt": "Given a list of lists representing a matrix, write code using nested loops to compute and return the sum of all even numbers in the matrix.",
+      "starter_code": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\ntotal = 0\nfor row in matrix:\n    for num in row:\n        # TODO: add num to total if it is even\nprint(total)\n",
+      "solution_code": "matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\ntotal = 0\nfor row in matrix:\n    for num in row:\n        if num % 2 == 0:\n            total += num\nprint(total)\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "20\n"
+        },
+        {
+          "input": "",
+          "expected_output": "0\n"
+        }
+      ],
+      "hint": "Inside the inner loop, use the modulo operator (%) to check if num is divisible by 2. If the remainder is 0, add num to total. Initialize total to 0 before the loops.",
+      "explanation": "This mini-challenge evaluates problem-solving with nested loops over an arbitrary data structure. Students must iterate through rows and elements, apply a filter condition, and accumulate a result, simulating data processing tasks."
+    },
+    {
+      "id": "6.7_q29",
+      "type": "write_the_code",
+      "concept": "nested_loops_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.7_q28"
+      ],
+      "prompt": "You are building a seating chart for a theater with R rows and C columns. Each seat is represented by a character: 'X' for occupied and '.' for available. Write a program using nested loops to count and print the total number of available seats.",
+      "starter_code": "seating = [\n    ['.', 'X', '.'],\n    ['X', '.', '.'],\n    ['.', '.', 'X']\n]\navailable = 0\nfor r in range(len(seating)):\n    for c in range(len(seating[r])):\n        # TODO: increment available if seating[r][c] is '.'\nprint('Available seats:', available)\n",
+      "solution_code": "seating = [\n    ['.', 'X', '.'],\n    ['X', '.', '.'],\n    ['.', '.', 'X']\n]\navailable = 0\nfor r in range(len(seating)):\n    for c in range(len(seating[r])):\n        if seating[r][c] == '.':\n            available += 1\nprint('Available seats:', available)\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Available seats: 4\n"
+        }
+      ],
+      "hint": "Use len(seating) to get the number of rows and len(seating[r]) to get the number of columns in row r. Check if the current element equals '.' and increment the counter. Ensure the counter is initialized before the loops.",
+      "explanation": "This real-world scenario synthesizes nested loop traversal with conditional counting in a two-dimensional list. It mirrors practical applications such as inventory tracking or grid-based resource management, requiring students to map problem domain to code structure."
+    },
+    {
+      "id": "6.7_q30",
+      "type": "write_the_code",
+      "concept": "nested_loops_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.7_q29"
+      ],
+      "prompt": "Write a program that generates Pascal's Triangle up to N rows using nested loops. Each row must be centered and printed as a string of numbers separated by spaces.",
+      "starter_code": "N = 5\ntriangle = []\nfor i in range(N):\n    row = []\n    for j in range(i + 1):\n        # TODO: compute binomial coefficient C(i, j)\n    # TODO: format and print the row centered\n",
+      "solution_code": "N = 5\ntriangle = []\nfor i in range(N):\n    row = []\n    for j in range(i + 1):\n        if j == 0 or j == i:\n            coeff = 1\n        else:\n            coeff = triangle[i - 1][j - 1] + triangle[i - 1][j]\n        row.append(str(coeff))\n    print(' '.join(row).center(N * 2))\n    triangle.append(row)\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "    1    \n   1 1   \n  1 2 1  \n 1 3 3 1 \n1 4 6 4 1\n"
+        }
+      ],
+      "hint": "Use the property that each element is the sum of the two elements above it from the previous row. Store rows in a list to reuse values. Convert integers to strings before joining, and use str.center() with an appropriate width to align the triangle.",
+      "explanation": "This mastery-level mini-challenge demands recursive-like reasoning within an iterative nested-loop framework. Students must maintain state across rows, compute combinatorial values, and handle string formatting, demonstrating full command of nested loops in a non-trivial mathematical context."
+    }
+  ],
+  "unit_num": 6,
+  "learning_objectives": [
+    "Construct iterative loops using Nested Loops with proper loop bounds",
+    "Trace variable mutation across loop iterations",
+    "Prevent and debug infinite loop execution bugs",
+    "Apply loop control statements (break and continue) to control execution flow"
+  ],
+  "prerequisites": [
+    "6.6"
+  ]
+}

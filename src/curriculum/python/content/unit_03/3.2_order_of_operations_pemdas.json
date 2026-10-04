@@ -1,0 +1,550 @@
+{
+  "lesson_id": "3.2",
+  "title": "Order of Operations (PEMDAS)",
+  "unit": "Operators and Math",
+  "items": [
+    {
+      "id": "3.2_q1",
+      "type": "micro_lesson",
+      "concept": "precedence_overview",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.1_q1"
+      ],
+      "title": "The Rules of Operator Precedence",
+      "content": "When an expression contains multiple operators, Python doesn't just evaluate blindly from left to right.\n\nIt follows the standard mathematical hierarchy known as **PEMDAS**:\n1. **P**arentheses `()`\n2. **E**xponents `**`\n3. **M**ultiplication `*`, **D**ivision `/`, `//`, and Modulo `%`\n4. **A**ddition `+` and **S**ubtraction `-`\n\n```python\nprint(2 + 3 * 4)  # Evaluates 3 * 4 first -> 2 + 12 = 14\n```",
+      "prompt": "",
+      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+    },
+    {
+      "id": "3.2_q2",
+      "type": "code_prediction",
+      "concept": "precedence_overview",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q1"
+      ],
+      "prompt": "What does this code output?\n```python\nprint(10 + 2 * 5)\n```",
+      "options": [
+        "A. 60",
+        "B. 20",
+        "C. 100",
+        "D. 25"
+      ],
+      "correct_answer": "B",
+      "explanation": "Multiplication takes precedence over addition: `2 * 5 = 10`, then `10 + 10 = 20`."
+    },
+    {
+      "id": "3.2_q3",
+      "type": "micro_lesson",
+      "concept": "parentheses_override",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q1"
+      ],
+      "title": "Parentheses Override Everything",
+      "content": "Expressions inside parentheses `()` are ALWAYS evaluated first. You can use parentheses to force addition before multiplication:\n\n```python\nprint((2 + 3) * 4)  # (2 + 3) = 5 -> 5 * 4 = 20\n```\nParentheses also make your code dramatically easier for human developers to read.",
+      "prompt": "",
+      "explanation": "Expressions inside parentheses `()` are ALWAYS evaluated first. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "3.2_q4",
+      "type": "code_prediction",
+      "concept": "parentheses_override",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "prompt": "What does this code output?\n```python\nprint((10 + 2) * 5)\n```",
+      "options": [
+        "A. 20",
+        "B. 60",
+        "C. 100",
+        "D. 125"
+      ],
+      "correct_answer": "B",
+      "explanation": "Parentheses run first: `10 + 2 = 12`. Then `12 * 5 = 60`."
+    },
+    {
+      "id": "3.2_q5",
+      "type": "fix_the_code",
+      "concept": "parentheses_override_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "prompt": "Add parentheses to make the expression evaluate to 30 instead of 16:",
+      "starter_code": "result = 2 + 3 * 6",
+      "solution_code": "result = (2 + 3) * 6",
+      "explanation": "Adding parentheses `(2 + 3) * 6` forces `5 * 6 = 30`."
+    },
+    {
+      "id": "3.2_q6",
+      "type": "micro_lesson",
+      "concept": "exponents_precedence",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.1_q8",
+        "3.2_q1"
+      ],
+      "title": "Exponents Beat Multiplication",
+      "content": "Exponentiation `**` has higher precedence than multiplication and division:\n\n```python\nprint(3 * 2 ** 3)  # 2 ** 3 = 8 -> 3 * 8 = 24\n```\nTo multiply first, wrap in parentheses: `(3 * 2) ** 3` -> `6 ** 3 = 216`.",
+      "prompt": "",
+      "explanation": "Exponentiation `**` has higher precedence than multiplication and division:\n\n```python\nprint(3 * 2 ** 3)  # 2 ** 3 = 8 -> 3 * 8 = 24\n```\nTo multiply first, wrap in parentheses: `(3 * 2) ** 3` -> `6 ** 3 = 216`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "3.2_q7",
+      "type": "code_prediction",
+      "concept": "exponents_precedence",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q6"
+      ],
+      "prompt": "What does this code output?\n```python\nprint(2 * 3 ** 2)\n```",
+      "options": [
+        "A. 36",
+        "B. 18",
+        "C. 12",
+        "D. 24"
+      ],
+      "correct_answer": "B",
+      "explanation": "`3 ** 2 = 9` first. Then `2 * 9 = 18`."
+    },
+    {
+      "id": "3.2_q8",
+      "type": "micro_lesson",
+      "concept": "exponent_associativity",
+      "skill": "understanding",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.2_q6"
+      ],
+      "title": "Exponent Associativity: Right-to-Left!",
+      "content": "Most operators in Python evaluate **left-to-right**:\n`10 - 5 - 2` evaluates as `(10 - 5) - 2` = `3`.\n\nHowever, **exponentiation `**` is right-to-left (right-associative)**:\n```python\nprint(2 ** 3 ** 2)  # Evaluates as 2 ** (3 ** 2) -> 2 ** 9 = 512\n```\nNotice it does NOT calculate `(2 ** 3) ** 2` (which would be 64)!",
+      "prompt": "",
+      "explanation": "Most operators in Python evaluate **left-to-right**:\n`10 - 5 - 2` evaluates as `(10 - 5) - 2` = `3`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "3.2_q9",
+      "type": "output_prediction",
+      "concept": "exponent_associativity",
+      "skill": "analysis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.2_q8"
+      ],
+      "prompt": "What does `2 ** 2 ** 3` evaluate to in Python?",
+      "options": [
+        "A. 64",
+        "B. 256",
+        "C. 32",
+        "D. 512"
+      ],
+      "correct_answer": "B",
+      "explanation": "Evaluates right-to-left: `2 ** 3 = 8`. Then `2 ** 8 = 256`."
+    },
+    {
+      "id": "3.2_q10",
+      "type": "code_ordering",
+      "concept": "pemdas_hierarchy",
+      "skill": "recognition",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q1"
+      ],
+      "prompt": "Order these operations from HIGHEST precedence (evaluates first) to LOWEST precedence (evaluates last).",
+      "options": [
+        "Parentheses `()`",
+        "Exponentiation `**`",
+        "Multiplication `*`, Division `/`, Floor Division `//`, Modulo `%`",
+        "Addition `+`, Subtraction `-`"
+      ],
+      "correct_answer": [
+        "Parentheses `()`",
+        "Exponentiation `**`",
+        "Multiplication `*`, Division `/`, Floor Division `//`, Modulo `%`",
+        "Addition `+`, Subtraction `-`"
+      ],
+      "explanation": "This exercise tests `pemdas hierarchy` in Order of Operations (PEMDAS). When Python validates this code, it applies the standard rules of pemdas hierarchy. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "3.2_q11",
+      "type": "micro_lesson",
+      "concept": "left_to_right_tier",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q1"
+      ],
+      "title": "Ties Are Broken Left-to-Right",
+      "content": "Operators in the same tier have equal precedence: `*`, `/`, `//`, and `%` are equal to each other.\n\nWhen operators of equal precedence appear together, Python evaluates them **left to right**:\n```python\nprint(100 / 10 * 2)  # (100 / 10) = 10.0 -> 10.0 * 2 = 20.0\n```\nIt does NOT do `10 * 2` first.",
+      "prompt": "",
+      "explanation": "Operators in the same tier have equal precedence: `*`, `/`, `//`, and `%` are equal to each other. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "3.2_q12",
+      "type": "code_prediction",
+      "concept": "left_to_right_tier",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q11"
+      ],
+      "prompt": "What does this code output?\n```python\nprint(20 / 5 * 2)\n```",
+      "options": [
+        "A. 2.0",
+        "B. 8.0",
+        "C. 8",
+        "D. 2"
+      ],
+      "correct_answer": "B",
+      "explanation": "Division and multiplication have equal precedence, evaluated left to right: `20 / 5 = 4.0`, then `4.0 * 2 = 8.0`."
+    },
+    {
+      "id": "3.2_q13",
+      "type": "output_prediction",
+      "concept": "subtraction_left_to_right",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q11"
+      ],
+      "prompt": "What does `10 - 4 - 2` output?",
+      "options": [
+        "A. 8",
+        "B. 4",
+        "C. -8",
+        "D. 6"
+      ],
+      "correct_answer": "B",
+      "explanation": "Evaluated left to right: `10 - 4 = 6`, then `6 - 2 = 4`."
+    },
+    {
+      "id": "3.2_q14",
+      "type": "match_code_to_concept",
+      "concept": "associativity_rules",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q8",
+        "3.2_q11"
+      ],
+      "prompt": "Match each expression to its evaluation order.",
+      "options": {
+        "`a - b - c`": "Left-to-Right: `(a - b) - c`",
+        "`a ** b ** c`": "Right-to-Left: `a ** (b ** c)`",
+        "`(a + b) * c`": "Parentheses override: `a + b` first"
+      },
+      "correct_answer": {
+        "`a - b - c`": "Left-to-Right: `(a - b) - c`",
+        "`a ** b ** c`": "Right-to-Left: `a ** (b ** c)`",
+        "`(a + b) * c`": "Parentheses override: `a + b` first"
+      },
+      "explanation": "This exercise tests `associativity rules` in Order of Operations (PEMDAS). When Python validates this code, it applies the standard rules of associativity rules. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "3.2_q15",
+      "type": "micro_lesson",
+      "concept": "nested_parentheses",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "title": "Nested Parentheses",
+      "content": "When parentheses are nested inside other parentheses, Python evaluates from the **innermost** pair outward:\n\n```python\nresult = ((2 + 3) * (4 + 1)) / 5\n# 1. Innermost: (2 + 3) = 5 and (4 + 1) = 5\n# 2. Outer: (5 * 5) = 25\n# 3. Final: 25 / 5 = 5.0\n```",
+      "prompt": "",
+      "explanation": "When parentheses are nested inside other parentheses, Python evaluates from the **innermost** pair outward:\n\n```python\nresult = ((2 + 3) * (4 + 1)) / 5\n# 1. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "3.2_q16",
+      "type": "code_prediction",
+      "concept": "nested_parentheses",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q15"
+      ],
+      "prompt": "What does this code output?\n```python\nprint((2 * (3 + 1)) ** 2)\n```",
+      "options": [
+        "A. 64",
+        "B. 32",
+        "C. 16",
+        "D. 24"
+      ],
+      "correct_answer": "A",
+      "explanation": "Innermost: `3 + 1 = 4`. Middle: `2 * 4 = 8`. Outermost power: `8 ** 2 = 64`."
+    },
+    {
+      "id": "3.2_q17",
+      "type": "fill_in_the_blank",
+      "concept": "parentheses_clarity",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "prompt": "To calculate the average of `a`, `b`, and `c`, you must group the sum with parentheses: `average = (a + b + c) ___ 3`.",
+      "accepted_answers": [
+        "/"
+      ],
+      "explanation": "This exercise tests `parentheses clarity` in Order of Operations (PEMDAS). When Python validates this code, it applies the standard rules of parentheses clarity. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "3.2_q18",
+      "type": "error_diagnosis",
+      "concept": "average_formula_bug",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q1",
+        "3.2_q17"
+      ],
+      "prompt": "A developer writes `avg = 80 + 90 + 100 / 3`. Why does Python calculate `203.33` instead of the expected `90.0`?",
+      "options": [
+        "A. Division `/` runs before addition, so only `100 / 3` is divided, then added to 80 + 90.",
+        "B. Python cannot average numbers.",
+        "C. The numbers must be strings.",
+        "D. 90 is an invalid number."
+      ],
+      "correct_answer": "A",
+      "explanation": "Due to precedence, `100 / 3` was computed first (`33.33`), then added to 80 and 90 (`203.33`). It requires `(80 + 90 + 100) / 3`."
+    },
+    {
+      "id": "3.2_q19",
+      "type": "fix_the_code",
+      "concept": "average_formula_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "3.2_q18"
+      ],
+      "prompt": "Fix this code using parentheses so it computes the true average:",
+      "starter_code": "avg = 80 + 90 + 100 / 3",
+      "solution_code": "avg = (80 + 90 + 100) / 3",
+      "explanation": "Grouping `(80 + 90 + 100)` forces the sum to be calculated before dividing by 3."
+    },
+    {
+      "id": "3.2_q20",
+      "type": "output_prediction",
+      "concept": "modulo_and_multiplication_tier",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.1_q3",
+        "3.2_q11"
+      ],
+      "prompt": "What does this code output?\n```python\nprint(10 % 3 * 4)\n```",
+      "options": [
+        "A. 4",
+        "B. 10",
+        "C. 0",
+        "D. 12"
+      ],
+      "correct_answer": "A",
+      "explanation": "`%` and `*` have equal precedence; evaluated left to right: `10 % 3 = 1`, then `1 * 4 = 4`."
+    },
+    {
+      "id": "3.2_q21",
+      "type": "micro_lesson",
+      "concept": "unary_operator_precedence",
+      "skill": "understanding",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.1_q25",
+        "3.2_q6"
+      ],
+      "title": "Unary Minus and Exponents: Watch Out!",
+      "content": "In Python, `**` has HIGHER precedence than unary minus `-`:\n```python\nprint(-3 ** 2)  # -(3 ** 2) = -9\n```\nTo square the negative number `-3`, you must use parentheses:\n```python\nprint((-3) ** 2)  # (-3) * (-3) = 9\n```",
+      "prompt": "",
+      "explanation": "In Python, `**` has HIGHER precedence than unary minus `-`:\n```python\nprint(-3 ** 2)  # -(3 ** 2) = -9\n```\nTo square the negative number `-3`, you must use parentheses:\n```python\nprint((-3) ** 2)  # (-3) * (-3) = 9\n```. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "3.2_q22",
+      "type": "code_prediction",
+      "concept": "unary_operator_precedence",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.2_q21"
+      ],
+      "prompt": "What does this code output?\n```python\nprint(-2 ** 4)\n```",
+      "options": [
+        "A. 16",
+        "B. -16",
+        "C. 8",
+        "D. -8"
+      ],
+      "correct_answer": "B",
+      "explanation": "`**` binds tighter than `-`. It calculates `2 ** 4 = 16`, then negates to `-16`."
+    },
+    {
+      "id": "3.2_q23",
+      "type": "write_the_code",
+      "concept": "explicit_parentheses_formula",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "prompt": "Write an expression for the mathematical formula `(a + b) * (c - d)` using variables `a, b, c, d`.",
+      "starter_code": "# TODO: Implement solution for Order of Operations (PEMDAS)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "(a + b) * (c - d)",
+      "explanation": "This exercise tests `explicit parentheses formula` in Order of Operations (PEMDAS). When Python validates this code, it applies the standard rules of explicit parentheses formula. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "3.2_q24",
+      "type": "multiple_choice",
+      "concept": "celsius_conversion_precedence",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "prompt": "The formula to convert Fahrenheit `f` to Celsius is subtract 32, then multiply by 5/9. Which code correctly implements this?",
+      "options": [
+        "A. `c = f - 32 * 5 / 9`",
+        "B. `c = (f - 32) * 5 / 9`",
+        "C. `c = f - (32 * 5) / 9`",
+        "D. `c = f - 32 * (5 / 9)`"
+      ],
+      "correct_answer": "B",
+      "explanation": "`f - 32` must be enclosed in parentheses `(f - 32)` so the subtraction occurs before multiplication and division."
+    },
+    {
+      "id": "3.2_q25",
+      "type": "output_prediction",
+      "concept": "complex_precedence_trace",
+      "skill": "analysis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.2_q1",
+        "3.2_q11"
+      ],
+      "prompt": "Trace this step by step:\n```python\nprint(10 + 6 // 2 * 3 - 1)\n```\nWhat is printed?",
+      "options": [
+        "A. 18",
+        "B. 10",
+        "C. 23",
+        "D. 12"
+      ],
+      "correct_answer": "A",
+      "explanation": "Floor division and multiplication tier: `6 // 2 = 3`, then `3 * 3 = 9`. Addition/subtraction tier: `10 + 9 - 1 = 18`."
+    },
+    {
+      "id": "3.2_q26",
+      "type": "multiple_choice",
+      "concept": "pep8_parentheses_guideline",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "1.5_q14",
+        "3.2_q3"
+      ],
+      "prompt": "What does PEP 8 advise when writing long mathematical expressions with mixed operators?",
+      "options": [
+        "A. Never use parentheses under any circumstances.",
+        "B. Use parentheses generously to make the intended order of operations immediately obvious to human readers, even if technically redundant.",
+        "C. Only use exponents.",
+        "D. Write all math on separate lines."
+      ],
+      "correct_answer": "B",
+      "explanation": "According to PEP 8, variable names in Python should be written in snake_case (lowercase words separated by underscores, e.g. `user_account_balance`). This convention maximizes readability."
+    },
+    {
+      "id": "3.2_q27",
+      "type": "mini_challenge",
+      "concept": "trapezoid_area_formula",
+      "skill": "synthesis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "3.2_q3"
+      ],
+      "prompt": "The area of a trapezoid is `((a + b) / 2) * h`. Given `a = 6`, `b = 10`, and `h = 4`, write code to calculate and print `area`.",
+      "starter_code": "a = 6\nb = 10\nh = 4\n# Calculate area and print it\n",
+      "solution_code": "a = 6\nb = 10\nh = 4\narea = ((a + b) / 2) * h\nprint(area)",
+      "explanation": "`((6 + 10) / 2) * 4 = (16 / 2) * 4 = 8.0 * 4 = 32.0`."
+    },
+    {
+      "id": "3.2_q28",
+      "type": "output_prediction",
+      "concept": "floor_division_modulo_chain",
+      "skill": "analysis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.1_q3",
+        "3.1_q11",
+        "3.2_q11"
+      ],
+      "prompt": "What does this code output?\n```python\nprint(100 // 3 % 5)\n```",
+      "options": [
+        "A. 3",
+        "B. 0",
+        "C. 1",
+        "D. 33"
+      ],
+      "correct_answer": "A",
+      "explanation": "`//` and `%` tie; left to right: `100 // 3 = 33`. Then `33 % 5 = 3`."
+    },
+    {
+      "id": "3.2_q29",
+      "type": "real_world_scenario",
+      "concept": "compound_interest_precedence",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.2_q6",
+        "3.2_q15"
+      ],
+      "prompt": "Compound interest is `principal * (1 + rate) ** years`. Given `principal = 1000`, `rate = 0.05`, and `years = 2`, which line correctly evaluates this?",
+      "correct_answer": "A",
+      "explanation": "Parentheses compute `1 + rate = 1.05`. Then `1.05 ** 2 = 1.1025`. Then multiplied by `principal`.",
+      "options": [
+        "A. total = principal * (1 + rate) ** years",
+        "B. total = principal * 1 + rate ** years",
+        "C. total = (principal * 1 + rate) ** years",
+        "D. total = principal * (1 + rate * years)"
+      ]
+    },
+    {
+      "id": "3.2_q30",
+      "type": "real_world_scenario",
+      "concept": "pemdas_synthesis",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "3.2_q1",
+        "3.2_q3",
+        "3.2_q8",
+        "3.2_q11",
+        "3.2_q21"
+      ],
+      "prompt": "Which statement accurately summarizes Python operator precedence?",
+      "correct_answer": "A",
+      "explanation": "This exercise tests `pemdas synthesis` in Order of Operations (PEMDAS). When Python validates this code, it applies the standard rules of pemdas synthesis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution.",
+      "options": [
+        "A. Python evaluates expressions according to precedence rules (PEMDAS), with parentheses explicitly overriding default precedence.",
+        "B. Expressions in Python always evaluate purely left-to-right regardless of operator.",
+        "C. Addition has higher precedence than multiplication in Python.",
+        "D. Exponentiation ** associates from left to right."
+      ]
+    }
+  ],
+  "unit_num": 3,
+  "learning_objectives": [
+    "Apply Python Order of Operations (PEMDAS) correctly in mathematical and logical expressions",
+    "Predict evaluation order using operator precedence rules",
+    "Diagnose subtle expression bugs caused by unintended precedence",
+    "Construct compound boolean or arithmetic expressions for real-world logic"
+  ],
+  "prerequisites": [
+    "3.1"
+  ]
+}

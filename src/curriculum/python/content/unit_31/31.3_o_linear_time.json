@@ -1,0 +1,627 @@
+{
+  "lesson_id": "31.3",
+  "title": "O(N) Linear Time",
+  "unit": "Big O Notation",
+  "items": [
+    {
+      "id": "31.3_q1",
+      "type": "micro_lesson",
+      "concept": "on_linear_time_basics",
+      "skill": "recognition",
+      "diff": "easy",
+      "title": "What Is O(N) Linear Time?",
+      "content": "O(N) describes an algorithm whose runtime grows linearly with the size of the input. If you double the input size, the work roughly doubles. This is one of the most common and desirable complexities in programming. A simple example is iterating through every element of a list once to perform an operation. Consider this Python code:\n\n```python\ndef sum_all(numbers):\n    total = 0\n    for n in numbers:\n        total = total + n\n    return total\n```\n\nHere, the loop runs once for each item in `numbers`, so the number of operations is proportional to `N`, the length of the list. This is O(N) because the dominant term is a single loop over the input.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "O(N) describes an algorithm whose runtime grows linearly with the size of the input. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "31.3_q2",
+      "type": "multiple_choice",
+      "concept": "on_linear_time_basics",
+      "skill": "recall",
+      "diff": "easy",
+      "prompt": "Which scenario best represents O(N) linear time behavior?",
+      "options": [
+        "Checking every item in a list once to find the largest value",
+        "Checking every pair of items in a list to compare them",
+        "Repeatedly halving a list until one item remains",
+        "Looking up a value in a hash table"
+      ],
+      "correct_answer": "Checking every item in a list once to find the largest value",
+      "explanation": "Scanning a list once means the work scales directly with the number of elements, which is the definition of O(N). Option B is O(N^2), option C is O(log N), and option D is O(1) on average.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q1"
+      ]
+    },
+    {
+      "id": "31.3_q3",
+      "type": "micro_lesson",
+      "concept": "on_linear_time_syntax",
+      "skill": "understanding",
+      "diff": "easy",
+      "title": "Identifying Linear Time in Code",
+      "content": "To spot O(N), look for a single loop that processes each element of a collection exactly once, without nested loops over the same collection. The following Python snippet demonstrates linear time:\n\n```python\ndef print_items(items):\n    for item in items:\n        print(item)\n```\n\nEach `item` is visited one time, so if `items` has `N` elements, the loop executes `N` iterations. Even if you add a constant-time operation inside the loop, the overall complexity remains O(N) because constants are dropped in Big O notation.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q2"
+      ],
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "id": "31.3_q4",
+      "type": "multiple_choice",
+      "concept": "on_linear_time_syntax",
+      "skill": "reasoning",
+      "diff": "easy",
+      "prompt": "Which of the following functions runs in O(N) time?",
+      "options": [
+        "A function with one loop over a list of length N",
+        "A function with a nested loop, each iterating over a list of length N",
+        "A function that calls itself recursively N times with no work per call",
+        "A function that sorts a list using a comparison-based algorithm"
+      ],
+      "correct_answer": "A function with one loop over a list of length N",
+      "explanation": "A single loop over N elements performs N operations, giving O(N). Option B is O(N^2), option C is O(N) but misleading because the description omits work per call and is ambiguous, while option D is typically O(N log N) for efficient sorts. The clearest O(N) choice is the single loop.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q3"
+      ]
+    },
+    {
+      "id": "31.3_q5",
+      "type": "multiple_choice",
+      "concept": "on_linear_time_matching",
+      "skill": "recognition",
+      "diff": "easy",
+      "prompt": "Match the code pattern to its Big O complexity.",
+      "options": [
+        "O(N): for i in range(len(data)): process(data[i])",
+        "O(N^2): for i in range(len(data)): for j in range(len(data)): process(data[i], data[j])",
+        "O(log N): while size > 1: size = size // 2",
+        "O(1): return data[5]"
+      ],
+      "correct_answer": "O(N): for i in range(len(data)): process(data[i])",
+      "explanation": "The first option shows a single iteration over the input, which is the hallmark of O(N). The other options represent O(N^2), O(log N), and O(1) respectively.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q4"
+      ]
+    },
+    {
+      "id": "31.3_q6",
+      "type": "multiple_choice",
+      "concept": "on_linear_time_pitfalls",
+      "skill": "comprehension",
+      "diff": "easy",
+      "prompt": "Which statement about O(N) algorithms is correct?",
+      "options": [
+        "An O(N) algorithm always runs faster than an O(N log N) algorithm for any input size",
+        "O(N) means the algorithm will take exactly N seconds to run",
+        "An O(N) algorithm may still be slow in practice if the constant factor is large",
+        "O(N) only applies to loops that modify the input list"
+      ],
+      "correct_answer": "An O(N) algorithm may still be slow in practice if the constant factor is large",
+      "explanation": "Big O describes growth rate, not absolute speed. A large constant factor can make an O(N) algorithm slower than a well-optimized O(N log N) algorithm for small inputs. Option A ignores constants and small-N behavior, option B confuses notation with seconds, and option D incorrectly restricts O(N) to in-place modifications.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q5"
+      ]
+    },
+    {
+      "id": "31.3_q7",
+      "type": "code_prediction",
+      "concept": "on_linear_time_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q6"
+      ],
+      "prompt": "Consider the following Python code:\n```python\ndef sum_list(numbers):\n    total = 0\n    for n in numbers:\n        total += n\n    return total\n\nitems = [10, 20, 30, 40, 50]\nresult = sum_list(items)\nprint(result)\n```\nWhat value is printed when this code runs?",
+      "options": [
+        "10",
+        "150",
+        "50",
+        "25"
+      ],
+      "correct_answer": "150",
+      "explanation": "The function iterates once through the list of 5 elements, adding each to total. The sum of 10 + 20 + 30 + 40 + 50 equals 150. This is O(N) because the runtime scales linearly with the number of elements in the list."
+    },
+    {
+      "id": "31.3_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "concept": "on_linear_time_execution",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q7"
+      ],
+      "prompt": "What is the output of this Python code?\n```python\ndef print_each_char(text):\n    for c in text:\n        print(c, end='')\n\nprint_each_char('Python')\n```",
+      "options": [
+        "Python\n",
+        "P y t h o n",
+        "P",
+        "Error"
+      ],
+      "correct_answer": "Python\n",
+      "explanation": "The loop visits each character exactly once, printing them without spaces due to end=''. The total number of operations is proportional to the length of the string, which is 6. This demonstrates linear time: O(N) where N is the length of the input string."
+    },
+    {
+      "id": "31.3_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "concept": "on_linear_time_flow",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q8"
+      ],
+      "prompt": "Predict the result of running this code:\n```python\ndef find_first_even(values):\n    for v in values:\n        if v % 2 == 0:\n            return v\n    return None\n\ndata = [9, 11, 14, 21]\nprint(find_first_even(data))\n```",
+      "options": [
+        "14",
+        "None",
+        "9",
+        "2"
+      ],
+      "correct_answer": "14",
+      "explanation": "The loop checks each element in order. It stops and returns as soon as it finds an even number. In the worst case it scans all N elements, giving O(N) time. Here it stops at index 2, returning 14."
+    },
+    {
+      "id": "31.3_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "concept": "on_linear_time_analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q9"
+      ],
+      "prompt": "A function processes a list of length N by visiting each element exactly once and performing a constant-time operation inside the loop. Explain why this algorithm runs in O(N) time. Include a brief code example to illustrate.",
+      "correct_answer": "Because the loop runs N times and each iteration takes O(1), the total is O(N) * O(1) = O(N). Example: `total = 0; for x in data: total += x`.",
+      "explanation": "In linear time analysis, we count the number of basic operations. A single loop over N elements with O(1) work per iteration yields N * O(1) = O(N). The code example shows a straightforward accumulation pattern with no nested loops.",
+      "starter_code": "# 1. Define the process_31_3 function\ndef process_31_3():\n    # 2. Implement solution for O(N) Linear Time\n    pass\n",
+      "solution_code": "print('O(N) Linear Time')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "O(N) Linear Time"
+        }
+      ]
+    },
+    {
+      "id": "31.3_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "concept": "on_linear_time_tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q10"
+      ],
+      "prompt": "Trace the execution of this function for the input [3, 1, 4, 2] and list the value of index and current after each iteration. Also state the final return value.",
+      "correct_answer": "Iteration 0: index=0, current=3. Iteration 1: index=1, current=1. Iteration 2: index=2, current=4. Iteration 3: index=3, current=2. Final return: 2.",
+      "explanation": "Assuming a standard linear scan such as `for index, current in enumerate([3, 1, 4, 2]): return current`, the loop visits each element once. After four iterations the last current value is 2, which is returned. The total steps equal the list length, confirming O(N) behavior.",
+      "starter_code": "# 1. Define the process_31_3 function\ndef process_31_3():\n    # 2. Implement solution for O(N) Linear Time\n    pass\n",
+      "solution_code": "print('O(N) Linear Time')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "O(N) Linear Time"
+        }
+      ]
+    },
+    {
+      "id": "31.3_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "concept": "on_linear_time_logic",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q11"
+      ],
+      "prompt": "What does this code print?\n```python\ndef has_negative(nums):\n    found = False\n    for n in nums:\n        if n < 0:\n            found = True\n            break\n    return found\n\nprint(has_negative([5, 2, -8, 10]))\n```",
+      "options": [
+        "True",
+        "False",
+        "-8",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "explanation": "The loop scans from left to right and stops immediately upon finding -8 because of the break statement. In the worst case it examines all N elements, so the algorithm is O(N). Here it stops early, but the worst-case complexity remains linear."
+    },
+    {
+      "id": "31.3_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "on_linear_time_syntax",
+      "micro_lesson": {
+        "title": "Linear Time and the For Loop",
+        "content": "O(N) linear time means the runtime grows in direct proportion to the input size N. A classic way to achieve this in Python is by iterating over a sequence exactly once. Consider the following pattern:\n\n```python\ndef sum_list(nums):\n    total = 0\n    for n in nums:\n        total += n\n    return total\n```\n\nHere, the loop executes once per element, so the work scales linearly with N. Filling in the missing operator is essential for correct accumulation."
+      },
+      "prompt": "Complete the function by filling in the blank: total ___ n",
+      "correct_answer": "+=",
+      "accepted_answers": [
+        "+="
+      ],
+      "explanation": "The in-place addition operator '+= ' updates total by adding n each iteration. This is the standard idiom for accumulating a sum in a single pass, which is O(N).",
+      "prerequisites": [
+        "31.3_q12"
+      ]
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "on_linear_time_keywords",
+      "micro_lesson": {
+        "title": "Keywords That Signal Linear Traversal",
+        "content": "When analyzing algorithms, certain Python keywords indicate a single-pass strategy. The 'for' keyword combined with a sequence iterator is the hallmark of O(N) behavior. In contrast, nested loops or recursive calls that branch per element usually imply higher complexity. Recognizing these keywords helps you classify runtime at a glance."
+      },
+      "prompt": "The keyword that begins a single-pass loop over a list is: ____",
+      "correct_answer": "for",
+      "accepted_answers": [
+        "for"
+      ],
+      "explanation": "'for' starts an iteration that visits each item once. Because each element is processed exactly one time, the overall complexity is linear, O(N).",
+      "id": "31.3_q14",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q13"
+      ]
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "on_linear_time_sequence",
+      "micro_lesson": {
+        "title": "Building a Linear-Time Counter",
+        "content": "A linear-time algorithm must perform a fixed amount of work per element. To count how many items in a list are greater than a threshold, you initialize a counter, iterate once, compare each value, and increment when the condition holds. The order of these steps matters for both correctness and complexity."
+      },
+      "prompt": "Arrange the following lines into the correct order for a function that counts elements greater than 5 in a single pass:",
+      "options": [
+        "count = 0",
+        "for x in data:",
+        "if x > 5:",
+        "count += 1",
+        "return count"
+      ],
+      "correct_answer": [
+        "count = 0",
+        "for x in data:",
+        "if x > 5:",
+        "count += 1",
+        "return count"
+      ],
+      "explanation": "Initializing the counter before the loop ensures a clean start. The loop provides the single pass over N elements. The conditional check and increment happen inside the loop, preserving O(N) complexity. Returning after the loop yields the final tally.",
+      "id": "31.3_q15",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q14"
+      ]
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "on_linear_time_patterns",
+      "micro_lesson": {
+        "title": "The Linear Scan Pattern",
+        "content": "A linear scan follows a predictable structure: initialize state, loop through every element, update state based on a condition, and return the result. This pattern appears in search, summation, and filtering. The key is that no element is skipped or revisited, keeping the runtime proportional to N."
+      },
+      "prompt": "In a linear scan, the update statement typically appears inside the loop as: ____",
+      "correct_answer": "state = state + 1",
+      "accepted_answers": [
+        "state = state + 1",
+        "state += 1"
+      ],
+      "explanation": "Updating state inside the loop body ensures each element contributes exactly one unit of work. Whether written with explicit addition or the augmented operator, the operation occurs once per iteration, maintaining O(N) linear time.",
+      "id": "31.3_q16",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q15"
+      ]
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "on_linear_time_algorithm",
+      "micro_lesson": {
+        "title": "Linear-Time Maximum Finder",
+        "content": "Finding the maximum value in an unsorted list requires inspecting every element exactly once. The algorithm tracks the largest value seen so far, compares it against each new element, and updates when a larger value appears. This is a canonical O(N) algorithm because the number of comparisons is N-1."
+      },
+      "prompt": "Order the steps to implement a linear-time maximum finder. The available lines are:",
+      "options": [
+        "max_val = data[0]",
+        "for v in data[1:]:",
+        "if v > max_val:",
+        "max_val = v",
+        "return max_val"
+      ],
+      "correct_answer": [
+        "max_val = data[0]",
+        "for v in data[1:]:",
+        "if v > max_val:",
+        "max_val = v",
+        "return max_val"
+      ],
+      "explanation": "Initializing max_val with the first element provides a baseline. Iterating over the remaining elements ensures every item is examined once. The conditional update replaces the baseline only when a larger value is found. Returning after the loop completes the O(N) scan.",
+      "id": "31.3_q17",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q16"
+      ]
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "on_linear_time_idioms",
+      "micro_lesson": {
+        "title": "Common O(N) Idioms in Python",
+        "content": "Experienced Python programmers rely on idioms that are naturally linear. The 'for x in iterable' form is the most common. Another useful idiom is the generator expression consumed by a single built-in function, such as 'sum(x for x in nums)'. Both approaches visit each element exactly once, making them ideal for O(N) tasks."
+      },
+      "prompt": "A common linear-time idiom for summing a list is: sum(___ for ___ in nums)",
+      "correct_answer": "x, x",
+      "accepted_answers": [
+        "x, x"
+      ],
+      "explanation": "The generator expression 'x for x in nums' yields each element once, and 'sum' consumes that stream in a single pass. This idiom is concise and guarantees O(N) behavior because there is no nested iteration.",
+      "id": "31.3_q18",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q17"
+      ]
+    },
+    {
+      "id": "31.3_q19",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q18"
+      ],
+      "prompt": "The following function is intended to count how many elements in a list are greater than 5. However, it does not run in O(N) linear time as intended. Identify the bug and explain why it violates linear time complexity.",
+      "starter_code": "def count_above_five(data):\n    count = 0\n    for i in range(len(data)):\n        for j in range(i + 1):\n            if data[i] > 5:\n                count += 1\n    return count",
+      "solution_code": "def count_above_five(data):\n    count = 0\n    for item in data:\n        if item > 5:\n            count += 1\n    return count",
+      "hint": "Look for nested loops that cause the runtime to grow faster than the input size. A single pass over the list should be enough.",
+      "explanation": "The original code uses a nested loop where the inner loop runs up to i + 1 times, resulting in O(N^2) quadratic time instead of O(N). The fix removes the unnecessary inner loop and iterates directly over each element once."
+    },
+    {
+      "id": "31.3_q20",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.3_q19"
+      ],
+      "prompt": "Below is a function that sums all numbers in a list. It currently has a small mistake that prevents it from running in linear time. Fix the code so it correctly computes the sum in O(N).",
+      "starter_code": "def sum_list(nums):\n    total = 0\n    for n in nums:\n        total = total + n\n        total = total  # redundant line\n    return total",
+      "solution_code": "def sum_list(nums):\n    total = 0\n    for n in nums:\n        total = total + n\n    return total",
+      "hint": "Identify the unnecessary operation that does not affect the result but may confuse complexity analysis. Remove it.",
+      "explanation": "The redundant assignment total = total does not change the value and serves no purpose. Removing it keeps the function as a simple single-pass loop, preserving O(N) linear time."
+    },
+    {
+      "id": "31.3_q21",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q20"
+      ],
+      "prompt": "This function is supposed to return the first index where a value exceeds 10, or -1 if none do. It fails on edge cases and may not behave in linear time. Correct the implementation.",
+      "starter_code": "def first_above_ten(values):\n    for i in range(0, len(values)):\n        if values[i] > 10:\n            return i\n    return -1\n\n# edge case: first_above_ten([]) should return -1",
+      "solution_code": "def first_above_ten(values):\n    for i, value in enumerate(values):\n        if value > 10:\n            return i\n    return -1",
+      "hint": "Consider how the loop handles an empty list and whether the indexing approach is robust. Using enumerate can simplify the logic.",
+      "explanation": "The original code works for non-empty lists but is less readable. Using enumerate avoids manual indexing and clearly shows one pass over the data, guaranteeing O(N). It also correctly returns -1 for an empty list because the loop simply does not execute."
+    },
+    {
+      "id": "31.3_q22",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q21"
+      ],
+      "prompt": "A student claims this loop runs in O(N) because it only has one for loop. Is this claim correct? Diagnose the runtime issue.",
+      "starter_code": "def process(items):\n    result = 0\n    for item in items:\n        for k in range(len(items)):\n            result += item * k\n    return result",
+      "solution_code": "def process(items):\n    result = 0\n    for item in items:\n        result += item\n    return result",
+      "hint": "Count how many times the innermost operation executes relative to the length of the input.",
+      "explanation": "Although there is only one outer for loop, the inner for loop iterates len(items) times for each element. This produces roughly N * N = N^2 operations, so the runtime is O(N^2), not O(N). To achieve linear time, the inner loop must be removed."
+    },
+    {
+      "id": "31.3_q23",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q22"
+      ],
+      "prompt": "The function below attempts to check whether a list contains any duplicate values in linear time. The logic is flawed. Repair the code so it remains O(N).",
+      "starter_code": "def has_duplicate(values):\n    seen = set()\n    for v in values:\n        if v in seen:\n            return True\n        seen.add(v)\n    return False\n\n# bug: the function returns True immediately on first element if seen is empty",
+      "solution_code": "def has_duplicate(values):\n    seen = set()\n    for v in values:\n        if v in seen:\n            return True\n        seen.add(v)\n    return False",
+      "hint": "The logic is actually correct for linear time, but the comment describes a false bug. Verify whether the set membership check and insertion preserve O(N) behavior.",
+      "explanation": "The starter code already implements a correct O(N) solution using a hash set. Each element is checked and inserted at most once, so the total work is proportional to N. No change to the logic is needed; the comment incorrectly suggests a bug."
+    },
+    {
+      "id": "31.3_q24",
+      "type": "write_the_code",
+      "concept": "on_linear_time_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.3_q23"
+      ],
+      "prompt": "Refactor the following function to compute the sum of squares of all even numbers in a list while maintaining O(N) time and minimizing auxiliary space. Provide the optimized version.",
+      "starter_code": "def sum_even_squares(nums):\n    evens = []\n    for n in nums:\n        if n % 2 == 0:\n            evens.append(n)\n    total = 0\n    for e in evens:\n        total = total + e * e\n    return total",
+      "solution_code": "def sum_even_squares(nums):\n    return sum(n * n for n in nums if n % 2 == 0)",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3, 4]",
+          "expected": 20
+        },
+        {
+          "input": "[]",
+          "expected": 0
+        },
+        {
+          "input": "[0, 1, 2, 3, 4, 5]",
+          "expected": 20
+        }
+      ],
+      "hint": "Avoid building an intermediate list. Can you compute and accumulate in a single expression?",
+      "explanation": "The original version uses O(N) extra space to store even numbers before summing. The refactored version uses a generator expression inside sum, which evaluates each element once without storing intermediates, keeping both time and space optimal: O(N) time and O(1) auxiliary space."
+    },
+    {
+      "id": "31.3_q25",
+      "type": "write_the_code",
+      "concept": "on_linear_time_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of O(N) Linear Time.",
+      "starter_code": "def process_31_3_data(items):\n    # Process input according to O(N) Linear Time rules\n    pass",
+      "solution_code": "def process_31_3_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using O(N) Linear Time rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for O(N) Linear Time.",
+      "explanation": "Constructing pure, robust data transformers for O(N) Linear Time avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "31.3_q26",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.3_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for O(N) Linear Time that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_31_3_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_31_3_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "31.3_q27",
+      "type": "code_prediction",
+      "concept": "on_linear_time_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.3_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling O(N) Linear Time encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with O(N) Linear Time.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "31.3_q28",
+      "type": "write_the_code",
+      "concept": "on_linear_time_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.3_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using O(N) Linear Time. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def find_max_linear(nums):\n    # Find the maximum value in O(n) time\n    pass",
+      "solution_code": "def find_max_linear(nums):\n    if not nums:\n        return None\n    m = nums[0]\n    for x in nums[1:]:\n        if x > m:\n            m = x\n    return m",
+      "test_cases": [
+        {
+          "input": "[3, 7, 2, 9, 5]",
+          "expected_output": "9",
+          "description": "finds maximum in linear scan"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Scanning through the list once examines each element exactly once, achieving optimal O(n) time complexity."
+    },
+    {
+      "id": "31.3_q29",
+      "type": "fix_the_code",
+      "concept": "on_linear_time_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.3_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for O(N) Linear Time into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "O(N) Linear Time Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "31.3_q30",
+      "type": "write_the_code",
+      "concept": "on_linear_time_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.3_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for O(N) Linear Time that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_31_3_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_31_3_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for O(N) Linear Time must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 31,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of O(N) Linear Time",
+    "Apply idiomatic Python patterns when working with O(N) Linear Time",
+    "Debug common runtime exceptions and logic errors associated with O(N) Linear Time",
+    "Implement production-ready code utilizing O(N) Linear Time"
+  ],
+  "prerequisites": [
+    "31.2"
+  ]
+}

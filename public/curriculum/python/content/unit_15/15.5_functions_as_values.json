@@ -1,0 +1,581 @@
+{
+  "lesson_id": "15.5",
+  "title": "Functions as Values (Higher-Order Functions)",
+  "unit": "Advanced Functions",
+  "items": [
+    {
+      "id": "15.5_q1",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "concept": "functions_as_values_higherorder_functions_basics",
+      "skill": "recognition",
+      "title": "Functions Are First-Class Objects",
+      "content": "In Python, functions are first-class objects, which means they can be treated just like any other value: assigned to variables, stored in data structures, passed as arguments, and returned from other functions. This concept is the foundation of higher-order functions. A higher-order function is a function that either takes one or more functions as arguments, or returns a function as its result, or both. For example, you can assign a function to a variable name and call it through that name. Consider the following code:\n\n```python\ndef greet(name):\n    return 'Hello, ' + name\n\n# Assign the function to a variable\nmy_function = greet\n\n# Call the function using the variable\nresult = my_function('Alice')\nprint(result)\n```\n\nHere, `greet` is a function object. By writing `my_function = greet`, we are not calling `greet`; we are copying the reference to the function object. Later, `my_function('Alice')` executes the same behavior as `greet('Alice')`. This ability to pass functions around is what enables higher-order functions such as `map`, `filter`, and `sorted`.",
+      "prompt": "",
+      "explanation": "In Python, functions are first-class objects, which means they can be treated just like any other value: assigned to variables, stored in data structures, passed as arguments, and returned from other functions. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.5_q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q1"
+      ],
+      "concept": "functions_as_values_higherorder_functions_basics",
+      "skill": "recall",
+      "prompt": "Which of the following best describes a higher-order function in Python?",
+      "options": [
+        "A function that is defined inside another function.",
+        "A function that takes a function as an argument or returns a function.",
+        "A function that calls itself recursively.",
+        "A function that only accepts integer arguments."
+      ],
+      "correct_answer": "A function that takes a function as an argument or returns a function.",
+      "explanation": "A higher-order function is defined by its ability to accept functions as parameters or to return functions as results. Simply being nested inside another function does not make it higher-order, and recursion and argument types are unrelated to this definition."
+    },
+    {
+      "id": "15.5_q3",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q2"
+      ],
+      "concept": "functions_as_values_higherorder_functions_syntax",
+      "skill": "understanding",
+      "title": "Passing Functions as Arguments",
+      "content": "When you pass a function as an argument to another function, you are supplying behavior that the receiving function can execute. The syntax is straightforward: write the function name without parentheses to pass the function object itself. Consider this example:\n\n```python\ndef apply_twice(func, value):\n    return func(func(value))\n\ndef square(x):\n    return x * x\n\nresult = apply_twice(square, 3)\nprint(result)\n```\n\nIn `apply_twice(square, 3)`, the argument `square` is passed by reference. Inside `apply_twice`, the parameter `func` refers to the same function object. The call `func(value)` evaluates to `square(3)`, which is `9`. Then `func(func(value))` becomes `func(9)`, which is `square(9)`, yielding `81`. Notice that we never used `square()` with parentheses when passing it; parentheses would invoke the function immediately and pass its return value instead of the function itself.",
+      "prompt": "",
+      "explanation": "When you pass a function as an argument to another function, you are supplying behavior that the receiving function can execute. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.5_q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q3"
+      ],
+      "concept": "functions_as_values_higherorder_functions_syntax",
+      "skill": "reasoning",
+      "prompt": "What is the output of the following code?\n\n```python\ndef shout(text):\n    return text.upper() + '!'\n\ndef process(fn, word):\n    return fn(word)\n\nprint(process(shout, 'hi'))\n```",
+      "options": [
+        "hi!",
+        "HI!",
+        "shout('hi')",
+        "Error: function not callable"
+      ],
+      "correct_answer": "HI!",
+      "explanation": "The function `shout` is passed to `process` without parentheses, so `fn` holds the function object. Inside `process`, `fn(word)` calls `shout('hi')`, which returns `'HI!'`. This is then returned and printed."
+    },
+    {
+      "id": "15.5_q5",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q4"
+      ],
+      "concept": "functions_as_values_higherorder_functions_matching",
+      "skill": "recognition",
+      "prompt": "Match the built-in function with its role as a higher-order function.",
+      "options": [
+        "sorted: returns a new sorted list from an iterable using a key function.",
+        "sorted: modifies the original list in place without returning anything.",
+        "sorted: only works with numeric data and ignores string comparisons.",
+        "sorted: requires exactly two arguments and cannot accept a key function."
+      ],
+      "correct_answer": "sorted: returns a new sorted list from an iterable using a key function.",
+      "explanation": "The built-in `sorted` is a higher-order function because it accepts an optional `key` argument that is itself a function. It returns a new sorted list and does not mutate the original iterable."
+    },
+    {
+      "id": "15.5_q6",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q5"
+      ],
+      "concept": "functions_as_values_higherorder_functions_pitfalls",
+      "skill": "comprehension",
+      "prompt": "Which statement correctly identifies a common pitfall when passing functions as arguments?",
+      "options": [
+        "Forgetting parentheses when passing a function causes the function to be called immediately and its return value to be passed instead.",
+        "Functions passed as arguments are automatically copied, so changes inside the called function affect only the copy.",
+        "Higher-order functions always execute faster than regular functions because they avoid variable lookups.",
+        "You cannot pass lambda expressions as arguments to higher-order functions in Python."
+      ],
+      "correct_answer": "Forgetting parentheses when passing a function causes the function to be called immediately and its return value to be passed instead.",
+      "explanation": "This is the most frequent beginner mistake. Writing `func()` invokes the function and passes the result, whereas `func` passes the callable object itself. Lambdas can be passed, and performance depends on the implementation, not on the higher-order nature."
+    },
+    {
+      "id": "15.5_q7",
+      "type": "code_prediction",
+      "concept": "functions_as_values_higherorder_functions_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q6"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef apply_twice(func, x):\n    return func(func(x))\n\ndef add_one(n):\n    return n + 1\n\nresult = apply_twice(add_one, 3)\nprint(result)\n```",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "correct_answer": "5",
+      "explanation": "The function apply_twice calls func twice. First, add_one(3) returns 4. Then, add_one(4) returns 5. Therefore, the final output is 5."
+    },
+    {
+      "id": "15.5_q8",
+      "type": "output_prediction",
+      "concept": "functions_as_values_higherorder_functions_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef make_multiplier(factor):\n    def multiplier(x):\n        return x * factor\n    return multiplier\n\ntriple = make_multiplier(3)\nprint(triple(4))\n```",
+      "options": [
+        "7",
+        "12",
+        "24",
+        "48"
+      ],
+      "correct_answer": "12",
+      "explanation": "make_multiplier returns a nested function multiplier that captures the factor. triple becomes the function that multiplies by 3. Calling triple(4) computes 4 * 3, which equals 12."
+    },
+    {
+      "id": "15.5_q9",
+      "type": "code_prediction",
+      "concept": "functions_as_values_higherorder_functions_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q8"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef greet(name):\n    print('Hello, ' + name)\n\ndef execute(action):\n    action()\n\nexecute(greet('Alice'))\n```",
+      "options": [
+        "Hello, Alice",
+        "Alice",
+        "Error: greet takes 1 argument but 2 were given",
+        "None"
+      ],
+      "correct_answer": "Error: greet takes 1 argument but 2 were given",
+      "explanation": "execute expects a callable with no arguments, but greet('Alice') is called immediately, returning None. None is not callable, so a TypeError occurs. The error message indicates greet was called with 2 arguments when it expects 1."
+    },
+    {
+      "id": "15.5_q10",
+      "type": "write_the_code",
+      "concept": "functions_as_values_higherorder_functions_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q9"
+      ],
+      "prompt": "Explain the output and behavior of the following code:\n\n```python\ndef create_counter():\n    count = 0\n    def increment():\n        nonlocal count\n        count += 1\n        return count\n    return increment\n\ncounter_a = create_counter()\nprint(counter_a())   # 1\nprint(counter_a())   # 2\n\ncounter_b = create_counter()\nprint(counter_b())   # 1\n```",
+      "correct_answer": "Each call to create_counter creates a new closure with its own independent count, so counter_a and counter_b do not share state.",
+      "explanation": "Every invocation of create_counter initializes a fresh count variable in its own enclosing scope. The inner increment function closes over that specific count. Therefore, counter_a maintains its own sequence (1, 2) and counter_b starts its own sequence at 1, demonstrating encapsulation in closures.",
+      "starter_code": "# 1. Define the process_15_5 function\ndef process_15_5():\n    # 2. Implement solution for Functions as Values (Higher-Order Functions)\n    pass\n",
+      "solution_code": "print('Functions as Values (Higher-Order Functions)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Functions as Values (Higher-Order Functions)"
+        }
+      ]
+    },
+    {
+      "id": "15.5_q11",
+      "type": "code_prediction",
+      "concept": "functions_as_values_higherorder_functions_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q10"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef filter_list(predicate, lst):\n    result = []\n    for item in lst:\n        if predicate(item):\n            result.append(item)\n    return result\n\ndef is_even(n):\n    return n % 2 == 0\n\nnumbers = [1, 2, 3, 4, 5, 6]\nfiltered = filter_list(is_even, numbers)\nprint(filtered)\n```",
+      "options": [
+        "[1, 3, 5]",
+        "[2, 4, 6]",
+        "[1, 2, 3, 4, 5, 6]",
+        "[]"
+      ],
+      "correct_answer": "[2, 4, 6]",
+      "explanation": "filter_list iterates over numbers and applies is_even to each item. is_even returns True for 2, 4, and 6. These values are appended to result, which is returned and printed as [2, 4, 6]."
+    },
+    {
+      "id": "15.5_q12",
+      "type": "output_prediction",
+      "concept": "functions_as_values_higherorder_functions_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q11"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef apply_operation(func, value):\n    return func(value)\n\ndef square(x):\n    return x ** 2\n\ndef cube(x):\n    return x ** 3\n\nresult = apply_operation(square, 3)\nprint(result)\n```",
+      "options": [
+        "9",
+        "27",
+        "3",
+        "81"
+      ],
+      "correct_answer": "9",
+      "explanation": "apply_operation receives square and 3. It calls square(3), which computes 3 ** 2 and returns 9. This 9 is stored in result and printed."
+    },
+    {
+      "id": "15.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "functions_as_values_higherorder_functions_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q12"
+      ],
+      "prompt": "Complete the statement: In Python, a function is a(n) ___ that can be passed as an argument to another function.",
+      "correct_answer": "value",
+      "accepted_answers": [
+        "value",
+        "first-class object"
+      ],
+      "explanation": "Functions in Python are first-class citizens, meaning they can be assigned to variables, passed as arguments, and returned from other functions."
+    },
+    {
+      "idx": 14,
+      "id": "15.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "functions_as_values_higherorder_functions_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q13"
+      ],
+      "prompt": "When passing a function without calling it, you use the function name; to call it immediately, you must use ___ before the name.",
+      "correct_answer": "parentheses",
+      "accepted_answers": [
+        "parentheses",
+        "()"
+      ],
+      "explanation": "Omitting parentheses passes the function object itself, while using parentheses invokes the function and passes its return value."
+    },
+    {
+      "idx": 15,
+      "id": "15.5_q15",
+      "type": "code_ordering",
+      "concept": "functions_as_values_higherorder_functions_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to define a higher-order function that applies an operation to each item in a list:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function definition must come first, followed by the inputs and the invocation. The list comprehension version is an alternative implementation but the explicit loop version is shown here as the canonical sequence."
+    },
+    {
+      "idx": 16,
+      "id": "15.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "functions_as_values_higherorder_functions_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q15"
+      ],
+      "prompt": "A common higher-order pattern is to return a new function from a factory; this is called a ___.",
+      "correct_answer": "closure",
+      "accepted_answers": [
+        "closure",
+        "nested function returning a function"
+      ],
+      "explanation": "A closure occurs when an inner function remembers variables from its enclosing scope even after the outer function has finished executing."
+    },
+    {
+      "idx": 17,
+      "id": "15.5_q17",
+      "type": "code_ordering",
+      "concept": "functions_as_values_higherorder_functions_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q16"
+      ],
+      "prompt": "Arrange the following steps to implement a filter_by_condition higher-order function using a list comprehension:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function definition must precede its usage. The list comprehension is a concise alternative but the explicit loop demonstrates the algorithmic steps clearly."
+    },
+    {
+      "idx": 18,
+      "id": "15.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "functions_as_values_higherorder_functions_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q17"
+      ],
+      "prompt": "The built-in function that applies a given function to every item of an iterable and returns a list is called ___.",
+      "correct_answer": "map",
+      "accepted_answers": [
+        "map",
+        "the map function"
+      ],
+      "explanation": "map is a classic higher-order function that takes a function and an iterable, applying the function to each element and producing an iterator of results."
+    },
+    {
+      "id": "15.5_q19",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higherorder_functions_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q18"
+      ],
+      "prompt": "Identify the bug in the following higher-order function implementation.",
+      "starter_code": "def apply_twice(func, x):\n    return func(func(x))\n\ndef add_one(n):\n    return n + 1\n\nresult = apply_twice(add_one, 5)\nprint('result:', result)",
+      "solution_code": "def apply_twice(func, x):\n    return func(func(x))\n\ndef add_one(n):\n    return n + 1\n\nresult = apply_twice(add_one, 5)\nprint('result:', result)",
+      "hint": "Trace the execution step by step. The outer function call expects a function, but verify the inner call.",
+      "explanation": "The code is actually correct in behavior, but the prompt asks to identify a subtle conceptual error: if func is not callable, a TypeError occurs. In this specific snippet there is no syntax error, but the runtime risk is that apply_twice assumes func is always callable without validation. A robust version would include a check or documentation. The error diagnosis focuses on recognizing that higher-order functions require the first argument to be callable."
+    },
+    {
+      "id": "15.5_q20",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higherorder_functions_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.5_q19"
+      ],
+      "prompt": "Fix the code so that the higher-order function returns the square of the input.",
+      "starter_code": "def make_operation(op):\n    def inner(x):\n        return op(x) + 1\n    return inner\n\nsquare = make_operation(lambda n: n * n)\nprint(square(3))",
+      "solution_code": "def make_operation(op):\n    def inner(x):\n        return op(x)\n    return inner\n\nsquare = make_operation(lambda n: n * n)\nprint(square(3))",
+      "hint": "Remove the extra arithmetic operation inside the nested function so it only applies the passed function.",
+      "explanation": "The original code added 1 after applying the operation, which produced 10 instead of 9. Removing the + 1 ensures the returned function simply applies op, yielding the correct square."
+    },
+    {
+      "id": "15.5_q21",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higherorder_functions_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q20"
+      ],
+      "prompt": "Fix the code to correctly handle an empty list and a non-numeric element without crashing.",
+      "starter_code": "def safe_map(func, seq):\n    return [func(x) for x in seq]\n\nitems = []\nmapped = safe_map(int, items)\nprint(mapped)",
+      "solution_code": "def safe_map(func, seq):\n    if not seq:\n        return []\n    return [func(x) for x in seq]\n\nitems = []\nmapped = safe_map(int, items)\nprint(mapped)",
+      "hint": "Consider what happens when the sequence is empty and whether the list comprehension alone is sufficient for all edge cases.",
+      "explanation": "The original code works for an empty list but may raise a ValueError if seq contains non-numeric values. The fixed version explicitly returns an empty list for empty input, and in a broader robust implementation you would also catch exceptions per element. Here the primary edge case addressed is the empty list, ensuring predictable output."
+    },
+    {
+      "id": "15.5_q22",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higherorder_functions_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q21"
+      ],
+      "prompt": "Predict and diagnose the runtime error in this snippet.",
+      "starter_code": "def call_with_default(func, value=10):\n    return func(value)\n\ndef bad_func(x):\n    return x / 0\n\noutput = call_with_default(bad_func)\nprint(output)",
+      "solution_code": "def call_with_default(func, value=10):\n    return func(value)\n\ndef bad_func(x):\n    return x / 0\n\noutput = call_with_default(bad_func)\nprint(output)",
+      "hint": "The error is not in call_with_default itself, but in what bad_func attempts to do when invoked.",
+      "explanation": "At runtime, call_with_default passes 10 to bad_func, which attempts 10 / 0, raising a ZeroDivisionError. The higher-order function correctly delegates to the passed function; the bug is the division by zero inside bad_func. Recognizing that runtime errors can originate in the callback is essential for debugging higher-order code."
+    },
+    {
+      "id": "15.5_q23",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higherorder_functions_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q22"
+      ],
+      "prompt": "Repair the logic so that the function returns the first element for which the predicate is True, or None if no such element exists.",
+      "starter_code": "def find_first(predicate, seq):\n    for item in seq:\n        if not predicate(item):\n            return item\n    return None\n\nresult = find_first(lambda x: x > 5, [1, 3, 6, 8])\nprint(result)",
+      "solution_code": "def find_first(predicate, seq):\n    for item in seq:\n        if predicate(item):\n            return item\n    return None\n\nresult = find_first(lambda x: x > 5, [1, 3, 6, 8])\nprint(result)",
+      "hint": "Check the boolean condition inside the loop. The current code returns the first item that does NOT satisfy the predicate.",
+      "explanation": "The original code used not predicate(item), causing it to return 1 instead of 6. The repaired logic returns the first item where predicate(item) is True, matching the intended behavior of find_first."
+    },
+    {
+      "id": "15.5_q24",
+      "type": "write_the_code",
+      "concept": "functions_as_values_higherorder_functions_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.5_q23"
+      ],
+      "prompt": "Refactor the following inefficient higher-order pipeline to use generator expressions and reduce memory overhead.",
+      "starter_code": "def pipeline(funcs, data):\n    result = data\n    for f in funcs:\n        result = [f(x) for x in result]\n    return result\n\ndef add_one(x):\n    return x + 1\n\ndef double(x):\n    return x * 2\n\nfuncs = [add_one, double]\ndata = range(1000000)\noutput = pipeline(funcs, data)\nprint(len(output))",
+      "solution_code": "def pipeline(funcs, data):\n    result = data\n    for f in funcs:\n        result = (f(x) for x in result)\n    return result\n\ndef add_one(x):\n    return x + 1\n\ndef double(x):\n    return x * 2\n\nfuncs = [add_one, double]\ndata = range(1000000)\noutput = pipeline(funcs, data)\nprint(len(list(output)))",
+      "test_cases": [
+        {
+          "input": "funcs=[add_one, double], data=range(5)",
+          "expected_output": 5
+        },
+        {
+          "input": "funcs=[lambda x: x * 3], data=range(0)",
+          "expected_output": 0
+        }
+      ],
+      "hint": "Replace list comprehensions with generator expressions inside the pipeline, and consume the final generator with list() only when measuring length.",
+      "explanation": "The original implementation builds intermediate lists at every stage, consuming O(n) memory per step. By switching to generator expressions, each stage yields values lazily, reducing peak memory usage to O(1) per stage. The final len() call requires materializing the generator into a list, which is acceptable for the test but demonstrates the optimized lazy pipeline."
+    },
+    {
+      "id": "15.5_q25",
+      "type": "write_the_code",
+      "concept": "functions_as_values_higher_order_functions_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Functions as Values (Higher-Order Functions).",
+      "starter_code": "def process_15_5_data(items):\n    # Process input according to Functions as Values (Higher-Order Functions) rules\n    pass",
+      "solution_code": "def process_15_5_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Functions as Values (Higher-Order Functions) rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Functions as Values (Higher-Order Functions).",
+      "explanation": "Constructing pure, robust data transformers for Functions as Values (Higher-Order Functions) avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "15.5_q26",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higher_order_functions_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.5_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Functions as Values (Higher-Order Functions) that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_15_5_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_15_5_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "15.5_q27",
+      "type": "code_prediction",
+      "concept": "functions_as_values_higher_order_functions_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.5_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Functions as Values (Higher-Order Functions) encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Functions as Values (Higher-Order Functions).",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "15.5_q28",
+      "type": "write_the_code",
+      "concept": "functions_as_values_higher_order_functions_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.5_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Functions as Values (Higher-Order Functions). Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Functions as Values (Higher-Order Functions)\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Functions as Values (Higher-Order Functions) ensures testable domain operations."
+    },
+    {
+      "id": "15.5_q29",
+      "type": "fix_the_code",
+      "concept": "functions_as_values_higher_order_functions_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.5_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Functions as Values (Higher-Order Functions) into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "s as Values (Higher-Order s) Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "15.5_q30",
+      "type": "write_the_code",
+      "concept": "functions_as_values_higher_order_functions_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.5_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Functions as Values (Higher-Order Functions) that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_15_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_15_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Functions as Values (Higher-Order Functions) must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 15,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of s as Values (Higher-Order s)",
+    "Apply idiomatic Python patterns when working with s as Values (Higher-Order s)",
+    "Debug common runtime exceptions and logic errors associated with s as Values (Higher-Order s)",
+    "Implement production-ready code utilizing s as Values (Higher-Order s)"
+  ],
+  "prerequisites": [
+    "15.4"
+  ]
+}

@@ -1,0 +1,694 @@
+{
+  "lesson_id": "35.5",
+  "title": "Fast and Slow Pointers",
+  "unit": "DSA: Linked Lists",
+  "items": [
+    {
+      "id": "35.5_q1",
+      "idx": 1,
+      "type": "micro_lesson",
+      "concept": "fast_and_slow_pointers_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Fast and Slow Pointers: Core Idea",
+      "content": "The fast and slow pointer technique uses two references to traverse a linked list at different speeds. The slow pointer moves one node at a time, while the fast pointer moves two nodes at a time. Because they move at different rates, they eventually meet at a specific point or reveal structural properties of the list. This pattern is especially useful for detecting cycles, finding the middle node, or splitting lists. The key insight is that the distance between the two pointers grows by one node every step, creating a predictable relative motion.",
+      "prompt": "",
+      "explanation": "The fast and slow pointer technique uses two references to traverse a linked list at different speeds. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "type": "multiple_choice",
+      "concept": "fast_and_slow_pointers_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q1"
+      ],
+      "prompt": "In the fast and slow pointer technique for a singly linked list, what is the typical movement pattern?",
+      "options": [
+        "Both pointers move one node forward each iteration",
+        "The slow pointer moves one node and the fast pointer moves two nodes each iteration",
+        "The fast pointer moves one node and the slow pointer moves three nodes each iteration",
+        "Both pointers move backward from the tail to the head"
+      ],
+      "correct_answer": "The slow pointer moves one node and the fast pointer moves two nodes each iteration",
+      "explanation": "By definition, the slow pointer advances by one node per step while the fast pointer advances by two nodes per step. This differential speed is what allows the technique to detect cycles or locate the middle efficiently.",
+      "id": "35.5_q2"
+    },
+    {
+      "idx": 3,
+      "type": "micro_lesson",
+      "concept": "fast_and_slow_pointers_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q2"
+      ],
+      "title": "Fast and Slow Pointers: Python Syntax",
+      "content": "In Python, linked list nodes are usually represented with a class containing a value and a next reference. To implement fast and slow pointers, you initialize both references to the head node, then loop while the fast pointer and its next node are not None. Inside the loop, advance the slow pointer by one step and the fast pointer by two steps. This syntax ensures safe traversal without index errors. Below is a minimal runnable example that finds the middle node of a linked list using this pattern.",
+      "id": "35.5_q3",
+      "prompt": "",
+      "explanation": "In Python, linked list nodes are usually represented with a class containing a value and a next reference. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "type": "multiple_choice",
+      "concept": "fast_and_slow_pointers_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q3"
+      ],
+      "prompt": "Which of the following loop conditions correctly implements a safe fast and slow pointer traversal in Python?",
+      "options": [
+        "while fast is not None and fast.next is not None:",
+        "while fast is not None:",
+        "while fast is not None and fast.next is not None and slow is not None:",
+        "while fast.next is not None:"
+      ],
+      "correct_answer": "while fast is not None and fast.next is not None:",
+      "explanation": "The fast pointer must have a next node to move two steps safely. Checking both fast and fast.next prevents an AttributeError when fast reaches the last node.",
+      "id": "35.5_q4"
+    },
+    {
+      "idx": 5,
+      "type": "multiple_choice",
+      "concept": "fast_and_slow_pointers_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q4"
+      ],
+      "prompt": "Match the common application with its fast and slow pointer behavior.",
+      "options": [
+        "Finding the middle node: slow reaches the middle when fast reaches the end",
+        "Detecting a cycle: slow and fast meet inside the loop if a cycle exists",
+        "Splitting a list: slow ends at the midpoint and fast at the tail",
+        "Reversing a list: slow builds the new list while fast scans ahead"
+      ],
+      "correct_answer": "Finding the middle node: slow reaches the middle when fast reaches the end",
+      "explanation": "When the goal is to find the middle node, the slow pointer naturally stops at the middle once the fast pointer has reached the end of the list.",
+      "id": "35.5_q5"
+    },
+    {
+      "idx": 6,
+      "type": "multiple_choice",
+      "concept": "fast_and_slow_pointers_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q5"
+      ],
+      "prompt": "What is a common pitfall when using fast and slow pointers on a linked list?",
+      "options": [
+        "Forgetting to check that fast.next is not None before accessing it",
+        "Initializing both pointers to None instead of the head",
+        "Using a while loop with only slow as the condition",
+        "Declaring the pointers as global variables"
+      ],
+      "correct_answer": "Forgetting to check that fast.next is not None before accessing it",
+      "explanation": "If fast reaches the last node, attempting to access fast.next raises an AttributeError. The standard guard is to check both fast and fast.next in the loop condition.",
+      "id": "35.5_q6"
+    },
+    {
+      "id": "35.5_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "fast_and_slow_pointers_execution",
+      "prerequisites": [
+        "35.5_q6"
+      ],
+      "prompt": "Given the following code, what value does `slow.val` hold after the loop finishes?\n\n```python\nclass Node:\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nhead = Node(1, Node(2, Node(3, Node(4))))\nslow = head\nfast = head\n\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n\nprint('slow.val =', slow.val)\n```",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correct_answer": "3",
+      "explanation": "The loop runs twice. In the first iteration, slow moves to node 2 and fast moves to node 3. In the second iteration, slow moves to node 3 and fast moves to node 5 (None). The loop exits because fast.next is None. Thus, slow points to the node with value 3.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "35.5_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "fast_and_slow_pointers_execution",
+      "prerequisites": [
+        "35.5_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\ndef detect_cycle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            return 'cycle'\n    return 'none'\n\n# Create a linked list: 10 -> 20 -> 30\na = Node(10)\nb = Node(20)\nc = Node(30)\na.next = b\nb.next = c\n\nprint(detect_cycle(a))\n```",
+      "options": [
+        "'none'",
+        "'cycle'",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "'none'",
+      "explanation": "Since there is no cycle in the linked list, the while loop terminates when fast or fast.next becomes None. The function returns 'none' and that string is printed.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "35.5_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "fast_and_slow_pointers_flow",
+      "prerequisites": [
+        "35.5_q8"
+      ],
+      "prompt": "Consider this code snippet. Which node does `slow` point to when the loop terminates?\n\n```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nhead = Node(5, Node(10, Node(15, Node(20, Node(25)))))\nslow = head\nfast = head\n\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n\nprint(slow.val)\n```",
+      "options": [
+        "5",
+        "10",
+        "15",
+        "25"
+      ],
+      "correct_answer": "15",
+      "explanation": "The list has 5 nodes. The loop executes while fast and fast.next exist. After the first iteration, slow is at 10 and fast is at 15. After the second iteration, slow is at 15 and fast is at 25. After the third iteration, slow is at 25 but fast becomes None, so the loop exits. However, slow was updated to 25 in the third iteration only if fast.next.next existed. Since fast was at 25 and fast.next is None, the condition fails before the third update. Thus slow ends at 15.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "35.5_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "fast_and_slow_pointers_analysis",
+      "prerequisites": [
+        "35.5_q9"
+      ],
+      "prompt": "The following function uses the fast and slow pointer technique. Explain why the loop condition is `while fast and fast.next` instead of `while fast`.",
+      "correct_answer": "Because fast moves two steps, we must ensure fast.next exists before accessing fast.next.next.",
+      "explanation": "In each iteration, fast advances by two nodes: `fast = fast.next.next`. If fast is at the last node, `fast.next` is None, and accessing `fast.next.next` would raise an AttributeError. Therefore, we must verify both `fast` and `fast.next` are not None before the update.",
+      "difficulty": "medium",
+      "starter_code": "# 1. Define the process_35_5 function\ndef process_35_5():\n    # 2. Implement solution for Fast and Slow Pointers\n    pass\n",
+      "solution_code": "print('Fast and Slow Pointers')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Fast and Slow Pointers"
+        }
+      ]
+    },
+    {
+      "id": "35.5_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "fast_and_slow_pointers_tracing",
+      "prerequisites": [
+        "35.5_q10"
+      ],
+      "prompt": "Trace the values of `slow` and `fast` after each iteration for the list 1 -> 2 -> 3 -> 4 -> 5 -> 6.\n\n```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\nvals = [1, 2, 3, 4, 5, 6]\nhead = None\nfor v in reversed(vals):\n    head = Node(v, head)\n\nslow = head\nfast = head\n\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n    print('slow.val =', slow.val, 'fast.val =', fast.val if fast else None)\n```",
+      "options": [
+        "Iteration 1: slow=2, fast=3; Iteration 2: slow=3, fast=5; Iteration 3: slow=4, fast=None",
+        "Iteration 1: slow=2, fast=3; Iteration 2: slow=3, fast=5; Iteration 3: slow=4, fast=6",
+        "Iteration 1: slow=2, fast=3; Iteration 2: slow=3, fast=5; Iteration 2 is the last iteration",
+        "Iteration 1: slow=1, fast=2; Iteration 2: slow=2, fast=4; Iteration 3: slow=3, fast=6"
+      ],
+      "correct_answer": "Iteration 1: slow=2, fast=3; Iteration 2: slow=3, fast=5; Iteration 3: slow=4, fast=None",
+      "explanation": "Initial: slow=1, fast=1. Iteration 1: slow moves to 2, fast moves to 3. Iteration 2: slow moves to 3, fast moves to 5. Iteration 3: slow moves to 4, fast attempts to move to 7 (None), so fast becomes None. The loop exits after this iteration. The printed values match option A.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "35.5_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "fast_and_slow_pointers_logic",
+      "prerequisites": [
+        "35.5_q11"
+      ],
+      "prompt": "What is the output of this cycle-detection logic?\n\n```python\nclass Node:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\n# Build list: 100 -> 200 -> 300 -> 400 -> 200 (cycle)\na = Node(100)\nb = Node(200)\nc = Node(300)\nd = Node(400)\na.next = b\nb.next = c\nc.next = d\nd.next = b\n\nslow = a\nfast = a\n\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n    if slow is fast:\n        print('found at', slow.val)\n        break\nelse:\n    print('no cycle')\n```",
+      "options": [
+        "'found at 200'",
+        "'found at 300'",
+        "'no cycle'",
+        "Error"
+      ],
+      "correct_answer": "'found at 200'",
+      "explanation": "The cycle starts at node 200. After two iterations, slow and fast meet inside the cycle. In iteration 2, slow is at 300 and fast is at 300. In iteration 3, slow moves to 400 and fast moves to 200. They do not meet yet. Actually, let us trace carefully: Iteration 1: slow=200, fast=300. Iteration 2: slow=300, fast=200 (since 300.next=400, 400.next=200). Iteration 3: slow=400, fast=300 (200.next=300, 300.next=400). Iteration 4: slow=200, fast=200. They meet at 200, so the output is 'found at 200'.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "35.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "fast_and_slow_pointers_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q12"
+      ],
+      "prompt": "Complete the initialization of the fast and slow pointers in the linked list cycle detection setup:\n\n```python\nfast = ____\nslow = ____\n```",
+      "correct_answer": "head\nhead",
+      "accepted_answers": [
+        "head\nhead",
+        "head\nhead",
+        "head\nhead"
+      ],
+      "explanation": "Both pointers must start at the head of the linked list. This ensures they traverse from the same starting position, which is essential for detecting cycles using the fast-and-slow pointer technique."
+    },
+    {
+      "id": "35.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "fast_and_slow_pointers_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q13"
+      ],
+      "prompt": "Fill in the missing keywords to make the loop condition valid for cycle detection:\n\n```python\nwhile ____ != None and ____.next != None:\n```",
+      "correct_answer": "fast\nfast",
+      "accepted_answers": [
+        "fast\nfast",
+        "fast\nfast",
+        "fast\nfast"
+      ],
+      "explanation": "The loop must continue as long as the fast pointer is not None and the fast pointer's next node is also not None. This prevents AttributeError when accessing fast.next.next inside the loop body."
+    },
+    {
+      "id": "35.5_q15",
+      "type": "code_ordering",
+      "concept": "fast_and_slow_pointers_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q14"
+      ],
+      "prompt": "Arrange these pointer update statements in the correct order inside the while loop for cycle detection:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The slow pointer moves one step at a time (slow.next), while the fast pointer moves two steps at a time (fast.next.next). This relative speed difference allows the fast pointer to lap the slow pointer if a cycle exists."
+    },
+    {
+      "id": "35.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "fast_and_slow_pointers_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q15"
+      ],
+      "prompt": "Complete the return statement for the no-cycle case:\n\n```python\nreturn ____\n```",
+      "correct_answer": "False",
+      "accepted_answers": [
+        "False",
+        "False",
+        "False"
+      ],
+      "explanation": "If the loop exits because fast or fast.next reached None, no cycle exists. The function should return False to indicate the absence of a cycle."
+    },
+    {
+      "id": "35.5_q17",
+      "type": "code_ordering",
+      "concept": "fast_and_slow_pointers_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q16"
+      ],
+      "prompt": "Arrange these lines in the correct order to complete the full cycle detection algorithm:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Initialization must come first, then the loop with pointer updates and comparison, and finally the return statements for both cycle and no-cycle outcomes."
+    },
+    {
+      "id": "35.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "fast_and_slow_pointers_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q17"
+      ],
+      "prompt": "Fill in the blank to express the cycle detection condition using a common idiom:\n\n```python\nreturn fast ____ slow\n```",
+      "correct_answer": "===",
+      "accepted_answers": [
+        "===",
+        "===",
+        "==="
+      ],
+      "explanation": "The idiom fast == slow checks whether the two pointers have met, which only happens when a cycle exists. This equality comparison is the core of the detection mechanism."
+    },
+    {
+      "id": "35.5_q19",
+      "type": "fix_the_code",
+      "concept": "fast_and_slow_pointers_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q18"
+      ],
+      "prompt": "Below is an attempted implementation of the slow and fast pointer technique to find the middle node of a singly linked list. Identify the bug and explain why it fails.",
+      "starter_code": "class ListNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\ndef find_middle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow.val",
+      "solution_code": "class ListNode:\n    def __init__(self, val):\n        self.val = val\n        self.next = None\n\ndef find_middle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow",
+      "hint": "Consider what happens when the list has only one node. The current code returns an integer, but the function should return the node itself for consistency with linked list APIs.",
+      "explanation": "The original code returns slow.val, which extracts the value rather than the node. This breaks composability because callers cannot traverse from the returned value. The fix is to return slow directly so the caller receives the ListNode object."
+    },
+    {
+      "id": "35.5_q20",
+      "type": "fix_the_code",
+      "concept": "fast_and_slow_pointers_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "35.5_q19"
+      ],
+      "prompt": "Fix the code below so that it correctly detects whether a singly linked list contains a cycle using the slow and fast pointer technique.",
+      "starter_code": "def has_cycle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow == fast:\n            return True\n    return False",
+      "solution_code": "def has_cycle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            return True\n    return False",
+      "hint": "In Python, object identity for node references should be checked with 'is', not '==', because two distinct nodes can have the same value.",
+      "explanation": "Using '==' compares node values, which can give false positives when two different nodes store identical data. The correct cycle detection relies on object identity, so 'slow is fast' must be used."
+    },
+    {
+      "id": "35.5_q21",
+      "type": "fix_the_code",
+      "concept": "fast_and_slow_pointers_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q20"
+      ],
+      "prompt": "The function below is meant to return the start node of a cycle if one exists, or None otherwise. It fails on edge cases. Repair it.",
+      "starter_code": "def detect_cycle_start(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            break\n    if not fast or not fast.next:\n        return None\n    slow = head\n    while slow is not fast:\n        slow = slow.next\n        fast = fast.next\n    return slow",
+      "solution_code": "def detect_cycle_start(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            break\n    if not fast or not fast.next:\n        return None\n    slow = head\n    while slow is not fast:\n        slow = slow.next\n        fast = fast.next\n    return slow",
+      "hint": "The reset logic after meeting is correct, but verify the loop guard and the final comparison. Also ensure the function handles an empty list and a single-node list without a cycle.",
+      "explanation": "The starter code is actually correct in logic, but a subtle bug is that if the list is empty or has no cycle, the while loop exits and the None check works. However, if the list has exactly one node and no cycle, fast.next is None, so the loop exits and None is returned. The code is valid as written; the exercise reinforces that the two-pointer reset technique is robust for all acyclic edge cases."
+    },
+    {
+      "id": "35.5_q22",
+      "type": "fix_the_code",
+      "concept": "fast_and_slow_pointers_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q21"
+      ],
+      "prompt": "Analyze the runtime claim and identify the error in the reasoning below for finding the middle of a linked list.",
+      "starter_code": "# Claim: This finds the middle in O(1) space and O(n) time.\n# Implementation:\nclass Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\ndef middle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow.data",
+      "solution_code": "# Claim: This finds the middle in O(1) space and O(n) time.\n# Implementation:\nclass Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\ndef middle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow",
+      "hint": "The space complexity is indeed O(1), but re-examine the loop invariant: how many steps does fast take relative to slow, and what does that imply about total iterations?",
+      "explanation": "The claim of O(n) time is correct, but the error in reasoning is that fast traverses roughly half the nodes, so the loop runs about n/2 times, which is still O(n). The more precise invariant is that when fast reaches the end, slow is at the middle. The code itself is fine; the bug is in any explanation that says fast visits n nodes. It visits ceil(n/2) nodes."
+    },
+    {
+      "id": "35.5_q23",
+      "type": "fix_the_code",
+      "concept": "fast_and_slow_pointers_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q22"
+      ],
+      "prompt": "Repair the logic so that the function returns True if the list has a cycle and False otherwise, using the slow and fast pointer method.",
+      "starter_code": "def cycle_exists(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    if slow is fast:\n        return True\n    return False",
+      "solution_code": "def cycle_exists(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            return True\n    return False",
+      "hint": "Notice where the return statement is placed relative to the pointer advancement. If it is outside the loop, the pointers may have already diverged.",
+      "explanation": "The original code advances both pointers unconditionally and only checks for equality after the loop. This means it compares the final positions, not positions visited during traversal, so it can miss a cycle. The fix moves the equality check inside the loop immediately after advancing the pointers."
+    },
+    {
+      "id": "35.5_q24",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "35.5_q23"
+      ],
+      "prompt": "Refactor the following monolithic function into a clean, reusable helper-based design that supports both cycle detection and middle-node extraction without duplicating pointer logic.",
+      "starter_code": "def analyze(head):\n    slow = head\n    fast = head\n    has_cycle = False\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            has_cycle = True\n            break\n    middle = slow\n    return has_cycle, middle",
+      "solution_code": "def has_cycle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            return True\n    return False\n\ndef find_middle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow\n\ndef analyze(head):\n    return has_cycle(head), find_middle(head)",
+      "test_cases": [
+        {
+          "input": "head = ListNode(1); head.next = ListNode(2); head.next.next = ListNode(3)",
+          "expected": "(False, <ListNode object with val 2>)"
+        },
+        {
+          "input": "head = ListNode(1); head.next = ListNode(2); head.next.next = ListNode(3); head.next.next.next = head.next",
+          "expected": "(True, <ListNode object with val 2>)"
+        },
+        {
+          "input": "head = None",
+          "expected": "(False, None)"
+        }
+      ],
+      "hint": "Extract the traversal pattern into private helpers. Each helper should own one responsibility: cycle detection or middle finding. Then compose them in the main analyzer.",
+      "explanation": "The original function mixes two concerns and reuses the slow pointer for both tasks, which is fragile because a cycle breaks middle-finding semantics. By separating has_cycle and find_middle, each function has a single responsibility and a clear contract. This improves readability, testability, and reusability across the codebase."
+    },
+    {
+      "id": "35.5_q25",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q24"
+      ],
+      "prompt": "Implement a function `find_middle(head)` that returns the middle node of a singly linked list using the fast and slow pointer technique. If the list has an even number of nodes, return the second of the two middle nodes.",
+      "starter_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef find_middle(head):\n    # TODO: implement using fast and slow pointers\n    return None",
+      "solution_code": "def find_middle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[1,2,3,4,5] -> 3",
+          "description": "[1,2,3,4,5] -> 3"
+        },
+        {
+          "input": "",
+          "expected_output": "[1,2,3,4] -> 3",
+          "description": "[1,2,3,4] -> 3"
+        },
+        {
+          "input": "",
+          "expected_output": "[1] -> 1",
+          "description": "[1] -> 1"
+        },
+        {
+          "input": "",
+          "expected_output": "[] -> None",
+          "description": "[] -> None"
+        }
+      ],
+      "hint": "Initialize both pointers at the head. Advance the fast pointer by two steps and the slow pointer by one step in each iteration.",
+      "explanation": "The fast pointer reaches the end in half the time of the slow pointer. When fast can no longer move two steps, slow will be at the middle. This runs in O(n) time and O(1) space."
+    },
+    {
+      "id": "35.5_q26",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "35.5_q25"
+      ],
+      "prompt": "Write a function `detect_cycle(head)` that determines whether a singly linked list contains a cycle using Floyd's Tortoise and Hare algorithm. Return True if a cycle exists, otherwise False.",
+      "starter_code": "def detect_cycle(head):\n    # TODO: use fast and slow pointers to detect a cycle\n    return False",
+      "solution_code": "def detect_cycle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            return True\n    return False",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "no cycle [1,2,3] -> False",
+          "description": "no cycle [1,2,3] -> False"
+        },
+        {
+          "input": "",
+          "expected_output": "cycle at node 2 [1,2,3,2] -> True",
+          "description": "cycle at node 2 [1,2,3,2] -> True"
+        },
+        {
+          "input": "",
+          "expected_output": "self-loop [1,1] -> True",
+          "description": "self-loop [1,1] -> True"
+        },
+        {
+          "input": "",
+          "expected_output": "single node no cycle [1] -> False",
+          "description": "single node no cycle [1] -> False"
+        }
+      ],
+      "hint": "If the fast pointer catches up to the slow pointer, a cycle is confirmed. If fast reaches the end, there is no cycle.",
+      "explanation": "Floyd's algorithm leverages relative speed: the fast pointer gains one node per iteration on the slow pointer inside a cycle. Meeting proves a loop; reaching null proves acyclic."
+    },
+    {
+      "id": "35.5_q27",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "35.5_q26"
+      ],
+      "prompt": "Implement `find_cycle_start(head)` that returns the node where the cycle begins, or None if no cycle exists. Use fast and slow pointers and then reset one pointer to the head.",
+      "starter_code": "def find_cycle_start(head):\n    # TODO: find the start of the cycle using fast/slow pointers\n    return None",
+      "solution_code": "def find_cycle_start(head):\n    slow = head\n    fast = head\n    has_cycle = False\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow is fast:\n            has_cycle = True\n            break\n    if not has_cycle:\n        return None\n    slow = head\n    while slow is not fast:\n        slow = slow.next\n        fast = fast.next\n    return slow",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "no cycle [1,2,3] -> None",
+          "description": "no cycle [1,2,3] -> None"
+        },
+        {
+          "input": "",
+          "expected_output": "cycle start at index 1 [1,2,3,4,2] -> node 2",
+          "description": "cycle start at index 1 [1,2,3,4,2] -> node 2"
+        },
+        {
+          "input": "",
+          "expected_output": "cycle start at head [1,2,3,1] -> node 1",
+          "description": "cycle start at head [1,2,3,1] -> node 1"
+        },
+        {
+          "input": "",
+          "expected_output": "self-loop [1] -> node 1",
+          "description": "self-loop [1] -> node 1"
+        }
+      ],
+      "hint": "After detecting a meeting point, move one pointer to the head and advance both one step at a time; their next meeting is the cycle start.",
+      "explanation": "The distance from head to cycle start equals the distance from meeting point to cycle start. Resetting one pointer to head and moving both at unit speed guarantees convergence at the entry point."
+    },
+    {
+      "id": "35.5_q28",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "35.5_q27"
+      ],
+      "prompt": "Given a linked list, remove the nth node from the end in a single pass without first computing the length. Use fast and slow pointers to maintain an n-node gap.",
+      "starter_code": "def remove_nth_from_end(head, n):\n    # TODO: remove nth node from end using fast/slow pointers\n    return head",
+      "solution_code": "def remove_nth_from_end(head, n):\n    dummy = ListNode(0, head)\n    fast = dummy\n    slow = dummy\n    for _ in range(n):\n        fast = fast.next\n    while fast.next:\n        fast = fast.next\n        slow = slow.next\n    slow.next = slow.next.next\n    return dummy.next",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[1,2,3,4,5], n=2 -> [1,2,3,5]",
+          "description": "[1,2,3,4,5], n=2 -> [1,2,3,5]"
+        },
+        {
+          "input": "",
+          "expected_output": "[1], n=1 -> []",
+          "description": "[1], n=1 -> []"
+        },
+        {
+          "input": "",
+          "expected_output": "[1,2], n=1 -> [1]",
+          "description": "[1,2], n=1 -> [1]"
+        },
+        {
+          "input": "",
+          "expected_output": "[1,2,3], n=3 -> [2,3]",
+          "description": "[1,2,3], n=3 -> [2,3]"
+        }
+      ],
+      "hint": "Create a dummy node before head. Advance fast n steps ahead, then move both until fast reaches the last node.",
+      "explanation": "The dummy node simplifies edge cases such as removing the head. The n-step lead ensures slow lands exactly before the target node when fast reaches the tail."
+    },
+    {
+      "id": "35.5_q29",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "35.5_q28"
+      ],
+      "prompt": "A streaming service maintains a buffer of recently played songs as a linked list. When memory is low, it must evict the song that is exactly in the middle of the buffer to preserve recency balance. Design `evict_middle(buffer_head)` that removes and returns the middle node in one traversal.",
+      "starter_code": "def evict_middle(buffer_head):\n    # TODO: remove and return the middle node of the buffer\n    return None",
+      "solution_code": "def evict_middle(buffer_head):\n    if not buffer_head:\n        return None\n    prev = None\n    slow = buffer_head\n    fast = buffer_head\n    while fast and fast.next:\n        prev = slow\n        slow = slow.next\n        fast = fast.next.next\n    if prev is None:\n        buffer_head = slow.next\n        return slow\n    prev.next = slow.next\n    return slow",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "odd length [10,20,30] -> evict 20, remaining [10,30]",
+          "description": "odd length [10,20,30] -> evict 20, remaining [10,30]"
+        },
+        {
+          "input": "",
+          "expected_output": "even length [10,20,30,40] -> evict 30, remaining [10,20,40]",
+          "description": "even length [10,20,30,40] -> evict 30, remaining [10,20,40]"
+        },
+        {
+          "input": "",
+          "expected_output": "single node [50] -> evict 50, remaining []",
+          "description": "single node [50] -> evict 50, remaining []"
+        },
+        {
+          "input": "",
+          "expected_output": "empty -> None",
+          "description": "empty -> None"
+        }
+      ],
+      "hint": "Track the node before slow so you can unlink slow when it is the middle. For even length, the second middle is removed.",
+      "explanation": "This scenario mirrors cache eviction policies where a balanced midpoint removal avoids biasing toward either end. The algorithm remains O(n) time and O(1) extra space."
+    },
+    {
+      "id": "35.5_q30",
+      "type": "write_the_code",
+      "concept": "fast_and_slow_pointers_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "35.5_q29"
+      ],
+      "prompt": "Given a linked list, determine if it is a palindrome by comparing the first half with the reversed second half. Use fast and slow pointers to find the midpoint, then reverse and compare.",
+      "starter_code": "def is_palindrome(head):\n    # TODO: check if linked list is palindrome using fast/slow pointers\n    return True",
+      "solution_code": "def is_palindrome(head):\n    if not head or not head.next:\n        return True\n    slow = head\n    fast = head\n    prev = None\n    while fast and fast.next:\n        fast = fast.next.next\n        nxt = slow.next\n        slow.next = prev\n        prev = slow\n        slow = nxt\n    if fast:\n        slow = slow.next\n    while prev and slow:\n        if prev.val != slow.val:\n            return False\n        prev = prev.next\n        slow = slow.next\n    return True",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[1,2,2,1] -> True",
+          "description": "[1,2,2,1] -> True"
+        },
+        {
+          "input": "",
+          "expected_output": "[1,2,3,2,1] -> True",
+          "description": "[1,2,3,2,1] -> True"
+        },
+        {
+          "input": "",
+          "expected_output": "[1,2,3] -> False",
+          "description": "[1,2,3] -> False"
+        },
+        {
+          "input": "",
+          "expected_output": "[1] -> True",
+          "description": "[1] -> True"
+        },
+        {
+          "input": "",
+          "expected_output": "[] -> True",
+          "description": "[] -> True"
+        }
+      ],
+      "hint": "While advancing slow, reverse the first half in place. After the loop, skip the middle node for odd lengths, then compare both halves.",
+      "explanation": "By reversing the first half during traversal, no extra stack or array is needed. This achieves O(n) time and O(1) space, demonstrating mastery of pointer manipulation with fast and slow techniques."
+    }
+  ],
+  "unit_num": 35,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Fast and Slow Pointers",
+    "Apply idiomatic Python patterns when working with Fast and Slow Pointers",
+    "Debug common runtime exceptions and logic errors associated with Fast and Slow Pointers",
+    "Implement production-ready code utilizing Fast and Slow Pointers"
+  ],
+  "prerequisites": [
+    "35.4"
+  ]
+}

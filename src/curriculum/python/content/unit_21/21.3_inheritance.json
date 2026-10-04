@@ -1,0 +1,676 @@
+{
+  "lesson_id": "21.3",
+  "title": "Inheritance",
+  "unit": "Object-Oriented Programming (Advanced)",
+  "items": [
+    {
+      "id": "21.3_q1",
+      "type": "micro_lesson",
+      "concept": "inheritance_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Inheritance?",
+      "content": "Inheritance is a core principle of object-oriented programming that allows a new class to reuse, extend, and modify the behavior of an existing class. The existing class is called the parent (or base) class, and the new class is called the child (or derived) class. In Python, you create a child class by placing the parent class name in parentheses after the child class name. This lets the child class automatically gain the attributes and methods of the parent class without rewriting them. Inheritance promotes code reuse and establishes a natural hierarchy between related concepts. For example, if you have a class Animal with a method speak(), a class Dog can inherit from Animal and reuse that method while adding its own bark() method.",
+      "prompt": "",
+      "explanation": "Inheritance is a core principle of object-oriented programming that allows a new class to reuse, extend, and modify the behavior of an existing class. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "21.3_q2",
+      "type": "multiple_choice",
+      "concept": "inheritance_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q1"
+      ],
+      "prompt": "Which statement best describes inheritance in Python?",
+      "options": [
+        "A child class must always redefine every method from the parent class.",
+        "A child class can automatically use the attributes and methods of a parent class.",
+        "Inheritance only works when both classes are defined in the same file.",
+        "A parent class is created by placing the child class name in parentheses."
+      ],
+      "correct_answer": "A child class can automatically use the attributes and methods of a parent class.",
+      "explanation": "Inheritance enables code reuse: the child class gains the parent's attributes and methods. It does not need to redefine them, and the parent class is not defined with the child in parentheses. Inheritance is not restricted by file location."
+    },
+    {
+      "id": "21.3_q3",
+      "type": "micro_lesson",
+      "concept": "inheritance_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q2"
+      ],
+      "title": "Inheritance Syntax in Python",
+      "content": "To declare inheritance in Python, write the child class name followed by a parent class name in parentheses. The general syntax is: class ChildClassName(ParentClassName):. You can also inherit from multiple parent classes by listing them separated with commas, such as class Child(ParentA, ParentB):. Inside the child class, you can access parent attributes and methods directly. If the child defines a method with the same name as a parent method, it overrides the parent's version. Here is a simple example:\n\nclass Vehicle:\n    def start_engine(self):\n        print('engine started')\n\nclass Car(Vehicle):\n    def honk(self):\n        print('beep')\n\nc = Car()\nc.start_engine()  # inherited from Vehicle\nc.honk()          # defined in Car",
+      "prompt": "",
+      "explanation": "To declare inheritance in Python, write the child class name followed by a parent class name in parentheses. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "21.3_q4",
+      "type": "multiple_choice",
+      "concept": "inheritance_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q3"
+      ],
+      "prompt": "Given the code below, which line correctly defines a child class named Bike that inherits from Vehicle?",
+      "options": [
+        "class Bike: Vehicle",
+        "class Bike(Vehicle):",
+        "class Vehicle(Bike):",
+        "inherit class Bike from Vehicle"
+      ],
+      "correct_answer": "class Bike(Vehicle):",
+      "explanation": "In Python, inheritance is declared by placing the parent class name in parentheses after the child class name, followed by a colon. Option A is missing the colon, option C reverses the relationship, and option D is not valid Python syntax."
+    },
+    {
+      "id": "21.3_q5",
+      "type": "multiple_choice",
+      "concept": "inheritance_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q4"
+      ],
+      "prompt": "Match the following class relationships to their correct Python inheritance expressions.",
+      "options": [
+        "Dog inherits from Animal: class Dog(Animal):",
+        "Animal inherits from Dog: class Animal(Dog):",
+        "Dog inherits from Animal: class Animal(Dog):",
+        "Animal inherits from Dog: class Dog(Animal):"
+      ],
+      "correct_answer": "Dog inherits from Animal: class Dog(Animal):",
+      "explanation": "The child class is listed first, and the parent class is listed in parentheses. Therefore, Dog, the child, inherits from Animal, the parent. The other options either reverse the relationship or use incorrect syntax."
+    },
+    {
+      "id": "21.3_q6",
+      "type": "multiple_choice",
+      "concept": "inheritance_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q5"
+      ],
+      "prompt": "What is a common pitfall when using inheritance in Python?",
+      "options": [
+        "Child classes cannot access parent methods unless they are copied manually.",
+        "Overriding a parent method in a child class can lead to unexpected behavior if the override does not call the parent's version when needed.",
+        "Inheritance only works if the parent class has no parameters in its constructor.",
+        "Multiple inheritance always causes a NameError in Python."
+      ],
+      "correct_answer": "Overriding a parent method in a child class can lead to unexpected behavior if the override does not call the parent's version when needed.",
+      "explanation": "A frequent issue is method overriding: the child class replaces the parent method, but sometimes the child needs the original behavior too. Using super() helps avoid this pitfall. The other options are incorrect: parent methods are accessible automatically, constructors can accept parameters, and multiple inheritance is supported though it requires care."
+    },
+    {
+      "id": "21.3_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "inheritance_execution",
+      "micro_lesson": {
+        "title": "Predicting Method Calls in Inheritance",
+        "content": "In object-oriented programming, inheritance allows a child class to reuse attributes and methods from a parent class. When a method is called on an instance of the child class, Python first checks the child class. If the method is not found there, it looks in the parent class. Consider the following code:"
+      },
+      "prompt": "What is the output of the following Python code?\n\nclass Animal:\n    def speak(self):\n        return 'Some generic sound'\n\nclass Dog(Animal):\n    def speak(self):\n        return 'Woof!'\n\nd = Dog()\nprint(d.speak())",
+      "options": [
+        "Some generic sound",
+        "Woof!",
+        "Error: speak not found",
+        "None"
+      ],
+      "correct_answer": "Woof!",
+      "explanation": "The Dog class inherits from Animal but overrides the speak method. When d.speak() is called, Python executes the speak method defined in the Dog class, not the parent class. Therefore, the output is 'Woof!'.",
+      "prerequisites": [
+        "21.3_q6"
+      ]
+    },
+    {
+      "id": "21.3_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "inheritance_execution",
+      "micro_lesson": {
+        "title": "Understanding super() and Method Resolution Order",
+        "content": "When a child class overrides a parent method, it can still call the parent's version using super(). The method resolution order (MRO) determines which method gets executed first. If the child does not override a method, the parent's version is used automatically."
+      },
+      "prompt": "What is the output of the following Python code?\n\nclass Vehicle:\n    def move(self):\n        return 'Moving'\n\nclass Car(Vehicle):\n    def move(self):\n        return super().move() + ' fast'\n\nc = Car()\nprint(c.move())",
+      "options": [
+        "Moving fast",
+        "Moving",
+        "fast",
+        "Error: super() not defined"
+      ],
+      "correct_answer": "Moving fast",
+      "explanation": "The Car class overrides move and calls super().move(), which returns 'Moving'. Concatenating ' fast' yields 'Moving fast'. The super() keyword accesses the parent class method.",
+      "prerequisites": [
+        "21.3_q7"
+      ]
+    },
+    {
+      "id": "21.3_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "inheritance_flow",
+      "micro_lesson": {
+        "title": "Tracing Inheritance Flow with Multiple Levels",
+        "content": "Inheritance can span multiple levels. A grandchild class inherits from a child class, which in turn inherits from a parent. When a method is called, Python searches the class hierarchy from the most derived class upward until it finds a matching method."
+      },
+      "prompt": "What is the output of the following Python code?\n\nclass A:\n    def show(self):\n        return 'A'\n\nclass B(A):\n    def show(self):\n        return 'B'\n\nclass C(B):\n    pass\n\nc = C()\nprint(c.show())",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "Error: show not found"
+      ],
+      "correct_answer": "B",
+      "explanation": "Class C does not define show, so Python looks in its parent B, which defines show and returns 'B'. The method from A is skipped because B already provides an override.",
+      "prerequisites": [
+        "21.3_q8"
+      ]
+    },
+    {
+      "id": "21.3_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "inheritance_analysis",
+      "micro_lesson": {
+        "title": "Analyzing Inheritance Behavior",
+        "content": "To analyze inheritance output, identify which class defines the method being called and whether any override exists in the child class. If the child class lacks the method, the parent's implementation is used. The presence or absence of super() calls also affects the final result."
+      },
+      "prompt": "Given the following code, explain why the output is 'Derived' and not 'Base'.\n\nclass Base:\n    def process(self):\n        return 'Base'\n\nclass Derived(Base):\n    def process(self):\n        return 'Derived'\n\nd = Derived()\nprint(d.process())",
+      "correct_answer": "Because Derived overrides process and returns 'Derived', so Base is not used",
+      "explanation": "The Derived class explicitly defines its own process method. When d.process() is invoked, Python executes Derived.process, which returns 'Derived'. The parent method in Base is ignored because the child provides a direct override.",
+      "prerequisites": [
+        "21.3_q9"
+      ],
+      "starter_code": "# 1. Define the process_21_3 function\ndef process_21_3():\n    # 2. Implement solution for Inheritance\n    pass\n",
+      "solution_code": "print('Inheritance')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Inheritance"
+        }
+      ]
+    },
+    {
+      "id": "21.3_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "concept": "inheritance_tracing",
+      "micro_lesson": {
+        "title": "Step-by-Step Execution Tracing",
+        "content": "Tracing execution means following the program line by line, noting which class method is executed at each step. For inheritance, track whether the current class defines the method or delegates to a parent via super() or implicit lookup."
+      },
+      "prompt": "Trace the execution of the following code and state the final return value of call_action().\n\nclass Action:\n    def act(self):\n        return 'Action base'\n\nclass SpecialAction(Action):\n    def act(self):\n        return 'SpecialAction'\n\nclass UltimateAction(SpecialAction):\n    def act(self):\n        return super().act() + ' ultimate'\n\nu = UltimateAction()\nresult = u.act()\nprint(result)",
+      "correct_answer": "'SpecialAction ultimate'",
+      "explanation": "UltimateAction.act calls super().act(), which resolves to SpecialAction.act and returns 'SpecialAction'. Appending ' ultimate' produces 'SpecialAction ultimate'. The base Action method is not reached because SpecialAction already overrides act.",
+      "prerequisites": [
+        "21.3_q10"
+      ],
+      "starter_code": "# 1. Define the process_21_3 function\ndef process_21_3():\n    # 2. Implement solution for Inheritance\n    pass\n",
+      "solution_code": "print('Inheritance')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Inheritance"
+        }
+      ]
+    },
+    {
+      "id": "21.3_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "inheritance_logic",
+      "micro_lesson": {
+        "title": "Logic of Inheritance and Attribute Access",
+        "content": "Inheritance also affects attribute access. If an attribute is not found in the child class, Python searches the parent class. However, if the child defines the attribute, it shadows the parent's attribute. Method calls follow the same lookup rules as attributes."
+      },
+      "prompt": "What is the output of the following Python code?\n\nclass Parent:\n    value = 10\n    def get(self):\n        return 'Parent'\n\nclass Child(Parent):\n    value = 20\n    def get(self):\n        return 'Child'\n\nc = Child()\nprint(c.value)\nprint(c.get())",
+      "options": [
+        "20\nChild",
+        "10\nChild",
+        "20\nParent",
+        "10\nParent"
+      ],
+      "correct_answer": "20\nChild",
+      "explanation": "The Child class defines its own value attribute, so c.value returns 20. The Child class also overrides get, so c.get() returns 'Child'. Both lookups resolve in the Child class without falling back to Parent.",
+      "prerequisites": [
+        "21.3_q11"
+      ]
+    },
+    {
+      "id": "21.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "inheritance_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q12"
+      ],
+      "micro_lesson": {
+        "title": "Defining a Child Class with Inheritance",
+        "content": "Inheritance allows a new class (child or derived class) to reuse attributes and methods from an existing class (parent or base class). To declare a child class, place the parent class name in parentheses after the child class name. This creates an is-a relationship. For example, a Car class can inherit from a Vehicle class. The syntax is straightforward: the child class header includes the parent class name in parentheses. When you create an instance of the child class, Python automatically looks up the method resolution order (MRO) to find methods. If a method is not defined in the child class, Python searches the parent class. Here is a code example:\n\n```python\nclass Animal:\n    def speak(self):\n        return 'Some sound'\n\nclass Dog(Animal):\n    pass\n\nd = Dog()\nprint(d.speak())\n```\n\nIn this example, Dog inherits from Animal. The Dog class does not define speak(), so it uses Animal.speak()."
+      },
+      "prompt": "Complete the class definition by filling in the blank: class Dog(___):",
+      "correct_answer": "Animal",
+      "accepted_answers": [
+        "Animal"
+      ],
+      "explanation": "To inherit from a parent class, you place the parent class name inside the parentheses after the child class name. In this case, Dog inherits from Animal."
+    },
+    {
+      "id": "21.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "inheritance_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q13"
+      ],
+      "micro_lesson": {
+        "title": "Using super() to Call Parent Methods",
+        "content": "When a child class overrides a method from its parent, you may still want to execute the parent's version of that method. The built-in function super() returns a temporary object that lets you access parent-class methods. You typically call super().__init__() inside the child's __init__ to initialize parent attributes before adding child-specific ones. This avoids duplicating initialization logic. Consider this pattern:\n\n```python\nclass Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n\nclass Car(Vehicle):\n    def __init__(self, brand, model):\n        super().__init__(brand)\n        self.model = model\n\nc = Car('Toyota', 'Corolla')\nprint(c.brand, c.model)\n```\n\nThe call to super().__init__(brand) invokes Vehicle.__init__, setting self.brand. Without super(), the parent attributes would remain uninitialized unless you explicitly copied the code."
+      },
+      "prompt": "Fill in the blank to correctly initialize the parent class: super().__init__(___)",
+      "correct_answer": "brand",
+      "accepted_answers": [
+        "brand",
+        "self.brand"
+      ],
+      "explanation": "super().__init__() must receive the arguments expected by the parent class's __init__ method. In this pattern, the parent expects brand, so we pass brand."
+    },
+    {
+      "id": "21.3_q15",
+      "type": "code_ordering",
+      "concept": "inheritance_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q14"
+      ],
+      "micro_lesson": {
+        "title": "Order of Initialization in Inheritance",
+        "content": "When you instantiate a child class, Python executes initialization in a specific order: first the parent class's __init__, then the child class's __init__. This ensures that inherited attributes are set up before child-specific attributes are added. If you forget to call super().__init__(), parent attributes may be missing. The method resolution order (MRO) also matters for method lookups, but for __init__, the call sequence is strictly top-down. Here is the correct flow:\n\n```python\nclass Parent:\n    def __init__(self):\n        print('Parent init')\n\nclass Child(Parent):\n    def __init__(self):\n        super().__init__()\n        print('Child init')\n\nChild()\n```\n\nOutput: Parent init, then Child init. This order guarantees that the parent state is established before the child extends it."
+      },
+      "prompt": "Arrange the following lines of code in the correct execution order for the Child class to initialize properly:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Python must define Parent before Child because Child references Parent. Then Child's __init__ calls super().__init__() before printing 'Child init'. Finally, instantiating Child triggers the full initialization sequence."
+    },
+    {
+      "id": "21.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "inheritance_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Inheritance Patterns",
+        "content": "A frequent pattern is to have a general base class and several specialized subclasses. Another pattern is to use inheritance to add behavior without modifying existing code, following the open/closed principle. You can also create a chain of inheritance where a grandchild class inherits from a child class. A typical pattern for reusable initialization looks like this:\n\n```python\nclass Shape:\n    def __init__(self, color):\n        self.color = color\n\nclass Circle(Shape):\n    def __init__(self, color, radius):\n        super().__init__(color)\n        self.radius = radius\n\nclass ColoredCircle(Circle):\n    def __init__(self, color, radius, fill):\n        super().__init__(color, radius)\n        self.fill = fill\n```\n\nNotice how each level calls super().__init__() to pass data upward. This pattern keeps initialization logic DRY (Don't Repeat Yourself)."
+      },
+      "prompt": "Complete the pattern: super().__init__(___)",
+      "correct_answer": "color, radius",
+      "accepted_answers": [
+        "color, radius",
+        "color",
+        "color, radius, fill"
+      ],
+      "explanation": "The ColoredCircle class must pass both color and radius to Circle.__init__, which in turn passes color to Shape.__init__. The correct arguments are color and radius."
+    },
+    {
+      "id": "21.3_q17",
+      "type": "code_ordering",
+      "concept": "inheritance_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q16"
+      ],
+      "micro_lesson": {
+        "title": "Step-by-Step Inheritance Algorithm",
+        "content": "To design an inheritance hierarchy, follow this algorithm: (1) Identify the most general common behavior and create a base class. (2) Determine which subclasses share that behavior. (3) Define each subclass with the base class in parentheses. (4) Override methods only when the subclass needs different behavior. (5) Use super() to reuse parent initialization and methods. (6) Test instances of each subclass to verify the MRO resolves attributes and methods correctly. Here is an example implementation:\n\n```python\nclass Employee:\n    def __init__(self, name):\n        self.name = name\n\n    def greet(self):\n        return 'Hello, ' + self.name\n\nclass Manager(Employee):\n    def __init__(self, name, team):\n        super().__init__(name)\n        self.team = team\n\n    def greet(self):\n        return super().greet() + ' (Manager)'\n\nm = Manager('Alice', 'Engineering')\nprint(m.greet())\n```\n\nThe algorithm ensures that Manager inherits name from Employee, adds team, and extends greet by calling the parent version first."
+      },
+      "prompt": "Order the steps to build the Manager class correctly:",
+      "options": [
+        "class Manager(Employee):\n    def __init__(self, name, team):\n        super().__init__(name)\n        self.team = team",
+        "class Employee:\n    def __init__(self, name):\n        self.name = name",
+        "class Manager(Employee):\n    def greet(self):\n        return super().greet() + ' (Manager)'",
+        "m = Manager('Alice', 'Engineering')\nprint(m.greet())"
+      ],
+      "correct_answer": [
+        "class Employee:\n    def __init__(self, name):\n        self.name = name",
+        "class Manager(Employee):\n    def __init__(self, name, team):\n        super().__init__(name)\n        self.team = team",
+        "class Manager(Employee):\n    def greet(self):\n        return super().greet() + ' (Manager)'",
+        "m = Manager('Alice', 'Engineering')\nprint(m.greet())"
+      ],
+      "explanation": "The base class Employee must be defined before Manager can reference it. Then Manager's __init__ calls super().__init__(name) before setting team. The greet override uses super().greet() to reuse the parent behavior. Finally, instantiating Manager and calling greet demonstrates the full algorithm."
+    },
+    {
+      "id": "21.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "inheritance_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Inheritance in Python",
+        "content": "Python developers use several idioms when working with inheritance. One common idiom is to call super().__init__() as the first statement in a child __init__ to guarantee parent setup. Another idiom is to use super() without arguments in methods that do not need to pass specific parameters upward, letting Python resolve the next class in the MRO automatically. A third idiom is to keep base classes focused on shared behavior and avoid deep inheritance trees. Consider this idiomatic example:\n\n```python\nclass Logger:\n    def log(self, msg):\n        print('[LOG] ' + msg)\n\nclass Service(Logger):\n    def process(self, data):\n        self.log('Processing ' + data)\n        return data.upper()\n\nclass EmailService(Service):\n    def send(self, data):\n        self.log('Sending email for ' + data)\n        return self.process(data)\n```\n\nHere, each subclass builds on the previous one, reusing log() through super() or direct access. This layered approach is idiomatic because it separates concerns cleanly."
+      },
+      "prompt": "Fill in the blank to follow the idiom of calling the parent method without explicit arguments: super().__init__()",
+      "correct_answer": "super().__init__()",
+      "accepted_answers": [
+        "super().__init__()",
+        "super().__init__(self)"
+      ],
+      "explanation": "When the parent __init__ takes no arguments other than self, calling super().__init__() with no arguments is the standard Python idiom. It relies on the MRO to find the next class's __init__ and passes self automatically."
+    },
+    {
+      "id": "21.3_q19",
+      "type": "fix_the_code",
+      "concept": "inheritance_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing Inheritance Errors",
+        "content": "Inheritance errors often arise from incorrect method resolution order (MRO), missing super() calls, or improper attribute access. When a child class does not properly initialize parent attributes, or when methods are overridden without using the parent implementation, runtime errors occur. Common mistakes include calling undefined methods, incorrect constructor chaining, and diamond problem ambiguities. Always verify that super().__init__() is invoked in the child constructor, and trace attribute lookups through the MRO using Class.__mro__."
+      },
+      "prompt": "Fix the bug in this code for inheritance errors:",
+      "starter_code": "# Fix this code\nPrint('Inheritance')",
+      "solution_code": "print('Inheritance')",
+      "explanation": "This exercise tests `inheritance errors` in Inheritance. When Python validates this code, it applies the standard rules of inheritance errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "21.3_q20",
+      "type": "fix_the_code",
+      "concept": "inheritance_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "21.3_q19"
+      ],
+      "prompt": "The following code attempts to create a Dog class that inherits from Animal, but it fails to initialize the name attribute properly.",
+      "starter_code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\nclass Dog(Animal):\n    def __init__(self, breed):\n        self.breed = breed\n\n# This line crashes because 'name' is not set\nmy_dog = Dog('Labrador')",
+      "solution_code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\nclass Dog(Animal):\n    def __init__(self, breed, name):\n        super().__init__(name)\n        self.breed = breed\n\nmy_dog = Dog('Labrador', 'Buddy')",
+      "hint": "Ensure the Dog constructor accepts the name parameter and passes it to Animal using super().__init__(name).",
+      "explanation": "The fix adds 'name' to the Dog constructor signature and invokes super().__init__(name) to properly initialize the parent class attribute. Without this, accessing my_dog.name raises an AttributeError."
+    },
+    {
+      "id": "21.3_q21",
+      "type": "fix_the_code",
+      "concept": "inheritance_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q20"
+      ],
+      "prompt": "The following code defines a Manager class that inherits from Employee, but it mishandles the case where a manager has no direct reports.",
+      "starter_code": "class Employee:\n    def __init__(self, emp_id, name):\n        self.emp_id = emp_id\n        self.name = name\n\nclass Manager(Employee):\n    def __init__(self, emp_id, name, reports):\n        super().__init__(emp_id, name)\n        self.reports = reports\n\n    def add_report(self, emp):\n        if emp not in self.reports:\n            self.reports.append(emp)\n\n    def get_report_count(self):\n        return len(self.reports)\n\n# Edge case: manager with no reports initially\nlead = Manager(101, 'Alice', [])\nprint(lead.get_report_count())",
+      "solution_code": "class Employee:\n    def __init__(self, emp_id, name):\n        self.emp_id = emp_id\n        self.name = name\n\nclass Manager(Employee):\n    def __init__(self, emp_id, name, reports=None):\n        super().__init__(emp_id, name)\n        self.reports = reports if reports is not None else []\n\n    def add_report(self, emp):\n        if emp not in self.reports:\n            self.reports.append(emp)\n\n    def get_report_count(self):\n        return len(self.reports)\n\nlead = Manager(101, 'Alice', [])\nprint(lead.get_report_count())",
+      "hint": "Default mutable arguments are dangerous. Use None as the default and initialize the list inside the constructor.",
+      "explanation": "The fix replaces the mutable default argument 'reports=[]' with 'reports=None' and initializes an empty list inside the constructor. This prevents shared state across Manager instances and correctly handles the edge case of no reports."
+    },
+    {
+      "id": "21.3_q22",
+      "type": "fix_the_code",
+      "concept": "inheritance_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Inheritance Errors",
+        "content": "Runtime inheritance errors manifest when the program executes but encounters unexpected behavior due to inheritance structure. These include AttributeError when a subclass method expects an attribute not initialized by the parent, TypeError when super() is called incorrectly, and infinite recursion if a method calls itself without base-class delegation. To diagnose, print the MRO with Class.__mro__, inspect instance dictionaries with vars(instance), and verify that every overridden method either delegates to super() or explicitly replicates required logic. Use traceback output to pinpoint the exact line where the exception propagates."
+      },
+      "prompt": "Fix the bug in this code for inheritance runtime:",
+      "starter_code": "# Fix this code\nPrint('Inheritance')",
+      "solution_code": "print('Inheritance')",
+      "explanation": "This exercise tests `inheritance runtime` in Inheritance. When Python validates this code, it applies the standard rules of inheritance runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "21.3_q23",
+      "type": "fix_the_code",
+      "concept": "inheritance_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q22"
+      ],
+      "prompt": "The following Shape hierarchy incorrectly computes area because the subclass overrides area() without calling the parent logic and introduces a logic flaw.",
+      "starter_code": "class Shape:\n    def __init__(self, name):\n        self.name = name\n\n    def area(self):\n        return 0\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        return 3.14 * self.radius * self.radius\n\nclass Square(Shape):\n    def __init__(self, side):\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\nc = Circle(5)\ns = Square(4)\nprint(c.area())\nprint(s.area())",
+      "solution_code": "class Shape:\n    def __init__(self, name):\n        self.name = name\n\n    def area(self):\n        return 0\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        super().__init__('circle')\n        self.radius = radius\n\n    def area(self):\n        return 3.14 * self.radius * self.radius\n\nclass Square(Shape):\n    def __init__(self, side):\n        super().__init__('square')\n        self.side = side\n\n    def area(self):\n        return self.side * self.side\n\nc = Circle(5)\ns = Square(4)\nprint(c.area())\nprint(s.area())",
+      "hint": "Every subclass constructor should call super().__init__() to ensure the parent name attribute is set. Verify that the area formulas remain mathematically correct.",
+      "explanation": "The repair adds super().__init__('circle') and super().__init__('square') to the subclass constructors, ensuring the parent name attribute is initialized. The area formulas were already correct, so no logic change was needed there. This prevents potential AttributeError if code later accesses shape.name."
+    },
+    {
+      "id": "21.3_q24",
+      "type": "write_the_code",
+      "concept": "inheritance_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "21.3_q23"
+      ],
+      "prompt": "Refactor the following deeply nested inheritance hierarchy to reduce duplication, eliminate redundant attribute assignments, and improve maintainability while preserving all original behavior.",
+      "starter_code": "class Vehicle:\n    def __init__(self, make, model, year):\n        self.make = make\n        self.model = model\n        self.year = year\n        self.is_running = False\n\nclass Car(Vehicle):\n    def __init__(self, make, model, year, num_doors):\n        self.make = make\n        self.model = model\n        self.year = year\n        self.num_doors = num_doors\n        self.is_running = False\n\nclass Truck(Vehicle):\n    def __init__(self, make, model, year, payload_capacity):\n        self.make = make\n        self.model = model\n        self.year = year\n        self.payload_capacity = payload_capacity\n        self.is_running = False\n\nclass SportsCar(Car):\n    def __init__(self, make, model, year, num_doors, top_speed):\n        self.make = make\n        self.model = model\n        self.year = year\n        self.num_doors = num_doors\n        self.top_speed = top_speed\n        self.is_running = False\n\ndef main():\n    v = Vehicle('Honda', 'Civic', 2020)\n    c = Car('Ford', 'F-150', 2021, 4)\n    t = Truck('Chevy', 'Silverado', 2022, 3000)\n    s = SportsCar('Porsche', '911', 2023, 2, 190)\n    print(v.make, c.num_doors, t.payload_capacity, s.top_speed)",
+      "solution_code": "class Vehicle:\n    def __init__(self, make, model, year):\n        self.make = make\n        self.model = model\n        self.year = year\n        self.is_running = False\n\nclass Car(Vehicle):\n    def __init__(self, make, model, year, num_doors):\n        super().__init__(make, model, year)\n        self.num_doors = num_doors\n\nclass Truck(Vehicle):\n    def __init__(self, make, model, year, payload_capacity):\n        super().__init__(make, model, year)\n        self.payload_capacity = payload_capacity\n\nclass SportsCar(Car):\n    def __init__(self, make, model, year, num_doors, top_speed):\n        super().__init__(make, model, year, num_doors)\n        self.top_speed = top_speed\n\ndef main():\n    v = Vehicle('Honda', 'Civic', 2020)\n    c = Car('Ford', 'F-150', 2021, 4)\n    t = Truck('Chevy', 'Silverado', 2022, 3000)\n    s = SportsCar('Porsche', '911', 2023, 2, 190)\n    print(v.make, c.num_doors, t.payload_capacity, s.top_speed)",
+      "test_cases": [
+        {
+          "input": "v = Vehicle('Honda', 'Civic', 2020); assert v.make",
+          "expected_output": "'Honda' and v.is_running == False",
+          "description": "Verifies: v = Vehicle('Honda', 'Civic', 2020); assert v.make == 'Honda' and v.is_running == False"
+        },
+        {
+          "input": "c = Car('Ford', 'F-150', 2021, 4); assert c.num_doors",
+          "expected_output": "4 and isinstance(c, Vehicle)",
+          "description": "Verifies: c = Car('Ford', 'F-150', 2021, 4); assert c.num_doors == 4 and isinstance(c, Vehicle)"
+        },
+        {
+          "input": "t = Truck('Chevy', 'Silverado', 2022, 3000); assert t.payload_capacity",
+          "expected_output": "3000",
+          "description": "Verifies: t = Truck('Chevy', 'Silverado', 2022, 3000); assert t.payload_capacity == 3000"
+        },
+        {
+          "input": "s = SportsCar('Porsche', '911', 2023, 2, 190); assert s.top_speed",
+          "expected_output": "190 and s.num_doors == 2",
+          "description": "Verifies: s = SportsCar('Porsche', '911', 2023, 2, 190); assert s.top_speed == 190 and s.num_doors == 2"
+        }
+      ],
+      "hint": "Remove duplicated attribute assignments by calling super().__init__() in each subclass. Ensure SportsCar correctly inherits from Car.",
+      "explanation": "The refactored version eliminates redundant assignments of make, model, year, and is_running in every subclass by delegating to the parent constructor via super().__init__(). SportsCar now inherits from Car and only adds top_speed, preserving all original behavior while reducing code duplication and improving maintainability."
+    },
+    {
+      "id": "21.3_q25",
+      "type": "write_the_code",
+      "concept": "inheritance_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q24"
+      ],
+      "prompt": "Create a base class Animal with name and age attributes. Then create a derived class Dog that inherits from Animal and adds a breed attribute. Initialize both attributes in Dog's constructor.",
+      "starter_code": "class Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nclass Dog(Animal):\n    def __init__(self, name, age):\n        # TODO: call parent constructor and set breed\n        pass",
+      "solution_code": "class Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nclass Dog(Animal):\n    def __init__(self, name, age, breed):\n        super().__init__(name, age)\n        self.breed = breed",
+      "test_cases": [
+        {
+          "input": "Dog('Buddy', 3, 'Labrador')",
+          "expected": "Dog instance with name='Buddy', age=3, breed='Labrador'"
+        },
+        {
+          "input": "d = Dog('Max', 5, 'Poodle'); print(d.age)",
+          "expected": "5"
+        }
+      ],
+      "hint": "Use super().__init__() to invoke the parent class constructor before setting breed.",
+      "explanation": "Inheritance allows Dog to reuse Animal's __init__ via super(). This demonstrates basic class extension and constructor chaining."
+    },
+    {
+      "idx": 26,
+      "id": "21.3_q26",
+      "type": "write_the_code",
+      "concept": "inheritance_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "21.3_q25"
+      ],
+      "prompt": "Implement a Vehicle base class with start_engine method. Create Car and Motorcycle subclasses that override start_engine to print a specific message for each vehicle type.",
+      "starter_code": "class Vehicle:\n    def start_engine(self):\n        print('Engine starting')\n\nclass Car(Vehicle):\n    def start_engine(self):\n        # TODO: override\n        pass\n\nclass Motorcycle(Vehicle):\n    def start_engine(self):\n        # TODO: override\n        pass",
+      "solution_code": "class Vehicle:\n    def start_engine(self):\n        print('Engine starting')\n\nclass Car(Vehicle):\n    def start_engine(self):\n        print('Car engine roaring')\n\nclass Motorcycle(Vehicle):\n    def start_engine(self):\n        print('Motorcycle revving')",
+      "test_cases": [
+        {
+          "input": "c = Car(); c.start_engine()",
+          "expected": "Car engine roaring"
+        },
+        {
+          "input": "m = Motorcycle(); m.start_engine()",
+          "expected": "Motorcycle revving"
+        }
+      ],
+      "hint": "Redefine start_engine inside each subclass with its own print statement.",
+      "explanation": "Method overriding lets subclasses provide specialized behavior while maintaining the same interface, a core OOP principle."
+    },
+    {
+      "idx": 27,
+      "id": "21.3_q27",
+      "type": "write_the_code",
+      "concept": "inheritance_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "21.3_q26"
+      ],
+      "prompt": "Design a class hierarchy where ElectricCar inherits from Car and Battery. ElectricCar should combine drive behavior from Car and charge behavior from Battery. Use super() appropriately to avoid duplicate initialization.",
+      "starter_code": "class Car:\n    def __init__(self, make):\n        self.make = make\n    def drive(self):\n        print('Driving', self.make)\n\nclass Battery:\n    def __init__(self, capacity):\n        self.capacity = capacity\n    def charge(self):\n        print('Charging to', self.capacity, 'kWh')\n\nclass ElectricCar(Car, Battery):\n    def __init__(self, make, capacity):\n        # TODO: initialize both parents correctly\n        pass",
+      "solution_code": "class Car:\n    def __init__(self, make):\n        self.make = make\n    def drive(self):\n        print('Driving', self.make)\n\nclass Battery:\n    def __init__(self, capacity):\n        self.capacity = capacity\n    def charge(self):\n        print('Charging to', self.capacity, 'kWh')\n\nclass ElectricCar(Car, Battery):\n    def __init__(self, make, capacity):\n        Car.__init__(self, make)\n        Battery.__init__(self, capacity)",
+      "test_cases": [
+        {
+          "input": "ec = ElectricCar('Tesla', 75); ec.drive(); ec.charge()",
+          "expected": "Driving Tesla\nCharging to 75 kWh"
+        },
+        {
+          "input": "print(ElectricCar.__mro__)",
+          "expected": "(<class '__main__.ElectricCar'>, <class '__main__.Car'>, <class '__main__.Battery'>, <class 'object'>)"
+        }
+      ],
+      "hint": "Explicitly call each parent's __init__ to control initialization order in multiple inheritance.",
+      "explanation": "Multiple inheritance merges behaviors from independent classes. Explicit parent calls prevent ambiguity when super() alone cannot resolve all initializations."
+    },
+    {
+      "idx": 28,
+      "id": "21.3_q28",
+      "type": "write_the_code",
+      "concept": "inheritance_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "21.3_q27"
+      ],
+      "prompt": "Given the base class Shape with an abstract area method, implement Circle and Rectangle subclasses. Ensure Shape cannot be instantiated directly.",
+      "starter_code": "from abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self):\n        pass\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n    def area(self):\n        # TODO: compute and return area\n        pass\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    def area(self):\n        # TODO: compute and return area\n        pass",
+      "solution_code": "from abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self):\n        pass\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n    def area(self):\n        return 3.14159 * self.radius ** 2\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    def area(self):\n        return self.width * self.height",
+      "test_cases": [
+        {
+          "input": "c = Circle(2); print(c.area())",
+          "expected": "12.56636"
+        },
+        {
+          "input": "r = Rectangle(4, 5); print(r.area())",
+          "expected": "20"
+        },
+        {
+          "input": "s = Shape();",
+          "expected": "TypeError"
+        }
+      ],
+      "hint": "Import ABC and abstractmethod from abc. Use math.pi for better precision if desired.",
+      "explanation": "Abstract base classes enforce a contract: subclasses must implement area. This prevents invalid object creation and supports polymorphic behavior."
+    },
+    {
+      "idx": 29,
+      "id": "21.3_q29",
+      "type": "write_the_code",
+      "concept": "inheritance_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "21.3_q28"
+      ],
+      "prompt": "Model a library system. Create a base class Publication with title and year. Derive Book and Journal from it. Add a lendable attribute to Book and a volume attribute to Journal. Write a function list_publications that accepts any Publication and prints its details.",
+      "starter_code": "class Publication:\n    def __init__(self, title, year):\n        self.title = title\n        self.year = year\n\nclass Book(Publication):\n    def __init__(self, title, year, author):\n        # TODO: initialize and add lendable\n        pass\n\nclass Journal(Publication):\n    def __init__(self, title, year, volume):\n        # TODO: initialize and add volume\n        pass\n\ndef list_publications(pub):\n    # TODO: print details generically\n    pass",
+      "solution_code": "class Publication:\n    def __init__(self, title, year):\n        self.title = title\n        self.year = year\n\nclass Book(Publication):\n    def __init__(self, title, year, author):\n        super().__init__(title, year)\n        self.author = author\n        self.lendable = True\n\nclass Journal(Publication):\n    def __init__(self, title, year, volume):\n        super().__init__(title, year)\n        self.volume = volume\n        self.lendable = False\n\ndef list_publications(pub):\n    print('Title:', pub.title)\n    print('Year:', pub.year)\n    if isinstance(pub, Book):\n        print('Author:', pub.author)\n        print('Lendable:', pub.lendable)\n    elif isinstance(pub, Journal):\n        print('Volume:', pub.volume)\n        print('Lendable:', pub.lendable)",
+      "test_cases": [
+        {
+          "input": "b = Book('Python 101', 2022, 'Alice'); list_publications(b)",
+          "expected": "Title: Python 101\nYear: 2022\nAuthor: Alice\nLendable: True"
+        },
+        {
+          "input": "j = Journal('Science Today', 2023, 15); list_publications(j)",
+          "expected": "Title: Science Today\nYear: 2023\nVolume: 15\nLendable: False"
+        }
+      ],
+      "hint": "Use isinstance to branch behavior based on concrete subclass type.",
+      "explanation": "Real systems often combine inheritance for shared attributes with type checks for specialized operations, enabling flexible and maintainable designs."
+    },
+    {
+      "idx": 30,
+      "id": "21.3_q30",
+      "type": "write_the_code",
+      "concept": "inheritance_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "21.3_q29"
+      ],
+      "prompt": "Create a Person base class with name and age. Derive Employee from Person. Employee should have salary (private) and a read-only property for annual_bonus calculated as 10% of salary. Override __str__ to return a formatted employee summary.",
+      "starter_code": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nclass Employee(Person):\n    def __init__(self, name, age, salary):\n        super().__init__(name, age)\n        self.__salary = salary\n    \n    @property\n    def annual_bonus(self):\n        # TODO: return 10% of salary\n        pass\n    \n    def __str__(self):\n        # TODO: return formatted summary\n        pass",
+      "solution_code": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nclass Employee(Person):\n    def __init__(self, name, age, salary):\n        super().__init__(name, age)\n        self.__salary = salary\n    \n    @property\n    def annual_bonus(self):\n        return self.__salary * 0.10\n    \n    def __str__(self):\n        return 'Employee: ' + self.name + ', Age: ' + str(self.age) + ', Salary: ' + str(self.__salary) + ', Annual Bonus: ' + str(self.annual_bonus)",
+      "test_cases": [
+        {
+          "input": "e = Employee('Bob', 30, 80000); print(e); print(e.annual_bonus)",
+          "expected": "Employee: Bob, Age: 30, Salary: 80000, Annual Bonus: 8000.0\n8000.0"
+        },
+        {
+          "input": "print(e._Employee__salary)",
+          "expected": "80000"
+        }
+      ],
+      "hint": "Name mangling hides __salary as _ClassName__salary. Use @property for computed read-only access.",
+      "explanation": "Mastery of inheritance includes controlling access with encapsulation, exposing computed data safely, and customizing object representation through dunder methods."
+    }
+  ],
+  "unit_num": 21,
+  "learning_objectives": [
+    "Design and instantiate Python classes demonstrating Inheritance",
+    "Manage instance state using the __init__ constructor and self",
+    "Implement object-oriented principles including encapsulation and inheritance",
+    "Structure modular programs using classes and composition"
+  ],
+  "prerequisites": [
+    "21.2"
+  ]
+}

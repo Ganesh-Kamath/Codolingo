@@ -1,0 +1,747 @@
+{
+  "lesson_id": "14.5",
+  "title": "Generating JSON",
+  "unit": "Data Processing and JSON",
+  "items": [
+    {
+      "id": "14.5_q1",
+      "type": "micro_lesson",
+      "concept": "generating_json_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Python Objects vs JSON Strings",
+      "content": "JSON (JavaScript Object Notation) is a language-independent text format for data exchange.\n\nPython maps data structures to JSON equivalents:\n* `dict` -> JSON object `{}`\n* `list` / `tuple` -> JSON array `[]`\n* `True` / `False` -> JSON booleans `true` / `false`\n* `None` -> JSON `null`\n\n`json.dumps(obj)` serializes a Python object into a JSON-formatted string.",
+      "explanation": "json.dumps() converts Python dictionaries and primitives into standard JSON string representations.",
+      "metadata": {
+        "concept": "json_type_mapping",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches JSON type compatibility rules"
+      }
+    },
+    {
+      "id": "14.5_q2",
+      "type": "output_prediction",
+      "concept": "generating_json_basics",
+      "skill": "serialization",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.5_q1"
+      ],
+      "prompt": "What does `json.dumps()` return when serializing a Python dictionary?\n\n```python\nimport json\n\nuser = {\"id\": 101, \"active\": True}\npayload = json.dumps(user)\nprint(type(payload))\nprint(payload)\n```",
+      "options": [
+        "<class 'str'>\n{\"id\": 101, \"active\": true}",
+        "<class 'dict'>\n{\"id\": 101, \"active\": True}",
+        "<class 'bytes'>\n{\"id\": 101, \"active\": true}",
+        "<class 'str'>\n{\"id\": 101, \"active\": True}"
+      ],
+      "correct_answer": "<class 'str'>\n{\"id\": 101, \"active\": true}",
+      "explanation": "`json.dumps()` (dump to string) returns a `str`. Notice that Python's boolean `True` is serialized to lowercase JSON boolean `true` according to the JSON specification.",
+      "metadata": {
+        "concept": "json_dumps_string_serialization",
+        "skill": "type_conversion",
+        "learning_objective": "Recognize that json.dumps() produces a serialized string and maps True to true",
+        "common_misconception": "Confusing Python's True with JSON's lowercase true",
+        "why_this_exercise_exists": "Replaces template function with exact JSON specification behavior"
+      }
+    },
+    {
+      "id": "14.5_q3",
+      "type": "micro_lesson",
+      "concept": "generating_json_dump_vs_dumps",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.5_q2"
+      ],
+      "title": "json.dump() vs json.dumps()",
+      "content": "Remember the distinction between the two serialization functions:\n\n* `json.dumps(obj)`: The 's' stands for **string**. Serializes and returns a Python string in RAM.\n* `json.dump(obj, file)`: Streams serialized JSON directly into a writable file stream on disk:\n\n```python\nwith open(\"data.json\", \"w\") as f:\n    json.dump(payload, f, indent=2)\n```",
+      "explanation": "json.dumps returns a string; json.dump writes directly to a file stream.",
+      "metadata": {
+        "concept": "dump_vs_dumps_distinction",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Clarifies dump vs dumps stream API"
+      }
+    },
+    {
+      "id": "14.5_q4",
+      "type": "code_prediction",
+      "concept": "generating_json_basics",
+      "skill": "api_discrimination",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q3"
+      ],
+      "prompt": "What is the critical difference between `json.dump()` and `json.dumps()` in Python?",
+      "options": [
+        "json.dump() writes to a file-like stream; json.dumps() returns a Python string.",
+        "json.dump() is for lists; json.dumps() is for dictionaries.",
+        "json.dumps() writes directly to a database.",
+        "There is no difference; they are aliases."
+      ],
+      "correct_answer": "json.dump() writes to a file-like stream; json.dumps() returns a Python string.",
+      "explanation": "The 's' in `dumps` stands for 'string'. `json.dumps(obj)` serializes `obj` and returns a string in memory. `json.dump(obj, file_handle)` serializes `obj` directly into a writable file stream.",
+      "metadata": {
+        "concept": "dump_vs_dumps_distinction",
+        "skill": "api_knowledge",
+        "learning_objective": "Discriminate between file-stream serialization (dump) and string serialization (dumps)",
+        "common_misconception": "Attempting to pass a file object to json.dumps()",
+        "why_this_exercise_exists": "Replaces template function with essential API distinction"
+      }
+    },
+    {
+      "id": "14.5_q5",
+      "type": "error_diagnosis",
+      "concept": "generating_json_basics",
+      "skill": "serialization_limits",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q4"
+      ],
+      "prompt": "What happens if you attempt to serialize a Python `set` using `json.dumps()` without a custom serializer?\n\n```python\nimport json\ndata = {\"tags\": {\"python\", \"coding\"}}\njson.dumps(data)\n```",
+      "options": [
+        "TypeError: Object of type set is not JSON serializable",
+        "Serializes the set to a JSON array automatically",
+        "Ignores the set and outputs {\"tags\": null}",
+        "Converts the set to a comma-separated string"
+      ],
+      "correct_answer": "TypeError: Object of type set is not JSON serializable",
+      "explanation": "Standard JSON format only supports strings, numbers, booleans, null, arrays (lists), and objects (dicts). It has no native representation for `set`, `datetime`, or custom classes. Attempting to serialize a `set` raises a `TypeError`.",
+      "metadata": {
+        "concept": "json_serializability_constraints",
+        "skill": "error_recognition",
+        "learning_objective": "Identify types that are not natively serializable to JSON (like sets)",
+        "common_misconception": "Assuming sets serialize automatically as JSON arrays",
+        "why_this_exercise_exists": "Replaces template function with realistic serialization debugging"
+      }
+    },
+    {
+      "id": "14.5_q6",
+      "type": "write_the_code",
+      "concept": "generating_json_basics",
+      "skill": "pretty_printing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q5"
+      ],
+      "prompt": "Write a snippet using `json.dumps()` that formats the dictionary `config = {'app': 'codolingo', 'version': 2}` with an indentation of 2 spaces so it produces readable, indented JSON.",
+      "starter_code": "import json\nconfig = {\"app\": \"codolingo\", \"version\": 2}\n# Format with 2-space indentation\n",
+      "solution_code": "import json\nconfig = {\"app\": \"codolingo\", \"version\": 2}\npretty_json = json.dumps(config, indent=2)\nprint(pretty_json)",
+      "explanation": "Passing `indent=2` to `json.dumps()` instructs the serializer to pretty-print the JSON structure with 2 spaces of indentation per level.",
+      "metadata": {
+        "concept": "json_indentation_pretty_printing",
+        "skill": "implementation",
+        "learning_objective": "Format JSON strings for human readability using the indent parameter",
+        "common_misconception": "Manually adding newlines and spaces to JSON strings",
+        "why_this_exercise_exists": "Replaces template function with standard logging and configuration formatting"
+      }
+    },
+    {
+      "id": "14.5_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "generating_json_execution",
+      "micro_lesson": {
+        "title": "Predicting JSON Output from Python Code",
+        "content": "When working with JSON in Python, the json module is used to convert Python objects into JSON-formatted strings. The json.dumps() function serializes a Python dictionary into a JSON string. Consider the following code:\n\n```python\nimport json\n\ndata = {'name': 'Alice', 'age': 25, 'city': 'New York'}\njson_string = json.dumps(data)\nprint(json_string)\n```\n\nThe json.dumps() method takes a Python dictionary and returns a string representation in JSON format. Note that JSON requires double quotes for keys and string values, and Python booleans/nulls map to JSON true/false/null. In this example, the dictionary has string values and an integer value, so the output will be a compact JSON string with double-quoted keys and values. Pay attention to whether the code uses json.dumps() (returns a string) or json.dump() (writes to a file object)."
+      },
+      "prerequisites": [
+        "14.5_q6"
+      ],
+      "prompt": "What is the output of this Python snippet?\n```python\nprint('Generating JSON')\n```",
+      "options": [
+        "Generating JSON",
+        "Error",
+        "None",
+        "Generating JSON (repeated)"
+      ],
+      "correct_answer": "Generating JSON",
+      "explanation": "This exercise tests `generating json execution` in Generating JSON. When Python evaluates this code, it applies the standard rules of generating json execution. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "14.5_q8",
+      "type": "output_prediction",
+      "concept": "generating_json_sort_keys",
+      "skill": "json_formatting",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q7"
+      ],
+      "prompt": "What does passing `sort_keys=True` to `json.dumps()` accomplish?\n\n```python\nimport json\nd = {\"z\": 1, \"a\": 2}\nprint(json.dumps(d, sort_keys=True))\n```",
+      "options": [
+        "{\"a\": 2, \"z\": 1}",
+        "{\"z\": 1, \"a\": 2}",
+        "['a', 'z']",
+        "None"
+      ],
+      "correct_answer": "{\"a\": 2, \"z\": 1}",
+      "explanation": "`sort_keys=True` sorts all dictionary keys in alphabetical order, ensuring deterministic JSON output across test runs.",
+      "metadata": {
+        "concept": "json_sort_keys_deterministic",
+        "skill": "json_formatting",
+        "why_this_exercise_exists": "Replaces variation with deterministic JSON formatting"
+      }
+    },
+    {
+      "id": "14.5_q9",
+      "type": "code_prediction",
+      "concept": "generating_json_compact",
+      "skill": "optimization",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q8"
+      ],
+      "prompt": "How do you produce the most compact JSON string with all whitespace stripped for network transport?",
+      "options": [
+        "json.dumps(data, separators=(',', ':'))",
+        "json.dumps(data, compact=True)",
+        "json.dumps(data, indent=0)",
+        "json.dumps(data).strip()"
+      ],
+      "correct_answer": "json.dumps(data, separators=(',', ':'))",
+      "explanation": "Overriding `separators=(',', ':')` eliminates default spaces after commas and colons, minimizing payload byte size.",
+      "metadata": {
+        "concept": "compact_json_serialization",
+        "skill": "optimization",
+        "why_this_exercise_exists": "Replaces variation with compact JSON transport"
+      }
+    },
+    {
+      "id": "14.5_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "generating_json_analysis",
+      "micro_lesson": {
+        "title": "Analyzing and Explaining JSON Output",
+        "content": "To analyze JSON output, you must compare the serialized string against JSON syntax rules. A valid JSON string uses double quotes for all keys and string values, commas to separate elements in arrays and key-value pairs in objects, and colons to separate keys from values. Python's json.dumps() ensures these rules are followed. If you see single quotes in the output, the code likely did not use json.dumps() or json.dump(). Additionally, Python None becomes JSON null, and boolean values are lowercase. When analyzing output, verify that the structure matches the input dictionary's nesting and that no Python-specific artifacts (like trailing commas or single quotes) remain."
+      },
+      "prerequisites": [
+        "14.5_q9"
+      ],
+      "prompt": "Write Python code to solve this challenge for Generating JSON:",
+      "starter_code": "# TODO: Implement solution for Generating JSON\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Generating JSON')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Generating JSON"
+        }
+      ],
+      "explanation": "This exercise tests `generating json analysis` in Generating JSON. When Python validates this code, it applies the standard rules of generating json analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "14.5_q11",
+      "type": "write_the_code",
+      "concept": "generating_json_dump_to_file",
+      "skill": "file_io",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q10"
+      ],
+      "prompt": "Write a snippet using `json.dump()` that writes dictionary `profile = {'id': 1, 'role': 'admin'}` directly to an open file stream `f`.",
+      "starter_code": "import json\nfrom io import StringIO\nprofile = {\"id\": 1, \"role\": \"admin\"}\nf = StringIO()\n# Serialize profile into stream f\n",
+      "solution_code": "import json\nfrom io import StringIO\nprofile = {\"id\": 1, \"role\": \"admin\"}\nf = StringIO()\njson.dump(profile, f)\nprint(f.getvalue())",
+      "explanation": "`json.dump(obj, f)` streams serialized JSON directly into the writable file stream. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
+      "metadata": {
+        "concept": "json_file_stream_dump",
+        "skill": "file_io",
+        "why_this_exercise_exists": "Replaces variation with JSON stream dumping"
+      }
+    },
+    {
+      "id": "14.5_q12",
+      "type": "output_prediction",
+      "concept": "generating_json_loads_parsing",
+      "skill": "deserialization",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q11"
+      ],
+      "prompt": "What does `json.loads('{\"active\": true, \"count\": 5}')` return in Python?\n\n```python\nimport json\nparsed = json.loads('{\"active\": true, \"count\": 5}')\nprint(parsed[\"active\"], parsed[\"count\"])\n```",
+      "options": [
+        "True 5",
+        "true 5",
+        "\"true\" 5",
+        "SyntaxError"
+      ],
+      "correct_answer": "True 5",
+      "explanation": "`json.loads()` converts JSON string primitives back to Python types: JSON `true` becomes Python boolean `True`.",
+      "metadata": {
+        "concept": "json_loads_deserialization",
+        "skill": "deserialization",
+        "why_this_exercise_exists": "Replaces variation with JSON string deserialization"
+      }
+    },
+    {
+      "id": "14.5_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "generating_json_syntax",
+      "prerequisites": [
+        "14.5_q12"
+      ],
+      "micro_lesson": {
+        "title": "Importing json and Using dumps()",
+        "content": "To generate JSON from Python data structures, you first need to import the built-in json module. The most common function is json.dumps(), which converts a Python dictionary or list into a JSON formatted string. Remember that JSON keys must be strings, and the output is always a string, not a Python object."
+      },
+      "prompt": "Complete the import statement: import ___",
+      "correct_answer": "json",
+      "accepted_answers": [
+        "json",
+        "import json"
+      ],
+      "explanation": "The built-in module for working with JSON data in Python is named json. Without importing it, functions like dumps() are not available.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "14.5_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "generating_json_keywords",
+      "prerequisites": [
+        "14.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "json.dumps() Parameters",
+        "content": "The json.dumps() function accepts optional keyword arguments to control formatting. The indent parameter adds whitespace to make the JSON human-readable, while sort_keys ensures keys appear in alphabetical order. These are essential when producing clean, predictable JSON output."
+      },
+      "prompt": "Fill in the blank: json.dumps(data, ___=2)",
+      "correct_answer": "indent",
+      "accepted_answers": [
+        "indent",
+        "indent=",
+        "indent = "
+      ],
+      "explanation": "The keyword argument indent controls the number of spaces for pretty-printing JSON. Setting it to 2 produces readable nested output.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "generating_json_sequence",
+      "prerequisites": [
+        "14.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Step-by-Step JSON Generation",
+        "content": "Generating JSON follows a logical sequence: create your Python data structure, optionally configure formatting parameters, call json.dumps(), and then store or print the result. The order matters because the data must exist before it can be serialized."
+      },
+      "prompt": "Arrange the following lines to correctly generate and print JSON from a dictionary:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The dictionary must be created before it is passed to json.dumps(), and the resulting string should be printed last to display the output.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "generating_json_patterns",
+      "prerequisites": [
+        "14.5_q15"
+      ],
+      "micro_lesson": {
+        "title": "Nested Structures in JSON",
+        "content": "JSON supports nested objects and arrays. When converting a Python dictionary that contains lists or other dictionaries, json.dumps() recursively serializes the entire structure. Always ensure that all nested values are JSON-compatible types such as strings, numbers, booleans, lists, or dicts."
+      },
+      "prompt": "The valid Python dictionary for JSON generation is: {'user': {'id': 1, 'tags': ___}}",
+      "correct_answer": "['admin', 'editor']",
+      "accepted_answers": [
+        "['admin', 'editor']",
+        "['admin', 'editor']",
+        "['admin', 'editor']"
+      ],
+      "explanation": "A list of strings is a valid JSON array value inside the nested user dictionary.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "generating_json_algorithm",
+      "prerequisites": [
+        "14.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Building JSON from a List of Records",
+        "content": "When you have multiple records, you typically build a list of dictionaries first, then apply json.dumps() with indent for readability. Sorting keys can also help produce consistent output across runs."
+      },
+      "prompt": "Order the steps to create pretty-printed JSON from a list of student records:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The data must exist before serialization, and indent=4 along with sort_keys=True produces the specified pretty-printed, alphabetically sorted JSON.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "generating_json_idioms",
+      "prerequisites": [
+        "14.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Common JSON Idioms and Error Handling",
+        "content": "A common Python idiom is to wrap json.dumps() in a try-except block to catch TypeError when non-serializable objects are present. Another idiom is to assign the result to a variable before printing, so the JSON string can be reused or validated."
+      },
+      "prompt": "Complete the idiom: try:\n    result = json.dumps(data)\nexcept TypeError:\n    ___",
+      "correct_answer": "print('Data contains non-serializable values')",
+      "accepted_answers": [
+        "print('Data contains non-serializable values')",
+        "print('Invalid JSON data')",
+        "print('Serialization failed')"
+      ],
+      "explanation": "Catching TypeError allows graceful handling of values like sets or custom objects that json.dumps() cannot convert to JSON.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "generating_json_errors",
+      "prerequisites": [
+        "14.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying JSON Generation Errors",
+        "content": "When generating JSON in Python using the json module, common errors include passing non-serializable objects, using single quotes inside string literals, or forgetting to import the module. The json.dumps() function expects a Python object that can be converted to JSON. A frequent mistake is attempting to serialize a custom class instance without a custom encoder. Another issue is embedding unescaped double quotes within string values, which breaks the JSON structure. Always validate that your data consists of dicts, lists, strings, numbers, booleans, or None before serialization."
+      },
+      "prompt": "Review the following code that attempts to generate a JSON string from a Python dictionary. Identify the error(s) that prevent valid JSON output.",
+      "starter_code": "import json\n\nuser_data = {\n    'name': \"O'Reilly\",\n    'age': 30,\n    'active': True\n}\n\nresult = json.dumps(user_data)\nprint(result)",
+      "solution_code": "import json\n\nuser_data = {\n    'name': \"O'Reilly\",\n    'age': 30,\n    'active': True\n}\n\n# The issue is that the name contains a double quote inside a double-quoted string,\n# but the outer string uses double quotes. Fix by using single quotes for the outer string\n# or escaping the internal quote.\nresult = json.dumps(user_data)\nprint(result)",
+      "hint": "Check how the string value for 'name' is delimited and whether the internal apostrophe causes a syntax or serialization problem.",
+      "explanation": "The starter code uses double quotes to delimit the string 'O'Reilly', which causes a syntax error because the internal single quote does not terminate the string. In Python, the string should be written with single quotes: 'O'Reilly'. After fixing the syntax, json.dumps() correctly serializes the dictionary to a valid JSON string.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "easy",
+      "concept": "generating_json_fix",
+      "prerequisites": [
+        "14.5_q19"
+      ],
+      "prompt": "The code below is intended to generate a JSON string from a Python dictionary, but it fails to run. Fix the code so it produces valid JSON output.",
+      "starter_code": "import json\n\nperson = {\n    'name': 'Ada',\n    'role': 'Engineer'\n}\n\njson_str = json.dumps(person)\nprint(json_str)",
+      "solution_code": "import json\n\nperson = {\n    'name': 'Ada',\n    'role': 'Engineer'\n}\n\njson_str = json.dumps(person)\nprint(json_str)",
+      "hint": "Verify that the dictionary syntax is valid and that json.dumps is imported correctly.",
+      "explanation": "The starter code is already valid Python. It imports json, defines a dictionary with single-quoted keys and values, and serializes it with json.dumps(). The output is '{\"name\": \"Ada\", \"role\": \"Engineer\"}'.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "14.5_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "generating_json_edge_cases",
+      "prerequisites": [
+        "14.5_q20"
+      ],
+      "prompt": "The following code attempts to generate JSON from a nested structure containing edge cases. It raises a TypeError. Fix the code to handle these edge cases correctly.",
+      "starter_code": "import json\n\ndata = {\n    'values': [1, 2, None, 3.14],\n    'flag': True\n}\n\nprint(json.dumps(data))",
+      "solution_code": "import json\n\ndata = {\n    'values': [1, 2, None, 3.14],\n    'flag': True\n}\n\nprint(json.dumps(data))",
+      "hint": "Check whether None, integers, floats, and booleans are natively serializable by json.dumps.",
+      "explanation": "json.dumps natively handles None, integers, floats, and booleans, so no changes are needed. The corrected code simply ensures the dictionary is well-formed. The output is '{\"values\": [1, 2, null, 3.14], \"flag\": true}'.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "generating_json_runtime",
+      "prerequisites": [
+        "14.5_q21"
+      ],
+      "prompt": "A developer tried to serialize a Python dictionary containing a datetime object using json.dumps() and encountered a runtime error. Diagnose the problem and explain why it occurs.",
+      "starter_code": "import json\nfrom datetime import datetime\n\nlog = {\n    'timestamp': datetime.now(),\n    'level': 'INFO'\n}\n\njson.dumps(log)",
+      "solution_code": "import json\nfrom datetime import datetime\n\nlog = {\n    'timestamp': datetime.now().isoformat(),\n    'level': 'INFO'\n}\n\nprint(json.dumps(log))",
+      "hint": "Consider what types json.dumps natively supports and how to convert unsupported types.",
+      "explanation": "json.dumps cannot serialize datetime objects directly because they are not part of the JSON standard. The runtime error is a TypeError. The fix is to convert the datetime to a string using .isoformat() before serialization, yielding a valid JSON object.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "generating_json_logic_repair",
+      "prerequisites": [
+        "14.5_q22"
+      ],
+      "prompt": "The code below builds a JSON payload for a user, but the logic for including optional fields is flawed. Repair the code so that optional fields are included only when they are not None.",
+      "starter_code": "import json\n\ndef build_payload(user_id, name=None, email=None):\n    payload = {\n        'id': user_id,\n        'name': name,\n        'email': email\n    }\n    return json.dumps(payload)\n\nprint(build_payload(42, 'Sam', None))",
+      "solution_code": "import json\n\ndef build_payload(user_id, name=None, email=None):\n    payload = {\n        'id': user_id\n    }\n    if name is not None:\n        payload['name'] = name\n    if email is not None:\n        payload['email'] = email\n    return json.dumps(payload)\n\nprint(build_payload(42, 'Sam', None))",
+      "hint": "Avoid including keys with None values in the final JSON payload.",
+      "explanation": "The original code always included 'name' and 'email', even when they were None, producing '{\"id\": 42, \"name\": null, \"email\": null}'. The repaired version conditionally adds keys only when their values are not None, resulting in '{\"id\": 42, \"name\": \"Sam\"}'.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.5_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "diff": "hard",
+      "concept": "generating_json_optimization",
+      "prerequisites": [
+        "14.5_q23"
+      ],
+      "prompt": "Refactor the following repetitive JSON-building code into a reusable, efficient function that accepts arbitrary key-value pairs and returns a JSON string. Ensure the solution is clean, maintainable, and avoids redundant dictionary construction.",
+      "starter_code": "import json\n\ndef to_json_a(x, y):\n    d = {}\n    d['a'] = x\n    d['b'] = y\n    return json.dumps(d)\n\ndef to_json_b(x, y, z):\n    d = {}\n    d['a'] = x\n    d['b'] = y\n    d['c'] = z\n    return json.dumps(d)\n\ndef to_json_c(x, y, z, w):\n    d = {}\n    d['a'] = x\n    d['b'] = y\n    d['c'] = z\n    d['d'] = w\n    return json.dumps(d)",
+      "solution_code": "import json\n\ndef build_json(**kwargs):\n    return json.dumps(kwargs)\n\nprint(build_json(a=1, b=2))\nprint(build_json(a=1, b=2, c=3))\nprint(build_json(a=1, b=2, c=3, d=4))",
+      "test_cases": [
+        {
+          "input": "build_json(a=10, b=20)",
+          "expected_output": "'{\"a\": 10, \"b\": 20}'",
+          "description": "Verifies: build_json(a=10, b=20) == '{\"a\": 10, \"b\": 20}'"
+        },
+        {
+          "input": "build_json(x=5, y=15, z=25)",
+          "expected_output": "'{\"x\": 5, \"y\": 15, \"z\": 25}'",
+          "description": "Verifies: build_json(x=5, y=15, z=25) == '{\"x\": 5, \"y\": 15, \"z\": 25}'"
+        },
+        {
+          "input": "build_json()",
+          "expected_output": "'{}'",
+          "description": "Verifies: build_json() == '{}'"
+        }
+      ],
+      "hint": "Use **kwargs to accept arbitrary keyword arguments and pass them directly to json.dumps.",
+      "explanation": "The original code duplicated dictionary construction logic across three functions. The refactored version uses **kwargs to collect all named arguments into a dictionary, then passes it directly to json.dumps. This reduces redundancy, improves scalability, and maintains identical output behavior.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "14.5_q25",
+      "type": "write_the_code",
+      "concept": "generating_json_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q24"
+      ],
+      "prompt": "Write Python code that creates a dictionary containing a student's name, age, and a list of course grades. Then use the json module to convert this dictionary into a JSON-formatted string and print it.",
+      "starter_code": "import json\n\nstudent = {\n    'name': 'Aisha',\n    'age': 16,\n    'grades': [88, 92, 79]\n}\n\n# TODO: Convert the dictionary to a JSON string and print it\n",
+      "solution_code": "import json\n\nstudent = {\n    'name': 'Aisha',\n    'age': 16,\n    'grades': [88, 92, 79]\n}\n\njson_string = json.dumps(student, indent=2)\nprint(json_string)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The output must be a valid JSON string representation of the student dictionary.",
+          "description": "The output must be a valid JSON string representation of the student dictionary."
+        },
+        {
+          "input": "",
+          "expected_output": "The output should preserve the keys: name, age, and grades in the same order.",
+          "description": "The output should preserve the keys: name, age, and grades in the same order."
+        },
+        {
+          "input": "",
+          "expected_output": "The output must use double quotes around keys and string values as per JSON standards.",
+          "description": "The output must use double quotes around keys and string values as per JSON standards."
+        }
+      ],
+      "hint": "Use json.dumps() to serialize the Python dictionary into a JSON string. The indent parameter makes the output readable.",
+      "explanation": "json.dumps() serializes a Python object into a JSON-formatted string. Dictionaries map directly to JSON objects, and lists map to JSON arrays. Using indent improves readability for debugging."
+    },
+    {
+      "idx": 26,
+      "type": "write_the_code",
+      "concept": "generating_json_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.5_q25"
+      ],
+      "prompt": "Write Python code that builds a dictionary representing a library book with title, author, and publication_year. Save this data to a file named book.json in JSON format.",
+      "starter_code": "import json\n\nbook = {\n    'title': 'The Great Adventure',\n    'author': 'Samira Khan',\n    'publication_year': 2019\n}\n\n# TODO: Write the dictionary to a file named book.json\n",
+      "solution_code": "import json\n\nbook = {\n    'title': 'The Great Adventure',\n    'author': 'Samira Khan',\n    'publication_year': 2019\n}\n\nwith open('book.json', 'w') as f:\n    json.dump(book, f, indent=4)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The file book.json must be created in the current working directory.",
+          "description": "The file book.json must be created in the current working directory."
+        },
+        {
+          "input": "",
+          "expected_output": "The file content must be valid JSON matching the book dictionary.",
+          "description": "The file content must be valid JSON matching the book dictionary."
+        },
+        {
+          "input": "",
+          "expected_output": "The file must not contain any Python-specific syntax such as single quotes around keys.",
+          "description": "The file must not contain any Python-specific syntax such as single quotes around keys."
+        }
+      ],
+      "hint": "Use open() with mode 'w' to write, and json.dump() to write a Python object directly to a file object.",
+      "explanation": "json.dump() writes a Python object to a file-like object in JSON format. This is more efficient than json.dumps() followed by writing when persistence is required.",
+      "id": "14.5_q26"
+    },
+    {
+      "idx": 27,
+      "type": "write_the_code",
+      "concept": "generating_json_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.5_q26"
+      ],
+      "prompt": "Write Python code that creates a dictionary with a nested structure containing a list of events, where each event has a name and a timestamp. Since datetime objects are not natively JSON serializable, implement a custom approach to serialize the timestamp as an ISO 8601 string before converting the entire structure to JSON.",
+      "starter_code": "import json\nfrom datetime import datetime\n\nevents = [\n    {'name': 'Meeting', 'timestamp': datetime(2024, 5, 10, 9, 0)},\n    {'name': 'Deadline', 'timestamp': datetime(2024, 5, 12, 17, 30)}\n]\n\n# TODO: Convert timestamps to ISO 8601 strings and produce valid JSON output\n",
+      "solution_code": "import json\nfrom datetime import datetime\n\nevents = [\n    {'name': 'Meeting', 'timestamp': datetime(2024, 5, 10, 9, 0)},\n    {'name': 'Deadline', 'timestamp': datetime(2024, 5, 12, 17, 30)}\n]\n\ndef default_serializer(obj):\n    if isinstance(obj, datetime):\n        return obj.isoformat()\n    raise TypeError(f'Object of type {type(obj).__name__} is not JSON serializable')\n\njson_output = json.dumps(events, default=default_serializer, indent=2)\nprint(json_output)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The output must be a valid JSON string.",
+          "description": "The output must be a valid JSON string."
+        },
+        {
+          "input": "",
+          "expected_output": "The timestamp values must appear as ISO 8601 formatted strings, not datetime objects.",
+          "description": "The timestamp values must appear as ISO 8601 formatted strings, not datetime objects."
+        },
+        {
+          "input": "",
+          "expected_output": "The nested list structure must be preserved in the JSON output.",
+          "description": "The nested list structure must be preserved in the JSON output."
+        }
+      ],
+      "hint": "Pass a default function to json.dumps() to handle datetime objects by returning their isoformat() representation.",
+      "explanation": "The default parameter in json.dumps() accepts a function that returns a serializable representation for unsupported types. datetime.isoformat() produces a standard ISO 8601 string suitable for JSON.",
+      "id": "14.5_q27"
+    },
+    {
+      "idx": 28,
+      "type": "write_the_code",
+      "concept": "generating_json_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.5_q27"
+      ],
+      "prompt": "You are given a list of raw sensor readings. Write code to filter readings above 50, group them by device_id, and output the result as a JSON string where each device_id maps to a list of its filtered readings.",
+      "starter_code": "import json\n\nreadings = [\n    {'device_id': 1, 'value': 45},\n    {'device_id': 2, 'value': 62},\n    {'device_id': 1, 'value': 58},\n    {'device_id': 2, 'value': 30},\n    {'device_id': 3, 'value': 71}\n]\n\n# TODO: Filter, group by device_id, and serialize to JSON\n",
+      "solution_code": "import json\n\nreadings = [\n    {'device_id': 1, 'value': 45},\n    {'device_id': 2, 'value': 62},\n    {'device_id': 1, 'value': 58},\n    {'device_id': 2, 'value': 30},\n    {'device_id': 3, 'value': 71}\n]\n\nfiltered = [r for r in readings if r['value'] > 50]\n\ngrouped = {}\nfor r in filtered:\n    grouped.setdefault(r['device_id'], []).append(r['value'])\n\njson_output = json.dumps(grouped, indent=2)\nprint(json_output)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Only readings with value greater than 50 must appear in the final JSON.",
+          "description": "Only readings with value greater than 50 must appear in the final JSON."
+        },
+        {
+          "input": "",
+          "expected_output": "The JSON must group values under their respective device_id keys.",
+          "description": "The JSON must group values under their respective device_id keys."
+        },
+        {
+          "input": "",
+          "expected_output": "The output must be a single valid JSON string.",
+          "description": "The output must be a single valid JSON string."
+        }
+      ],
+      "hint": "Use a list comprehension for filtering, then iterate to build a dictionary that accumulates values per device_id.",
+      "explanation": "This challenge combines list comprehension for filtering with dictionary accumulation for grouping. The result is a nested JSON structure useful for time-series or IoT data aggregation.",
+      "id": "14.5_q28"
+    },
+    {
+      "idx": 29,
+      "type": "write_the_code",
+      "concept": "generating_json_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.5_q28"
+      ],
+      "prompt": "A small e-commerce backend needs to export product inventory to a JSON file every night. Write a robust script that reads product data from a Python list of dictionaries, validates that each product has 'sku', 'name', and 'price', and writes only valid products to inventory.json. If the file cannot be written, print an error message.",
+      "starter_code": "import json\n\ninventory = [\n    {'sku': 'A101', 'name': 'Notebook', 'price': 3.50},\n    {'sku': 'B202', 'name': 'Pen', 'price': 1.20},\n    {'sku': None, 'name': 'Eraser', 'price': 0.80},\n    {'sku': 'C303', 'name': 'Pencil', 'price': -2.0}\n]\n\n# TODO: Validate, filter, and write valid products to inventory.json safely\n",
+      "solution_code": "import json\n\ninventory = [\n    {'sku': 'A101', 'name': 'Notebook', 'price': 3.50},\n    {'sku': 'B202', 'name': 'Pen', 'price': 1.20},\n    {'sku': None, 'name': 'Eraser', 'price': 0.80},\n    {'sku': 'C303', 'name': 'Pencil', 'price': -2.0}\n]\n\nvalid = []\nfor item in inventory:\n    if all(k in item for k in ('sku', 'name', 'price')) and item['sku'] is not None and item['price'] >= 0:\n        valid.append(item)\n\ntry:\n    with open('inventory.json', 'w') as f:\n        json.dump(valid, f, indent=2)\n    print('Export completed successfully.')\nexcept IOError as e:\n    print(f'Error writing file: {e}')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Only products with non-null sku, present name, non-negative price, and all required keys must be written.",
+          "description": "Only products with non-null sku, present name, non-negative price, and all required keys must be written."
+        },
+        {
+          "input": "",
+          "expected_output": "inventory.json must be created with valid JSON content.",
+          "description": "inventory.json must be created with valid JSON content."
+        },
+        {
+          "input": "",
+          "expected_output": "If a write error occurs, the script must catch it and print an informative error message.",
+          "description": "If a write error occurs, the script must catch it and print an informative error message."
+        }
+      ],
+      "hint": "Validate each dictionary with all() and explicit checks for None and non-negative price before appending to the valid list.",
+      "explanation": "Real-world data pipelines require validation before serialization. Filtering invalid records prevents downstream systems from processing corrupt or incomplete data. try/except ensures graceful failure during file I/O.",
+      "id": "14.5_q29"
+    },
+    {
+      "idx": 30,
+      "type": "write_the_code",
+      "concept": "generating_json_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.5_q29"
+      ],
+      "prompt": "Create a Python function that recursively converts any nested combination of dictionaries, lists, tuples, and sets into a JSON-serializable structure. Sets must be converted to lists, tuples to lists, and all other types handled appropriately. Then use this function to serialize a complex nested object and print the JSON output.",
+      "starter_code": "import json\n\ndef make_json_safe(obj):\n    # TODO: Recursively convert non-serializable types to JSON-compatible ones\n    pass\n\ncomplex_data = {\n    'id': 42,\n    'items': [1, 2, 3],\n    'metadata': {\n        'tags': {'alpha', 'beta'},\n        'coords': (10, 20)\n    }\n}\n\n# TODO: Apply make_json_safe and print the JSON string\n",
+      "solution_code": "import json\n\ndef make_json_safe(obj):\n    if isinstance(obj, dict):\n        return {make_json_safe(k): make_json_safe(v) for k, v in obj.items()}\n    if isinstance(obj, (list, tuple, set)):\n        return [make_json_safe(item) for item in obj]\n    if isinstance(obj, (str, int, float, bool)) or obj is None:\n        return obj\n    return str(obj)\n\ncomplex_data = {\n    'id': 42,\n    'items': [1, 2, 3],\n    'metadata': {\n        'tags': {'alpha', 'beta'},\n        'coords': (10, 20)\n    }\n}\n\nsafe_data = make_json_safe(complex_data)\njson_output = json.dumps(safe_data, indent=2)\nprint(json_output)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The function must handle dictionaries, lists, tuples, and sets recursively.",
+          "description": "The function must handle dictionaries, lists, tuples, and sets recursively."
+        },
+        {
+          "input": "",
+          "expected_output": "Sets and tuples must be converted to lists in the final JSON output.",
+          "description": "Sets and tuples must be converted to lists in the final JSON output."
+        },
+        {
+          "input": "",
+          "expected_output": "The printed output must be a valid JSON string representing the original nested structure.",
+          "description": "The printed output must be a valid JSON string representing the original nested structure."
+        }
+      ],
+      "hint": "Check the type of obj at each level: dict, list/tuple/set, or a primitive. Recursively transform containers before returning primitives.",
+      "explanation": "Mastery of JSON generation requires understanding that JSON only supports dicts, lists, strings, numbers, booleans, and null. Custom recursive serialization bridges the gap between Python's rich type system and JSON's limited schema.",
+      "id": "14.5_q30"
+    }
+  ],
+  "unit_num": 14,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Generating JSON",
+    "Apply idiomatic Python patterns when working with Generating JSON",
+    "Debug common runtime exceptions and logic errors associated with Generating JSON",
+    "Implement production-ready code utilizing Generating JSON"
+  ],
+  "prerequisites": [
+    "14.4"
+  ]
+}

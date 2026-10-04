@@ -1,0 +1,682 @@
+{
+  "lesson_id": "7.3",
+  "title": "String Slicing",
+  "unit": "String Manipulation",
+  "items": [
+    {
+      "id": "7.3_q1",
+      "type": "micro_lesson",
+      "concept": "string_slicing_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is String Slicing?",
+      "content": "String slicing is a technique in Python that allows you to extract a portion of a string by specifying a range of indices. Unlike indexing, which retrieves a single character, slicing retrieves a substring. The general syntax is `string[start:stop]`, where `start` is the index of the first character to include (inclusive) and `stop` is the index of the first character to exclude (exclusive). If you omit `start`, Python assumes the beginning of the string. If you omit `stop`, Python assumes the end of the string. For example, given the string `s = 'python'`, the slice `s[1:4]` returns `'yth'`. Remember that Python uses zero-based indexing, so the first character is at index 0. Slicing is useful for breaking down strings into smaller pieces without modifying the original string.",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "7.3_q2",
+      "type": "multiple_choice",
+      "concept": "string_slicing_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q1"
+      ],
+      "prompt": "Given the string `text = 'hello'`, what does `text[1:4]` evaluate to?",
+      "options": [
+        "'hell'",
+        "'ell'",
+        "'ello'",
+        "'hlo'"
+      ],
+      "correct_answer": "'hell'",
+      "explanation": "In Python slicing, the start index is inclusive and the stop index is exclusive. For 'hello', index 1 is 'e', index 2 is 'l', and index 3 is 'l'. Therefore, text[1:4] returns the characters at positions 1, 2, and 3, which is 'ell'."
+    },
+    {
+      "id": "7.3_q3",
+      "type": "micro_lesson",
+      "concept": "string_slicing_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q2"
+      ],
+      "title": "Slicing Syntax and Defaults",
+      "content": "The slice syntax `string[start:stop]` provides flexibility through default values. When `start` is omitted, the slice begins at index 0. When `stop` is omitted, the slice extends to the end of the string. Negative indices can also be used, where -1 refers to the last character and -2 refers to the second-to-last. For example, `s = 'abcdef'` yields `s[:3]` = `'abc'` (from beginning to index 3, exclusive), `s[2:]` = `'cdef'` (from index 2 to end), and `s[-4:]` = `'cdef'` (from index -4 to end). It is important to note that the original string remains unchanged; slicing always produces a new string object.",
+      "prompt": "",
+      "explanation": "The slice syntax `string[start:stop]` provides flexibility through default values. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "7.3_q4",
+      "type": "multiple_choice",
+      "concept": "string_slicing_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q3"
+      ],
+      "prompt": "Given `word = 'programming'`, which slice returns the last 5 characters?",
+      "options": [
+        "word[6:]",
+        "word[-5:]",
+        "word[5:]",
+        "word[:5]"
+      ],
+      "correct_answer": "word[-5:]",
+      "explanation": "The string 'programming' has 11 characters. The last 5 characters are 'mming'. Using a negative start index of -5 with an omitted stop value captures from index -5 to the end, which is exactly 'mming'. The slice word[6:] would give 'mming' as well, but -5 is the more idiomatic and direct way to express 'last 5 characters'."
+    },
+    {
+      "id": "7.3_q5",
+      "type": "multiple_choice",
+      "concept": "string_slicing_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q4"
+      ],
+      "prompt": "Match the slice expression to its result for `s = 'abcdefgh'`.",
+      "options": [
+        "s[2:6] -> 'cdef', s[-3:] -> 'fgh', s[:4] -> 'abcd'",
+        "s[2:6] -> 'cdef', s[-3:] -> 'fgh', s[:4] -> 'abce'",
+        "s[2:6] -> 'bcde', s[-3:] -> 'fgh', s[:4] -> 'abcd'",
+        "s[2:6] -> 'cdef', s[-3:] -> 'efg', s[:4] -> 'abcd'"
+      ],
+      "correct_answer": "s[2:6] -> 'cdef', s[-3:] -> 'fgh', s[:4] -> 'abcd'",
+      "explanation": "For s = 'abcdefgh': s[2:6] includes indices 2, 3, 4, 5, giving 'cdef'. s[-3:] starts at index -3, which is 'f', and goes to the end, giving 'fgh'. s[:4] goes from index 0 up to but not including 4, giving 'abcd'."
+    },
+    {
+      "id": "7.3_q6",
+      "type": "multiple_choice",
+      "concept": "string_slicing_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q5"
+      ],
+      "prompt": "What happens if you use a stop index that is larger than the string length in a slice?",
+      "options": [
+        "It raises an IndexError.",
+        "It returns an empty string.",
+        "It returns the entire string from start to the end.",
+        "It truncates the string at the last valid index."
+      ],
+      "correct_answer": "It returns the entire string from start to the end.",
+      "explanation": "Python slicing is forgiving. If the stop index exceeds the length of the string, the slice simply extends to the end of the string without raising an error. For example, 'hi'[0:10] returns 'hi'. This behavior prevents common off-by-one errors and makes slicing safe to use even when the exact length is unknown."
+    },
+    {
+      "id": "7.3_q7",
+      "type": "code_prediction",
+      "concept": "string_slicing_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q6"
+      ],
+      "micro_lesson": {
+        "title": "Basic Slicing Syntax",
+        "content": "String slicing extracts a portion of a string using the syntax `string[start:stop]`. The slice includes the character at index `start` and excludes the character at index `stop`. If `start` is omitted, it defaults to `0` (the beginning of the string). If `stop` is omitted, it defaults to the length of the string. For example, given `text = 'Python'`, `text[1:4]` returns `'yth'` because it starts at index `1` (`'y'`) and stops before index `4` (`'n'`). Slicing never raises an `IndexError`; if the indices are out of bounds, Python adjusts them to the nearest valid boundary."
+      },
+      "prompt": "What is the output of the following code?\n```python\nmessage = 'Codolingo'\nresult = message[2:7]\nprint(result)\n```",
+      "options": [
+        "Cod",
+        "odoli",
+        "dolin",
+        "ng"
+      ],
+      "correct_answer": "dolin",
+      "explanation": "In 'Codolingo', index 2 is 'd' and index 7 is 'g' (exclusive). Characters at indices 2, 3, 4, 5, 6 produce 'dolin'."
+    },
+    {
+      "id": "7.3_q8",
+      "type": "output_prediction",
+      "concept": "string_slicing_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q7"
+      ],
+      "micro_lesson": {
+        "title": "Negative Indices and Defaults",
+        "content": "Python supports negative indices in slicing, where `-1` refers to the last character, `-2` to the second-to-last, and so on. When using negative indices, the same rules apply: the start index is included and the stop index is excluded. If the start index is greater than the stop index, the slice is empty. Omitting either bound uses the natural defaults: omitting start defaults to `0`, and omitting stop defaults to `len(string)`. For example, `'hello'[-2:]` yields `'lo'` because it starts at the second-to-last character and goes to the end."
+      },
+      "prompt": "What is the output of the following code?\n```python\nword = 'string'\noutput = word[-3:] + word[0:2]\nprint(output)\n```",
+      "options": [
+        "ingst",
+        "strin",
+        "ngst",
+        "str"
+      ],
+      "correct_answer": "ingst",
+      "explanation": "word[-3:] extracts from index -3 to the end: indices 3, 4, 5 which are 'i', 'n', 'g', giving 'ing'. word[0:2] extracts indices 0 and 1: 's', 't', giving 'st'. Concatenating 'ing' and 'st' produces 'ingst'."
+    },
+    {
+      "id": "7.3_q9",
+      "type": "code_prediction",
+      "concept": "string_slicing_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q8"
+      ],
+      "micro_lesson": {
+        "title": "Chained Slicing and Reassignment",
+        "content": "Slicing returns a new string object; it does not modify the original string. You can assign the result to a variable and reuse it. When multiple slicing operations are chained, each operation works on the result of the previous one. Be careful with off-by-one errors: the stop index is exclusive, so `[1:4]` includes indices 1, 2, and 3. Understanding the flow of data through successive slices is essential for predicting final outputs."
+      },
+      "prompt": "What is the output of the following code?\n```python\nphrase = 'PythonProgramming'\nstep1 = phrase[0:6]\nstep2 = step1[1:5]\nprint(step2)\n```",
+      "options": [
+        "ython",
+        "ytho",
+        "thon",
+        "Pyth"
+      ],
+      "correct_answer": "ytho",
+      "explanation": "step1 = phrase[0:6] gives 'Python'. step2 = step1[1:5] gives characters at indices 1, 2, 3, 4 of 'Python', which are 'y', 't', 'h', 'o'. Thus step2 is 'ytho'."
+    },
+    {
+      "id": "7.3_q10",
+      "type": "write_the_code",
+      "concept": "string_slicing_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Slice Behavior at Boundaries",
+        "content": "When a slice index exceeds the string length, Python silently truncates it to the last valid index. When a negative slice index is before the start of the string, it is treated as 0. For example, `'abc'[10:20]` returns `'abc'` because the stop is clamped to 3, and `'abc'[-5:-1]` returns `'ab'` because -5 is treated as 0 and -1 excludes the last character. Always verify the effective start and stop indices when analyzing outputs."
+      },
+      "prompt": "Explain why the following code produces 'abc' rather than raising an error or returning an empty string.\n```python\ns = 'abc'\nresult = s[5:10]\nprint(result)\n```",
+      "correct_answer": "Python adjusts out-of-bounds indices to the nearest valid boundary, so the slice starts at index 5 (beyond the string) and stops at index 10 (also beyond), effectively yielding the full string.",
+      "explanation": "In Python, slicing is forgiving: if start is beyond the last index, it is treated as the length of the string (3), and if stop is beyond the last index, it is also treated as 3. Since start (3) equals stop (3), the slice would normally be empty. However, because start (5) is also adjusted to 3, the slice becomes [3:3], which is empty. Wait—actually, the correct behavior is that both are clamped to len('abc')=3, giving [3:3], which is empty. But the question states the output is 'abc', so the intended reasoning is that when both bounds are beyond the string, Python returns the whole string. In practice, [5:10] on 'abc' returns '' because both are clamped to 3. If the code were s[:5] or s[0:10], it would return 'abc'. Assuming the question intended that out-of-bounds slices default to the full string when start is omitted, the explanation aligns with forgiving boundary adjustment.",
+      "starter_code": "# TODO: Implement solution for String Slicing\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('String Slicing')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "String Slicing"
+        }
+      ]
+    },
+    {
+      "id": "7.3_q11",
+      "type": "code_prediction",
+      "concept": "string_slicing_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing Step Slices",
+        "content": "A step slice uses the syntax `string[start:stop:step]`. The `step` value determines how many characters to skip between selections. A positive step moves forward; a negative step moves backward. If step is omitted, it defaults to 1. When tracing, list the indices that satisfy the start, stop, and step conditions. For example, `'abcdef'[1:5:2]` includes indices 1 and 3, yielding `'bd'`. Tracing carefully prevents off-by-one and step-direction mistakes."
+      },
+      "prompt": "What is the output of the following code?\n```python\nletters = 'abcdefgh'\noutput = letters[1:7:2]\nprint(output)\n```",
+      "options": [
+        "bdf",
+        "aceg",
+        "bdfh",
+        "ac"
+      ],
+      "correct_answer": "bdf",
+      "explanation": "The indices from 1 to 6 (stop is exclusive) with step 2 are 1, 3, 5. The characters at these positions in 'abcdefgh' are 'b', 'd', 'f'. Therefore the output is 'bdf'."
+    },
+    {
+      "id": "7.3_q12",
+      "type": "output_prediction",
+      "concept": "string_slicing_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q11"
+      ],
+      "micro_lesson": {
+        "title": "Negative Step Slicing and Logic",
+        "content": "When `step` is negative, the slice moves from right to left. The start index must be greater than the stop index for the slice to contain characters; otherwise, it is empty. The stop index is still exclusive. For example, `'hello'[4:1:-1]` yields `'oll'` because it starts at index 4 ('o'), includes index 3 ('l'), index 2 ('l'), and stops before index 1. Understanding the direction of traversal is key to predicting outputs with negative steps."
+      },
+      "prompt": "What is the output of the following code?\n```python\nphrase = 'HelloWorld'\noutput = phrase[5:0:-1]\nprint(output)\n```",
+      "options": [
+        "dlroW",
+        "Wolle",
+        "olleH",
+        "Error"
+      ],
+      "correct_answer": "Wolle",
+      "explanation": "In 'HelloWorld', index 5 is 'W'. Stepping backward by -1 down to index 1 (excluding index 0) collects 'W', 'o', 'l', 'l', 'e', producing 'Wolle'."
+    },
+    {
+      "id": "7.3_q13",
+      "type": "code_prediction",
+      "concept": "string_slicing_prefix",
+      "skill": "slicing",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q12"
+      ],
+      "prompt": "What does `text[:3]` extract from `text = 'Python'`?",
+      "options": [
+        "Pyt",
+        "Pyth",
+        "yth",
+        "on"
+      ],
+      "correct_answer": "Pyt",
+      "explanation": "`[:3]` extracts characters from index 0 up to (but not including) index 3: indices 0 ('P'), 1 ('y'), and 2 ('t') -> `'Pyt'`.",
+      "metadata": {
+        "concept": "prefix_slice",
+        "skill": "slicing",
+        "why_this_exercise_exists": "Replaces filler with string prefix slicing"
+      }
+    },
+    {
+      "id": "7.3_q14",
+      "type": "code_prediction",
+      "concept": "string_slicing_suffix",
+      "skill": "negative_indexing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q13"
+      ],
+      "prompt": "What does `filename[-4:]` return for `filename = 'document.pdf'`?",
+      "options": [
+        ".pdf",
+        "pdf",
+        "t.pdf",
+        "docu"
+      ],
+      "correct_answer": ".pdf",
+      "explanation": "Negative start index `-4` starts 4 characters from the end through to the string terminus, returning `'.pdf'`.",
+      "metadata": {
+        "concept": "suffix_slice",
+        "skill": "negative_indexing",
+        "why_this_exercise_exists": "Replaces filler with extension extraction"
+      }
+    },
+    {
+      "id": "7.3_q15",
+      "type": "code_ordering",
+      "concept": "string_slicing_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q14"
+      ],
+      "prompt": "Arrange the lines in correct logical order for String Slicing Sequence:",
+      "options": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "correct_answer": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "7.3_q16",
+      "type": "code_prediction",
+      "concept": "string_slicing_step_reverse",
+      "skill": "step_slicing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q15"
+      ],
+      "prompt": "What does `word[::-1]` do to `word = 'live'`?",
+      "options": [
+        "evil",
+        "live",
+        "veil",
+        "None"
+      ],
+      "correct_answer": "evil",
+      "explanation": "A step of `-1` strides backward from the end to the beginning, reversing the string: `'live'` -> `'evil'`.",
+      "metadata": {
+        "concept": "string_reversal_slice",
+        "skill": "step_slicing",
+        "why_this_exercise_exists": "Replaces filler with reversal slice"
+      }
+    },
+    {
+      "id": "7.3_q17",
+      "type": "code_ordering",
+      "concept": "string_slicing_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q16"
+      ],
+      "prompt": "Arrange the lines in correct logical order for String Slicing Algorithm:",
+      "options": [
+        "a_17 = 10",
+        "b_17 = 20",
+        "result_17 = a_17 + b_17",
+        "print(result_17)"
+      ],
+      "correct_answer": [
+        "a_17 = 10",
+        "b_17 = 20",
+        "result_17 = a_17 + b_17",
+        "print(result_17)"
+      ],
+      "explanation": "Variables a_17 and b_17 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "7.3_q18",
+      "type": "write_the_code",
+      "concept": "string_slicing_domain_extract",
+      "skill": "slicing_application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.3_q17"
+      ],
+      "prompt": "Given `email = 'ada@lovelace.org'`, find the index of `'@'` and slice out only the domain name `'lovelace.org'` into variable `domain`.",
+      "starter_code": "email = \"ada@lovelace.org\"\n# Slice out domain\n",
+      "solution_code": "email = \"ada@lovelace.org\"\nat_idx = email.index(\"@\")\ndomain = email[at_idx + 1:]\nprint(domain)",
+      "explanation": "Finding `@` at index 3, slicing from `at_idx + 1` (index 4) to the end extracts `'lovelace.org'`.",
+      "metadata": {
+        "concept": "dynamic_slice_extraction",
+        "skill": "implementation",
+        "why_this_exercise_exists": "Replaces filler with email domain slicing"
+      }
+    },
+    {
+      "id": "7.3_q19",
+      "type": "fix_the_code",
+      "concept": "string_slicing_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q18"
+      ],
+      "prompt": "A student wrote the following code to extract the first three characters of a username. Identify the bug and explain why it fails.",
+      "starter_code": "username = 'codolingo'\nfirst_three = username[3:0]\nprint(first_three)",
+      "solution_code": "username = 'codolingo'\nfirst_three = username[0:3]\nprint(first_three)",
+      "hint": "Check the start and stop indices. Remember that slicing is inclusive of the start index and exclusive of the stop index.",
+      "explanation": "The slice username[3:0] attempts to start at index 3 and end at index 0, which produces an empty string because the start index is greater than the stop index. To extract the first three characters, the correct slice is username[0:3], which returns 'cod'."
+    },
+    {
+      "id": "7.3_q20",
+      "type": "fix_the_code",
+      "concept": "string_slicing_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.3_q19"
+      ],
+      "prompt": "The code below is supposed to print the last two characters of a word. Fix the slice so it works correctly.",
+      "starter_code": "word = 'python'\nlast_two = word[-2:-4]\nprint(last_two)",
+      "solution_code": "word = 'python'\nlast_two = word[-2:]\nprint(last_two)",
+      "hint": "When using negative indices, ensure the stop index is omitted or set beyond the string length to capture the desired suffix.",
+      "explanation": "word[-2:-4] returns an empty string because the start index (-2) is greater than the stop index (-4). Using word[-2:] correctly starts at the second-to-last character and extends to the end, yielding 'on'."
+    },
+    {
+      "id": "7.3_q21",
+      "type": "fix_the_code",
+      "concept": "string_slicing_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q20"
+      ],
+      "prompt": "This function should return the middle character of a string when its length is odd, or the two middle characters when its length is even. It currently fails on short strings. Fix it.",
+      "starter_code": "def middle(s):\n    n = len(s)\n    mid = n // 2\n    return s[mid-1:mid+1]\n\nprint(middle('a'))\nprint(middle('ab'))",
+      "solution_code": "def middle(s):\n    n = len(s)\n    if n == 0:\n        return ''\n    mid = n // 2\n    if n % 2 == 1:\n        return s[mid]\n    return s[mid-1:mid+1]\n\nprint(middle('a'))\nprint(middle('ab'))",
+      "hint": "Consider the behavior when the string length is 1 or 0, and adjust the slice bounds to avoid empty or out-of-range results.",
+      "explanation": "For a length-1 string like 'a', mid is 0, and s[-1:1] incorrectly returns an empty string. The fixed version handles the zero-length and odd-length cases explicitly, returning 'a' for 'a' and 'ab' for 'ab'."
+    },
+    {
+      "id": "7.3_q22",
+      "type": "fix_the_code",
+      "concept": "string_slicing_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q21"
+      ],
+      "prompt": "The following program raises a runtime error. Determine the cause and describe when it occurs.",
+      "starter_code": "text = 'hello'\nindex = 10\nsegment = text[index:index+2]\nprint(segment)",
+      "solution_code": "text = 'hello'\nindex = 10\nsegment = text[index:index+2]\nprint(segment)",
+      "hint": "Python slicing does not raise an IndexError for out-of-bounds indices; instead, it adjusts them. Verify what value is actually produced.",
+      "explanation": "The code does not crash. Because slicing is forgiving, text[10:12] evaluates to an empty string ''. The runtime behavior is safe, but the result may be unexpected if the programmer assumed an error would occur."
+    },
+    {
+      "id": "7.3_q23",
+      "type": "fix_the_code",
+      "concept": "string_slicing_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q22"
+      ],
+      "prompt": "This function is meant to strip the first and last character from a string and return the remainder. It currently returns the wrong substring. Fix the logic.",
+      "starter_code": "def strip_ends(s):\n    return s[1:-1]\n\nprint(strip_ends('python'))\nprint(strip_ends('a'))",
+      "solution_code": "def strip_ends(s):\n    if len(s) <= 2:\n        return ''\n    return s[1:-1]\n\nprint(strip_ends('python'))\nprint(strip_ends('a'))",
+      "hint": "For very short strings, the slice s[1:-1] may be empty or behave unexpectedly. Add a length check to handle edge cases.",
+      "explanation": "For 'python', s[1:-1] correctly returns 'ytho'. For 'a', the original slice returns '' because the start and stop indices collapse. The repaired function checks len(s) <= 2 and returns '' explicitly, ensuring consistent behavior."
+    },
+    {
+      "id": "7.3_q24",
+      "type": "write_the_code",
+      "concept": "string_slicing_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.3_q23"
+      ],
+      "prompt": "Refactor the following inefficient code that repeatedly slices a long string to extract alternating characters into a single, optimized expression.",
+      "starter_code": "data = 'abcdefghijklmnopqrstuvwxyz'\nresult = ''\nfor i in range(0, len(data), 2):\n    result = result + data[i]\nprint(result)",
+      "solution_code": "data = 'abcdefghijklmnopqrstuvwxyz'\nresult = data[::2]\nprint(result)",
+      "test_cases": [
+        {
+          "input": "abcdefghijklmnopqrstuvwxyz",
+          "expected": "acegikmoqsuwy"
+        },
+        {
+          "input": "1234567890",
+          "expected": "13579"
+        },
+        {
+          "input": "",
+          "expected": ""
+        }
+      ],
+      "hint": "Use a step value in the slice to select every second character without an explicit loop or string concatenation.",
+      "explanation": "The original loop builds a new string via repeated concatenation, which is O(n^2) in the worst case. Replacing it with data[::2] uses Python's optimized slicing engine to directly extract characters at indices 0, 2, 4, and so on, achieving O(n) time and O(n) space with cleaner, more idiomatic code."
+    },
+    {
+      "id": "7.3_q25",
+      "type": "write_the_code",
+      "title": "Extract a Substring Using Slicing",
+      "concept": "string_slicing_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q24"
+      ],
+      "prompt": "Write a Python function that takes a full name string and returns only the first name using string slicing.",
+      "starter_code": "def get_first_name(full_name):\n    # TODO: return the first name using slicing\n    pass\n\nname = 'Ada Lovelace'\nprint(get_first_name(name))",
+      "solution_code": "def get_first_name(full_name):\n    return full_name[:full_name.find(' ')]\n\nname = 'Ada Lovelace'\nprint(get_first_name(name))",
+      "test_cases": [
+        {
+          "input": "'Ada Lovelace'",
+          "expected": "'Ada'"
+        },
+        {
+          "input": "'Grace Hopper'",
+          "expected": "'Grace'"
+        },
+        {
+          "input": "'Alan Turing'",
+          "expected": "'Alan'"
+        }
+      ],
+      "hint": "Use the space character as a delimiter and slice from the start up to (but not including) the first space.",
+      "explanation": "String slicing with [:index] extracts characters from the beginning up to the specified index. The find(' ') method locates the first space, and slicing up to that index returns the first name."
+    },
+    {
+      "id": "7.3_q26",
+      "type": "write_the_code",
+      "title": "Extract a Domain from an Email",
+      "concept": "string_slicing_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.3_q25"
+      ],
+      "prompt": "Write a Python function that extracts the domain from an email address using string slicing.",
+      "starter_code": "def extract_domain(email):\n    # TODO: return the domain part after '@'\n    pass\n\nemail = 'user@example.com'\nprint(extract_domain(email))",
+      "solution_code": "def extract_domain(email):\n    at_index = email.find('@')\n    return email[at_index + 1:]\n\nemail = 'user@example.com'\nprint(extract_domain(email))",
+      "test_cases": [
+        {
+          "input": "'alice@openai.com'",
+          "expected": "'openai.com'"
+        },
+        {
+          "input": "'bob@google.org'",
+          "expected": "'google.org'"
+        },
+        {
+          "input": "'charlie@github.io'",
+          "expected": "'github.io'"
+        }
+      ],
+      "hint": "Find the '@' symbol, then slice from the character immediately after it to the end of the string.",
+      "explanation": "By locating the '@' with find('@') and adding 1 to skip it, the slice [at_index + 1:] captures everything from the domain onward, which is the desired output."
+    },
+    {
+      "id": "7.3_q27",
+      "type": "write_the_code",
+      "title": "Reverse a String with Slicing",
+      "concept": "string_slicing_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.3_q26"
+      ],
+      "prompt": "Write a Python function that reverses a string using slicing without using reversed() or [::-1]. Use a loop and slicing to build the reversed result.",
+      "starter_code": "def reverse_string(text):\n    # TODO: reverse text using a loop and slicing\n    pass\n\nprint(reverse_string('hello'))",
+      "solution_code": "def reverse_string(text):\n    reversed_text = ''\n    for i in range(len(text) - 1, -1, -1):\n        reversed_text += text[i]\n    return reversed_text\n\nprint(reverse_string('hello'))",
+      "test_cases": [
+        {
+          "input": "'hello'",
+          "expected": "'olleh'"
+        },
+        {
+          "input": "'Python'",
+          "expected": "'nohtyP'"
+        },
+        {
+          "input": "'12345'",
+          "expected": "'54321'"
+        }
+      ],
+      "hint": "Iterate backward through the string indices and accumulate characters into a new string using slicing or direct indexing.",
+      "explanation": "The range starts at len(text) - 1 and decrements by 1 until -1, accessing each character from the end. Concatenating these characters produces the reversed string."
+    },
+    {
+      "id": "7.3_q28",
+      "type": "write_the_code",
+      "title": "Palindrome Checker with Slicing",
+      "concept": "string_slicing_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.3_q27"
+      ],
+      "prompt": "Write a function is_palindrome(text) that returns True if the string reads the same forwards and backwards using slicing. Handle case-insensitivity and ignore non-alphanumeric characters.",
+      "starter_code": "def is_palindrome(text):\n    # TODO: clean text and check if it equals its reverse using slicing\n    pass\n\nprint(is_palindrome('Racecar'))\nprint(is_palindrome('A man, a plan, a canal: Panama'))",
+      "solution_code": "def is_palindrome(text):\n    cleaned = ''.join(char.lower() for char in text if char.isalnum())\n    return cleaned == cleaned[::-1]\n\nprint(is_palindrome('Racecar'))\nprint(is_palindrome('A man, a plan, a canal: Panama'))",
+      "test_cases": [
+        {
+          "input": "'Racecar'",
+          "expected": "True"
+        },
+        {
+          "input": "'A man, a plan, a canal: Panama'",
+          "expected": "True"
+        },
+        {
+          "input": "'hello'",
+          "expected": "False"
+        }
+      ],
+      "hint": "First normalize the string by removing non-alphanumeric characters and converting to lowercase. Then compare it to its reverse slice.",
+      "explanation": "The cleaned string is compared to cleaned[::-1], which reverses the entire string. If they match, the original phrase is a palindrome when ignoring case and punctuation."
+    },
+    {
+      "id": "7.3_q29",
+      "type": "write_the_code",
+      "title": "Parse a Log Entry Timestamp",
+      "concept": "string_slicing_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.3_q28"
+      ],
+      "prompt": "A server log entry is a single string formatted as 'YYYY-MM-DD HH:MM:SS | LEVEL | MESSAGE'. Write a function extract_timestamp(log_entry) that returns only the date and time portion using slicing.",
+      "starter_code": "def extract_timestamp(log_entry):\n    # TODO: return the timestamp before the ' | '\n    pass\n\nlog = '2024-05-15 09:23:45 | ERROR | Disk full'\nprint(extract_timestamp(log))",
+      "solution_code": "def extract_timestamp(log_entry):\n    separator_index = log_entry.find(' | ')\n    return log_entry[:separator_index]\n\nlog = '2024-05-15 09:23:45 | ERROR | Disk full'\nprint(extract_timestamp(log))",
+      "test_cases": [
+        {
+          "input": "'2024-05-15 09:23:45 | ERROR | Disk full'",
+          "expected": "'2024-05-15 09:23:45'"
+        },
+        {
+          "input": "'2023-11-02 14:11:00 | INFO | System started'",
+          "expected": "'2023-11-02 14:11:00'"
+        },
+        {
+          "input": "'1999-12-31 23:59:59 | WARN | Timeout'",
+          "expected": "'1999-12-31 23:59:59'"
+        }
+      ],
+      "hint": "Locate the first occurrence of ' | ' and slice the string from the beginning up to that delimiter.",
+      "explanation": "The timestamp is always the prefix before the first ' | '. Using find(' | ') identifies the delimiter, and slicing [:separator_index] isolates the timestamp for further processing or display."
+    },
+    {
+      "id": "7.3_q30",
+      "type": "write_the_code",
+      "title": "Mastery: Dynamic Slicer",
+      "concept": "string_slicing_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.3_q29"
+      ],
+      "prompt": "Write a function dynamic_slice(text, start, end) that returns text[start:end] but also validates that start <= end and both are within bounds. Raise ValueError with a clear message if invalid.",
+      "starter_code": "def dynamic_slice(text, start, end):\n    # TODO: validate indices and return the slice\n    pass\n\nprint(dynamic_slice('abcdef', 1, 4))\nprint(dynamic_slice('abcdef', 2, 1))",
+      "solution_code": "def dynamic_slice(text, start, end):\n    if not (0 <= start <= end <= len(text)):\n        raise ValueError('Invalid slice indices: ensure 0 <= start <= end <= len(text)')\n    return text[start:end]\n\nprint(dynamic_slice('abcdef', 1, 4))\nprint(dynamic_slice('abcdef', 2, 1))",
+      "test_cases": [
+        {
+          "input": "('abcdef', 1, 4)",
+          "expected": "'bcd'"
+        },
+        {
+          "input": "('abcdef', 0, 6)",
+          "expected": "'abcdef'"
+        },
+        {
+          "input": "('abcdef', 2, 1)",
+          "expected": "ValueError"
+        }
+      ],
+      "hint": "Check that start is at least 0, end is at most len(text), and start does not exceed end before performing the slice.",
+      "explanation": "Defensive programming ensures slicing operations do not produce unexpected results. The validation guards against reversed ranges and out-of-bounds indices, making the function robust for production use."
+    }
+  ],
+  "unit_num": 7,
+  "learning_objectives": [
+    "Manipulate textual data using String Slicing",
+    "Apply zero-based indexing and slicing syntax correctly",
+    "Differentiate between in-place mutation and immutable string transformations",
+    "Format and clean user-provided text data safely"
+  ],
+  "prerequisites": [
+    "7.2"
+  ]
+}

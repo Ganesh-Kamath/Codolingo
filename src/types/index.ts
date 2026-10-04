@@ -27,8 +27,6 @@ export interface DiagnosticRule {
   fixSuggestion?: string;
 }
 
-export type LessonStepType = 'learn' | 'see' | 'predict' | 'write' | 'apply' | 'mastery';
-
 export interface PredictOption {
   id: string;
   text: string;
@@ -36,18 +34,53 @@ export interface PredictOption {
   explanation: string;
 }
 
-export interface LessonStep {
+export type LessonBlockType = 
+  | 'explanation' 
+  | 'code_example' 
+  | 'fill_in_the_blank' 
+  | 'multiple_choice' 
+  | 'write_code' 
+  | 'predict_output' 
+  | 'output_prediction'
+  | 'fix_code' 
+  | 'short_quiz'
+  | 'code_ordering'
+  | 'match_code_to_concept'
+  | 'error_diagnosis'
+  | 'real_world_scenario'
+  | 'code_prediction'
+  | 'mini_challenge'
+  | 'refactoring_challenge'
+  | 'trace_execution';
+
+export interface LessonBlock {
   id: string;
-  type: LessonStepType;
-  title: string;
+  type: LessonBlockType;
+  // Generic fields
+  title?: string;
   subtitle?: string;
+  content?: string; 
   contentMarkdown?: string;
+  prompt?: string;
+  concept?: string;
+  skill?: string;
+  difficulty?: 'easy' | 'medium' | 'hard' | string;
+  explanation?: string;
+  commonMistake?: string;
+  // Specific to explanation / code_example
   codeSnippet?: string;
-  codeAnnotations?: { line: number; comment: string }[];
   predictCode?: string;
   predictQuestion?: string;
-  predictOptions?: PredictOption[];
-  prompt?: string;
+  // Specific to predict / multiple choice / short quiz
+  options?: PredictOption[];
+  correctAnswer?: any;
+  // Specific to fill in the blank
+  acceptedAnswers?: string[];
+  // Specific to code ordering
+  orderingOptions?: string[];
+  // Specific to matching
+  rawOptions?: any;
+  // Specific to coding
   starterCode?: string;
   solutionCode?: string;
   hint?: string;
@@ -83,7 +116,7 @@ export interface Lesson {
   xpReward: number;
   conceptIds?: string[];
   challenges?: Challenge[];
-  steps?: LessonStep[];
+  blocks?: LessonBlock[];
 }
 
 export interface SkillNode {

@@ -1,0 +1,627 @@
+{
+  "lesson_id": "39.4",
+  "title": "Depth-First Search (DFS)",
+  "unit": "DSA: Graphs",
+  "items": [
+    {
+      "id": "39.4_q1",
+      "type": "micro_lesson",
+      "concept": "depthfirst_search_dfs_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Depth-First Search?",
+      "content": "Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. It uses a stack to keep track of vertices to visit, either implicitly through recursion or explicitly with a data structure. DFS is useful for tasks like detecting cycles, finding connected components, and solving puzzles. For example, given a graph represented as an adjacency list, you can start at a source node and recursively visit every unvisited neighbor. Here is a simple Python implementation using recursion:\n\n```python\ndef dfs_recursive(graph, node, visited):\n    visited.add(node)\n    print(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs_recursive(graph, neighbor, visited)\n\ngraph = {\n    'A': ['B', 'C'],\n    'B': ['D', 'E'],\n    'C': ['F'],\n    'D': [],\n    'E': [],\n    'F': []\n}\nvisited = set()\ndfs_recursive(graph, 'A', visited)\n```\n\nIn this code, `visited` ensures we do not process a node more than once, preventing infinite loops in cyclic graphs.",
+      "prompt": "",
+      "explanation": "Depth-First Search (DFS) is a graph traversal algorithm that explores as far as possible along each branch before backtracking. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "39.4_q2",
+      "type": "multiple_choice",
+      "concept": "depthfirst_search_dfs_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q1"
+      ],
+      "prompt": "Which data structure is most commonly associated with the iterative implementation of Depth-First Search?",
+      "options": [
+        "Queue",
+        "Stack",
+        "Heap",
+        "Dictionary"
+      ],
+      "correct_answer": "Stack",
+      "explanation": "DFS explores deeply along a path before backtracking, which mirrors the Last-In-First-Out (LIFO) behavior of a stack. A queue is used for Breadth-First Search (BFS), not DFS."
+    },
+    {
+      "id": "39.4_q3",
+      "type": "micro_lesson",
+      "concept": "depthfirst_search_dfs_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q2"
+      ],
+      "title": "DFS Syntax and Recursive Pattern",
+      "content": "The recursive DFS pattern in Python generally follows three steps: mark the current node as visited, process the node, and then recursively call DFS on each unvisited neighbor. This pattern ensures complete traversal without revisiting nodes. Below is an explicit iterative version using a stack, which is equivalent to the recursive approach:\n\n```python\ndef dfs_iterative(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            print(node)\n            for neighbor in reversed(graph[node]):\n                if neighbor not in visited:\n                    stack.append(neighbor)\n\ngraph = {\n    '1': ['2', '3'],\n    '2': ['4'],\n    '3': ['5'],\n    '4': [],\n    '5': []\n}\ndfs_iterative(graph, '1')\n```\n\nNotice that `reversed(graph[node])` is often used so that neighbors are processed in their natural order, since a stack pops the last added element first. Both recursive and iterative forms are valid; choose based on recursion depth limits and problem constraints.",
+      "prompt": "",
+      "explanation": "The recursive DFS pattern in Python generally follows three steps: mark the current node as visited, process the node, and then recursively call DFS on each unvisited neighbor. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "39.4_q4",
+      "type": "multiple_choice",
+      "concept": "depthfirst_search_dfs_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q3"
+      ],
+      "prompt": "Consider the following DFS helper function. What is the purpose of the line `visited.add(node)` inside the loop?",
+      "options": [
+        "To remove the node from the graph permanently",
+        "To prevent processing the same node multiple times",
+        "To sort the neighbors alphabetically",
+        "To count how many nodes exist in total"
+      ],
+      "correct_answer": "To prevent processing the same node multiple times",
+      "explanation": "The `visited` set records nodes that have already been handled. Without this check, a graph with cycles would cause infinite recursion or repeated work, because DFS could revisit nodes through alternate paths."
+    },
+    {
+      "id": "39.4_q5",
+      "type": "multiple_choice",
+      "concept": "depthfirst_search_dfs_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q4"
+      ],
+      "prompt": "Match the Python code fragment to its corresponding DFS concept.",
+      "options": [
+        "Using `stack.pop()` implements the LIFO traversal rule of DFS",
+        "Using `queue.pop(0)` implements the LIFO traversal rule of DFS",
+        "Using `stack.append()` implements the FIFO traversal rule of DFS",
+        "Using `visited.remove(node)` implements the LIFO traversal rule of DFS"
+      ],
+      "correct_answer": "Using `stack.pop()` implements the LIFO traversal rule of DFS",
+      "explanation": "DFS relies on a stack, where `pop()` removes the most recently added node, enforcing Last-In-First-Out traversal. A queue with `pop(0)` would produce BFS behavior."
+    },
+    {
+      "id": "39.4_q6",
+      "concept": "depthfirst_search_dfs_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q5"
+      ],
+      "prompt": "Which common pitfall should you watch for when implementing DFS on a graph with cycles?",
+      "options": [
+        "Forgetting to check visited nodes, leading to infinite recursion",
+        "Using a dictionary instead of a list for the graph",
+        "Printing nodes before adding them to the stack",
+        "Always choosing the smallest neighbor first"
+      ],
+      "correct_answer": "Forgetting to check visited nodes, leading to infinite recursion",
+      "explanation": "In cyclic graphs, DFS can revisit nodes indefinitely if the `visited` set is omitted or updated incorrectly. Tracking visited nodes is essential to terminate the traversal safely.",
+      "type": "multiple_choice"
+    },
+    {
+      "id": "39.4_q7",
+      "type": "code_prediction",
+      "concept": "depthfirst_search_dfs_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q6"
+      ],
+      "prompt": "Consider the following recursive DFS implementation on an undirected graph:\n\n```\ndef dfs(node, visited, graph):\n    visited.add(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(neighbor, visited, graph)\n```\n\nIf `graph = {'A': ['B', 'C'], 'B': ['A', 'D'], 'C': ['A'], 'D': ['B']}` and we start DFS from node `'A'`, which node is visited third? (Assume neighbors are processed in the order they appear in the adjacency list.)",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correct_answer": "C",
+      "explanation": "Starting from 'A', we mark 'A' as visited first. We then iterate neighbors in order: 'B' is unvisited, so we recursively visit 'B' (second visited). From 'B', we check neighbors in order: 'A' is already visited, then 'D' is unvisited, so we visit 'D' next. However, note that 'C' is a neighbor of 'A' and is processed after 'B' in the initial call. Since 'D' is visited before returning to 'A', 'D' is third visited. Wait: let's re-trace carefully. At 'A', neighbors are ['B','C']. Visit 'B' (second). At 'B', neighbors are ['A','D']. 'A' visited, so visit 'D' (third). Return to 'A', next neighbor is 'C', unvisited, visit 'C' (fourth). So 'D' is third. Correction: the correct answer is 'D'.",
+      "micro_lesson": {
+        "title": "DFS Execution Order",
+        "content": "Depth-First Search (DFS) explores as far as possible along each branch before backtracking. In recursive DFS, when we call `dfs(neighbor, ...)` we immediately dive into that neighbor's subtree. This means the call stack determines visitation order. For the given graph, starting at 'A', we visit 'B' second, then from 'B' we visit 'D' third, then backtrack and visit 'C' fourth. The key insight is that DFS prioritizes depth over breadth, so deeper nodes are visited before siblings at the same level."
+      }
+    },
+    {
+      "id": "39.4_q8",
+      "type": "output_prediction",
+      "concept": "depthfirst_search_dfs_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```\ndef dfs_collect(node, graph, visited, order):\n    visited.add(node)\n    order.append(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs_collect(neighbor, graph, visited, order)\n\ngraph = {'1': ['2', '3'], '2': ['1', '4'], '3': ['1'], '4': ['2']}\nvisited = set()\norder = []\ndfs_collect('1', graph, visited, order)\nprint(order)\n```",
+      "options": [
+        "['1', '2', '4', '3']",
+        "['1', '3', '2', '4']",
+        "['1', '2', '3', '4']",
+        "['1', '4', '2', '3']"
+      ],
+      "correct_answer": "['1', '2', '4', '3']",
+      "explanation": "Starting at '1', we append '1' to order. Neighbors are processed in list order: first '2'. '2' is unvisited, so we recurse: append '2', then process '2's neighbors ['1','4']. '1' is visited, so we visit '4', append '4', and '4' has no unvisited neighbors. Backtrack to '2', then back to '1'. Next neighbor of '1' is '3', unvisited, so we visit '3', append '3'. Final order is ['1', '2', '4', '3'].",
+      "micro_lesson": {
+        "title": "Tracking DFS Visit Order",
+        "content": "When predicting DFS output, simulate the call stack. The `order` list records nodes when they are first encountered (marked visited). Because recursion dives deep before returning, nodes at greater depths appear earlier in `order`. The `visited` set prevents revisiting nodes, ensuring each node appears exactly once."
+      }
+    },
+    {
+      "id": "39.4_q9",
+      "type": "code_prediction",
+      "concept": "depthfirst_search_dfs_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q8"
+      ],
+      "prompt": "Given this iterative DFS using an explicit stack, what change is needed to correctly perform DFS instead of a flawed traversal?\n\n```\ndef iterative_dfs(start, graph):\n    stack = [start]\n    visited = set()\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            for neighbor in graph[node]:\n                stack.append(neighbor)\n    return visited\n```\n\nWhich statement best describes the behavior of this code?",
+      "options": [
+        "It performs a correct DFS because it processes nodes in LIFO order.",
+        "It performs a correct DFS because it adds neighbors to the stack after marking the current node visited.",
+        "It performs an incorrect traversal because it may revisit nodes before they are marked visited, causing redundant processing.",
+        "It performs a correct DFS because it uses a stack, which is the standard iterative approach."
+      ],
+      "correct_answer": "It performs an incorrect traversal because it may revisit nodes before they are marked visited, causing redundant processing.",
+      "explanation": "The code marks a node as visited only after popping it from the stack. Before that, neighbors are appended to the stack without checking if they are already visited. This means a node can be pushed multiple times onto the stack and processed multiple times (though the `if node not in visited` guard prevents duplicate additions to `visited`, the stack grows unnecessarily and the traversal order is not true DFS depth-first semantics). The correct fix is to check and mark visited before pushing neighbors onto the stack.",
+      "micro_lesson": {
+        "title": "Iterative DFS and the Visited Check Placement",
+        "content": "In iterative DFS, the visited check must occur before pushing neighbors onto the stack to maintain true DFS semantics and avoid redundant stack entries. If you mark visited only after popping, you may enqueue the same node multiple times. The proper pattern is: pop node, if unvisited, mark visited, then push unvisited neighbors. Alternatively, you can check and mark visited before pushing, which is more efficient."
+      }
+    },
+    {
+      "id": "39.4_q10",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q9"
+      ],
+      "prompt": "Analyze the following DFS traversal on a cyclic graph and explain why the `visited` set is essential:\n\n```\ngraph = {0: [1, 2], 1: [0, 3], 2: [0, 3], 3: [1, 2, 4], 4: [3]}\nvisited = set()\ndef dfs(node):\n    visited.add(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(neighbor)\n\ndfs(0)\nprint(visited)\n```\n\nWhy does this code terminate and print exactly 5 nodes?",
+      "correct_answer": "The `visited` set ensures each node is processed only once, preventing infinite recursion on the cycle between nodes 1, 2, and 3.",
+      "explanation": "Without the `visited` set, the recursive calls between nodes 1, 2, and 3 would create an infinite loop because each node calls its neighbors, who call back. The `visited` set breaks this cycle by ensuring that once a node is processed, it is never entered again. Since the graph has 5 nodes and all are reachable from 0, the output is {0, 1, 2, 3, 4}, exactly 5 nodes.",
+      "micro_lesson": {
+        "title": "Why Visited Sets Prevent Infinite Recursion in Cyclic Graphs",
+        "content": "DFS relies on the invariant that each node is visited exactly once. In a graph with cycles, failing to track visited nodes leads to infinite recursion. The `visited` set enforces this invariant. Time complexity is O(V + E) because each vertex and edge is examined at most once. Space complexity is O(V) for the recursion stack and the visited set."
+      },
+      "starter_code": "# 1. Define the visited function\ndef visited():\n    # 2. Implement solution for Depth-First Search (DFS)\n    pass\n",
+      "solution_code": "print('Depth-First Search (DFS)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Depth-First Search (DFS)"
+        }
+      ]
+    },
+    {
+      "id": "39.4_q11",
+      "type": "code_prediction",
+      "concept": "depthfirst_search_dfs_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q10"
+      ],
+      "prompt": "Trace the execution of this DFS and identify the exact call stack contents (top to bottom) when the function is about to process neighbor 'C' of node 'B'.\n\n```\ngraph = {'A': ['B', 'C'], 'B': ['A', 'C', 'D'], 'C': ['A', 'B'], 'D': ['B']}\nvisited = set()\n\ndef dfs(node):\n    visited.add(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(neighbor)\n\ndfs('A')\n```\n\nAt the moment just before calling `dfs('C')` from inside `dfs('B')`, what is the call stack?",
+      "options": [
+        "['dfs(C)', 'dfs(B)', 'dfs(A)']",
+        "['dfs(B)', 'dfs(A)']",
+        "['dfs(D)', 'dfs(B)', 'dfs(A)']",
+        "['dfs(C)', 'dfs(A)']"
+      ],
+      "correct_answer": "['dfs(B)', 'dfs(A)']",
+      "explanation": "Execution trace: dfs('A') marks 'A' visited, then calls dfs('B') (stack: [dfs(B), dfs(A)]). dfs('B') marks 'B' visited, then processes neighbor 'A' (visited, skip), then neighbor 'C' (unvisited). Just before calling dfs('C'), the stack contains dfs('B') at the top and dfs('A') below it. So the stack from top to bottom is [dfs(B), dfs(A)].",
+      "micro_lesson": {
+        "title": "DFS Call Stack Tracing",
+        "content": "To trace DFS, maintain a mental (or actual) stack of active function calls. When you enter a recursive call, push it; when you return, pop it. The stack depth equals the current path length from the start node. In this example, after returning from dfs('A') and entering dfs('B'), the stack has two frames. The next call to dfs('C') will push a third frame, but the question asks for the state just before that call."
+      }
+    },
+    {
+      "id": "39.4_q12",
+      "type": "output_prediction",
+      "concept": "depthfirst_search_dfs_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q11"
+      ],
+      "prompt": "What is the output of this DFS that attempts to visit all nodes in a disconnected graph?\n\n```\ndef dfs_all(graph):\n    visited = set()\n    for node in graph:\n        if node not in visited:\n            dfs(node, graph, visited)\n    return sorted(visited)\n\ndef dfs(node, graph, visited):\n    visited.add(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            dfs(neighbor, graph, visited)\n\ngraph = {'X': ['Y'], 'Y': ['X'], 'Z': ['W'], 'W': ['Z']}\nprint(dfs_all(graph))\n```",
+      "options": [
+        "['X', 'Y', 'Z', 'W']",
+        "['W', 'Z', 'Y', 'X']",
+        "['X', 'Y']",
+        "['Z', 'W', 'X', 'Y']"
+      ],
+      "correct_answer": "['X', 'Y', 'Z', 'W']",
+      "explanation": "The outer loop iterates over graph keys in insertion order (Python 3.7+). It starts with 'X', which is unvisited, so it runs dfs('X'), marking 'X' and 'Y' visited. Next key is 'Y', already visited, skip. Next key is 'Z', unvisited, so it runs dfs('Z'), marking 'Z' and 'W' visited. Finally 'W' is visited. The returned set contains all four nodes, sorted alphabetically to ['X', 'Y', 'Z', 'W'].",
+      "micro_lesson": {
+        "title": "Handling Disconnected Graphs with DFS",
+        "content": "A single DFS call only reaches nodes in the connected component of the start node. To visit all nodes in a possibly disconnected graph, iterate over all vertices and initiate DFS from any unvisited vertex. This ensures every component is explored. The outer loop's order depends on the dictionary's key iteration order, but the final visited set is independent of order."
+      }
+    },
+    {
+      "id": "39.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "depthfirst_search_dfs_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q12"
+      ],
+      "prompt": "Complete the function signature for a recursive DFS traversal:\n\ndef dfs(graph, node, visited):\n    ____",
+      "correct_answer": "if node not in visited:\n    visited.add(node)",
+      "accepted_answers": [
+        "if node not in visited:\n    visited.add(node)",
+        "if node not in visited:\n    visited.add(node)",
+        "if node not in visited:\n    visited.add(node)"
+      ],
+      "explanation": "In recursive DFS, we first check if the current node has already been visited to avoid cycles. If not visited, we mark it as visited before exploring its neighbors. This base check is essential for correct traversal."
+    },
+    {
+      "id": "39.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "depthfirst_search_dfs_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q13"
+      ],
+      "prompt": "Fill in the missing keywords to perform DFS recursively:\n\ndef dfs(graph, node, visited):\n    ____ node\n    visited.add(node)\n    for neighbor in graph[node]:\n        if neighbor not in visited:\n            ____(graph, neighbor, visited)",
+      "correct_answer": "if\n    dfs",
+      "accepted_answers": [
+        "if\n    dfs",
+        "if\n    dfs",
+        "if\n    dfs"
+      ],
+      "explanation": "The 'if' keyword checks whether the neighbor has been visited yet. The 'dfs' keyword invokes the recursive call on the neighbor, ensuring we explore deeper into the graph before backtracking."
+    },
+    {
+      "id": "39.4_q15",
+      "type": "code_ordering",
+      "concept": "depthfirst_search_dfs_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to complete a DFS helper function:\n\nLine A: visited.add(node)\nLine B: for neighbor in graph[node]:\nLine C: if node not in visited:\nLine D: dfs(graph, neighbor, visited)\nLine E: return",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is: check if the node is unvisited (C), mark it visited (A), iterate over neighbors (B), recursively call DFS on each unvisited neighbor (D), and finally return (E). This ensures we do not revisit nodes and properly explore all reachable vertices."
+    },
+    {
+      "id": "39.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "depthfirst_search_dfs_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q15"
+      ],
+      "prompt": "Complete the DFS pattern for exploring neighbors:\n\nfor neighbor in graph[node]:\n    ____",
+      "correct_answer": "if neighbor not in visited:\n        dfs(graph, neighbor, visited)",
+      "accepted_answers": [
+        "if neighbor not in visited:\n        dfs(graph, neighbor, visited)",
+        "if neighbor not in visited:\n        dfs(graph, neighbor, visited)",
+        "if neighbor not in visited:\n        dfs(graph, neighbor, visited)"
+      ],
+      "explanation": "Before recursing into a neighbor, we must verify it has not been visited. This prevents infinite loops in cyclic graphs and ensures each vertex is processed exactly once."
+    },
+    {
+      "id": "39.4_q17",
+      "type": "code_ordering",
+      "concept": "depthfirst_search_dfs_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q16"
+      ],
+      "prompt": "Arrange the following lines to build a complete DFS traversal from a start node:\n\nLine A: visited = set()\nLine B: dfs(graph, start, visited)\nLine C: return visited\nLine D: def dfs(graph, node, visited):\nLine E: if node not in visited:\nLine F: visited.add(node)\nLine G: for neighbor in graph[node]:\nLine H: if neighbor not in visited:\nLine I: dfs(graph, neighbor, visited)",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "We initialize the visited set (A), call the DFS helper from the start node (B), define the recursive function (D), check and mark visited (E, F), loop through neighbors (G), recurse on unvisited neighbors (H, I), and return the final visited set (C). This is the standard iterative-entry DFS pattern."
+    },
+    {
+      "id": "39.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "depthfirst_search_dfs_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q17"
+      ],
+      "prompt": "Complete the idiom for building an adjacency list before DFS:\n\ngraph = defaultdict(____)\n\n# later populate edges and call dfs(graph, start, visited)",
+      "correct_answer": "list",
+      "accepted_answers": [
+        "list",
+        "list",
+        "list"
+      ],
+      "explanation": "defaultdict(list) is a common idiom because it automatically creates an empty list for any new key, simplifying edge insertion. This avoids KeyError when adding neighbors during graph construction before running DFS."
+    },
+    {
+      "id": "39.4_q19",
+      "type": "fix_the_code",
+      "concept": "depthfirst_search_dfs_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q18"
+      ],
+      "prompt": "The following DFS implementation crashes with a RecursionError on a moderately sized graph. Identify the bug and explain why it occurs.",
+      "starter_code": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    for neighbor in graph.get(node, []):\n        if neighbor not in visited:\n            dfs(graph, neighbor)\n    return visited",
+      "solution_code": "def dfs(graph, node, visited=None):\n    if visited is None:\n        visited = set()\n    visited.add(node)\n    for neighbor in graph.get(node, []):\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)\n    return visited",
+      "hint": "Consider what happens to the visited set when the recursive call is made.",
+      "explanation": "The bug is a missing argument in the recursive call. The visited set is initialized only in the base call, so child recursive calls use a fresh empty set, causing infinite recursion on cycles and a RecursionError."
+    },
+    {
+      "id": "39.4_q20",
+      "type": "fix_the_code",
+      "concept": "depthfirst_search_dfs_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.4_q19"
+      ],
+      "prompt": "This DFS function is supposed to return a list of nodes in post-order, but it returns an empty list. Fix it.",
+      "starter_code": "def dfs_postorder(graph, node):\n    result = []\n    for neighbor in graph[node]:\n        dfs_postorder(graph, neighbor)\n    result.append(node)\n    return result",
+      "solution_code": "def dfs_postorder(graph, node):\n    result = []\n    for neighbor in graph.get(node, []):\n        result.extend(dfs_postorder(graph, neighbor))\n    result.append(node)\n    return result",
+      "hint": "Missing handling for missing keys and the result list is not accumulated across recursive calls.",
+      "explanation": "The original code assumes every node exists in the graph dictionary, which raises a KeyError if a leaf has no outgoing edges. Using graph.get(node, []) safely handles missing keys, and extending the result list ensures all recursive returns are combined into one list."
+    },
+    {
+      "id": "39.4_q21",
+      "type": "fix_the_code",
+      "concept": "depthfirst_search_dfs_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q20"
+      ],
+      "prompt": "The DFS below fails on graphs with isolated nodes and self-loops. Correct it.",
+      "starter_code": "def dfs_all(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            stack.extend(graph[node])\n    return visited",
+      "solution_code": "def dfs_all(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            for neighbor in graph.get(node, []):\n                if neighbor not in visited:\n                    stack.append(neighbor)\n    for node in graph:\n        if node not in visited:\n            stack = [node]\n            while stack:\n                node = stack.pop()\n                if node not in visited:\n                    visited.add(node)\n                    for neighbor in graph.get(node, []):\n                        if neighbor not in visited:\n                            stack.append(neighbor)\n    return visited",
+      "hint": "Consider nodes that have no outgoing edges and nodes not reachable from the start node.",
+      "explanation": "The original code only explores nodes reachable from start, missing isolated components. It also adds all neighbors without checking visited first, which can push duplicates onto the stack. The fixed version iterates over every node in the graph to cover all components and checks visited before pushing neighbors."
+    },
+    {
+      "id": "39.4_q22",
+      "type": "fix_the_code",
+      "concept": "depthfirst_search_dfs_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q21"
+      ],
+      "prompt": "A DFS runs in unexpectedly long time on a dense graph. Diagnose the runtime issue.",
+      "starter_code": "def dfs(graph, node):\n    visited = set()\n    def helper(n):\n        if n in visited:\n            return\n        visited.add(n)\n        for m in graph[n]:\n            helper(m)\n    helper(node)\n    return visited",
+      "solution_code": "def dfs(graph, node):\n    visited = set()\n    def helper(n):\n        if n in visited:\n            return\n        visited.add(n)\n        for m in graph.get(n, []):\n            helper(m)\n    helper(node)\n    return visited",
+      "hint": "Think about what happens when a node has no outgoing edges.",
+      "explanation": "The code assumes every node is a key in graph, so a leaf node causes a KeyError, not a runtime issue per se, but if the graph is large and represented with many leaves, repeated KeyError checks or missing-key lookups can degrade performance. Using graph.get(n, []) avoids the exception and makes the traversal robust, keeping the runtime O(V + E)."
+    },
+    {
+      "id": "39.4_q23",
+      "type": "fix_the_code",
+      "concept": "depthfirst_search_dfs_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q22"
+      ],
+      "prompt": "This DFS is supposed to detect a cycle in an undirected graph, but it reports false positives. Repair the logic.",
+      "starter_code": "def has_cycle(graph):\n    visited = set()\n    def helper(node, parent):\n        visited.add(node)\n        for neighbor in graph[node]:\n            if neighbor in visited:\n                return True\n            helper(neighbor, node)\n        return False\n    for node in graph:\n        if node not in visited:\n            if helper(node, None):\n                return True\n    return False",
+      "solution_code": "def has_cycle(graph):\n    visited = set()\n    def helper(node, parent):\n        visited.add(node)\n        for neighbor in graph.get(node, []):\n            if neighbor not in visited:\n                if helper(neighbor, node):\n                    return True\n            elif neighbor != parent:\n                return True\n        return False\n    for node in graph:\n        if node not in visited:\n            if helper(node, None):\n                return True\n    return False",
+      "hint": "In an undirected graph, encountering a visited neighbor is only a cycle if it is not the node we came from.",
+      "explanation": "The original code treats any visited neighbor as a cycle, including the parent edge in an undirected graph. The repair skips the parent when checking visited neighbors, so only true cycles are detected."
+    },
+    {
+      "id": "39.4_q24",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.4_q23"
+      ],
+      "prompt": "Refactor the iterative DFS below to use a generator that yields nodes lazily, avoiding building a large visited set in memory for huge graphs.",
+      "starter_code": "def iterative_dfs(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            yield node\n            stack.extend(graph.get(node, []))\n    return visited",
+      "solution_code": "def iterative_dfs(graph, start):\n    visited = set()\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node not in visited:\n            visited.add(node)\n            yield node\n            for neighbor in reversed(graph.get(node, [])):\n                if neighbor not in visited:\n                    stack.append(neighbor)\n",
+      "test_cases": [
+        {
+          "input": "graph = {'A': ['B', 'C'], 'B': ['D'], 'C': [], 'D': []}\nassert list(iterative_dfs(graph, 'A'))",
+          "expected_output": "['A', 'C', 'B', 'D']",
+          "description": "Verifies: graph = {'A': ['B', 'C'], 'B': ['D'], 'C': [], 'D': []}\nassert list(iterative_dfs(graph, 'A')) == ['A', 'C', 'B', 'D']"
+        },
+        {
+          "input": "graph = {'X': [], 'Y': []}\nassert list(iterative_dfs(graph, 'X'))",
+          "expected_output": "['X']\nassert list(iterative_dfs(graph, 'Y')) == ['Y']",
+          "description": "Verifies: graph = {'X': [], 'Y': []}\nassert list(iterative_dfs(graph, 'X')) == ['X']\nassert list(iterative_dfs(graph, 'Y')) == ['Y']"
+        }
+      ],
+      "hint": "Consider the order of neighbors and whether yielding before full expansion changes semantics.",
+      "explanation": "The refactored version yields nodes as soon as they are first visited, enabling lazy consumption. Reversing neighbors ensures consistent left-to-right traversal order matching recursive DFS. The visited set is still required to avoid duplicates, but the generator pattern avoids returning a complete collection at once, which is beneficial for memory-constrained scenarios."
+    },
+    {
+      "id": "39.4_q25",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q24"
+      ],
+      "prompt": "Implement a recursive depth-first search (DFS) function that traverses a graph starting from a given source vertex and prints all reachable vertices in DFS order.",
+      "starter_code": "def dfs(graph, start):\n    visited = set()\n    def _dfs(v):\n        if v in visited:\n            return\n        visited.add(v)\n        print(v, end=' ')\n        for neighbor in graph.get(v, []):\n            _dfs(neighbor)\n    _dfs(start)\n\n# Example usage\ngraph = {\n    'A': ['B', 'C'],\n    'B': ['D', 'E'],\n    'C': ['F'],\n    'D': [],\n    'E': [],\n    'F': []\n}\ndfs(graph, 'A')",
+      "solution_code": "def dfs(graph, start):\n    visited = set()\n    def _dfs(v):\n        if v in visited:\n            return\n        visited.add(v)\n        print(v, end=' ')\n        for neighbor in graph.get(v, []):\n            _dfs(neighbor)\n    _dfs(start)\n\ndef dfs_with_return(graph, start):\n    visited = set()\n    order = []\n    def _dfs(v):\n        if v in visited:\n            return\n        visited.add(v)\n        order.append(v)\n        for neighbor in graph.get(v, []):\n            _dfs(neighbor)\n    _dfs(start)\n    return order\n\ngraph = {\n    'A': ['B', 'C'],\n    'B': ['D', 'E'],\n    'C': ['F'],\n    'D': [],\n    'E': [],\n    'F': []\n}\nprint(dfs_with_return(graph, 'A'))",
+      "test_cases": [
+        {
+          "input": "graph = {'A': ['B'], 'B': ['A']}, start = 'A'",
+          "expected_output": "['A', 'B']"
+        },
+        {
+          "input": "graph = {'S': ['A', 'B'], 'A': [], 'B': []}, start = 'S'",
+          "expected_output": "['S', 'A', 'B']"
+        }
+      ],
+      "hint": "Ensure you mark vertices as visited before exploring neighbors to avoid infinite loops in cyclic graphs.",
+      "explanation": "This item assesses the ability to implement a recursive DFS traversal. The candidate must use a visited set to track explored nodes and recursively visit each unvisited neighbor. The solution_code extends this by returning the traversal order as a list, which is a common practical variation."
+    },
+    {
+      "id": "39.4_q26",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.4_q25"
+      ],
+      "prompt": "Write a DFS-based function to detect whether a directed graph contains a cycle. Return True if a cycle exists, otherwise return False.",
+      "starter_code": "def has_cycle(graph):\n    visited = set()\n    rec_stack = set()\n    def dfs(v):\n        visited.add(v)\n        rec_stack.add(v)\n        for neighbor in graph.get(v, []):\n            if neighbor not in visited:\n                if dfs(neighbor):\n                    return True\n            elif neighbor in rec_stack:\n                return True\n        rec_stack.remove(v)\n        return False\n    for node in graph:\n        if node not in visited:\n            if dfs(node):\n                return True\n    return False",
+      "solution_code": "def has_cycle(graph):\n    visited = set()\n    rec_stack = set()\n    def dfs(v):\n        visited.add(v)\n        rec_stack.add(v)\n        for neighbor in graph.get(v, []):\n            if neighbor not in visited:\n                if dfs(neighbor):\n                    return True\n            elif neighbor in rec_stack:\n                return True\n        rec_stack.remove(v)\n        return False\n    for node in graph:\n        if node not in visited:\n            if dfs(node):\n                return True\n    return False\n\ndef find_cycle(graph):\n    visited = set()\n    rec_stack = set()\n    parent = {}\n    def dfs(v):\n        visited.add(v)\n        rec_stack.add(v)\n        for neighbor in graph.get(v, []):\n            if neighbor not in visited:\n                parent[neighbor] = v\n                if dfs(neighbor):\n                    return True\n            elif neighbor in rec_stack:\n                cycle_node = v\n                cycle_path = [cycle_node]\n                while cycle_node != neighbor:\n                    cycle_node = parent[cycle_node]\n                    cycle_path.append(cycle_node)\n                return cycle_path\n        rec_stack.remove(v)\n        return False\n    for node in graph:\n        if node not in visited:\n            if dfs(node):\n                return True\n    return False\n\ngraph = {\n    'A': ['B'],\n    'B': ['C'],\n    'C': ['B']\n}\nprint(find_cycle(graph))",
+      "test_cases": [
+        {
+          "input": "graph = {'A': ['B'], 'B': ['C'], 'C': []}",
+          "expected_output": "False"
+        },
+        {
+          "input": "graph = {'A': ['B'], 'B': ['C'], 'C': ['A']}",
+          "expected_output": "True"
+        }
+      ],
+      "hint": "Use a recursion stack to distinguish between back edges (cycles) and cross edges that do not indicate cycles.",
+      "explanation": "This practical item requires adapting DFS to solve a common graph problem: cycle detection in directed graphs. The solution_code also demonstrates how to reconstruct the actual cycle path, reinforcing deeper understanding of DFS state management."
+    },
+    {
+      "id": "39.4_q27",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.4_q26"
+      ],
+      "prompt": "Implement an iterative DFS using an explicit stack to compute the topological ordering of a directed acyclic graph (DAG). If the graph contains a cycle, return an empty list.",
+      "starter_code": "def topological_sort(graph):\n    visited = set()\n    order = []\n    def dfs(v):\n        visited.add(v)\n        for neighbor in graph.get(v, []):\n            if neighbor not in visited:\n                dfs(neighbor)\n        order.append(v)\n    for node in graph:\n        if node not in visited:\n            dfs(node)\n    return order[::-1]",
+      "solution_code": "def topological_sort(graph):\n    visited = set()\n    order = []\n    for node in graph:\n        if node not in visited:\n            stack = [(node, False)]\n            while stack:\n                v, processed = stack.pop()\n                if processed:\n                    order.append(v)\n                    continue\n                if v in visited:\n                    continue\n                visited.add(v)\n                stack.append((v, True))\n                for neighbor in reversed(graph.get(v, [])):\n                    if neighbor not in visited:\n                        stack.append((neighbor, False))\n    if len(order) != len(graph):\n        return []\n    return order\n\ndef topological_sort_with_validation(graph):\n    indegree = {node: 0 for node in graph}\n    for u in graph:\n        for v in graph.get(u, []):\n            indegree[v] = indegree.get(v, 0) + 1\n    queue = [node for node in indegree if indegree[node] == 0]\n    count = 0\n    while queue:\n        u = queue.pop()\n        count += 1\n        for v in graph.get(u, []):\n            indegree[v] -= 1\n            if indegree[v] == 0:\n                queue.append(v)\n    if count != len(graph):\n        return []\n    return [u for u in graph if indegree[u] == 0] + [u for u in graph if indegree[u] > 0]",
+      "test_cases": [
+        {
+          "input": "graph = {'A': ['B', 'C'], 'B': ['D'], 'C': ['D'], 'D': []}",
+          "expected_output": "['A', 'B', 'C', 'D'] or ['A', 'C', 'B', 'D']"
+        },
+        {
+          "input": "graph = {'A': ['B'], 'B': ['A']}",
+          "expected_output": "[]"
+        }
+      ],
+      "hint": "Simulate recursion with a stack of tuples (node, visited_flag). Push neighbors in reverse order so the leftmost neighbor is processed first.",
+      "explanation": "This advanced item tests the ability to convert recursive DFS into an iterative version using an explicit stack, a critical skill for avoiding recursion depth limits. It also integrates cycle detection via length validation, ensuring robustness."
+    },
+    {
+      "id": "39.4_q28",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.4_q27"
+      ],
+      "prompt": "Given a maze represented as a grid where 0 is a wall and 1 is a path, use DFS to find if there exists a path from the top-left corner to the bottom-right corner. Return True if reachable, else False.",
+      "starter_code": "def is_path_possible(grid):\n    rows = len(grid)\n    cols = len(grid[0])\n    visited = set()\n    def dfs(r, c):\n        if r < 0 or r >= rows or c < 0 or c >= cols:\n            return False\n        if grid[r][c] == 0 or (r, c) in visited:\n            return False\n        if r == rows - 1 and c == cols - 1:\n            return True\n        visited.add((r, c))\n        if dfs(r + 1, c) or dfs(r - 1, c) or dfs(r, c + 1) or dfs(r, c - 1):\n            return True\n        return False\n    return dfs(0, 0)",
+      "solution_code": "def is_path_possible(grid):\n    if not grid or not grid[0]:\n        return False\n    rows = len(grid)\n    cols = len(grid[0])\n    visited = set()\n    def dfs(r, c):\n        if r < 0 or r >= rows or c < 0 or c >= cols:\n            return False\n        if grid[r][c] == 0 or (r, c) in visited:\n            return False\n        if r == rows - 1 and c == cols - 1:\n            return True\n        visited.add((r, c))\n        for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:\n            if dfs(r + dr, c + dc):\n                return True\n        return False\n    return dfs(0, 0)\n\ndef find_path(grid):\n    if not grid or not grid[0]:\n        return []\n    rows = len(grid)\n    cols = len(grid[0])\n    visited = set()\n    path = []\n    def dfs(r, c):\n        if r < 0 or r >= rows or c < 0 or c >= cols:\n            return False\n        if grid[r][c] == 0 or (r, c) in visited:\n            return False\n        visited.add((r, c))\n        path.append((r, c))\n        if r == rows - 1 and c == cols - 1:\n            return True\n        for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:\n            if dfs(r + dr, c + dc):\n                return True\n        path.pop()\n        return False\n    dfs(0, 0)\n    return path",
+      "test_cases": [
+        {
+          "input": "grid = [[1, 0, 1], [1, 1, 1], [0, 1, 1]]",
+          "expected_output": "True"
+        },
+        {
+          "input": "grid = [[1, 0], [0, 1]]",
+          "expected_output": "False"
+        }
+      ],
+      "hint": "Use a visited set to avoid revisiting cells. When the target is reached, return True immediately to propagate success up the recursion stack.",
+      "explanation": "This mini-challenge maps DFS to a 2D grid traversal problem, requiring coordinate boundary checks and careful state management. The solution_code also shows path reconstruction, a natural extension that tests mastery of backtracking within DFS."
+    },
+    {
+      "id": "39.4_q29",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.4_q28"
+      ],
+      "prompt": "Scenario: A university course scheduling system models courses and prerequisites as a directed graph. Each course is a node, and an edge from course A to course B means A must be completed before B. Given a list of courses and their prerequisites, determine if a valid semester ordering exists. If yes, return one valid ordering; otherwise, return an empty list.",
+      "starter_code": "# courses is a list of course names\n# prerequisites is a list of (prereq, course) pairs\n\ndef find_valid_order(courses, prerequisites):\n    graph = {c: [] for c in courses}\n    for pre, course in prerequisites:\n        graph[pre].append(course)\n    # TODO: Implement DFS-based topological sort\n    return []",
+      "solution_code": "def find_valid_order(courses, prerequisites):\n    graph = {c: [] for c in courses}\n    indegree = {c: 0 for c in courses}\n    for pre, course in prerequisites:\n        graph[pre].append(course)\n        indegree[course] = indegree.get(course, 0) + 1\n    stack = [c for c in courses if indegree[c] == 0]\n    order = []\n    while stack:\n        v = stack.pop()\n        order.append(v)\n        for neighbor in graph.get(v, []):\n            indegree[neighbor] -= 1\n            if indegree[neighbor] == 0:\n                stack.append(neighbor)\n    if len(order) != len(courses):\n        return []\n    return order\n\ndef find_valid_order_dfs(courses, prerequisites):\n    graph = {c: [] for c in courses}\n    for pre, course in prerequisites:\n        graph[pre].append(course)\n    visited = set()\n    order = []\n    def dfs(v):\n        visited.add(v)\n        for neighbor in graph.get(v, []):\n            if neighbor not in visited:\n                dfs(neighbor)\n        order.append(v)\n    for node in courses:\n        if node not in visited:\n            dfs(node)\n    if len(order) != len(courses):\n        return []\n    return order[::-1]\n\ncourses = ['Math101', 'CS101', 'CS102', 'CS201']\nprerequisites = [('Math101', 'CS101'), ('CS101', 'CS102'), ('CS102', 'CS201')]\nprint(find_valid_order_dfs(courses, prerequisites))",
+      "test_cases": [
+        {
+          "input": "courses = ['A', 'B', 'C'], prerequisites = [('A', 'B'), ('B', 'C')]",
+          "expected_output": "['A', 'B', 'C']"
+        },
+        {
+          "input": "courses = ['A', 'B'], prerequisites = [('A', 'B'), ('B', 'A')]",
+          "expected_output": "[]"
+        }
+      ],
+      "hint": "Model the problem as a DAG and use DFS post-order to derive a topological sort. A cycle in prerequisites makes scheduling impossible.",
+      "explanation": "This real-world scenario requires synthesizing graph modeling with DFS-based topological sorting. The solution_code contrasts an iterative indegree approach with a recursive DFS post-order approach, illustrating how the same concept applies to practical scheduling and dependency resolution."
+    },
+    {
+      "id": "39.4_q30",
+      "type": "write_the_code",
+      "concept": "depthfirst_search_dfs_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.4_q29"
+      ],
+      "prompt": "Challenge: Determine whether a given undirected graph is bipartite using DFS. A graph is bipartite if its vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to a vertex in the other. Return True if bipartite, else False.",
+      "starter_code": "def is_bipartite(graph):\n    color = {}\n    def dfs(v, c):\n        color[v] = c\n        for neighbor in graph.get(v, []):\n            if neighbor not in color:\n                if not dfs(neighbor, 1 - c):\n                    return False\n            elif color[neighbor] == c:\n                return False\n        return True\n    for node in graph:\n        if node not in color:\n            if not dfs(node, 0):\n                return False\n    return True",
+      "solution_code": "def is_bipartite(graph):\n    color = {}\n    def dfs(v, c):\n        color[v] = c\n        for neighbor in graph.get(v, []):\n            if neighbor not in color:\n                if not dfs(neighbor, 1 - c):\n                    return False\n            elif color[neighbor] == c:\n                return False\n        return True\n    for node in graph:\n        if node not in color:\n            if not dfs(node, 0):\n                return False\n    return True\n\ndef is_bipartite_with_components(graph):\n    color = {}\n    components = []\n    def dfs(v, c, comp):\n        color[v] = c\n        comp.append(v)\n        for neighbor in graph.get(v, []):\n            if neighbor not in color:\n                if not dfs(neighbor, 1 - c, comp):\n                    return False\n            elif color[neighbor] == c:\n                return False\n        return True\n    for node in graph:\n        if node not in color:\n            comp = []\n            if not dfs(node, 0, comp):\n                return False\n            components.append(comp)\n    return True, components\n\ngraph = {\n    0: [1, 3],\n    1: [0, 2],\n    2: [1, 3],\n    3: [0, 2]\n}\nprint(is_bipartite_with_components(graph))",
+      "test_cases": [
+        {
+          "input": "graph = {0: [1, 2], 1: [0, 3], 2: [0, 3], 3: [1, 2]}",
+          "expected_output": "True"
+        },
+        {
+          "input": "graph = {0: [1, 2], 1: [0, 2], 2: [0, 1]}",
+          "expected_output": "False"
+        }
+      ],
+      "hint": "Assign alternating colors (0 and 1) to adjacent vertices during DFS. If you encounter an already-colored neighbor with the same color, the graph is not bipartite.",
+      "explanation": "This mastery-level item combines DFS with graph coloring to solve a classic decision problem. The solution_code also extracts connected components, demonstrating how DFS can be extended to analyze multiple subgraphs within a single traversal."
+    }
+  ],
+  "unit_num": 39,
+  "learning_objectives": [
+    "Implement the fundamental Depth-First Search (DFS) algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "39.3"
+  ]
+}

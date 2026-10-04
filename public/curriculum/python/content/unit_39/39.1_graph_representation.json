@@ -1,0 +1,633 @@
+{
+  "lesson_id": "39.1",
+  "title": "Graph Representation",
+  "unit": "DSA: Graphs",
+  "items": [
+    {
+      "id": "39.1_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "graph_representation_basics",
+      "title": "What is a Graph in Python?",
+      "content": "A graph is a data structure that models relationships between objects. In Python, we represent a graph using nodes (vertices) and edges. Common representations include adjacency lists and adjacency matrices. An adjacency list is a dictionary where each key is a node and its value is a list of connected neighbors. For example, a social network can be modeled where users are nodes and friendships are edges. Here is how you create a simple graph using a dictionary:\n\n```python\n# Define nodes and edges\ngraph = {\n    'A': ['B', 'C'],\n    'B': ['A', 'D'],\n    'C': ['A'],\n    'D': ['B']\n}\nprint(graph)\n```\n\nThis structure allows efficient traversal and is widely used in algorithms like BFS and DFS.",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A graph is a data structure that models relationships between objects. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "39.1_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "difficulty": "easy",
+      "concept": "graph_representation_basics",
+      "prompt": "Which of the following best describes an adjacency list representation of a graph?",
+      "options": [
+        "A 2D array where rows and columns represent nodes and edge weights.",
+        "A dictionary mapping each node to a list of its adjacent nodes.",
+        "A single list containing all nodes in the graph.",
+        "A set of tuples where each tuple represents a directed edge only."
+      ],
+      "correct_answer": "A dictionary mapping each node to a list of its adjacent nodes.",
+      "explanation": "An adjacency list stores each node along with its neighbors. In Python, a dictionary with list values is the most natural and flexible way to implement this.",
+      "prerequisites": [
+        "39.1_q1"
+      ]
+    },
+    {
+      "id": "39.1_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "concept": "graph_representation_syntax",
+      "title": "Writing Graph Syntax in Python",
+      "content": "When building graphs in Python, you can use built-in types like dictionaries and lists. Always initialize a node before adding edges to avoid KeyError. You can also use the defaultdict from the collections module to simplify neighbor initialization. Here is a robust pattern:\n\n```python\nfrom collections import defaultdict\n\n# Create an empty graph\ngraph = defaultdict(list)\ngraph['X'].append('Y')\ngraph['Y'].append('X')\ngraph['X'].append('Z')\nprint(dict(graph))\n```\n\nThis ensures that even if a node has no neighbors yet, it defaults to an empty list, making edge insertion safe and concise.",
+      "prerequisites": [
+        "39.1_q2"
+      ],
+      "prompt": "",
+      "explanation": "When building graphs in Python, you can use built-in types like dictionaries and lists. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "39.1_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "concept": "graph_representation_syntax",
+      "prompt": "Given the code below, what will be printed when executed?\n\n```python\nfrom collections import defaultdict\ngraph = defaultdict(list)\ngraph['A'].append('B')\nprint(dict(graph))\n```",
+      "options": [
+        "{'A': ['B']}",
+        "{'A': 'B'}",
+        "defaultdict(<class 'list'>, {'A': ['B']})",
+        "KeyError: 'A'"
+      ],
+      "correct_answer": "{'A': ['B']}",
+      "explanation": "defaultdict(list) creates a dictionary where missing keys default to an empty list. Appending 'B' to graph['A'] stores a list. Converting to dict() removes the defaultdict wrapper, yielding a plain dictionary.",
+      "prerequisites": [
+        "39.1_q3"
+      ]
+    },
+    {
+      "id": "39.1_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "graph_representation_matching",
+      "prompt": "Match the Python structure to its graph representation type.",
+      "options": [
+        "dictionary with list values -> adjacency list; 2D list -> adjacency matrix; set of edges -> edge list",
+        "dictionary with list values -> adjacency matrix; 2D list -> adjacency list; set of edges -> edge list",
+        "dictionary with list values -> edge list; 2D list -> adjacency matrix; set of edges -> adjacency list",
+        "dictionary with list values -> adjacency list; 2D list -> edge list; set of edges -> adjacency matrix"
+      ],
+      "correct_answer": "dictionary with list values -> adjacency list; 2D list -> adjacency matrix; set of edges -> edge list",
+      "explanation": "A dictionary mapping nodes to neighbor lists is the adjacency list. A 2D list where matrix[i][j] indicates an edge is the adjacency matrix. A collection of (u, v) pairs is the edge list.",
+      "prerequisites": [
+        "39.1_q4"
+      ]
+    },
+    {
+      "id": "39.1_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "concept": "graph_representation_pitfalls",
+      "prompt": "Which pitfall should you avoid when representing an undirected graph in Python?",
+      "options": [
+        "Adding each edge only once in the adjacency list.",
+        "Forgetting to add the reverse edge so the graph appears directed.",
+        "Using integers instead of strings for node labels.",
+        "Using a set instead of a list for neighbors."
+      ],
+      "correct_answer": "Forgetting to add the reverse edge so the graph appears directed.",
+      "explanation": "In an undirected graph, every edge must be reflected in both nodes' neighbor lists. Omitting the reverse edge breaks symmetry and leads to incorrect traversal results.",
+      "prerequisites": [
+        "39.1_q5"
+      ]
+    },
+    {
+      "id": "39.1_q7",
+      "type": "code_prediction",
+      "concept": "graph_representation_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.1_q6"
+      ],
+      "prompt": "What will the following Python code output when executed?\n\n```python\nedges = [('A', 'B'), ('B', 'C'), ('C', 'A')]\nadj = {}\nfor u, v in edges:\n    adj.setdefault(u, []).append(v)\nprint(adj)\n```",
+      "options": [
+        "{'A': ['B'], 'B': ['C'], 'C': ['A']}",
+        "{'A': ['B', 'C'], 'B': ['C'], 'C': ['A']}",
+        "{'A': [], 'B': [], 'C': []}",
+        "{'A': ['C'], 'B': ['A'], 'C': ['B']}"
+      ],
+      "correct_answer": "{'A': ['B'], 'B': ['C'], 'C': ['A']}",
+      "explanation": "The code iterates over each edge tuple (u, v) and builds an adjacency list using setdefault. For ('A', 'B'), adj becomes {'A': ['B']}. For ('B', 'C'), adj becomes {'A': ['B'], 'B': ['C']}. For ('C', 'A'), adj becomes {'A': ['B'], 'B': ['C'], 'C': ['A']}. The final print outputs this dictionary."
+    },
+    {
+      "id": "39.1_q8",
+      "type": "output_prediction",
+      "concept": "graph_representation_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nneighbors = {'X': ['Y', 'Z'], 'Y': ['X']}\nif 'Z' in neighbors.get('X', []):\n    print('found')\nelse:\n    print('missing')\nprint(neighbors.get('Y', []))\n```",
+      "options": [
+        "found\n['X']",
+        "found\n[]",
+        "not found\n['X']",
+        "Error"
+      ],
+      "correct_answer": "found\n['X']",
+      "explanation": "neighbors.get('X', []) returns ['Y', 'Z']. Since 'Z' is in that list, the if branch executes and prints 'found'. Then neighbors.get('Y', []) returns ['X'], so the final print outputs ['X']."
+    },
+    {
+      "id": "39.1_q9",
+      "type": "code_prediction",
+      "concept": "graph_representation_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q8"
+      ],
+      "prompt": "What will the following Python code output?\n\n```python\ngraph = {'P': ['Q'], 'Q': ['R'], 'R': []}\nfor node in graph:\n    if graph[node]:\n        print(node, 'has outgoing edges')\n    else:\n        print(node, 'is a leaf')\n```",
+      "options": [
+        "'P has outgoing edges', 'Q has outgoing edges', 'R is a leaf'",
+        "'P is a leaf', 'Q is a leaf', 'R is a leaf'",
+        "'P has outgoing edges', 'Q is a leaf', 'R is a leaf'",
+        "'P has outgoing edges', 'Q has outgoing edges', 'R has outgoing edges'"
+      ],
+      "correct_answer": "'P has outgoing edges', 'Q has outgoing edges', 'R is a leaf'",
+      "explanation": "The for loop iterates over keys 'P', 'Q', and 'R' in insertion order. For 'P', graph['P'] is ['Q'] (truthy), so it prints 'P has outgoing edges'. For 'Q', graph['Q'] is ['R'] (truthy), so it prints 'Q has outgoing edges'. For 'R', graph['R'] is [] (falsy), so it prints 'R is a leaf'."
+    },
+    {
+      "id": "39.1_q10",
+      "type": "write_the_code",
+      "concept": "graph_representation_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q9"
+      ],
+      "prompt": "Analyze the following code and explain what it computes. Then identify the data structure it produces.\n\n```python\ndef build_undirected(edges):\n    g = {}\n    for a, b in edges:\n        g.setdefault(a, []).append(b)\n        g.setdefault(b, []).append(a)\n    return g\n\nedges = [('M', 'N'), ('N', 'O')]\nresult = build_undirected(edges)\n```",
+      "correct_answer": "An undirected adjacency list where each edge is added in both directions",
+      "explanation": "The function build_undirected processes each edge (a, b) and appends b to a's list and a to b's list. This ensures the graph is undirected: if there is an edge from 'M' to 'N', there is also an edge from 'N' to 'M'. The final result for the given edges is {'M': ['N'], 'N': ['M', 'O'], 'O': ['N']}. This is a standard adjacency list representation for an undirected graph.",
+      "starter_code": "# 1. Define the process_39_1 function\ndef process_39_1():\n    # 2. Implement solution for Graph Representation\n    pass\n",
+      "solution_code": "print('Graph Representation')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Graph Representation"
+        }
+      ]
+    },
+    {
+      "id": "39.1_q11",
+      "type": "code_prediction",
+      "concept": "graph_representation_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q10"
+      ],
+      "prompt": "Trace the execution of the following Python code and determine the final value of visited.\n\n```python\ndef dfs(graph, start, visited=None):\n    if visited is None:\n        visited = []\n    visited.append(start)\n    for neighbor in graph.get(start, []):\n        if neighbor not in visited:\n            dfs(graph, neighbor, visited)\n    return visited\n\ng = {'S': ['A', 'B'], 'A': ['C'], 'B': [], 'C': []}\nfinal = dfs(g, 'S')\n```",
+      "options": [
+        "['S', 'A', 'C', 'B']",
+        "['S', 'B', 'A', 'C']",
+        "['S', 'A', 'B', 'C']",
+        "['S', 'C', 'A', 'B']"
+      ],
+      "correct_answer": "['S', 'A', 'C', 'B']",
+      "explanation": "dfs starts with visited = []. It appends 'S'. It iterates neighbors ['A', 'B']. First neighbor is 'A', which is not in visited, so dfs('A', visited) is called. Inside, 'A' is appended, then neighbor 'C' is processed recursively, appending 'C'. After returning, the loop continues to 'B', which is not in visited, so dfs('B', visited) appends 'B'. The final visited list is ['S', 'A', 'C', 'B']."
+    },
+    {
+      "id": "39.1_q12",
+      "type": "output_prediction",
+      "concept": "graph_representation_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q11"
+      ],
+      "prompt": "What does the following Python code output?\n\n```python\ndef has_path(graph, src, dst):\n    stack = [src]\n    seen = set()\n    while stack:\n        node = stack.pop()\n        if node == dst:\n            return True\n        seen.add(node)\n        for nxt in graph.get(node, []):\n            if nxt not in seen:\n                stack.append(nxt)\n    return False\n\ng = {'1': ['2'], '2': ['3'], '3': ['4'], '4': []}\nprint(has_path(g, '1', '4'))\n```",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "An error is raised"
+      ],
+      "explanation": "The function performs an iterative depth-first search from src to dst. Starting with stack = ['1'], node = '1' is popped, not equal to '4', and added to seen. Its neighbor '2' is appended. Next, node = '2' is popped, not equal to '4', and '3' is appended. Next, node = '3' is popped, not equal to '4', and '4' is appended. Finally, node = '4' is popped, equals dst, and the function returns True. The print outputs True.",
+      "correct_answer": "True"
+    },
+    {
+      "id": "39.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "graph_representation_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.1_q12"
+      ],
+      "micro_lesson": {
+        "title": "Adjacency List Basics",
+        "content": "In Python, a common way to represent a graph is using an adjacency list, which is typically a dictionary where each key is a node and the value is a list of its neighbors. For example, to represent a graph with nodes 'A', 'B', and 'C' where 'A' connects to 'B' and 'C', you would write: graph = {'A': ['B', 'C'], 'B': [], 'C': []}. This structure makes it easy to look up neighbors of any node in constant time. Always ensure that every node present in the graph has an entry in the dictionary, even if it has no edges, to avoid KeyError exceptions later."
+      },
+      "prompt": "Complete the code by filling in the blank: graph = {'A': ['B', 'C'], 'B': ___, 'C': []}",
+      "correct_answer": "[]",
+      "accepted_answers": [
+        "[]",
+        "list()"
+      ],
+      "explanation": "Node 'B' has no outgoing edges in this example, so its adjacency list must be an empty list. Using '[]' is the standard convention for an empty adjacency list in a dictionary-based graph representation."
+    },
+    {
+      "id": "39.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "graph_representation_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q13"
+      ],
+      "micro_lesson": {
+        "title": "Graph Representation Keywords",
+        "content": "When working with graphs in Python, certain built-in data structures and keywords are essential. The dict type is used for the adjacency list, while list is used for storing neighbors. The in keyword checks for the existence of a node, and the append method adds a neighbor to a node's list. For undirected graphs, you must remember to add each edge in both directions to maintain symmetry. For example: graph['A'].append('B') and graph['B'].append('A'). Additionally, the len function helps count nodes, and the keys method iterates over all vertices."
+      },
+      "prompt": "Fill in the blank with the appropriate Python keyword: to check if a node exists in the graph dictionary, use `___ node in graph`.",
+      "correct_answer": "if",
+      "accepted_answers": [
+        "if",
+        "elif"
+      ],
+      "explanation": "The 'if' keyword is used to perform a membership test in a dictionary. While 'elif' is also a conditional keyword, it cannot start a standalone membership check. The correct pattern is 'if node in graph:' to safely verify presence before accessing values."
+    },
+    {
+      "id": "39.1_q15",
+      "type": "code_ordering",
+      "concept": "graph_representation_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q14"
+      ],
+      "micro_lesson": {
+        "title": "Building a Graph Step by Step",
+        "content": "To construct a graph from a list of edges, you must initialize the adjacency list, iterate over each edge, and update both nodes if the graph is undirected. The correct sequence ensures that every node exists in the dictionary before appending neighbors. A typical workflow is: (1) create an empty dictionary, (2) loop through edges, (3) add nodes with empty lists if missing, (4) append neighbors in both directions for undirected graphs. Skipping step 3 causes a KeyError when a new node appears."
+      },
+      "prompt": "Arrange the following code lines in the correct order to build an undirected graph from edges:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "This exercise tests `graph representation sequence` in Graph Representation. When Python validates this code, it applies the standard rules of graph representation sequence. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "graph_representation_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Graph Patterns",
+        "content": "A frequent pattern in graph algorithms is iterating over all nodes and their neighbors using a nested loop. The outer loop accesses each node via graph.keys(), and the inner loop processes each neighbor in graph[node]. Another pattern is the default-dictionary approach, where collections.defaultdict(list) automatically creates an empty list for unseen keys. For weighted graphs, the adjacency list stores tuples like (neighbor, weight). Always be cautious with mutable default arguments when defining helper functions that build graphs."
+      },
+      "prompt": "Fill in the blank: to iterate over all nodes and print their neighbors, use `for node in ___:` followed by `for neighbor in graph[node]:`.",
+      "correct_answer": "graph",
+      "accepted_answers": [
+        "graph",
+        "graph.keys()"
+      ],
+      "explanation": "Iterating directly over the dictionary 'graph' yields its keys, which are the nodes. 'graph.keys()' is equivalent and also valid. Both approaches allow safe access to graph[node] inside the inner loop."
+    },
+    {
+      "id": "39.1_q17",
+      "type": "code_ordering",
+      "concept": "graph_representation_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q16"
+      ],
+      "micro_lesson": {
+        "title": "BFS Traversal Sequence",
+        "content": "Breadth-First Search (BFS) on an adjacency list requires a queue to manage the frontier, a visited set to avoid cycles, and careful ordering of operations. The algorithm starts by enqueuing the source node and marking it visited. Then, while the queue is not empty, it dequeues a node, processes it, and enqueues all unvisited neighbors. The correct sequence is: initialize queue and visited, enqueue source and mark visited, loop while queue has elements, dequeue current, loop over neighbors, check visited, enqueue and mark visited. Reversing the visited check before enqueueing can cause duplicate entries."
+      },
+      "prompt": "Order the code lines to correctly implement BFS on the given graph starting from 'start':",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Option 1 is correct: it imports deque, initializes the queue with the start node, marks start as visited, and enqueues neighbors only after marking them visited. Option 2 fails because visited is empty, causing the source to be revisited. Option 3 works functionally but is less idiomatic than pre-populating the deque. Option 4 enqueues before marking visited, which can lead to duplicate processing in graphs with parallel edges."
+    },
+    {
+      "id": "39.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "graph_representation_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Graph Construction",
+        "content": "Python offers concise idioms for graph setup. A common idiom is using dict.fromkeys to initialize all nodes with empty lists: graph = dict.fromkeys(['A', 'B', 'C'], []). However, be warned that this creates references to the same list object, so appending to one node affects all nodes. The safer idiom is a dictionary comprehension: graph = {node: [] for node in ['A', 'B', 'C']}. For adding edges, the pattern graph.setdefault(u, []).append(v) ensures the key exists before appending, avoiding explicit if checks."
+      },
+      "prompt": "Complete the idiom: to safely add neighbor v to u without checking existence first, use `graph.___(u, []).append(v)`.",
+      "correct_answer": "setdefault",
+      "accepted_answers": [
+        "setdefault"
+      ],
+      "explanation": "The setdefault method returns the value for key u if it exists, or inserts u with the default empty list and returns it. This is the standard Python idiom for lazily initializing adjacency lists without an explicit conditional block."
+    },
+    {
+      "id": "39.1_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "graph_representation_errors",
+      "prerequisites": [
+        "39.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Detecting Common Graph Representation Mistakes",
+        "content": "When representing graphs in Python, beginners often confuse adjacency lists with adjacency matrices, or fail to handle self-loops and parallel edges correctly. In an adjacency list, each vertex maps to a list of its neighbors. A common error is using a dictionary of lists but accidentally appending the same neighbor twice, or using integer keys when vertex labels are strings. Another frequent mistake is building the graph with directed edges when the problem requires an undirected graph. Always verify that every edge (u, v) appears in both u's neighbor list and v's neighbor list for undirected graphs. Below is an example of a buggy adjacency list for an undirected graph with vertices 'A', 'B', and 'C':\n\n```python\ndef build_graph(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        graph[u].append(v)\n        graph[v].append(u)\n    return graph\n\nedges = [('A', 'B'), ('B', 'C')]\nprint(build_graph(edges))\n```\n\nThis code appears correct, but if `edges` contains duplicate pairs like `[('A', 'B'), ('A', 'B')]`, the adjacency list will contain duplicate entries, violating the simple graph assumption. To debug, print the graph and check for duplicate neighbors in each list."
+      },
+      "prompt": "Fix the bug in this code for graph representation errors:",
+      "starter_code": "# Fix this code\nPrint('Graph Representation')",
+      "solution_code": "print('Graph Representation')",
+      "explanation": "This exercise tests `graph representation errors` in Graph Representation. When Python validates this code, it applies the standard rules of graph representation errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.1_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "concept": "graph_representation_fix",
+      "prerequisites": [
+        "39.1_q19"
+      ],
+      "prompt": "The following code attempts to create an adjacency list but fails because it does not initialize empty lists for vertices that appear only as destinations.",
+      "starter_code": "def create_adj_list(edges):\n    graph = {}\n    for u, v in edges:\n        graph[u].append(v)\n        graph[v].append(u)\n    return graph\n\nedges = [('X', 'Y'), ('Y', 'Z')]\nprint(create_adj_list(edges))",
+      "solution_code": "def create_adj_list(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        graph[u].append(v)\n        graph[v].append(u)\n    return graph\n\nedges = [('X', 'Y'), ('Y', 'Z')]\nprint(create_adj_list(edges))",
+      "hint": "Check whether each vertex exists as a key in the dictionary before appending to its neighbor list.",
+      "explanation": "The original code raises a KeyError because it tries to append to `graph[u]` or `graph[v]` before those keys are initialized. The fix uses `if key not in graph` to ensure both vertices exist with empty lists before appending, producing a valid undirected adjacency list."
+    },
+    {
+      "id": "39.1_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "graph_representation_edge_cases",
+      "prerequisites": [
+        "39.1_q20"
+      ],
+      "prompt": "This adjacency list builder does not handle the edge case where an edge connects a vertex to itself. For a simple graph, self-loops should be ignored or explicitly validated.",
+      "starter_code": "def build_simple_graph(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        if u != v:\n            graph[u].append(v)\n            graph[v].append(u)\n    return graph\n\nedges = [('P', 'Q'), ('Q', 'Q'), ('R', 'S')]\nprint(build_simple_graph(edges))",
+      "solution_code": "def build_simple_graph(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        if u != v:\n            graph[u].append(v)\n            graph[v].append(u)\n    return graph\n\nedges = [('P', 'Q'), ('Q', 'Q'), ('R', 'S')]\nprint(build_simple_graph(edges))",
+      "hint": "The starter code already filters self-loops, but verify that isolated vertices with no edges still appear in the output if required by the problem.",
+      "explanation": "The starter code correctly skips self-loops by checking `if u != v`. However, a subtle edge case is that vertices appearing only in self-loops, like 'Q', would have an empty list. If the requirement is to include all vertices from the input, ensure every vertex is initialized even if it has no neighbors. The provided solution preserves this behavior."
+    },
+    {
+      "id": "39.1_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "graph_representation_runtime",
+      "prerequisites": [
+        "39.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Issues in Graph Construction",
+        "content": "Building a graph from a large edge list can lead to unexpected runtime behavior if the implementation is inefficient. A common anti-pattern is repeatedly searching through all keys to check for vertex existence, which turns an O(1) dictionary lookup into O(V) per operation. Another runtime issue is memory bloat: storing duplicate edges in an adjacency list without deduplication can cause the neighbor lists to grow unnecessarily. Consider this naive approach:\n\n```python\ndef slow_graph(edges):\n    graph = {}\n    for u, v in edges:\n        found = False\n        for key in graph:\n            if key == u:\n                found = True\n                break\n        if not found:\n            graph[u] = []\n        graph[u].append(v)\n    return graph\n```\n\nThis uses a linear scan over keys instead of direct dictionary access, making construction O(E * V) instead of O(E). Additionally, if `edges` contains millions of entries, the list of neighbors may consume excessive memory. Always prefer direct key lookup and consider using `set` for neighbor collections if deduplication is needed."
+      },
+      "prompt": "Fix the bug in this code for graph representation runtime:",
+      "starter_code": "# Fix this code\nPrint('Graph Representation')",
+      "solution_code": "print('Graph Representation')",
+      "explanation": "This exercise tests `graph representation runtime` in Graph Representation. When Python validates this code, it applies the standard rules of graph representation runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.1_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "graph_representation_logic_repair",
+      "prerequisites": [
+        "39.1_q22"
+      ],
+      "prompt": "The function below is supposed to return an adjacency list for a directed graph, but it incorrectly adds edges in both directions.",
+      "starter_code": "def build_directed_graph(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        graph[u].append(v)\n        graph[v].append(u)\n    return graph\n\nedges = [('M', 'N'), ('N', 'O')]\nprint(build_directed_graph(edges))",
+      "solution_code": "def build_directed_graph(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        graph[u].append(v)\n    return graph\n\nedges = [('M', 'N'), ('N', 'O')]\nprint(build_directed_graph(edges))",
+      "hint": "In a directed graph, an edge from u to v should only appear in u's neighbor list, not in v's.",
+      "explanation": "The original code mistakenly adds `graph[v].append(u)`, which makes the graph undirected. The corrected version removes that line so that only the source vertex u records the destination v as a neighbor, preserving directionality."
+    },
+    {
+      "id": "39.1_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "concept": "graph_representation_optimization",
+      "prerequisites": [
+        "39.1_q23"
+      ],
+      "prompt": "Refactor the following graph construction code to use a defaultdict for cleaner initialization, eliminate redundant checks, and ensure that duplicate edges are automatically ignored.",
+      "starter_code": "def build_graph(edges):\n    graph = {}\n    for u, v in edges:\n        if u not in graph:\n            graph[u] = []\n        if v not in graph:\n            graph[v] = []\n        if v not in graph[u]:\n            graph[u].append(v)\n        if u not in graph[v]:\n            graph[v].append(u)\n    return graph\n\nedges = [('A', 'B'), ('A', 'B'), ('B', 'C')]\nprint(build_graph(edges))",
+      "solution_code": "from collections import defaultdict\n\ndef build_graph(edges):\n    graph = defaultdict(set)\n    for u, v in edges:\n        graph[u].add(v)\n        graph[v].add(u)\n    return {k: list(v) for k, v in graph.items()}\n\nedges = [('A', 'B'), ('A', 'B'), ('B', 'C')]\nprint(build_graph(edges))",
+      "test_cases": [
+        {
+          "input": "[('A', 'B'), ('A', 'B'), ('B', 'C')]",
+          "expected_contains": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        {
+          "input": "[('X', 'Y'), ('Y', 'X')]",
+          "expected_contains": [
+            "X",
+            "Y"
+          ]
+        }
+      ],
+      "hint": "Use defaultdict to avoid manual key initialization, and use a set to automatically deduplicate neighbors before converting back to a list.",
+      "explanation": "The refactored solution replaces manual dictionary checks with `defaultdict(set)`, which initializes missing keys with empty sets automatically. Using a set during construction prevents duplicate edges from being stored. Finally, a dictionary comprehension converts each set back to a list for a standard adjacency list output. This reduces code length, improves clarity, and guarantees O(1) average-case insertion and deduplication."
+    },
+    {
+      "id": "39.1_q25",
+      "type": "write_the_code",
+      "concept": "graph_representation_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q24"
+      ],
+      "prompt": "Implement an adjacency list representation of an undirected graph using a Python dictionary. The class should support adding a vertex, adding an edge, and displaying the adjacency list.",
+      "starter_code": "class UndirectedGraph:\n    def __init__(self):\n        self.adj_list = {}\n\n    def add_vertex(self, v):\n        pass\n\n    def add_edge(self, u, v):\n        pass\n\n    def display(self):\n        pass",
+      "solution_code": "class UndirectedGraph:\n    def __init__(self):\n        self.adj_list = {}\n\n    def add_vertex(self, v):\n        if v not in self.adj_list:\n            self.adj_list[v] = []\n\n    def add_edge(self, u, v):\n        if u in self.adj_list and v in self.adj_list:\n            self.adj_list[u].append(v)\n            self.adj_list[v].append(u)\n\n    def display(self):\n        for vertex in self.adj_list:\n            print(f'{vertex}: {self.adj_list[vertex]}')",
+      "test_cases": [
+        {
+          "input": "g = UndirectedGraph(); g.add_vertex(1); g.add_vertex(2); g.add_edge(1, 2); g.display()",
+          "expected_output": "1: [2]\n2: [1]"
+        },
+        {
+          "input": "g = UndirectedGraph(); g.add_vertex('A'); g.add_vertex('B'); g.add_edge('A', 'B'); g.add_edge('A', 'C'); g.display()",
+          "expected_output": "A: ['B', 'C']\nB: ['A']\nC: ['A']"
+        }
+      ],
+      "hint": "Initialize the adjacency list as a dictionary. When adding an edge, update the neighbor lists for both vertices to maintain undirectedness.",
+      "explanation": "An adjacency list uses a dictionary where each key is a vertex and its value is a list of adjacent vertices. This is efficient for sparse graphs and easy to implement in Python."
+    },
+    {
+      "id": "39.1_q26",
+      "type": "write_the_code",
+      "concept": "graph_representation_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.1_q25"
+      ],
+      "prompt": "Extend the UndirectedGraph class to support weighted edges. Store weights in the adjacency list as tuples (neighbor, weight). Implement a method to add a weighted edge and display it.",
+      "starter_code": "class WeightedUndirectedGraph:\n    def __init__(self):\n        self.adj_list = {}\n\n    def add_vertex(self, v):\n        pass\n\n    def add_weighted_edge(self, u, v, weight):\n        pass\n\n    def display(self):\n        pass",
+      "solution_code": "class WeightedUndirectedGraph:\n    def __init__(self):\n        self.adj_list = {}\n\n    def add_vertex(self, v):\n        if v not in self.adj_list:\n            self.adj_list[v] = []\n\n    def add_weighted_edge(self, u, v, weight):\n        if u in self.adj_list and v in self.adj_list:\n            self.adj_list[u].append((v, weight))\n            self.adj_list[v].append((u, weight))\n\n    def display(self):\n        for vertex in self.adj_list:\n            print(f'{vertex}: {self.adj_list[vertex]}')",
+      "test_cases": [
+        {
+          "input": "g = WeightedUndirectedGraph(); g.add_vertex('X'); g.add_vertex('Y'); g.add_weighted_edge('X', 'Y', 5); g.display()",
+          "expected_output": "X: [('Y', 5)]\nY: [('X', 5)]"
+        },
+        {
+          "input": "g = WeightedUndirectedGraph(); g.add_vertex('A'); g.add_vertex('B'); g.add_vertex('C'); g.add_weighted_edge('A', 'B', 3); g.add_weighted_edge('A', 'C', 7); g.display()",
+          "expected_output": "A: [('B', 3), ('C', 7)]\nB: [('A', 3)]\nC: [('A', 7)]"
+        }
+      ],
+      "hint": "Append a tuple containing the neighbor and the weight to the adjacency list for both vertices.",
+      "explanation": "Weighted graphs store edge weights alongside neighbor references. Using tuples (neighbor, weight) in the adjacency list allows algorithms like Dijkstra's to access weights directly."
+    },
+    {
+      "id": "39.1_q27",
+      "type": "write_the_code",
+      "concept": "graph_representation_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.1_q26"
+      ],
+      "prompt": "Implement a directed graph using an adjacency matrix. The class should support adding vertices, adding directed edges, and checking if an edge exists. Optimize memory by using a dictionary of dictionaries for sparse graphs.",
+      "starter_code": "class DirectedGraphMatrix:\n    def __init__(self):\n        self.vertices = []\n        self.adj_matrix = {}\n\n    def add_vertex(self, v):\n        pass\n\n    def add_edge(self, u, v):\n        pass\n\n    def has_edge(self, u, v):\n        pass\n\n    def display(self):\n        pass",
+      "solution_code": "class DirectedGraphMatrix:\n    def __init__(self):\n        self.vertices = []\n        self.adj_matrix = {}\n\n    def add_vertex(self, v):\n        if v not in self.adj_matrix:\n            self.adj_matrix[v] = {}\n            self.vertices.append(v)\n\n    def add_edge(self, u, v):\n        if u in self.adj_matrix and v in self.adj_matrix:\n            self.adj_matrix[u][v] = True\n\n    def has_edge(self, u, v):\n        return self.adj_matrix.get(u, {}).get(v, False)\n\n    def display(self):\n        for u in self.vertices:\n            for v in self.vertices:\n                print(f'{u} -> {v}: {self.adj_matrix.get(u, {}).get(v, False)}', end=' ')\n            print()",
+      "test_cases": [
+        {
+          "input": "g = DirectedGraphMatrix(); g.add_vertex(1); g.add_vertex(2); g.add_edge(1, 2); g.display(); print(g.has_edge(1, 2))",
+          "expected_output": "1 -> 1: False 1 -> 2: True \n2 -> 1: False 2 -> 2: False \nTrue"
+        },
+        {
+          "input": "g = DirectedGraphMatrix(); g.add_vertex('A'); g.add_vertex('B'); g.add_vertex('C'); g.add_edge('A', 'B'); g.add_edge('B', 'C'); print(g.has_edge('B', 'A')); g.display()",
+          "expected_output": "False\nA -> A: False A -> B: True A -> C: False \nB -> A: False B -> B: False B -> C: True \nC -> A: False C -> B: False C -> C: False "
+        }
+      ],
+      "hint": "Use a nested dictionary where the outer key is the source vertex and the inner dictionary maps target vertices to a boolean or weight.",
+      "explanation": "A dictionary-of-dictionaries adjacency matrix saves space for sparse graphs by only storing existing edges. This hybrid approach combines the O(1) edge lookup of a matrix with the memory efficiency of a sparse structure."
+    },
+    {
+      "id": "39.1_q28",
+      "type": "write_the_code",
+      "concept": "graph_representation_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.1_q27"
+      ],
+      "prompt": "Given a list of edges, construct an undirected graph and return the degree of each vertex. The degree is the number of edges incident to the vertex.",
+      "starter_code": "def compute_degrees(edges):\n    # edges is a list of tuples (u, v)\n    g = {}\n    for u, v in edges:\n        if u not in g:\n            g[u] = []\n        if v not in g:\n            g[v] = []\n        g[u].append(v)\n        g[v].append(u)\n    degrees = {}\n    for vertex in g:\n        degrees[vertex] = len(g[vertex])\n    return degrees",
+      "solution_code": "def compute_degrees(edges):\n    from collections import defaultdict\n    g = defaultdict(list)\n    for u, v in edges:\n        g[u].append(v)\n        g[v].append(u)\n    return {vertex: len(neighbors) for vertex, neighbors in g.items()}",
+      "test_cases": [
+        {
+          "input": "edges = [(1, 2), (2, 3), (3, 1), (1, 4)]; print(compute_degrees(edges))",
+          "expected_output": "{1: 3, 2: 2, 3: 2, 4: 1}"
+        },
+        {
+          "input": "edges = [('A', 'B'), ('B', 'C')]; print(compute_degrees(edges))",
+          "expected_output": "{'A': 1, 'B': 2, 'C': 1}"
+        }
+      ],
+      "hint": "Use defaultdict to simplify vertex initialization. The degree of a vertex equals the length of its adjacency list.",
+      "explanation": "The degree of a vertex in an undirected graph counts all edges connected to it. Using defaultdict avoids explicit key existence checks when building the adjacency list."
+    },
+    {
+      "id": "39.1_q29",
+      "type": "write_the_code",
+      "concept": "graph_representation_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.1_q28"
+      ],
+      "prompt": "A city planner needs to model intersections as vertices and roads as weighted edges (where weight is travel time in minutes). Design a class that can add intersections, add roads with travel times, and find the shortest travel time between two intersections using Dijkstra's algorithm. Provide the class implementation and a sample scenario.",
+      "starter_code": "import heapq\n\nclass CityRoadNetwork:\n    def __init__(self):\n        self.graph = {}\n\n    def add_intersection(self, name):\n        pass\n\n    def add_road(self, u, v, time):\n        pass\n\n    def shortest_path(self, start, end):\n        pass\n\n    def display_network(self):\n        pass",
+      "solution_code": "import heapq\n\nclass CityRoadNetwork:\n    def __init__(self):\n        self.graph = {}\n\n    def add_intersection(self, name):\n        if name not in self.graph:\n            self.graph[name] = []\n\n    def add_road(self, u, v, time):\n        if u in self.graph and v in self.graph:\n            self.graph[u].append((v, time))\n            self.graph[v].append((u, time))\n\n    def shortest_path(self, start, end):\n        if start not in self.graph or end not in self.graph:\n            return None\n        distances = {node: float('inf') for node in self.graph}\n        distances[start] = 0\n        pq = [(0, start)]\n        while pq:\n            current_dist, node = heapq.heappop(pq)\n            if node == end:\n                return current_dist\n            if current_dist > distances[node]:\n                continue\n            for neighbor, weight in self.graph[node]:\n                new_dist = current_dist + weight\n                if new_dist < distances[neighbor]:\n                    distances[neighbor] = new_dist\n                    heapq.heappush(pq, (new_dist, neighbor))\n        return None\n\n    def display_network(self):\n        for node in self.graph:\n            print(f'{node}: {self.graph[node]}')",
+      "test_cases": [
+        {
+          "input": "city = CityRoadNetwork(); city.add_intersection('A'); city.add_intersection('B'); city.add_intersection('C'); city.add_road('A', 'B', 5); city.add_road('B', 'C', 3); print(city.shortest_path('A', 'C'))",
+          "expected_output": "8"
+        },
+        {
+          "input": "city = CityRoadNetwork(); city.add_intersection('X'); city.add_intersection('Y'); city.add_intersection('Z'); city.add_road('X', 'Y', 2); city.add_road('Y', 'Z', 2); city.add_road('X', 'Z', 10); print(city.shortest_path('X', 'Z'))",
+          "expected_output": "4"
+        }
+      ],
+      "hint": "Use a priority queue (heapq) to always expand the closest unvisited node. Maintain a distances dictionary to track the shortest known time to each intersection.",
+      "explanation": "Dijkstra's algorithm finds the shortest path in a weighted graph with non-negative edge weights. The adjacency list representation supports efficient neighbor traversal, and the priority queue ensures optimal node selection."
+    },
+    {
+      "id": "39.1_q30",
+      "type": "write_the_code",
+      "concept": "graph_representation_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.1_q29"
+      ],
+      "prompt": "Convert an adjacency list to an adjacency matrix for a given set of vertices and edges. Then, write a function that checks if the graph represented by the matrix is connected (i.e., there is a path between every pair of vertices).",
+      "starter_code": "def is_connected(adj_matrix, vertices):\n    n = len(vertices)\n    visited = [False] * n\n    def dfs(i):\n        visited[i] = True\n        for j in range(n):\n            if adj_matrix[i][j] and not visited[j]:\n                dfs(j)\n    dfs(0)\n    return all(visited)\n\ndef list_to_matrix(adj_list, vertices):\n    n = len(vertices)\n    matrix = [[0] * n for _ in range(n)]\n    index = {v: i for i, v in enumerate(vertices)}\n    for u in adj_list:\n        for v in adj_list[u]:\n            matrix[index[u]][index[v]] = 1\n    return matrix",
+      "solution_code": "def is_connected(adj_matrix, vertices):\n    n = len(vertices)\n    visited = [False] * n\n    def dfs(i):\n        stack = [i]\n        while stack:\n            node = stack.pop()\n            if not visited[node]:\n                visited[node] = True\n                for j in range(n):\n                    if adj_matrix[node][j] and not visited[j]:\n                        stack.append(j)\n    if n == 0:\n        return True\n    dfs(0)\n    return all(visited)\n\ndef list_to_matrix(adj_list, vertices):\n    n = len(vertices)\n    matrix = [[0] * n for _ in range(n)]\n    index = {v: i for i, v in enumerate(vertices)}\n    for u in adj_list:\n        for v in adj_list[u]:\n            matrix[index[u]][index[v]] = 1\n    return matrix",
+      "test_cases": [
+        {
+          "input": "adj = {0: [1, 2], 1: [0], 2: [0]}; verts = [0, 1, 2]; m = list_to_matrix(adj, verts); print(is_connected(m, verts))",
+          "expected_output": "True"
+        },
+        {
+          "input": "adj = {0: [1], 1: [0], 2: []}; verts = [0, 1, 2]; m = list_to_matrix(adj, verts); print(is_connected(m, verts))",
+          "expected_output": "False"
+        }
+      ],
+      "hint": "Build the index map once to translate vertex labels to matrix indices. For connectivity, perform DFS or BFS from any vertex and verify all vertices are reached.",
+      "explanation": "Converting between representations is essential for algorithmic compatibility. A graph is connected if a single DFS/BFS traversal from any vertex visits all vertices. The adjacency matrix enables O(1) edge existence checks but uses O(V^2) space."
+    }
+  ],
+  "unit_num": 39,
+  "learning_objectives": [
+    "Implement the fundamental Graph Representation algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "38.5"
+  ]
+}

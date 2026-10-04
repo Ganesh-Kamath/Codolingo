@@ -1,0 +1,646 @@
+{
+  "lesson_id": "10.2",
+  "title": "Creating and Accessing Dictionaries",
+  "unit": "Dictionaries",
+  "items": [
+    {
+      "id": "10.2_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "creating_and_accessing_dictionaries_basics",
+      "title": "What is a Dictionary?",
+      "content": "A dictionary in Python is an unordered collection of key-value pairs. Unlike lists that use numeric indices, dictionaries allow you to store and retrieve data using unique keys. You create a dictionary by enclosing key-value pairs in curly braces {} with each pair separated by a colon. For example:\n\n```python\nstudent = {'name': 'Aisha', 'age': 14, 'grade': 'A'}\n```\n\nIn this example, 'name', 'age', and 'grade' are keys, while 'Aisha', 14, and 'A' are their corresponding values. To access a value, you place the key inside square brackets after the dictionary name. For instance:\n\n```python\nprint(student['name'])\n```\n\nThis prints 'Aisha'. Dictionaries are useful when you need to associate meaningful labels with data.",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A dictionary in Python is an unordered collection of key-value pairs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "10.2_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "difficulty": "easy",
+      "concept": "creating_and_accessing_dictionaries_basics",
+      "prompt": "Which of the following creates a valid dictionary in Python?",
+      "options": [
+        "{'a': 1, 'b': 2}",
+        "('a': 1, 'b': 2)",
+        "['a': 1, 'b': 2]",
+        "{a: 1, b: 2}"
+      ],
+      "correct_answer": "{'a': 1, 'b': 2}",
+      "explanation": "A valid dictionary uses curly braces {} with keys and values separated by colons. Option 0 follows this syntax. Option 1 uses parentheses which creates a tuple. Option 2 uses square brackets which creates a list. Option 4 omits quotes around keys, which is invalid for string keys.",
+      "prerequisites": [
+        "10.2_q1"
+      ]
+    },
+    {
+      "id": "10.2_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "concept": "creating_and_accessing_dictionaries_syntax",
+      "title": "Dictionary Syntax and Access",
+      "content": "The basic syntax for creating a dictionary is:\n\n```python\nmy_dict = {'key1': value1, 'key2': value2}\n```\n\nKeys must be immutable types such as strings, numbers, or tuples. Values can be any data type including strings, numbers, lists, or even other dictionaries. To access a value, use the key inside square brackets:\n\n```python\nmy_dict['key1']\n```\n\nYou can also use the get() method to safely retrieve a value without raising a KeyError if the key does not exist. For example:\n\n```python\nscore = {'math': 85, 'science': 92}\nprint(score.get('math'))\n```\n\nThis outputs 85. Using get() is safer than direct bracket access when you are unsure whether a key exists.",
+      "prerequisites": [
+        "10.2_q2"
+      ],
+      "prompt": "",
+      "explanation": "The basic syntax for creating a dictionary is:\n\n```python\nmy_dict = {'key1': value1, 'key2': value2}\n```\n\nKeys must be immutable types such as strings, numbers, or tuples. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "10.2_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "concept": "creating_and_accessing_dictionaries_syntax",
+      "prompt": "Given the dictionary below, what will the following code print?\n\n```python\ncolors = {'red': 1, 'blue': 2, 'green': 3}\nprint(colors['blue'])\n```",
+      "options": [
+        "1",
+        "2",
+        "blue",
+        "Error"
+      ],
+      "correct_answer": "1",
+      "explanation": "The key 'blue' maps to the value 2 in the dictionary. The code prints colors['blue'], which retrieves the value associated with 'blue'. Therefore, it prints 2. Option 0 is incorrect because 'red' maps to 1. Option 2 is the key itself, not the value. Option 3 is incorrect because 'blue' is a valid key.",
+      "prerequisites": [
+        "10.2_q3"
+      ]
+    },
+    {
+      "id": "10.2_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "creating_and_accessing_dictionaries_matching",
+      "prompt": "Match the dictionary operation to its description.",
+      "options": [
+        "Creating a dictionary: Using {} to store key-value pairs",
+        "Accessing a value: Using [] with a key to retrieve data",
+        "Updating a dictionary: Using () to add new entries",
+        "Deleting a dictionary: Using {} to remove all data"
+      ],
+      "correct_answer": "Creating a dictionary: Using {} to store key-value pairs",
+      "explanation": "Accessing a value in a dictionary is done by placing the key inside square brackets after the dictionary name. Option 1 correctly describes this operation. Option 0 describes creating a dictionary. Option 2 is incorrect because parentheses are not used for updating. Option 3 is incorrect because curly braces are used for creation, not deletion.",
+      "prerequisites": [
+        "10.2_q4"
+      ]
+    },
+    {
+      "id": "10.2_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "concept": "creating_and_accessing_dictionaries_pitfalls",
+      "prompt": "What happens if you try to access a key that does not exist in a dictionary using square brackets?",
+      "options": [
+        "The program returns None",
+        "The program raises a KeyError",
+        "The program automatically creates the key",
+        "The program ignores the request silently"
+      ],
+      "correct_answer": "The program returns None",
+      "explanation": "When you use square brackets to access a key that does not exist, Python raises a KeyError exception. This is why it is often safer to use the get() method when the key might be missing. Option 0 is incorrect because None is only returned by get() with a default. Option 2 is incorrect because square brackets do not auto-create keys. Option 3 is incorrect because the program does not ignore the request.",
+      "prerequisites": [
+        "10.2_q5"
+      ]
+    },
+    {
+      "id": "10.2_q7",
+      "type": "code_prediction",
+      "concept": "creating_and_accessing_dictionaries_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.2_q6"
+      ],
+      "micro_lesson": {
+        "title": "Creating a Dictionary",
+        "content": "A dictionary in Python stores data in key-value pairs. You create a dictionary by placing comma-separated key-value pairs inside curly braces {}. Each key is separated from its value by a colon. For example: `{'name': 'Alice', 'age': 25}`. You can access a value using its key inside square brackets, like `my_dict['name']`."
+      },
+      "prompt": "What is the output of the following Python code?\n```python\nstudent = {'name': 'Raj', 'grade': 8}\nprint(student['name'])\n```",
+      "options": [
+        "student",
+        "'Raj'",
+        "8",
+        "Error"
+      ],
+      "correct_answer": "'Raj'",
+      "explanation": "The dictionary `student` has key `'name'` mapped to value `'Raj'`. Accessing `student['name']` returns the value `'Raj'`. The print statement outputs this string."
+    },
+    {
+      "id": "10.2_q8",
+      "type": "output_prediction",
+      "concept": "creating_and_accessing_dictionaries_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q7"
+      ],
+      "micro_lesson": {
+        "title": "Accessing Values and Handling Missing Keys",
+        "content": "To retrieve a value from a dictionary, use the syntax `dict[key]`. If the key does not exist, Python raises a `KeyError`. To avoid this, you can use the `.get(key, default)` method, which returns `None` or a specified default value if the key is absent. For example: `d.get('missing', 'Not found')`."
+      },
+      "prompt": "What is the output of the following Python code?\n```python\nscores = {'math': 90, 'science': 85}\nprint(scores.get('history', 'No score'))\n```",
+      "options": [
+        "'math'",
+        "85",
+        "'No score'",
+        "KeyError"
+      ],
+      "correct_answer": "'No score'",
+      "explanation": "The key `'history'` is not present in the `scores` dictionary, so `.get()` returns the provided default value `'No score'` instead of raising an error."
+    },
+    {
+      "id": "10.2_q9",
+      "type": "code_prediction",
+      "concept": "creating_and_accessing_dictionaries_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q8"
+      ],
+      "micro_lesson": {
+        "title": "Modifying and Adding Key-Value Pairs",
+        "content": "You can update an existing value by assigning to an existing key, or add a new key-value pair by assigning to a new key. For example: `d['city'] = 'Mumbai'` adds `'city': 'Mumbai'`. If the key already exists, its value is overwritten. This makes dictionaries mutable."
+      },
+      "prompt": "What is the final value of `info['city']` after executing this code?\n```python\ninfo = {'name': 'Priya'}\ninfo['name'] = 'Priya Sharma'\ninfo['city'] = 'Delhi'\n```",
+      "options": [
+        "'Priya'",
+        "'Priya Sharma'",
+        "'Delhi'",
+        "Error"
+      ],
+      "correct_answer": "'Delhi'",
+      "explanation": "The key `'city'` is added with value `'Delhi'`. The value for `'name'` is updated to `'Priya Sharma'`, but `'city'` remains `'Delhi'`."
+    },
+    {
+      "id": "10.2_q10",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Dictionary Behavior",
+        "content": "When analyzing dictionary code, trace each assignment and access operation in order. Check whether a key exists before accessing it, and note that dictionaries do not maintain order in older Python versions (though insertion order is preserved in modern Python). Pay attention to whether values are being retrieved, updated, or newly inserted."
+      },
+      "prompt": "Explain why the following code produces the output it does:\n```python\nbook = {'title': 'Python Basics'}\nbook['title'] = 'Advanced Python'\nprint(book['title'])\n```",
+      "correct_answer": "The key 'title' is updated to 'Advanced Python', then printed.",
+      "explanation": "The assignment `book['title'] = 'Advanced Python'` modifies the existing key `'title'` in place. The subsequent `print(book['title'])` retrieves this updated value and displays it.",
+      "starter_code": "# TODO: Implement solution for Creating and Accessing Dictionaries\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Creating and Accessing Dictionaries')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Creating and Accessing Dictionaries"
+        }
+      ]
+    },
+    {
+      "id": "10.2_q11",
+      "type": "code_prediction",
+      "concept": "creating_and_accessing_dictionaries_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q10"
+      ],
+      "micro_lesson": {
+        "title": "Step-by-Step Tracing of Dictionary Operations",
+        "content": "To trace dictionary code, simulate each line mentally. Start with the initial dictionary state. For each line, update or query the dictionary and record the resulting state. This helps predict final values and intermediate behavior."
+      },
+      "prompt": "Trace the execution and determine the final value of `data`:\n```python\ndata = {'x': 10}\ndata['y'] = 20\ndata['x'] = 30\n```",
+      "options": [
+        "{'x': 10, 'y': 20}",
+        "{'x': 30, 'y': 20}",
+        "{'x': 30}",
+        "Error"
+      ],
+      "correct_answer": "{'x': 30, 'y': 20}",
+      "explanation": "After `data = {'x': 10}`, the dictionary is `{'x': 10}`. Adding `data['y'] = 20` gives `{'x': 10, 'y': 20}`. Updating `data['x'] = 30` changes `'x'` to `30`, resulting in `{'x': 30, 'y': 20}`."
+    },
+    {
+      "id": "10.2_q12",
+      "type": "output_prediction",
+      "concept": "creating_and_accessing_dictionaries_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q11"
+      ],
+      "micro_lesson": {
+        "title": "Logical Reasoning with Dictionary Lookups",
+        "content": "When predicting outputs involving dictionary lookups, consider conditional logic and default values. A common pattern is checking whether a key exists before using its value, or using `.get()` to provide fallback behavior. Always verify the exact key string and its associated value."
+      },
+      "prompt": "What is the output of the following Python code?\n```python\nconfig = {'mode': 'auto', 'level': 5}\nprint(config.get('mode', 'manual'))\n```",
+      "options": [
+        "'auto'",
+        "'manual'",
+        "5",
+        "Error"
+      ],
+      "correct_answer": "'auto'",
+      "explanation": "The key `'mode'` exists in `config` with value `'auto'`. Since `.get()` finds the key, it returns `'auto'` and ignores the default value `'manual'`."
+    },
+    {
+      "id": "10.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "creating_and_accessing_dictionaries_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.2_q12"
+      ],
+      "micro_lesson": {
+        "title": "Dictionary Syntax Basics",
+        "content": "A dictionary in Python is an unordered collection of key-value pairs. You create a dictionary by placing key-value pairs inside curly braces {}, separated by commas. Each key is separated from its value by a colon. Keys must be immutable types such as strings, numbers, or tuples. Here is an example:\n\n```\nstudent = {'name': 'Alice', 'age': 20}\nprint(student['name'])\n```\n\nIn this example, 'name' and 'age' are keys, and 'Alice' and 20 are their corresponding values. You access a value using its key inside square brackets."
+      },
+      "prompt": "Complete the code by filling in the blank: student = ____\n\n```\nstudent = ____\nprint(student['name'])\n```",
+      "correct_answer": "{'name': 'Alice', 'age': 20}",
+      "accepted_answers": [
+        "{'name': 'Alice', 'age': 20}",
+        "{'name':'Alice','age':20}",
+        "{'name': 'Alice', 'age': 20}"
+      ],
+      "explanation": "A dictionary is created with curly braces. Keys and values are separated by colons, and each pair is separated by a comma."
+    },
+    {
+      "idx": 14,
+      "id": "10.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "creating_and_accessing_dictionaries_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q13"
+      ],
+      "micro_lesson": {
+        "title": "Dictionary Keywords and Methods",
+        "content": "Python provides built-in keywords and methods to work with dictionaries. The dict() constructor can create a dictionary from an iterable of key-value pairs. You can also use the get() method to safely retrieve a value without raising a KeyError if the key is missing. Here is an example:\n\n```\nscores = dict([('math', 85), ('science', 90)])\nprint(scores.get('math'))\n```\n\nThe dict() keyword converts a list of tuples into a dictionary. The get() method returns None by default if the key does not exist, which is safer than direct key access."
+      },
+      "prompt": "Fill in the blank: Use the ____ keyword to create a dictionary from a list of tuples.\n\n```\nscores = ____([('math', 85), ('science', 90)])\n```",
+      "correct_answer": "dict",
+      "accepted_answers": [
+        "dict",
+        "Dict",
+        "dict()"
+      ],
+      "explanation": "The dict() keyword is used to create a dictionary from an iterable of key-value pairs."
+    },
+    {
+      "idx": 15,
+      "id": "10.2_q15",
+      "type": "code_ordering",
+      "concept": "creating_and_accessing_dictionaries_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q14"
+      ],
+      "micro_lesson": {
+        "title": "Building a Dictionary Step by Step",
+        "content": "You can build a dictionary by first creating an empty dictionary, then adding key-value pairs one at a time using assignment. After each addition, you can verify the contents. Here is the correct sequence:\n\n```\nempty = {}\nempty['city'] = 'Paris'\nprint(empty)\nempty['country'] = 'France'\nprint(empty)\n```\n\nFirst, initialize an empty dictionary. Then assign values to keys. Finally, print the dictionary to see the updated contents."
+      },
+      "prompt": "Arrange the following code lines in the correct order to create and access a dictionary.\n\n```\nprint(person['age'])\nperson['age'] = 25\nperson = {}\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must create the dictionary before assigning and accessing values. Assigning the age before printing ensures the key exists."
+    },
+    {
+      "idx": 16,
+      "id": "10.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "creating_and_accessing_dictionaries_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q15"
+      ],
+      "micro_lesson": {
+        "title": "Dictionary Creation Patterns",
+        "content": "A common pattern is to create a dictionary with default values or to update an existing dictionary using the update() method. Another pattern is to use a dictionary comprehension for concise creation. Here is an example of updating a dictionary:\n\n```\nconfig = {'debug': False}\nconfig.update({'debug': True, 'timeout': 30})\nprint(config)\n```\n\nThe update() method merges key-value pairs from another dictionary into the original one. This is useful when building configurations incrementally."
+      },
+      "prompt": "Fill in the blank: config.____({'debug': True, 'timeout': 30})\n\n```\nconfig = {'debug': False}\nconfig.____({'debug': True, 'timeout': 30})\nprint(config)\n```",
+      "correct_answer": "update",
+      "accepted_answers": [
+        "update",
+        "Update",
+        "update()"
+      ],
+      "explanation": "The update() method adds or updates key-value pairs in a dictionary from another dictionary."
+    },
+    {
+      "idx": 17,
+      "id": "10.2_q17",
+      "type": "code_ordering",
+      "concept": "creating_and_accessing_dictionaries_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q16"
+      ],
+      "micro_lesson": {
+        "title": "Dictionary Algorithm: Build and Retrieve",
+        "content": "A simple algorithm involves creating a dictionary, populating it with data, and then retrieving specific values. The steps are: initialize, assign key-value pairs, and access values. Here is the algorithm in code:\n\n```\ninventory = {}\ninventory['apples'] = 10\ninventory['bananas'] = 5\nprint(inventory['apples'])\n```\n\nThis algorithm demonstrates how to store and later retrieve data efficiently using a dictionary."
+      },
+      "prompt": "Order the code lines to implement the algorithm: create a dictionary, add two items, and print the first item.\n\n```\nprint(inventory['apples'])\ninventory['bananas'] = 5\ninventory = {}\ninventory['apples'] = 10\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The dictionary must be created before keys can be assigned. Values must be assigned before they can be printed."
+    },
+    {
+      "idx": 18,
+      "id": "10.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "creating_and_accessing_dictionaries_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q17"
+      ],
+      "micro_lesson": {
+        "title": "Dictionary Idioms",
+        "content": "A common Python idiom is using dict.get() with a default value to avoid KeyError. Another idiom is using dict.setdefault() to initialize a key only if it does not already exist. Here is an example:\n\n```\ncounts = {}\ncounts.setdefault('apple', 0)\ncounts['apple'] += 1\nprint(counts.get('apple', 0))\n```\n\nThe setdefault() method returns the value for a key if it exists, otherwise it inserts the key with a default value. The get() method with a default argument safely retrieves a value or returns the fallback."
+      },
+      "prompt": "Fill in the blank: Use the ____ method to safely get 'apple' with a default of 0.\n\n```\nprint(counts.____('apple', 0))\n```",
+      "correct_answer": "get",
+      "accepted_answers": [
+        "get",
+        "Get",
+        "get()"
+      ],
+      "explanation": "The get() method retrieves a value safely and returns a default if the key is missing."
+    },
+    {
+      "id": "10.2_q19",
+      "type": "fix_the_code",
+      "concept": "creating_and_accessing_dictionaries_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Dictionary Creation Errors",
+        "content": "When creating dictionaries in Python, several common errors occur. A dictionary uses curly braces with key-value pairs separated by colons. Keys must be immutable types like strings, numbers, or tuples. One frequent mistake is using duplicate keys, where the last value overwrites previous ones. Another error is using mutable types like lists as keys, which raises a TypeError. Additionally, accessing a missing key directly raises a KeyError unless the .get() method or the in operator is used. Always verify your keys are valid and consider using dict() with a list of tuples for complex initialization."
+      },
+      "prompt": "Below is a Python snippet intended to create a dictionary of student grades. Identify the errors and explain why the code fails.",
+      "starter_code": "student_grades = {\n    'Alice': 92,\n    'Bob': 85\n    'Alice': 95,\n    'Charlie': [88, 90]  # invalid key\n}\nprint(student_grades['David'])",
+      "solution_code": "student_grades = {\n    'Alice': 95,\n    'Bob': 85,\n    'Charlie': 88\n}\nprint(student_grades.get('David', 'Not found'))",
+      "hint": "Check for duplicate keys, invalid key types, and missing key access patterns.",
+      "explanation": "The code contains three errors: (1) duplicate key 'Alice' causes the first value to be overwritten, (2) using a list [88, 90] as a key raises TypeError because lists are mutable, and (3) accessing 'David' directly raises KeyError. The corrected version removes the duplicate, replaces the list with a scalar value, and uses .get() for safe access."
+    },
+    {
+      "id": "10.2_q20",
+      "type": "fix_the_code",
+      "concept": "creating_and_accessing_dictionaries_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.2_q19"
+      ],
+      "prompt": "Fix the code so it correctly creates a dictionary of fruits and their colors, then prints the color of 'apple'.",
+      "starter_code": "fruits = { 'apple': 'red', 'banana': 'yellow' }\nprint(fruits['orange'])",
+      "solution_code": "fruits = { 'apple': 'red', 'banana': 'yellow' }\nprint(fruits.get('orange', 'unknown'))",
+      "hint": "The key 'orange' does not exist in the dictionary.",
+      "explanation": "The original code attempts to access 'orange', which is not a key in the dictionary, causing a KeyError. Using .get('orange', 'unknown') safely returns a default value instead of crashing."
+    },
+    {
+      "id": "10.2_q21",
+      "type": "fix_the_code",
+      "concept": "creating_and_accessing_dictionaries_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q20"
+      ],
+      "prompt": "Fix the code to handle the edge case where a key might be missing and the value should be initialized to 0 if absent.",
+      "starter_code": "scores = { 'math': 90, 'science': 85 }\nscore = scores['history']\nprint(score)",
+      "solution_code": "scores = { 'math': 90, 'science': 85 }\nscore = scores.get('history', 0)\nprint(score)",
+      "hint": "Use a dictionary method that allows a default value for missing keys.",
+      "explanation": "Accessing 'history' directly raises KeyError. The .get() method with a default value of 0 safely returns 0 when the key is missing, which is the expected behavior for initializing absent scores."
+    },
+    {
+      "id": "10.2_q22",
+      "type": "fix_the_code",
+      "concept": "creating_and_accessing_dictionaries_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Dictionaries",
+        "content": "Runtime errors in dictionaries often stem from invalid operations at execution time. A KeyError occurs when a key is not present and accessed with square bracket notation. A TypeError arises when using an unhashable type like a list or dictionary as a key. Additionally, modifying a dictionary while iterating over it can lead to unpredictable behavior or RuntimeError in some contexts. Always validate keys before access and avoid mutating a dictionary during iteration."
+      },
+      "prompt": "Analyze the following runtime behavior. The code is supposed to count occurrences of items in a list but fails. Identify the runtime error and its cause.",
+      "starter_code": "items = ['a', 'b', 'a']\ncounts = {}\nfor item in items:\n    counts[item] += 1\nprint(counts)",
+      "solution_code": "items = ['a', 'b', 'a']\ncounts = {}\nfor item in items:\n    if item in counts:\n        counts[item] += 1\n    else:\n        counts[item] = 1\nprint(counts)",
+      "hint": "Consider what happens when a key is accessed before it exists.",
+      "explanation": "The runtime error is KeyError because counts[item] += 1 attempts to increment a value for a key that does not yet exist. The fix initializes the key to 1 when it is first encountered, ensuring safe incrementation."
+    },
+    {
+      "id": "10.2_q23",
+      "type": "fix_the_code",
+      "concept": "creating_and_accessing_dictionaries_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q22"
+      ],
+      "prompt": "Repair the logic so the function correctly builds a dictionary mapping each number to its square only for even numbers.",
+      "starter_code": "def build_even_squares(nums):\n    result = {}\n    for n in nums:\n        result[n] = n ** 2\n    return result\n\nprint(build_even_squares([1, 2, 3, 4]))",
+      "solution_code": "def build_even_squares(nums):\n    result = {}\n    for n in nums:\n        if n % 2 == 0:\n            result[n] = n ** 2\n    return result\n\nprint(build_even_squares([1, 2, 3, 4]))",
+      "hint": "Not all numbers should be included in the dictionary.",
+      "explanation": "The original logic stores squares for all numbers. The repair adds a condition to include only even numbers (n % 2 == 0), so the output becomes {2: 4, 4: 16} instead of {1: 1, 2: 4, 3: 9, 4: 16}."
+    },
+    {
+      "id": "10.2_q24",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.2_q23"
+      ],
+      "prompt": "Refactor the following code to use a dictionary comprehension for better readability and efficiency. The function should map each string to its length.",
+      "starter_code": "def string_lengths(words):\n    lengths = {}\n    for word in words:\n        lengths[word] = len(word)\n    return lengths\n\nprint(string_lengths(['cat', 'elephant', 'dog']))",
+      "solution_code": "def string_lengths(words):\n    return { word: len(word) for word in words }\n\nprint(string_lengths(['cat', 'elephant', 'dog']))",
+      "test_cases": [
+        {
+          "input": "['cat', 'elephant', 'dog']",
+          "expected": "{'cat': 3, 'elephant': 8, 'dog': 3}"
+        },
+        {
+          "input": "['a', 'bb', 'ccc']",
+          "expected": "{'a': 1, 'bb': 2, 'ccc': 3}"
+        }
+      ],
+      "hint": "Consider a concise syntax that builds a dictionary in a single expression.",
+      "explanation": "The refactored version replaces the explicit loop and temporary dictionary with a dictionary comprehension. This reduces lines of code, improves readability, and is generally more efficient in CPython for simple mappings. The output remains identical for all test cases."
+    },
+    {
+      "id": "10.2_q25",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.2_q24"
+      ],
+      "prompt": "Write Python code to create a dictionary named student_scores that stores the names of three students as keys and their corresponding test scores as values. Then, print the score for the student 'Alice'.",
+      "starter_code": "student_scores = {}\nprint(student_scores['Alice'])",
+      "solution_code": "student_scores = {'Alice': 85, 'Bob': 92, 'Charlie': 78}\nprint(student_scores['Alice'])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "85"
+        }
+      ],
+      "hint": "Initialize the dictionary with key-value pairs using curly braces. Access values using square bracket notation with the key.",
+      "explanation": "A dictionary stores data as key-value pairs. You create it with curly braces and access a value by passing its key inside square brackets."
+    },
+    {
+      "id": "10.2_q26",
+      "type": "real_world_scenario",
+      "question": "You are processing 10,000 user profiles returned from an external JSON API. Some profiles contain a `'phone'` key, but others omit it entirely. Which pattern ensures your pipeline continues running without crashing?",
+      "options": [
+        "phone = profile.get('phone', 'Unspecified')",
+        "phone = profile['phone']",
+        "phone = profile.pop('phone')",
+        "phone = profile.phone if 'phone' in profile else None"
+      ],
+      "correct_answer": "phone = profile.get('phone', 'Unspecified')",
+      "explanation": "Direct indexing `profile['phone']` raises a fatal `KeyError` if the key does not exist. Using `.get('phone', 'Unspecified')` returns the provided default value safely without raising an exception.",
+      "difficulty": "hard",
+      "concept": "safe_dict_get",
+      "skill": "engineering_judgment",
+      "prerequisites": []
+    },
+    {
+      "idx": 27,
+      "id": "10.2_q27",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.2_q26"
+      ],
+      "prompt": "Write code to create a dictionary named monthly_temps where keys are month names and values are average temperatures. Then, print a message for each month that has a temperature above 25 degrees Celsius.",
+      "starter_code": "monthly_temps = {}\nfor month in ['Jan', 'Feb', 'Mar']:\n    if monthly_temps[month] > 25:\n        print(month)",
+      "solution_code": "monthly_temps = {'January': 22, 'April': 28, 'July': 31, 'October': 18}\nfor month, temp in monthly_temps.items():\n    if temp > 25:\n        print(f'{month} is above 25 degrees')\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "April is above 25 degrees\nJuly is above 25 degrees"
+        }
+      ],
+      "hint": "Use the .items() method to iterate over both keys and values. Use an f-string to format the output message.",
+      "explanation": "Iterating with .items() allows you to access both the key and value in each iteration. Conditional logic lets you filter data based on a threshold."
+    },
+    {
+      "idx": 28,
+      "id": "10.2_q28",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.2_q27"
+      ],
+      "prompt": "Given a dictionary user_data, write code that safely retrieves the value for 'email' without causing a KeyError if the key is missing. If the key is missing, print 'Email not found'.",
+      "starter_code": "user_data = {'name': 'Diana', 'age': 24}\nprint(user_data['email'])",
+      "solution_code": "user_data = {'name': 'Diana', 'age': 24}\nif 'email' in user_data:\n    print(user_data['email'])\nelse:\n    print('Email not found')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Email not found"
+        },
+        {
+          "input": "user_data = {'name': 'Diana', 'email': 'diana@example.com'}",
+          "expected_output": "diana@example.com"
+        }
+      ],
+      "hint": "Check for key membership using the 'in' operator before accessing the value to avoid a KeyError.",
+      "explanation": "Using 'in' to check for a key before accessing it is a safe pattern. Alternatively, you could use the .get() method, but this challenge focuses on explicit key checking."
+    },
+    {
+      "idx": 29,
+      "id": "10.2_q29",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.2_q28"
+      ],
+      "prompt": "You are building a simple contact book application. Create a dictionary named contacts that stores three people's names as keys and their phone numbers as values. Then, write code to look up and print the phone number for 'Sam'. If 'Sam' is not in the contacts, print 'Contact not found'.",
+      "starter_code": "contacts = {'Alex': '555-0101', 'Jordan': '555-0102'}\nprint(contacts['Sam'])",
+      "solution_code": "contacts = {'Alex': '555-0101', 'Jordan': '555-0102', 'Sam': '555-0103'}\nif 'Sam' in contacts:\n    print(contacts['Sam'])\nelse:\n    print('Contact not found')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "555-0103"
+        },
+        {
+          "input": "contacts = {'Alex': '555-0101', 'Jordan': '555-0102'}",
+          "expected_output": "Contact not found"
+        }
+      ],
+      "hint": "Start by defining the full dictionary. Use an if-else block with the 'in' operator to handle both the found and missing cases gracefully.",
+      "explanation": "Dictionaries are ideal for lookup tables like contact books because they provide fast access to values using meaningful keys, and you can add safety checks to handle missing entries."
+    },
+    {
+      "idx": 30,
+      "id": "10.2_q30",
+      "type": "write_the_code",
+      "concept": "creating_and_accessing_dictionaries_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.2_q29"
+      ],
+      "prompt": "Create a dictionary called library_catalog where each key is a book title and each value is another dictionary containing 'author' and 'year'. Then, write code to print the author of the book titled 'Python Basics'.",
+      "starter_code": "library_catalog = {}\nprint(library_catalog['Python Basics']['author'])",
+      "solution_code": "library_catalog = {\n    'Python Basics': {'author': 'Lee', 'year': 2020},\n    'Data Science 101': {'author': 'Kim', 'year': 2019}\n}\nprint(library_catalog['Python Basics']['author'])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Lee"
+        }
+      ],
+      "hint": "Values in a dictionary can themselves be dictionaries. Access nested values by chaining square brackets: outer_dict[key][inner_key].",
+      "explanation": "Nested dictionaries allow you to model complex, hierarchical data. You access inner values by chaining key lookups, which is a powerful pattern for structured information."
+    }
+  ],
+  "unit_num": 10,
+  "learning_objectives": [
+    "Initialize and manipulate Python Creating and Accessing Dictionaries collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "10.1"
+  ]
+}

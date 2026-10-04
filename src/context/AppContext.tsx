@@ -11,8 +11,9 @@ import {
 import { PYTHON_COURSE } from '../data/pathCurriculum';
 import { COURSES } from '../data/courses';
 import { sound } from '../utils/audio';
+import { progressionService } from '../services/progressionService';
 
-const STORAGE_KEY = 'codon_learning_path_v2';
+const STORAGE_KEY = 'codolingo_python_curriculum_v1';
 
 const INITIAL_PROGRESS: UserProgressState = {
   userId: 'usr_default',
@@ -20,53 +21,29 @@ const INITIAL_PROGRESS: UserProgressState = {
   username: 'gkamat',
   avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
   activeCourseId: 'python',
-  streak: 7,
-  bestStreak: 14,
-  level: 3,
-  totalXp: 1420,
+  streak: 1,
+  bestStreak: 7,
+  level: 1,
+  totalXp: 0,
   energy: 5,
   maxEnergy: 5,
   dailyGoalXp: 50,
-  dailyGoalEarnedXp: 35,
-  completedSkillIds: ['py_skill_hello'],
-  currentSkillId: 'py_skill_variables',
-  completedLessonIds: ['les_hello_1', 'py_lesson_1'],
+  dailyGoalEarnedXp: 0,
+  completedSkillIds: [],
+  currentSkillId: 'py_skill_1_1',
+  completedLessonIds: [],
   skillMastery: {
-    'py_skill_hello': 5,
-    'py_skill_variables': 2,
-    'py_skill_datatypes': 0,
-    'py_skill_expressions': 0
+    'py_skill_1_1': 0
   },
-  mistakes: [
-    {
-      id: 'mst_1',
-      skillId: 'py_skill_variables',
-      skillTitle: 'Variables',
-      lessonId: 'les_var_1',
-      conceptId: 'py_variables',
-      conceptName: 'Variables',
-      mistakeType: 'literal_instead_of_variable',
-      explanation: 'Printed "city" in quotes instead of variable value print(city)',
-      userCode: 'city = "Mumbai"\nprint("city")',
-      frequency: 2,
-      timestamp: '2026-10-01T20:30:00Z',
-      resolved: false
-    }
-  ],
+  mistakes: [],
   dailyGoal: {
     lessonsTarget: 2,
-    lessonsCompleted: 1,
+    lessonsCompleted: 0,
     xpTarget: 50,
-    xpEarned: 35
+    xpEarned: 0
   },
   activityHistory: [
-    { date: '2026-09-25', lessonsCount: 2, xp: 220 },
-    { date: '2026-09-26', lessonsCount: 1, xp: 100 },
-    { date: '2026-09-27', lessonsCount: 3, xp: 340 },
-    { date: '2026-09-28', lessonsCount: 1, xp: 120 },
-    { date: '2026-09-29', lessonsCount: 2, xp: 250 },
-    { date: '2026-09-30', lessonsCount: 2, xp: 240 },
-    { date: '2026-10-01', lessonsCount: 1, xp: 150 }
+    { date: '2026-10-01', lessonsCount: 1, xp: 50 }
   ],
   achievements: [
     {
@@ -129,7 +106,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [userProgress, setUserProgress] = useState<UserProgressState>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const skillExists = PYTHON_COURSE.units.some(u => u.skills.some(s => s.id === parsed.currentSkillId));
+        if (!skillExists) {
+          parsed.currentSkillId = 'py_skill_1_1';
+        }
+        return parsed;
+      }
     } catch {
       // Fallback
     }
@@ -144,7 +128,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
-  const [activeLessonId, setActiveLessonId] = useState<string | null>('py_lesson_1');
+  const [activeLessonId, setActiveLessonId] = useState<string | null>('1.1');
   const [selectedSkillForModal, setSelectedSkillForModal] = useState<SkillNode | null>(null);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
 
@@ -203,47 +187,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const completeLesson = (lessonId: string, xpReward: number) => {
-    setUserProgress(prev => {
-      const alreadyCompleted = prev.completedLessonIds.includes(lessonId);
-      const updatedCompletedLessons = alreadyCompleted ? prev.completedLessonIds : [...prev.completedLessonIds, lessonId];
-      const newXp = prev.totalXp + xpReward;
-      const newDailyXp = prev.dailyGoalEarnedXp + xpReward;
-
-      let targetSkillId = prev.currentSkillId;
-      for (const unit of course.units) {
-        for (const skill of unit.skills) {
-          if (skill.lessons.some(l => l.id === lessonId)) {
-            targetSkillId = skill.id;
-            break;
-          }
-        }
-      }
-
-      const currentMastery = prev.skillMastery[targetSkillId] || 0;
-      const updatedMastery = Math.min(5, currentMastery + 1);
-
-      const updatedCompletedSkills = updatedMastery >= 3 && !prev.completedSkillIds.includes(targetSkillId)
-        ? [...prev.completedSkillIds, targetSkillId]
-        : prev.completedSkillIds;
-
-      let nextSkillId = prev.currentSkillId;
-      if (targetSkillId === 'py_skill_variables') {
-        nextSkillId = 'py_skill_datatypes';
-      }
-
-      return {
-        ...prev,
-        totalXp: newXp,
-        dailyGoalEarnedXp: newDailyXp,
-        completedLessonIds: updatedCompletedLessons,
-        completedSkillIds: updatedCompletedSkills,
-        currentSkillId: nextSkillId,
-        skillMastery: {
-          ...prev.skillMastery,
-          [targetSkillId]: updatedMastery
-        }
-      };
-    });
+    setUserProgress(prev => progressionService.processLessonCompletion(prev, lessonId, xpReward, course));
   };
 
   const recordMistake = (mistake: Omit<MistakeRecord, 'id' | 'timestamp' | 'frequency' | 'resolved'>) => {

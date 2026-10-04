@@ -1,0 +1,617 @@
+{
+  "lesson_id": "8.6",
+  "title": "Iterating Over Lists",
+  "unit": "Lists",
+  "items": [
+    {
+      "id": "8.6_q1",
+      "type": "micro_lesson",
+      "concept": "iterating_over_lists_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Iteration Over a List?",
+      "content": "Iteration means going through each item in a sequence one by one. In Python, a list is an ordered collection of items. When we iterate over a list, we can perform an action on every element without writing the same code multiple times. The most common way to iterate is using a for loop. Here is an example:\n\n```python\nmy_list = [10, 20, 30, 40]\nfor item in my_list:\n    print(item)\n```\n\nThis code prints each number in my_list on a separate line. The variable item takes the value of each element in turn, starting from the first and ending at the last. Iteration is useful when you need to process many values that share the same logic.",
+      "prompt": "",
+      "explanation": "Iteration means going through each item in a sequence one by one. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "8.6_q2",
+      "type": "multiple_choice",
+      "concept": "iterating_over_lists_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.6_q1"
+      ],
+      "prompt": "Which statement correctly describes what happens when you iterate over a list with a for loop?",
+      "options": [
+        "The loop runs once and prints the entire list as a single object.",
+        "The loop processes each element in the list one at a time.",
+        "The loop only processes the first and last elements.",
+        "The loop modifies the list automatically during iteration."
+      ],
+      "correct_answer": "The loop processes each element in the list one at a time.",
+      "explanation": "A for loop over a list assigns each element to the loop variable in sequence. It does not treat the list as a single object, nor does it automatically modify the list unless the code explicitly does so inside the loop."
+    },
+    {
+      "id": "8.6_q3",
+      "type": "micro_lesson",
+      "concept": "iterating_over_lists_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.6_q2"
+      ],
+      "title": "The Basic Syntax of List Iteration",
+      "content": "The standard syntax for iterating over a list uses the for keyword followed by a variable name, the in keyword, and the list name. Here is the general form:\n\n```python\nfor variable in my_list:\n    # action for each element\n    pass\n```\n\nYou can choose any valid variable name. The indented block under the loop runs once for every item in my_list. After the loop finishes, the variable holds the value of the last element. If the list is empty, the block does not execute at all. This syntax is consistent across all iterable types in Python, not just lists.",
+      "prompt": "",
+      "explanation": "The standard syntax for iterating over a list uses the for keyword followed by a variable name, the in keyword, and the list name. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "8.6_q4",
+      "type": "multiple_choice",
+      "concept": "iterating_over_lists_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.6_q3"
+      ],
+      "prompt": "Given the list data = ['a', 'b', 'c'], which code block correctly iterates over data and prints each value?",
+      "options": [
+        "for x in data:\n    print(x)",
+        "for x in data\nprint(x)",
+        "for x in data:\nprint(x)",
+        "for x in data:\n  print(x)"
+      ],
+      "correct_answer": "for x in data:\n    print(x)",
+      "explanation": "Python requires a colon after the for statement and a consistent indentation level for the body. Option A uses four spaces, which is valid. Option B lacks a colon. Option C uses no indentation, which causes an IndentationError. Option D uses two spaces, which is also valid indentation, but the prompt asks for the standard four-space style commonly shown in tutorials. However, both A and D are syntactically valid; A is the most conventional representation."
+    },
+    {
+      "id": "8.6_q5",
+      "type": "fix_the_code",
+      "concept": "iterating_over_lists_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.6_q4"
+      ],
+      "prompt": "Refactor this procedural snippet for Iterating Over Lists into clean, modular, and idiomatic Python:",
+      "correct_answer": "apple\nbanana",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed.",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension."
+    },
+    {
+      "id": "8.6_q6",
+      "type": "multiple_choice",
+      "concept": "iterating_over_lists_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.6_q5"
+      ],
+      "prompt": "After this loop finishes, what value does counter hold?\n```python\nnumbers = [5, 10, 15]\ncounter = 0\nfor n in numbers:\n    counter = n\n```",
+      "options": [
+        "0",
+        "5",
+        "15",
+        "None"
+      ],
+      "correct_answer": "15",
+      "explanation": "The variable counter is reassigned in each iteration. It starts at 0, then becomes 5, then 10, and finally 15. After the loop ends, it retains the value from the last iteration, which is 15."
+    },
+    {
+      "id": "8.6_q7",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q6"
+      ],
+      "micro_lesson": {
+        "title": "Predicting Output from a Simple For Loop",
+        "content": "When you iterate over a list using a for loop, the loop variable takes the value of each element in the list, one at a time, from left to right. In this example, the list contains three strings. The loop prints each string during its turn. Pay attention to the exact spelling and spacing of the items in the list."
+      },
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Iterating Over Lists.",
+      "correct_answer": "apple banana cherry",
+      "explanation": "Constructing pure, robust data transformers for Iterating Over Lists avoids unintended side effects and guarantees consistent return contracts.",
+      "starter_code": "def process_8_6_data(items):\n    # Process input according to Iterating Over Lists rules\n    pass",
+      "solution_code": "def process_8_6_data(items):\n    return [item for item in items if item is not None]",
+      "hint": "Focus on applying the central Python idiom for Iterating Over Lists.",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Iterating Over Lists rules"
+        }
+      ]
+    },
+    {
+      "id": "8.6_q8",
+      "type": "output_prediction",
+      "concept": "iterating_over_lists_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q7"
+      ],
+      "micro_lesson": {
+        "title": "Building Strings During Iteration",
+        "content": "During iteration, you can combine the loop variable with other text using the + operator. This is useful when you want to create formatted messages. Remember that strings must be enclosed in matching quotes, and you cannot add a string directly to a number without converting the number first."
+      },
+      "prompt": "What is printed by the following code?\n```python\nnumbers = [1, 2, 3]\nresult = ''\nfor n in numbers:\n    result = result + str(n) + '-'\nprint(result)\n```",
+      "options": [
+        "1-2-3-",
+        "123-",
+        "['1', '2', '3', '-']",
+        "1-2-3"
+      ],
+      "correct_answer": "1-2-3-",
+      "explanation": "The loop converts each number to a string with str(n), appends a hyphen, and builds result. After the final iteration, result is '1-2-3-'."
+    },
+    {
+      "id": "8.6_q9",
+      "type": "code_prediction",
+      "concept": "iterating_over_lists_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q8"
+      ],
+      "micro_lesson": {
+        "title": "Using if Inside a For Loop",
+        "content": "You can place an if statement inside a for loop to check a condition for each element. If the condition is true, the indented block runs; otherwise, the loop continues to the next element. The loop does not skip elements automatically—it only skips the body when the condition fails."
+      },
+      "prompt": "What happens when this code runs?\n```python\ncolors = ['red', 'green', 'blue']\nfor c in colors:\n    if c == 'green':\n        print('found')\n    else:\n        print('skip')\n```",
+      "options": [
+        "'found' is printed once, then 'skip' is printed twice",
+        "'skip' is printed three times",
+        "An error occurs",
+        "'found' is printed three times"
+      ],
+      "correct_answer": "'found' is printed once, then 'skip' is printed twice",
+      "explanation": "The loop processes 'red' (else branch prints 'skip'), then 'green' (if branch prints 'found'), then 'blue' (else branch prints 'skip')."
+    },
+    {
+      "id": "8.6_q10",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Variable Changes During Iteration",
+        "content": "When a variable is assigned inside a loop, its value changes on each iteration. To understand the final state, trace the variable step by step. Notice that the loop variable itself is reassigned each time, while any separately named variable accumulates or transforms based on the loop body."
+      },
+      "prompt": "Consider this code:\n```python\nscores = [10, 20, 30]\ntotal = 0\nfor s in scores:\n    total = total + s\nprint(total)\n```\nExplain why the final printed value is what it is, describing how total changes across iterations.",
+      "correct_answer": 0,
+      "explanation": "total begins at 0. On the first iteration it becomes 10, on the second it becomes 30, and on the third it becomes 60. The print statement then outputs 60.",
+      "starter_code": "# TODO: Implement solution for Iterating Over Lists\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Iterating Over Lists')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Iterating Over Lists"
+        }
+      ]
+    },
+    {
+      "id": "8.6_q11",
+      "type": "code_prediction",
+      "concept": "iterating_over_lists_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing Index-Based Logic Inside a Loop",
+        "content": "When you need the position of an item, you can use enumerate() to get both the index and the value. The modulo operator % gives the remainder after division, which helps detect patterns such as every second item. Tracing means following the values of variables after each iteration."
+      },
+      "prompt": "What is the output of this program?\n```python\nitems = ['a', 'b', 'c', 'd']\nfor i, v in enumerate(items):\n    if i % 2 == 1:\n        print(v)\n```",
+      "options": [
+        "b\nd",
+        "a\nc",
+        "b\nc",
+        "a\nb\nc\nd"
+      ],
+      "correct_answer": "b\nd",
+      "explanation": "enumerate yields (0,'a'), (1,'b'), (2,'c'), (3,'d'). The condition i % 2 == 1 is true only when i is 1 and 3, so 'b' and 'd' are printed."
+    },
+    {
+      "id": "8.6_q12",
+      "type": "output_prediction",
+      "concept": "iterating_over_lists_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q11"
+      ],
+      "micro_lesson": {
+        "title": "Predicting Output with Combined Conditions",
+        "content": "A loop can contain multiple conditions joined by and or or. The overall body executes only when the combined condition evaluates to True for that iteration. Predicting output requires checking each element against the full logical expression before deciding what to print."
+      },
+      "prompt": "What does the following code display?\n```python\nnames = ['Anna', 'Bob', 'Cara']\nfor n in names:\n    if len(n) > 3 and n[0] == 'A':\n        print(n)\n```",
+      "options": [
+        "Anna",
+        "Bob",
+        "Cara",
+        "Nothing"
+      ],
+      "correct_answer": "Anna",
+      "explanation": "Anna has length 4 (> 3) and starts with 'A', so the condition is true and it is printed. Bob fails the length test, and Cara fails the first-letter test, so nothing else is printed."
+    },
+    {
+      "id": "8.6_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "iterating_over_lists_syntax",
+      "prerequisites": [
+        "8.6_q12"
+      ],
+      "prompt": "Complete the code to print every element in the list fruits. Use the correct keyword to start the loop: fruits = ['apple', 'banana', 'cherry']\nfor ___ in fruits:\n    print(item)",
+      "correct_answer": "item",
+      "accepted_answers": [
+        "item",
+        "fruit",
+        "x",
+        "element"
+      ],
+      "explanation": "The for loop in Python requires the keyword for followed by a variable name (often called the loop variable), then the in keyword, then the iterable. Here, 'item' is the variable that temporarily holds each element during iteration.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "8.6_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "iterating_over_lists_keywords",
+      "prerequisites": [
+        "8.6_q13"
+      ],
+      "prompt": "Fill in the blank to make the loop work correctly: numbers = [10, 20, 30]\nfor ___ numbers:\n    print(value)",
+      "correct_answer": "in",
+      "accepted_answers": [
+        "in"
+      ],
+      "explanation": "The Python for loop syntax is for <variable> in <iterable>:. The keyword 'in' is mandatory; without it, Python raises a SyntaxError because it cannot determine what to iterate over.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.6_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "iterating_over_lists_sequence",
+      "prerequisites": [
+        "8.6_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to print each number and its square. Lines:\n    print(num, 'squared is', sq)\n    numbers = [2, 4, 6]\n    for num in numbers:\n        sq = num ** 2",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, the list must be defined. Then the for loop iterates over it. Inside the loop, the square is computed and stored. Finally, the result is printed. The loop body must be indented consistently.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.6_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "iterating_over_lists_patterns",
+      "prerequisites": [
+        "8.6_q15"
+      ],
+      "prompt": "Complete the pattern to build a new list by iterating over colors: colors = ['red', 'green', 'blue']\nnew_list = []\nfor ___ in colors:\n    new_list.append(___.upper())",
+      "correct_answer": "color",
+      "accepted_answers": [
+        "color",
+        "c",
+        "item",
+        "element"
+      ],
+      "explanation": "The loop variable 'color' (or any valid name) represents each string in colors during iteration. Calling .upper() on it converts each color name to uppercase before appending to new_list.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.6_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "iterating_over_lists_algorithm",
+      "prerequisites": [
+        "8.6_q16"
+      ],
+      "prompt": "Arrange the lines to find and print the first even number in the list. Lines:\n    evens = [n for n in nums if n % 2 == 0]\n    nums = [1, 3, 4, 5, 6]\n    print(first)\n    for n in nums:\n        if n % 2 == 0:\n            first = n\n            break",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The list must exist before the loop. The loop checks each element for evenness, stores the first match, breaks to avoid extra work, and then the result is printed. Indentation must reflect the loop and conditional blocks.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.6_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "iterating_over_lists_idioms",
+      "prerequisites": [
+        "8.6_q17"
+      ],
+      "prompt": "Complete the idiom to sum all values in values: values = [5, 10, 15]\ntotal = ___ for v in values\nprint(total)",
+      "correct_answer": "sum(v for v in values)",
+      "accepted_answers": [
+        "sum(v for v in values)",
+        "sum([v for v in values])"
+      ],
+      "explanation": "A generator expression inside sum() is a common Python idiom: sum(v for v in values) iterates lazily and adds each v. Alternatively, sum([v for v in values]) works but creates an intermediate list.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.6_q19",
+      "type": "fix_the_code",
+      "concept": "iterating_over_lists_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Pitfalls When Iterating Over Lists",
+        "content": "When iterating over a list in Python, several common errors can occur. One frequent mistake is modifying the list while iterating over it, which can lead to skipped elements or unexpected behavior. Another issue is using the wrong variable names, such as confusing the list itself with an element during the loop. Additionally, attempting to access an index that does not exist will raise an IndexError. Always ensure that your loop variable refers to the element you intend to process, and avoid altering the list's size during iteration unless you explicitly use a copy or rebuild the list afterward.\n\nExample of a safe iteration pattern:\n```python\nmessages = ['hello', 'world', 'python']\nfor msg in messages:\n    print('Processing:', msg)\n```\nNotice how we loop directly over the list without modifying it inside the loop."
+      },
+      "prompt": "Fix the bug in this code for iterating over lists errors:",
+      "starter_code": "# Fix this code\nPrint('Iterating Over Lists')",
+      "solution_code": "print('Iterating Over Lists')",
+      "explanation": "This exercise tests `iterating over lists errors` in Iterating Over Lists. When Python validates this code, it applies the standard rules of iterating over lists errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "8.6_q20",
+      "type": "fix_the_code",
+      "concept": "iterating_over_lists_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.6_q19"
+      ],
+      "prompt": "The code below is intended to print each number in the list, but it contains a simple error.",
+      "starter_code": "numbers = [10, 20, 30]\nfor n in numbers:\n    print(n + 1)\nprint('Done')",
+      "solution_code": "numbers = [10, 20, 30]\nfor n in numbers:\n    print(n + 1)\nprint('Done')",
+      "hint": "Check whether the loop variable is being used correctly and whether the output matches the intended behavior.",
+      "explanation": "The original code is actually correct and produces the expected output. However, if the intended goal was to print each number without adding 1, the fix would be to change `print(n + 1)` to `print(n)`. In this case, since the specification is to display each element, the code is valid as written. Always verify the expected output before making changes."
+    },
+    {
+      "id": "8.6_q21",
+      "type": "fix_the_code",
+      "concept": "iterating_over_lists_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q20"
+      ],
+      "prompt": "This function should return the sum of all elements in a list, but it fails on edge cases such as an empty list.",
+      "starter_code": "def sum_list(values):\n    total = 0\n    for v in values:\n        total += v\n    return total\n\nprint(sum_list([]))",
+      "solution_code": "def sum_list(values):\n    total = 0\n    for v in values:\n        total += v\n    return total\n\nprint(sum_list([]))",
+      "hint": "Consider what happens when the input list has no elements and whether the loop body executes at all.",
+      "explanation": "The function already handles an empty list correctly because the for loop simply does not execute, leaving `total` at 0, which is the correct sum. If the bug were that the function raised an error or returned `None`, the fix would involve ensuring the return statement is outside the loop. In this scenario, the code is valid, but learners should recognize that iterating over an empty list safely yields no iterations."
+    },
+    {
+      "id": "8.6_q22",
+      "type": "fix_the_code",
+      "concept": "iterating_over_lists_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors During List Iteration",
+        "content": "Runtime errors often appear when a program attempts to access a list index that does not exist. The `range()` function is commonly used to iterate by index, but its upper bound must be carefully chosen. If you use `range(len(my_list))`, the valid indices are from 0 to `len(my_list) - 1`. Accessing `my_list[len(my_list)]` will raise an `IndexError`. Another runtime issue is using a variable that was reassigned inside the loop, causing later iterations to behave unexpectedly. Always validate that your index stays within bounds before using it to access list elements.\n\nSafe index-based iteration:\n```python\nitems = ['a', 'b', 'c']\nfor i in range(len(items)):\n    print(items[i])\n```\nThis avoids out-of-bounds access because `range(len(items))` produces 0, 1, and 2, which are valid indices."
+      },
+      "prompt": "Fix the bug in this code for iterating over lists runtime:",
+      "starter_code": "# Fix this code\nPrint('Iterating Over Lists')",
+      "solution_code": "print('Iterating Over Lists')",
+      "explanation": "This exercise tests `iterating over lists runtime` in Iterating Over Lists. When Python validates this code, it applies the standard rules of iterating over lists runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "8.6_q23",
+      "type": "fix_the_code",
+      "concept": "iterating_over_lists_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q22"
+      ],
+      "prompt": "The goal is to print only even numbers from a list and stop when an odd number is encountered. The current implementation prints all numbers instead.",
+      "starter_code": "numbers = [2, 4, 6, 3, 8, 10]\nfor n in numbers:\n    if n % 2 == 0:\n        print(n)\nprint('Finished')",
+      "solution_code": "numbers = [2, 4, 6, 3, 8, 10]\nfor n in numbers:\n    if n % 2 == 0:\n        print(n)\n    else:\n        break\nprint('Finished')",
+      "hint": "You need to exit the loop early when an odd number is found. Review Python keywords that terminate loop execution.",
+      "explanation": "The original code lacks a mechanism to stop processing once an odd number appears. By adding `else: break` after the even-number check, the loop terminates immediately upon encountering the first odd value (3 in this case). This ensures only even numbers up to the first odd number are printed, matching the required logic."
+    },
+    {
+      "id": "8.6_q24",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.6_q23"
+      ],
+      "prompt": "Refactor the following code to improve efficiency and readability while preserving the same output.",
+      "starter_code": "results = []\nfor x in data:\n    if x > 0:\n        results.append(x * 2)\nreturn results",
+      "solution_code": "return [x * 2 for x in data if x > 0]",
+      "test_cases": [
+        {
+          "input": "[1, -2, 3, 0, 4]",
+          "expected": "[2, 6, 8]"
+        },
+        {
+          "input": "[]",
+          "expected": "[]"
+        },
+        {
+          "input": "[-5, -1, -10]",
+          "expected": "[]"
+        }
+      ],
+      "hint": "Consider a more concise Python construct that combines iteration, filtering, and transformation in a single expression.",
+      "explanation": "The original code uses an explicit loop with an intermediate list and conditional append, which is verbose and slightly less efficient due to repeated method calls. The list comprehension `[x * 2 for x in data if x > 0]` performs the same filtering and transformation in one readable line. It avoids the overhead of `append` and clearly expresses the intent: produce doubled positive values. For very large datasets, a generator expression `(x * 2 for x in data if x > 0)` could be used to defer computation, but since the return type is a list, the list comprehension is the optimal refactoring."
+    },
+    {
+      "id": "8.6_q25",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q24"
+      ],
+      "prompt": "Write a Python program that iterates over the list of fruits and prints each fruit on a separate line.",
+      "starter_code": "fruits = ['apple', 'banana', 'cherry']\nfor item in fruits:\n    # TODO: print each fruit\n",
+      "solution_code": "fruits = ['apple', 'banana', 'cherry']\nfor item in fruits:\n    print(item)",
+      "test_cases": [
+        {
+          "input": "fruits = ['apple', 'banana', 'cherry']",
+          "expected_output": "apple\nbanana\ncherry"
+        }
+      ],
+      "hint": "Use a for loop to access each element in the list, then use the print function to display it.",
+      "explanation": "A for loop in Python iterates over each element in an iterable such as a list. Inside the loop, the variable item holds the current element during each iteration. The print function outputs the value to the console."
+    },
+    {
+      "id": "8.6_q26",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.6_q25"
+      ],
+      "prompt": "Write a Python program that iterates over a list of names and prints a personalized greeting for each name.",
+      "starter_code": "names = ['Alice', 'Bob', 'Charlie']\nfor name in names:\n    # TODO: print a greeting\n",
+      "solution_code": "names = ['Alice', 'Bob', 'Charlie']\nfor name in names:\n    print('Hello, ' + name + '!')",
+      "test_cases": [
+        {
+          "input": "names = ['Alice', 'Bob', 'Charlie']",
+          "expected_output": "Hello, Alice!\nHello, Bob!\nHello, Charlie!"
+        }
+      ],
+      "hint": "Concatenate strings using the + operator to build a greeting message inside the loop.",
+      "explanation": "During each iteration, the variable name is assigned the current list element. String concatenation with + allows combining literal text and the variable value to produce a customized message."
+    },
+    {
+      "id": "8.6_q27",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.6_q26"
+      ],
+      "prompt": "Write a Python program that iterates over a list of numbers, squares only the even numbers, and stores the results in a new list called squared_evens.",
+      "starter_code": "numbers = [1, 2, 3, 4, 5, 6]\nsquared_evens = []\nfor num in numbers:\n    # TODO: check if even and append square\n",
+      "solution_code": "numbers = [1, 2, 3, 4, 5, 6]\nsquared_evens = []\nfor num in numbers:\n    if num % 2 == 0:\n        squared_evens.append(num ** 2)",
+      "test_cases": [
+        {
+          "input": "numbers = [1, 2, 3, 4, 5, 6]",
+          "expected_output": "squared_evens == [4, 16, 36]"
+        }
+      ],
+      "hint": "Use the modulo operator % to test for evenness, then use append to add the squared value to the new list.",
+      "explanation": "The modulo operator returns the remainder of division. When num % 2 equals 0, the number is even. The ** operator computes the power, and append adds the computed square to the result list."
+    },
+    {
+      "id": "8.6_q28",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.6_q27"
+      ],
+      "prompt": "Write a Python program that iterates over a list of temperatures in Celsius and converts each to Fahrenheit, storing the results in a new list.",
+      "starter_code": "celsius = [0, 10, 20, 30]\nfahrenheit = []\nfor temp in celsius:\n    # TODO: convert and append\n",
+      "solution_code": "celsius = [0, 10, 20, 30]\nfahrenheit = []\nfor temp in celsius:\n    fahrenheit.append(temp * 9 / 5 + 32)",
+      "test_cases": [
+        {
+          "input": "celsius = [0, 10, 20, 30]",
+          "expected_output": "fahrenheit == [32.0, 50.0, 68.0, 86.0]"
+        }
+      ],
+      "hint": "Recall that Fahrenheit = Celsius * 9/5 + 32. Use a for loop to process each value and append the converted result.",
+      "explanation": "Each element in the original list is processed individually. The arithmetic expression computes the Fahrenheit equivalent, and append preserves the order of converted values in the output list."
+    },
+    {
+      "id": "8.6_q29",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.6_q28"
+      ],
+      "prompt": "You are building a simple inventory tracker. Write a Python program that reads a list of item names, removes any leading or trailing whitespace from each name, and prints the cleaned inventory.",
+      "starter_code": "raw_inventory = [' apple ', 'banana', '  cherry  ']\ncleaned_inventory = []\nfor item in raw_inventory:\n    # TODO: strip whitespace and append cleaned item\n",
+      "solution_code": "raw_inventory = [' apple ', 'banana', '  cherry  ']\ncleaned_inventory = []\nfor item in raw_inventory:\n    cleaned_inventory.append(item.strip())",
+      "test_cases": [
+        {
+          "input": "raw_inventory = [' apple ', 'banana', '  cherry  ']",
+          "expected_output": "cleaned_inventory == ['apple', 'banana', 'cherry']"
+        }
+      ],
+      "hint": "The strip method removes whitespace from both ends of a string. Call it on each item before appending to the cleaned list.",
+      "explanation": "Real-world data often contains formatting inconsistencies such as extra spaces. Iterating over the list allows systematic cleaning, and strip normalizes each string for reliable downstream processing."
+    },
+    {
+      "id": "8.6_q30",
+      "type": "write_the_code",
+      "concept": "iterating_over_lists_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.6_q29"
+      ],
+      "prompt": "Write a Python program that iterates over a list of student records, where each record is a list containing a name and a score. Compute and print the average score for all students.",
+      "starter_code": "students = [['Alice', 85], ['Bob', 90], ['Charlie', 78]]\ntotal = 0\ncount = 0\nfor record in students:\n    # TODO: extract score, accumulate, and compute average\n",
+      "solution_code": "students = [['Alice', 85], ['Bob', 90], ['Charlie', 78]]\ntotal = 0\ncount = 0\nfor record in students:\n    total += record[1]\n    count += 1\naverage = total / count\nprint('Average score:', average)",
+      "test_cases": [
+        {
+          "input": "students = [['Alice', 85], ['Bob', 90], ['Charlie', 78]]",
+          "expected_output": "Average score: 84.33333333333333"
+        }
+      ],
+      "hint": "Each record is a list; the score is at index 1. Accumulate scores and counts separately, then divide total by count after the loop.",
+      "explanation": "Nested list structures are common when modeling tabular data. By indexing into each inner list during iteration, we aggregate values across records and derive summary statistics such as the mean."
+    }
+  ],
+  "unit_num": 8,
+  "learning_objectives": [
+    "Initialize and manipulate Python Iterating Over Lists collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "8.5"
+  ]
+}

@@ -1,0 +1,674 @@
+{
+  "lesson_id": "37.3",
+  "title": "Sorting Concepts and Algorithms",
+  "unit": "DSA: Searching and Sorting",
+  "items": [
+    {
+      "id": "37.3_q1",
+      "idx": 1,
+      "type": "micro_lesson",
+      "concept": "sorting_concepts_and_algorithms_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Sorting?",
+      "content": "Sorting is the process of arranging data in a specific order, such as ascending or descending. In Python, you can sort lists using built-in methods like `sort()` for in-place sorting or `sorted()` to return a new sorted list. For example, given the list `[3, 1, 4, 1, 5]`, applying `sorted()` returns `[1, 1, 3, 4, 5]`. Understanding sorting is essential because it improves search efficiency and makes data easier to analyze. Common sorting algorithms include Bubble Sort, Selection Sort, and Merge Sort, each with different performance characteristics. Always choose the right algorithm based on your data size and requirements.",
+      "prompt": "",
+      "explanation": "Sorting is the process of arranging data in a specific order, such as ascending or descending. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "37.3_q2",
+      "idx": 2,
+      "type": "multiple_choice",
+      "concept": "sorting_concepts_and_algorithms_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q1"
+      ],
+      "prompt": "Which of the following best describes sorting in programming?",
+      "options": [
+        "Rearranging data into a specified order",
+        "Deleting duplicate elements from a list",
+        "Searching for a specific value in a list",
+        "Converting a list into a dictionary"
+      ],
+      "correct_answer": "Rearranging data into a specified order",
+      "explanation": "Sorting specifically refers to organizing elements in a sequence, typically ascending or descending order. The other options describe different operations: removing duplicates, searching, and type conversion."
+    },
+    {
+      "id": "37.3_q3",
+      "idx": 3,
+      "type": "micro_lesson",
+      "concept": "sorting_concepts_and_algorithms_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q2"
+      ],
+      "title": "Python Sorting Syntax",
+      "content": "Python provides two primary ways to sort lists. The `sort()` method modifies the list in place and returns `None`. For example: `my_list = [5, 2, 9]; my_list.sort()` results in `[2, 5, 9]`. The `sorted()` function returns a new sorted list without altering the original. For example: `original = [5, 2, 9]; new_list = sorted(original)` keeps `original` unchanged and assigns `[2, 5, 9]` to `new_list`. You can also use the `key` parameter to customize sorting. For instance, `sorted(['apple', 'Banana', 'cherry'], key=str.lower)` sorts strings case-insensitively. Remember that `sort()` is efficient for in-place operations, while `sorted()` is safer when you need to preserve the original data.",
+      "prompt": "",
+      "explanation": "Python provides two primary ways to sort lists. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "37.3_q4",
+      "idx": 4,
+      "type": "multiple_choice",
+      "concept": "sorting_concepts_and_algorithms_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q3"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nlst = [3, 1, 2]\nlst.sort()\nprint(lst)\n```",
+      "options": [
+        "[3, 1, 2]",
+        "[1, 2, 3]",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "[1, 2, 3]",
+      "explanation": "`sort()` modifies `lst` in place to `[1, 2, 3]`, and `print(lst)` displays that value. It does not return anything, so the output is the sorted list."
+    },
+    {
+      "id": "37.3_q5",
+      "idx": 5,
+      "type": "multiple_choice",
+      "concept": "sorting_concepts_and_algorithms_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q4"
+      ],
+      "prompt": "Match the sorting method to its description.",
+      "options": [
+        "sort(): returns a new sorted list; sorted(): sorts in place",
+        "sort(): sorts in place; sorted(): returns a new sorted list",
+        "sort(): only works on strings; sorted(): only works on numbers",
+        "sort(): requires a key; sorted(): never uses a key"
+      ],
+      "correct_answer": "sort(): sorts in place; sorted(): returns a new sorted list",
+      "explanation": "The `sort()` method mutates the original list, while `sorted()` is a built-in function that produces a new sorted list, leaving the original unchanged."
+    },
+    {
+      "id": "37.3_q6",
+      "idx": 6,
+      "type": "multiple_choice",
+      "concept": "sorting_concepts_and_algorithms_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q5"
+      ],
+      "prompt": "Which statement correctly identifies a common pitfall when using `sort()`?",
+      "options": [
+        "It raises an error if the list contains mixed types",
+        "It returns None, so assigning its result to a variable yields None",
+        "It only sorts in descending order by default",
+        "It cannot be used on lists created with `list()`"
+      ],
+      "correct_answer": "It returns None, so assigning its result to a variable yields None",
+      "explanation": "A frequent mistake is writing `new_list = lst.sort()`, which assigns `None` to `new_list`. Since `sort()` sorts in place, you should call it directly on the list without assignment."
+    },
+    {
+      "id": "37.3_q7",
+      "idx": 7,
+      "type": "code_prediction",
+      "concept": "sorting_concepts_and_algorithms_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q6"
+      ],
+      "prompt": "What will the following Python code print?\n```python\nlst = [5, 2, 8, 1]\nlst.sort()\nprint(lst)\n```",
+      "options": [
+        "The original list remains unchanged: [5, 2, 8, 1]",
+        "A sorted copy is returned: [1, 2, 5, 8]",
+        "The list is sorted in place: [1, 2, 5, 8]",
+        "An error occurs because sort() requires a new list"
+      ],
+      "correct_answer": "The list is sorted in place: [1, 2, 5, 8]",
+      "explanation": "The sort() method sorts the list in place and returns None. After calling lst.sort(), lst becomes [1, 2, 5, 8]. The print statement displays this modified list."
+    },
+    {
+      "id": "37.3_q8",
+      "idx": 8,
+      "type": "output_prediction",
+      "concept": "sorting_concepts_and_algorithms_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q7"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nnumbers = [3, 1, 4, 1, 5]\nnumbers.reverse()\nprint(numbers)\n```",
+      "options": [
+        "[5, 1, 4, 1, 3]",
+        "[1, 5, 4, 1, 3]",
+        "[3, 1, 4, 1, 5]",
+        "None"
+      ],
+      "correct_answer": "[5, 1, 4, 1, 3]",
+      "explanation": "The reverse() method reverses the elements of the list in place. Starting from [3, 1, 4, 1, 5], the reversed order is [5, 1, 4, 1, 3]."
+    },
+    {
+      "id": "37.3_q9",
+      "idx": 9,
+      "type": "code_prediction",
+      "concept": "sorting_concepts_and_algorithms_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q8"
+      ],
+      "prompt": "Consider this code snippet:\n```python\ndef is_sorted(arr):\n    for i in range(len(arr) - 1):\n        if arr[i] > arr[i + 1]:\n            return False\n    return True\n\narr = [10, 20, 30]\nprint(is_sorted(arr))\n```\nWhat value is printed?",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "10"
+      ],
+      "correct_answer": "True",
+      "explanation": "The function checks each adjacent pair. Since 10 <= 20 and 20 <= 30, no early return False is triggered, so the function returns True, which is printed."
+    },
+    {
+      "id": "37.3_q10",
+      "idx": 10,
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q9"
+      ],
+      "title": "Comparing Sorting Approaches",
+      "content": "When analyzing sorting algorithms, it is essential to understand how they behave on different data patterns. Python's built-in Timsort is a hybrid stable sorting algorithm derived from merge sort and insertion sort. It performs well on many real-world datasets because it detects already-sorted runs. In contrast, bubble sort repeatedly swaps adjacent elements and has a worst-case time complexity of O(n^2), making it inefficient for large inputs. Selection sort finds the minimum element in each pass and also runs in O(n^2). Understanding these trade-offs helps you choose the right tool for a given problem. Below is a simple comparison using Python:\n\n```python\ndef bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\narr = [64, 34, 25, 12, 22, 11, 90]\nbubble_sort(arr)\nprint(arr)\n```\nThis code sorts the list in place using the bubble sort method, illustrating its iterative swapping behavior.",
+      "prompt": "Write Python code to solve this challenge for Sorting Concepts and Algorithms:",
+      "starter_code": "# TODO: Implement solution for Sorting Concepts and Algorithms\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Sorting Concepts and Algorithms')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Sorting Concepts and Algorithms"
+        }
+      ],
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "37.3_q11",
+      "idx": 11,
+      "type": "code_prediction",
+      "concept": "sorting_concepts_and_algorithms_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q10"
+      ],
+      "prompt": "Trace the execution of this code and determine the final state of the list.\n```python\nitems = [9, 4, 2, 7]\nfor i in range(len(items) - 1):\n    if items[i] > items[i + 1]:\n        items[i], items[i + 1] = items[i + 1], items[i]\nprint(items)\n```",
+      "options": [
+        "[4, 2, 7, 9]",
+        "[4, 7, 2, 9]",
+        "[2, 4, 7, 9]",
+        "[4, 2, 7, 9]"
+      ],
+      "correct_answer": "[4, 2, 7, 9]",
+      "explanation": "The loop runs for i = 0, 1, 2. At i = 0, 9 > 4, so swap to get [4, 9, 2, 7]. At i = 1, 9 > 2, so swap to get [4, 2, 9, 7]. At i = 2, 9 > 7, so swap to get [4, 2, 7, 9]. This is one pass of bubble sort, not a fully sorted list."
+    },
+    {
+      "id": "37.3_q12",
+      "idx": 12,
+      "type": "output_prediction",
+      "concept": "sorting_concepts_and_algorithms_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q11"
+      ],
+      "prompt": "What does this code output?\n```python\nstudents = [\n    {'name': 'Alice', 'score': 88},\n    {'name': 'Bob', 'score': 92},\n    {'name': 'Charlie', 'score': 88}\n]\nstudents.sort(key=lambda x: x['score'])\nprint(students)\n```",
+      "options": [
+        "[{'name': 'Alice', 'score': 88}, {'name': 'Charlie', 'score': 88}, {'name': 'Bob', 'score': 92}]",
+        "[{'name': 'Bob', 'score': 92}, {'name': 'Alice', 'score': 88}, {'name': 'Charlie', 'score': 88}]",
+        "[{'name': 'Charlie', 'score': 88}, {'name': 'Alice', 'score': 88}, {'name': 'Bob', 'score': 92}]",
+        "Error"
+      ],
+      "correct_answer": "[{'name': 'Alice', 'score': 88}, {'name': 'Charlie', 'score': 88}, {'name': 'Bob', 'score': 92}]",
+      "explanation": "Python's `sort()` sorts in ascending order by default. Scores 88 come before 92. Since Python's Timsort is stable, Alice remains before Charlie."
+    },
+    {
+      "id": "37.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_concepts_and_algorithms_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q12"
+      ],
+      "micro_lesson": {
+        "title": "Using the sort() Method",
+        "content": "The list.sort() method sorts a list in place. It modifies the original list and returns None. This is useful when you want to reorder elements without creating a new list. For example:\n\n```python\nmy_list = [3, 1, 4, 2]\nmy_list.sort()\nprint(my_list)  # Output: [1, 2, 3, 4]\n```\n\nRemember that sort() works directly on the list and does not return the sorted list."
+      },
+      "prompt": "Complete the code to sort the list in ascending order using the built-in method: nums = [5, 2, 9]; nums.___()",
+      "correct_answer": "sort",
+      "accepted_answers": [
+        "sort"
+      ],
+      "explanation": "The method nums.sort() sorts the list in place. It is a built-in list method and must be called with empty parentheses."
+    },
+    {
+      "idx": 14,
+      "id": "37.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_concepts_and_algorithms_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q13"
+      ],
+      "micro_lesson": {
+        "title": "Reversing and Sorting with Keywords",
+        "content": "Python's sort() and sorted() functions accept a reverse parameter. When set to True, the sequence is ordered from highest to lowest. The default is False for ascending order. Example:\n\n```python\nlst = [1, 3, 2]\nlst.sort(reverse=___)  # To get [3, 2, 1]\n```\n\nUsing reverse=True changes the order without needing a separate reverse() call."
+      },
+      "prompt": "Fill in the blank to sort the list in descending order: scores = [10, 7, 9]; scores.sort(reverse=___)",
+      "correct_answer": "True",
+      "accepted_answers": [
+        "True",
+        "true"
+      ],
+      "explanation": "The reverse parameter accepts a boolean. True sorts in descending order, while False (the default) sorts in ascending order."
+    },
+    {
+      "idx": 15,
+      "id": "37.3_q15",
+      "type": "code_ordering",
+      "concept": "sorting_concepts_and_algorithms_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q14"
+      ],
+      "micro_lesson": {
+        "title": "Order of Operations in Sorting",
+        "content": "When sorting, you must first ensure the data is in a mutable sequence, then apply the sort operation, and finally inspect or use the result. A common sequence is:\n\n1. Create or load a list.\n2. Call the sort method or use sorted().\n3. Access elements or print the result.\n\nExample:\n\n```python\nvalues = [4, 1, 3]\nvalues.sort()\nprint(values[0])\n```\n\nSkipping the sort step leads to incorrect output."
+      },
+      "prompt": "Arrange the following lines in the correct order to print the smallest element of a sorted list:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The list must be created first, then sorted, and finally the first element is accessed. Printing before sorting would return the original first element, not the minimum."
+    },
+    {
+      "idx": 16,
+      "id": "37.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_concepts_and_algorithms_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q15"
+      ],
+      "micro_lesson": {
+        "title": "Sorting Complex Data with Key Functions",
+        "content": "When sorting non-numeric data, use the key parameter with a function or lambda. The key function is called on each element, and sorting is based on the returned value. Example:\n\n```python\npeople = [('Alice', 30), ('Bob', 25), ('Carol', 35)]\npeople.sort(key=lambda x: x[___])  # Sort by age\n```\n\nThe index inside the lambda determines which tuple element is used for comparison."
+      },
+      "prompt": "Complete the lambda to sort the list of tuples by the second item (age): pairs = [('A', 10), ('B', 5)]; pairs.sort(key=lambda x: x[___])",
+      "correct_answer": "1",
+      "accepted_answers": [
+        "1",
+        "index_1"
+      ],
+      "explanation": "Tuple indices start at 0. The second item is at index 1, so the lambda should reference x[1] to sort by age."
+    },
+    {
+      "idx": 17,
+      "id": "37.3_q17",
+      "type": "code_ordering",
+      "concept": "sorting_concepts_and_algorithms_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q16"
+      ],
+      "micro_lesson": {
+        "title": "Bubble Sort Step-by-Step",
+        "content": "Bubble sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until no swaps are needed. A basic implementation uses nested loops:\n\n```python\ndef bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n```\n\nNotice that the inner loop shrinks by one each outer iteration because the largest elements settle at the end."
+      },
+      "prompt": "Arrange the lines to correctly implement one pass of bubble sort that swaps adjacent out-of-order elements:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The comparison must happen first. If it is true, the swap occurs. Then j increments to move to the next adjacent pair. The swap before the condition is incorrect."
+    },
+    {
+      "idx": 18,
+      "id": "37.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_concepts_and_algorithms_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Sorting with sorted()",
+        "content": "The sorted() built-in returns a new sorted list and leaves the original unchanged. It is often used with list comprehensions or directly on iterables. A common idiom is to sort in one expression:\n\n```python\nnums = [5, 2, 8]\nsorted_nums = sorted(nums)  # Returns a new list\n```\n\nWhen you need the original list preserved, prefer sorted() over sort()."
+      },
+      "prompt": "Complete the statement to create a new sorted list without modifying the original: original = [9, 4, 6]; new_list = ___",
+      "correct_answer": "sorted(original)",
+      "accepted_answers": [
+        "sorted(original)",
+        "sorted(original)"
+      ],
+      "explanation": "sorted(original) returns a new sorted list. Using original.sort() would modify the list in place and return None, which is not what the prompt asks for."
+    },
+    {
+      "id": "37.3_q19",
+      "type": "fix_the_code",
+      "concept": "sorting_concepts_and_algorithms_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q18"
+      ],
+      "prompt": "A student wrote a function to sort a list using selection sort, but it fails on some inputs. Identify the bug.",
+      "starter_code": "def selection_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr\n\nprint(selection_sort([3, 1, 2]))",
+      "solution_code": "def selection_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr\n\nprint(selection_sort([3, 1, 2]))",
+      "hint": "The function returns the sorted list, but the output shown is incorrect. Trace the loop indices and swap logic carefully.",
+      "explanation": "The provided code is actually correct for the given input. However, the common bug is forgetting to return the list or mutating it unexpectedly. In this case, the real issue is that the function modifies the original list in place and returns it, which is valid, but if the student expected a new list, they should copy first. The correct behavior for this implementation is that it sorts in place and returns the same list object."
+    },
+    {
+      "id": "37.3_q20",
+      "type": "fix_the_code",
+      "concept": "sorting_concepts_and_algorithms_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.3_q19"
+      ],
+      "prompt": "Fix the broken bubble sort implementation so it correctly sorts a list in ascending order.",
+      "starter_code": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(n):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\nprint(bubble_sort([5, 2, 8]))",
+      "solution_code": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(n - 1 - i):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\nprint(bubble_sort([5, 2, 8]))",
+      "hint": "The inner loop goes out of bounds and performs unnecessary comparisons. Adjust the range to avoid index errors and redundant passes.",
+      "explanation": "The original inner loop used range(n), which causes an IndexError when j reaches n-1 and accesses arr[j + 1]. The fix reduces the range to n - 1 - i because after each outer pass, the largest element settles at the end, eliminating the need to re-check sorted positions."
+    },
+    {
+      "id": "37.3_q21",
+      "type": "fix_the_code",
+      "concept": "sorting_concepts_and_algorithms_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q20"
+      ],
+      "prompt": "This merge sort implementation crashes on empty lists and duplicates. Correct it.",
+      "starter_code": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\ndef merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result\n\nprint(merge_sort([]))",
+      "solution_code": "def merge_sort(arr):\n    if arr is None or len(arr) <= 1:\n        return arr if arr is not None else []\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\ndef merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result\n\nprint(merge_sort([]))\nprint(merge_sort([2, 2, 1]))",
+      "hint": "Check for None input and ensure the base case handles empty lists safely. Duplicates are already handled by <=, but verify the merge step.",
+      "explanation": "The original code returned None when given None, causing an error. The fix adds a guard for None and ensures an empty list returns []. The merge logic already preserves duplicates via <=, so no change was needed there."
+    },
+    {
+      "id": "37.3_q22",
+      "type": "fix_the_code",
+      "concept": "sorting_concepts_and_algorithms_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q21"
+      ],
+      "prompt": "A recursive quicksort implementation is extremely slow on nearly sorted data. Diagnose the runtime issue.",
+      "starter_code": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    left = [x for x in arr[1:] if x <= pivot]\n    right = [x for x in arr[1:] if x > pivot]\n    return quicksort(left) + [pivot] + quicksort(right)\n\nprint(quicksort([1, 2, 3, 4, 5]))",
+      "solution_code": "def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)\n\nprint(quicksort([1, 2, 3, 4, 5]))",
+      "hint": "The pivot choice leads to unbalanced partitions on sorted input. A better pivot strategy avoids worst-case O(n^2) behavior.",
+      "explanation": "Choosing arr[0] as the pivot on already sorted data creates one empty partition and one of size n-1, yielding O(n^2) time. Selecting the middle element or using a randomized pivot balances partitions, improving average-case performance to O(n log n)."
+    },
+    {
+      "id": "37.3_q23",
+      "type": "fix_the_code",
+      "concept": "sorting_concepts_and_algorithms_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q22"
+      ],
+      "prompt": "Repair the insertion sort so it correctly shifts elements and inserts the key at the right position.",
+      "starter_code": "def insertion_sort(arr):\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0 and arr[j] > key:\n            arr[j] = arr[j - 1]\n            j -= 1\n        arr[j + 1] = key\n    return arr\n\nprint(insertion_sort([4, 2, 5, 1]))",
+      "solution_code": "def insertion_sort(arr):\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0 and arr[j] > key:\n            arr[j + 1] = arr[j]\n            j -= 1\n        arr[j + 1] = key\n    return arr\n\nprint(insertion_sort([4, 2, 5, 1]))",
+      "hint": "The assignment inside the while loop shifts elements in the wrong direction, overwriting data. Adjust the target index.",
+      "explanation": "The buggy line arr[j] = arr[j - 1] overwrites the element at j before it can be shifted further left, causing data loss. The correct shift is arr[j + 1] = arr[j], which moves each larger element one position to the right, preserving the key at arr[i] until the loop exits."
+    },
+    {
+      "id": "37.3_q24",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.3_q23"
+      ],
+      "prompt": "Refactor the following inefficient sorting utility to reduce memory overhead and improve readability while preserving correctness.",
+      "starter_code": "def sort_numbers(numbers):\n    result = []\n    for num in numbers:\n        result.append(num)\n    for i in range(len(result)):\n        for j in range(i + 1, len(result)):\n            if result[i] > result[j]:\n                temp = result[i]\n                result[i] = result[j]\n                result[j] = temp\n    return result\n\nprint(sort_numbers([9, 3, 7]))",
+      "solution_code": "def sort_numbers(numbers):\n    return sorted(numbers)\n\nprint(sort_numbers([9, 3, 7]))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[1, 2, 3]",
+          "description": "[1, 2, 3]"
+        },
+        {
+          "input": "",
+          "expected_output": "[]",
+          "description": "[]"
+        },
+        {
+          "input": "",
+          "expected_output": "[-5, 0, 5]",
+          "description": "[-5, 0, 5]"
+        },
+        {
+          "input": "",
+          "expected_output": "[100, 10, 50]",
+          "description": "[100, 10, 50]"
+        }
+      ],
+      "hint": "Consider Python's built-in sorting capabilities and whether an in-place sort or a new list is more appropriate for the use case.",
+      "explanation": "The original implementation uses O(n^2) time and O(n) extra space for a copy. The refactored version leverages Timsort via sorted(), which runs in O(n log n) average time and is implemented in C, making it significantly faster and more memory-efficient for typical inputs. If in-place modification is required, list.sort() can be used instead."
+    },
+    {
+      "id": "37.3_q25",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q24"
+      ],
+      "prompt": "Write a Python function `bubble_sort(arr)` that sorts a list of integers in ascending order using the bubble sort algorithm.",
+      "starter_code": "def bubble_sort(arr):\n    n = len(arr)\n    # TODO: implement bubble sort\n    return arr",
+      "solution_code": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr",
+      "test_cases": [
+        {
+          "input": "[64, 34, 25, 12, 22, 11, 90]",
+          "expected": "[11, 12, 22, 25, 34, 64, 90]"
+        },
+        {
+          "input": "[]",
+          "expected": "[]"
+        },
+        {
+          "input": "[5, 5, 5]",
+          "expected": "[5, 5, 5]"
+        }
+      ],
+      "hint": "Compare adjacent elements and swap them if they are in the wrong order. Repeat this process until the list is sorted.",
+      "explanation": "Bubble sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until no swaps are needed, indicating that the list is sorted. Its time complexity is O(n^2) in the worst and average cases."
+    },
+    {
+      "id": "37.3_q26",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.3_q25"
+      ],
+      "prompt": "Write a Python function `count_inversions(arr)` that returns the total number of inversions in a list, where an inversion is a pair of indices (i, j) such that i < j and arr[i] > arr[j].",
+      "starter_code": "def count_inversions(arr):\n    count = 0\n    # TODO: count inversions\n    return count",
+      "solution_code": "def count_inversions(arr):\n    count = 0\n    n = len(arr)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] > arr[j]:\n                count += 1\n    return count",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3, 4, 5]",
+          "expected": "0"
+        },
+        {
+          "input": "[5, 4, 3, 2, 1]",
+          "expected": "10"
+        },
+        {
+          "input": "[1, 20, 6, 4, 5]",
+          "expected": "5"
+        }
+      ],
+      "hint": "Use nested loops to compare every pair of elements where the first index is less than the second index.",
+      "explanation": "An inversion indicates how far the array is from being sorted. Counting inversions is useful in measuring sorting difficulty and in applications like ranking systems. The brute-force approach runs in O(n^2) time."
+    },
+    {
+      "id": "37.3_q27",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.3_q26"
+      ],
+      "prompt": "Write a Python function `merge_sort(arr)` that sorts a list of integers in ascending order using the merge sort algorithm. Do not use Python's built-in sort.",
+      "starter_code": "def merge_sort(arr):\n    # TODO: implement merge sort recursively\n    return arr",
+      "solution_code": "def merge_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\ndef merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result",
+      "test_cases": [
+        {
+          "input": "[38, 27, 43, 3, 9, 82, 10]",
+          "expected": "[3, 9, 10, 27, 38, 43, 82]"
+        },
+        {
+          "input": "[1, 1, 1, 1]",
+          "expected": "[1, 1, 1, 1]"
+        },
+        {
+          "input": "[-5, 0, 5, -10]",
+          "expected": "[-10, -5, 0, 5]"
+        }
+      ],
+      "hint": "Divide the list into two halves recursively until each sublist has at most one element, then merge the sorted sublists back together.",
+      "explanation": "Merge sort is a divide-and-conquer algorithm with a guaranteed time complexity of O(n log n) in all cases. It is stable and works well for large datasets, though it requires O(n) auxiliary space."
+    },
+    {
+      "id": "37.3_q28",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.3_q27"
+      ],
+      "prompt": "Given a list of integers, determine whether it can be sorted in non-decreasing order by performing at most one swap of any two elements. Write a Python function `almost_sorted(arr)` that returns True if this is possible, otherwise False.",
+      "starter_code": "def almost_sorted(arr):\n    # TODO: determine if one swap can sort the list\n    return False",
+      "solution_code": "def almost_sorted(arr):\n    n = len(arr)\n    if n <= 1:\n        return True\n    sorted_arr = sorted(arr)\n    mismatches = []\n    for i in range(n):\n        if arr[i] != sorted_arr[i]:\n            mismatches.append(i)\n    if len(mismatches) == 0:\n        return True\n    if len(mismatches) == 2:\n        i, j = mismatches\n        arr[i], arr[j] = arr[j], arr[i]\n        return arr == sorted_arr\n    return False",
+      "test_cases": [
+        {
+          "input": "[1, 3, 2, 4, 5]",
+          "expected": "True"
+        },
+        {
+          "input": "[3, 2, 1]",
+          "expected": "False"
+        },
+        {
+          "input": "[1, 2, 3, 4]",
+          "expected": "True"
+        }
+      ],
+      "hint": "Compare the original list with its sorted version to find mismatched indices. If there are exactly two mismatches, swapping those elements may fix the list.",
+      "explanation": "This problem tests understanding of sorted order and the effect of a single swap. The optimal solution compares the list against its sorted form and checks whether zero or exactly two positions differ, which can be resolved by one swap."
+    },
+    {
+      "id": "37.3_q29",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.3_q28"
+      ],
+      "prompt": "You are building a leaderboard for an online coding competition. Contestant scores are streamed in real-time. You must maintain a ranked list of the top 100 contestants at all times. Describe in a short design note which sorting strategy you would choose and justify your choice with code that updates the leaderboard when a new score arrives.",
+      "starter_code": "# TODO: design a leaderboard that maintains top 100 scores efficiently\n\nscores = []\n\ndef update_leaderboard(new_score):\n    # insert new_score and keep only top 100\n    pass",
+      "solution_code": "import heapq\n\nscores = []\n\ndef update_leaderboard(new_score):\n    if len(scores) < 100:\n        heapq.heappush(scores, new_score)\n    elif new_score > scores[0]:\n        heapq.heapreplace(scores, new_score)\n    # scores now holds the 100 largest values in ascending order\n    return sorted(scores, reverse=True)\n\n# Example usage\nupdate_leaderboard(850)\nupdate_leaderboard(920)\nupdate_leaderboard(780)",
+      "test_cases": [
+        {
+          "input": "update_leaderboard(1000); update_leaderboard(500); update_leaderboard(750)",
+          "expected": "sorted top scores maintained"
+        },
+        {
+          "input": "update_leaderboard(400) repeated 100 times",
+          "expected": "leaderboard contains 100 values"
+        },
+        {
+          "input": "update_leaderboard(2000) when 100 scores exist",
+          "expected": "2000 replaces smallest score"
+        }
+      ],
+      "hint": "Consider the trade-off between insertion cost and retrieval cost. A min-heap of fixed size gives O(log k) insertion where k is the leaderboard size.",
+      "explanation": "For a dynamic top-k leaderboard, maintaining a min-heap of size k is more efficient than re-sorting the entire list on every update. Insertion is O(log k), whereas full sorting would be O(n log n). This balances real-time performance with correct ranking."
+    },
+    {
+      "id": "37.3_q30",
+      "type": "write_the_code",
+      "concept": "sorting_concepts_and_algorithms_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.3_q29"
+      ],
+      "prompt": "Implement an in-place merge sort that sorts a list of integers without using extra lists for merging. Write a Python function `in_place_merge_sort(arr)` and analyze its space complexity.",
+      "starter_code": "def in_place_merge_sort(arr):\n    # TODO: implement in-place merge sort\n    return arr",
+      "solution_code": "def in_place_merge_sort(arr):\n    _merge_sort(arr, 0, len(arr) - 1)\n\ndef _merge_sort(arr, left, right):\n    if left < right:\n        mid = (left + right) // 2\n        _merge_sort(arr, left, mid)\n        _merge_sort(arr, mid + 1, right)\n        _merge(arr, left, mid, right)\n\ndef _merge(arr, left, mid, right):\n    start = left\n    end = mid + 1\n    while start <= mid and end <= right:\n        if arr[start] <= arr[end]:\n            start += 1\n        else:\n            value = arr[end]\n            arr[start:end + 1] = arr[start:end] + [value]\n            start += 1\n            mid += 1\n            end += 1\n    if start > mid:\n        arr[start:end + 1] = arr[start:end]\n\ndef in_place_merge_sort(arr):\n    _merge_sort(arr, 0, len(arr) - 1)\n    return arr",
+      "test_cases": [
+        {
+          "input": "[64, 34, 25, 12, 22, 11, 90]",
+          "expected": "[11, 12, 22, 25, 34, 64, 90]"
+        },
+        {
+          "input": "[1, 2, 3, 4, 5]",
+          "expected": "[1, 2, 3, 4, 5]"
+        },
+        {
+          "input": "[-2, -5, 0, 3, -1]",
+          "expected": "[-5, -2, -1, 0, 3]"
+        }
+      ],
+      "hint": "After recursively sorting the two halves, merge them by shifting elements in place rather than allocating a temporary list.",
+      "explanation": "True in-place merge sort is complex and often has higher constant factors. The provided solution uses slice assignment to shift elements, achieving O(1) auxiliary space for the merge step at the cost of O(n) element movement. This demonstrates mastery of recursion, indexing, and space-time trade-offs."
+    }
+  ],
+  "unit_num": 37,
+  "learning_objectives": [
+    "Implement the fundamental Sorting Concepts and Algorithms algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "37.2"
+  ]
+}

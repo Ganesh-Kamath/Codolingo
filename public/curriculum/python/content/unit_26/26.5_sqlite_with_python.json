@@ -1,0 +1,663 @@
+{
+  "lesson_id": "26.5",
+  "title": "SQLite with Python (sqlite3)",
+  "unit": "Databases and SQL",
+  "items": [
+    {
+      "id": "26.5_q1",
+      "idx": 1,
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_basics",
+      "title": "Introduction to sqlite3 in Python",
+      "content": "The sqlite3 module is Python's built-in interface for working with SQLite databases. To use it, you first import the module, then connect to a database file using sqlite3.connect(). If the file does not exist, SQLite creates it automatically. The connection object allows you to create a cursor, which executes SQL commands. Here is a basic example:\n\nimport sqlite3\n\n# Connect to a database (creates it if it does not exist)\nconn = sqlite3.connect('example.db')\n\n# Create a cursor object\ncursor = conn.cursor()\n\n# Execute a simple SQL statement\ncursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)')\n\n# Commit the changes and close the connection\nconn.commit()\nconn.close()\n\nThis pattern—connect, create cursor, execute, commit, and close—is the foundation for all SQLite operations in Python.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "The sqlite3 module is Python's built-in interface for working with SQLite databases. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_basics",
+      "prompt": "Which of the following is the correct way to import the sqlite3 module in Python?",
+      "options": [
+        "import sqlite3",
+        "from sqlite3 import connect",
+        "include sqlite3",
+        "load sqlite3"
+      ],
+      "correct_answer": "import sqlite3",
+      "explanation": "The standard way to use SQLite in Python is to import the built-in sqlite3 module with the statement import sqlite3. The other options are not valid Python syntax for importing this module.",
+      "id": "26.5_q2",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q1"
+      ]
+    },
+    {
+      "idx": 3,
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_syntax",
+      "title": "Common sqlite3 Syntax Patterns",
+      "content": "When writing SQL inside Python, you typically use triple-quoted strings or single-quoted strings to avoid conflicts. The execute() method runs a single SQL statement. For queries that return data, you use fetchone() to get one row or fetchall() to get all rows. Parameters can be passed safely using placeholders like ? to prevent SQL injection. For example:\n\nimport sqlite3\n\nconn = sqlite3.connect('example.db')\ncursor = conn.cursor()\n\n# Insert data safely using a placeholder\ncursor.execute('INSERT INTO users (name) VALUES (?)', ('Alice',))\n\n# Query data\ncursor.execute('SELECT * FROM users WHERE name = ?', ('Alice',))\n\nresult = cursor.fetchone()\nprint(result)\n\nconn.commit()\nconn.close()\n\nNotice how the tuple ('Alice',) is passed as the second argument to execute(), keeping the SQL command separate from the data.",
+      "id": "26.5_q3",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q2"
+      ],
+      "prompt": "",
+      "explanation": "When writing SQL inside Python, you typically use triple-quoted strings or single-quoted strings to avoid conflicts. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_syntax",
+      "prompt": "Why is it safer to pass data as a tuple to cursor.execute() rather than formatting the string directly?",
+      "options": [
+        "It prevents SQL injection attacks",
+        "It makes the code run faster",
+        "It reduces memory usage",
+        "It allows the use of double quotes in SQL"
+      ],
+      "correct_answer": "It prevents SQL injection attacks",
+      "explanation": "Passing data as a tuple to cursor.execute() lets the database driver handle escaping, which stops malicious input from altering the SQL command. This is the primary security benefit of using parameterized queries.",
+      "id": "26.5_q4",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q3"
+      ]
+    },
+    {
+      "idx": 5,
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_matching",
+      "prompt": "Match the sqlite3 method to its purpose.",
+      "options": [
+        "fetchone() — retrieves all matching rows as a list of tuples",
+        "fetchall() — retrieves the next single row as a tuple",
+        "fetchone() — retrieves the next single row as a tuple",
+        "fetchall() — retrieves only the first column of the result"
+      ],
+      "correct_answer": "fetchone() — retrieves the next single row as a tuple",
+      "explanation": "fetchone() returns one row as a tuple, while fetchall() returns all remaining rows as a list of tuples. The other options incorrectly describe these methods.",
+      "id": "26.5_q5",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q4"
+      ]
+    },
+    {
+      "idx": 6,
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_pitfalls",
+      "prompt": "Which of the following is a common pitfall when using sqlite3 in Python?",
+      "options": [
+        "Forgetting to call conn.commit() after modifying data",
+        "Using fetchone() instead of fetchall() for large tables",
+        "Importing sqlite3 with an alias like import sqlite3 as db",
+        "Using single quotes around SQL strings"
+      ],
+      "correct_answer": "Forgetting to call conn.commit() after modifying data",
+      "explanation": "Changes made through cursor.execute() are not saved to the database until conn.commit() is called. If you forget this step, your insertions, updates, or deletions will be lost when the connection closes.",
+      "id": "26.5_q6",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q5"
+      ]
+    },
+    {
+      "id": "26.5_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "sqlite_with_python_sqlite3_execution",
+      "prerequisites": [
+        "26.5_q6"
+      ],
+      "prompt": "What will the following Python code output?\n\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE users (id INTEGER, name TEXT)\")\nprint(cursor.rowcount)",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "None"
+      ],
+      "correct_answer": "1",
+      "explanation": "cursor.rowcount returns the number of rows affected by the last executed statement. The CREATE TABLE statement creates one table, so rowcount is 1.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "26.5_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "sqlite_with_python_sqlite3_execution",
+      "prerequisites": [
+        "26.5_q7"
+      ],
+      "prompt": "What is the output of this code?\n\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE scores (name TEXT, score INTEGER)\")\ncursor.execute(\"INSERT INTO scores VALUES ('Alice', 85)\")\ncursor.execute(\"INSERT INTO scores VALUES ('Bob', 92)\")\nconn.commit()\ncursor.execute(\"SELECT name FROM scores\")\nfor row in cursor.fetchall():\n    print(row)",
+      "options": [
+        "('Alice', 85)\n('Bob', 92)",
+        "Alice\nBob",
+        "('Alice',)\n('Bob',)",
+        "NameError"
+      ],
+      "correct_answer": "('Alice',)\n('Bob',)",
+      "explanation": "fetchall() returns a list of tuples, where each tuple contains the values for one row. Since only name is selected, each tuple has one element.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "26.5_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "sqlite_with_python_sqlite3_flow",
+      "prerequisites": [
+        "26.5_q8"
+      ],
+      "prompt": "Predict the result of the following code:\n\nimport sqlite3\nwith sqlite3.connect('test.db') as conn:\n    cursor = conn.cursor()\n    cursor.execute(\"CREATE TABLE items (value INTEGER)\")\nprint(\"Done\")",
+      "options": [
+        "Done\nDatabase created successfully",
+        "Done",
+        "Error: database is locked",
+        "Connection not closed properly"
+      ],
+      "correct_answer": "Done",
+      "explanation": "The with statement automatically commits or rolls back and closes the connection. The print statement executes after the block, so only 'Done' is printed.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "26.5_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "sqlite_with_python_sqlite3_analysis",
+      "prerequisites": [
+        "26.5_q9"
+      ],
+      "prompt": "Explain the output and security implications of this code:\n\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE logs (msg TEXT)\")\nuser_input = \"' OR 1=1; --\"\ncursor.execute(\"INSERT INTO logs (msg) VALUES ('\" + user_input + \"')\")\nconn.commit()\ncursor.execute(\"SELECT * FROM logs\")\nprint(cursor.fetchall())",
+      "correct_answer": "Output is [(\"' OR 1=1; --\",)]; this demonstrates SQL injection vulnerability",
+      "explanation": "String concatenation allows malicious input to alter SQL logic. The input is stored literally, but in a real query it could bypass filters. Always use parameterized queries with placeholders.",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for SQLite with Python (sqlite3)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('SQLite with Python (sqlite3)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "SQLite with Python (sqlite3)"
+        }
+      ]
+    },
+    {
+      "id": "26.5_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "sqlite_with_python_sqlite3_tracing",
+      "prerequisites": [
+        "26.5_q10"
+      ],
+      "prompt": "Trace the execution step by step and identify the final value returned by the function:\n\ndef get_first_user(conn):\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT name FROM users LIMIT 1\")\n    row = cursor.fetchone()\n    if row is None:\n        return \"No users\"\n    return row[0]\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE users (name TEXT)\")\ncursor.execute(\"INSERT INTO users VALUES ('Charlie')\")\nprint(get_first_user(conn))",
+      "correct_answer": "Charlie",
+      "explanation": "fetchone() returns the first matching row as a tuple ('Charlie',). The function checks for None, then returns row[0], which is the first element of the tuple, 'Charlie'.",
+      "difficulty": "medium",
+      "starter_code": "# 1. Define the process_26_5 function\ndef process_26_5():\n    # 2. Implement solution for SQLite with Python (sqlite3)\n    pass\n",
+      "solution_code": "print('SQLite with Python (sqlite3)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "SQLite with Python (sqlite3)"
+        }
+      ]
+    },
+    {
+      "id": "26.5_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "sqlite_with_python_sqlite3_logic",
+      "prerequisites": [
+        "26.5_q11"
+      ],
+      "prompt": "What does this code print?\n\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute(\"CREATE TABLE products (id INTEGER, price REAL)\")\ncursor.execute(\"INSERT INTO products VALUES (1, 10.5)\")\ncursor.execute(\"INSERT INTO products VALUES (2, 7.0)\")\ncursor.execute(\"INSERT INTO products VALUES (3, 15.0)\")\ncursor.execute(\"SELECT id FROM products WHERE price > 10 ORDER BY price\")\nresult = [row[0] for row in cursor.fetchall()]\nprint(result)",
+      "options": [
+        "[1, 3]",
+        "[3, 1]",
+        "[1, 2, 3]",
+        "[]"
+      ],
+      "correct_answer": "[1, 3]",
+      "explanation": "WHERE price > 10 filters to rows with price 10.5 and 15.0. ORDER BY price sorts them ascending, giving ids 1 then 3. The list comprehension extracts id from each row.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "26.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "sqlite_with_python_sqlite3_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q12"
+      ],
+      "micro_lesson": {
+        "title": "Importing and Connecting with sqlite3",
+        "content": "To use SQLite in Python, you must first import the built-in sqlite3 module. The standard workflow begins by creating a connection object using sqlite3.connect(), which opens (or creates) a database file. If the file does not exist, sqlite3 creates it automatically. A cursor object is then obtained from the connection to execute SQL commands. Always close the connection when finished to release the file lock. Here is a minimal example:\n\n```python\nimport sqlite3\n\nconn = sqlite3.connect('mydatabase.db')\ncursor = conn.cursor()\nprint('Database connected successfully')\nconn.close()\n```\n\nRemember that sqlite3 is part of the Python standard library, so no external installation is required."
+      },
+      "prompt": "Complete the code by filling in the blank: import sqlite3; conn = ____('example.db')",
+      "correct_answer": "connect",
+      "accepted_answers": [
+        "connect"
+      ],
+      "explanation": "The sqlite3 module provides a connect() function to open or create a database file. This is the first step in any sqlite3 workflow."
+    },
+    {
+      "id": "26.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "sqlite_with_python_sqlite3_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "Key sqlite3 Methods and Keywords",
+        "content": "When working with sqlite3, several keywords and methods are essential. After executing a query with cursor.execute(), you typically call cursor.fetchall() to retrieve all matching rows as a list of tuples. To modify data, use cursor.execute() with INSERT, UPDATE, or DELETE statements, then commit the transaction with conn.commit(). To undo changes, call conn.rollback(). Finally, close the connection with conn.close(). A common pattern is:\n\n```python\ncursor.execute('SELECT * FROM users')\nresults = cursor.fetchall()\nconn.commit()\nconn.close()\n```\n\nUnderstanding when to commit versus rollback is critical for data integrity."
+      },
+      "prompt": "Fill in the blank: After running a query, retrieve all rows using cursor.___()",
+      "correct_answer": "fetchall",
+      "accepted_answers": [
+        "fetchall"
+      ],
+      "explanation": "cursor.fetchall() returns all rows from the last executed query. Other methods like fetchone() or fetchmany() exist, but fetchall() is the standard choice for retrieving complete result sets."
+    },
+    {
+      "id": "26.5_q15",
+      "type": "code_ordering",
+      "concept": "sqlite_with_python_sqlite3_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Sequence for a Basic sqlite3 Workflow",
+        "content": "A proper sqlite3 workflow follows a strict order: import the module, establish a connection, create a cursor, execute SQL statements, process results, commit changes if needed, and close the connection. Skipping the commit step means changes are lost, and forgetting to close the connection can leave the database locked. Here is the canonical sequence:\n\n```python\nimport sqlite3\nconn = sqlite3.connect('app.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY, msg TEXT)')\nconn.commit()\nconn.close()\n```"
+      },
+      "prompt": "Arrange the following code lines into the correct execution order for a basic sqlite3 setup.",
+      "options": [
+        "conn = sqlite3.connect('app.db')",
+        "cursor = conn.cursor()",
+        "import sqlite3",
+        "cursor.execute('CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY, msg TEXT)')",
+        "conn.commit()",
+        "conn.close()"
+      ],
+      "correct_answer": [
+        "import sqlite3",
+        "conn = sqlite3.connect('app.db')",
+        "cursor = conn.cursor()",
+        "cursor.execute('CREATE TABLE IF NOT EXISTS logs (id INTEGER PRIMARY KEY, msg TEXT)')",
+        "conn.commit()",
+        "conn.close()"
+      ],
+      "explanation": "The import must come first, followed by connection, cursor creation, SQL execution, commit, and finally closing the connection. This order ensures that every object exists before it is used."
+    },
+    {
+      "id": "26.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "sqlite_with_python_sqlite3_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common sqlite3 Patterns and Placeholders",
+        "content": "When inserting or updating data, always use parameterized queries with ? placeholders to prevent SQL injection. The pattern is cursor.execute(sql, values), where values is a tuple. For example:\n\n```python\nname = 'Alice'\ncursor.execute('INSERT INTO users (name) VALUES (?)', (name,))\n```\n\nSimilarly, when querying with a condition, use ? for each variable and pass them as a tuple in the same order. This ensures safe and readable code."
+      },
+      "prompt": "Fill in the blank: cursor.execute('INSERT INTO users (name) VALUES ____', (name,))",
+      "correct_answer": "?",
+      "accepted_answers": [
+        "?"
+      ],
+      "explanation": "The ? symbol is the placeholder used by sqlite3 for parameter substitution. It must appear in the SQL string and correspond to the tuple of values provided as the second argument."
+    },
+    {
+      "id": "26.5_q17",
+      "type": "code_ordering",
+      "concept": "sqlite_with_python_sqlite3_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm for Reading and Displaying Data",
+        "content": "A typical algorithm for reading data from a SQLite table involves: importing sqlite3, connecting to the database, creating a cursor, executing a SELECT statement, iterating over the fetched rows, printing or processing each row, and closing the connection. Using a with statement for the connection is also recommended because it handles closing automatically. Here is the structured approach:\n\n```python\nimport sqlite3\nwith sqlite3.connect('inventory.db') as conn:\n    cursor = conn.cursor()\n    cursor.execute('SELECT product, quantity FROM stock')\n    for row in cursor.fetchall():\n        print(row)\n```"
+      },
+      "prompt": "Order the code lines to implement a safe read-and-display algorithm using sqlite3.",
+      "options": [
+        "for row in cursor.fetchall():",
+        "cursor = conn.cursor()",
+        "import sqlite3",
+        "with sqlite3.connect('inventory.db') as conn:",
+        "cursor.execute('SELECT product, quantity FROM stock')",
+        "print(row)"
+      ],
+      "correct_answer": [
+        "import sqlite3",
+        "with sqlite3.connect('inventory.db') as conn:",
+        "cursor = conn.cursor()",
+        "cursor.execute('SELECT product, quantity FROM stock')",
+        "for row in cursor.fetchall():",
+        "print(row)"
+      ],
+      "explanation": "The with statement must wrap the connection, the cursor is created inside it, the query is executed, rows are fetched in a loop, and each row is printed. This order guarantees proper resource management."
+    },
+    {
+      "id": "26.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "sqlite_with_python_sqlite3_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic sqlite3 Usage in Python",
+        "content": "A common Python idiom for sqlite3 is using the with statement to manage the connection context. This ensures that conn.close() is called automatically, even if an exception occurs. Another idiom is using conn.row_factory = sqlite3.Row to access columns by name as well as by index. Here is an example:\n\n```python\nimport sqlite3\nwith sqlite3.connect('tasks.db') as conn:\n    conn.row_factory = sqlite3.Row\n    cursor = conn.cursor()\n    cursor.execute('SELECT * FROM tasks WHERE done = 0')\n    for task in cursor.fetchall():\n        print(task['description'])\n```\n\nThis pattern combines automatic cleanup with readable, dictionary-like row access."
+      },
+      "prompt": "Fill in the blank: A Python idiom for safe connection handling is: with sqlite3.connect('tasks.db') as ____:",
+      "correct_answer": "conn",
+      "accepted_answers": [
+        "conn"
+      ],
+      "explanation": "The with statement binds the connection object to a variable (commonly conn) so that its __exit__ method runs automatically, closing the database file and releasing locks."
+    },
+    {
+      "id": "26.5_q19",
+      "type": "fix_the_code",
+      "concept": "sqlite_with_python_sqlite3_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for Sqlite With Python Sqlite3 Errors:",
+      "starter_code": "Print('SQLite with Python (sqlite3) Item 19')",
+      "solution_code": "print('SQLite with Python (sqlite3) Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `sqlite with python sqlite3 errors` in SQLite with Python (sqlite3). When Python validates this code, it applies the standard rules of sqlite with python sqlite3 errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.5_q20",
+      "type": "fix_the_code",
+      "concept": "sqlite_with_python_sqlite3_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.5_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for Sqlite With Python Sqlite3 Fix:",
+      "starter_code": "Print('SQLite with Python (sqlite3) Item 20')",
+      "solution_code": "print('SQLite with Python (sqlite3) Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `sqlite with python sqlite3 fix` in SQLite with Python (sqlite3). When Python validates this code, it applies the standard rules of sqlite with python sqlite3 fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.5_q21",
+      "type": "fix_the_code",
+      "concept": "sqlite_with_python_sqlite3_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for Sqlite With Python Sqlite3 Edge Cases:",
+      "starter_code": "Print('SQLite with Python (sqlite3) Item 21')",
+      "solution_code": "print('SQLite with Python (sqlite3) Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `sqlite with python sqlite3 edge cases` in SQLite with Python (sqlite3). When Python validates this code, it applies the standard rules of sqlite with python sqlite3 edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.5_q22",
+      "type": "fix_the_code",
+      "concept": "sqlite_with_python_sqlite3_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for Sqlite With Python Sqlite3 Runtime:",
+      "starter_code": "Print('SQLite with Python (sqlite3) Item 22')",
+      "solution_code": "print('SQLite with Python (sqlite3) Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `sqlite with python sqlite3 runtime` in SQLite with Python (sqlite3). When Python validates this code, it applies the standard rules of sqlite with python sqlite3 runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.5_q23",
+      "type": "fix_the_code",
+      "concept": "sqlite_with_python_sqlite3_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for Sqlite With Python Sqlite3 Logic Repair:",
+      "starter_code": "Print('SQLite with Python (sqlite3) Item 23')",
+      "solution_code": "print('SQLite with Python (sqlite3) Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `sqlite with python sqlite3 logic repair` in SQLite with Python (sqlite3). When Python validates this code, it applies the standard rules of sqlite with python sqlite3 logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "26.5_q24",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.5_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for SQLite with Python (sqlite3) that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_26_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_26_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for SQLite with Python (sqlite3) must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "26.5_q25",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q24"
+      ],
+      "prompt": "Create a Python script using sqlite3 that connects to a database file named 'library.db', creates a table named 'books' with columns id (INTEGER PRIMARY KEY), title (TEXT), and author (TEXT), inserts three sample books, and prints all records.",
+      "starter_code": "import sqlite3\n\ndef setup_library_db():\n    conn = sqlite3.connect('library.db')\n    cursor = conn.cursor()\n    # TODO: create table, insert data, and fetch all\n    conn.close()\n\nsetup_library_db()",
+      "solution_code": "import sqlite3\n\ndef setup_library_db():\n    conn = sqlite3.connect('library.db')\n    cursor = conn.cursor()\n    cursor.execute('''CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, title TEXT, author TEXT)''')\n    books = [\n        ('The Python Guide', 'Alice'),\n        ('Data Science Basics', 'Bob'),\n        ('Web Development', 'Carol')\n    ]\n    cursor.executemany('INSERT INTO books (title, author) VALUES (?, ?)', books)\n    conn.commit()\n    cursor.execute('SELECT * FROM books')\n    for row in cursor.fetchall():\n        print(row)\n    conn.close()\n\nsetup_library_db()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Verify that 'library.db' is created and contains 3 rows in 'books'.",
+          "description": "Verify that 'library.db' is created and contains 3 rows in 'books'."
+        },
+        {
+          "input": "",
+          "expected_output": "Ensure no duplicate entries are inserted on repeated runs by using 'IF NOT EXISTS'.",
+          "description": "Ensure no duplicate entries are inserted on repeated runs by using 'IF NOT EXISTS'."
+        }
+      ],
+      "hint": "Use executemany for bulk insertion and commit after modifications.",
+      "explanation": "This item reinforces the fundamental workflow of sqlite3: connect, create table, insert data, commit, query, and close. Using parameterized queries with placeholders (?, ?) prevents SQL injection and is standard practice."
+    },
+    {
+      "id": "26.5_q26",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.5_q25"
+      ],
+      "prompt": "Write a Python function named add_book(title, author) that inserts a new book into the 'books' table in 'library.db'. Include error handling for duplicate titles and return True on success, False otherwise.",
+      "starter_code": "import sqlite3\n\ndef add_book(title, author):\n    conn = sqlite3.connect('library.db')\n    cursor = conn.cursor()\n    # TODO: implement insertion with duplicate check\n    conn.close()\n    return False",
+      "solution_code": "import sqlite3\n\ndef add_book(title, author):\n    conn = sqlite3.connect('library.db')\n    cursor = conn.cursor()\n    try:\n        cursor.execute('SELECT id FROM books WHERE title = ?', (title,))\n        if cursor.fetchone() is not None:\n            print('Duplicate title found.')\n            conn.close()\n            return False\n        cursor.execute('INSERT INTO books (title, author) VALUES (?, ?)', (title, author))\n        conn.commit()\n        conn.close()\n        return True\n    except sqlite3.Error as e:\n        print('Database error:', e)\n        conn.close()\n        return False",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Calling add_book('New Book', 'Dave') should return True and add the row.",
+          "description": "Calling add_book('New Book', 'Dave') should return True and add the row."
+        },
+        {
+          "input": "",
+          "expected_output": "Calling add_book('The Python Guide', 'Alice') again should return False and print a duplicate message.",
+          "description": "Calling add_book('The Python Guide', 'Alice') again should return False and print a duplicate message."
+        }
+      ],
+      "hint": "Query the table before inserting and use a try-except block for robustness.",
+      "explanation": "This practical item introduces defensive programming in database operations. Checking for duplicates before insertion avoids constraint violations and demonstrates transaction safety with explicit commit and error handling."
+    },
+    {
+      "id": "26.5_q27",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.5_q26"
+      ],
+      "prompt": "Implement a context manager class Database that wraps sqlite3.connect. It should support the with statement, automatically commit on success, rollback on exception, and close the connection. Use it to insert a batch of 5 books and print them as dictionaries with keys 'id', 'title', 'author'.",
+      "starter_code": "import sqlite3\n\nclass Database:\n    def __init__(self, db_name):\n        self.db_name = db_name\n        self.conn = None\n\n    def __enter__(self):\n        # TODO: open connection and set row_factory\n        return self\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # TODO: commit, rollback, or close\n        return False\n\n# TODO: use context manager to insert and query",
+      "solution_code": "import sqlite3\n\nclass Database:\n    def __init__(self, db_name):\n        self.db_name = db_name\n        self.conn = None\n\n    def __enter__(self):\n        self.conn = sqlite3.connect(self.db_name)\n        self.conn.row_factory = sqlite3.Row\n        return self.conn.cursor()\n\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if exc_type is not None:\n            self.conn.rollback()\n        else:\n            self.conn.commit()\n        self.conn.close()\n        return False\n\ndef insert_batch(books):\n    with Database('library.db') as cursor:\n        cursor.executemany('INSERT INTO books (title, author) VALUES (?, ?)', books)\n\ndef print_books():\n    with Database('library.db') as cursor:\n        for row in cursor.execute('SELECT * FROM books'):\n            print({'id': row['id'], 'title': row['title'], 'author': row['author']})\n\ninsert_batch([\n    ('Advanced Python', 'Eve'),\n    ('Machine Learning', 'Frank'),\n    ('Cloud Computing', 'Grace'),\n    ('Cybersecurity', 'Heidi'),\n    ('DevOps', 'Ivan')\n])\nprint_books()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Verify that all 5 books appear as dictionaries when print_books is called.",
+          "description": "Verify that all 5 books appear as dictionaries when print_books is called."
+        },
+        {
+          "input": "",
+          "expected_output": "Simulate an exception during insertion and confirm that the transaction is rolled back.",
+          "description": "Simulate an exception during insertion and confirm that the transaction is rolled back."
+        }
+      ],
+      "hint": "Set row_factory to sqlite3.Row to access columns by name, and use exc_type to decide commit versus rollback.",
+      "explanation": "This advanced item teaches resource management via context managers, ensuring connections are properly closed and transactions are atomic. Using Row objects improves readability and reduces indexing errors in complex queries."
+    },
+    {
+      "id": "26.5_q28",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.5_q27"
+      ],
+      "prompt": "Given a 'books' table and a new 'borrowers' table with columns id, name, and book_id, write a script that finds all borrowers who have borrowed more than 2 books. Return a list of borrower names sorted alphabetically. Assume a 'borrow_records' table links borrowers to books via borrower_id and book_id.",
+      "starter_code": "import sqlite3\n\ndef find_frequent_borrowers():\n    conn = sqlite3.connect('library.db')\n    cursor = conn.cursor()\n    # TODO: create tables if needed, insert sample data, and solve\n    conn.close()\n    return []",
+      "solution_code": "import sqlite3\n\ndef find_frequent_borrowers():\n    conn = sqlite3.connect('library.db')\n    cursor = conn.cursor()\n    cursor.execute('''CREATE TABLE IF NOT EXISTS borrowers (id INTEGER PRIMARY KEY, name TEXT)''')\n    cursor.execute('''CREATE TABLE IF NOT EXISTS borrow_records (borrower_id INTEGER, book_id INTEGER)''')\n    cursor.execute('DELETE FROM borrowers')\n    cursor.execute('DELETE FROM borrow_records')\n    borrowers = [(1, 'Anna'), (2, 'Ben'), (3, 'Cora')]\n    cursor.executemany('INSERT INTO borrowers (id, name) VALUES (?, ?)', borrowers)\n    records = [\n        (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 5), (3, 6)\n    ]\n    cursor.executemany('INSERT INTO borrow_records (borrower_id, book_id) VALUES (?, ?)', records)\n    cursor.execute('''\n        SELECT b.name FROM borrowers b\n        JOIN borrow_records br ON b.id = br.borrower_id\n        GROUP BY b.id\n        HAVING COUNT(br.book_id) > 2\n        ORDER BY b.name\n    ''')\n    result = [row[0] for row in cursor.fetchall()]\n    conn.close()\n    return result\n\nprint(find_frequent_borrowers())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Anna should appear because she has 4 borrow records.",
+          "description": "Anna should appear because she has 4 borrow records."
+        },
+        {
+          "input": "",
+          "expected_output": "Ben should not appear because he has only 2 borrow records.",
+          "description": "Ben should not appear because he has only 2 borrow records."
+        },
+        {
+          "input": "",
+          "expected_output": "Cora should not appear because she has only 1 borrow record.",
+          "description": "Cora should not appear because she has only 1 borrow record."
+        }
+      ],
+      "hint": "Use GROUP BY with HAVING to filter aggregated counts, and join borrowers with borrow_records.",
+      "explanation": "This challenge tests multi-table reasoning, aggregation, and filtering in SQL combined with Python list construction. It mirrors real-world reporting tasks where frequent users must be identified from relational data."
+    },
+    {
+      "id": "26.5_q29",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.5_q28"
+      ],
+      "prompt": "You are building a local inventory tracker for a small bookstore. Design a Python application using sqlite3 that: (1) stores products with columns product_id, name, quantity, and last_updated; (2) logs every stock adjustment in a separate 'stock_log' table with columns log_id, product_id, change, and timestamp; (3) automatically records the timestamp using a trigger; (4) provides a function to generate a low-stock report for items with quantity below 10; (5) backs up the database to 'inventory_backup.db' before any bulk update. Write the complete implementation.",
+      "starter_code": "import sqlite3\nfrom datetime import datetime\n\ndef init_inventory_db():\n    conn = sqlite3.connect('inventory.db')\n    cursor = conn.cursor()\n    # TODO: create tables, trigger, and helper functions\n    conn.close()\n\ndef bulk_update(updates):\n    # TODO: backup, apply updates, log changes\n    pass\n\ndef low_stock_report():\n    # TODO: return products with quantity < 10\n    pass",
+      "solution_code": "import sqlite3\nfrom datetime import datetime\n\ndef init_inventory_db():\n    conn = sqlite3.connect('inventory.db')\n    cursor = conn.cursor()\n    cursor.execute('''CREATE TABLE IF NOT EXISTS products (\n        product_id INTEGER PRIMARY KEY,\n        name TEXT NOT NULL,\n        quantity INTEGER DEFAULT 0,\n        last_updated TEXT\n    )''')\n    cursor.execute('''CREATE TABLE IF NOT EXISTS stock_log (\n        log_id INTEGER PRIMARY KEY AUTOINCREMENT,\n        product_id INTEGER,\n        change INTEGER,\n        timestamp TEXT\n    )''')\n    cursor.execute('''CREATE TRIGGER IF NOT EXISTS log_stock_change\n        AFTER UPDATE OF quantity ON products\n        BEGIN\n            INSERT INTO stock_log (product_id, change, timestamp)\n            VALUES (NEW.product_id, NEW.quantity - OLD.quantity, datetime('now'));\n        END\n    ''')\n    conn.commit()\n    conn.close()\n\ndef backup_db(src, dst):\n    conn = sqlite3.connect(src)\n    backup = sqlite3.connect(dst)\n    backup.execute('ATTACH DATABASE ? AS backup', (src,))\n    backup.execute('CREATE TABLE IF NOT EXISTS backup.products AS SELECT * FROM backup.products')\n    backup.execute('CREATE TABLE IF NOT EXISTS backup.stock_log AS SELECT * FROM backup.stock_log')\n    backup.commit()\n    backup.close()\n    conn.close()\n\ndef bulk_update(updates):\n    backup_db('inventory.db', 'inventory_backup.db')\n    conn = sqlite3.connect('inventory.db')\n    cursor = conn.cursor()\n    for pid, qty in updates:\n        old = cursor.execute('SELECT quantity FROM products WHERE product_id = ?', (pid,)).fetchone()\n        if old is not None:\n            diff = qty - old[0]\n            cursor.execute('UPDATE products SET quantity = ?, last_updated = ? WHERE product_id = ?', (qty, datetime.now().isoformat(), pid))\n    conn.commit()\n    conn.close()\n\ndef low_stock_report():\n    conn = sqlite3.connect('inventory.db')\n    cursor = conn.cursor()\n    cursor.execute('SELECT * FROM products WHERE quantity < 10')\n    rows = cursor.fetchall()\n    conn.close()\n    return rows\n\ninit_inventory_db()\nprint(low_stock_report())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "After bulk_update([(1, 5), (2, 15)]), the backup file must exist and contain the updated rows.",
+          "description": "After bulk_update([(1, 5), (2, 15)]), the backup file must exist and contain the updated rows."
+        },
+        {
+          "input": "",
+          "expected_output": "low_stock_report should return only products with quantity strictly less than 10.",
+          "description": "low_stock_report should return only products with quantity strictly less than 10."
+        }
+      ],
+      "hint": "Use ATTACH DATABASE for backup, and a trigger with datetime('now') for automatic timestamping.",
+      "explanation": "This scenario synthesizes schema design, triggers, backup strategies, and reporting into a cohesive application. It emphasizes production-grade concerns such as data safety, audit trails via stock_log, and automated low-stock alerts."
+    },
+    {
+      "id": "26.5_q30",
+      "type": "write_the_code",
+      "concept": "sqlite_with_python_sqlite3_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.5_q29"
+      ],
+      "prompt": "Extend the inventory system to support concurrent readers and a single writer using WAL mode. Implement a thread-safe Python wrapper that acquires a write lock, performs a stock adjustment, and releases the lock. Ensure that two simultaneous write attempts serialize correctly and that readers do not block each other. Include a test that spawns two writer threads and verifies the final quantity matches the sum of initial quantity and both adjustments.",
+      "starter_code": "import sqlite3\nimport threading\n\nclass InventoryManager:\n    def __init__(self, db_path):\n        self.db_path = db_path\n        self.lock = threading.Lock()\n        self._init_wal()\n\n    def _init_wal(self):\n        conn = sqlite3.connect(self.db_path)\n        conn.execute('PRAGMA journal_mode=WAL')\n        conn.close()\n\n    def adjust_stock(self, product_id, delta):\n        # TODO: implement thread-safe adjustment with proper locking\n        pass",
+      "solution_code": "import sqlite3\nimport threading\nimport time\n\nclass InventoryManager:\n    def __init__(self, db_path):\n        self.db_path = db_path\n        self.write_lock = threading.Lock()\n        self._init_wal()\n\n    def _init_wal(self):\n        conn = sqlite3.connect(self.db_path)\n        conn.execute('PRAGMA journal_mode=WAL')\n        conn.commit()\n        conn.close()\n\n    def adjust_stock(self, product_id, delta):\n        with self.write_lock:\n            conn = sqlite3.connect(self.db_path)\n            cursor = conn.cursor()\n            cursor.execute('UPDATE products SET quantity = quantity + ? WHERE product_id = ?', (delta, product_id))\n            conn.commit()\n            conn.close()\n\ndef worker(manager, pid, delta):\n    time.sleep(0.05)\n    manager.adjust_stock(pid, delta)\n\ndef test_concurrent_writes():\n    manager = InventoryManager('inventory.db')\n    conn = sqlite3.connect('inventory.db')\n    cursor = conn.cursor()\n    cursor.execute('DELETE FROM products')\n    cursor.execute('INSERT INTO products (product_id, name, quantity) VALUES (1, \"Widget\", 100)')\n    conn.commit()\n    conn.close()\n\n    t1 = threading.Thread(target=worker, args=(manager, 1, 20))\n    t2 = threading.Thread(target=worker, args=(manager, 1, 30))\n    t1.start()\n    t2.start()\n    t1.join()\n    t2.join()\n\n    conn = sqlite3.connect('inventory.db')\n    final_qty = conn.execute('SELECT quantity FROM products WHERE product_id = 1').fetchone()[0]\n    conn.close()\n    assert final_qty == 150, f'Expected 150, got {final_qty}'\n    print('Concurrent write test passed.')\n\ntest_concurrent_writes()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Final quantity must be 150 after two writers add 20 and 30 to initial 100.",
+          "description": "Final quantity must be 150 after two writers add 20 and 30 to initial 100."
+        },
+        {
+          "input": "",
+          "expected_output": "WAL mode must be active, verifiable via PRAGMA journal_mode.",
+          "description": "WAL mode must be active, verifiable via PRAGMA journal_mode."
+        }
+      ],
+      "hint": "Use a threading.Lock to serialize writes; WAL mode allows readers to proceed without blocking writers.",
+      "explanation": "This mastery item integrates concurrency control, database pragmas, and threading in Python. It demonstrates that sqlite3 with WAL mode supports high read concurrency while writer serialization is enforced manually, a pattern critical for scalable local applications."
+    }
+  ],
+  "unit_num": 26,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of SQLite with Python (sqlite3)",
+    "Apply idiomatic Python patterns when working with SQLite with Python (sqlite3)",
+    "Debug common runtime exceptions and logic errors associated with SQLite with Python (sqlite3)",
+    "Implement production-ready code utilizing SQLite with Python (sqlite3)"
+  ],
+  "prerequisites": [
+    "26.4"
+  ]
+}

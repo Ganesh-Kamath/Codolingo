@@ -1,0 +1,676 @@
+{
+  "lesson_id": "41.5",
+  "title": "Recognizing Graph and Tree Traversal",
+  "unit": "Algorithmic Patterns",
+  "items": [
+    {
+      "id": "41.5_q1",
+      "type": "micro_lesson",
+      "concept": "recognizing_graph_and_tree_traversal_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Graph and Tree Traversal?",
+      "content": "Traversal means visiting every node in a data structure exactly once in a systematic way. In trees and graphs, we use traversal algorithms to explore nodes, collect data, or search for values. Common patterns include Depth-First Search (DFS) and Breadth-First Search (BFS). DFS explores as far as possible along each branch before backtracking, while BFS explores all neighbors at the present depth before moving deeper. Recognizing these patterns helps you identify when a problem requires visiting all reachable nodes. Here is a simple Python illustration of BFS using a queue:\n\n```python\nfrom collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        if node not in visited:\n            print('Visiting:', node)\n            visited.add(node)\n            queue.extend(graph.get(node, []))\n    return visited\n\ngraph = {\n    'A': ['B', 'C'],\n    'B': ['D'],\n    'C': [],\n    'D': []\n}\n\nbfs(graph, 'A')\n```\n\nThis code visits nodes level by level, which is the essence of BFS traversal.",
+      "prompt": "",
+      "explanation": "Traversal means visiting every node in a data structure exactly once in a systematic way. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "41.5_q2",
+      "type": "multiple_choice",
+      "concept": "recognizing_graph_and_tree_traversal_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q1"
+      ],
+      "prompt": "Which traversal strategy visits all nodes at the current depth before moving to the next depth level?",
+      "options": [
+        "Depth-First Search",
+        "Breadth-First Search",
+        "In-order traversal",
+        "Post-order traversal"
+      ],
+      "correct_answer": "Breadth-First Search",
+      "explanation": "Breadth-First Search (BFS) uses a queue to explore neighbors level by level, ensuring all nodes at the current depth are visited before proceeding deeper. Depth-First Search goes deep first, while in-order and post-order are specific to binary trees."
+    },
+    {
+      "id": "41.5_q3",
+      "type": "micro_lesson",
+      "concept": "recognizing_graph_and_tree_traversal_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q2"
+      ],
+      "title": "Syntax Patterns for Traversals",
+      "content": "When implementing traversal in Python, two common syntactic patterns emerge. The recursive pattern suits tree-like structures where each node has children, while the iterative pattern with an explicit stack or queue suits graphs to avoid recursion limits. For DFS on a tree, you recursively visit the left child, then the right child. For BFS on a graph, you maintain a queue of nodes to process. Here is a recursive DFS example on a simple binary tree represented by nested tuples:\n\n```python\ndef dfs_tree(node):\n    if node is None:\n        return\n    print('Processing:', node[0])\n    dfs_tree(node[1])\n    dfs_tree(node[2])\n\n# node = (value, left_subtree, right_subtree)\ntree = (1, (2, None, None), (3, None, None))\ndfs_tree(tree)\n```\n\nNotice how the function calls itself for each child. This recursive call stack is the hallmark of DFS syntax.",
+      "prompt": "",
+      "explanation": "When implementing traversal in Python, two common syntactic patterns emerge. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "41.5_q4",
+      "type": "multiple_choice",
+      "concept": "recognizing_graph_and_tree_traversal_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q3"
+      ],
+      "prompt": "In a recursive DFS function for a binary tree, which line must appear before the recursive calls to left and right children?",
+      "options": [
+        "A base case check for None",
+        "A print statement for the current node",
+        "Appending the node to a global list",
+        "Calling the function on the parent node"
+      ],
+      "correct_answer": "A base case check for None",
+      "explanation": "A base case check for None prevents infinite recursion when reaching a leaf's missing child. While printing the node is common, it is not required for correctness. Appending to a list and calling the parent are not standard DFS prerequisites."
+    },
+    {
+      "id": "41.5_q5",
+      "type": "multiple_choice",
+      "concept": "recognizing_graph_and_tree_traversal_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q4"
+      ],
+      "prompt": "Match the traversal type to its typical Python data structure used for implementation.",
+      "options": [
+        "DFS uses a queue; BFS uses a stack",
+        "DFS uses a stack; BFS uses a queue",
+        "Both DFS and BFS use only recursion",
+        "Both DFS and BFS use only lists without extra structures"
+      ],
+      "correct_answer": "DFS uses a stack; BFS uses a queue",
+      "explanation": "DFS can be implemented with recursion (implicit stack) or an explicit stack, while BFS requires a queue to maintain the level-order processing sequence. Using a queue for DFS or a stack for BFS would change the traversal order."
+    },
+    {
+      "id": "41.5_q6",
+      "type": "multiple_choice",
+      "concept": "recognizing_graph_and_tree_traversal_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q5"
+      ],
+      "prompt": "What is a common pitfall when traversing a graph without tracking visited nodes?",
+      "options": [
+        "The algorithm will always terminate faster",
+        "The algorithm may enter an infinite loop due to cycles",
+        "The algorithm will use less memory",
+        "The algorithm will automatically sort nodes"
+      ],
+      "correct_answer": "The algorithm may enter an infinite loop due to cycles",
+      "explanation": "Graphs often contain cycles, meaning a node can be reached through multiple paths. Without a visited set, the traversal may revisit the same node repeatedly, causing an infinite loop or redundant work. Trees are acyclic, so this pitfall is less common there."
+    },
+    {
+      "id": "41.5_q7",
+      "type": "code_prediction",
+      "concept": "dfs_vs_bfs_queue",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q6"
+      ],
+      "prompt": "In the context of Recognizing Graph and Tree Traversal, what is the primary behavior demonstrated here?\n```python\n# Recognizing Graph and Tree Traversal\nprint('dfs_vs_bfs_queue')\n```",
+      "options": [
+        "dfs_vs_bfs_queue",
+        "SyntaxError",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "dfs_vs_bfs_queue",
+      "explanation": "This directly illustrates the standard behavior of dfs_vs_bfs_queue: queue FIFO order explores level by level; stack LIFO order explores depth first."
+    },
+    {
+      "id": "41.5_q8",
+      "type": "multiple_choice",
+      "concept": "dfs_vs_bfs_queue_rules",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q7"
+      ],
+      "prompt": "What is a core design principle when working with Recognizing Graph and Tree Traversal in Python?",
+      "options": [
+        "Queue fifo order explores level by level; stack lifo order explores depth first",
+        "It bypasses all memory management constraints",
+        "It causes the interpreter to compile to C++ automatically",
+        "It can only be executed in interactive REPL mode"
+      ],
+      "correct_answer": "Queue fifo order explores level by level; stack lifo order explores depth first",
+      "explanation": "Understanding this rule is essential: queue FIFO order explores level by level; stack LIFO order explores depth first."
+    },
+    {
+      "id": "41.5_q9",
+      "type": "fix_the_code",
+      "concept": "dfs_vs_bfs_queue_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q8"
+      ],
+      "prompt": "Fix this code snippet implementing Recognizing Graph and Tree Traversal correctly:",
+      "correct_answer": "45",
+      "explanation": "Applying standard Python idioms ensures correct behavior: queue FIFO order explores level by level; stack LIFO order explores depth first.",
+      "starter_code": "# Recognizing Graph and Tree Traversal implementation\n___",
+      "solution_code": "# Recognizing Graph and Tree Traversal implementation\nfrom collections import deque\nq = deque([start])\nvisited = {start}"
+    },
+    {
+      "id": "41.5_q10",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q9"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Recognizing Graph and Tree Traversal. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Recognizing Graph and Tree Traversal\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Recognizing Graph and Tree Traversal ensures testable domain operations."
+    },
+    {
+      "id": "41.5_q11",
+      "type": "multiple_choice",
+      "concept": "dfs_vs_bfs_queue_tradeoffs",
+      "skill": "evaluation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q10"
+      ],
+      "prompt": "Which common pitfall must programmers avoid when using Recognizing Graph and Tree Traversal?",
+      "options": [
+        "Misunderstanding edge cases related to: queue FIFO order explores level by level; stack LIFO order explores depth first",
+        "Forgetting that Python does not support functions",
+        "Assuming integers are capped at 32 bits",
+        "Using lowercase variable names"
+      ],
+      "correct_answer": "Misunderstanding edge cases related to: queue FIFO order explores level by level; stack LIFO order explores depth first",
+      "explanation": "Careful attention to requirements avoids common traps: queue FIFO order explores level by level; stack LIFO order explores depth first."
+    },
+    {
+      "id": "41.5_q12",
+      "type": "write_the_code",
+      "concept": "dfs_vs_bfs_queue_application",
+      "skill": "implementation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q11"
+      ],
+      "prompt": "Write the canonical Python code statement for Recognizing Graph and Tree Traversal:",
+      "correct_answer": "60",
+      "explanation": "Canonical implementation: from collections import deque\nq = deque([start])\nvisited = {start}. Queue fifo order explores level by level; stack lifo order explores depth first.",
+      "starter_code": "# Complete the statement\n___",
+      "solution_code": "from collections import deque\nq = deque([start])\nvisited = {start}"
+    },
+    {
+      "id": "41.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_graph_and_tree_traversal_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q12"
+      ],
+      "micro_lesson": {
+        "title": "Graph and Tree Traversal Syntax Basics",
+        "content": "When traversing a graph or tree, we typically need a way to visit every node exactly once without getting stuck in cycles. The most common Python pattern uses a queue for breadth-first search (BFS) or a stack for depth-first search (DFS). A queue is often implemented with collections.deque, where we use popleft() to dequeue and append() to enqueue. This ensures we process nodes level by level. Here is a simple BFS skeleton:\n\n```python\nfrom collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    while queue:\n        node = queue.popleft()\n        if node not in visited:\n            visited.add(node)\n            for neighbor in graph.get(node, []):\n                queue.append(neighbor)\n    return visited\n```\n\nNotice how the queue manages the order of exploration. Filling in the blank below tests your understanding of this core operation."
+      },
+      "prompt": "In the BFS skeleton above, the line that removes the oldest element from the queue is `queue.___()`.",
+      "correct_answer": "popleft",
+      "accepted_answers": [
+        "popleft"
+      ],
+      "explanation": "deque.popleft() removes and returns the leftmost (oldest) item from the queue, which is essential for BFS to process nodes in the order they were discovered."
+    },
+    {
+      "id": "41.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_graph_and_tree_traversal_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "Traversal Keywords and Control Flow",
+        "content": "Graph and tree traversal algorithms rely on specific keywords to control the flow of execution. The keyword 'if' is used to check whether a node has already been visited, preventing redundant work and infinite loops in cyclic graphs. The keyword 'for' iterates over neighbors or children. The keyword 'return' exits the function once the traversal is complete. The keyword 'while' drives the main loop in iterative BFS. Understanding when to use each keyword helps you recognize traversal code patterns quickly.\n\n```python\ndef dfs(node, visited, graph):\n    visited.add(node)\n    for neighbor in graph.get(node, []):\n        if neighbor not in visited:\n            dfs(neighbor, visited, graph)\n    return visited\n```\n\nIn this recursive DFS, the guard clause uses 'if' to avoid revisiting nodes."
+      },
+      "prompt": "In the recursive DFS example above, the line that checks whether a neighbor has already been visited uses the keyword `___`.",
+      "correct_answer": "if",
+      "accepted_answers": [
+        "if"
+      ],
+      "explanation": "'if' is the conditional keyword that evaluates whether neighbor not in visited before recursing, ensuring each node is processed only once."
+    },
+    {
+      "id": "41.5_q15",
+      "type": "code_ordering",
+      "concept": "recognizing_graph_and_tree_traversal_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Sequence for BFS",
+        "content": "Breadth-first search follows a strict sequence: initialize a queue with the start node, mark it visited, then repeatedly dequeue a node and enqueue all unvisited neighbors. The order of operations matters. If you enqueue neighbors before marking the current node visited, you may enqueue duplicates. If you dequeue after checking neighbors, you process nodes in the wrong order. Here is the correct logical sequence for a single BFS iteration step:\n\n1. Dequeue the current node.\n2. Mark it as visited.\n3. Iterate over its neighbors.\n4. For each unvisited neighbor, enqueue it.\n\n```python\nnode = queue.popleft()\nvisited.add(node)\nfor n in graph.get(node, []):\n    if n not in visited:\n        queue.append(n)\n```"
+      },
+      "prompt": "Arrange the following lines into the correct order for a single BFS step:",
+      "options": [
+        "visited.add(node)",
+        "for n in graph.get(node, []):",
+        "node = queue.popleft()",
+        "if n not in visited: queue.append(n)"
+      ],
+      "correct_answer": [
+        "node = queue.popleft()",
+        "visited.add(node)",
+        "for n in graph.get(node, []):",
+        "if n not in visited: queue.append(n)"
+      ],
+      "explanation": "You must dequeue first, then mark visited, then iterate neighbors, and finally enqueue any unvisited neighbors. This order prevents duplicates and maintains BFS level-order."
+    },
+    {
+      "id": "41.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_graph_and_tree_traversal_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q15"
+      ],
+      "micro_lesson": {
+        "title": "Recognizing Traversal Patterns",
+        "content": "A common pattern in graph and tree traversal is the visited set combined with a frontier structure. The visited set prevents cycles, while the frontier (queue or stack) determines traversal order. In BFS, the pattern is: initialize frontier with start, loop while frontier is non-empty, remove one element, process it, and add unvisited neighbors to the frontier. In DFS, you replace the queue with a stack (or use recursion). Recognizing this pattern helps you identify traversal code even when variable names change. Here is the BFS pattern skeleton:\n\n```python\ndef traverse(graph, start):\n    visited = set()\n    frontier = deque([start])\n    while frontier:\n        current = frontier.___()\n        if current not in visited:\n            visited.add(current)\n            for neighbor in graph.get(current, []):\n                frontier.append(neighbor)\n    return visited\n```"
+      },
+      "prompt": "In the BFS pattern skeleton above, the line that removes the next node to explore from the frontier is `frontier.___()`.",
+      "correct_answer": "popleft",
+      "accepted_answers": [
+        "popleft"
+      ],
+      "explanation": "popleft() removes from the left side of the deque, giving BFS its characteristic level-order (breadth-first) behavior."
+    },
+    {
+      "id": "41.5_q17",
+      "type": "code_ordering",
+      "concept": "recognizing_graph_and_tree_traversal_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm Steps: DFS Iterative vs Recursive",
+        "content": "Depth-first search can be implemented iteratively with a stack or recursively with the call stack. Both approaches share the same high-level algorithm: pick a starting node, explore as far as possible along each branch before backtracking, and track visited nodes. For the iterative version, the sequence is: initialize stack with start, loop while stack is not empty, pop a node, skip if visited, mark visited, then push unvisited neighbors. For the recursive version, the sequence is: mark visited, iterate neighbors, recurse on unvisited neighbors. Understanding both sequences helps you recognize DFS code regardless of style.\n\n```python\n# Iterative DFS\nstack = [start]\nwhile stack:\n    node = stack.pop()\n    if node not in visited:\n        visited.add(node)\n        for n in graph.get(node, []):\n            if n not in visited:\n                stack.append(n)\n```"
+      },
+      "prompt": "Arrange the following lines into the correct order for an iterative DFS step:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Iterative DFS pops a node, checks and marks it visited, iterates neighbors, and pushes unvisited neighbors. The conditional visited check must happen before adding to the stack to avoid duplicates."
+    },
+    {
+      "id": "41.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_graph_and_tree_traversal_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Traversal Helpers",
+        "content": "Experienced Python programmers often write traversal code using idioms that make the intent clearer. A common idiom is to use a set comprehension or generator expression to collect neighbors, though explicit loops are more common in teaching contexts. Another idiom is the early-return pattern: if the start node is the target, return immediately. A third idiom is using 'or' to provide a default empty list for missing keys. Here is a concise DFS helper with idiomatic defaults:\n\n```python\ndef explore(graph, start):\n    visited = set()\n    def dfs(node):\n        if node in visited: return\n        visited.add(node)\n        for n in graph.get(node, []) or []:\n            dfs(n)\n    dfs(start)\n    return visited\n```\n\nNotice how `graph.get(node, []) or []` ensures we always iterate over a list, even if the key is missing."
+      },
+      "prompt": "In the idiomatic DFS helper above, the expression `graph.get(node, []) or []` ensures that `for n in ___` always iterates over a valid list, even when the node has no entry in the graph.",
+      "correct_answer": "graph.get(node, []) or []",
+      "accepted_answers": [
+        "graph.get(node, []) or []"
+      ],
+      "explanation": "graph.get(node, []) returns [] if node is missing; the 'or []' guards against None, ensuring the for loop never fails with a TypeError."
+    },
+    {
+      "id": "41.5_q19",
+      "type": "fix_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Spotting Common Traversal Mistakes",
+        "content": "When implementing graph and tree traversals, errors often arise from missing visited tracking, incorrect base cases, or infinite loops in cyclic graphs. In this micro-lesson, you will analyze a buggy depth-first search (DFS) on a graph. The provided code attempts to visit all nodes but fails to mark nodes as visited before recursive calls, causing redundant processing and potential stack overflow on cyclic structures. Always ensure that a node is marked visited immediately upon entry, not after exploring neighbors. For trees, missing the base case for None children leads to AttributeError. Review the starter code below, identify the logical flaw, and explain how it breaks traversal correctness."
+      },
+      "prompt": "Fix the bug in this code for recognizing graph and tree traversal errors:",
+      "starter_code": "# Fix this code\nPrint('Recognizing Graph and Tree Traversal')",
+      "solution_code": "print('Recognizing Graph and Tree Traversal')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "41.5_q20",
+      "type": "fix_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.5_q19"
+      ],
+      "prompt": "The following breadth-first search (BFS) implementation has a simple bug that prevents it from visiting all nodes correctly. Fix the code so it returns all visited nodes in level-order.",
+      "starter_code": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    visited.add(start)\n    order = []\n    while queue:\n        node = queue.pop()\n        order.append(node)\n        for neighbor in graph.get(node, []):\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.appendleft(neighbor)\n    return order",
+      "solution_code": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    visited.add(start)\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.append(node)\n        for neighbor in graph.get(node, []):\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)\n    return order",
+      "hint": "Check how nodes are removed from the queue and added to it. Also verify which queue method maintains FIFO order.",
+      "explanation": "The original code used pop() which removes from the right end, making it a LIFO stack rather than a queue. Additionally, appendleft() inserts at the front, reversing the expected order. Replacing pop() with popleft() and appendleft() with append() restores proper BFS behavior, ensuring nodes are processed in level-order."
+    },
+    {
+      "id": "41.5_q21",
+      "type": "fix_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q20"
+      ],
+      "prompt": "This recursive DFS on a binary tree crashes when the tree is empty. Modify the function to handle empty trees and single-node trees gracefully.",
+      "starter_code": "def dfs(node):\n    if node is None:\n        return []\n    result = [node.val]\n    result.extend(dfs(node.left))\n    result.extend(dfs(node.right))\n    return result",
+      "solution_code": "def dfs(node):\n    if node is None:\n        return []\n    result = [node.val]\n    if node.left is not None:\n        result.extend(dfs(node.left))\n    if node.right is not None:\n        result.extend(dfs(node.right))\n    return result",
+      "hint": "Consider what happens when node.left or node.right is None. The recursive calls already handle None, but unnecessary calls can be avoided.",
+      "explanation": "While the original code technically works for None children because dfs(None) returns [], it performs redundant recursive calls. The fixed version checks for None before recursing, improving efficiency and clearly documenting intent. This is especially important in deep or unbalanced trees where redundant calls increase stack usage."
+    },
+    {
+      "id": "41.5_q22",
+      "type": "fix_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Failures in Traversal Algorithms",
+        "content": "Runtime errors in graph and tree traversals often stem from unhandled exceptions rather than logical mistakes. A common scenario is encountering a node with an unexpected type or a missing attribute during traversal. In this micro-lesson, examine a traversal that assumes every node has a 'neighbors' attribute. When a plain dictionary node is passed, AttributeError is raised. Defensive programming—checking attribute existence or using duck typing—prevents crashes. Additionally, recursion depth limits can be exceeded on large graphs. Understanding runtime behavior helps you choose iterative approaches when recursion is unsafe."
+      },
+      "prompt": "Fix the bug in this code for recognizing graph and tree traversal runtime:",
+      "starter_code": "# Fix this code\nPrint('Recognizing Graph and Tree Traversal')",
+      "solution_code": "print('Recognizing Graph and Tree Traversal')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "41.5_q23",
+      "type": "fix_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q22"
+      ],
+      "prompt": "The post-order traversal below produces incorrect output because the root is appended before its children. Repair the logic so nodes are visited in true post-order (left, right, root).",
+      "starter_code": "def postorder(root):\n    if root is None:\n        return []\n    result = [root.val]\n    result.extend(postorder(root.left))\n    result.extend(postorder(root.right))\n    return result",
+      "solution_code": "def postorder(root):\n    if root is None:\n        return []\n    result = []\n    result.extend(postorder(root.left))\n    result.extend(postorder(root.right))\n    result.append(root.val)\n    return result",
+      "hint": "In post-order traversal, the root value must be recorded after both subtrees have been fully processed.",
+      "explanation": "The original code placed root.val at the beginning of the result list, which corresponds to pre-order traversal. Post-order requires left subtree, then right subtree, then the root. Moving the append operation after the recursive calls corrects the sequence to [left, right, root]."
+    },
+    {
+      "id": "41.5_q24",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q23"
+      ],
+      "prompt": "Refactor the following graph traversal to use an iterative approach with an explicit stack, eliminating recursion and improving space efficiency for deep graphs. The function should still return all reachable nodes in depth-first order.",
+      "starter_code": "def dfs_recursive(graph, start):\n    visited = set()\n    order = []\n    def helper(node):\n        if node in visited:\n            return\n        visited.add(node)\n        order.append(node)\n        for neighbor in graph.get(node, []):\n            helper(neighbor)\n    helper(start)\n    return order",
+      "solution_code": "def dfs_iterative(graph, start):\n    visited = set()\n    order = []\n    stack = [start]\n    while stack:\n        node = stack.pop()\n        if node in visited:\n            continue\n        visited.add(node)\n        order.append(node)\n        for neighbor in reversed(graph.get(node, [])):\n            if neighbor not in visited:\n                stack.append(neighbor)\n    return order",
+      "test_cases": [
+        {
+          "input": {
+            "graph": {
+              "A": [
+                "B",
+                "C"
+              ],
+              "B": [
+                "D"
+              ],
+              "C": [],
+              "D": []
+            },
+            "start": "A"
+          },
+          "expected": [
+            "A",
+            "C",
+            "B",
+            "D"
+          ]
+        },
+        {
+          "input": {
+            "graph": {
+              "1": [
+                "2",
+                "3"
+              ],
+              "2": [
+                "4"
+              ],
+              "3": [
+                "4"
+              ],
+              "4": []
+            },
+            "start": "1"
+          },
+          "expected": [
+            "1",
+            "3",
+            "4",
+            "2"
+          ]
+        }
+      ],
+      "hint": "Use a stack to simulate the call stack. To preserve a consistent DFS order matching the recursive version, push neighbors in reverse order.",
+      "explanation": "The recursive version relies on the call stack, which risks RecursionError on large graphs. The iterative refactoring uses an explicit list as a stack, popping the last element for LIFO behavior. Reversing the neighbor list before pushing ensures that the first neighbor in the adjacency list is processed first, matching typical recursive DFS order. This version is more robust for production use on large or cyclic graphs."
+    },
+    {
+      "id": "41.5_q25",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q24"
+      ],
+      "prompt": "Implement a breadth-first search (BFS) traversal for an undirected graph represented as an adjacency list. The function should return the order in which nodes are visited starting from node 0.",
+      "starter_code": "def bfs_traversal(graph):\n    visited = []\n    queue = []\n    visited_set = set()\n    queue.append(0)\n    visited_set.add(0)\n    while queue:\n        node = queue.pop(0)\n        visited.append(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited_set:\n                visited_set.add(neighbor)\n                queue.append(neighbor)\n    return visited\n\n# Example usage\nif __name__ == '__main__':\n    g = {\n        0: [1, 2],\n        1: [0, 3],\n        2: [0],\n        3: [1]\n    }\n    print(bfs_traversal(g))",
+      "solution_code": "from collections import deque\n\ndef bfs_traversal(graph):\n    visited = []\n    queue = deque([0])\n    visited_set = {0}\n    while queue:\n        node = queue.popleft()\n        visited.append(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited_set:\n                visited_set.add(neighbor)\n                queue.append(neighbor)\n    return visited\n\nif __name__ == '__main__':\n    g = {\n        0: [1, 2],\n        1: [0, 3],\n        2: [0],\n        3: [1]\n    }\n    print(bfs_traversal(g))",
+      "test_cases": [
+        {
+          "input": "{0: [1], 1: [0, 2], 2: [1]}",
+          "expected": "[0, 1, 2]"
+        },
+        {
+          "input": "{0: [1, 2], 1: [0], 2: [0, 3], 3: [2]}",
+          "expected": "[0, 1, 2, 3]"
+        },
+        {
+          "input": "{0: []}",
+          "expected": "[0]"
+        }
+      ],
+      "hint": "Use a queue to explore nodes level by level. Mark nodes as visited before adding them to the queue to avoid duplicates.",
+      "explanation": "Breadth-first search explores all neighbors at the present depth before moving to nodes at the next depth level. Using a set for visited nodes ensures O(1) lookup and prevents cycles from causing infinite loops."
+    },
+    {
+      "id": "41.5_q26",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.5_q25"
+      ],
+      "prompt": "Given a binary tree, implement an iterative depth-first search (DFS) traversal that returns nodes in pre-order. Use an explicit stack instead of recursion.",
+      "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef dfs_preorder_iterative(root):\n    result = []\n    if root is None:\n        return result\n    stack = [root]\n    while stack:\n        node = stack.pop()\n        result.append(node.val)\n        if node.right:\n            stack.append(node.right)\n        if node.left:\n            stack.append(node.left)\n    return result\n\n# Build tree:      1\n#                / \\\n#               2   3\n#              / \\\n#             4   5\nroot = TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)), TreeNode(3))\nprint(dfs_preorder_iterative(root))",
+      "solution_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef dfs_preorder_iterative(root):\n    result = []\n    if root is None:\n        return result\n    stack = [root]\n    while stack:\n        node = stack.pop()\n        result.append(node.val)\n        if node.right is not None:\n            stack.append(node.right)\n        if node.left is not None:\n            stack.append(node.left)\n    return result\n\nroot = TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)), TreeNode(3))\nprint(dfs_preorder_iterative(root))",
+      "test_cases": [
+        {
+          "input": "TreeNode(1, None, TreeNode(2))",
+          "expected": "[1, 2]"
+        },
+        {
+          "input": "None",
+          "expected": "[]"
+        },
+        {
+          "input": "TreeNode(10)",
+          "expected": "[10]"
+        }
+      ],
+      "hint": "Push the right child before the left child so the left child is processed first when popped from the stack.",
+      "explanation": "Iterative DFS with a stack mimics the call stack of recursive DFS. Pre-order means visiting the root, then the left subtree, then the right subtree. The explicit stack must reverse the desired traversal order for children."
+    },
+    {
+      "id": "41.5_q27",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q26"
+      ],
+      "prompt": "Implement a function that performs a topological sort on a directed acyclic graph (DAG) using Kahn's algorithm. Return a valid topological ordering of nodes, or an empty list if a cycle exists.",
+      "starter_code": "def topological_sort(graph):\n    in_degree = {}\n    for node in graph:\n        in_degree[node] = 0\n    for node in graph:\n        for neighbor in graph[node]:\n            in_degree[neighbor] = in_degree.get(neighbor, 0) + 1\n    queue = []\n    for node in in_degree:\n        if in_degree[node] == 0:\n            queue.append(node)\n    order = []\n    while queue:\n        node = queue.pop(0)\n        order.append(node)\n        for neighbor in graph.get(node, []):\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return order\n\nif __name__ == '__main__':\n    dag = {\n        'A': ['B', 'C'],\n        'B': ['D'],\n        'C': ['D'],\n        'D': []\n    }\n    print(topological_sort(dag))",
+      "solution_code": "from collections import deque\n\ndef topological_sort(graph):\n    in_degree = {node: 0 for node in graph}\n    for node in graph:\n        for neighbor in graph[node]:\n            in_degree[neighbor] = in_degree.get(neighbor, 0) + 1\n    queue = deque([node for node in in_degree if in_degree[node] == 0])\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.append(node)\n        for neighbor in graph.get(node, []):\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    if len(order) != len(in_degree):\n        return []\n    return order\n\nif __name__ == '__main__':\n    dag = {\n        'A': ['B', 'C'],\n        'B': ['D'],\n        'C': ['D'],\n        'D': []\n    }\n    print(topological_sort(dag))",
+      "test_cases": [
+        {
+          "input": "{'A': ['B'], 'B': ['C'], 'C': []}",
+          "expected": "['A', 'B', 'C']"
+        },
+        {
+          "input": "{'A': ['B'], 'B': ['A']}",
+          "expected": "[]"
+        },
+        {
+          "input": "{}",
+          "expected": "[]"
+        }
+      ],
+      "hint": "If the number of nodes in the output is less than the total nodes, a cycle exists. Use a deque for O(1) pops from the left.",
+      "explanation": "Kahn's algorithm repeatedly removes nodes with zero in-degree. A cycle prevents all nodes from being removed, so checking the final order length detects cycles. This is useful for dependency resolution in build systems and scheduling."
+    },
+    {
+      "id": "41.5_q28",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q27"
+      ],
+      "prompt": "Given an undirected graph, determine the number of connected components. A connected component is a maximal set of nodes where every pair is connected by a path. Return the count of such components.",
+      "starter_code": "def count_connected_components(graph):\n    visited = set()\n    count = 0\n    for node in graph:\n        if node not in visited:\n            count += 1\n            stack = [node]\n            while stack:\n                current = stack.pop()\n                if current not in visited:\n                    visited.add(current)\n                    for neighbor in graph[current]:\n                        if neighbor not in visited:\n                            stack.append(neighbor)\n    return count\n\nif __name__ == '__main__':\n    g = {\n        0: [1],\n        1: [0, 2],\n        2: [1],\n        3: [4],\n        4: [3]\n    }\n    print(count_connected_components(g))",
+      "solution_code": "def count_connected_components(graph):\n    visited = set()\n    count = 0\n    for node in graph:\n        if node not in visited:\n            count += 1\n            stack = [node]\n            while stack:\n                current = stack.pop()\n                if current not in visited:\n                    visited.add(current)\n                    for neighbor in graph.get(current, []):\n                        if neighbor not in visited:\n                            stack.append(neighbor)\n    return count\n\nif __name__ == '__main__':\n    g = {\n        0: [1],\n        1: [0, 2],\n        2: [1],\n        3: [4],\n        4: [3]\n    }\n    print(count_connected_components(g))",
+      "test_cases": [
+        {
+          "input": "{0: [1], 1: [0], 2: [3], 3: [2]}",
+          "expected": 2
+        },
+        {
+          "input": "{0: [], 1: [], 2: []}",
+          "expected": 3
+        },
+        {
+          "input": "{}",
+          "expected": 0
+        }
+      ],
+      "hint": "Iterate through all nodes and start a new traversal only when encountering an unvisited node. Each such start increments the component count.",
+      "explanation": "This problem extends DFS/BFS by counting how many times we must initiate a fresh traversal. It is foundational for network analysis, social graph clustering, and image segmentation."
+    },
+    {
+      "id": "41.5_q29",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q28"
+      ],
+      "prompt": "Scenario: You are designing a campus navigation system. Buildings are nodes, and walking paths are undirected edges. You need to: (1) find the shortest walking distance between any two buildings, (2) identify the main building(s) with no incoming path dependencies (e.g., a central hub with no prerequisites), and (3) verify that all buildings are reachable from a central dispatch point. Design a unified approach using graph traversals and justify your choice of algorithms for each sub-task.",
+      "starter_code": "# TODO: Implement the campus navigation system\n# Sub-task 1: shortest distance between two buildings\n# Sub-task 2: identify buildings with no incoming path dependencies\n# Sub-task 3: verify all buildings reachable from dispatch point\n\ndef campus_navigation(graph, start, dispatch):\n    pass\n\n# Example campus graph\ncampus = {\n    'A': ['B', 'C'],\n    'B': ['A', 'D'],\n    'C': ['A', 'D'],\n    'D': ['B', 'C', 'E'],\n    'E': ['D']\n}\nprint(campus_navigation(campus, 'B', 'A'))",
+      "solution_code": "from collections import deque\n\ndef bfs_shortest_distance(graph, source, target):\n    if source == target:\n        return 0\n    queue = deque([(source, 0)])\n    visited = {source}\n    while queue:\n        node, dist = queue.popleft()\n        for neighbor in graph.get(node, []):\n            if neighbor == target:\n                return dist + 1\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append((neighbor, dist + 1))\n    return -1\n\ndef in_degree_nodes(graph):\n    in_degree = {node: 0 for node in graph}\n    for node in graph:\n        for neighbor in graph[node]:\n            in_degree[neighbor] = in_degree.get(neighbor, 0) + 1\n    return [node for node, deg in in_degree.items() if deg == 0]\n\ndef is_fully_reachable(graph, dispatch):\n    visited = set()\n    queue = deque([dispatch])\n    visited.add(dispatch)\n    while queue:\n        node = queue.popleft()\n        for neighbor in graph.get(node, []):\n            if neighbor not in visited:\n                visited.add(neighbor)\n                queue.append(neighbor)\n    return len(visited) == len(graph)\n\ndef campus_navigation(graph, source, dispatch):\n    dist = bfs_shortest_distance(graph, source, 'E')\n    hubs = in_degree_nodes(graph)\n    reachable = is_fully_reachable(graph, dispatch)\n    return {\n        'shortest_distance_to_E': dist,\n        'no_dependency_hubs': hubs,\n        'all_buildings_reachable': reachable\n    }\n\ncampus = {\n    'A': ['B', 'C'],\n    'B': ['A', 'D'],\n    'C': ['A', 'D'],\n    'D': ['B', 'C', 'E'],\n    'E': ['D']\n}\nprint(campus_navigation(campus, 'B', 'A'))",
+      "test_cases": [
+        {
+          "input": "{'A': ['B'], 'B': ['A', 'C'], 'C': ['B']}",
+          "expected": "{'shortest_distance_to_E': -1, 'no_dependency_hubs': ['A'], 'all_buildings_reachable': True}"
+        },
+        {
+          "input": "{'A': [], 'B': []}",
+          "expected": "{'shortest_distance_to_E': -1, 'no_dependency_hubs': ['A', 'B'], 'all_buildings_reachable': True}"
+        }
+      ],
+      "hint": "Use BFS for shortest distance in unweighted graphs. For no-dependency hubs, compute in-degrees. For reachability, run BFS from the dispatch point and compare visited count to total nodes.",
+      "explanation": "In real-world systems, combining traversals solves multi-objective problems. BFS guarantees the shortest path in unweighted graphs. In-degree analysis identifies sources in dependency graphs. Reachability checks ensure system integrity and are critical in routing, logistics, and network monitoring."
+    },
+    {
+      "id": "41.5_q30",
+      "type": "write_the_code",
+      "concept": "recognizing_graph_and_tree_traversal_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.5_q29"
+      ],
+      "prompt": "Master Challenge: Implement a function `is_valid_bst_and_acyclic_dag(edges)` that accepts a list of directed edges representing a graph. The function must return True if and only if the graph is both a valid binary search tree (BST) when interpreted as a rooted tree, and an acyclic directed graph (DAG). A valid BST requires: left child < parent < right child for every node, and no duplicate values. Additionally, detect and report any cycle. If a cycle exists, return False and the cycle nodes.",
+      "starter_code": "def is_valid_bst_and_acyclic_dag(edges):\n    # Build adjacency list and parent map\n    graph = {}\n    parent = {}\n    for u, v in edges:\n        graph.setdefault(u, []).append(v)\n        parent[v] = u\n    # TODO: validate BST property, detect cycles, and verify DAG\n    return True, []\n\n# Example\nedges = [\n    ('5', '3'),\n    ('5', '7'),\n    ('3', '2'),\n    ('3', '4'),\n    ('7', '6'),\n    ('7', '8')\n]\nprint(is_valid_bst_and_acyclic_dag(edges))",
+      "solution_code": "from collections import defaultdict, deque\n\ndef is_valid_bst_and_acyclic_dag(edges):\n    if not edges:\n        return True, []\n    graph = defaultdict(list)\n    parent = {}\n    in_degree = {}\n    nodes = set()\n    for u, v in edges:\n        graph[u].append(v)\n        parent[v] = u\n        nodes.add(u)\n        nodes.add(v)\n        in_degree[v] = in_degree.get(v, 0) + 1\n        in_degree[u] = in_degree.get(u, 0)\n    root = None\n    for node in nodes:\n        if node not in in_degree:\n            root = node\n            break\n    if root is None:\n        return False, list(nodes)\n    for u, v in edges:\n        if v in parent and parent[v] != u:\n            return False, [u, v]\n    # BST validation via traversal\n    def validate_bst(node, low, high):\n        if node is None:\n            return True\n        val = node\n        if not (low < val < high):\n            return False\n        left = graph.get(node, [])\n        right = [n for n in graph.get(node, []) if n not in left]  # heuristic split\n        # Better: require left < node < right via explicit left/right sets\n        # For this challenge, assume edges encode left/right by parity or naming\n        # We use a stricter approach: require all children < node for left, > node for right\n        # Simplified: check no child violates BST if we assume left/right from structure\n        # Full solution requires left/right markers; here we validate acyclic + BST-like ordering\n        return validate_bst(left[0] if left else None, low, val) and validate_bst(right[0] if right else None, val, high)\n    # Cycle detection via DFS\n    visited = set()\n    rec_stack = set()\n    cycle = []\n    def dfs_cycle(u, path):\n        visited.add(u)\n        rec_stack.add(u)\n        path.append(u)\n        for v in graph.get(u, []):\n            if v not in visited:\n                if dfs_cycle(v, path):\n                    return True\n            elif v in rec_stack:\n                idx = path.index(v)\n                cycle.extend(path[idx:] + [v])\n                return True\n        rec_stack.remove(u)\n        path.pop()\n        return False\n    if dfs_cycle(root, []):\n        return False, cycle\n    # DAG check via topological sort\n    queue = deque([n for n in nodes if in_degree.get(n, 0) == 0])\n    topo = []\n    while queue:\n        u = queue.popleft()\n        topo.append(u)\n        for v in graph.get(u, []):\n            in_degree[v] -= 1\n            if in_degree[v] == 0:\n                queue.append(v)\n    if len(topo) != len(nodes):\n        return False, list(nodes)\n    # BST ordering check: all left descendants < node < right descendants\n    # We assume edges to smaller values are left, larger are right\n    def check_bst_order(u, low, high):\n        if u is None:\n            return True\n        if not (low < u < high):\n            return False\n        for v in graph.get(u, []):\n            if v < u:\n                if not check_bst_order(v, low, u):\n                    return False\n            else:\n                if not check_bst_order(v, u, high):\n                    return False\n        return True\n    if not check_bst_order(root, float('-inf'), float('inf')):\n        return False, ['BST_violation']\n    return True, []\n\nedges = [\n    ('5', '3'),\n    ('5', '7'),\n    ('3', '2'),\n    ('3', '4'),\n    ('7', '6'),\n    ('7', '8')\n]\nprint(is_valid_bst_and_acyclic_dag(edges))",
+      "test_cases": [
+        {
+          "input": "[('5', '3'), ('5', '7'), ('3', '2'), ('3', '4'), ('7', '6'), ('7', '8')]",
+          "expected": "[True, []]"
+        },
+        {
+          "input": "[('5', '3'), ('3', '5')]",
+          "expected": "[False, ['5', '3', '5']]"
+        },
+        {
+          "input": "[]",
+          "expected": "[True, []]"
+        }
+      ],
+      "hint": "First detect cycles with DFS and topological sort. Then enforce BST ordering by ensuring left descendants are strictly less and right descendants are strictly greater than each ancestor.",
+      "explanation": "This mastery item integrates multiple traversal patterns: DFS for cycle detection, topological sort for DAG validation, and recursive ordering checks for BST properties. It mirrors real validation tasks in database indexing, compiler symbol tables, and configuration dependency graphs where both structure and ordering constraints must hold simultaneously."
+    }
+  ],
+  "unit_num": 41,
+  "learning_objectives": [
+    "Implement the fundamental Recognizing Graph and Tree Traversal algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "41.4"
+  ]
+}

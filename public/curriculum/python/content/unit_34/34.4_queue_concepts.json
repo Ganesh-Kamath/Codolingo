@@ -1,0 +1,631 @@
+{
+  "lesson_id": "34.4",
+  "title": "Queue Concepts (FIFO)",
+  "unit": "DSA: Stacks and Queues",
+  "items": [
+    {
+      "id": "34.4_q1",
+      "type": "micro_lesson",
+      "title": "What is a Queue and FIFO Principle?",
+      "content": "A queue is a linear data structure that follows the First-In-First-Out (FIFO) principle. This means the first element added to the queue will be the first one to be removed. Think of a line at a ticket counter: the person who arrives first gets served first. In Python, the standard library module `collections` provides `deque`, which can be used to implement an efficient queue. Unlike a stack (LIFO), a queue removes elements from the front and adds elements to the rear. Here is a simple demonstration:\n\n```python\nfrom collections import deque\n\nq = deque()\nq.append('apple')\nq.append('banana')\nq.append('cherry')\nprint('Queue after enqueues:', list(q))\nfirst = q.popleft()\nprint('Dequeued:', first)\nprint('Queue after dequeue:', list(q))\n```\n\nOutput:\n```\nQueue after enqueues: ['apple', 'banana', 'cherry']\nDequeued: apple\nQueue after dequeue: ['banana', 'cherry']\n```\nKey takeaway: `append()` adds to the right (rear), and `popleft()` removes from the left (front).",
+      "concept": "queue_concepts_fifo_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "idx": 2,
+      "id": "34.4_q2",
+      "type": "multiple_choice",
+      "prompt": "Which operation removes and returns the element at the front of a Python queue implemented with `collections.deque`?",
+      "options": [
+        "q.pop()",
+        "q.popleft()",
+        "q.remove()",
+        "q.shift()"
+      ],
+      "correct_answer": "q.popleft()",
+      "explanation": "`popleft()` removes and returns the leftmost element, which corresponds to the front of the queue in FIFO order. `pop()` removes from the right (rear). `remove()` deletes a specific value and raises an error if not found. `shift()` is not a valid deque method.",
+      "match_code_to_concept": "queue_concepts_fifo_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q1"
+      ],
+      "concept": "queue_concepts_fifo_basics"
+    },
+    {
+      "idx": 3,
+      "id": "34.4_q3",
+      "type": "micro_lesson",
+      "title": "Queue Syntax and Core Methods",
+      "content": "To work with queues in Python, the most common approach is using `collections.deque` because it provides O(1) time complexity for both enqueue and dequeue operations. The essential methods are:\n\n- `append(x)`: Add `x` to the right end (enqueue).\n- `popleft()`: Remove and return the leftmost element (dequeue).\n- `len(q)`: Return the number of elements.\n- `q[0]`: Peek at the front element without removing it.\n\nExample:\n\n```python\nfrom collections import deque\n\nq = deque()\nq.append(10)\nq.append(20)\nq.append(30)\nprint('Length:', len(q))           # 3\nprint('Front element:', q[0])      # 10\nprint('Dequeue:', q.popleft())     # 10\nprint('Remaining:', list(q))       # [20, 30]\n```\n\nImportant: Always check if the queue is empty before calling `popleft()` to avoid `IndexError`.",
+      "concept": "queue_concepts_fifo_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q2"
+      ],
+      "prompt": "",
+      "explanation": "To work with queues in Python, the most common approach is using `collections. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "id": "34.4_q4",
+      "type": "multiple_choice",
+      "prompt": "Given the code below, what is printed after executing it?\n\n```python\nfrom collections import deque\nq = deque([5, 10])\nq.append(15)\nprint(q.popleft())\nprint(q[0])\n```",
+      "options": [
+        "5\n10",
+        "5\n15",
+        "10\n15",
+        "10\n10"
+      ],
+      "correct_answer": "5\n10",
+      "explanation": "After `q.append(15)`, the queue is [5, 10, 15]. `q.popleft()` removes and returns 5. The remaining queue is [10, 15], so `q[0]` is 10. Therefore the output is 5 on the first line and 10 on the second line.",
+      "match_code_to_concept": "queue_concepts_fifo_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q3"
+      ],
+      "concept": "queue_concepts_fifo_syntax"
+    },
+    {
+      "idx": 5,
+      "id": "34.4_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the queue operation to its description.",
+      "options": [
+        "enqueue: remove from front; dequeue: add to rear",
+        "enqueue: add to rear; dequeue: remove from front",
+        "enqueue: add to front; dequeue: remove from rear",
+        "enqueue: remove from rear; dequeue: add to front"
+      ],
+      "correct_answer": "enqueue: add to rear; dequeue: remove from front",
+      "explanation": "In a FIFO queue, enqueue means inserting at the rear (end), and dequeue means removing from the front (head). This preserves the order in which items were added.",
+      "match_code_to_concept": "queue_concepts_fifo_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q4"
+      ],
+      "concept": "queue_concepts_fifo_matching"
+    },
+    {
+      "idx": 6,
+      "id": "34.4_q6",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is a common pitfall when using a queue in Python?",
+      "options": [
+        "Using `pop()` instead of `popleft()` causes incorrect FIFO behavior",
+        "Queues automatically grow without any memory concerns",
+        "Calling `append()` removes elements from the front",
+        "A queue can only store strings, not numbers"
+      ],
+      "correct_answer": "Using `pop()` instead of `popleft()` causes incorrect FIFO behavior",
+      "explanation": "If you use `pop()` on a deque, you remove from the right (rear), which violates FIFO and makes the structure behave like a stack. The other options are false: queues can store any type, they do consume memory, and `append()` adds to the rear rather than removing anything.",
+      "match_code_to_concept": "queue_concepts_fifo_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q5"
+      ],
+      "concept": "queue_concepts_fifo_pitfalls"
+    },
+    {
+      "id": "34.4_q7",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q6"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Queue Concepts (FIFO).",
+      "correct_answer": "apple banana",
+      "explanation": "Constructing pure, robust data transformers for Queue Concepts (FIFO) avoids unintended side effects and guarantees consistent return contracts.",
+      "starter_code": "def process_34_4_data(items):\n    # Process input according to Queue Concepts (FIFO) rules\n    pass",
+      "solution_code": "def process_34_4_data(items):\n    return [item for item in items if item is not None]",
+      "hint": "Focus on applying the central Python idiom for Queue Concepts (FIFO).",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Queue Concepts (FIFO) rules"
+        }
+      ]
+    },
+    {
+      "id": "34.4_q8",
+      "type": "output_prediction",
+      "concept": "queue_concepts_fifo_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q7"
+      ],
+      "prompt": "What is the final output of this program?\n```python\nfrom collections import deque\nq = deque([10, 20, 30])\nwhile q:\n    print(q.popleft(), end=' ')\nprint()\n```",
+      "options": [
+        "10 20 30 ",
+        "30 20 10 ",
+        "10 20 30",
+        "30 20 10"
+      ],
+      "correct_answer": "10 20 30 ",
+      "explanation": "The while loop processes the queue in FIFO order. popleft() removes and returns the leftmost element. The loop prints 10, then 20, then 30, each followed by a space."
+    },
+    {
+      "id": "34.4_q9",
+      "type": "code_prediction",
+      "concept": "queue_concepts_fifo_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q8"
+      ],
+      "prompt": "What does this code print?\n```python\nq = deque()\nq.append('x')\nq.append('y')\nq.append('z')\nq.popleft()\nq.append('w')\nprint(q[0], q[-1])\n```",
+      "options": [
+        "'x' 'w'",
+        "'y' 'w'",
+        "'y' 'z'",
+        "'z' 'w'"
+      ],
+      "correct_answer": "'y' 'w'",
+      "explanation": "After appending 'x', 'y', and 'z', popleft() removes 'x'. The queue now contains ['y', 'z']. Appending 'w' gives ['y', 'z', 'w']. q[0] is 'y' and q[-1] is 'w'."
+    },
+    {
+      "id": "34.4_q10",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q9"
+      ],
+      "prompt": "Explain why the output of the following code is 'A B' and not 'B A'.\n```python\nfrom collections import deque\nq = deque()\nq.append('A')\nq.append('B')\nprint(q.popleft(), q.popleft())\n```",
+      "correct_answer": "Because popleft() always removes the element at the front, preserving insertion order.",
+      "explanation": "In a FIFO queue, append() adds to the right and popleft() removes from the left. Thus 'A' is removed before 'B', producing 'A B'.",
+      "starter_code": "# TODO: Implement solution for Queue Concepts (FIFO)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Queue Concepts (FIFO)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Queue Concepts (FIFO)"
+        }
+      ]
+    },
+    {
+      "id": "34.4_q11",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q10"
+      ],
+      "prompt": "Trace the state of the queue after each step and identify the final queue contents. Start with q = deque().\nStep 1: q.append(5)\nStep 2: q.append(10)\nStep 3: q.popleft()\nStep 4: q.append(15)\nStep 5: q.popleft()",
+      "correct_answer": "Step 1: [5], Step 2: [5, 10], Step 3: [10], Step 4: [10, 15], Step 5: [15]",
+      "explanation": "After Step 1 and 2, the queue is [5, 10]. Step 3 removes 5, leaving [10]. Step 4 appends 15, giving [10, 15]. Step 5 removes 10, leaving [15].",
+      "starter_code": "# TODO: Implement solution for Queue Concepts (FIFO)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Queue Concepts (FIFO)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Queue Concepts (FIFO)"
+        }
+      ]
+    },
+    {
+      "id": "34.4_q12",
+      "type": "output_prediction",
+      "concept": "queue_concepts_fifo_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q11"
+      ],
+      "prompt": "What is the output of this code?\n```python\nfrom collections import deque\nq = deque(['p', 'q'])\nq.append('r')\nprint(q.popleft())\nprint(q)\nprint(q.popleft())\n```",
+      "options": [
+        "'p'\n['q', 'r']\n'q'",
+        "'q'\n['p', 'r']\n'p'",
+        "'p'\n['q']\n'q'",
+        "'r'\n['p', 'q']\n'p'"
+      ],
+      "correct_answer": "'p'\n['q', 'r']\n'q'",
+      "explanation": "Initially q is ['p', 'q']. append('r') makes it ['p', 'q', 'r']. popleft() returns 'p' and leaves ['q', 'r']. The second popleft() returns 'q' and leaves ['r']."
+    },
+    {
+      "id": "34.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "queue_concepts_fifo_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q12"
+      ],
+      "prompt": "Complete the code to create an empty queue using the collections.deque module: from collections import deque; q = ____; print(q)",
+      "correct_answer": "deque()",
+      "accepted_answers": [
+        "deque()",
+        "deque([])"
+      ],
+      "explanation": "The collections.deque class provides an efficient implementation of a queue. Calling deque() creates an empty queue ready for enqueue and dequeue operations."
+    },
+    {
+      "id": "34.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "queue_concepts_fifo_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q13"
+      ],
+      "prompt": "Fill in the missing keyword to add an element to the right side of a queue: q.____(5); This operation represents enqueue in FIFO order.",
+      "correct_answer": "append",
+      "accepted_answers": [
+        "append",
+        "appendleft"
+      ],
+      "explanation": "In a deque used as a queue, append() adds an element to the right end, which is the enqueue operation. appendleft() adds to the left and would violate FIFO order."
+    },
+    {
+      "id": "34.4_q15",
+      "type": "code_ordering",
+      "concept": "queue_concepts_fifo_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to demonstrate FIFO behavior: (A) print(q.popleft()); (B) q.append(10); (C) q.append(20); (D) print(q)",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "To demonstrate FIFO, first enqueue 10, then enqueue 20. After that, dequeue with popleft() (which removes 10) and finally print the remaining queue. The correct sequence is B, C, D, A."
+    },
+    {
+      "id": "34.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "queue_concepts_fifo_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q15"
+      ],
+      "prompt": "Complete the condition to safely dequeue from a non-empty queue: if q: ____; else: print('empty')",
+      "correct_answer": "x = q.popleft(); print(x)",
+      "accepted_answers": [
+        "x = q.popleft(); print(x)",
+        "x = q.popleft(); print(x);"
+      ],
+      "explanation": "Before calling popleft(), always check if the queue is non-empty. popleft() removes and returns the leftmost element, preserving FIFO semantics."
+    },
+    {
+      "id": "34.4_q17",
+      "type": "code_ordering",
+      "concept": "queue_concepts_fifo_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q16"
+      ],
+      "prompt": "Arrange the lines to simulate a ticket counter queue: (A) for i in range(3): q.append(f'T{i+1}'); (B) print('Queue:', q); (C) while q: print(q.popleft()); (D) from collections import deque; q = deque()",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First import and initialize the deque (D). Then enqueue three customers (A). Print the queue state (B). Finally, process all customers in FIFO order by dequeuing until empty (C)."
+    },
+    {
+      "id": "34.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "queue_concepts_fifo_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q17"
+      ],
+      "prompt": "Complete the idiomatic one-liner to convert a queue to a list for inspection: list(q) is equivalent to ____",
+      "correct_answer": "list(q)",
+      "accepted_answers": [
+        "list(q)",
+        "[x for x in q]"
+      ],
+      "explanation": "list(q) is the standard Python idiom to snapshot a deque into a list. It preserves the current FIFO order without modifying the queue."
+    },
+    {
+      "id": "34.4_q19",
+      "type": "fix_the_code",
+      "concept": "queue_concepts_fifo_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q18"
+      ],
+      "prompt": "Identify and explain the logical error in the following queue simulation that violates FIFO ordering.",
+      "starter_code": "from collections import deque\n\ndef simulate_queue():\n    q = deque()\n    q.append(10)\n    q.append(20)\n    q.append(30)\n    # Incorrect dequeue: removes from the right side\n    removed = q.pop()\n    print('Removed:', removed)\n    return q\n\nsimulate_queue()",
+      "solution_code": "from collections import deque\n\ndef simulate_queue():\n    q = deque()\n    q.append(10)\n    q.append(20)\n    q.append(30)\n    # Correct dequeue: removes from the left side (FIFO)\n    removed = q.popleft()\n    print('Removed:', removed)\n    return q\n\nsimulate_queue()",
+      "hint": "Recall that a queue follows First-In-First-Out. The oldest element must be removed first, which corresponds to the left side of a deque.",
+      "explanation": "The original code used pop(), which removes from the right side (LIFO behavior). This violates FIFO. The fix is to use popleft() to remove the element that was enqueued earliest."
+    },
+    {
+      "id": "34.4_q20",
+      "type": "fix_the_code",
+      "concept": "queue_concepts_fifo_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.4_q19"
+      ],
+      "prompt": "Fix the code so it correctly demonstrates a FIFO queue by enqueuing and dequeuing elements.",
+      "starter_code": "q = []\nq.insert(0, 5)\nq.insert(0, 15)\nprint(q.pop())\nprint(q.pop())\nprint(q)",
+      "solution_code": "from collections import deque\n\nq = deque()\nq.append(5)\nq.append(15)\nprint(q.popleft())\nprint(q.popleft())\nprint(list(q))",
+      "hint": "Use deque for efficient FIFO operations. append adds to the right, and popleft removes from the left.",
+      "explanation": "Using a list with insert(0, ...) and pop() is inefficient and conceptually confusing. deque with append and popleft properly models a FIFO queue."
+    },
+    {
+      "id": "34.4_q21",
+      "type": "fix_the_code",
+      "concept": "queue_concepts_fifo_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q20"
+      ],
+      "prompt": "Correct the code to safely handle dequeuing from an empty queue without crashing.",
+      "starter_code": "from collections import deque\n\nq = deque()\nprint(q.popleft())\nprint(q)",
+      "solution_code": "from collections import deque\n\nq = deque()\nif q:\n    print(q.popleft())\nelse:\n    print('Queue is empty, cannot dequeue.')\nprint(q)",
+      "hint": "Always check if the queue is non-empty before calling popleft(). An empty deque raises IndexError.",
+      "explanation": "Calling popleft() on an empty deque raises an IndexError. The fix adds a conditional check to handle the empty queue gracefully."
+    },
+    {
+      "id": "34.4_q22",
+      "type": "fix_the_code",
+      "concept": "queue_concepts_fifo_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q21"
+      ],
+      "prompt": "Analyze the runtime behavior and identify the performance issue in this queue implementation.",
+      "starter_code": "q = []\nfor i in range(10000):\n    q.insert(0, i)\nfor i in range(10000):\n    q.pop()\nprint('Length:', len(q))",
+      "solution_code": "from collections import deque\n\nq = deque()\nfor i in range(10000):\n    q.append(i)\nfor i in range(10000):\n    q.popleft()\nprint('Length:', len(q))",
+      "hint": "Consider the time complexity of inserting at index 0 and popping from the end of a Python list.",
+      "explanation": "list.insert(0, ...) and list.pop() are O(n) operations because all elements must be shifted. Using deque with append and popleft provides O(1) amortized time for both operations, making it suitable for large queues."
+    },
+    {
+      "id": "34.4_q23",
+      "type": "fix_the_code",
+      "concept": "queue_concepts_fifo_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q22"
+      ],
+      "prompt": "Repair the logic so that the queue correctly tracks front and rear pointers during enqueue and dequeue.",
+      "starter_code": "class Queue:\n    def __init__(self):\n        self.data = []\n        self.front = 0\n    def enqueue(self, val):\n        self.data.append(val)\n        self.rear = len(self.data) - 1\n    def dequeue(self):\n        if self.front > self.rear:\n            return None\n        val = self.data[self.front]\n        self.front = self.front + 1\n        return val\n\nq = Queue()\nq.enqueue(10)\nq.enqueue(20)\nprint(q.dequeue())\nprint(q.dequeue())\nprint(q.dequeue())",
+      "solution_code": "class Queue:\n    def __init__(self):\n        self.data = []\n        self.front = 0\n        self.rear = -1\n    def enqueue(self, val):\n        self.data.append(val)\n        self.rear = len(self.data) - 1\n    def dequeue(self):\n        if self.front > self.rear:\n            return None\n        val = self.data[self.front]\n        self.front = self.front + 1\n        return val\n\nq = Queue()\nq.enqueue(10)\nq.enqueue(20)\nprint(q.dequeue())\nprint(q.dequeue())\nprint(q.dequeue())",
+      "hint": "The rear pointer must be initialized to -1 when the queue is empty, and updated after each enqueue.",
+      "explanation": "The original code did not initialize rear, causing incorrect empty-queue detection. Initializing rear to -1 ensures the first enqueue sets rear to 0, and the condition front > rear correctly identifies an empty queue."
+    },
+    {
+      "id": "34.4_q24",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.4_q23"
+      ],
+      "prompt": "Refactor the following naive queue to use a fixed-size circular array for O(1) enqueue and dequeue without dynamic resizing overhead.",
+      "starter_code": "class Queue:\n    def __init__(self):\n        self.data = []\n    def enqueue(self, val):\n        self.data.append(val)\n    def dequeue(self):\n        if not self.data:\n            return None\n        return self.data.pop(0)\n    def is_empty(self):\n        return len(self.data) == 0\n\nq = Queue()\nfor i in range(5):\n    q.enqueue(i)\nprint([q.dequeue() for _ in range(5)])",
+      "solution_code": "class CircularQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.data = [None] * capacity\n        self.front = 0\n        self.rear = -1\n        self.size = 0\n\n    def enqueue(self, val):\n        if self.size == self.capacity:\n            raise OverflowError('Queue is full')\n        self.rear = (self.rear + 1) % self.capacity\n        self.data[self.rear] = val\n        self.size += 1\n\n    def dequeue(self):\n        if self.size == 0:\n            return None\n        val = self.data[self.front]\n        self.data[self.front] = None\n        self.front = (self.front + 1) % self.capacity\n        self.size -= 1\n        return val\n\n    def is_empty(self):\n        return self.size == 0\n\nq = CircularQueue(5)\nfor i in range(5):\n    q.enqueue(i)\nprint([q.dequeue() for _ in range(5)])",
+      "test_cases": [
+        {
+          "input": "q = CircularQueue(3); q.enqueue(10); q.enqueue(20); assert q.dequeue()",
+          "expected_output": "10; assert q.dequeue() == 20; q.enqueue(30); assert q.dequeue() == 30",
+          "description": "Verifies: q = CircularQueue(3); q.enqueue(10); q.enqueue(20); assert q.dequeue() == 10; assert q.dequeue() == 20; q.enqueue(30); assert q.dequeue() == 30"
+        },
+        {
+          "input": "q = CircularQueue(2); q.enqueue(5); q.enqueue(6); assert q.is_empty()",
+          "expected_output": "False; q.dequeue(); q.dequeue(); assert q.is_empty() == True",
+          "description": "Verifies: q = CircularQueue(2); q.enqueue(5); q.enqueue(6); assert q.is_empty() == False; q.dequeue(); q.dequeue(); assert q.is_empty() == True"
+        },
+        {
+          "input": "q = CircularQueue(4); for i in range(4): q.enqueue(i); assert q.dequeue()",
+          "expected_output": "0; q.enqueue(4); assert q.dequeue() == 1; assert q.dequeue() == 2; assert q.dequeue() == 3; assert q.dequeue() == 4",
+          "description": "Verifies: q = CircularQueue(4); for i in range(4): q.enqueue(i); assert q.dequeue() == 0; q.enqueue(4); assert q.dequeue() == 1; assert q.dequeue() == 2; assert q.dequeue() == 3; assert q.dequeue() == 4"
+        }
+      ],
+      "hint": "Use modulo arithmetic to wrap front and rear indices. Track size explicitly to distinguish full from empty states.",
+      "explanation": "The refactored circular queue avoids O(n) shifts by reusing array slots. front and rear wrap around using modulo, and an explicit size counter prevents ambiguity between a full and empty queue."
+    },
+    {
+      "id": "34.4_q25",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q24"
+      ],
+      "prompt": "Implement a FIFO queue using Python's collections.deque. Your queue must support enqueue, dequeue, peek, and is_empty operations.",
+      "starter_code": "from collections import deque\n\nclass FIFOQueue:\n    def __init__(self):\n        self.items = deque()\n    \n    def enqueue(self, item):\n        pass\n    \n    def dequeue(self):\n        pass\n    \n    def peek(self):\n        pass\n    \n    def is_empty(self):\n        pass",
+      "solution_code": "from collections import deque\n\nclass FIFOQueue:\n    def __init__(self):\n        self.items = deque()\n    \n    def enqueue(self, item):\n        self.items.append(item)\n    \n    def dequeue(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self.items.popleft()\n    \n    def peek(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self.items[0]\n    \n    def is_empty(self):\n        return len(self.items) == 0",
+      "test_cases": [
+        {
+          "input": "q = FIFOQueue(); q.enqueue(10); q.enqueue(20); assert q.dequeue()",
+          "expected_output": "10; assert q.peek() == 20; assert q.is_empty() == False",
+          "description": "Verifies: q = FIFOQueue(); q.enqueue(10); q.enqueue(20); assert q.dequeue() == 10; assert q.peek() == 20; assert q.is_empty() == False"
+        },
+        {
+          "input": "q = FIFOQueue(); assert q.is_empty()",
+          "expected_output": "True; q.enqueue('a'); q.enqueue('b'); q.enqueue('c'); assert q.dequeue() == 'a'; assert q.dequeue() == 'b'; assert q.dequeue() == 'c'; assert q.is_empty() == True",
+          "description": "Verifies: q = FIFOQueue(); assert q.is_empty() == True; q.enqueue('a'); q.enqueue('b'); q.enqueue('c'); assert q.dequeue() == 'a'; assert q.dequeue() == 'b'; assert q.dequeue() == 'c'; assert q.is_empty() == True"
+        }
+      ],
+      "hint": "Use append() to add to the right end and popleft() to remove from the left end of a deque.",
+      "explanation": "A FIFO queue follows First-In-First-Out semantics. collections.deque provides O(1) append and popleft operations, making it ideal for queue implementations. enqueue adds to the right, dequeue removes from the left, and peek inspects the front element without removing it."
+    },
+    {
+      "id": "34.4_q26",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.4_q25"
+      ],
+      "prompt": "Extend your FIFOQueue to include a size() method and a clear() method. Ensure all operations maintain O(1) time complexity.",
+      "starter_code": "from collections import deque\n\nclass FIFOQueue:\n    def __init__(self):\n        self.items = deque()\n    \n    def enqueue(self, item):\n        self.items.append(item)\n    \n    def dequeue(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self.items.popleft()\n    \n    def peek(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self.items[0]\n    \n    def is_empty(self):\n        return len(self.items) == 0\n    \n    def size(self):\n        pass\n    \n    def clear(self):\n        pass",
+      "solution_code": "from collections import deque\n\nclass FIFOQueue:\n    def __init__(self):\n        self.items = deque()\n    \n    def enqueue(self, item):\n        self.items.append(item)\n    \n    def dequeue(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self.items.popleft()\n    \n    def peek(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self.items[0]\n    \n    def is_empty(self):\n        return len(self.items) == 0\n    \n    def size(self):\n        return len(self.items)\n    \n    def clear(self):\n        self.items.clear()",
+      "test_cases": [
+        {
+          "input": "q = FIFOQueue(); q.enqueue(1); q.enqueue(2); assert q.size()",
+          "expected_output": "2; q.clear(); assert q.size() == 0; assert q.is_empty() == True",
+          "description": "Verifies: q = FIFOQueue(); q.enqueue(1); q.enqueue(2); assert q.size() == 2; q.clear(); assert q.size() == 0; assert q.is_empty() == True"
+        },
+        {
+          "input": "q = FIFOQueue(); for i in range(5): q.enqueue(i); assert q.size()",
+          "expected_output": "5; q.clear(); assert q.is_empty() == True",
+          "description": "Verifies: q = FIFOQueue(); for i in range(5): q.enqueue(i); assert q.size() == 5; q.clear(); assert q.is_empty() == True"
+        }
+      ],
+      "hint": "len(deque) returns the number of elements. deque has a built-in clear method.",
+      "explanation": "The size() method leverages the O(1) len operation on deque. The clear() method empties the queue in O(1) time by resetting the internal structure, which is more efficient than repeatedly dequeuing all elements."
+    },
+    {
+      "id": "34.4_q27",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.4_q26"
+      ],
+      "prompt": "Implement a bounded FIFO queue with a maximum capacity. When enqueue is called on a full queue, raise a QueueFull exception. When dequeue is called on an empty queue, raise a QueueEmpty exception.",
+      "starter_code": "class QueueFull(Exception):\n    pass\n\nclass QueueEmpty(Exception):\n    pass\n\nfrom collections import deque\n\nclass BoundedFIFOQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.items = deque()\n    \n    def enqueue(self, item):\n        pass\n    \n    def dequeue(self):\n        pass\n    \n    def peek(self):\n        pass\n    \n    def is_full(self):\n        pass\n    \n    def is_empty(self):\n        pass",
+      "solution_code": "class QueueFull(Exception):\n    pass\n\nclass QueueEmpty(Exception):\n    pass\n\nfrom collections import deque\n\nclass BoundedFIFOQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.items = deque()\n    \n    def enqueue(self, item):\n        if self.is_full():\n            raise QueueFull('Queue is full')\n        self.items.append(item)\n    \n    def dequeue(self):\n        if self.is_empty():\n            raise QueueEmpty('Queue is empty')\n        return self.items.popleft()\n    \n    def peek(self):\n        if self.is_empty():\n            raise QueueEmpty('Queue is empty')\n        return self.items[0]\n    \n    def is_full(self):\n        return len(self.items) >= self.capacity\n    \n    def is_empty(self):\n        return len(self.items) == 0",
+      "test_cases": [
+        {
+          "input": "q = BoundedFIFOQueue(2); q.enqueue(1); q.enqueue(2); assert q.is_full()",
+          "expected_output": "True; try: q.enqueue(3); except QueueFull: pass; else: assert False; q.dequeue(); assert q.is_full() == False; q.enqueue(3); assert q.is_full() == False",
+          "description": "Verifies: q = BoundedFIFOQueue(2); q.enqueue(1); q.enqueue(2); assert q.is_full() == True; try: q.enqueue(3); except QueueFull: pass; else: assert False; q.dequeue(); assert q.is_full() == False; q.enqueue(3); assert q.is_full() == False"
+        },
+        {
+          "input": "q = BoundedFIFOQueue(3); q.enqueue('x'); q.enqueue('y'); q.enqueue('z'); q.dequeue(); q.dequeue(); q.dequeue(); assert q.is_empty()",
+          "expected_output": "True; try: q.dequeue(); except QueueEmpty: pass; else: assert False",
+          "description": "Verifies: q = BoundedFIFOQueue(3); q.enqueue('x'); q.enqueue('y'); q.enqueue('z'); q.dequeue(); q.dequeue(); q.dequeue(); assert q.is_empty() == True; try: q.dequeue(); except QueueEmpty: pass; else: assert False"
+        }
+      ],
+      "hint": "Check the length of the deque against capacity before appending. Raise custom exceptions with descriptive messages.",
+      "explanation": "A bounded queue prevents unbounded memory growth by enforcing a capacity limit. Custom exceptions make error handling explicit for callers. is_full uses >= because the queue cannot exceed capacity, and is_empty checks for zero elements."
+    },
+    {
+      "id": "34.4_q28",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.4_q27"
+      ],
+      "prompt": "You are given a BoundedFIFOQueue with capacity 3. Perform the following operations in order: enqueue(10), enqueue(20), enqueue(30), dequeue(), enqueue(40), dequeue(), dequeue(), enqueue(50). What is the final state of the queue (front to back)?",
+      "starter_code": "from collections import deque\n\nclass BoundedFIFOQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.items = deque()\n    \n    def enqueue(self, item):\n        if len(self.items) >= self.capacity:\n            raise Exception('Full')\n        self.items.append(item)\n    \n    def dequeue(self):\n        if not self.items:\n            raise Exception('Empty')\n        return self.items.popleft()\n    \n    def __repr__(self):\n        return f'BoundedFIFOQueue({list(self.items)})'\n\nq = BoundedFIFOQueue(3)\nq.enqueue(10)\nq.enqueue(20)\nq.enqueue(30)\nq.dequeue()\nq.enqueue(40)\nq.dequeue()\nq.dequeue()\nq.enqueue(50)\nprint(q)",
+      "solution_code": "from collections import deque\n\nclass BoundedFIFOQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.items = deque()\n    \n    def enqueue(self, item):\n        if len(self.items) >= self.capacity:\n            raise Exception('Full')\n        self.items.append(item)\n    \n    def dequeue(self):\n        if not self.items:\n            raise Exception('Empty')\n        return self.items.popleft()\n    \n    def __repr__(self):\n        return f'BoundedFIFOQueue({list(self.items)})'\n\nq = BoundedFIFOQueue(3)\nq.enqueue(10)   # [10]\nq.enqueue(20)   # [10, 20]\nq.enqueue(30)   # [10, 20, 30]\nq.dequeue()     # [20, 30], returns 10\nq.enqueue(40)   # [20, 30, 40]\nq.dequeue()     # [30, 40], returns 20\nq.dequeue()     # [40], returns 30\nq.enqueue(50)   # [40, 50]\nprint(q)  # BoundedFIFOQueue([40, 50])",
+      "test_cases": [
+        {
+          "input": "assert list(q)",
+          "expected_output": "[40, 50]",
+          "description": "Verifies: assert list(q) == [40, 50]"
+        },
+        {
+          "input": "assert q.dequeue()",
+          "expected_output": "40; assert q.dequeue() == 50; assert q.is_empty() == True",
+          "description": "Verifies: assert q.dequeue() == 40; assert q.dequeue() == 50; assert q.is_empty() == True"
+        }
+      ],
+      "hint": "Trace each operation step by step, tracking the deque contents after every call.",
+      "explanation": "After enqueue(10), enqueue(20), enqueue(30), the queue is [10, 20, 30]. Dequeue removes 10, leaving [20, 30]. Enqueue(40) replaces 30? No, capacity is 3, so [20, 30, 40] becomes [20, 30, 40], then dequeue removes 20 -> [30, 40], another dequeue removes 30 -> [40], then enqueue(50) -> [40, 50]. The final state is [40, 50]."
+    },
+    {
+      "id": "34.4_q29",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.4_q28"
+      ],
+      "prompt": "A print server receives print jobs from multiple users. Jobs must be processed in the order they arrive (FIFO) to ensure fairness. Design a Python class PrintServer that uses a bounded queue with capacity 10. Include methods to add_job, process_next_job, and get_pending_count. Explain how FIFO semantics prevent starvation.",
+      "starter_code": "from collections import deque\n\nclass PrintServer:\n    def __init__(self, max_jobs):\n        self.max_jobs = max_jobs\n        self.jobs = deque()\n    \n    def add_job(self, job_id):\n        pass\n    \n    def process_next_job(self):\n        pass\n    \n    def get_pending_count(self):\n        pass\n    \n    def __repr__(self):\n        return f'PrintServer(pending={len(self.jobs)})'",
+      "solution_code": "from collections import deque\n\nclass PrintServer:\n    def __init__(self, max_jobs=10):\n        self.max_jobs = max_jobs\n        self.jobs = deque()\n    \n    def add_job(self, job_id):\n        if len(self.jobs) >= self.max_jobs:\n            raise RuntimeError('Print server queue full')\n        self.jobs.append(job_id)\n        return f'Job {job_id} queued'\n    \n    def process_next_job(self):\n        if not self.jobs:\n            return 'No jobs to process'\n        job_id = self.jobs.popleft()\n        return f'Processing job {job_id}'\n    \n    def get_pending_count(self):\n        return len(self.jobs)\n    \n    def __repr__(self):\n        return f'PrintServer(pending={len(self.jobs)})'",
+      "test_cases": [
+        {
+          "input": "ps = PrintServer(3); ps.add_job('A'); ps.add_job('B'); ps.add_job('C'); assert ps.get_pending_count()",
+          "expected_output": "3; ps.process_next_job(); assert ps.get_pending_count() == 2; ps.add_job('D'); assert ps.get_pending_count() == 3",
+          "description": "Verifies: ps = PrintServer(3); ps.add_job('A'); ps.add_job('B'); ps.add_job('C'); assert ps.get_pending_count() == 3; ps.process_next_job(); assert ps.get_pending_count() == 2; ps.add_job('D'); assert ps.get_pending_count() == 3"
+        },
+        {
+          "input": "ps = PrintServer(2); ps.add_job('X'); ps.add_job('Y'); try: ps.add_job('Z'); except RuntimeError: pass; else: assert False; ps.process_next_job(); ps.process_next_job(); assert ps.get_pending_count()",
+          "expected_output": "0",
+          "description": "Verifies: ps = PrintServer(2); ps.add_job('X'); ps.add_job('Y'); try: ps.add_job('Z'); except RuntimeError: pass; else: assert False; ps.process_next_job(); ps.process_next_job(); assert ps.get_pending_count() == 0"
+        }
+      ],
+      "hint": "Use a bounded queue to prevent memory exhaustion. FIFO ensures the earliest submitted job is handled first.",
+      "explanation": "FIFO ordering guarantees that no job waits indefinitely while newer jobs are processed first, which is the definition of starvation-free scheduling. The bounded capacity prevents denial-of-service via queue flooding. add_job appends to the right, process_next_job removes from the left, and get_pending_count reports the deque length."
+    },
+    {
+      "id": "34.4_q30",
+      "type": "write_the_code",
+      "concept": "queue_concepts_fifo_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.4_q29"
+      ],
+      "prompt": "Implement a circular buffer-based FIFO queue from scratch without using collections.deque. It must support enqueue, dequeue, and is_empty with O(1) amortized time. Handle wrap-around when the buffer index exceeds capacity.",
+      "starter_code": "class CircularFIFOQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.buffer = [None] * capacity\n        self.front = 0\n        self.rear = 0\n        self.size = 0\n    \n    def enqueue(self, item):\n        pass\n    \n    def dequeue(self):\n        pass\n    \n    def is_empty(self):\n        pass\n    \n    def __repr__(self):\n        items = []\n        idx = self.front\n        for _ in range(self.size):\n            items.append(self.buffer[idx])\n            idx = (idx + 1) % self.capacity\n        return f'CircularFIFOQueue({items})'",
+      "solution_code": "class CircularFIFOQueue:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.buffer = [None] * capacity\n        self.front = 0\n        self.rear = 0\n        self.size = 0\n    \n    def enqueue(self, item):\n        if self.size == self.capacity:\n            raise RuntimeError('Queue full')\n        self.buffer[self.rear] = item\n        self.rear = (self.rear + 1) % self.capacity\n        self.size += 1\n    \n    def dequeue(self):\n        if self.is_empty():\n            raise RuntimeError('Queue empty')\n        item = self.buffer[self.front]\n        self.buffer[self.front] = None\n        self.front = (self.front + 1) % self.capacity\n        self.size -= 1\n        return item\n    \n    def is_empty(self):\n        return self.size == 0\n    \n    def __repr__(self):\n        items = []\n        idx = self.front\n        for _ in range(self.size):\n            items.append(self.buffer[idx])\n            idx = (idx + 1) % self.capacity\n        return f'CircularFIFOQueue({items})'",
+      "test_cases": [
+        {
+          "input": "q = CircularFIFOQueue(4); q.enqueue(1); q.enqueue(2); q.enqueue(3); q.dequeue(); assert q.__repr__()",
+          "expected_output": "'CircularFIFOQueue([2, 3])'; q.enqueue(4); q.enqueue(5); q.enqueue(6); assert q.__repr__() == 'CircularFIFOQueue([2, 3, 4, 5, 6)'",
+          "description": "Verifies: q = CircularFIFOQueue(4); q.enqueue(1); q.enqueue(2); q.enqueue(3); q.dequeue(); assert q.__repr__() == 'CircularFIFOQueue([2, 3])'; q.enqueue(4); q.enqueue(5); q.enqueue(6); assert q.__repr__() == 'CircularFIFOQueue([2, 3, 4, 5, 6)'"
+        },
+        {
+          "input": "q = CircularFIFOQueue(3); q.enqueue('a'); q.enqueue('b'); q.enqueue('c'); q.dequeue(); q.dequeue(); q.dequeue(); assert q.is_empty()",
+          "expected_output": "True; try: q.dequeue(); except RuntimeError: pass; else: assert False",
+          "description": "Verifies: q = CircularFIFOQueue(3); q.enqueue('a'); q.enqueue('b'); q.enqueue('c'); q.dequeue(); q.dequeue(); q.dequeue(); assert q.is_empty() == True; try: q.dequeue(); except RuntimeError: pass; else: assert False"
+        }
+      ],
+      "hint": "Maintain front and rear pointers modulo capacity. When size equals capacity, the queue is full. When size is 0, the queue is empty.",
+      "explanation": "A circular buffer reuses allocated memory by wrapping indices with modulo arithmetic. enqueue writes at rear and advances rear; dequeue reads at front and advances front. The size field disambiguates between front == rear (empty) and a full queue (front == rear with size == capacity). This achieves O(1) amortized operations without dynamic resizing overhead."
+    }
+  ],
+  "unit_num": 34,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Queue Concepts (FIFO)",
+    "Apply idiomatic Python patterns when working with Queue Concepts (FIFO)",
+    "Debug common runtime exceptions and logic errors associated with Queue Concepts (FIFO)",
+    "Implement production-ready code utilizing Queue Concepts (FIFO)"
+  ],
+  "prerequisites": [
+    "34.3"
+  ]
+}

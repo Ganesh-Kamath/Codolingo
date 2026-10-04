@@ -1,0 +1,617 @@
+{
+  "lesson_id": "9.1",
+  "title": "Creating Tuples",
+  "unit": "Tuples and Sets",
+  "items": [
+    {
+      "id": "9.1_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "creating_tuples_basics",
+      "title": "What Is a Tuple?",
+      "content": "A tuple is an ordered, immutable collection of items in Python. Once you create a tuple, you cannot change, add, or remove elements from it. Tuples are useful when you want to group related data that should not be modified. You create a tuple by placing values inside parentheses (), separated by commas. If a tuple contains only one element, you must include a trailing comma to distinguish it from a regular value in parentheses. For example, a single-element tuple looks like ('apple',), not ('apple'). Here is a simple example:\n\n```python\n# Creating a tuple with multiple elements\nfruits = ('apple', 'banana', 'cherry')\nprint(fruits)\n\n# Accessing elements by index\nprint(fruits[0])\n\n# Single-element tuple (note the trailing comma)\nsingle = ('only_item',)\nprint(type(single))\n```\n\nTuples are faster than lists and can be used as dictionary keys because they are immutable.",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A tuple is an ordered, immutable collection of items in Python. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "type": "multiple_choice",
+      "skill": "recall",
+      "difficulty": "easy",
+      "concept": "creating_tuples_basics",
+      "id": "9.1_q2",
+      "prerequisites": [
+        "9.1_q1"
+      ],
+      "prompt": "Which of the following creates a valid tuple in Python?",
+      "options": [
+        "my_tuple = (1, 2, 3)",
+        "my_tuple = [1, 2, 3]",
+        "my_tuple = 1, 2, 3",
+        "my_tuple = (1 2 3)"
+      ],
+      "correct_answer": "my_tuple = (1, 2, 3)",
+      "explanation": "Parentheses enclosing comma-separated values like `(1, 2, 3)` construct an immutable tuple. Square brackets `[1, 2, 3]` define a mutable list, and omitting commas as in `(1 2 3)` raises a SyntaxError. A common beginner misconception is assuming parentheses alone make a tuple; in reality, commas separate elements to define the tuple structure."
+    },
+    {
+      "idx": 3,
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "concept": "creating_tuples_syntax",
+      "title": "Tuple Syntax Variations",
+      "content": "Python offers flexible ways to create tuples. The most common form uses parentheses: my_tuple = (1, 'two', 3.0). You can also omit parentheses for a tuple of strings or numbers: my_tuple = 1, 'two', 3.0. However, a single value without a comma is not a tuple; for example, (1) is just an integer in parentheses. To create a single-element tuple, always include a trailing comma: my_tuple = (1,). Another useful syntax is tuple unpacking, where you assign tuple elements to separate variables in one line: x, y = (10, 20). This creates a tuple on the right and unpacks it into x and y. Here is a complete example:\n\n```python\n# Standard tuple creation\ncoordinates = (10, 20)\nprint(coordinates)\n\n# Tuple without parentheses (still a tuple)\ncolors = 'red', 'green', 'blue'\nprint(colors)\n\n# Single-element tuple\npoint = (5,)\nprint(point)\n\n# Tuple unpacking\na, b = (100, 200)\nprint(a + b)\n```\n\nRemember: the comma is what makes a tuple, not the parentheses alone.",
+      "id": "9.1_q3",
+      "prerequisites": [
+        "9.1_q2"
+      ],
+      "prompt": "",
+      "explanation": "Python offers flexible ways to create tuples. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "concept": "creating_tuples_syntax",
+      "id": "9.1_q4",
+      "prerequisites": [
+        "9.1_q3"
+      ],
+      "prompt": "Which statement correctly describes tuple creation syntax?",
+      "options": [
+        "Parentheses are always required to create a tuple.",
+        "A single value in parentheses like (5) is a tuple.",
+        "A trailing comma is necessary for a single-element tuple.",
+        "Tuples cannot contain mixed data types."
+      ],
+      "correct_answer": "A trailing comma is necessary for a single-element tuple.",
+      "explanation": "Option C is correct. To create a tuple with one element, you must use a trailing comma, as in (5,). Option A is false because you can create a tuple without parentheses, like 1, 2, 3. Option B is false because (5) evaluates to the integer 5, not a tuple. Option D is false because tuples can hold any mix of data types, such as (1, 'hello', 3.14)."
+    },
+    {
+      "idx": 5,
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "creating_tuples_matching",
+      "id": "9.1_q5",
+      "prerequisites": [
+        "9.1_q4"
+      ],
+      "prompt": "Match each code snippet to the tuple concept it demonstrates.",
+      "options": [
+        "code: (1, 2, 3)  ->  concept: single-element tuple",
+        "code: 1, 2, 3  ->  concept: tuple without parentheses",
+        "code: (1,)  ->  concept: standard multi-element tuple",
+        "code: (1, 2, 3)  ->  concept: tuple with trailing comma"
+      ],
+      "correct_answer": "code: 1, 2, 3  ->  concept: tuple without parentheses",
+      "explanation": "Option B is the only correct match. The snippet 1, 2, 3 creates a tuple without using parentheses. Option A is wrong because (1, 2, 3) is a multi-element tuple, not single-element. Option C is wrong because (1,) is a single-element tuple, not a standard multi-element tuple. Option D is wrong because (1, 2, 3) does not have a trailing comma; a trailing comma would look like (1, 2, 3,)."
+    },
+    {
+      "idx": 6,
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "concept": "creating_tuples_pitfalls",
+      "id": "9.1_q6",
+      "prerequisites": [
+        "9.1_q5"
+      ],
+      "prompt": "Which common mistake should you avoid when creating tuples?",
+      "options": [
+        "Using commas to separate elements inside parentheses.",
+        "Forgetting the trailing comma in a single-element tuple.",
+        "Using square brackets instead of parentheses for a tuple.",
+        "Assigning a tuple to a variable with a descriptive name."
+      ],
+      "correct_answer": "Forgetting the trailing comma in a single-element tuple.",
+      "explanation": "Option B is the correct pitfall to avoid. Writing (42) creates the integer 42, not a tuple. You must write (42,) to create a single-element tuple. Option A is not a mistake; commas are required. Option C describes creating a list, which is different from a tuple but not a 'mistake' in the same sense. Option D is good practice, not a pitfall."
+    },
+    {
+      "id": "9.1_q7",
+      "type": "code_prediction",
+      "concept": "creating_tuples_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.1_q6"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nmy_tuple = ('apple', 42, True)\nprint(my_tuple[1])\n```",
+      "options": [
+        "apple",
+        "42",
+        "True",
+        "Error"
+      ],
+      "correct_answer": "42",
+      "explanation": "Tuples are indexed like lists. The element at index 1 is 42. Tuples are immutable, but indexing works the same way as with lists."
+    },
+    {
+      "id": "9.1_q8",
+      "type": "output_prediction",
+      "concept": "creating_tuples_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\ncolors = ('red', 'green', 'blue')\nprint(len(colors))\nprint(colors[0])\n```",
+      "options": [
+        "3\nred",
+        "3\nblue",
+        "Error\nError",
+        "2\ngreen"
+      ],
+      "correct_answer": "3\nred",
+      "explanation": "len(colors) returns 3 because the tuple has three elements. colors[0] accesses the first element, which is 'red'. Tuples support indexing and the len() function."
+    },
+    {
+      "id": "9.1_q9",
+      "type": "code_prediction",
+      "concept": "creating_tuples_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q8"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nnumbers = (10, 20, 30)\nfor n in numbers:\n    print(n * 2)\n```",
+      "options": [
+        "10\n20\n30",
+        "20\n40\n60",
+        "Error\nError\nError",
+        "10 20 30"
+      ],
+      "correct_answer": "20\n40\n60",
+      "explanation": "The for loop iterates over each element in the tuple. Each element is multiplied by 2 and printed on a separate line. Tuples are iterable, so they can be used directly in for loops."
+    },
+    {
+      "id": "9.1_q10",
+      "type": "write_the_code",
+      "concept": "creating_tuples_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q9"
+      ],
+      "prompt": "Explain the output and behavior of the following code snippet:\n```python\nt = (1, 2, 3)\nt.append(4)\nprint(t)\n```",
+      "correct_answer": "The code raises an AttributeError because tuples do not have an append method.",
+      "explanation": "Tuples are immutable, meaning they do not support item assignment or methods that modify their contents. The append() method exists only for lists, not for tuples. Attempting to call it on a tuple raises an AttributeError.",
+      "starter_code": "# TODO: Implement solution for Creating Tuples\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Creating Tuples')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Creating Tuples"
+        }
+      ]
+    },
+    {
+      "id": "9.1_q11",
+      "type": "code_prediction",
+      "concept": "creating_tuples_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q10"
+      ],
+      "prompt": "Trace the execution and determine the final value of x after the following code runs:\n```python\na, b, c = (100, 200, 300)\nx = (a, b)\nprint(x)\n```",
+      "options": [
+        "(100, 200)",
+        "(200, 300)",
+        "(100, 200, 300)",
+        "Error"
+      ],
+      "correct_answer": "(100, 200)",
+      "explanation": "Tuple unpacking assigns a = 100, b = 200, and c = 300. Then x is created as a new tuple containing a and b, resulting in (100, 200). This demonstrates that tuples can be constructed from existing variables."
+    },
+    {
+      "id": "9.1_q12",
+      "type": "output_prediction",
+      "concept": "creating_tuples_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q11"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nscores = (85, 90, 78)\nif 90 in scores:\n    print('Pass')\nelse:\n    print('Fail')\n```",
+      "options": [
+        "Pass",
+        "Fail",
+        "Error",
+        "90"
+      ],
+      "correct_answer": "Pass",
+      "explanation": "The in operator checks for membership within an iterable. Since 90 is present in the tuple scores, the condition evaluates to True and 'Pass' is printed. This is a common and efficient way to test whether a value exists in a tuple."
+    },
+    {
+      "id": "9.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "creating_tuples_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.1_q12"
+      ],
+      "micro_lesson": {
+        "title": "Creating Tuples with Parentheses",
+        "content": "A tuple is an ordered, immutable collection in Python. To create a tuple, you place comma-separated values inside parentheses. The parentheses are optional when creating a tuple with a single element, but a trailing comma is required to distinguish it from a plain value.\n\nExample:\n```\nmy_tuple = (1, 2, 3)\nprint(type(my_tuple))\n```\nOutput:\n```\n<class 'tuple'>\n```\nNotice that tuples are defined using parentheses `()` and values are separated by commas."
+      },
+      "prompt": "Complete the code to create a tuple containing the strings 'apple', 'banana', and 'cherry':\n\n```\nmy_fruits = ____\n```",
+      "correct_answer": "(('apple', 'banana', 'cherry'))",
+      "accepted_answers": [
+        "(('apple', 'banana', 'cherry'))",
+        "('apple', 'banana', 'cherry')",
+        "('apple', 'banana', 'cherry',)"
+      ],
+      "explanation": "The correct way to create a tuple is to enclose the comma-separated values in parentheses. All three accepted forms produce a tuple; the last form includes a trailing comma which is also valid."
+    },
+    {
+      "id": "9.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "creating_tuples_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q13"
+      ],
+      "micro_lesson": {
+        "title": "Using the tuple() Constructor",
+        "content": "Python provides the built-in `tuple()` constructor to convert an iterable into a tuple. This is useful when you already have a list or another sequence and want to create an immutable version of it.\n\nExample:\n```\nmy_list = [10, 20, 30]\nmy_tuple = tuple(my_list)\nprint(my_tuple)\n```\nOutput:\n```\n(10, 20, 30)\n```\nNote that `tuple()` can also accept a string to create a tuple of individual characters."
+      },
+      "prompt": "Convert the list `['x', 'y', 'z']` into a tuple using the `tuple()` keyword:\n\n```\nmy_list = ['x', 'y', 'z']\nmy_tuple = ____(my_list)\n```",
+      "correct_answer": "tuple",
+      "accepted_answers": [
+        "tuple",
+        "tuple()",
+        "tuple("
+      ],
+      "explanation": "The `tuple()` keyword is the built-in constructor that converts an iterable into a tuple. Only `tuple` as the function name is accepted here because it must be followed by parentheses containing the argument."
+    },
+    {
+      "id": "9.1_q15",
+      "type": "code_ordering",
+      "concept": "creating_tuples_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q14"
+      ],
+      "micro_lesson": {
+        "title": "Building a Tuple Step by Step",
+        "content": "When creating a tuple, the order of operations matters. First, define the variables or values you want to include. Second, separate them with commas. Third, enclose the entire expression in parentheses. Finally, assign the result to a variable name.\n\nCorrect sequence:\n1. Identify values\n2. Separate with commas\n3. Wrap in parentheses\n4. Assign to a variable\n\nExample:\n```\nfirst = 1\nsecond = 2\nthird = 3\nresult = (first, second, third)\n```"
+      },
+      "prompt": "Arrange the following lines to correctly create a tuple named `scores` with values 85, 90, and 78:",
+      "options": [
+        "scores = (85, 90, 78)",
+        "scores = 85, 90, 78",
+        "scores = (85, 90, 78,)",
+        "scores = 85, 90, 78,"
+      ],
+      "correct_answer": [
+        "scores = (85, 90, 78)",
+        "scores = 85, 90, 78",
+        "scores = (85, 90, 78,)",
+        "scores = 85, 90, 78,"
+      ],
+      "explanation": "All four lines are valid ways to create a tuple in Python. Line 1 uses explicit parentheses, line 2 relies on tuple packing, line 3 adds a trailing comma, and line 4 omits parentheses but includes a trailing comma. Any of these orders produces a correct tuple."
+    },
+    {
+      "id": "9.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "creating_tuples_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q15"
+      ],
+      "micro_lesson": {
+        "title": "Tuple Packing and Unpacking Patterns",
+        "content": "Tuple packing allows multiple values to be assigned to a single variable, while tuple unpacking assigns elements of a tuple to multiple variables. These patterns are powerful for concise code.\n\nPacking example:\n```\na, b, c = 1, 2, 3\n```\nUnpacking example:\n```\nfirst, second, third = (10, 20, 30)\n```\nYou can also unpack directly in a function call or assignment."
+      },
+      "prompt": "Fill in the blank to unpack the tuple `(100, 200)` into variables `a` and `b`:\n\n```\na, b = ____\n```",
+      "correct_answer": "(100, 200)",
+      "accepted_answers": [
+        "(100, 200)",
+        "(100, 200,)",
+        "100, 200",
+        "(100, 200, 0)"
+      ],
+      "explanation": "The tuple `(100, 200)` can be written with or without a trailing comma. The form `100, 200` is also valid tuple packing. Only the first three accepted answers match the intended values; the last one introduces an extra element and would cause a mismatch during unpacking."
+    },
+    {
+      "id": "9.1_q17",
+      "type": "code_ordering",
+      "concept": "creating_tuples_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm for Dynamic Tuple Creation",
+        "content": "To create a tuple dynamically, you typically start with an empty list or iterable, collect items, and then pass the result to `tuple()`. The correct algorithmic steps are:\n\n1. Initialize an empty list.\n2. Loop through your data source.\n3. Append each item to the list.\n4. Convert the list to a tuple using `tuple()`.\n5. Assign the tuple to a variable.\n\nExample:\n```\nitems = []\nfor x in range(3):\n    items.append(x * 2)\nresult = tuple(items)\n```"
+      },
+      "prompt": "Order the steps to build a tuple from a list of numbers:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct order is to first define the list `nums` and then convert it to a tuple with `tuple(nums)`. Option 2 reverses the order, option 3 is redundant but still valid, and option 4 incorrectly converts to a list instead of a tuple."
+    },
+    {
+      "id": "9.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "creating_tuples_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q17"
+      ],
+      "micro_lesson": {
+        "title": "Common Tuple Idioms",
+        "content": "One of the most common tuple idioms is swapping two variables without a temporary variable. This works because Python evaluates the right-hand side first, creating a temporary tuple, and then unpacks it.\n\nExample:\n```\na = 5\nb = 10\na, b = b, a\n```\nAfter this line, `a` is `10` and `b` is `5`. Another idiom is creating a single-element tuple, which requires a trailing comma: `singleton = (42,)`."
+      },
+      "prompt": "Complete the swap idiom to exchange `x` and `y`:\n\n```\nx = 7\ny = 9\nx, y = ____\n```",
+      "correct_answer": "(y, x)",
+      "accepted_answers": [
+        "(y, x)",
+        "y, x",
+        "(y, x,)",
+        "y, x,"
+      ],
+      "explanation": "The swap idiom creates a temporary tuple on the right-hand side and unpacks it into `x` and `y`. Both `(y, x)` and `y, x` are valid; the trailing comma forms are also acceptable but not required."
+    },
+    {
+      "id": "9.1_q19",
+      "type": "fix_the_code",
+      "concept": "creating_tuples_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q18"
+      ],
+      "starter_code": "def get_coordinates():\n    point = (1, 2, 3)\n    point[0] = 10\n    return point\n\nprint(get_coordinates())",
+      "solution_code": "def get_coordinates():\n    point = (1, 2, 3)\n    point = (10, 2, 3)\n    return point\n\nprint(get_coordinates())",
+      "hint": "Recall that tuples are immutable; you cannot change an element in place. To modify a value, you must create a new tuple.",
+      "explanation": "The original code attempts to assign a new value to point[0], which raises a TypeError because tuples do not support item assignment. The corrected version creates a new tuple with the desired values and reassigns the variable.",
+      "prompt": "Fix the bug in this code for creating tuples errors:"
+    },
+    {
+      "id": "9.1_q20",
+      "type": "fix_the_code",
+      "concept": "creating_tuples_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.1_q19"
+      ],
+      "starter_code": "def make_pair(a, b):\n    pair = a, b\n    return pair\n\nresult = make_pair(5, 7)\nprint(type(result))",
+      "solution_code": "def make_pair(a, b):\n    pair = (a, b)\n    return pair\n\nresult = make_pair(5, 7)\nprint(type(result))",
+      "hint": "A tuple with two elements does not require extra syntax, but a single-element tuple does. Check whether parentheses are needed here.",
+      "explanation": "In Python, (a, b) is already a tuple. However, the starter code is actually valid; the fix ensures explicit tuple creation with parentheses for clarity. The type remains tuple, confirming correctness.",
+      "prompt": "Fix the bug in this code for creating tuples fix:"
+    },
+    {
+      "id": "9.1_q21",
+      "type": "fix_the_code",
+      "concept": "creating_tuples_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q20"
+      ],
+      "starter_code": "def create_empty():\n    empty = ()\n    return empty\n\ndef create_nested():\n    inner = (1, 2)\n    outer = inner\n    return outer\n\nprint(create_empty())\nprint(create_nested())",
+      "solution_code": "def create_empty():\n    empty = ()\n    return empty\n\ndef create_nested():\n    inner = (1, 2)\n    outer = (inner,)\n    return outer\n\nprint(create_empty())\nprint(create_nested())",
+      "hint": "A nested structure must be explicitly wrapped in another tuple; otherwise, the inner tuple is returned directly without an outer container.",
+      "explanation": "The original create_nested returns inner directly, not a tuple containing inner. The corrected version wraps inner in (inner,) to create a proper one-element tuple holding the inner tuple.",
+      "prompt": "Fix the bug in this code for creating tuples edge cases:"
+    },
+    {
+      "id": "9.1_q22",
+      "type": "fix_the_code",
+      "concept": "creating_tuples_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q21"
+      ],
+      "starter_code": "def split_name(full):\n    first, last = full\n    return (first, last)\n\nprint(split_name('Alice'))",
+      "solution_code": "def split_name(full):\n    if not isinstance(full, str) or len(full.split()) < 2:\n        raise ValueError('Input must contain at least two words')\n    parts = full.split()\n    first, last = parts[0], parts[1]\n    return (first, last)\n\nprint(split_name('Alice Smith'))",
+      "hint": "Consider what happens when the input string does not contain enough elements to unpack. A runtime error will occur.",
+      "explanation": "Passing 'Alice' to split_name causes a ValueError during unpacking because there is only one element. The fixed version validates input length and safely extracts the first and last words.",
+      "prompt": "Fix the bug in this code for creating tuples runtime:"
+    },
+    {
+      "id": "9.1_q23",
+      "type": "fix_the_code",
+      "concept": "creating_tuples_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q22"
+      ],
+      "starter_code": "def build_schedule(days):\n    base = (9, 12, 15)\n    schedule = base + days\n    return schedule\n\nprint(build_schedule((10, 13)))\nprint(build_schedule((11, 14, 16)))\nprint(build_schedule((17, 18, 19, 20)))",
+      "solution_code": "def build_schedule(days):\n    base = (9, 12, 15)\n    schedule = base + days\n    return schedule\n\nprint(build_schedule((10, 13)))\nprint(build_schedule((11, 14, 16)))\nprint(build_schedule((17, 18, 19, 20)))",
+      "hint": "The logic for combining tuples is already correct. Verify that the function behaves as expected for all provided inputs.",
+      "explanation": "The starter code is already valid Python. The function concatenates the base tuple with the days tuple, producing the expected combined tuple for each call without any errors.",
+      "prompt": "Fix the bug in this code for creating tuples logic repair:"
+    },
+    {
+      "id": "9.1_q24",
+      "type": "write_the_code",
+      "concept": "creating_tuples_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.1_q23"
+      ],
+      "starter_code": "def collect_scores(students):\n    result = ()\n    for s in students:\n        result = result + (s['score'],)\n    return result\n\nstudents = [{'name': 'A', 'score': 10}, {'name': 'B', 'score': 20}]\nprint(collect_scores(students))",
+      "solution_code": "def collect_scores(students):\n    return tuple(s['score'] for s in students)\n\nstudents = [{'name': 'A', 'score': 10}, {'name': 'B', 'score': 20}]\nprint(collect_scores(students))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "collect_scores([])",
+          "description": "collect_scores([])"
+        },
+        {
+          "input": "",
+          "expected_output": "collect_scores([{'name': 'X', 'score': 5}])",
+          "description": "collect_scores([{'name': 'X', 'score': 5}])"
+        },
+        {
+          "input": "",
+          "expected_output": "collect_scores([{'name': 'Y', 'score': 99}, {'name': 'Z', 'score': 100}])",
+          "description": "collect_scores([{'name': 'Y', 'score': 99}, {'name': 'Z', 'score': 100}])"
+        }
+      ],
+      "hint": "Repeatedly concatenating tuples creates intermediate tuples. Consider building the result in one step using a generator expression inside tuple().",
+      "explanation": "The original approach repeatedly creates new tuples via result = result + (s['score'],), which is O(n^2) due to copying. The refactored version uses a generator expression passed to tuple(), yielding O(n) time and O(n) space with a single allocation.",
+      "prompt": "Write Python code to solve this challenge for Creating Tuples:"
+    },
+    {
+      "id": "9.1_q25",
+      "type": "write_the_code",
+      "concept": "creating_tuples_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q24"
+      ],
+      "prompt": "Write Python code to create a tuple named student_info containing the values 'Alice', 20, 'CS', and 85.5. Do not use the tuple() constructor.",
+      "starter_code": "student_info = ",
+      "solution_code": "student_info = ('Alice', 20, 'CS', 85.5)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "('Alice', 20, 'CS', 85.5)"
+        }
+      ],
+      "hint": "Enclose comma-separated values in parentheses to create a tuple directly.",
+      "explanation": "A tuple is an ordered, immutable collection created by placing values inside parentheses separated by commas. This exercise reinforces direct tuple creation syntax."
+    },
+    {
+      "id": "9.1_q26",
+      "type": "write_the_code",
+      "concept": "creating_tuples_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.1_q25"
+      ],
+      "prompt": "Create a tuple named coordinates with x = 10 and y = 20, then access and print the y-coordinate using indexing.",
+      "starter_code": "coordinates = (10, 20)\nprint(coordinates[",
+      "solution_code": "coordinates = (10, 20)\nprint(coordinates[1])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "20"
+        }
+      ],
+      "hint": "Remember that Python uses zero-based indexing, so the first element is at index 0 and the second at index 1.",
+      "explanation": "Tuples support indexing like lists. Accessing coordinates[1] retrieves the second element, which is 20. This demonstrates practical tuple usage."
+    },
+    {
+      "id": "9.1_q27",
+      "type": "write_the_code",
+      "concept": "creating_tuples_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.1_q26"
+      ],
+      "prompt": "Create a tuple from a list [1, 2, 3, 4], then unpack it into four separate variables a, b, c, and d and print their sum.",
+      "starter_code": "data = [1, 2, 3, 4]\na, b, c, d = ",
+      "solution_code": "data = [1, 2, 3, 4]\na, b, c, d = tuple(data)\nprint(a + b + c + d)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "10"
+        }
+      ],
+      "hint": "Use the tuple() constructor to convert the list, then use parallel assignment to unpack the tuple into variables.",
+      "explanation": "The tuple() constructor converts iterables like lists into tuples. Tuple unpacking assigns each element to a variable in one statement. The sum of 1, 2, 3, and 4 is 10."
+    },
+    {
+      "id": "9.1_q28",
+      "type": "write_the_code",
+      "concept": "creating_tuples_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.1_q27"
+      ],
+      "prompt": "Given the tuple grades = (70, 85, 90, 60), write code to create a new tuple containing only the passing grades (80 or above) and print its length.",
+      "starter_code": "grades = (70, 85, 90, 60)\npassing = ",
+      "solution_code": "grades = (70, 85, 90, 60)\npassing = tuple(g for g in grades if g >= 80)\nprint(len(passing))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "2"
+        }
+      ],
+      "hint": "Use a generator expression inside tuple() to filter values, then call len() on the resulting tuple.",
+      "explanation": "A generator expression iterates over grades and keeps only values >= 80. Wrapping it with tuple() builds the filtered tuple. len() returns 2 because 85 and 90 pass."
+    },
+    {
+      "id": "9.1_q29",
+      "type": "write_the_code",
+      "concept": "creating_tuples_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.1_q28"
+      ],
+      "prompt": "A small library tracks books using tuples of (title, author, year). Model three books as a tuple of tuples, then write code to print the author of the second book.",
+      "starter_code": "library = (\n    ('The Great Gatsby', 'F. Scott Fitzgerald', 1925),\n    ('1984', 'George Orwell', 1949),\n    ('To Kill a Mockingbird', 'Harper Lee', 1960)\n)\nprint(library[1][",
+      "solution_code": "library = (\n    ('The Great Gatsby', 'F. Scott Fitzgerald', 1925),\n    ('1984', 'George Orwell', 1949),\n    ('To Kill a Mockingbird', 'Harper Lee', 1960)\n)\nprint(library[1][1])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "'George Orwell'"
+        }
+      ],
+      "hint": "The outer tuple holds book records; index 1 selects the second book, and index 1 inside selects the author field.",
+      "explanation": "Nested tuples model structured records. library[1][1] navigates to the second book and its author field. This scenario shows tuples as lightweight immutable databases."
+    },
+    {
+      "id": "9.1_q30",
+      "type": "write_the_code",
+      "concept": "creating_tuples_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.1_q29"
+      ],
+      "prompt": "Create an empty tuple, append a tuple (5, 6) to it using concatenation, then use + to combine with (7, 8) and print the result. Explain why append() cannot be used.",
+      "starter_code": "result = ()\nresult = result + (5, 6) + (7, 8)\nprint(result)\n# append() is not available because tuples are immutable",
+      "solution_code": "result = ()\nresult = result + (5, 6) + (7, 8)\nprint(result)\n# append() is not available because tuples are immutable",
+      "test_cases": [
+        {
+          "input": "",
+          "expected": "(5, 6, 7, 8)"
+        }
+      ],
+      "hint": "Tuples do not have an append() method. Use the + operator to concatenate tuples into a new tuple.",
+      "explanation": "Tuples are immutable, so methods like append() are not defined. Concatenation with + creates a new tuple containing all elements in order: 5, 6, 7, 8."
+    }
+  ],
+  "unit_num": 9,
+  "learning_objectives": [
+    "Initialize and manipulate Python Creating Tuples collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "8.6"
+  ]
+}

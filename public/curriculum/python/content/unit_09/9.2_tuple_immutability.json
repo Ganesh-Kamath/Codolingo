@@ -1,0 +1,666 @@
+{
+  "lesson_id": "9.2",
+  "title": "Tuple Immutability",
+  "unit": "Tuples and Sets",
+  "items": [
+    {
+      "id": "9.2_q1",
+      "type": "micro_lesson",
+      "concept": "tuple_immutability_basics",
+      "skill": "recognition",
+      "diff": "easy",
+      "prerequisites": [],
+      "title": "What Makes a Tuple Immutable?",
+      "content": "A tuple is a sequence of values, just like a list, but it cannot be modified after creation. This means you cannot change, add, or remove elements from a tuple once it is defined. Immutability makes tuples safer to use when you want data that should stay constant. For example, a coordinate pair (x, y) or a date (year, month, day) should not change unexpectedly. Here is how you create a tuple:\n\n```python\nmy_tuple = (1, 2, 3)\nprint(my_tuple)\n```\n\nIf you try to assign a new value to an index, Python raises a TypeError:\n\n```python\nmy_tuple[0] = 99\n```\n\nThis error confirms that tuples are immutable. Recognizing this behavior is the first step toward choosing the right data structure for your program.",
+      "difficulty": "easy",
+      "prompt": "",
+      "explanation": "A tuple is a sequence of values, just like a list, but it cannot be modified after creation. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "9.2_q2",
+      "type": "multiple_choice",
+      "concept": "tuple_immutability_basics",
+      "skill": "recall",
+      "diff": "easy",
+      "prerequisites": [
+        "9.2_q1"
+      ],
+      "prompt": "Which statement best describes a Python tuple?",
+      "options": [
+        "It can be resized dynamically after creation.",
+        "Its elements cannot be changed once the tuple is created.",
+        "It is written with square brackets [].",
+        "It automatically sorts its contents."
+      ],
+      "correct_answer": "Its elements cannot be changed once the tuple is created.",
+      "explanation": "Tuples are immutable sequences, meaning their contents remain fixed after creation. Lists use square brackets and are mutable, while sorting is not an automatic property of tuples.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "9.2_q3",
+      "type": "micro_lesson",
+      "concept": "tuple_immutability_syntax",
+      "skill": "understanding",
+      "diff": "easy",
+      "prerequisites": [
+        "9.2_q2"
+      ],
+      "title": "Creating and Accessing Tuples",
+      "content": "You can create a tuple by enclosing comma-separated values in parentheses. Parentheses are optional for a single tuple with one element, but you must include a trailing comma to distinguish it from a plain value in parentheses.\n\n```python\nempty_tuple = ()\nsingle = (42,)\nprint(len(single))\nprint(single[0])\n```\n\nBecause tuples are immutable, you can still read their elements using indexing and slicing. Slicing returns a new tuple rather than modifying the original:\n\n```python\ncolors = ('red', 'green', 'blue')\nsubset = colors[1:3]\nprint(subset)\n```\n\nUnderstanding this syntax helps you work with tuples confidently without attempting unsupported modifications.",
+      "difficulty": "easy",
+      "prompt": "",
+      "explanation": "You can create a tuple by enclosing comma-separated values in parentheses. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "9.2_q4",
+      "type": "multiple_choice",
+      "concept": "tuple_immutability_syntax",
+      "skill": "reasoning",
+      "diff": "easy",
+      "prerequisites": [
+        "9.2_q3"
+      ],
+      "prompt": "What is the output of the following code?",
+      "options": [
+        "(42,)",
+        "42",
+        "()",
+        "Error"
+      ],
+      "correct_answer": "(42,)",
+      "explanation": "The expression (42,) includes a trailing comma, so Python creates a tuple with one element. Without the comma, (42) would just be the integer 42 in parentheses.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "9.2_q5",
+      "type": "multiple_choice",
+      "concept": "tuple_immutability_matching",
+      "skill": "recognition",
+      "diff": "easy",
+      "prerequisites": [
+        "9.2_q4"
+      ],
+      "prompt": "Match each scenario to the correct tuple behavior.",
+      "options": [
+        "Storing a fixed list of configuration settings.",
+        "Building a dynamic list of user inputs.",
+        "Sorting a collection of numbers in place.",
+        "Appending new items to a growing dataset."
+      ],
+      "correct_answer": "Storing a fixed list of configuration settings.",
+      "explanation": "Tuples are ideal when data should remain constant, such as configuration settings. Dynamic lists, in-place sorting, and appending all require mutable structures like lists.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "9.2_q6",
+      "type": "multiple_choice",
+      "concept": "tuple_immutability_pitfalls",
+      "skill": "comprehension",
+      "diff": "easy",
+      "prerequisites": [
+        "9.2_q5"
+      ],
+      "prompt": "Which situation would most likely cause a TypeError with a tuple?",
+      "options": [
+        "Reading an element using an index.",
+        "Creating a new tuple from a slice.",
+        "Assigning a value to an existing index.",
+        "Printing the tuple to the console."
+      ],
+      "correct_answer": "Assigning a value to an existing index.",
+      "explanation": "Attempting to assign to an index mutates the tuple, which is not allowed. This raises a TypeError. Reading, slicing, and printing are all valid operations on tuples.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "9.2_q7",
+      "type": "code_prediction",
+      "concept": "tuple_immutability_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.2_q6"
+      ],
+      "prompt": "What is the result of executing the following Python code?\n```python\nt = (1, 2, 3)\nt[0] = 99\nprint(t)\n```",
+      "options": [
+        "The code raises a TypeError.",
+        "The code prints (99, 2, 3).",
+        "The code prints (1, 2, 3).",
+        "The code raises a ValueError."
+      ],
+      "correct_answer": "The code raises a TypeError.",
+      "explanation": "Tuples are immutable, meaning individual elements cannot be reassigned after creation. Attempting to modify t[0] triggers a TypeError at runtime. The tuple t remains unchanged, and no print output occurs."
+    },
+    {
+      "id": "9.2_q8",
+      "type": "output_prediction",
+      "concept": "tuple_immutability_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q7"
+      ],
+      "prompt": "What is printed by the following Python code?\n```python\nt = (10, 20)\nprint(t.append(30))\n```",
+      "options": [
+        "None",
+        "(10, 20, 30)",
+        "AttributeError: 'tuple' object has no attribute 'append'",
+        "(10, 20)"
+      ],
+      "correct_answer": "AttributeError: 'tuple' object has no attribute 'append'",
+      "explanation": "Tuples do not have an append method because they are immutable. Calling t.append(30) raises an AttributeError, so nothing is printed and the program terminates with an exception."
+    },
+    {
+      "id": "9.2_q9",
+      "type": "code_prediction",
+      "concept": "tuple_immutability_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q8"
+      ],
+      "prompt": "What does the following Python code print?\n```python\na = (1, 2)\nb = a\na = a + (3,)\nprint(b)\n```",
+      "options": [
+        "(1, 2, 3)",
+        "(3,)",
+        "(1, 2)",
+        "The code raises a TypeError."
+      ],
+      "correct_answer": "(1, 2)",
+      "explanation": "The variable a is reassigned to a new tuple (1, 2, 3), but b still references the original tuple (1, 2). Reassigning a does not modify the original tuple because tuples are immutable; it only changes the variable binding."
+    },
+    {
+      "id": "9.2_q10",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q9"
+      ],
+      "prompt": "Consider this Python code:\n```python\nt1 = (5, 6)\nt2 = t1\nt2 = t2 + (7,)\nprint(t1)\nprint(t2)\n```\nWhy does t1 remain unchanged even though t2 appears to be derived from it?",
+      "correct_answer": "Because reassigning t2 creates a new tuple object; the original tuple referenced by t1 is untouched.",
+      "explanation": "In Python, variable assignment for immutable types like tuples binds the name to an object. The expression t2 + (7,) evaluates to a brand-new tuple (5, 6, 7) and rebinds t2 to it. The original tuple (5, 6) remains intact, so t1 still points to it.",
+      "starter_code": "# TODO: Implement solution for Tuple Immutability\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Tuple Immutability')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Tuple Immutability"
+        }
+      ]
+    },
+    {
+      "id": "9.2_q11",
+      "type": "code_prediction",
+      "concept": "tuple_immutability_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q10"
+      ],
+      "prompt": "What does this code print?\n```python\nx, y = (1, 2), (3, 4)\nx, y = y, x\nprint(f'{x} {y}')\n```",
+      "options": [
+        "(3, 4) (1, 2)",
+        "(1, 2) (3, 4)",
+        "((3, 4), (1, 2))",
+        "Error"
+      ],
+      "correct_answer": "(3, 4) (1, 2)",
+      "explanation": "Tuple unpacking swaps the references: x receives (3, 4) and y receives (1, 2)."
+    },
+    {
+      "id": "9.2_q12",
+      "type": "output_prediction",
+      "concept": "tuple_immutability_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q11"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nt = (1, 2, 3)\nif 2 in t:\n    t = t + (4,)\nelse:\n    t = t + (5,)\nprint(t)\n```",
+      "options": [
+        "(1, 2, 3, 4)",
+        "(1, 2, 3, 5)",
+        "The code raises a TypeError.",
+        "(1, 2, 3)"
+      ],
+      "correct_answer": "(1, 2, 3, 4)",
+      "explanation": "The condition 2 in t evaluates to True, so the if branch executes. The expression t + (4,) creates a new tuple (1, 2, 3, 4) and reassigns t to it. The else branch is skipped, and the final print outputs the new tuple."
+    },
+    {
+      "id": "9.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "tuple_immutability_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.2_q12"
+      ],
+      "prompt": "Complete the code to create a tuple containing the numbers 10, 20, and 30: my_tuple = (___)",
+      "correct_answer": "10, 20, 30",
+      "accepted_answers": [
+        "10, 20, 30",
+        "10, 20, 30,"
+      ],
+      "explanation": "A tuple is defined using parentheses. Commas separate elements. The trailing comma after the last element is optional but valid."
+    },
+    {
+      "id": "9.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "tuple_immutability_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q13"
+      ],
+      "prompt": "To indicate that a variable should hold an unchangeable sequence, use the keyword ___ before the variable name.",
+      "correct_answer": "tuple",
+      "accepted_answers": [
+        "tuple",
+        "Tuple",
+        "tuple()"
+      ],
+      "explanation": "In Python, the tuple keyword is used in type hints to declare that a variable is expected to hold a tuple. This is a hint to readers and static type checkers, not a runtime enforcement."
+    },
+    {
+      "id": "9.2_q15",
+      "type": "code_ordering",
+      "concept": "tuple_immutability_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to safely create a tuple, add an element to a new tuple, and print the result.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, assign the original tuple to t. Then, create a new tuple by concatenating t with a single-element tuple (4,). Finally, print the new tuple. The original tuple remains unchanged."
+    },
+    {
+      "id": "9.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "tuple_immutability_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q15"
+      ],
+      "prompt": "To unpack a tuple of three values into separate variables, use the pattern: a, b, c = ___",
+      "correct_answer": "(x, y, z)",
+      "accepted_answers": [
+        "(x, y, z)",
+        "x, y, z",
+        "(x, y, z,)",
+        "x, y, z,"
+      ],
+      "explanation": "Tuple unpacking requires the right-hand side to be an iterable of the same length as the left-hand side variables. Parentheses are optional for a simple tuple literal in this context."
+    },
+    {
+      "id": "9.2_q17",
+      "type": "code_ordering",
+      "concept": "tuple_immutability_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q16"
+      ],
+      "prompt": "Order the steps to build a function that returns a tuple of squared values from an input list without modifying the original list.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function must be defined before it is called. Inside the function, a generator expression computes squares, and tuple() converts it to an immutable tuple. The original list is never modified."
+    },
+    {
+      "id": "9.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "tuple_immutability_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q17"
+      ],
+      "prompt": "A common Python idiom for a single-element tuple is: my_tuple = (___,)",
+      "correct_answer": "42",
+      "accepted_answers": [
+        "42",
+        "0",
+        "'a'",
+        "'x'"
+      ],
+      "explanation": "A single-element tuple requires a trailing comma to distinguish it from a parenthesized expression. Without the comma, (42) evaluates to an integer, not a tuple."
+    },
+    {
+      "id": "9.2_q19",
+      "type": "fix_the_code",
+      "concept": "tuple_immutability_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Understanding Tuple Immutability Errors",
+        "content": "Tuples in Python are immutable, meaning their elements cannot be changed after creation. Common errors arise when attempting to modify a tuple using methods like append(), remove(), or item assignment. For example, trying to execute t = (1, 2, 3); t[0] = 5 raises a TypeError. Another frequent mistake is using tuple unpacking incorrectly or assuming a tuple behaves like a list. Remember: you cannot alter the contents of a tuple directly, but you can create a new tuple from the old one. Always verify whether an object is a tuple before attempting mutation."
+      },
+      "prompt": "Fix the bug in this code for tuple immutability errors:",
+      "starter_code": "# Fix this code\nPrint('Tuple Immutability')",
+      "solution_code": "print('Tuple Immutability')",
+      "explanation": "This exercise tests `tuple immutability errors` in Tuple Immutability. When Python validates this code, it applies the standard rules of tuple immutability errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.2_q20",
+      "type": "fix_the_code",
+      "concept": "tuple_immutability_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.2_q19"
+      ],
+      "prompt": "The following code attempts to add an element to a tuple but fails. Correct the code so it produces a tuple containing all original elements plus the new element.",
+      "starter_code": "t = (10, 20)\nt.append(30)\nprint(t)",
+      "solution_code": "t = (10, 20)\nt = t + (30,)\nprint(t)",
+      "hint": "Tuples do not have an append method. Use tuple concatenation with a single-element tuple to create a new tuple.",
+      "explanation": "The original code calls append(), which does not exist for tuples. The fix creates a new tuple by concatenating the original tuple with a single-element tuple (30,). This respects immutability by producing a new tuple rather than modifying the existing one."
+    },
+    {
+      "id": "9.2_q21",
+      "type": "fix_the_code",
+      "concept": "tuple_immutability_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q20"
+      ],
+      "prompt": "This code tries to remove an element from a tuple and expects the result to be a shorter tuple. Fix the code to achieve the desired outcome.",
+      "starter_code": "t = (1, 2, 3)\nt.remove(2)\nprint(t)",
+      "solution_code": "t = (1, 2, 3)\nt = tuple(x for x in t if x != 2)\nprint(t)",
+      "hint": "Tuples cannot be modified in place. Use a generator expression or list comprehension to filter elements, then convert back to a tuple.",
+      "explanation": "The remove() method is unavailable for tuples. The corrected approach filters out the unwanted element using a generator expression and wraps the result with tuple() to produce a new immutable sequence."
+    },
+    {
+      "id": "9.2_q22",
+      "type": "fix_the_code",
+      "concept": "tuple_immutability_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Behavior of Tuple Immutability",
+        "content": "At runtime, Python enforces tuple immutability by raising TypeError when an invalid mutation is attempted. For instance, t = (5,); t[0] = 10 triggers a TypeError: 'tuple' object does not support item assignment. Similarly, del t[0] fails because deletion is not allowed. However, nested mutable objects inside a tuple can still be altered. For example, t = ([1],); t[0].append(2) works because the list inside is mutable. Understanding this distinction is critical for debugging runtime errors involving tuples."
+      },
+      "prompt": "Fix the bug in this code for tuple immutability runtime:",
+      "starter_code": "# Fix this code\nPrint('Tuple Immutability')",
+      "solution_code": "print('Tuple Immutability')",
+      "explanation": "This exercise tests `tuple immutability runtime` in Tuple Immutability. When Python validates this code, it applies the standard rules of tuple immutability runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.2_q23",
+      "type": "fix_the_code",
+      "concept": "tuple_immutability_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.2_q22"
+      ],
+      "prompt": "The function is supposed to return a tuple of unique values from the input, preserving order. The current implementation mutates the input tuple incorrectly. Repair the logic.",
+      "starter_code": "def unique_tuple(values):\n    seen = set()\n    for v in values:\n        if v not in seen:\n            seen.add(v)\n            values += (v,)\n    return values\n\nprint(unique_tuple((1, 2, 1, 3)))",
+      "solution_code": "def unique_tuple(values):\n    seen = set()\n    result = tuple(v for v in values if not (v in seen or seen.add(v)))\n    return result\n\nprint(unique_tuple((1, 2, 1, 3)))",
+      "hint": "You cannot append to a tuple. Build a new tuple using a comprehension that tracks seen values with a set.",
+      "explanation": "The starter code attempts to mutate values with +=, which fails for tuples. The repaired version uses a generator expression with a side-effect in the condition to maintain order and uniqueness, then converts the filtered sequence to a tuple."
+    },
+    {
+      "id": "9.2_q24",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.2_q23"
+      ],
+      "prompt": "Refactor the following function to use immutable data structures exclusively, improve time complexity, and avoid unnecessary intermediate collections.",
+      "starter_code": "def process(data):\n    tmp = list(data)\n    for i in range(len(tmp)):\n        if tmp[i] % 2 == 0:\n            tmp[i] *= 2\n    return tuple(tmp)",
+      "solution_code": "def process(data):\n    return tuple(x * 2 if x % 2 == 0 else x for x in data)",
+      "test_cases": [
+        {
+          "input": "(1, 2, 3, 4)",
+          "expected": "(1, 4, 3, 8)"
+        },
+        {
+          "input": "()",
+          "expected": "()"
+        },
+        {
+          "input": "(5, 6, 7)",
+          "expected": "(5, 12, 7)"
+        }
+      ],
+      "hint": "Replace the explicit list conversion and index-based loop with a single generator expression inside tuple().",
+      "explanation": "The original code converts the tuple to a list, mutates it, and converts back. The refactored version eliminates the mutable list entirely, uses a generator expression for O(n) single-pass processing, and returns the result directly as an immutable tuple."
+    },
+    {
+      "id": "9.2_q25",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_implementation",
+      "skill": "application",
+      "diff": "medium",
+      "prerequisites": [
+        "9.2_q24"
+      ],
+      "prompt": "Create a function named create_student_record that accepts name, age, and grade, then returns a tuple containing these three values. Ensure the function always returns a tuple, not a list.",
+      "starter_code": "def create_student_record(name, age, grade):\n    # TODO: return a tuple\n    pass\n\n# Test\nstudent = create_student_record('Alice', 16, 'A')\nprint(type(student))",
+      "solution_code": "def create_student_record(name, age, grade):\n    return (name, age, grade)\n\n# Test\nstudent = create_student_record('Alice', 16, 'A')\nprint(type(student))",
+      "test_cases": [
+        {
+          "input": "assert create_student_record('Bob', 15, 'B')",
+          "expected_output": "('Bob', 15, 'B')",
+          "description": "Verifies: assert create_student_record('Bob', 15, 'B') == ('Bob', 15, 'B')"
+        },
+        {
+          "input": "",
+          "expected_output": "assert type(create_student_record('Carol', 17, 'C')) is tuple",
+          "description": "assert type(create_student_record('Carol', 17, 'C')) is tuple"
+        },
+        {
+          "input": "assert len(create_student_record('Dave', 14, 'D'))",
+          "expected_output": "3",
+          "description": "Verifies: assert len(create_student_record('Dave', 14, 'D')) == 3"
+        }
+      ],
+      "hint": "Use the round brackets syntax with a comma after the last element if you want to be explicit, or rely on tuple packing.",
+      "explanation": "Tuples are immutable sequences created with parentheses. Once created, their contents cannot be changed. Returning a tuple ensures the caller receives an immutable record.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "9.2_q26",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_practical",
+      "skill": "application",
+      "diff": "medium",
+      "prerequisites": [
+        "9.2_q25"
+      ],
+      "prompt": "Write a function named process_coordinates that accepts a tuple of two numeric values representing x and y. The function should unpack the tuple, compute the sum of x and y, and return a new tuple containing the original values and their sum.",
+      "starter_code": "def process_coordinates(coords):\n    # TODO: unpack, compute sum, return new tuple\n    pass\n\n# Test\nresult = process_coordinates((3, 4))\nprint(result)",
+      "solution_code": "def process_coordinates(coords):\n    x, y = coords\n    total = x + y\n    return (x, y, total)\n\n# Test\nresult = process_coordinates((3, 4))\nprint(result)",
+      "test_cases": [
+        {
+          "input": "assert process_coordinates((1, 2))",
+          "expected_output": "(1, 2, 3)",
+          "description": "Verifies: assert process_coordinates((1, 2)) == (1, 2, 3)"
+        },
+        {
+          "input": "assert process_coordinates((-5, 10))",
+          "expected_output": "(-5, 10, 5)",
+          "description": "Verifies: assert process_coordinates((-5, 10)) == (-5, 10, 5)"
+        },
+        {
+          "input": "assert len(process_coordinates((0, 0)))",
+          "expected_output": "3",
+          "description": "Verifies: assert len(process_coordinates((0, 0))) == 3"
+        }
+      ],
+      "hint": "Unpack the tuple using x, y = coords, then build a new tuple with three elements.",
+      "explanation": "Even though tuples are immutable, you can create new tuples from existing data. This is a common pattern when you need derived values without modifying the original tuple.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "9.2_q27",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_advanced",
+      "skill": "application",
+      "diff": "hard",
+      "prerequisites": [
+        "9.2_q26"
+      ],
+      "prompt": "Implement a function named safe_update_record that takes an existing tuple record and a dictionary of updates. Because tuples are immutable, you cannot modify the original. Return a new tuple with updated values applied, leaving the original unchanged. If a key in the dictionary does not match any position in the tuple, ignore it.",
+      "starter_code": "def safe_update_record(record, updates):\n    # TODO: build and return a new tuple\n    pass\n\n# Test\noriginal = ('Alice', 20, 'A')\nchanges = {'age': 21, 'grade': 'B'}\nnew_record = safe_update_record(original, changes)\nprint(original, new_record)",
+      "solution_code": "def safe_update_record(record, updates):\n    mapping = {'name': 0, 'age': 1, 'grade': 2}\n    new_items = list(record)\n    for key, value in updates.items():\n        if key in mapping:\n            idx = mapping[key]\n            new_items[idx] = value\n    return tuple(new_items)\n\n# Test\noriginal = ('Alice', 20, 'A')\nchanges = {'age': 21, 'grade': 'B'}\nnew_record = safe_update_record(original, changes)\nprint(original, new_record)",
+      "test_cases": [
+        {
+          "input": "assert safe_update_record(('A', 1, 'X'), {'age': 2})",
+          "expected_output": "('A', 2, 'X')",
+          "description": "Verifies: assert safe_update_record(('A', 1, 'X'), {'age': 2}) == ('A', 2, 'X')"
+        },
+        {
+          "input": "assert safe_update_record(('A', 1, 'X'), {'name': 'B'})",
+          "expected_output": "('B', 1, 'X')",
+          "description": "Verifies: assert safe_update_record(('A', 1, 'X'), {'name': 'B'}) == ('B', 1, 'X')"
+        },
+        {
+          "input": "assert safe_update_record(('A', 1, 'X'), {'unknown': 99})",
+          "expected_output": "('A', 1, 'X')",
+          "description": "Verifies: assert safe_update_record(('A', 1, 'X'), {'unknown': 99}) == ('A', 1, 'X')"
+        }
+      ],
+      "hint": "Convert the tuple to a list to allow mutation, apply updates by index, then convert back to a tuple.",
+      "explanation": "Immutability means you cannot change a tuple in place. The standard workaround is to convert to a mutable sequence, modify it, and cast back to a tuple. This preserves the original data integrity.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "9.2_q28",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_challenge",
+      "skill": "problem_solving",
+      "diff": "hard",
+      "prerequisites": [
+        "9.2_q27"
+      ],
+      "prompt": "You are given a tuple of integers. Write a function named unique_sorted_from_tuple that returns a sorted list of unique values. You must not modify the original tuple. You may use a set internally, but the final result must be a list.",
+      "starter_code": "def unique_sorted_from_tuple(data):\n    # TODO: return sorted list of unique values\n    pass\n\n# Test\nsource = (5, 3, 5, 2, 3, 9)\nprint(unique_sorted_from_tuple(source))",
+      "solution_code": "def unique_sorted_from_tuple(data):\n    return sorted(set(data))\n\n# Test\nsource = (5, 3, 5, 2, 3, 9)\nprint(unique_sorted_from_tuple(source))",
+      "test_cases": [
+        {
+          "input": "assert unique_sorted_from_tuple((1, 1, 1))",
+          "expected_output": "[1]",
+          "description": "Verifies: assert unique_sorted_from_tuple((1, 1, 1)) == [1]"
+        },
+        {
+          "input": "assert unique_sorted_from_tuple(())",
+          "expected_output": "[]",
+          "description": "Verifies: assert unique_sorted_from_tuple(()) == []"
+        },
+        {
+          "input": "assert unique_sorted_from_tuple((4, 2, 8, 2))",
+          "expected_output": "[2, 4, 8]",
+          "description": "Verifies: assert unique_sorted_from_tuple((4, 2, 8, 2)) == [2, 4, 8]"
+        }
+      ],
+      "hint": "A set removes duplicates automatically. Combine it with sorted to produce the required list.",
+      "explanation": "Sets store unique elements and are unordered. Converting a tuple to a set eliminates duplicates, and sorted converts the result into a list in ascending order. The original tuple remains untouched.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "9.2_q29",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_scenario",
+      "skill": "synthesis",
+      "diff": "hard",
+      "prerequisites": [
+        "9.2_q28"
+      ],
+      "prompt": "A logistics system stores shipment identifiers as tuples (tracking_id, origin, destination, status). Because multiple warehouses read these records concurrently, the data must never be accidentally altered. Design a function named log_shipment that accepts a shipment tuple, validates that it has exactly four elements, and returns a confirmation message as a string. If validation fails, raise a ValueError with an appropriate message.",
+      "starter_code": "def log_shipment(shipment):\n    # TODO: validate length and return confirmation\n    pass\n\n# Test\nshipment = ('TRK101', 'Warehouse A', 'Warehouse B', 'In Transit')\nprint(log_shipment(shipment))",
+      "solution_code": "def log_shipment(shipment):\n    if not isinstance(shipment, tuple) or len(shipment) != 4:\n        raise ValueError('Shipment must be a tuple with exactly 4 elements')\n    tracking_id, origin, destination, status = shipment\n    return f'Logged: {tracking_id} from {origin} to {destination} with status {status}'\n\n# Test\nshipment = ('TRK101', 'Warehouse A', 'Warehouse B', 'In Transit')\nprint(log_shipment(shipment))",
+      "test_cases": [
+        {
+          "input": "assert log_shipment(('X', 'A', 'B', 'C'))",
+          "expected_output": "'Logged: X from A to B with status C'",
+          "description": "Verifies: assert log_shipment(('X', 'A', 'B', 'C')) == 'Logged: X from A to B with status C'"
+        },
+        {
+          "input": "assert log_shipment(('Y', 'Z'))",
+          "expected_output": "'Logged: Y from Z to  with status '",
+          "description": "Verifies: assert log_shipment(('Y', 'Z')) == 'Logged: Y from Z to  with status '"
+        },
+        {
+          "input": "",
+          "expected_output": "try:\n        log_shipment(('A', 'B', 'C'))\n    except ValueError as e:\n        assert 'exactly 4 elements' in str(e)",
+          "description": "try:\n        log_shipment(('A', 'B', 'C'))\n    except ValueError as e:\n        assert 'exactly 4 elements' in str(e)"
+        }
+      ],
+      "hint": "Check both the type and the length before unpacking. Use tuple unpacking to improve readability.",
+      "explanation": "In concurrent systems, immutability prevents race conditions where one process might corrupt shared data. By validating the tuple structure and never modifying it, the log_shipment function ensures reliable audit trails.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "9.2_q30",
+      "type": "write_the_code",
+      "concept": "tuple_immutability_mastery",
+      "skill": "mastery",
+      "diff": "hard",
+      "prerequisites": [
+        "9.2_q29"
+      ],
+      "prompt": "Write a function named compare_shipment_sets that accepts two tuples of shipment tracking IDs. Convert each tuple to a set, compute the symmetric difference (items in either set but not both), and return the result as a sorted tuple. If both tuples are identical, return an empty tuple.",
+      "starter_code": "def compare_shipment_sets(set_a, set_b):\n    # TODO: compute symmetric difference and return sorted tuple\n    pass\n\n# Test\na = ('T1', 'T2', 'T3')\nb = ('T3', 'T4', 'T5')\nprint(compare_shipment_sets(a, b))",
+      "solution_code": "def compare_shipment_sets(set_a, set_b):\n    a_set = set(set_a)\n    b_set = set(set_b)\n    sym_diff = a_set.symmetric_difference(b_set)\n    return tuple(sorted(sym_diff))\n\n# Test\na = ('T1', 'T2', 'T3')\nb = ('T3', 'T4', 'T5')\nprint(compare_shipment_sets(a, b))",
+      "test_cases": [
+        {
+          "input": "assert compare_shipment_sets(('A', 'B'), ('B', 'C'))",
+          "expected_output": "('A', 'C')",
+          "description": "Verifies: assert compare_shipment_sets(('A', 'B'), ('B', 'C')) == ('A', 'C')"
+        },
+        {
+          "input": "assert compare_shipment_sets(('X',), ('X',))",
+          "expected_output": "()",
+          "description": "Verifies: assert compare_shipment_sets(('X',), ('X',)) == ()"
+        },
+        {
+          "input": "assert compare_shipment_sets(('M', 'N', 'O'), ('P', 'Q'))",
+          "expected_output": "('M', 'N', 'O', 'P', 'Q')",
+          "description": "Verifies: assert compare_shipment_sets(('M', 'N', 'O'), ('P', 'Q')) == ('M', 'N', 'O', 'P', 'Q')"
+        }
+      ],
+      "hint": "Use the set method symmetric_difference or the ^ operator, then sort and convert to tuple.",
+      "explanation": "Mastery of tuple immutability involves knowing when to transform tuples into sets for set-theoretic operations. The final result is returned as a sorted tuple to maintain an ordered, immutable contract with callers.",
+      "difficulty": "hard"
+    }
+  ],
+  "unit_num": 9,
+  "learning_objectives": [
+    "Initialize and manipulate Python Tuple Immutability collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "9.1"
+  ]
+}

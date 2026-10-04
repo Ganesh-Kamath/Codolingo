@@ -1,0 +1,554 @@
+{
+  "lesson_id": "2.7",
+  "title": "Type Conversion (Casting)",
+  "unit": "Variables and Data",
+  "items": [
+    {
+      "id": "2.7_q1",
+      "type": "micro_lesson",
+      "concept": "casting_overview",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.6_q1"
+      ],
+      "title": "What is Type Conversion?",
+      "content": "**Type conversion** (also called **type casting**) is the process of converting an object from one data type into another.\n\nPython provides built-in constructor functions named after each type:\n* `int()`: converts a value to an integer\n* `float()`: converts a value to a float\n* `str()`: converts a value to a string\n* `bool()`: converts a value to a boolean",
+      "prompt": "",
+      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
+    },
+    {
+      "id": "2.7_q2",
+      "type": "multiple_choice",
+      "concept": "casting_overview",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.7_q1"
+      ],
+      "prompt": "Which function converts a string like `\"50\"` into the integer `50`?",
+      "options": [
+        "A. `to_int(\"50\")`",
+        "B. `int(\"50\")`",
+        "C. `convert(\"50\", int)`",
+        "D. `number(\"50\")`"
+      ],
+      "correct_answer": "B",
+      "explanation": "This exercise tests `casting overview` in Type Conversion (Casting). When Python validates this code, it applies the standard rules of casting overview. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.7_q3",
+      "type": "micro_lesson",
+      "concept": "str_conversion",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.4_q13",
+        "2.7_q1"
+      ],
+      "title": "Fixing Concatenation with str()",
+      "content": "Remember how `\"Score: \" + 100` failed with a `TypeError`?\n\nBy converting `100` to a string using `str()`, concatenation succeeds flawlessly:\n```python\nscore = 100\nmessage = \"Score: \" + str(score)\nprint(message)  # Prints: Score: 100\n```",
+      "prompt": "",
+      "explanation": "Remember how `\"Score: \" + 100` failed with a `TypeError`?\n\nBy converting `100` to a string using `str()`, concatenation succeeds flawlessly:\n```python\nscore = 100\nmessage = \"Score: \" + str(score)\nprint(message)  # Prints: Score: 100\n```. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "2.7_q4",
+      "type": "code_prediction",
+      "concept": "str_conversion",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.7_q3"
+      ],
+      "prompt": "What does this code output?\n```python\nage = 18\nprint(\"Age: \" + str(age))\n```",
+      "options": [
+        "A. Age: 18",
+        "B. Age: age",
+        "C. TypeError",
+        "D. Age: \"18\""
+      ],
+      "correct_answer": "A",
+      "explanation": "`str(18)` converts the integer to `'18'`, allowing `+` to concatenate it to `'Age: '`."
+    },
+    {
+      "id": "2.7_q5",
+      "type": "fix_the_code",
+      "concept": "str_conversion_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.7_q3"
+      ],
+      "prompt": "Fix this code using `str()` so it concatenates without raising a TypeError:",
+      "starter_code": "count = 5\nmsg = \"Count is \" + count",
+      "solution_code": "count = 5\nmsg = \"Count is \" + str(count)",
+      "explanation": "This exercise tests `str conversion fix` in Type Conversion (Casting). When Python validates this code, it applies the standard rules of str conversion fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.7_q6",
+      "type": "micro_lesson",
+      "concept": "int_truncation",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.3_q3",
+        "2.7_q1"
+      ],
+      "title": "Converting Floats to Ints: Truncation",
+      "content": "When you convert a `float` to an `int` using `int()`, Python does **NOT** round to the nearest whole number.\n\nInstead, it **truncates** (chops off) the decimal part completely:\n```python\nprint(int(5.99))   # Prints: 5 (chops off .99!)\nprint(int(-3.8))   # Prints: -3\n```\nIf you want mathematical rounding, use the built-in `round()` function instead.",
+      "prompt": "",
+      "explanation": "When you convert a `float` to an `int` using `int()`, Python does **NOT** round to the nearest whole number. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "2.7_q7",
+      "type": "code_prediction",
+      "concept": "int_truncation",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q6"
+      ],
+      "prompt": "What does `int(9.8)` evaluate to?",
+      "options": [
+        "A. 10",
+        "B. 9",
+        "C. 9.8",
+        "D. 9.0"
+      ],
+      "correct_answer": "B",
+      "explanation": "Calling `int(9.8)` truncates the decimal portion toward zero, returning `9`. A common beginner misconception is assuming `int()` rounds to the nearest whole number (which would be 10); Python's `int()` strictly discards decimals."
+    },
+    {
+      "id": "2.7_q8",
+      "type": "micro_lesson",
+      "concept": "float_conversion",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.3_q3",
+        "2.7_q1"
+      ],
+      "title": "Converting to Floats with float()",
+      "content": "Calling `float()` converts integers or valid decimal strings into floating-point numbers:\n```python\nprint(float(7))       # 7.0\nprint(float(\"3.14\"))  # 3.14\nprint(float(\"10\"))    # 10.0\n```",
+      "prompt": "",
+      "explanation": "Calling `float()` converts integers or valid decimal strings into floating-point numbers:\n```python\nprint(float(7))       # 7. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "2.7_q9",
+      "type": "output_prediction",
+      "concept": "float_conversion",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.7_q8"
+      ],
+      "prompt": "What does this code output?\n```python\nprice_str = \"19.95\"\nprice = float(price_str)\nprint(price + 0.05)\n```",
+      "options": [
+        "A. 20.0",
+        "B. 19.950.05",
+        "C. 20",
+        "D. TypeError"
+      ],
+      "correct_answer": "A",
+      "explanation": "Calling `float(5)` converts the integer `5` to a floating-point number with decimal representation `5.0`."
+    },
+    {
+      "id": "2.7_q10",
+      "type": "micro_lesson",
+      "concept": "value_error_casting",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "1.6_q3",
+        "2.7_q1"
+      ],
+      "title": "ValueError: Invalid Conversions",
+      "content": "If you ask Python to convert a string that does not contain a valid number, it raises a **`ValueError`**:\n```python\n# int(\"apple\")     # ValueError: invalid literal for int() with base 10: 'apple'\n# int(\"12.5\")      # ValueError: cannot convert float string directly to int!\n```\nTo convert `\"12.5\"` to an int, convert to float first: `int(float(\"12.5\"))` -> `12`.",
+      "prompt": "",
+      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
+    },
+    {
+      "id": "2.7_q11",
+      "type": "error_diagnosis",
+      "concept": "value_error_float_string",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q10"
+      ],
+      "prompt": "Why does `int(\"4.5\")` crash with a `ValueError`?",
+      "options": [
+        "A. Strings cannot be converted to numbers.",
+        "B. `int()` expects digits only when parsing a string; a decimal point is not a base-10 digit. It must be converted via `float(\"4.5\")` first.",
+        "C. 4.5 is a negative number.",
+        "D. Python does not support decimals."
+      ],
+      "correct_answer": "B",
+      "explanation": "`int()` only parses integer strings like `'4'`. For decimal strings, use `float(\"4.5\")` or `int(float(\"4.5\"))`."
+    },
+    {
+      "id": "2.7_q12",
+      "type": "fix_the_code",
+      "concept": "float_string_to_int_fix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q11"
+      ],
+      "prompt": "Fix this code so it parses `'8.5'` to an int without crashing:",
+      "starter_code": "val = int(\"8.5\")",
+      "solution_code": "val = int(float(\"8.5\"))",
+      "explanation": "Convert to float first with `float(\"8.5\")` (8.5), then truncate to int with `int(...)` (8)."
+    },
+    {
+      "id": "2.7_q13",
+      "type": "micro_lesson",
+      "concept": "bool_conversion",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.5_q1",
+        "2.7_q1"
+      ],
+      "title": "Converting to Boolean: bool()",
+      "content": "Every value in Python has an inherent 'truthiness'. When passed to `bool()`:\n\n* **Falsy values** become `False`:\n  * `0`, `0.0`\n  * `\"\"` (empty string)\n  * `None`\n* **Truthy values** become `True`:\n  * Any non-zero number (e.g. `1`, `-5`, `0.01`)\n  * Any non-empty string (e.g. `\"hello\"`, `\"0\"`, `\"False\"`!)",
+      "prompt": "",
+      "explanation": "Boolean logic in Python uses `and`, `or`, and `not` with short-circuit evaluation. Non-empty objects evaluate to truthy, while empty collections, 0, and None evaluate to falsy."
+    },
+    {
+      "id": "2.7_q14",
+      "type": "code_prediction",
+      "concept": "bool_conversion",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q13"
+      ],
+      "prompt": "What does `bool(\"\")` output?",
+      "options": [
+        "A. True",
+        "B. False",
+        "C. \"\"",
+        "D. None"
+      ],
+      "correct_answer": "B",
+      "explanation": "In Python, empty strings `\"\"` have a length of 0 and evaluate to `False` in a boolean context. Non-empty strings evaluate to `True`."
+    },
+    {
+      "id": "2.7_q15",
+      "type": "code_prediction",
+      "concept": "bool_string_trap",
+      "skill": "reasoning",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.7_q13"
+      ],
+      "prompt": "What does `bool(\"False\")` output? (Be careful!)",
+      "options": [
+        "A. False",
+        "B. True",
+        "C. None",
+        "D. ValueError"
+      ],
+      "correct_answer": "B",
+      "explanation": "Famous Python trap! `\"False\"` is a NON-EMPTY string (it contains 5 characters). Any non-empty string evaluated by `bool()` is `True`!"
+    },
+    {
+      "id": "2.7_q16",
+      "type": "match_code_to_concept",
+      "concept": "casting_matrix",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q1",
+        "2.7_q6",
+        "2.7_q8",
+        "2.7_q13"
+      ],
+      "prompt": "Match the conversion call to its result.",
+      "options": {
+        "`int(7.8)`": "`7` (Truncation)",
+        "`float(5)`": "`5.0` (Float expansion)",
+        "`str(False)`": "`\"False\"` (String representation)",
+        "`bool(0)`": "`False` (Zero is falsy)"
+      },
+      "correct_answer": {
+        "`int(7.8)`": "`7` (Truncation)",
+        "`float(5)`": "`5.0` (Float expansion)",
+        "`str(False)`": "`\"False\"` (String representation)",
+        "`bool(0)`": "`False` (Zero is falsy)"
+      },
+      "explanation": "This exercise tests `casting matrix` in Type Conversion (Casting). When Python validates this code, it applies the standard rules of casting matrix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.7_q17",
+      "type": "fill_in_the_blank",
+      "concept": "int_conversion",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "2.7_q1"
+      ],
+      "prompt": "Convert string `s = \"45\"` to an integer:\n```python\ns = \"45\"\nnum = ___(s)\n```",
+      "accepted_answers": [
+        "int"
+      ],
+      "explanation": "This exercise tests `int conversion` in Type Conversion (Casting). When Python validates this code, it applies the standard rules of int conversion. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.7_q18",
+      "type": "code_prediction",
+      "concept": "conversion_in_math",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.4_q15",
+        "2.7_q1"
+      ],
+      "prompt": "What does this code output?\n```python\nx = \"10\"\ny = \"20\"\nprint(int(x) + int(y))\n```",
+      "options": [
+        "A. 1020",
+        "B. 30",
+        "C. '30'",
+        "D. TypeError"
+      ],
+      "correct_answer": "B",
+      "explanation": "Both strings are converted to integers (10 and 20). `10 + 20 = 30`."
+    },
+    {
+      "id": "2.7_q19",
+      "type": "multiple_choice",
+      "concept": "implicit_vs_explicit",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.3_q16",
+        "2.7_q1"
+      ],
+      "prompt": "What is the difference between implicit and explicit type conversion?",
+      "options": [
+        "A. Implicit conversion happens automatically by Python (e.g. `5 + 2.5 -> 7.5`), while explicit conversion is done intentionally by the programmer using functions like `int()` or `str()`.",
+        "B. Implicit conversion is for strings; explicit conversion is for numbers.",
+        "C. Explicit conversion only occurs in Python 2.",
+        "D. There is no difference."
+      ],
+      "correct_answer": "A",
+      "explanation": "Python implicitly widens numeric types when safe, but requires explicit casting for cross-type operations like string concatenation."
+    },
+    {
+      "id": "2.7_q20",
+      "type": "output_prediction",
+      "concept": "int_bool_conversion",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.5_q16",
+        "2.7_q1"
+      ],
+      "prompt": "What does `int(True)` and `int(False)` output?\n```python\nprint(int(True), int(False))\n```",
+      "options": [
+        "A. 1 0",
+        "B. True False",
+        "C. 0 1",
+        "D. TypeError"
+      ],
+      "correct_answer": "A",
+      "explanation": "In Python, `bool` is a subclass of `int`. `int(True)` evaluates to `1` and `int(False)` evaluates to `0`."
+    },
+    {
+      "id": "2.7_q21",
+      "type": "multiple_choice",
+      "concept": "user_input_preview",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q1"
+      ],
+      "prompt": "In Python, reading user input from the keyboard always produces a string (e.g. `\"25\"`). What must you do before calculating the user's age in 10 years?",
+      "options": [
+        "A. Directly add 10 to the string.",
+        "B. Convert the input string to an integer using `int()` before performing addition.",
+        "C. Convert 10 into a boolean.",
+        "D. Nothing, Python auto-detects numbers inside strings for math."
+      ],
+      "correct_answer": "B",
+      "explanation": "Because keyboard input returns a string, you must explicitly convert it with `int()` before doing arithmetic."
+    },
+    {
+      "id": "2.7_q22",
+      "type": "write_the_code",
+      "concept": "cast_and_add",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q1"
+      ],
+      "prompt": "Given `a = \"15\"` and `b = 5`, write a line that prints their sum as an integer (20).",
+      "starter_code": "a = \"15\"\nb = 5\n",
+      "solution_code": "a = \"15\"\nb = 5\nprint(int(a) + b)",
+      "explanation": "This exercise tests `cast and add` in Type Conversion (Casting). When Python validates this code, it applies the standard rules of cast and add. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.7_q23",
+      "type": "error_diagnosis",
+      "concept": "unhandled_string_cast_error",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q10"
+      ],
+      "prompt": "A developer runs `amount = int(\"$50\")` and gets `ValueError: invalid literal for int() with base 10: '$50'`. What is the issue?",
+      "options": [
+        "A. The dollar sign `$` is not a valid numeric digit; `int()` can only parse characters `0-9` (and an optional `+` or `-` sign).",
+        "B. 50 is too large.",
+        "C. The variable name `amount` is invalid.",
+        "D. `int()` requires float arguments."
+      ],
+      "correct_answer": "A",
+      "explanation": "Currency symbols, commas, and spaces cannot be parsed by `int()`. You must strip non-digit symbols first."
+    },
+    {
+      "id": "2.7_q24",
+      "type": "code_prediction",
+      "concept": "bool_of_numbers",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q13"
+      ],
+      "prompt": "What does `bool(-10)` evaluate to?",
+      "options": [
+        "A. False, because it is negative.",
+        "B. True, because only zero is falsy; any non-zero number is truthy.",
+        "C. -10",
+        "D. TypeError"
+      ],
+      "correct_answer": "B",
+      "explanation": "In Python, any non-zero number (including negative integers like `-10`) evaluates to `True`. Only `0` and `0.0` evaluate to `False`."
+    },
+    {
+      "id": "2.7_q25",
+      "type": "mini_challenge",
+      "concept": "celsius_to_fahrenheit_cast",
+      "skill": "synthesis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q1",
+        "2.7_q8"
+      ],
+      "prompt": "Given string `temp_c_str = \"25.0\"`, convert it to float `temp_c`, compute `temp_f = (temp_c * 9/5) + 32`, and print `temp_f`.",
+      "starter_code": "temp_c_str = \"25.0\"\n# Convert, calculate temp_f, and print it\n",
+      "solution_code": "temp_c_str = \"25.0\"\ntemp_c = float(temp_c_str)\ntemp_f = (temp_c * 9/5) + 32\nprint(temp_f)",
+      "explanation": "Converts `'25.0'` to 25.0, calculates `(25.0 * 1.8) + 32 = 77.0`, and prints 77.0."
+    },
+    {
+      "id": "2.7_q26",
+      "type": "output_prediction",
+      "concept": "string_float_truncation_chain",
+      "skill": "analysis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.7_q6",
+        "2.7_q12"
+      ],
+      "prompt": "What does this code output?\n```python\nraw = \"99.9\"\nval = int(float(raw))\nprint(val)\n```",
+      "options": [
+        "A. 100",
+        "B. 99",
+        "C. 99.9",
+        "D. ValueError"
+      ],
+      "correct_answer": "B",
+      "explanation": "`float(\"99.9\")` parses to 99.9. `int(99.9)` truncates the decimal part, resulting in 99."
+    },
+    {
+      "id": "2.7_q27",
+      "type": "multiple_choice",
+      "concept": "type_conversion_immutability",
+      "skill": "understanding",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.1_q1",
+        "2.7_q1"
+      ],
+      "prompt": "When you execute:\n```python\nx = \"42\"\nint(x)\nprint(type(x))\n```\nWhat is printed?",
+      "options": [
+        "A. <class 'int'>",
+        "B. <class 'str'>, because `int(x)` returns a NEW integer object; it does NOT modify `x` in-place unless you reassign: `x = int(x)`.",
+        "C. <class 'float'>",
+        "D. TypeError"
+      ],
+      "correct_answer": "B",
+      "explanation": "Crucial distinction: conversion functions return a new value. Without reassigning `x = int(x)`, `x` remains the original string."
+    },
+    {
+      "id": "2.7_q28",
+      "type": "fix_the_code",
+      "concept": "reassignment_after_cast",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "2.7_q27"
+      ],
+      "prompt": "Fix this code so that `age` is actually updated to an integer:",
+      "starter_code": "age = \"20\"\nint(age)\nprint(type(age))",
+      "solution_code": "age = \"20\"\nage = int(age)\nprint(type(age))",
+      "explanation": "This exercise tests `reassignment after cast` in Type Conversion (Casting). When Python validates this code, it applies the standard rules of reassignment after cast. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "2.7_q29",
+      "type": "real_world_scenario",
+      "concept": "file_data_parsing",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.7_q1",
+        "2.7_q8"
+      ],
+      "prompt": "A CSV log contains comma-separated numbers stored as text: `\"12.5\"` and `\"3.5\"`. Which expression computes their exact sum as a float (16.0)?",
+      "correct_answer": "B",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions.",
+      "options": [
+        "A. Use the text directly in addition without conversion.",
+        "B. Split by comma and convert each piece using int() or float().",
+        "C. Multiply the entire string by 2.",
+        "D. Text numbers automatically convert to integers when saved in variables."
+      ]
+    },
+    {
+      "id": "2.7_q30",
+      "type": "real_world_scenario",
+      "concept": "unit2_variables_data_synthesis",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "2.1_q1",
+        "2.2_q1",
+        "2.3_q1",
+        "2.4_q1",
+        "2.5_q1",
+        "2.6_q1",
+        "2.7_q1"
+      ],
+      "prompt": "Congratulations on completing Unit 2! Which statement best summarizes Python variables, data types, and conversions?",
+      "correct_answer": "A",
+      "explanation": "This synthesizes the complete learning objectives of Unit 2: variables, naming conventions, core scalar types, dynamic object model, and explicit casting.",
+      "options": [
+        "A. Explicit casting (int(), float(), str()) safely converts compatible data across representations, raising ValueError on malformed inputs.",
+        "B. Casting int('hello') returns 0.",
+        "C. Floating point numbers cannot be converted to integers.",
+        "D. Converting float('3.14') to int rounds to the nearest integer rather than truncating toward zero."
+      ]
+    }
+  ],
+  "unit_num": 2,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Type Conversion (Casting)",
+    "Apply idiomatic Python patterns when working with Type Conversion (Casting)",
+    "Debug common runtime exceptions and logic errors associated with Type Conversion (Casting)",
+    "Implement production-ready code utilizing Type Conversion (Casting)"
+  ],
+  "prerequisites": [
+    "2.6"
+  ]
+}

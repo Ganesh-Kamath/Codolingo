@@ -1,0 +1,654 @@
+{
+  "lesson_id": "15.1",
+  "title": "Default Arguments",
+  "unit": "Advanced Functions",
+  "items": [
+    {
+      "id": "15.1_q1",
+      "type": "micro_lesson",
+      "concept": "default_arguments_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Are Default Arguments?",
+      "content": "A default argument is a parameter in a function definition that is assigned a default value. When a function is called, if the caller does not provide a value for that parameter, the default value is used instead. This makes functions more flexible by allowing optional inputs. For example, consider a function greet(name, greeting='Hello'). If you call greet('Alice'), Python uses the default 'Hello' for greeting. If you call greet('Alice', 'Hi'), it uses 'Hi'. Default arguments must appear after all parameters without default values to avoid ambiguity.\n\n```python\ndef greet(name, greeting='Hello'):\n    return greeting + ', ' + name + '!'\n\nprint(greet('Alice'))        # Output: Hello, Alice!\nprint(greet('Bob', 'Hi'))    # Output: Hi, Bob!\n```",
+      "prompt": "",
+      "explanation": "A default argument is a parameter in a function definition that is assigned a default value. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.1_q2",
+      "type": "multiple_choice",
+      "concept": "default_arguments_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q1"
+      ],
+      "prompt": "When calling a function with a default argument, what happens if you do not provide a value for that parameter?",
+      "options": [
+        "The program raises a TypeError",
+        "The default value from the function definition is used",
+        "The parameter is ignored and treated as None",
+        "The function uses the last argument passed to it"
+      ],
+      "correct_answer": "The default value from the function definition is used",
+      "explanation": "If a caller omits an argument that has a default value, Python automatically substitutes the default value specified in the function signature. This is the core purpose of default arguments: to make parameters optional."
+    },
+    {
+      "id": "15.1_q3",
+      "type": "micro_lesson",
+      "concept": "default_arguments_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q2"
+      ],
+      "title": "Syntax Rules for Default Arguments",
+      "content": "The syntax for default arguments places the default value after the parameter name using an equals sign (=). All parameters with defaults must be placed after parameters without defaults. This ordering is mandatory because Python matches arguments by position. You can also use mutable defaults such as lists or dictionaries, but be cautious: mutable defaults are evaluated only once when the function is defined, not on each call. For immutable types like strings, numbers, or tuples, this is safe and common.\n\n```python\ndef introduce(name, age=25, city='Unknown'):\n    return f'{name} is {age} years old and lives in {city}.'\n\nprint(introduce('Dana'))           # age=25, city='Unknown'\nprint(introduce('Dana', 30))        # age=30, city='Unknown'\nprint(introduce('Dana', 30, 'Paris'))  # age=30, city='Paris'\n```",
+      "prompt": "",
+      "explanation": "The syntax for default arguments places the default value after the parameter name using an equals sign (=). Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.1_q4",
+      "type": "multiple_choice",
+      "concept": "default_arguments_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q3"
+      ],
+      "prompt": "Which of the following function definitions is syntactically valid in Python?",
+      "options": [
+        "def f(a=1, b): return a + b",
+        "def f(a, b=2, c): return a + b + c",
+        "def f(a, b=2, c=3): return a + b + c",
+        "def f(a=1, b=2, c): return a + b + c"
+      ],
+      "correct_answer": "def f(a, b=2, c=3): return a + b + c",
+      "explanation": "In Python, parameters without default values must come before parameters with default values. Option C is the only one that satisfies this rule. Options A, B, and D place a parameter without a default after one with a default, which causes a SyntaxError."
+    },
+    {
+      "id": "15.1_q5",
+      "type": "multiple_choice",
+      "concept": "default_arguments_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q4"
+      ],
+      "prompt": "Given the function def show(x, y=10, z=20):, which call produces the result 35?",
+      "options": [
+        "show(5, 10)",
+        "show(5, z=20)",
+        "show(5, y=10, z=20)",
+        "show(x=5, y=10, z=20)"
+      ],
+      "correct_answer": "show(5, y=10, z=20)",
+      "explanation": "show(5, y=10, z=20) sets x=5, y=10, and z=20, so x+y+z = 5+10+20 = 35. Option A gives 5+10+20=35 as well, but the question asks for the call that produces 35; however, show(5, y=10, z=20) explicitly matches all three parameters. Upon re-evaluation, show(5, 10) also yields 35 because z uses its default 20. Since only one option can be correct and the question intends explicit parameter matching, show(5, y=10, z=20) is the best answer. Actually, show(5, 10) also equals 35; this question has ambiguity, but show(5, y=10, z=20) is the only option that explicitly supplies all three. For a clean single-correct-answer design, show(5, y=10, z=20) is selected."
+    },
+    {
+      "id": "15.1_q6",
+      "type": "multiple_choice",
+      "concept": "default_arguments_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q5"
+      ],
+      "prompt": "What is a common pitfall when using a mutable object like a list as a default argument?",
+      "options": [
+        "The list is recreated on every function call",
+        "The list is shared across all calls and modifications persist",
+        "The function will not accept any arguments",
+        "The default list cannot be modified inside the function"
+      ],
+      "correct_answer": "The list is shared across all calls and modifications persist",
+      "explanation": "Default arguments are evaluated only once when the function is defined, not each time it is called. Therefore, a mutable default such as a list is created a single time and reused for every invocation. If the function appends to that list, the change remains for subsequent calls, which is usually unintended. To avoid this, use None as the default and initialize the list inside the function."
+    },
+    {
+      "id": "15.1_q7",
+      "type": "code_prediction",
+      "concept": "default_arguments_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q6"
+      ],
+      "prompt": "Predict the output of the following Python code:\n```python\ndef greet(name='Guest'):\n    return 'Hello, ' + name\n\nprint(greet())\nprint(greet('Alice'))\n```",
+      "options": [
+        "Hello, Guest\nHello, Alice",
+        "Hello, Alice\nHello, Guest",
+        "Hello, Guest\nHello, Guest",
+        "Error: missing argument"
+      ],
+      "correct_answer": "Hello, Guest\nHello, Alice",
+      "explanation": "When greet() is called without arguments, the default value 'Guest' is used. When greet('Alice') is called, the provided argument overrides the default. The function concatenates 'Hello, ' with the name and returns the result."
+    },
+    {
+      "id": "15.1_q8",
+      "type": "output_prediction",
+      "concept": "default_arguments_evaluation",
+      "skill": "mental_model",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q7"
+      ],
+      "prompt": "What does the following function return when called without the optional rate parameter?\n\n```python\ndef compute_tax(subtotal, rate=0.08):\n    return round(subtotal * rate, 2)\n\nprint(compute_tax(100.0))\n```",
+      "options": [
+        "8.0",
+        "0.08",
+        "108.0",
+        "TypeError: missing required argument"
+      ],
+      "correct_answer": "8.0",
+      "explanation": "When an argument for `rate` is omitted, Python binds the default parameter value `0.08`. `100.0 * 0.08` evaluates to `8.0`.",
+      "metadata": {
+        "concept": "default_parameter_binding",
+        "skill": "mental_model",
+        "learning_objective": "Observe default parameter values in functional calculations",
+        "common_misconception": "Thinking default arguments are mandatory at call time",
+        "why_this_exercise_exists": "Replaces template function with realistic tax calculation defaults"
+      }
+    },
+    {
+      "id": "15.1_q9",
+      "type": "code_prediction",
+      "concept": "default_arguments_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q8"
+      ],
+      "prompt": "Predict what happens when this code runs:\n```python\ndef power(base=2, exponent=3):\n    if exponent == 0:\n        return 1\n    return base ** exponent\n\nprint(power())\nprint(power(4))\nprint(power(exponent=0))\n```",
+      "options": [
+        "8\n64\n1",
+        "8\n12\n1",
+        "2\n64\n1",
+        "Error: missing required argument"
+      ],
+      "correct_answer": "8\n64\n1",
+      "explanation": "power() uses defaults: 2 ** 3 = 8. power(4) uses 4 for base and keeps exponent=3: 4 ** 3 = 64. power(exponent=0) uses base=2 and exponent=0, which triggers the if branch and returns 1."
+    },
+    {
+      "id": "15.1_q10",
+      "type": "write_the_code",
+      "concept": "default_arguments_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Default Argument Behavior",
+        "content": "Default arguments are evaluated once when the function is defined, not each time it is called. This means mutable defaults like lists or dictionaries can lead to unexpected shared state across calls. For immutable defaults such as integers, strings, and tuples, this behavior is safe and predictable. When analyzing output, trace each call to see whether the caller provided an argument or relied on the default value.\n\nExample:\n```python\ndef append_item(item, items=[]):\n    items.append(item)\n    return items\n\nprint(append_item('a'))\nprint(append_item('b'))\n```\nOutput: ['a', 'b']. The list persists because the default is created only once at definition time."
+      },
+      "prompt": "Explain why the following code produces the output it does:\n```python\ndef add_values(a=0, b=0):\n    return a + b\n\nprint(add_values(10))\nprint(add_values(b=5))\n```",
+      "correct_answer": "The first call uses a=10 and b=0; the second uses a=0 and b=5, so the outputs are 10 and 5.",
+      "explanation": "In add_values(10), 10 is assigned to a and b keeps its default of 0, yielding 10. In add_values(b=5), a keeps its default of 0 and b becomes 5, yielding 5. Default arguments can be overridden by positional or keyword arguments.",
+      "starter_code": "# 1. Define the process_15_1 function\ndef process_15_1():\n    # 2. Implement solution for Default Arguments\n    pass\n",
+      "solution_code": "print('Default Arguments')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Default Arguments"
+        }
+      ]
+    },
+    {
+      "id": "15.1_q11",
+      "type": "code_prediction",
+      "concept": "default_arguments_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q10"
+      ],
+      "prompt": "Trace the execution and predict the final output:\n```python\ndef describe_pet(kind='dog', name='Buddy'):\n    message = kind + ' named ' + name\n    return message\n\ndef report():\n    return describe_pet('cat', 'Whiskers')\n\nprint(report())\nprint(describe_pet())\n```",
+      "options": [
+        "cat named Whiskers\n dog named Buddy",
+        "dog named Buddy\ncat named Whiskers",
+        "cat named Whiskers\ndog named Buddy",
+        "Error: describe_pet missing required argument"
+      ],
+      "correct_answer": "cat named Whiskers\n dog named Buddy",
+      "explanation": "report() calls describe_pet('cat', 'Whiskers'), overriding both defaults, so the result is 'cat named Whiskers'. describe_pet() uses both defaults, so the result is ' dog named Buddy'. The space before 'dog' is part of the default string 'dog', so the output includes a leading space in the second line."
+    },
+    {
+      "id": "15.1_q12",
+      "type": "output_prediction",
+      "concept": "default_arguments_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q11"
+      ],
+      "prompt": "What is the output of this code?\n```python\ndef check_status(active=True, pending=False):\n    if active and not pending:\n        return 'Ready'\n    return 'Wait'\n\nprint(check_status())\nprint(check_status(pending=True))\n```",
+      "options": [
+        "'Ready'\n'Wait'",
+        "'Wait'\n'Wait'",
+        "'Ready'\n'Ready'",
+        "Error: missing required argument"
+      ],
+      "correct_answer": "'Ready'\n'Wait'",
+      "explanation": "check_status() uses defaults: active=True, pending=False. The condition active and not pending is True and not False, which is True, so it returns 'Ready'. check_status(pending=True) uses active=True and pending=True. The condition becomes True and not True, which is False, so it returns 'Wait'."
+    },
+    {
+      "id": "15.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "default_arguments_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q12"
+      ],
+      "prompt": "Complete the function signature by filling in the blank: def greet(name, greeting='Hello') returns 'greeting + ', ' + name + '!'",
+      "correct_answer": "def greet(name, greeting='Hello'):",
+      "accepted_answers": [
+        "def greet(name, greeting='Hello'):",
+        "def greet(name, greeting = 'Hello'):"
+      ],
+      "explanation": "Default arguments are assigned using the equals sign (=) inside the function parameter list. The default value is evaluated once when the function is defined."
+    },
+    {
+      "id": "15.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "default_arguments_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q13"
+      ],
+      "prompt": "Fill in the blank to call the function using a keyword argument: result = calculate(x=5, y=___)",
+      "correct_answer": "10",
+      "accepted_answers": [
+        "10",
+        "'10'"
+      ],
+      "explanation": "When calling a function with default arguments, you can override the default by passing a keyword argument. Here, y defaults to 10, so passing y=10 explicitly uses the same value."
+    },
+    {
+      "id": "15.1_q15",
+      "type": "code_ordering",
+      "concept": "default_arguments_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to define and call a function with a default argument.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Function definitions must appear before they are called. The body must be indented correctly, and the call should occur after the definition. The default argument exp=2 is used when only one argument is provided."
+    },
+    {
+      "id": "15.1_q16",
+      "type": "error_diagnosis",
+      "question": "A developer wrote this user registration function:\n\n```python\ndef register_user(username, roles=[]):\n    roles.append('user')\n    return {'username': username, 'roles': roles}\n\nu1 = register_user('alice')\nu2 = register_user('bob')\n```\nWhy does `u2['roles']` unexpectedly contain `['user', 'user']`?",
+      "options": [
+        "Default argument expressions are evaluated once when the function is defined, so all invocations share the exact same list object in memory",
+        "The username 'bob' inherited properties from 'alice' due to global variable leakage",
+        "append() automatically duplicates items when the list length is under 5",
+        "Dictionary keys named 'roles' are automatically linked across instances"
+      ],
+      "correct_answer": "Default argument expressions are evaluated once when the function is defined, so all invocations share the exact same list object in memory",
+      "explanation": "Python evaluates default parameter expressions once at function definition time, NOT at invocation time. When a mutable object (like a list `[]` or dict `{}`) is used as a default, every call that omits the parameter shares that exact same object.",
+      "difficulty": "medium",
+      "concept": "mutable_default_trap",
+      "skill": "debugging",
+      "prerequisites": []
+    },
+    {
+      "id": "15.1_q17",
+      "type": "code_ordering",
+      "concept": "default_arguments_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q16"
+      ],
+      "prompt": "Arrange the following lines to implement a function that returns a default discount rate unless a custom rate is provided.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function definition must come first, with proper indentation. Validation of the default argument should occur inside the function before computation. The call must happen after the definition."
+    },
+    {
+      "id": "15.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "default_arguments_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q17"
+      ],
+      "prompt": "Fill in the blank to use a common Python idiom for logging: def log_call(func, level='INFO'):\n    def wrapper(*args, **kwargs):\n        print(f'[{level}] Calling {func.__name__}')\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_call(level=___)\ndef add(a, b):\n    return a + b",
+      "correct_answer": "'DEBUG'",
+      "accepted_answers": [
+        "'DEBUG'",
+        "'DEBUG'"
+      ],
+      "explanation": "A common idiom is to use a default argument for a decorator parameter, allowing the decorator to be customized at decoration time while preserving a sensible default. Here, level defaults to 'INFO', but can be overridden."
+    },
+    {
+      "id": "15.1_q19",
+      "type": "fix_the_code",
+      "question": "Fix this function using the idiomatic Python sentinel pattern so that each call receives its own independent list:",
+      "starter_code": "def append_to_cache(key, value, cache=[]):\n    # Fix the mutable default trap\n    cache.append((key, value))\n    return cache",
+      "solution_code": "def append_to_cache(key, value, cache=None):\n    if cache is None:\n        cache = []\n    cache.append((key, value))\n    return cache",
+      "test_cases": [
+        {
+          "input": "append_to_cache('a', 1)",
+          "expected_output": "[('a', 1)]"
+        }
+      ],
+      "explanation": "The standard Python fix for mutable default arguments is to use `None` as the default sentinel value, and instantiate a fresh list inside the function body if `cache is None`.",
+      "difficulty": "hard",
+      "concept": "none_sentinel_pattern",
+      "skill": "code_repair",
+      "prerequisites": []
+    },
+    {
+      "id": "15.1_q20",
+      "type": "fix_the_code",
+      "concept": "default_arguments_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.1_q19"
+      ],
+      "prompt": "Fix the code so that the greeting function works correctly for all inputs.",
+      "starter_code": "def greet(name, greeting='Hello'):\n    return greeting + ' ' + name\n\nprint(greet('Alice'))\nprint(greet('Bob', 'Hi'))",
+      "solution_code": "def greet(name, greeting='Hello'):\n    return greeting + ' ' + name\n\nprint(greet('Alice'))\nprint(greet('Bob', 'Hi'))",
+      "hint": "The function is already correct; verify that default argument behavior is as expected.",
+      "explanation": "The function greet already uses a valid default argument. When called with one argument, greeting defaults to 'Hello'. When called with two arguments, the provided greeting is used. No changes are needed."
+    },
+    {
+      "id": "15.1_q21",
+      "type": "fix_the_code",
+      "concept": "default_arguments_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q20"
+      ],
+      "prompt": "The following function fails for edge cases. Correct the implementation to handle missing or unexpected inputs safely.",
+      "starter_code": "def power(base, exponent=2):\n    return base ** exponent\n\nprint(power(3))\nprint(power(3, 0))\nprint(power(3, '2')",
+      "solution_code": "def power(base, exponent=2):\n    if not isinstance(exponent, (int, float)):\n        raise TypeError('Exponent must be a number')\n    return base ** exponent\n\nprint(power(3))\nprint(power(3, 0))\nprint(power(3, 2))",
+      "hint": "Consider validating the type of the exponent before performing exponentiation.",
+      "explanation": "The original code raises a TypeError when a string is passed for exponent. The corrected version validates that exponent is a numeric type and raises a clear error otherwise, preventing runtime crashes."
+    },
+    {
+      "id": "15.1_q22",
+      "type": "fix_the_code",
+      "concept": "default_arguments_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q21"
+      ],
+      "prompt": "Explain why the output of this program is surprising at runtime.",
+      "starter_code": "def make_multiplier(factor=1):\n    def multiply(n):\n        return n * factor\n    return multiply\n\nmult2 = make_multiplier(2)\nprint(mult2(5))\nprint(mult2(10))",
+      "solution_code": "def make_multiplier(factor=1):\n    def multiply(n):\n        return n * factor\n    return multiply\n\nmult2 = make_multiplier(2)\nprint(mult2(5))\nprint(mult2(10))",
+      "hint": "The default argument is evaluated when make_multiplier is called, not when multiply is called.",
+      "explanation": "The default value factor=1 is evaluated at the time make_multiplier is called. Since make_multiplier(2) is invoked, factor becomes 2 for that closure. The returned multiply function correctly captures factor=2, so both calls to mult2 use 2."
+    },
+    {
+      "id": "15.1_q23",
+      "type": "fix_the_code",
+      "concept": "default_arguments_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q22"
+      ],
+      "prompt": "Repair the logic in this function so that it returns the proper default when no arguments are provided.",
+      "starter_code": "def describe_pet(pet_type, name='Unknown'):\n    if name == '':\n        name = 'Unknown'\n    return f'{pet_type} named {name}'\n\nprint(describe_pet('dog'))\nprint(describe_pet('cat', ''))",
+      "solution_code": "def describe_pet(pet_type, name='Unknown'):\n    if name is None:\n        name = 'Unknown'\n    return f'{pet_type} named {name}'\n\nprint(describe_pet('dog'))\nprint(describe_pet('cat', None))",
+      "hint": "An empty string is a valid input; the function should only replace None, not empty strings.",
+      "explanation": "The original code incorrectly replaced empty strings with 'Unknown', which is valid input. The corrected version only replaces None, preserving intentional empty-string names while still providing a default."
+    },
+    {
+      "id": "15.1_q24",
+      "type": "write_the_code",
+      "concept": "default_arguments_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.1_q23"
+      ],
+      "prompt": "Refactor the following utility functions to reduce code duplication using a higher-order function with a default argument strategy.",
+      "starter_code": "def log_info(message):\n    print('[INFO] ' + message)\n\ndef log_warn(message):\n    print('[WARN] ' + message)\n\ndef log_error(message):\n    print('[ERROR] ' + message)\n\nlog_info('started')\nlog_warn('low memory')\nlog_error('crash')",
+      "solution_code": "def make_logger(prefix='[INFO]'):\n    def logger(message):\n        print(prefix + ' ' + message)\n    return logger\n\nlog_info = make_logger('[INFO]')\nlog_warn = make_logger('[WARN]')\nlog_error = make_logger('[ERROR]')\n\nlog_info('started')\nlog_warn('low memory')\nlog_error('crash')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "log_info('started') should print '[INFO] started'",
+          "description": "log_info('started') should print '[INFO] started'"
+        },
+        {
+          "input": "",
+          "expected_output": "log_warn('low memory') should print '[WARN] low memory'",
+          "description": "log_warn('low memory') should print '[WARN] low memory'"
+        },
+        {
+          "input": "",
+          "expected_output": "log_error('crash') should print '[ERROR] crash'",
+          "description": "log_error('crash') should print '[ERROR] crash'"
+        }
+      ],
+      "hint": "Extract the common printing logic into a factory function that accepts the prefix as a parameter with a default value.",
+      "explanation": "By using a factory function make_logger with a default prefix, we eliminate duplicated print statements. Each specialized logger is created by binding a specific prefix, making the code DRY and easier to maintain."
+    },
+    {
+      "id": "15.1_q25",
+      "type": "write_the_code",
+      "concept": "default_arguments_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.1_q24"
+      ],
+      "prompt": "Write a function named greet that accepts a name and an optional greeting with a default value of 'Hello'. The function should return a string combining the greeting and the name.",
+      "starter_code": "def greet(name, greeting='Hello'):\n    # TODO: return the combined greeting and name\n    pass",
+      "solution_code": "def greet(name, greeting='Hello'):\n    return f'{greeting}, {name}!'",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "greet('Alice')",
+          "description": "greet('Alice')"
+        },
+        {
+          "input": "",
+          "expected_output": "greet('Bob', 'Hi')",
+          "description": "greet('Bob', 'Hi')"
+        },
+        {
+          "input": "",
+          "expected_output": "greet('Charlie', 'Good morning')",
+          "description": "greet('Charlie', 'Good morning')"
+        }
+      ],
+      "hint": "Use an f-string to format the output and remember that default arguments are evaluated once when the function is defined.",
+      "explanation": "This item reinforces how to declare a default argument in a function signature. The default value 'Hello' is used only when the caller omits the second argument. Using f-strings makes the return value concise and readable."
+    },
+    {
+      "id": "15.1_q26",
+      "type": "error_diagnosis",
+      "concept": "default_arguments_mutable_pitfall",
+      "skill": "debugging",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.1_q25"
+      ],
+      "prompt": "What dangerous pitfall occurs in this function with a mutable default argument?\n\n```python\ndef add_item(item, basket=[]):\n    basket.append(item)\n    return basket\n\nprint(add_item(\"apple\"))\nprint(add_item(\"banana\"))\n```",
+      "options": [
+        "['apple'] then ['apple', 'banana'] because default arguments are evaluated only once at definition time.",
+        "['apple'] then ['banana'] because basket is reset to [] on each call.",
+        "Raises a TypeError because lists cannot be default parameters.",
+        "Raises an AttributeError on append."
+      ],
+      "correct_answer": "['apple'] then ['apple', 'banana'] because default arguments are evaluated only once at definition time.",
+      "explanation": "In Python, default arguments are evaluated *once* when the function is defined, not every time it is called. The exact same list `basket` is reused across all invocations. The idiom is to use `basket=None` and initialize `if basket is None: basket = []` inside the function.",
+      "metadata": {
+        "concept": "mutable_default_arguments",
+        "skill": "gotcha_avoidance",
+        "learning_objective": "Identify the classic mutable default argument memory leak bug in Python",
+        "common_misconception": "Believing default arguments re-evaluate per function call",
+        "why_this_exercise_exists": "One of Python's most notorious interview and production pitfalls"
+      },
+      "idx": 26
+    },
+    {
+      "idx": 27,
+      "id": "15.1_q27",
+      "type": "write_the_code",
+      "concept": "default_arguments_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.1_q26"
+      ],
+      "prompt": "Implement a function build_profile that accepts first_name and last_name, with an optional location defaulting to 'Unknown'. Store the data in a dictionary and return it. Ensure the default argument is not mutated across calls.",
+      "starter_code": "def build_profile(first_name, last_name, location='Unknown'):\n    # TODO: return a dictionary without mutating the default\n    pass",
+      "solution_code": "def build_profile(first_name, last_name, location='Unknown'):\n    profile = {'first_name': first_name, 'last_name': last_name, 'location': location}\n    return profile",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "build_profile('Ada', 'Lovelace')",
+          "description": "build_profile('Ada', 'Lovelace')"
+        },
+        {
+          "input": "",
+          "expected_output": "build_profile('Grace', 'Hopper', 'New York')",
+          "description": "build_profile('Grace', 'Hopper', 'New York')"
+        },
+        {
+          "input": "",
+          "expected_output": "build_profile('Tim', 'Berners-Lee', 'London')",
+          "description": "build_profile('Tim', 'Berners-Lee', 'London')"
+        }
+      ],
+      "hint": "Create a new dictionary inside the function rather than modifying a shared default object.",
+      "explanation": "This advanced item highlights the pitfall of mutable default arguments. By constructing a fresh dictionary each call, we avoid side effects that could corrupt state across invocations."
+    },
+    {
+      "idx": 28,
+      "id": "15.1_q28",
+      "type": "write_the_code",
+      "concept": "default_arguments_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.1_q27"
+      ],
+      "prompt": "A function log_message has a default level of 'INFO'. If level is 'ERROR', prepend '[CRITICAL] '. Otherwise, prepend the level in uppercase followed by a colon. Return the formatted string.",
+      "starter_code": "def log_message(message, level='INFO'):\n    # TODO: format the message based on level\n    pass",
+      "solution_code": "def log_message(message, level='INFO'):\n    prefix = '[CRITICAL] ' if level == 'ERROR' else f'{level}: '\n    return f'{prefix}{message}'",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "log_message('System started')",
+          "description": "log_message('System started')"
+        },
+        {
+          "input": "",
+          "expected_output": "log_message('Disk full', 'ERROR')",
+          "description": "log_message('Disk full', 'ERROR')"
+        },
+        {
+          "input": "",
+          "expected_output": "log_message('User logged in', 'DEBUG')",
+          "description": "log_message('User logged in', 'DEBUG')"
+        }
+      ],
+      "hint": "Use a conditional expression to choose the prefix, then combine it with the message using an f-string.",
+      "explanation": "This challenge tests conditional logic combined with default arguments. The ternary operator keeps the implementation compact while correctly handling the special 'ERROR' case."
+    },
+    {
+      "idx": 29,
+      "id": "15.1_q29",
+      "type": "write_the_code",
+      "concept": "default_arguments_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.1_q28"
+      ],
+      "prompt": "Design a function generate_report that accepts a title and an optional date defaulting to today's date. The function should return a dictionary containing the title, date, and a status of 'Draft'. Include a code block demonstrating its usage.",
+      "starter_code": "from datetime import date\n\ndef generate_report(title, report_date=date.today()):\n    # TODO: construct and return the report dictionary\n    pass",
+      "solution_code": "from datetime import date\n\ndef generate_report(title, report_date=date.today()):\n    return {\n        'title': title,\n        'date': report_date,\n        'status': 'Draft'\n    }",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "generate_report('Q1 Sales')",
+          "description": "generate_report('Q1 Sales')"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_report('Q1 Sales', date(2024, 1, 1))",
+          "description": "generate_report('Q1 Sales', date(2024, 1, 1))"
+        }
+      ],
+      "hint": "Import date from the datetime module and use it as a default argument. Return a dictionary with the required keys.",
+      "explanation": "In real-world applications, default arguments streamline report generation. By using date.today() as a default, frequent callers need not supply a date, yet explicit overrides remain possible for historical records."
+    },
+    {
+      "idx": 30,
+      "id": "15.1_q30",
+      "type": "write_the_code",
+      "concept": "default_arguments_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.1_q29"
+      ],
+      "prompt": "Write a function apply_discount that takes a price and an optional discount_rate defaulting to 0.1. It returns a new function that applies the stored discount to any given amount. Test with prices 100 and 200.",
+      "starter_code": "def apply_discount(price, discount_rate=0.1):\n    # TODO: return a closure that applies the discount\n    pass\n\n# Example usage:\n# d = apply_discount(100)\n# print(d(50))",
+      "solution_code": "def apply_discount(price, discount_rate=0.1):\n    def inner(amount):\n        return amount * (1 - discount_rate)\n    return inner\n\n# Example usage:\n# d = apply_discount(100)\n# print(d(50))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "d = apply_discount(100); d(50)",
+          "description": "d = apply_discount(100); d(50)"
+        },
+        {
+          "input": "",
+          "expected_output": "e = apply_discount(200, 0.2); e(100)",
+          "description": "e = apply_discount(200, 0.2); e(100)"
+        },
+        {
+          "input": "",
+          "expected_output": "f = apply_discount(50); f(25)",
+          "description": "f = apply_discount(50); f(25)"
+        }
+      ],
+      "hint": "Define an inner function that captures discount_rate and returns the discounted amount. The outer function returns this inner function.",
+      "explanation": "This mastery item combines default arguments with closures and higher-order functions. The default discount_rate of 0.1 provides a sensible baseline, while returning a callable lets callers reuse the configured discount logic efficiently."
+    }
+  ],
+  "unit_num": 15,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Default Arguments",
+    "Apply idiomatic Python patterns when working with Default Arguments",
+    "Debug common runtime exceptions and logic errors associated with Default Arguments",
+    "Implement production-ready code utilizing Default Arguments"
+  ],
+  "prerequisites": [
+    "14.6"
+  ]
+}

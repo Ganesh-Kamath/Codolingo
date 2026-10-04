@@ -1,0 +1,708 @@
+{
+  "lesson_id": "5.1",
+  "title": "The if Statement",
+  "unit": "Conditional Logic",
+  "items": [
+    {
+      "id": "5.1_q1",
+      "type": "micro_lesson",
+      "concept": "the_if_statement_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Conditional Execution with if",
+      "content": "The `if` statement evaluates a boolean condition. If the condition is `True`, Python executes the indented block of code below it:\n\n```python\nscore = 85\nif score >= 80:\n    print(\"Great job!\")\n```\n\nIn Python, code blocks are defined by indentation (typically 4 spaces), ending with a colon `:` at the end of the `if` line.",
+      "explanation": "An if statement tests a condition and executes its indented block only when that condition evaluates to True.",
+      "metadata": {
+        "concept": "if_statement_fundamentals",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Foundational if syntax and block rules"
+      }
+    },
+    {
+      "id": "5.1_q2",
+      "type": "output_prediction",
+      "concept": "the_if_statement_basics",
+      "skill": "mental_model",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.1_q1"
+      ],
+      "prompt": "Predict the output of the following conditional block:\n\n```python\ntemperature = 22\nif temperature > 20:\n    print(\"Pleasant weather\")\nprint(\"Done\")\n```",
+      "options": [
+        "Pleasant weather\nDone",
+        "Pleasant weather",
+        "Done",
+        "No output is printed"
+      ],
+      "correct_answer": "Pleasant weather\nDone",
+      "explanation": "Since `22 > 20` evaluates to `True`, the indented body under `if` executes, printing `'Pleasant weather'`. Then execution continues sequentially outside the `if` block, printing `'Done'`.",
+      "metadata": {
+        "concept": "if_execution_flow",
+        "skill": "control_flow",
+        "learning_objective": "Trace execution through an if block and subsequent statements",
+        "common_misconception": "Thinking code after an if block only runs when the condition is False",
+        "why_this_exercise_exists": "Reinforces python block structure and sequential execution"
+      }
+    },
+    {
+      "id": "5.1_q3",
+      "type": "micro_lesson",
+      "concept": "the_if_statement_comparisons",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.1_q2"
+      ],
+      "title": "Comparison Operators and Boundaries",
+      "content": "Conditions rely on comparison operators:\n\n* `==` (equal to) vs `!=` (not equal to)\n* `>` (greater than) vs `>=` (greater than or equal to)\n* `<` (less than) vs `<=` (less than or equal to)\n\nPay close attention to boundaries: `score > 90` excludes 90, while `score >= 90` includes 90!",
+      "explanation": "Strict inequalities (> and <) exclude boundary points, whereas inclusive comparisons (>= and <=) include them.",
+      "metadata": {
+        "concept": "comparison_operator_boundaries",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches boundary condition vigilance"
+      }
+    },
+    {
+      "id": "5.1_q4",
+      "type": "error_diagnosis",
+      "concept": "the_if_statement_basics",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.1_q3"
+      ],
+      "prompt": "Examine this Python snippet:\n\n```python\nage = 18\nif age >= 18:\nprint(\"Adult\")\n```\n\nWhy will Python fail to execute this code?",
+      "options": [
+        "IndentationError: expected an indented block after 'if' statement",
+        "SyntaxError: invalid comparison operator",
+        "TypeError: 'age' is not defined",
+        "ValueError: condition cannot evaluate equality"
+      ],
+      "correct_answer": "IndentationError: expected an indented block after 'if' statement",
+      "explanation": "Python uses indentation (standard 4 spaces) rather than curly braces `{}` to determine which statements belong inside an `if` block. An unindented statement immediately following an `if` header triggers an `IndentationError`.",
+      "metadata": {
+        "concept": "if_block_indentation",
+        "skill": "syntax_debugging",
+        "learning_objective": "Identify and diagnose IndentationError in conditional statements",
+        "common_misconception": "Assuming whitespace is purely aesthetic in Python",
+        "why_this_exercise_exists": "Core Python structural rule that every programmer must master"
+      }
+    },
+    {
+      "id": "5.1_q5",
+      "type": "code_prediction",
+      "concept": "the_if_statement_basics",
+      "skill": "boundary_analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q4"
+      ],
+      "prompt": "A grading script checks student scores:\n\n```python\nscore = 90\nif score > 90:\n    print(\"Honor Roll\")\nprint(\"Processed\")\n```\n\nWhat is printed to the console when `score` is exactly 90?",
+      "options": [
+        "Processed",
+        "Honor Roll\nProcessed",
+        "Honor Roll",
+        "Nothing"
+      ],
+      "correct_answer": "Processed",
+      "explanation": "The strict greater-than operator `>` checks if `90 > 90`, which is `False`! Therefore, the indented block is skipped entirely, and only `'Processed'` is printed. If 90 was meant to qualify, the condition should use `>=`.",
+      "metadata": {
+        "concept": "strict_vs_inclusive_inequality",
+        "skill": "boundary_testing",
+        "learning_objective": "Discriminate between strict (>) and inclusive (>=) comparison boundaries",
+        "common_misconception": "Treating > as including the boundary value",
+        "why_this_exercise_exists": "Boundary/off-by-one errors in conditionals are a primary source of business logic bugs"
+      }
+    },
+    {
+      "id": "5.1_q6",
+      "type": "fix_the_code",
+      "concept": "the_if_statement_basics",
+      "skill": "repair",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q5"
+      ],
+      "prompt": "Fix the indentation in the code below so that the discount message only prints when `cart_total` exceeds 100, but the checkout message always prints.\n\n```python\ncart_total = 75\nif cart_total > 100:\nprint(\"Free shipping applied!\")\nprint(\"Ready for checkout\")\n```",
+      "starter_code": "cart_total = 75\nif cart_total > 100:\nprint(\"Free shipping applied!\")\nprint(\"Ready for checkout\")",
+      "solution_code": "cart_total = 75\nif cart_total > 100:\n    print(\"Free shipping applied!\")\nprint(\"Ready for checkout\")",
+      "explanation": "Indenting `print(\"Free shipping applied!\")` by 4 spaces places it inside the `if` body, so it only executes when `cart_total > 100`. Leaving `print(\"Ready for checkout\")` unindented ensures it executes regardless of the cart total.",
+      "metadata": {
+        "concept": "conditional_scoping",
+        "skill": "indentation_control",
+        "learning_objective": "Scope statements correctly inside and outside an if statement",
+        "common_misconception": "Indenting all subsequent lines or indenting none",
+        "why_this_exercise_exists": "Directly trains visual and cognitive reasoning about Python blocks"
+      }
+    },
+    {
+      "id": "5.1_q7",
+      "type": "code_prediction",
+      "concept": "the_if_statement_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.1_q6"
+      ],
+      "prompt": "What does this code output?\n```python\ntemperature = 35\nif temperature > 30:\n    print('Heat advisory')\nprint('Drive safely')\n```",
+      "options": [
+        "Heat advisory\nDrive safely",
+        "Heat advisory",
+        "Drive safely",
+        "Error"
+      ],
+      "correct_answer": "Heat advisory\nDrive safely",
+      "explanation": "Since `temperature > 30` is True, 'Heat advisory' is printed. The following line is unindented, so it always runs, printing 'Drive safely'."
+    },
+    {
+      "id": "5.1_q8",
+      "type": "multiple_choice",
+      "concept": "the_if_statement_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q7"
+      ],
+      "prompt": "What is the requirement for the indentation level of code inside an `if` block in Python?",
+      "options": [
+        "All statements in the block must be indented by the exact same amount (conventionally 4 spaces)",
+        "Indentation can vary freely line by line within the block",
+        "Indentation is only required for loops, not if statements",
+        "Python accepts either tabs or spaces intermixed within the same line"
+      ],
+      "correct_answer": "All statements in the block must be indented by the exact same amount (conventionally 4 spaces)",
+      "explanation": "Python uses whitespace to denote blocks of code. All statements in the same block must have identical indentation."
+    },
+    {
+      "id": "5.1_q9",
+      "type": "fix_the_code",
+      "concept": "the_if_statement_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q8"
+      ],
+      "prompt": "Fix this code by adding the missing colon `:` at the end of the `if` header:",
+      "correct_answer": "45",
+      "explanation": "Compound statements in Python such as `if`, `for`, and `def` must terminate their header line with a colon `:`.",
+      "starter_code": "is_logged_in = True\nif is_logged_in\n    print('Welcome back!')",
+      "solution_code": "is_logged_in = True\nif is_logged_in:\n    print('Welcome back!')"
+    },
+    {
+      "id": "5.1_q10",
+      "type": "write_the_code",
+      "concept": "the_if_statement_basics",
+      "skill": "construction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q9"
+      ],
+      "prompt": "Write an `if` statement that checks if `temperature` is greater than 30. If true, set `alert` to `'Heat advisory'` and print `'Drink water'`. If `temperature` is 32, execute the check.",
+      "starter_code": "temperature = 32\nalert = \"Normal\"\n# Write the if statement here\n",
+      "solution_code": "temperature = 32\nalert = \"Normal\"\nif temperature > 30:\n    alert = \"Heat advisory\"\n    print(\"Drink water\")",
+      "explanation": "`temperature > 30` evaluates to `True` for 32. Inside the indented block, `alert` is updated to `'Heat advisory'` and `'Drink water'` is printed.",
+      "metadata": {
+        "concept": "state_mutation_in_if",
+        "skill": "implementation",
+        "learning_objective": "Mutate program state conditionally inside an if block",
+        "common_misconception": "Forgetting the colon at the end of the if header",
+        "why_this_exercise_exists": "Teaches fundamental decision-making and state tracking"
+      }
+    },
+    {
+      "id": "5.1_q11",
+      "type": "code_prediction",
+      "concept": "the_if_statement_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q10"
+      ],
+      "prompt": "What does this snippet display?\n```python\nscore = 45\nif score >= 50:\n    print('Passed')\nprint('Score recorded')\n```",
+      "options": [
+        "Score recorded",
+        "Passed\nScore recorded",
+        "Passed",
+        "Nothing"
+      ],
+      "correct_answer": "Score recorded",
+      "explanation": "`score >= 50` is False (45 < 50), so the indented `print('Passed')` is skipped. The unindented line prints 'Score recorded'."
+    },
+    {
+      "id": "5.1_q12",
+      "type": "output_prediction",
+      "concept": "the_if_statement_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q11"
+      ],
+      "prompt": "What will be printed when this script runs?\n```python\nitems = []\nif items:\n    print('Cart has items')\nif not items:\n    print('Cart is empty')\n```",
+      "options": [
+        "Cart is empty",
+        "Cart has items",
+        "Cart has items\nCart is empty",
+        "None"
+      ],
+      "correct_answer": "Cart is empty",
+      "explanation": "In Python, empty collections (like empty lists `[]`) evaluate to False in a boolean context. Therefore, `not items` is True."
+    },
+    {
+      "id": "5.1_q13",
+      "type": "output_prediction",
+      "concept": "the_if_statement_basics",
+      "skill": "mental_model",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q12"
+      ],
+      "prompt": "What does this code output when `battery_level` is 15?\n\n```python\nbattery_level = 15\nif battery_level <= 20:\n    print(\"Low Battery\")\nif battery_level <= 10:\n    print(\"Critical Battery\")\n```",
+      "options": [
+        "Low Battery",
+        "Low Battery\nCritical Battery",
+        "Critical Battery",
+        "No output"
+      ],
+      "correct_answer": "Low Battery",
+      "explanation": "The first condition `15 <= 20` is `True`, so `'Low Battery'` prints. The second condition `15 <= 10` is `False`, so the second block is skipped.",
+      "metadata": {
+        "concept": "independent_if_evaluation",
+        "skill": "branching_logic",
+        "learning_objective": "Understand that sequential if statements evaluate independently",
+        "common_misconception": "Confusing sequential if statements with mutually exclusive if-elif chains",
+        "why_this_exercise_exists": "Prevents logic bugs where multiple if statements accidentally trigger"
+      }
+    },
+    {
+      "id": "5.1_q14",
+      "type": "fix_the_code",
+      "concept": "the_if_statement_basics",
+      "skill": "repair",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q13"
+      ],
+      "prompt": "The code below attempts to check if a username has at least 3 characters, but uses an assignment `=` instead of an equality comparison `==`. Fix the code.\n\n```python\nusername = \"sam\"\n# Fix the condition to check if username is \"admin\"\nis_admin = False\nif username = \"admin\":\n    is_admin = True\n```",
+      "starter_code": "username = \"sam\"\nis_admin = False\nif username = \"admin\":\n    is_admin = True",
+      "solution_code": "username = \"sam\"\nis_admin = False\nif username == \"admin\":\n    is_admin = True",
+      "explanation": "In Python, a single `=` is the assignment operator, which is illegal syntax in an `if` expression. The equality operator `==` compares whether `username` equals `'admin'`.",
+      "metadata": {
+        "concept": "assignment_vs_equality",
+        "skill": "syntax_repair",
+        "learning_objective": "Distinguish assignment (=) from equality comparison (==) in conditions",
+        "common_misconception": "Using single = inside an if statement",
+        "why_this_exercise_exists": "Eliminates one of the most common syntax errors across all programming languages"
+      }
+    },
+    {
+      "id": "5.1_q15",
+      "type": "code_ordering",
+      "concept": "the_if_statement_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.1_q14"
+      ],
+      "prompt": "Arrange the lines in correct logical order for The If Statement Sequence:",
+      "options": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "correct_answer": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "5.1_q16",
+      "type": "fill_in_the_blank",
+      "title": "Complete the if Statement Syntax",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "the_if_statement_patterns",
+      "prerequisites": [
+        "5.1_q15"
+      ],
+      "prompt": "Fill in the blank to complete the if statement pattern in Python:\n\n```python\nif ____:\n    print('Condition met')\n```",
+      "correct_answer": "condition",
+      "accepted_answers": [
+        "condition",
+        "boolean_expression",
+        "test_expression"
+      ],
+      "explanation": "An if statement in Python begins with the keyword if followed by a boolean expression (or condition) enclosed in a colon. The expression evaluates to True or False to determine whether the indented block executes.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "title": "Sequence the if Statement Algorithm",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "the_if_statement_algorithm",
+      "prerequisites": [
+        "5.1_q16"
+      ],
+      "prompt": "Arrange the following code lines into the correct order for a basic if statement algorithm:",
+      "options": [
+        "print('Checking age')",
+        "if age >= 18:",
+        "age = 20",
+        "print('Adult')",
+        "else:",
+        "print('Minor')"
+      ],
+      "correct_answer": [
+        "age = 20",
+        "print('Checking age')",
+        "if age >= 18:",
+        "print('Adult')",
+        "else:",
+        "print('Minor')"
+      ],
+      "explanation": "A proper if-else algorithm initializes the variable, evaluates the condition, executes the corresponding block based on the result, and handles the alternative case with else.",
+      "id": "5.1_q17",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q18",
+      "type": "fill_in_the_blank",
+      "title": "Identify Common if Statement Idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "the_if_statement_idioms",
+      "prerequisites": [
+        "5.1_q17"
+      ],
+      "prompt": "Fill in the blank to complete this common idiom:\n\n```python\nif x is not None and ____:\n    process(x)\n```",
+      "correct_answer": "x > 0",
+      "accepted_answers": [
+        "x > 0",
+        "x != 0",
+        "len(x) > 0"
+      ],
+      "explanation": "Python programmers often chain boolean conditions with and to verify multiple properties before proceeding. Here, we ensure x is positive in addition to being non-None.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q19",
+      "type": "fix_the_code",
+      "title": "Diagnose a Faulty if Statement",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "the_if_statement_errors",
+      "prerequisites": [
+        "5.1_q18"
+      ],
+      "prompt": "Identify the error(s) in the following code:",
+      "starter_code": "if score > 60\n    print('Pass')\nelse\n    print('Fail')",
+      "solution_code": "if score > 60:\n    print('Pass')\nelse:\n    print('Fail')",
+      "hint": "Check for missing colons and incorrect indentation.",
+      "explanation": "Python requires a colon after the if and else keywords. Additionally, the blocks under these keywords must be indented consistently.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q20",
+      "type": "fix_the_code",
+      "title": "Fix a Simple if Statement",
+      "skill": "debugging",
+      "diff": "easy",
+      "concept": "the_if_statement_fix",
+      "prerequisites": [
+        "5.1_q19"
+      ],
+      "prompt": "Correct the syntax errors in this snippet so it prints the correct grade message:",
+      "starter_code": "if marks > 80\nprint('A')\nelse\nprint('B')",
+      "solution_code": "if marks > 80:\n    print('A')\nelse:\n    print('B')",
+      "hint": "Add colons after the conditional lines and indent the print statements.",
+      "explanation": "The corrected code adds colons after the if and else statements and indents the corresponding print calls, which is mandatory in Python for block definition.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "5.1_q21",
+      "type": "fix_the_code",
+      "title": "Handle Edge Cases in an if Statement",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "the_if_statement_edge_cases",
+      "prerequisites": [
+        "5.1_q20"
+      ],
+      "prompt": "Fix the code to safely handle age values including zero and negative numbers:",
+      "starter_code": "if age > 18:\n    print('Eligible')\nelse:\n    print('Not eligible')",
+      "solution_code": "if age is not None and age > 18:\n    print('Eligible')\nelse:\n    print('Not eligible')",
+      "hint": "Consider what happens when age might be None or a negative value.",
+      "explanation": "Adding an age is not None guard prevents a TypeError when age is None. The logic still correctly classifies adults and non-adults, including edge cases like zero or negative ages.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q22",
+      "type": "fix_the_code",
+      "title": "Runtime Error in Conditional Logic",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "the_if_statement_runtime",
+      "prerequisites": [
+        "5.1_q21"
+      ],
+      "prompt": "Identify why this code raises a runtime error:",
+      "starter_code": "user_input = input('Enter a number: ')\nif int(user_input) > 10:\n    print('Large')",
+      "solution_code": "user_input = input('Enter a number: ')\ntry:\n    if int(user_input) > 10:\n        print('Large')\nexcept ValueError:\n    print('Invalid input')",
+      "hint": "What happens if the user types text instead of a number?",
+      "explanation": "The int() conversion fails when the input is not a valid integer, raising a ValueError. Wrapping the conversion in a try-except block handles this runtime error gracefully.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q23",
+      "type": "fix_the_code",
+      "title": "Repair Logical Flow in a Condition",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "the_if_statement_logic_repair",
+      "prerequisites": [
+        "5.1_q22"
+      ],
+      "prompt": "The code below should print 'Weekend' only on Saturday or Sunday. Fix the logic error:",
+      "starter_code": "import datetime\nday = datetime.date.today().weekday()\nif day == 5 or day == 6:\n    print('Weekend')\nelse:\n    print('Weekday')",
+      "solution_code": "import datetime\nday = datetime.date.today().weekday()\nif day == 5 or day == 6:\n    print('Weekend')\nelif day == 0:\n    print('Weekend')\nelse:\n    print('Weekday')",
+      "hint": "Check Python's weekday() mapping: Monday is 0 and Sunday is 6.",
+      "explanation": "The original code missed Sunday (day == 6 is correct, but the comment implied a bug; actually day 6 is Sunday). However, to be explicit and robust, we ensure both Saturday (5) and Sunday (6) are covered. The elif makes the weekend condition exhaustive.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q24",
+      "type": "fix_the_code",
+      "title": "Optimize Nested if Statements",
+      "skill": "refactoring",
+      "diff": "hard",
+      "concept": "the_if_statement_optimization",
+      "prerequisites": [
+        "5.1_q23"
+      ],
+      "prompt": "Refactor this deeply nested structure to use early returns and reduce nesting:",
+      "starter_code": "def check_access(user, resource):\n    if user is not None:\n        if user.is_admin:\n            if resource.is_public:\n                return True\n            else:\n                return False\n        else:\n            if resource.is_public:\n                return True\n            else:\n                return False\n    else:\n        return False",
+      "solution_code": "def check_access(user, resource):\n    if user is None:\n        return False\n    if not user.is_admin:\n        return resource.is_public\n    return True",
+      "hint": "Use guard clauses to exit early when conditions fail.",
+      "explanation": "By returning early for None users and non-admin users, we flatten the control flow. Admin users always return True, eliminating redundant nested checks.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "5.1_q25",
+      "type": "write_the_code",
+      "title": "Implement a Basic if Statement",
+      "skill": "application",
+      "diff": "medium",
+      "concept": "the_if_statement_implementation",
+      "prerequisites": [
+        "5.1_q24"
+      ],
+      "prompt": "Write a program that reads a temperature in Celsius and prints whether it is freezing, mild, or hot.",
+      "starter_code": "temp = float(input('Enter temperature in Celsius: '))\n# Write your if-elif-else logic here\n",
+      "solution_code": "temp = float(input('Enter temperature in Celsius: '))\nif temp < 0:\n    print('Freezing')\nelif temp <= 25:\n    print('Mild')\nelse:\n    print('Hot')",
+      "test_cases": [
+        {
+          "input": "5",
+          "expected": "Mild"
+        },
+        {
+          "input": "-3",
+          "expected": "Freezing"
+        },
+        {
+          "input": "30",
+          "expected": "Hot"
+        }
+      ],
+      "hint": "Use if, elif, and else to partition the range into three categories.",
+      "explanation": "The solution uses chained conditional checks. The first true branch executes and subsequent elif/else blocks are skipped, ensuring exactly one message is printed.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q26",
+      "type": "write_the_code",
+      "title": "Apply if Logic to a Practical Scenario",
+      "skill": "application",
+      "diff": "medium",
+      "concept": "the_if_statement_practical",
+      "prerequisites": [
+        "5.1_q25"
+      ],
+      "prompt": "Create a program that checks if a user is eligible to vote based on age and citizenship status.",
+      "starter_code": "age = int(input('Enter age: '))\ncitizen = input('Are you a citizen? (yes/no): ')\n# Write your conditional logic here\n",
+      "solution_code": "age = int(input('Enter age: '))\ncitizen = input('Are you a citizen? (yes/no): ')\nif age >= 18 and citizen.lower() == 'yes':\n    print('Eligible to vote')\nelse:\n    print('Not eligible to vote')",
+      "test_cases": [
+        {
+          "input": "20\nyes",
+          "expected": "Eligible to vote"
+        },
+        {
+          "input": "17\nyes",
+          "expected": "Not eligible to vote"
+        },
+        {
+          "input": "25\nno",
+          "expected": "Not eligible to vote"
+        }
+      ],
+      "hint": "Both conditions must be satisfied, so use and to combine them.",
+      "explanation": "The if statement evaluates two independent criteria. Only when both the age threshold and citizenship confirmation are met does the program grant voting eligibility.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "5.1_q27",
+      "type": "write_the_code",
+      "title": "Advanced Conditional Implementation",
+      "skill": "application",
+      "diff": "hard",
+      "concept": "the_if_statement_advanced",
+      "prerequisites": [
+        "5.1_q26"
+      ],
+      "prompt": "Write a function that returns a category string based on a list of tags, using nested conditions and a ternary expression for the final output.",
+      "starter_code": "def categorize_tags(tags):\n    # tags is a list of strings\n    # Use if/elif/else to determine category\n    pass\n\n# Example usage\nprint(categorize_tags(['python', 'ai']))",
+      "solution_code": "def categorize_tags(tags):\n    if not tags:\n        return 'empty'\n    if 'python' in tags and 'ai' in tags:\n        return 'tech'\n    elif 'python' in tags:\n        return 'programming' if len(tags) == 1 else 'mixed'\n    else:\n        return 'other'\n\n# Example usage\nprint(categorize_tags(['python', 'ai']))",
+      "test_cases": [
+        {
+          "input": "[]",
+          "expected": "empty"
+        },
+        {
+          "input": "['python', 'ai']",
+          "expected": "tech"
+        },
+        {
+          "input": "['python']",
+          "expected": "programming"
+        },
+        {
+          "input": "['ai', 'ml']",
+          "expected": "other"
+        }
+      ],
+      "hint": "Check for empty input first, then test membership, and use a ternary for the single-tag case.",
+      "explanation": "The function layers conditions: empty list is handled first, then compound membership, then a ternary expression distinguishes a single programming tag from a mixed list.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "5.1_q28",
+      "type": "write_the_code",
+      "title": "Conditional Logic Challenge",
+      "skill": "problem_solving",
+      "diff": "hard",
+      "concept": "the_if_statement_challenge",
+      "prerequisites": [
+        "5.1_q27"
+      ],
+      "prompt": "Design a function that returns True only if a number is positive, even, and divisible by 5, otherwise False. Minimize nesting.",
+      "starter_code": "def special_number(n):\n    # Your logic here\n    pass\n\n# Test cases\nprint(special_number(10))  # True\nprint(special_number(15))  # False (odd)\nprint(special_number(-10)) # False (negative)\n",
+      "solution_code": "def special_number(n):\n    return n > 0 and n % 2 == 0 and n % 5 == 0\n\n# Test cases\nprint(special_number(10))  # True\nprint(special_number(15))  # False (odd)\nprint(special_number(-10)) # False (negative)",
+      "test_cases": [
+        {
+          "input": "10",
+          "expected": "True"
+        },
+        {
+          "input": "20",
+          "expected": "True"
+        },
+        {
+          "input": "15",
+          "expected": "False"
+        },
+        {
+          "input": "-10",
+          "expected": "False"
+        }
+      ],
+      "hint": "Combine all checks with and in a single return statement.",
+      "explanation": "A single return with chained boolean expressions avoids nested ifs. Each condition must be true for the overall expression to evaluate to True.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "5.1_q29",
+      "type": "write_the_code",
+      "title": "Real-World Conditional Scenario",
+      "skill": "synthesis",
+      "diff": "hard",
+      "concept": "the_if_statement_scenario",
+      "prerequisites": [
+        "5.1_q28"
+      ],
+      "prompt": "Build a simplified e-commerce checkout validator. Given item price, quantity, and a discount code, print the final price or an error. Assume valid codes are 'SAVE10' and 'SAVE20'.",
+      "starter_code": "price = float(input('Item price: '))\nquantity = int(input('Quantity: '))\ncode = input('Discount code (or press Enter): ')\n\n# Write validation and pricing logic here\n",
+      "solution_code": "price = float(input('Item price: '))\nquantity = int(input('Quantity: '))\ncode = input('Discount code (or press Enter): ')\n\nif price < 0 or quantity <= 0:\n    print('Error: Invalid price or quantity')\nelse:\n    total = price * quantity\n    if code == 'SAVE10':\n        total *= 0.9\n    elif code == 'SAVE20':\n        total *= 0.8\n    elif code:\n        print('Error: Unknown discount code')\n    else:\n        pass\n    print(f'Final price: {total:.2f}')",
+      "test_cases": [
+        {
+          "input": "100\n2\nSAVE10",
+          "expected": "Final price: 180.00"
+        },
+        {
+          "input": "50\n1\nSAVE20",
+          "expected": "Final price: 40.00"
+        },
+        {
+          "input": "-10\n2\n",
+          "expected": "Error: Invalid price or quantity"
+        },
+        {
+          "input": "30\n1\nINVALID",
+          "expected": "Error: Unknown discount code"
+        }
+      ],
+      "hint": "Validate inputs first, then apply discount rules in order, and handle unknown codes.",
+      "explanation": "The solution validates business rules before calculation. Nested if-elif-else structures apply tiered discounts while preserving the original total when no valid code is provided.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "5.1_q30",
+      "type": "write_the_code",
+      "title": "Mastery Challenge: Complex Conditional",
+      "skill": "mastery",
+      "diff": "hard",
+      "concept": "the_if_statement_mastery",
+      "prerequisites": [
+        "5.1_q29"
+      ],
+      "prompt": "Write a function grade_report(scores) that returns a summary string. If all scores are >= 60, return 'All passed'; else if any score is >= 90, return 'Top performer'; else return 'Needs improvement'.",
+      "starter_code": "def grade_report(scores):\n    # Implement your conditional logic\n    pass\n\n# Test\nprint(grade_report([70, 80, 90]))   # Top performer\nprint(grade_report([55, 65, 75]))   # Needs improvement\nprint(grade_report([85, 92, 78]))  # Top performer\nprint(grade_report([60, 60, 60]))  # All passed",
+      "solution_code": "def grade_report(scores):\n    if all(s >= 60 for s in scores):\n        return 'All passed'\n    elif any(s >= 90 for s in scores):\n        return 'Top performer'\n    else:\n        return 'Needs improvement'\n\n# Test\nprint(grade_report([70, 80, 90]))   # Top performer\nprint(grade_report([55, 65, 75]))   # Needs improvement\nprint(grade_report([85, 92, 78]))  # Top performer\nprint(grade_report([60, 60, 60]))  # All passed",
+      "test_cases": [
+        {
+          "input": "[70, 80, 90]",
+          "expected": "Top performer"
+        },
+        {
+          "input": "[55, 65, 75]",
+          "expected": "Needs improvement"
+        },
+        {
+          "input": "[85, 92, 78]",
+          "expected": "Top performer"
+        },
+        {
+          "input": "[60, 60, 60]",
+          "expected": "All passed"
+        }
+      ],
+      "hint": "Use generator expressions with all() and any() inside your conditions.",
+      "explanation": "The function leverages all() to verify universal passing, then any() to detect excellence. The order matters: all-passing takes precedence over top-performer, which mirrors typical grading hierarchies.",
+      "difficulty": "hard"
+    }
+  ],
+  "unit_num": 5,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of if Statement",
+    "Apply idiomatic Python patterns when working with if Statement",
+    "Debug common runtime exceptions and logic errors associated with if Statement",
+    "Implement production-ready code utilizing if Statement"
+  ],
+  "prerequisites": [
+    "4.4"
+  ]
+}

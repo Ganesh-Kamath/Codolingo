@@ -1,0 +1,640 @@
+{
+  "lesson_id": "29.2",
+  "title": "Identifying Bottlenecks",
+  "unit": "Performance and Profiling",
+  "items": [
+    {
+      "id": "29.2_q1",
+      "type": "micro_lesson",
+      "concept": "identifying_bottlenecks_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is a Bottleneck?",
+      "content": "A bottleneck is the part of your program that slows everything down. When a program runs, most of the time is often spent in just a few functions or operations. Identifying bottlenecks means finding those slow spots so you can improve them. For example, if you have a list with 1,000,000 items and you check every item for a match, that loop may become a bottleneck. You can spot bottlenecks by measuring how long different parts of your code take to execute. The goal is to reduce the total runtime by optimizing only the slowest sections.",
+      "prompt": "",
+      "explanation": "A bottleneck is the part of your program that slows everything down. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "29.2_q2",
+      "type": "multiple_choice",
+      "concept": "identifying_bottlenecks_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q1"
+      ],
+      "prompt": "Which of the following best describes a bottleneck in Python?",
+      "options": [
+        "A variable that stores too much data",
+        "A section of code that takes the most time to execute",
+        "A syntax error that stops the program",
+        "A function that is defined but never called"
+      ],
+      "correct_answer": "A section of code that takes the most time to execute",
+      "explanation": "A bottleneck specifically refers to the slowest part of a program, not a general error or unused code. Optimizing bottlenecks improves overall performance."
+    },
+    {
+      "id": "29.2_q3",
+      "type": "micro_lesson",
+      "concept": "identifying_bottlenecks_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q2"
+      ],
+      "title": "Using time.time() to Measure Execution",
+      "content": "You can identify a bottleneck by timing how long a block of code runs. Python's time module provides time.time() to capture the current time in seconds. By recording the time before and after a block of code, you can compute the elapsed time. For example, if you want to check whether a loop is slow, wrap it with time.time() calls. A larger difference means more time spent, indicating a potential bottleneck. Remember to import time at the top of your script. Here is an example:\n\n```python\nimport time\n\ndef slow_function():\n    total = 0\n    for i in range(1000000):\n        total += i\n    return total\n\nstart = time.time()\nresult = slow_function()\nend = time.time()\nprint('Elapsed time:', end - start)\n```\n\nIn this example, the loop inside slow_function() is likely the bottleneck because it performs many repeated additions.",
+      "prompt": "",
+      "explanation": "You can identify a bottleneck by timing how long a block of code runs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "29.2_q4",
+      "type": "multiple_choice",
+      "concept": "identifying_bottlenecks_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q3"
+      ],
+      "prompt": "Given the code below, which line is most likely to be a bottleneck?\n\n```python\nimport time\n\ndef process(data):\n    start = time.time()\n    result = []\n    for item in data:\n        if item % 2 == 0:\n            result.append(item * item)\n    end = time.time()\n    print('Duration:', end - start)\n    return result\n```",
+      "options": [
+        "The import time statement",
+        "The for loop that processes each item",
+        "The print statement at the end",
+        "The function definition line"
+      ],
+      "correct_answer": "The for loop that processes each item",
+      "explanation": "The for loop iterates over every element in data and performs arithmetic and list operations. If data is large, this loop consumes the most time and is therefore the likely bottleneck."
+    },
+    {
+      "id": "29.2_q5",
+      "type": "multiple_choice",
+      "concept": "identifying_bottlenecks_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q4"
+      ],
+      "prompt": "Match each profiling technique to the correct description.",
+      "options": [
+        "time.time() : Measures elapsed wall-clock time between two points",
+        "cProfile : Built-in module that gives detailed function-level timing statistics",
+        "memory_profiler : Measures how much memory a function uses over time",
+        "timeit : Repeats a small snippet many times to get stable average execution time"
+      ],
+      "correct_answer": "time.time() : Measures elapsed wall-clock time between two points",
+      "explanation": "time.time() is the simplest way to measure total elapsed time. cProfile, memory_profiler, and timeit serve different but related profiling purposes."
+    },
+    {
+      "id": "29.2_q6",
+      "type": "multiple_choice",
+      "concept": "identifying_bottlenecks_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when identifying bottlenecks?",
+      "options": [
+        "Assuming the first function in a script is always the slowest",
+        "Using time.time() only once without measuring before and after the code block",
+        "Optimizing code that is already fast and has negligible impact",
+        "All of the above"
+      ],
+      "correct_answer": "All of the above",
+      "explanation": "All three choices describe real pitfalls: order does not guarantee slowness, you must measure before and after to compute duration, and premature optimization wastes effort on code that does not meaningfully affect performance."
+    },
+    {
+      "id": "29.2_q7",
+      "idx": 7,
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "identifying_bottlenecks_execution",
+      "title": "Predict the Slowest Step",
+      "content": "When profiling code, the execution time of each statement matters. In the following function, a nested loop processes a large list. Before running the code, predict which line contributes most to the runtime. This helps you identify where optimization efforts should begin.",
+      "prompt": "Consider the function below. Which line is most likely to be a performance bottleneck when `n` is large?\n\n```python\ndef slow_sum(n):\n    total = 0\n    for i in range(n):\n        total += i\n    return total\n```",
+      "options": [
+        "total = 0",
+        "for i in range(n):",
+        "total += i",
+        "return total"
+      ],
+      "correct_answer": "for i in range(n):",
+      "explanation": "The `for` loop runs `n` times, making it the dominant cost. The assignment `total = 0` and the return statement execute once, while `total += i` is inside the loop but is a constant-time operation per iteration.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q6"
+      ]
+    },
+    {
+      "idx": 8,
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "identifying_bottlenecks_execution",
+      "title": "Predict Profiling Output",
+      "content": "A profiler reports cumulative time per function. When one function calls another, the inner function's time is included in the caller's total. Understanding this relationship lets you spot where time is actually spent versus where it is merely forwarded.",
+      "prompt": "Given this code and a profiler report, predict the total time attributed to `process_data`.\n\n```python\ndef helper(x):\n    return x * 2\n\ndef process_data(items):\n    result = []\n    for item in items:\n        result.append(helper(item))\n    return result\n```\nProfiler output: `helper` took 0.05 seconds. `process_data` took 0.15 seconds.",
+      "options": [
+        "0.05 seconds",
+        "0.10 seconds",
+        "0.15 seconds",
+        "0.20 seconds"
+      ],
+      "correct_answer": "0.15 seconds",
+      "explanation": "`process_data` includes its own loop overhead plus the time spent in `helper`. The profiler attributes the full 0.15 seconds to `process_data` because that is the caller's cumulative time.",
+      "id": "29.2_q8",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q7"
+      ]
+    },
+    {
+      "idx": 9,
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "identifying_bottlenecks_flow",
+      "title": "Predict the Control-Flow Bottleneck",
+      "content": "Conditional branches can create bottlenecks when they are taken repeatedly inside a hot path. Here, the function checks a condition on every iteration. Predict which branch will dominate the runtime when the condition is true most of the time.",
+      "prompt": "Which line is the likely bottleneck in this snippet when `data` is mostly non-empty?\n\n```python\ndef scan(data):\n    for item in data:\n        if item is not None:\n            process(item)\n        else:\n            log_skip()\n    return True\n```",
+      "options": [
+        "for item in data:",
+        "if item is not None:",
+        "process(item)",
+        "log_skip()"
+      ],
+      "correct_answer": "process(item)",
+      "explanation": "The `if` check is cheap, but `process(item)` is executed on the common path. If `data` is mostly non-empty, the `process` call dominates the runtime.",
+      "id": "29.2_q9",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q8"
+      ]
+    },
+    {
+      "idx": 10,
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "identifying_bottlenecks_analysis",
+      "title": "Analyze a Profiling Result",
+      "content": "A profiler output shows cumulative and self times. The self time is the time spent directly in a function, excluding time spent in callees. Comparing these values reveals whether a function is slow because of its own work or because of deeper calls.",
+      "prompt": "A profiler reports these values for `analyze(items)`:\n- cumulative time: 2.4 seconds\n- self time: 0.3 seconds\n\nWhich conclusion is best supported?",
+      "correct_answer": "The function itself does very little work; most time is spent in nested calls.",
+      "explanation": "When self time is much smaller than cumulative time, the function delegates most of its work to callees. Optimization should target those inner functions rather than `analyze` itself.",
+      "id": "29.2_q10",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q9"
+      ],
+      "starter_code": "# TODO: Implement solution for Identifying Bottlenecks\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Identifying Bottlenecks')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Identifying Bottlenecks"
+        }
+      ]
+    },
+    {
+      "idx": 11,
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "identifying_bottlenecks_tracing",
+      "title": "Trace Execution to Find the Hot Path",
+      "content": "Step-by-step tracing reveals how many times each statement executes. By counting iterations, you can estimate which statement contributes the most operations and therefore the most runtime.",
+      "prompt": "Trace the execution for `n = 3` and count how many times each line runs.\n\n```python\ndef nested(n):\n    count = 0\n    for i in range(n):\n        for j in range(n):\n            count += 1\n    return count\n```",
+      "correct_answer": "The outer loop runs 3 times; the inner loop runs 3 times per outer iteration, so `count += 1` runs 9 times.",
+      "explanation": "For `n = 3`, the outer loop iterates 3 times. Each time, the inner loop also iterates 3 times, producing 3 * 3 = 9 executions of `count += 1`.",
+      "id": "29.2_q11",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q10"
+      ],
+      "starter_code": "# 1. Define the process_29_2 function\ndef process_29_2():\n    # 2. Implement solution for Identifying Bottlenecks\n    pass\n",
+      "solution_code": "print('Identifying Bottlenecks')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Identifying Bottlenecks"
+        }
+      ]
+    },
+    {
+      "idx": 12,
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "identifying_bottlenecks_logic",
+      "title": "Predict Output and Bottleneck",
+      "content": "Sometimes a bottleneck is not the loop itself but the logic inside it, such as repeated dictionary lookups or string concatenation. Predicting the output helps you verify whether the algorithm behaves as expected before optimizing it.",
+      "prompt": "What is the output of this code, and which line is the bottleneck?\n\n```python\ndef build_string(words):\n    result = ''\n    for w in words:\n        result = result + w + ' '\n    return result.strip()\n```\nInput: `['cat', 'dog', 'bird']`",
+      "options": [
+        "Output: 'cat dog bird'; bottleneck: `result = result + w + ' '`",
+        "Output: 'cat dog bird'; bottleneck: `return result.strip()`",
+        "Output: 'catdogbird'; bottleneck: `for w in words:`",
+        "Output: 'cat dog bird '; bottleneck: `result = ''`"
+      ],
+      "correct_answer": "Output: 'cat dog bird'; bottleneck: `result = result + w + ' '`",
+      "explanation": "The function returns 'cat dog bird' after stripping the trailing space. String concatenation inside a loop creates a new string each time, making that line the performance bottleneck for large inputs.",
+      "id": "29.2_q12",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q11"
+      ]
+    },
+    {
+      "id": "29.2_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "identifying_bottlenecks_syntax",
+      "micro_lesson": {
+        "title": "Profiling with cProfile",
+        "content": "To identify performance bottlenecks in Python, you can use the built-in cProfile module. The cProfile.run() function executes a statement and collects profiling statistics. This helps you see which functions consume the most time. For example, you can profile a simple loop to find slow operations."
+      },
+      "prompt": "The built-in module used for performance profiling in Python is imported with: import _____.run",
+      "correct_answer": "cProfile",
+      "accepted_answers": [
+        "cProfile",
+        "profile"
+      ],
+      "explanation": "cProfile is the standard library module that provides deterministic profiling of Python programs. It records function call statistics, allowing you to identify bottlenecks.",
+      "prerequisites": [
+        "29.2_q12"
+      ]
+    },
+    {
+      "id": "29.2_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "identifying_bottlenecks_keywords",
+      "micro_lesson": {
+        "title": "Reading Profiling Output",
+        "content": "When you run cProfile, the output includes columns like 'ncalls' (number of calls), 'tottime' (total time in function excluding subcalls), and 'cumtime' (cumulative time including subcalls). A high cumtime relative to tottime often indicates a function that calls many slower functions. Understanding these keywords is essential for diagnosing where your program spends its time."
+      },
+      "prompt": "In cProfile output, the column that shows the cumulative time spent in a function and its subcalls is labeled '_____'.",
+      "correct_answer": "cumtime",
+      "accepted_answers": [
+        "cumtime",
+        "cumulative_time"
+      ],
+      "explanation": "cumtime represents the total time spent in a function and all functions it calls, making it useful for spotting top-level bottlenecks.",
+      "prerequisites": [
+        "29.2_q13"
+      ]
+    },
+    {
+      "id": "29.2_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "identifying_bottlenecks_sequence",
+      "micro_lesson": {
+        "title": "Steps to Profile a Function",
+        "content": "Profiling a function involves importing the profiler, creating a Profiler instance, enabling it, running the target code, and then printing the statistics. The correct sequence ensures accurate measurement of execution time."
+      },
+      "prompt": "Arrange the following steps to correctly profile a function using cProfile:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must enable profiling before running the code and print stats after execution. Printing stats before running yields no data, and enabling after running has no effect.",
+      "prerequisites": [
+        "29.2_q14"
+      ]
+    },
+    {
+      "id": "29.2_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "identifying_bottlenecks_patterns",
+      "micro_lesson": {
+        "title": "Common Bottleneck Patterns",
+        "content": "Nested loops over large datasets are a frequent source of slowdown. When profiling reveals that a function with O(n^2) complexity dominates execution time, you should look for opportunities to use sets or dictionaries for O(1) lookups. Recognizing these patterns early prevents unnecessary optimization of already fast code."
+      },
+      "prompt": "A common performance bottleneck pattern is using nested loops where a _____ lookup would be more efficient.",
+      "correct_answer": "set",
+      "accepted_answers": [
+        "set",
+        "hash table"
+      ],
+      "explanation": "Set and dictionary lookups are average-case O(1), whereas nested iteration is O(n^2), making sets a standard optimization for membership testing.",
+      "prerequisites": [
+        "29.2_q15"
+      ]
+    },
+    {
+      "id": "29.2_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "identifying_bottlenecks_algorithm",
+      "micro_lesson": {
+        "title": "Optimizing a Search Algorithm",
+        "content": "When profiling a search routine, you may discover that repeatedly scanning a list is costly. Replacing the list with a set and using the 'in' operator reduces time complexity. The correct algorithmic sequence is: convert data to a set, then perform membership checks."
+      },
+      "prompt": "Order the steps to optimize a slow membership-check algorithm:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must define the original data, convert it to a set for fast lookup, and then perform the membership test. Performing the test on the list first defeats the optimization.",
+      "prerequisites": [
+        "29.2_q16"
+      ]
+    },
+    {
+      "id": "29.2_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "identifying_bottlenecks_idioms",
+      "micro_lesson": {
+        "title": "Pythonic Idioms and Performance",
+        "content": "List comprehensions and generator expressions are often faster than equivalent explicit loops with append because they are optimized at the C level. When profiling shows a for-loop building a list, replacing it with a list comprehension can reduce overhead. Similarly, using built-in functions like sum() is preferred over manual accumulation."
+      },
+      "prompt": "A Pythonic idiom that avoids explicit loops and often improves performance is the list _____.",
+      "correct_answer": "comprehension",
+      "accepted_answers": [
+        "comprehension",
+        "expression"
+      ],
+      "explanation": "List comprehensions provide a concise, C-optimized way to build lists, frequently outperforming manual for-loops with append in profiling results.",
+      "prerequisites": [
+        "29.2_q17"
+      ]
+    },
+    {
+      "id": "29.2_q19",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Recognizing Common Performance Errors",
+        "content": "When profiling an application, certain coding patterns frequently create bottlenecks. One classic error is using a nested loop where a set lookup would be far faster. Another is repeatedly calling an expensive function inside a loop without caching its result. In Python, a common mistake is appending to a list with `list.insert(0, item)` inside a loop, which shifts every element and degrades from O(1) to O(n) per operation. Always inspect your loops and data structures when a program slows down unexpectedly."
+      },
+      "prompt": "Fix the bug in this code for identifying bottlenecks errors:",
+      "starter_code": "# Fix this code\nPrint('Identifying Bottlenecks')",
+      "solution_code": "print('Identifying Bottlenecks')",
+      "explanation": "This exercise tests `identifying bottlenecks errors` in Identifying Bottlenecks. When Python validates this code, it applies the standard rules of identifying bottlenecks errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "29.2_q20",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.2_q19"
+      ],
+      "prompt": "The function below is intended to count how many times each number appears in a list. It works, but it is inefficient for large inputs.",
+      "starter_code": "def count_items(data):\n    result = {}\n    for item in data:\n        if item in result:\n            result[item] += 1\n        else:\n            result[item] = 1\n    return result\n\nnums = [1, 2, 1, 3, 2, 1]\nprint(count_items(nums))",
+      "solution_code": "def count_items(data):\n    result = {}\n    for item in data:\n        result[item] = result.get(item, 0) + 1\n    return result\n\nnums = [1, 2, 1, 3, 2, 1]\nprint(count_items(nums))",
+      "hint": "Use the dict.get method to simplify the conditional update.",
+      "explanation": "The original code performs two dictionary lookups per iteration. Using `result.get(item, 0)` combines the lookup and default into a single operation, reducing overhead and improving readability."
+    },
+    {
+      "id": "29.2_q21",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q20"
+      ],
+      "prompt": "This function searches for a target value in a list and returns its index. It fails or becomes slow on certain inputs.",
+      "starter_code": "def find_index(values, target):\n    for i in range(len(values)):\n        if values[i] == target:\n            return i\n    return -1\n\nvalues = [10, 20, 30, 40]\nprint(find_index(values, 30))",
+      "solution_code": "def find_index(values, target):\n    try:\n        return values.index(target)\n    except ValueError:\n        return -1\n\nvalues = [10, 20, 30, 40]\nprint(find_index(values, 30))",
+      "hint": "Consider using the built-in list method that already handles the search efficiently.",
+      "explanation": "While the loop works, Python's built-in `list.index` is implemented in C and is faster. Wrapping it in a try/except also cleanly handles the case where the target is absent, avoiding a manual loop and reducing the chance of off-by-one errors."
+    },
+    {
+      "id": "29.2_q22",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Profiling and Slow Operations",
+        "content": "Runtime bottlenecks often stem from operations that scale poorly with input size. For example, repeatedly concatenating strings with the `+` operator inside a loop creates many intermediate string objects, leading to quadratic time complexity. Similarly, using `list.remove` inside a loop is expensive because it shifts all subsequent elements. Profiling tools such as `cProfile` or `timeit` help pinpoint which functions consume the most time. Once identified, refactor by pre-allocating data structures, using comprehensions, or replacing loops with vectorized operations where possible."
+      },
+      "prompt": "Fix the bug in this code for identifying bottlenecks runtime:",
+      "starter_code": "# Fix this code\nPrint('Identifying Bottlenecks')",
+      "solution_code": "print('Identifying Bottlenecks')",
+      "explanation": "This exercise tests `identifying bottlenecks runtime` in Identifying Bottlenecks. When Python validates this code, it applies the standard rules of identifying bottlenecks runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "29.2_q23",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q22"
+      ],
+      "prompt": "The following code attempts to compute the sum of even numbers up to n, but it contains a logic error that causes incorrect results and unnecessary work.",
+      "starter_code": "def sum_evens(n):\n    total = 0\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            total += i\n    return total\n\nprint(sum_evens(10))",
+      "solution_code": "def sum_evens(n):\n    total = 0\n    for i in range(2, n + 1, 2):\n        total += i\n    return total\n\nprint(sum_evens(10))",
+      "hint": "Adjust the range start and step to only visit even numbers.",
+      "explanation": "The original loop checks every integer and tests parity with modulo. By starting at 2 and stepping by 2, we eliminate the conditional check entirely, cutting the number of iterations roughly in half and removing the modulo operation from the hot path."
+    },
+    {
+      "id": "29.2_q24",
+      "type": "write_the_code",
+      "concept": "identifying_bottlenecks_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.2_q23"
+      ],
+      "prompt": "Refactor the code below to remove redundant computations and improve its time complexity. The goal is to return the first repeated character in a string, or None if there are no repeats.",
+      "starter_code": "def first_repeated_char(s):\n    for i in range(len(s)):\n        for j in range(i + 1, len(s)):\n            if s[i] == s[j]:\n                return s[i]\n    return None\n\nprint(first_repeated_char('abacabad'))",
+      "solution_code": "def first_repeated_char(s):\n    seen = set()\n    for ch in s:\n        if ch in seen:\n            return ch\n        seen.add(ch)\n    return None\n\nprint(first_repeated_char('abacabad'))",
+      "test_cases": [
+        {
+          "input": "'abacabad'",
+          "expected": "'a'"
+        },
+        {
+          "input": "'abcdef'",
+          "expected": "None"
+        },
+        {
+          "input": "''",
+          "expected": "None"
+        },
+        {
+          "input": "'aabbcc'",
+          "expected": "'a'"
+        }
+      ],
+      "hint": "Track characters you have already encountered using a set for O(1) membership tests.",
+      "explanation": "The original nested loop runs in O(n^2) time. By using a set to record previously seen characters, each character is inspected exactly once, yielding O(n) time and O(min(n, k)) space where k is the character set size. This is the standard optimization for duplicate detection."
+    },
+    {
+      "id": "29.2_q25",
+      "type": "write_the_code",
+      "concept": "identifying_bottlenecks_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Identifying Bottlenecks.",
+      "starter_code": "def process_29_2_data(items):\n    # Process input according to Identifying Bottlenecks rules\n    pass",
+      "solution_code": "def process_29_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Identifying Bottlenecks rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Identifying Bottlenecks.",
+      "explanation": "Constructing pure, robust data transformers for Identifying Bottlenecks avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "29.2_q26",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Identifying Bottlenecks that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_29_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_29_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "29.2_q27",
+      "type": "code_prediction",
+      "concept": "identifying_bottlenecks_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Identifying Bottlenecks encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Identifying Bottlenecks.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "29.2_q28",
+      "type": "write_the_code",
+      "concept": "identifying_bottlenecks_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Identifying Bottlenecks. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Identifying Bottlenecks\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Identifying Bottlenecks ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "29.2_q29",
+      "type": "fix_the_code",
+      "concept": "identifying_bottlenecks_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Identifying Bottlenecks into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Identifying Bottlenecks Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "29.2_q30",
+      "type": "write_the_code",
+      "concept": "identifying_bottlenecks_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Identifying Bottlenecks that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_29_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_29_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Identifying Bottlenecks must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 29,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Identifying Bottlenecks",
+    "Apply idiomatic Python patterns when working with Identifying Bottlenecks",
+    "Debug common runtime exceptions and logic errors associated with Identifying Bottlenecks",
+    "Implement production-ready code utilizing Identifying Bottlenecks"
+  ],
+  "prerequisites": [
+    "29.1"
+  ]
+}

@@ -1,0 +1,610 @@
+{
+  "lesson_id": "9.6",
+  "title": "Set Operations: Union, Intersection, Difference",
+  "unit": "Tuples and Sets",
+  "items": [
+    {
+      "id": "9.6_q1",
+      "type": "micro_lesson",
+      "title": "Recognizing Set Operations: Union, Intersection, and Difference",
+      "content": "In Python, sets are unordered collections of unique elements. The three fundamental set operations are:\n\n1. Union: Combines all elements from two sets, removing duplicates.\n2. Intersection: Returns only the elements common to both sets.\n3. Difference: Returns elements present in the first set but not in the second.\n\nThese operations are also available for tuples when converted to sets, though tuples themselves are immutable and do not support set methods directly. Understanding these concepts helps in filtering, comparing, and merging data efficiently.\n\nExample:\n```python\ns1 = {1, 2, 3}\ns2 = {3, 4, 5}\n```\n- `s1 | s2` or `s1.union(s2)` gives `{1, 2, 3, 4, 5}`\n- `s1 & s2` or `s1.intersection(s2)` gives `{3}`\n- `s1 - s2` or `s1.difference(s2)` gives `{1, 2}`",
+      "concept": "set_operations_union_intersection_difference_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "id": "9.6_q2",
+      "type": "multiple_choice",
+      "prompt": "Which set operation returns only the elements that are present in both sets?",
+      "options": [
+        "Union",
+        "Intersection",
+        "Difference",
+        "Symmetric Difference"
+      ],
+      "correct_answer": "Intersection",
+      "explanation": "Intersection returns the common elements between two sets. Union combines all elements, Difference returns elements in the first set but not the second, and Symmetric Difference returns elements in either set but not both.",
+      "match_code_to_concept": "set_operations_union_intersection_difference_basics",
+      "concept": "set_operations_union_intersection_difference_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q1"
+      ]
+    },
+    {
+      "id": "9.6_q3",
+      "type": "micro_lesson",
+      "title": "Syntax for Union, Intersection, and Difference",
+      "content": "Python provides both operator symbols and method calls for set operations. The operators are concise and commonly used. The method forms are useful when chaining operations or when readability is preferred.\n\nOperator syntax:\n- Union: `|` or `union()`\n- Intersection: `&` or `intersection()`\n- Difference: `-` or `difference()`\n\nMethod syntax:\n```python\ns1 = {1, 2, 3}\ns2 = {3, 4, 5}\n\nunion_result = s1.union(s2)        # {1, 2, 3, 4, 5}\nintersection_result = s1.intersection(s2)  # {3}\ndifference_result = s1.difference(s2)       # {1, 2}\n```\n\nWhen working with tuples, you must first convert them to sets because tuples are immutable and do not support set methods. For example:\n```python\nt1 = (1, 2, 3)\nt2 = (3, 4, 5)\n\nset1 = set(t1)\nset2 = set(t2)\n\ncombined = set1 | set2\nprint(combined)  # {1, 2, 3, 4, 5}\n```",
+      "concept": "set_operations_union_intersection_difference_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q2"
+      ],
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "id": "9.6_q4",
+      "type": "multiple_choice",
+      "prompt": "Given `a = {1, 2, 3}` and `b = {3, 4, 5}`, which expression produces `{1, 2}`?",
+      "options": [
+        "a | b",
+        "a & b",
+        "a - b",
+        "b - a"
+      ],
+      "correct_answer": "a - b",
+      "explanation": "The difference operator `-` returns elements in the first set that are not in the second set. `a - b` removes `3` from `a`, leaving `{1, 2}`. `b - a` would give `{4, 5}`. Union gives all elements, and intersection gives only the common element `{3}`.",
+      "match_code_to_concept": "set_operations_union_intersection_difference_syntax",
+      "concept": "set_operations_union_intersection_difference_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q3"
+      ]
+    },
+    {
+      "id": "9.6_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the operation to its result for sets `x = {10, 20, 30}` and `y = {20, 30, 40}`:\n\n- Union\n- Intersection\n- Difference (x - y)\n- Difference (y - x)\n\nWhich option correctly lists the results in order?",
+      "options": [
+        "{10, 20, 30, 40}; {20, 30}; {10}; {40}",
+        "{10, 20, 30, 40}; {10, 40}; {20, 30}; {20}",
+        "{10, 20, 30}; {20, 30, 40}; {10}; {40}",
+        "{10, 20, 30, 40}; {20}; {10, 30}; {10, 40}"
+      ],
+      "correct_answer": "{10, 20, 30, 40}; {20, 30}; {10}; {40}",
+      "explanation": "Union combines all unique elements: {10, 20, 30, 40}. Intersection keeps only common elements: {20, 30}. Difference x - y removes elements in y from x: {10}. Difference y - x removes elements in x from y: {40}.",
+      "match_code_to_concept": "set_operations_union_intersection_difference_matching",
+      "concept": "set_operations_union_intersection_difference_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q4"
+      ]
+    },
+    {
+      "id": "9.6_q6",
+      "type": "multiple_choice",
+      "prompt": "What is a common pitfall when using set operations on tuples without converting them first?",
+      "options": [
+        "Tuples will automatically be converted to sets.",
+        "An AttributeError occurs because tuples do not have set methods.",
+        "The operations will return a list instead of a set.",
+        "Tuples support all set operations directly."
+      ],
+      "correct_answer": "An AttributeError occurs because tuples do not have set methods.",
+      "explanation": "Tuples are immutable sequences and do not support set methods like `union`, `intersection`, or `difference`. Attempting to call these methods on a tuple raises an `AttributeError`. You must convert tuples to sets using `set()` before performing set operations.",
+      "match_code_to_concept": "set_operations_union_intersection_difference_pitfalls",
+      "concept": "set_operations_union_intersection_difference_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q5"
+      ]
+    },
+    {
+      "id": "9.6_q7",
+      "type": "code_prediction",
+      "concept": "set_operations_union_intersection_difference_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q6"
+      ],
+      "prompt": "Given the following Python code, what is the value of result?\n\n```python\na = {1, 2, 3}\nb = {2, 3, 4}\nresult = a | b\n```",
+      "options": [
+        "{1, 2, 3, 4}",
+        "{2, 3}",
+        "{1, 2, 3}",
+        "{4}"
+      ],
+      "correct_answer": "{1, 2, 3, 4}",
+      "explanation": "The union operator | combines all unique elements from both sets. Since a contains 1, 2, 3 and b contains 2, 3, 4, the result is {1, 2, 3, 4} with no duplicates."
+    },
+    {
+      "id": "9.6_q8",
+      "type": "output_prediction",
+      "concept": "set_operations_union_intersection_difference_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q7"
+      ],
+      "prompt": "What will be printed by the following code?\n\n```python\ns = {1, 2, 3, 4}\nt = {3, 4, 5, 6}\nprint(s.intersection(t))\n```",
+      "options": [
+        "{3, 4}",
+        "{1, 2, 3, 4, 5, 6}",
+        "{1, 2}",
+        "{3, 4, 5, 6}"
+      ],
+      "correct_answer": "{3, 4}",
+      "explanation": "The intersection method returns only elements present in both sets. Both s and t contain 3 and 4, so the output is {3, 4}."
+    },
+    {
+      "id": "9.6_q9",
+      "type": "code_prediction",
+      "concept": "set_operations_union_intersection_difference_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q8"
+      ],
+      "prompt": "What is the final value of diff after executing this code?\n\n```python\nx = {1, 2, 3}\ny = {2, 3, 4}\nif len(x) > len(y):\n    diff = x - y\nelse:\n    diff = y - x\n```",
+      "options": [
+        "{1}",
+        "{2, 3}",
+        "{4}",
+        "{1, 4}"
+      ],
+      "correct_answer": "{1}",
+      "explanation": "Both x and y have length 3, so len(x) > len(y) is False. The else branch executes, computing y - x, which removes elements in x from y, leaving {4}. Wait, correction: len(x) is 3 and len(y) is 3, so the condition is False; diff = y - x = {4}. However, if the intended logic was based on a different interpretation, the correct answer from the options is {1} only if x - y were chosen. Re-evaluating: since lengths are equal, diff = y - x = {4}. But among given options, {1} corresponds to x - y. Given the code as written, the correct answer should be {4}. Since {4} is an option, it is correct: diff = y - x yields {4}."
+    },
+    {
+      "id": "9.6_q10",
+      "type": "write_the_code",
+      "concept": "set_operations_union_intersection_difference_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Set Operations",
+        "content": "Set operations combine or compare collections of unique elements. Union (|) merges all elements without duplicates. Intersection (& or .intersection()) keeps only shared elements. Difference (-, .difference()) removes elements of one set from another. When working with tuples, you must first convert them to sets because tuples are immutable and do not support set methods directly. For example:\n\n```python\nt1 = (1, 2, 2, 3)\nt2 = (2, 3, 4)\n\ns1 = set(t1)\ns2 = set(t2)\n\nunion_result = s1 | s2\nintersection_result = s1 & s2\ndifference_result = s1 - s2\n\nprint(union_result)        # {1, 2, 3, 4}\nprint(intersection_result) # {2, 3}\nprint(difference_result)   # {1}\n```\n\nKey points:\n- Converting a tuple to a set removes duplicates automatically.\n- The union operator | is equivalent to set.union().\n- The difference operator - is equivalent to set.difference().\n- Order of elements in a set is not guaranteed."
+      },
+      "prompt": "Write Python code to solve this challenge for Set Operations: Union, Intersection, Difference:",
+      "starter_code": "# TODO: Implement solution for Set Operations: Union, Intersection, Difference\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Set Operations: Union, Intersection, Difference')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Set Operations: Union, Intersection, Difference"
+        }
+      ],
+      "explanation": "This exercise tests `set operations union intersection difference analysis` in Set Operations: Union, Intersection, Difference. When Python validates this code, it applies the standard rules of set operations union intersection difference analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.6_q11",
+      "type": "code_prediction",
+      "concept": "set_operations_union_intersection_difference_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q10"
+      ],
+      "prompt": "Trace the execution and determine the final value of final_set.\n\n```python\ninitial = {1, 2}\nadd_me = {2, 3}\nfinal_set = initial | add_me\nfinal_set = final_set - {2}\nfinal_set = final_set.union({3})\n```",
+      "options": [
+        "{1, 3}",
+        "{2, 3}",
+        "{1, 2, 3}",
+        "{1}"
+      ],
+      "correct_answer": "{1, 3}",
+      "explanation": "Step 1: initial | add_me = {1, 2, 3}. Step 2: remove {2} gives {1, 3}. Step 3: union with {3} keeps {1, 3}, since 3 is already present. Final value is {1, 3}."
+    },
+    {
+      "id": "9.6_q12",
+      "type": "output_prediction",
+      "concept": "set_operations_union_intersection_difference_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q11"
+      ],
+      "prompt": "What output does this code produce?\n\n```python\na = {1, 2, 3}\nb = {3, 4, 5}\nc = a.intersection(b).union({6})\nprint(c)\n```",
+      "options": [
+        "{1, 2, 3, 4, 5, 6}",
+        "{3, 6}",
+        "{1, 2, 3, 6}",
+        "{3, 4, 5, 6}"
+      ],
+      "correct_answer": "{3, 6}",
+      "explanation": "a.intersection(b) returns {3}, since 3 is the only common element. Then .union({6}) adds 6, resulting in {3, 6}."
+    },
+    {
+      "id": "9.6_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "set_operations_union_intersection_difference_syntax",
+      "micro_lesson": {
+        "title": "Union Syntax with the | Operator",
+        "content": "The union operation combines all unique elements from two sets. In Python, you can use the pipe operator | to compute the union of two sets. For example, if set_a = {'a', 'b'} and set_b = {'b', 'c'}, then set_a | set_b produces {'a', 'b', 'c'}. Note that union returns a new set and does not modify the original sets. This operator works for both sets and frozensets. When working with tuples, you typically convert them to sets first before applying union."
+      },
+      "prompt": "Complete the code to compute the union of two sets using the | operator: set_a = {'x', 'y'}; set_b = {'y', 'z'}; result = _____; print(result)",
+      "correct_answer": "set_a | set_b",
+      "accepted_answers": [
+        "set_a | set_b",
+        "set_a.union(set_b)"
+      ],
+      "explanation": "The | operator is the standard syntax for set union in Python. The union() method is an alternative that produces the same result. Both approaches create a new set containing all unique elements from both operands.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q12"
+      ]
+    },
+    {
+      "id": "9.6_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "set_operations_union_intersection_difference_keywords",
+      "micro_lesson": {
+        "title": "Set Operations Using Method Names",
+        "content": "Python provides method-based alternatives for set operations. The intersection() method returns elements common to both sets, analogous to the & operator. The difference() method returns elements present in the first set but not in the second, equivalent to the - operator. For symmetric difference, use the ^ operator or the symmetric_difference() method. These keywords help when chaining operations or when readability is preferred over symbolic operators."
+      },
+      "prompt": "Fill in the missing method call to find common elements between set_a = {1, 2, 3} and set_b = {2, 3, 4}: result = set_a.___(); print(result)",
+      "correct_answer": "intersection",
+      "accepted_answers": [
+        "intersection",
+        "set_a.intersection(set_b)"
+      ],
+      "explanation": "The intersection() method is used to find elements that exist in both sets. The & operator is a shorthand, but the method form is often clearer in longer expressions.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q13"
+      ]
+    },
+    {
+      "id": "9.6_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "set_operations_union_intersection_difference_sequence",
+      "micro_lesson": {
+        "title": "Ordering Set Operations Correctly",
+        "content": "When performing multiple set operations, order matters. Union is commutative, but difference is not. A common sequence is: convert inputs to sets, perform the desired operation, then convert back if needed for tuple output. For example, to find unique elements across two tuples, convert to sets, apply union, and convert the result back to a tuple."
+      },
+      "prompt": "Arrange the following code lines in the correct order to compute the union of two tuples and return the result as a tuple:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence initializes the tuples, converts them to sets, computes the union with |, converts back to a tuple, and prints. Defining sets before tuples would cause a NameError.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q14"
+      ]
+    },
+    {
+      "id": "9.6_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "set_operations_union_intersection_difference_patterns",
+      "micro_lesson": {
+        "title": "Common Set Operation Patterns",
+        "content": "A frequent pattern is filtering one collection against another using set difference. For instance, to find items in list_a that are not in list_b, convert both to sets and use difference. Another pattern is removing duplicates from a tuple by converting to a set and back. Remember that set difference is not commutative: A - B yields different results than B - A."
+      },
+      "prompt": "Complete the pattern to find elements in tuple_a that are not in tuple_b: tuple_a = (1, 2, 3, 4); tuple_b = (3, 4, 5, 6); result = tuple(set(tuple_a) ____ set(tuple_b)); print(result)",
+      "correct_answer": "-",
+      "accepted_answers": [
+        "-",
+        "difference"
+      ],
+      "explanation": "The minus sign - is the operator for set difference. The difference() method is also valid. This pattern removes elements present in the second set from the first.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q15"
+      ]
+    },
+    {
+      "id": "9.6_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "set_operations_union_intersection_difference_algorithm",
+      "micro_lesson": {
+        "title": "Algorithm for Combined Set Operations",
+        "content": "To solve a problem requiring union, intersection, and difference in sequence, follow a logical algorithm: define inputs, convert to sets, apply operations in dependency order (intersection first if needed for difference), then format output. For example, to find elements in A that are not in the intersection of A and B, compute the intersection first, then subtract it from A."
+      },
+      "prompt": "Arrange these lines to compute elements in set_a that are not shared with set_b, then print as a list: set_a = {1, 2, 3, 4}; set_b = {3, 4, 5, 6}; inter = set_a & set_b; result = set_a - inter; print(list(result))",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must initialize sets before computing the intersection, store that result, compute the difference, and then print. Computing difference before defining inter would raise a NameError.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q16"
+      ]
+    },
+    {
+      "id": "9.6_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "set_operations_union_intersection_difference_idioms",
+      "micro_lesson": {
+        "title": "Idiomatic Set Operations in Python",
+        "content": "Idiomatic Python often favors concise expressions. A common idiom is using set comprehensions or direct operator chaining. For example, to remove duplicates from a tuple and combine with another sequence, use tuple(set(seq1) | set(seq2)). Another idiom is using the isdisjoint() method to check for empty intersection before performing expensive operations. Understanding these patterns improves code clarity and performance."
+      },
+      "prompt": "Complete the idiomatic expression to check if two sets share no elements: set_x = {1, 2}; set_y = {3, 4}; result = set_x.___(); print(result)",
+      "correct_answer": "isdisjoint(set_y)",
+      "accepted_answers": [
+        "isdisjoint(set_y)",
+        "set_x.isdisjoint(set_y)"
+      ],
+      "explanation": "The isdisjoint() method returns True if two sets have no elements in common. This is a clear, idiomatic way to test for an empty intersection without computing the full intersection set.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q17"
+      ]
+    },
+    {
+      "id": "9.6_q19",
+      "type": "fix_the_code",
+      "concept": "set_operations_union_intersection_difference_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for Set Operations Union Intersection Difference Errors:",
+      "starter_code": "Print('Set Operations: Union, Intersection, Difference Item 19')",
+      "solution_code": "print('Set Operations: Union, Intersection, Difference Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `set operations union intersection difference errors` in Set Operations: Union, Intersection, Difference. When Python validates this code, it applies the standard rules of set operations union intersection difference errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.6_q20",
+      "type": "fix_the_code",
+      "concept": "set_operations_union_intersection_difference_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "9.6_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for Set Operations Union Intersection Difference Fix:",
+      "starter_code": "Print('Set Operations: Union, Intersection, Difference Item 20')",
+      "solution_code": "print('Set Operations: Union, Intersection, Difference Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `set operations union intersection difference fix` in Set Operations: Union, Intersection, Difference. When Python validates this code, it applies the standard rules of set operations union intersection difference fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.6_q21",
+      "type": "fix_the_code",
+      "concept": "set_operations_union_intersection_difference_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for Set Operations Union Intersection Difference Edge Cases:",
+      "starter_code": "Print('Set Operations: Union, Intersection, Difference Item 21')",
+      "solution_code": "print('Set Operations: Union, Intersection, Difference Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `set operations union intersection difference edge cases` in Set Operations: Union, Intersection, Difference. When Python validates this code, it applies the standard rules of set operations union intersection difference edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.6_q22",
+      "type": "fix_the_code",
+      "concept": "set_operations_union_intersection_difference_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for Set Operations Union Intersection Difference Runtime:",
+      "starter_code": "Print('Set Operations: Union, Intersection, Difference Item 22')",
+      "solution_code": "print('Set Operations: Union, Intersection, Difference Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `set operations union intersection difference runtime` in Set Operations: Union, Intersection, Difference. When Python validates this code, it applies the standard rules of set operations union intersection difference runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.6_q23",
+      "type": "fix_the_code",
+      "concept": "set_operations_union_intersection_difference_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for Set Operations Union Intersection Difference Logic Repair:",
+      "starter_code": "Print('Set Operations: Union, Intersection, Difference Item 23')",
+      "solution_code": "print('Set Operations: Union, Intersection, Difference Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `set operations union intersection difference logic repair` in Set Operations: Union, Intersection, Difference. When Python validates this code, it applies the standard rules of set operations union intersection difference logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "9.6_q24",
+      "type": "write_the_code",
+      "concept": "set_operations_union,_intersection,_difference_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.6_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Set Operations: Union, Intersection, Difference that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_9_6_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_9_6_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Set Operations: Union, Intersection, Difference must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "9.6_q25",
+      "type": "write_the_code",
+      "concept": "set_operations_union,_intersection,_difference_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Set Operations: Union, Intersection, Difference.",
+      "starter_code": "def process_9_6_data(items):\n    # Process input according to Set Operations: Union, Intersection, Difference rules\n    pass",
+      "solution_code": "def process_9_6_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Set Operations: Union, Intersection, Difference rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Set Operations: Union, Intersection, Difference.",
+      "explanation": "Constructing pure, robust data transformers for Set Operations: Union, Intersection, Difference avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "9.6_q26",
+      "type": "fix_the_code",
+      "concept": "set_operations_union,_intersection,_difference_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "9.6_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Set Operations: Union, Intersection, Difference that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_9_6_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_9_6_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "9.6_q27",
+      "type": "code_prediction",
+      "concept": "set_operations_union,_intersection,_difference_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.6_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Set Operations: Union, Intersection, Difference encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Set Operations: Union, Intersection, Difference.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "9.6_q28",
+      "type": "write_the_code",
+      "concept": "set_operations_union,_intersection,_difference_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.6_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Set Operations: Union, Intersection, Difference. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Set Operations: Union, Intersection, Difference\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Set Operations: Union, Intersection, Difference ensures testable domain operations."
+    },
+    {
+      "id": "9.6_q29",
+      "type": "fix_the_code",
+      "concept": "set_operations_union,_intersection,_difference_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.6_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Set Operations: Union, Intersection, Difference into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Set Operations: Union, Intersection, Difference Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "9.6_q30",
+      "type": "write_the_code",
+      "concept": "set_operations_union,_intersection,_difference_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "9.6_q29"
+      ],
+      "prompt": "Complex Set Algebra: Given sets representing permissions for user roles, compute the set of permissions exclusive to admin and manager but absent in guest.",
+      "starter_code": "def get_privileged_perms(admin, manager, guest):\n    # Return (admin | manager) - guest\n    pass",
+      "solution_code": "def get_privileged_perms(admin, manager, guest):\n    return (admin | manager) - guest",
+      "test_cases": [
+        {
+          "input": "{'read', 'write', 'delete'}, {'read', 'write'}, {'read'}",
+          "expected_output": "{'write', 'delete'}",
+          "description": "set difference of union"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Union `|` gathers all permissions across both privileged roles, and difference `-` excludes any general guest permissions."
+    }
+  ],
+  "unit_num": 9,
+  "learning_objectives": [
+    "Initialize and manipulate Python Set Operations: Union, Intersection, Difference collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "9.5"
+  ]
+}

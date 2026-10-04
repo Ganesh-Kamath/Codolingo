@@ -1,0 +1,622 @@
+{
+  "lesson_id": "41.3",
+  "title": "Recognizing When to use Hashing",
+  "unit": "Algorithmic Patterns",
+  "items": [
+    {
+      "id": "41.3_q1",
+      "type": "micro_lesson",
+      "title": "When to Reach for a Hash: The Core Idea",
+      "content": "Hashing is most useful when you need to check whether an item exists in a collection quickly, or when you need to map a key to a value with fast lookups. The key signal is: 'Do I need to repeatedly search for something?' If yes, a dictionary (hash table) is usually the right tool because it gives average O(1) time for insertions, deletions, and lookups. Unlike lists, which require O(n) time to search, a hash lets you jump directly to the stored value using a computed index. For example, if you are tracking scores by player name, a dictionary lets you retrieve a player's score instantly instead of scanning a list of all players. Here is a simple illustration:\n\n```python\n# Use a dictionary when you need fast lookups by a unique key\nplayer_scores = {}\nplayer_scores['alice'] = 150\n\n# O(1) average lookup\nprint(player_scores['alice'])  # 150\n```\n\nAsk yourself: is there a natural unique identifier? If so, hashing is likely the pattern to use.",
+      "concept": "recognizing_when_to_use_hashing_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "Hashing is most useful when you need to check whether an item exists in a collection quickly, or when you need to map a key to a value with fast lookups. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "41.3_q2",
+      "type": "multiple_choice",
+      "prompt": "You have a list of 10,000 student IDs and need to check whether a given ID exists. Which scenario best suggests using a hash-based structure?",
+      "options": [
+        "You only need to iterate through the list once and print each ID.",
+        "You need to frequently check if an ID is present and retrieve associated data quickly.",
+        "You need to keep the IDs in sorted order for binary search.",
+        "The list is very small, so performance does not matter."
+      ],
+      "correct_answer": "You need to frequently check if an ID is present and retrieve associated data quickly.",
+      "explanation": "Frequent membership checks and fast retrieval are the classic signals to use a hash (dictionary), because it offers average O(1) lookup time, unlike linear search in a list.",
+      "concept": "recognizing_when_to_use_hashing_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q1"
+      ]
+    },
+    {
+      "id": "41.3_q3",
+      "type": "micro_lesson",
+      "title": "Dictionary Syntax and the Hash Operation",
+      "content": "In Python, the hash-based structure is the dictionary, created with curly braces and key-value pairs separated by colons. The hash operation is implicit: Python computes a hash of the key and uses it to store or retrieve the value. You can create an empty dictionary with {} or dict(). Adding and accessing values uses square brackets. Here is the syntax:\n\n```python\n# Creating a dictionary\ncache = {}\ncache['url'] = 'https://example.com'\n\n# Accessing a value\nprint(cache['url'])  # https://example.com\n\n# Updating a value\ncache['url'] = 'https://newsite.com'\n```\n\nRemember: keys must be hashable (e.g., strings, numbers, tuples), while values can be any type. This syntax is the foundation for recognizing when a hash pattern fits your problem.",
+      "concept": "recognizing_when_to_use_hashing_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q2"
+      ],
+      "prompt": "",
+      "explanation": "In Python, the hash-based structure is the dictionary, created with curly braces and key-value pairs separated by colons. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "41.3_q4",
+      "type": "multiple_choice",
+      "prompt": "Given the problem: 'Store city populations and retrieve them by city name.' Which Python code correctly uses dictionary syntax to store and retrieve a value?",
+      "options": [
+        "pop['tokyo'] = 37_000_000; print(pop[tokyo])",
+        "pop = {}; pop['tokyo'] = 37_000_000; print(pop['tokyo'])",
+        "pop = []; pop.append('tokyo', 37_000_000); print(pop['tokyo'])",
+        "pop = {}; pop(tokyo) = 37_000_000; print(pop[tokyo])"
+      ],
+      "correct_answer": "pop = {}; pop['tokyo'] = 37_000_000; print(pop['tokyo'])",
+      "explanation": "Dictionaries use {} for creation, square brackets for key access, and assignment with =. Option B follows valid Python dictionary syntax. Option A lacks the dictionary initializer and quotes around the key. Option C uses list methods incorrectly. Option D uses function-call syntax for assignment, which is invalid.",
+      "concept": "recognizing_when_to_use_hashing_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q3"
+      ]
+    },
+    {
+      "id": "41.3_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the problem statement to the best data structure choice.",
+      "options": [
+        "Problem: 'Map usernames to their last login timestamp.'  ->  List",
+        "Problem: 'Map usernames to their last login timestamp.'  ->  Dictionary",
+        "Problem: 'Map usernames to their last login timestamp.'  ->  String",
+        "Problem: 'Map usernames to their last login timestamp.'  ->  Tuple"
+      ],
+      "correct_answer": "Problem: 'Map usernames to their last login timestamp.'  ->  Dictionary",
+      "explanation": "Mapping a unique key (username) to a value (timestamp) is the canonical use case for a dictionary, which is a hash-based structure. Lists, strings, and tuples do not provide efficient key-based lookup.",
+      "concept": "recognizing_when_to_use_hashing_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q4"
+      ]
+    },
+    {
+      "id": "41.3_q6",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is a common pitfall when deciding to use hashing?",
+      "options": [
+        "Using a dictionary when you only need to iterate once over a small, fixed collection.",
+        "Using a dictionary when you need fast lookups by a unique identifier.",
+        "Using a dictionary when the key is guaranteed to be hashable.",
+        "Using a dictionary when you want O(1) average-time insertions and deletions."
+      ],
+      "correct_answer": "Using a dictionary when you only need to iterate once over a small, fixed collection.",
+      "explanation": "Overhead is not worth it for a single linear pass on a tiny collection; a simple list or tuple may be clearer and faster in practice. The other options describe valid, appropriate uses of dictionaries.",
+      "concept": "recognizing_when_to_use_hashing_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q5"
+      ]
+    },
+    {
+      "id": "41.3_q7",
+      "type": "code_prediction",
+      "concept": "recognizing_when_to_use_hashing_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q6"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nprices = {'apple': 1.5, 'banana': 0.8, 'cherry': 2.0}\nfor fruit, cost in prices.items():\n    print(fruit, 'costs', cost)\n```",
+      "options": [
+        "Prints each fruit and its cost on separate lines",
+        "Prints only the keys of the dictionary",
+        "Raises a KeyError because .items() is not valid",
+        "Prints a single string with all items concatenated"
+      ],
+      "correct_answer": "Prints each fruit and its cost on separate lines",
+      "explanation": "The dictionary .items() method returns key-value pairs, which the for loop unpacks into fruit and cost. Each iteration prints the fruit name and its associated price."
+    },
+    {
+      "id": "41.3_q8",
+      "type": "output_prediction",
+      "concept": "recognizing_when_to_use_hashing_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q7"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nseen = set()\nfor n in [3, 1, 4, 1, 5, 9]:\n    if n not in seen:\n        seen.add(n)\n        print(n)\n```",
+      "options": [
+        "3 1 4 5 9",
+        "1 3 4 5 9",
+        "3 4 5 9",
+        "1 3 4 5 9 3 1 4 5 9"
+      ],
+      "correct_answer": "3 1 4 5 9",
+      "explanation": "A set provides O(1) average-time membership checks. The first time a number is encountered it is printed and added to seen; duplicates are skipped, preserving first-occurrence order."
+    },
+    {
+      "id": "41.3_q9",
+      "type": "code_prediction",
+      "concept": "recognizing_when_to_use_hashing_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q8"
+      ],
+      "prompt": "What is the output of the following code?\n```python\ndef find_pair(nums, target):\n    seen = {}\n    for x in nums:\n        complement = target - x\n        if complement in seen:\n            return [complement, x]\n        seen[x] = True\n    return None\n\nprint(find_pair([2, 7, 11, 15], 9))\n```",
+      "options": [
+        "[2, 7]",
+        "[7, 2]",
+        "[9, 0]",
+        "None"
+      ],
+      "correct_answer": "[2, 7]",
+      "explanation": "When x is 7, complement is 2. Since 2 was already stored in seen, the function returns [2, 7]. This demonstrates the classic two-sum hashing pattern where a hash map enables O(n) single-pass detection."
+    },
+    {
+      "id": "41.3_q10",
+      "type": "write_the_code",
+      "concept": "recognizing_when_to_use_hashing_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q9"
+      ],
+      "micro_lesson": {
+        "title": "When to Choose Hashing Over Nested Loops",
+        "content": "Hashing is ideal when you need fast lookups, insertions, or deletions by key. Compare a nested-loop approach with a hash-based approach:\n\n```python\n# Nested loops: O(n^2)\ndef has_duplicate_nested(items):\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if items[i] == items[j]:\n                return True\n    return False\n\n# Hashing: O(n) average\ndef has_duplicate_hash(items):\n    seen = set()\n    for item in items:\n        if item in seen:\n            return True\n        seen.add(item)\n    return False\n```\n\nUse hashing when the dataset is large and membership tests or key-based retrieval are frequent. Avoid it when data is tiny, order matters and must be preserved without extra structures, or when hash collisions would make correctness harder to guarantee."
+      },
+      "prompt": "Write Python code to solve this challenge for Recognizing When to use Hashing:",
+      "starter_code": "# TODO: Implement solution for Recognizing When to use Hashing\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Recognizing When to use Hashing')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Recognizing When to use Hashing"
+        }
+      ],
+      "explanation": "This exercise tests `recognizing when to use hashing analysis` in Recognizing When to use Hashing. When Python validates this code, it applies the standard rules of recognizing when to use hashing analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "41.3_q11",
+      "type": "code_prediction",
+      "concept": "recognizing_when_to_use_hashing_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q10"
+      ],
+      "prompt": "What is the final value of result after executing the following code?\n```python\nresult = {}\nfor ch in 'abca':\n    result[ch] = result.get(ch, 0) + 1\nprint(result)\n```",
+      "options": [
+        "{'a': 2, 'b': 1, 'c': 1}",
+        "{'a': 3, 'b': 1, 'c': 1}",
+        "{'a': 1, 'b': 2, 'c': 1}",
+        "{'a': 2, 'b': 2, 'c': 1}"
+      ],
+      "correct_answer": "{'a': 2, 'b': 1, 'c': 1}",
+      "explanation": "Tracing step by step: 'a' -> {'a': 1}; 'b' -> {'a': 1, 'b': 1}; 'c' -> {'a': 1, 'b': 1, 'c': 1}; 'a' -> {'a': 2, 'b': 1, 'c': 1}. This frequency-count pattern is a canonical use case for hashing."
+    },
+    {
+      "id": "41.3_q12",
+      "type": "output_prediction",
+      "concept": "recognizing_when_to_use_hashing_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q11"
+      ],
+      "prompt": "What is the output of the following code?\n```python\ndef is_anagram(s1, s2):\n    if len(s1) != len(s2):\n        return False\n    count = {}\n    for ch in s1:\n        count[ch] = count.get(ch, 0) + 1\n    for ch in s2:\n        if ch not in count:\n            return False\n        count[ch] -= 1\n        if count[ch] == 0:\n            del count[ch]\n    return len(count) == 0\n\nprint(is_anagram('listen', 'silent'))\n```",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "None"
+      ],
+      "correct_answer": "True",
+      "explanation": "The function builds a frequency hash of s1, then decrements counts using s2. If all counts reach zero, the strings are anagrams. 'listen' and 'silent' have identical character frequencies, so the result is True. This is a textbook hashing application for comparing multisets."
+    },
+    {
+      "id": "41.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_when_to_use_hashing_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q12"
+      ],
+      "prompt": "To create a hash map in Python, you use the ____ keyword followed by curly braces.",
+      "correct_answer": "dict",
+      "accepted_answers": [
+        "dict",
+        "dictionary"
+      ],
+      "explanation": "The dict keyword is the standard way to instantiate a hash map (dictionary) in Python. It allows O(1) average-time lookups, insertions, and deletions by hashing keys to values."
+    },
+    {
+      "id": "41.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_when_to_use_hashing_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q13"
+      ],
+      "prompt": "When adding or updating a key-value pair in a hash map, you use the ____ method or bracket notation.",
+      "correct_answer": "assignment",
+      "accepted_answers": [
+        "assignment",
+        "setitem",
+        "bracket_notation"
+      ],
+      "explanation": "In Python, hash maps support item assignment via dict['key'] = value or dict.update(). Recognizing this pattern helps you choose hashing when you need fast key-based updates rather than sequential search."
+    },
+    {
+      "id": "41.3_q15",
+      "type": "code_ordering",
+      "concept": "recognizing_when_to_use_hashing_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q14"
+      ],
+      "prompt": "Arrange the following steps to count character frequencies using a hash map.",
+      "options": [
+        "counts = {}",
+        "for ch in text:",
+        "counts[ch] = counts.get(ch, 0) + 1",
+        "print(counts)"
+      ],
+      "correct_answer": [
+        "counts = {}",
+        "for ch in text:",
+        "counts[ch] = counts.get(ch, 0) + 1",
+        "print(counts)"
+      ],
+      "explanation": "Initializing the hash map, iterating through the input, incrementing counts with get for safe defaults, and finally printing the result is the correct algorithmic sequence. This pattern is ideal when you need to tally occurrences efficiently."
+    },
+    {
+      "id": "41.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_when_to_use_hashing_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q15"
+      ],
+      "prompt": "Checking if an element exists in a collection is O(1) on average when the collection is a ____.",
+      "correct_answer": "set or dict",
+      "accepted_answers": [
+        "set",
+        "dict",
+        "hash table",
+        "set or dict"
+      ],
+      "explanation": "Hash-based structures like sets and dicts provide average O(1) membership tests. Use them when you need rapid existence checks instead of O(n) list scans."
+    },
+    {
+      "id": "41.3_q17",
+      "type": "code_ordering",
+      "concept": "recognizing_when_to_use_hashing_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q16"
+      ],
+      "prompt": "Order the steps to solve the Two Sum problem using a hash map for O(n) time.",
+      "options": [
+        "seen = {}",
+        "for i, num in enumerate(nums):",
+        "complement = target - num",
+        "if complement in seen:",
+        "return [seen[complement], i]",
+        "seen[num] = i"
+      ],
+      "correct_answer": [
+        "seen = {}",
+        "for i, num in enumerate(nums):",
+        "complement = target - num",
+        "if complement in seen:",
+        "return [seen[complement], i]",
+        "seen[num] = i"
+      ],
+      "explanation": "Initialize the hash map, iterate with index and value, compute the complement, check if it was already seen, return the pair if found, then record the current number. This avoids the O(n^2) nested-loop approach."
+    },
+    {
+      "id": "41.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "recognizing_when_to_use_hashing_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q17"
+      ],
+      "prompt": "To avoid KeyError when incrementing counts, use collections.____(int) as your hash map initializer.",
+      "correct_answer": "defaultdict",
+      "accepted_answers": [
+        "defaultdict",
+        "defaultdict(int)"
+      ],
+      "explanation": "defaultdict(int) automatically supplies a default value of 0 for missing keys, making increment patterns cleaner. This idiom signals that hashing is appropriate for frequency or accumulation tasks."
+    },
+    {
+      "id": "41.3_q19",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Hashing Mistakes: When Not to Hash",
+        "content": "Hashing with dictionaries (hash maps) is powerful for O(1) average-case lookups, but it is not always the right tool. A common error is using a hash when the dataset is tiny or when order matters, because dictionaries in Python do not preserve insertion order in older versions and even now, iteration order is not the same as sorted order. Another mistake is using a hash for range queries or ordered traversal, which requires sorting or a balanced tree instead. For example, if you need to find all keys between 10 and 20, a dictionary does not support efficient range scans. Always ask: do I need constant-time exact-match lookup? If yes, hashing is appropriate. If you need ordering, prefix matching, or range queries, consider alternatives. Here is an illustrative snippet:\n\n```python\ndef find_nearby(values, target):\n    # BUG: dictionary cannot efficiently answer range queries\n    lookup = {v: i for i, v in enumerate(values)}\n    return [x for x in lookup if 10 <= x <= 20]\n```\n\nThis code runs in O(n) for the list comprehension and does not leverage hashing for the range condition. A better approach might use sorting or a balanced BST. Remember: hashing excels at membership tests and exact-key retrieval, not range or ordered operations."
+      },
+      "prompt": "Fix the bug in this code for recognizing when to use hashing errors:",
+      "starter_code": "# Fix this code\nPrint('Recognizing When to use Hashing')",
+      "solution_code": "print('Recognizing When to use Hashing')",
+      "explanation": "This exercise tests `recognizing when to use hashing errors` in Recognizing When to use Hashing. When Python validates this code, it applies the standard rules of recognizing when to use hashing errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "41.3_q20",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.3_q19"
+      ],
+      "prompt": "The function below is supposed to check whether a username already exists in a list of registered users. The current implementation uses a list and linear search, which is inefficient for large datasets. Rewrite the function to use a hash-based approach for O(1) average lookup time.",
+      "starter_code": "def is_username_taken(users, new_user):\n    # TODO: use a hash for fast lookup\n    for u in users:\n        if u == new_user:\n            return True\n    return False\n\n# Example\nregistered = ['alice', 'bob', 'charlie']\nprint(is_username_taken(registered, 'bob'))",
+      "solution_code": "def is_username_taken(users, new_user):\n    user_set = set(users)  # hash-based O(1) average lookup\n    return new_user in user_set\n\n# Example\nregistered = ['alice', 'bob', 'charlie']\nprint(is_username_taken(registered, 'bob'))",
+      "hint": "Convert the list to a set to enable constant-time membership testing.",
+      "explanation": "By converting the list to a set, we leverage Python's hash table implementation for average O(1) lookup. This is ideal when we only need to test membership, not preserve order or allow duplicates."
+    },
+    {
+      "id": "41.3_q21",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q20"
+      ],
+      "prompt": "The following function attempts to count occurrences of items using a dictionary. It fails when the input contains unhashable types such as lists or dictionaries. Fix the code so it safely handles hashable and unhashable items by using hashing where possible and falling back to a list-based approach otherwise.",
+      "starter_code": "def count_items(items):\n    counts = {}\n    for item in items:\n        counts[item] = counts.get(item, 0) + 1\n    return counts\n\n# Example\nprint(count_items([1, 2, [1, 2], 2]))",
+      "solution_code": "def count_items(items):\n    counts = {}\n    unhashable = []\n    for item in items:\n        try:\n            counts[item] = counts.get(item, 0) + 1\n        except TypeError:\n            unhashable.append(item)\n    return counts, unhashable\n\n# Example\nprint(count_items([1, 2, [1, 2], 2]))",
+      "hint": "Use a try-except block to catch TypeError when an item is unhashable, then store unhashable items separately.",
+      "explanation": "Only hashable types can be dictionary keys. When an unhashable item appears, we catch the TypeError and avoid crashing. This pattern shows when hashing is appropriate (hashable keys) and when we must switch strategy (unhashable items)."
+    },
+    {
+      "id": "41.3_q22",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Pitfalls of Hashing: Collisions and Resizing",
+        "content": "While Python dictionaries offer O(1) average lookup, worst-case behavior can degrade to O(n) due to hash collisions or during resize operations when the table grows. A common runtime error is assuming hashing is always constant time regardless of input size. For example, if many keys hash to the same bucket, lookups slow down. Additionally, inserting n items into a hash table may trigger multiple resizes, each costing O(n), leading to overall O(n) insertion time. Consider this code:\n\n```python\ndef build_index(data):\n    index = {}\n    for record in data:\n        index[record['id']] = record\n    return index\n```\n\nIf `data` contains millions of records, repeated resizing occurs. In practice, Python's dict handles this efficiently, but the asymptotic cost is still O(n) for building the entire index. Recognize that hashing optimizes repeated lookups, not necessarily one-time bulk construction. If you need sorted output or frequent ordered iteration, a hash alone may not suffice. Use hashing when lookup frequency justifies the build cost."
+      },
+      "prompt": "Fix the bug in this code for recognizing when to use hashing runtime:",
+      "starter_code": "# Fix this code\nPrint('Recognizing When to use Hashing')",
+      "solution_code": "print('Recognizing When to use Hashing')",
+      "explanation": "This exercise tests `recognizing when to use hashing runtime` in Recognizing When to use Hashing. When Python validates this code, it applies the standard rules of recognizing when to use hashing runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "41.3_q23",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q22"
+      ],
+      "prompt": "The function below is intended to return the intersection of two lists using a hash-based approach for efficiency. However, it incorrectly returns duplicates and misses some common elements. Repair the logic so that it returns only unique common elements in any order.",
+      "starter_code": "def list_intersection(a, b):\n    result = []\n    seen = {}\n    for x in a:\n        if x in b and seen.get(x, False) == False:\n            result.append(x)\n            seen[x] = True\n    return result\n\n# Example\nprint(list_intersection([1, 2, 2, 3], [2, 2, 4]))",
+      "solution_code": "def list_intersection(a, b):\n    set_b = set(b)\n    seen = set()\n    result = []\n    for x in a:\n        if x in set_b and x not in seen:\n            result.append(x)\n            seen.add(x)\n    return result\n\n# Example\nprint(list_intersection([1, 2, 2, 3], [2, 2, 4]))",
+      "hint": "Use a set for b to get O(1) membership tests, and a separate set to track already-added results.",
+      "explanation": "The original code used a dictionary for `seen`, which works but is less idiomatic than a set. The key fix is converting `b` to a set for fast lookup and using a set for `seen` to avoid duplicates. This demonstrates proper use of hashing for membership testing and deduplication."
+    },
+    {
+      "id": "41.3_q24",
+      "type": "write_the_code",
+      "concept": "recognizing_when_to_use_hashing_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.3_q23"
+      ],
+      "prompt": "Refactor the following function to minimize repeated work. The function currently checks whether any two numbers in a list sum to a target value. It uses nested loops, resulting in O(n^2) time. Replace it with a hash-based strategy that runs in O(n) average time, while preserving correct behavior for duplicate values and edge cases.",
+      "starter_code": "def has_pair_with_sum(nums, target):\n    n = len(nums)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if nums[i] + nums[j] == target:\n                return True\n    return False\n\n# Example\nprint(has_pair_with_sum([3, 5, 1, 7], 8))",
+      "solution_code": "def has_pair_with_sum(nums, target):\n    seen = set()\n    for num in nums:\n        complement = target - num\n        if complement in seen:\n            return True\n        seen.add(num)\n    return False\n\n# Example\nprint(has_pair_with_sum([3, 5, 1, 7], 8))",
+      "test_cases": [
+        {
+          "input": {
+            "nums": [
+              3,
+              5,
+              1,
+              7
+            ],
+            "target": 8
+          },
+          "expected": true
+        },
+        {
+          "input": {
+            "nums": [
+              2,
+              2,
+              3
+            ],
+            "target": 4
+          },
+          "expected": true
+        },
+        {
+          "input": {
+            "nums": [
+              1,
+              4,
+              6
+            ],
+            "target": 10
+          },
+          "expected": false
+        }
+      ],
+      "hint": "Iterate once through the list, storing previously seen numbers in a set. For each number, check if its complement (target minus current) is already in the set.",
+      "explanation": "By using a hash set to record seen values, we reduce the time complexity from O(n^2) to O(n) average case. Each lookup and insertion is O(1) on average. This is the classic two-sum pattern and exemplifies when hashing provides a dramatic algorithmic optimization over brute-force nested iteration."
+    },
+    {
+      "id": "41.3_q25",
+      "type": "write_the_code",
+      "concept": "recognizing_when_to_use_hashing_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Recognizing When to use Hashing.",
+      "starter_code": "def process_41_3_data(items):\n    # Process input according to Recognizing When to use Hashing rules\n    pass",
+      "solution_code": "def process_41_3_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Recognizing When to use Hashing rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Recognizing When to use Hashing.",
+      "explanation": "Constructing pure, robust data transformers for Recognizing When to use Hashing avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "41.3_q26",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.3_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Recognizing When to use Hashing that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_41_3_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_41_3_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "41.3_q27",
+      "type": "code_prediction",
+      "concept": "recognizing_when_to_use_hashing_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.3_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Recognizing When to use Hashing encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Recognizing When to use Hashing.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "41.3_q28",
+      "type": "write_the_code",
+      "concept": "recognizing_when_to_use_hashing_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.3_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Recognizing When to use Hashing. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Recognizing When to use Hashing\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Recognizing When to use Hashing ensures testable domain operations."
+    },
+    {
+      "id": "41.3_q29",
+      "type": "fix_the_code",
+      "concept": "recognizing_when_to_use_hashing_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.3_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Recognizing When to use Hashing into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Recognizing When to use Hashing Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "41.3_q30",
+      "type": "write_the_code",
+      "concept": "recognizing_when_to_use_hashing_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.3_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Recognizing When to use Hashing that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_41_3_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_41_3_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Recognizing When to use Hashing must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 41,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Recognizing When to use Hashing",
+    "Apply idiomatic Python patterns when working with Recognizing When to use Hashing",
+    "Debug common runtime exceptions and logic errors associated with Recognizing When to use Hashing",
+    "Implement production-ready code utilizing Recognizing When to use Hashing"
+  ],
+  "prerequisites": [
+    "41.2"
+  ]
+}

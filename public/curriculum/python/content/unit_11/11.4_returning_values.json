@@ -1,0 +1,628 @@
+{
+  "lesson_id": "11.4",
+  "title": "Returning Values",
+  "unit": "Functions (Basics)",
+  "items": [
+    {
+      "id": "11.4_q1",
+      "type": "micro_lesson",
+      "title": "Return vs. Print: Output to Caller vs. Output to Screen",
+      "content": "A crucial distinction in Python programming is the difference between `print()` and `return`:\n\n- `print()` writes text to the terminal console so a human can read it. It returns `None`.\n- `return` sends a value back to the code that called the function, allowing that value to be stored in a variable, passed to another function, or used in math.\n\nIf a function finishes without encountering an explicit `return` statement, Python automatically returns `None`.",
+      "difficulty": "easy",
+      "concept": "return_vs_print",
+      "skill": "mental_model",
+      "prerequisites": []
+    },
+    {
+      "id": "11.4_q2",
+      "type": "multiple_choice",
+      "question": "Consider the following function:\n\n```python\ndef calculate_tax(subtotal):\n    print(subtotal * 0.08)\n\ntotal = 100 + calculate_tax(100)\n```\nWhat happens when this script is run?",
+      "options": [
+        "It prints 8.0 to the console and then raises TypeError: unsupported operand type(s) for +: 'int' and 'NoneType'",
+        "It calculates total as 108.0 without error",
+        "It prints 108.0 directly to the terminal",
+        "It raises a SyntaxError because print cannot appear inside a function"
+      ],
+      "correct_answer": "It prints 8.0 to the console and then raises TypeError: unsupported operand type(s) for +: 'int' and 'NoneType'",
+      "explanation": "Because `calculate_tax` calls `print()` but has no `return` statement, it implicitly returns `None`. When Python tries to evaluate `100 + None`, it raises a `TypeError` because you cannot add an integer and `NoneType`.",
+      "difficulty": "medium",
+      "concept": "return_vs_print",
+      "skill": "debugging",
+      "prerequisites": []
+    },
+    {
+      "id": "11.4_q3",
+      "type": "micro_lesson",
+      "title": "Syntax of the return Statement",
+      "content": "The return statement has a simple syntax: return followed by an optional expression. If you include an expression, its value becomes the return value. If you write return on its own, the function returns None. You can return numbers, strings, booleans, or even other functions. Here is the general pattern:\n\n```python\ndef greet(name):\n    message = 'Hello, ' + name\n    return message\n\noutput = greet('Sam')\nprint(output)\n```\n\nThe function greet builds a string and returns it. The caller receives that string and stores it in output. Note that return must be the last statement executed in a branch unless you use an early exit. Also, you can return multiple values by separating them with commas; Python packs them into a tuple automatically.",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "concept": "returning_values_syntax",
+      "prerequisites": [
+        "11.4_q2"
+      ],
+      "prompt": "",
+      "explanation": "The return statement has a simple syntax: return followed by an optional expression. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "11.4_q4",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is valid Python syntax for returning a string value from a function?",
+      "options": [
+        "return 'done'",
+        "return \"done\"",
+        "return (done)",
+        "return done"
+      ],
+      "correct_answer": "return 'done'",
+      "explanation": "In Python string literals, single quotes are preferred here. return 'done' is valid and returns the string done. return \"done\" is also valid syntax, but the specification prefers single quotes. return (done) is a tuple only if done is a variable, and return done would fail unless done is defined.",
+      "match_code_to_concept": true,
+      "concept": "returning_values_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.4_q3"
+      ]
+    },
+    {
+      "id": "11.4_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the function behavior to the correct return statement:",
+      "options": [
+        "return x + 2",
+        "return x * 2",
+        "return x - 2",
+        "return x / 2"
+      ],
+      "correct_answer": "return x * 2",
+      "explanation": "To double a value, the function must return x multiplied by 2. The other options perform addition, subtraction, or division, which do not match the described behavior.",
+      "match_code_to_concept": true,
+      "concept": "returning_values_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.4_q4"
+      ]
+    },
+    {
+      "id": "11.4_q6",
+      "type": "multiple_choice",
+      "prompt": "What happens if a function reaches the end of its body without hitting a return statement?",
+      "options": [
+        "The function returns the last assigned variable",
+        "The function returns None",
+        "The function raises a SyntaxError",
+        "The function returns 0"
+      ],
+      "correct_answer": "The function returns None",
+      "explanation": "Python functions implicitly return None when no return statement is executed. This is a common pitfall for beginners who expect a default numeric value.",
+      "match_code_to_concept": true,
+      "concept": "returning_values_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.4_q5"
+      ]
+    },
+    {
+      "id": "11.4_q7",
+      "type": "code_prediction",
+      "concept": "returning_values_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "micro_lesson": {
+        "title": "Understanding return Statements",
+        "content": "In Python, a function can send a result back to the code that called it using the `return` statement. When `return` is used, the function stops executing immediately and passes the specified value back. If no value is provided, it returns `None` by default. Consider this example:\n\n```python\ndef add(a, b):\n    return a + b\n\nresult = add(3, 5)\nprint(result)\n```\n\nThe `add` function computes the sum and returns it. The variable `result` stores `8`, and printing it displays `8`."
+      },
+      "prompt": "What will the following Python code print?\n\n```python\ndef square(n):\n    return n * n\n\nvalue = square(4)\nprint(value)\n```",
+      "options": [
+        "4",
+        "16",
+        "8",
+        "None"
+      ],
+      "correct_answer": "16",
+      "explanation": "The `square` function multiplies `n` by itself and returns the product. When called with `4`, it returns `16`. This value is stored in `value` and printed, so the output is `16`.",
+      "prerequisites": [
+        "11.4_q6"
+      ]
+    },
+    {
+      "id": "11.4_q8",
+      "type": "output_prediction",
+      "concept": "returning_values_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Chaining Returns and Print",
+        "content": "A returned value can be used directly in other expressions, such as passing it to `print()` or storing it in a variable. The function completes first, then the caller uses the returned value. For example:\n\n```python\ndef greet(name):\n    return 'Hello, ' + name\n\nmessage = greet('Alice')\nprint(message)\n```\n\nHere, `greet` returns a string, which is assigned to `message` and then displayed."
+      },
+      "prompt": "What is the output of the following code?\n\n```python\ndef multiply(x, y):\n    return x * y\n\nprint(multiply(6, 7))\n```",
+      "options": [
+        "6",
+        "42",
+        "7",
+        "Error"
+      ],
+      "correct_answer": "42",
+      "explanation": "The function `multiply` returns the product of `x` and `y`, which is `42`. The `print` function receives this returned value and displays `42`.",
+      "prerequisites": [
+        "11.4_q7"
+      ]
+    },
+    {
+      "id": "11.4_q9",
+      "type": "code_prediction",
+      "concept": "returning_values_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "How Return Controls Flow",
+        "content": "When a `return` statement executes inside a function, control immediately exits the function and returns to the caller. Any code after `return` in the same function block is skipped. This is important when tracing how values move through a program.\n\n```python\ndef check(n):\n    if n > 0:\n        return 'positive'\n    return 'non-positive'\n```\n\nIf `n` is `5`, the first `return` triggers and the second line is never reached."
+      },
+      "prompt": "What will the following code display?\n\n```python\ndef describe(score):\n    if score >= 50:\n        return 'Pass'\n    return 'Fail'\n\nprint(describe(75))\n```",
+      "options": [
+        "'Fail'",
+        "'Pass'",
+        "75",
+        "Error"
+      ],
+      "correct_answer": "'Pass'",
+      "explanation": "Since `75` is greater than or equal to `50`, the condition is true and the function returns `'Pass'`. This string is printed, so the output is `'Pass'`.",
+      "prerequisites": [
+        "11.4_q8"
+      ]
+    },
+    {
+      "id": "11.4_q10",
+      "type": "write_the_code",
+      "concept": "returning_values_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Analyzing Returned Values",
+        "content": "To analyze output involving returns, identify what the function computes and where the returned value is used. Compare the returned value against what is printed or stored. This helps catch mismatches between expected and actual behavior.\n\n```python\ndef subtract(a, b):\n    return a - b\n\nprint(subtract(10, 3))\n```\n\nThe function returns `7`, which is printed. Analysis confirms the arithmetic and the print statement match."
+      },
+      "prompt": "Explain why the output of the following code is `12`:\n\n```python\ndef compute(x, y):\n    return x + y\n\nprint(compute(5, 7))\n```",
+      "correct_answer": "The function returns the sum of 5 and 7, which is 12, and print displays it.",
+      "explanation": "The `compute` function adds `x` and `y` and returns `12`. The `print` function receives this returned value and outputs `12`. The other options incorrectly describe the operation or the behavior of `print`.",
+      "prerequisites": [
+        "11.4_q9"
+      ],
+      "starter_code": "# 1. Define the process_11_4 function\ndef process_11_4():\n    # 2. Implement solution for Returning Values\n    pass\n",
+      "solution_code": "print('Returning Values')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Returning Values"
+        }
+      ]
+    },
+    {
+      "id": "11.4_q11",
+      "type": "code_prediction",
+      "concept": "returning_values_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Tracing Values Through Multiple Returns",
+        "content": "When a function is called, follow each step: arguments are received, operations are performed, and the return value is passed back. If the returned value is used in another expression, continue tracing from that point.\n\n```python\ndef step(a):\n    b = a * 2\n    return b + 3\n\nfinal = step(4)\nprint(final)\n```\n\nTracing: `a` is `4`, `b` becomes `8`, the function returns `11`, and `final` stores `11`."
+      },
+      "prompt": "Trace the execution and determine the final printed value:\n\n```python\ndef process(n):\n    m = n + 1\n    return m * 2\n\nprint(process(3))\n```",
+      "options": [
+        "4",
+        "6",
+        "8",
+        "10"
+      ],
+      "correct_answer": "8",
+      "explanation": "Execution trace: `n` is `3`, `m` becomes `4`, the function returns `8`, and `print` displays `8`. Therefore, the final printed value is `8`.",
+      "prerequisites": [
+        "11.4_q10"
+      ]
+    },
+    {
+      "id": "11.4_q12",
+      "type": "output_prediction",
+      "concept": "returning_values_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Logical Use of Returned Values",
+        "content": "Returned values often drive decisions in the calling code. You can compare a returned value to a threshold or use it in a condition. Understanding the logic helps predict output when functions interact with control flow.\n\n```python\ndef is_even(x):\n    return x % 2 == 0\n\nif is_even(4):\n    print('yes')\nelse:\n    print('no')\n```\n\nThe function returns `True`, so the `if` branch executes and prints `'yes'`."
+      },
+      "prompt": "What is printed by the following code?\n\n```python\ndef compare(a, b):\n    return a > b\n\nif compare(2, 9):\n    print('greater')\nelse:\n    print('not greater')\n```",
+      "options": [
+        "'greater'",
+        "'not greater'",
+        "2",
+        "9"
+      ],
+      "correct_answer": "'not greater'",
+      "explanation": "The `compare` function returns `False` because `2` is not greater than `9`. The `else` branch runs, printing `'not greater'`.",
+      "prerequisites": [
+        "11.4_q11"
+      ]
+    },
+    {
+      "id": "11.4_q13",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "Returning Values: The return Statement",
+        "content": "In Python, functions can send a result back to the caller using the `return` statement. When a function reaches a `return` statement, it immediately stops executing and sends the specified value back. This allows functions to compute and provide output rather than just performing actions. For example:\n\n```python\ndef add(a, b):\n    return a + b\n\nresult = add(3, 4)\nprint(result)\n```\n\nIn this example, `add(3, 4)` evaluates to `7`, which is stored in `result`. The `return` statement is what makes the function produce a value that can be used elsewhere in your program."
+      },
+      "prompt": "Complete the function by filling in the blank: def multiply(x, y): ____ x * y",
+      "correct_answer": "return",
+      "accepted_answers": [
+        "return"
+      ],
+      "explanation": "The `return` keyword is required to send a computed value back from the function to the caller. Without it, the function would return `None` by default.",
+      "concept": "returning_values_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.4_q12"
+      ]
+    },
+    {
+      "id": "11.4_q14",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "Keywords for Returning Values",
+        "content": "The primary keyword used to return a value from a function in Python is `return`. It can be used with a literal value, a variable, or an expression. When `return` is used without an expression, the function returns `None`. Here are some important patterns:\n\n```python\ndef greet(name):\n    return 'Hello, ' + name\n\ndef get_none():\n    return\n```\n\nIn `greet`, the string is constructed and returned. In `get_none`, the absence of a value after `return` means the function returns `None`. Always ensure that `return` is followed by a valid Python expression if you intend to return a meaningful value."
+      },
+      "prompt": "Which keyword must appear before an expression to send a value back from a function? ____ x + 5",
+      "correct_answer": "return",
+      "accepted_answers": [
+        "return",
+        "Return"
+      ],
+      "explanation": "`return` is the reserved keyword in Python that exits a function and optionally provides a value. It must be lowercase and cannot be replaced by synonyms.",
+      "concept": "returning_values_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q13"
+      ]
+    },
+    {
+      "id": "11.4_q15",
+      "type": "code_ordering",
+      "micro_lesson": {
+        "title": "Sequencing Returns in a Function",
+        "content": "When a function contains multiple `return` statements, only the first one reached during execution will run. The function exits immediately at that point. This means the order of statements matters. Consider this example:\n\n```python\ndef check(n):\n    if n > 0:\n        return 'positive'\n    return 'non-positive'\n```\n\nIf `n` is `5`, the first `return` executes and the function ends. If `n` is `-3`, the `if` condition fails and the second `return` executes. Understanding this sequential behavior is essential for writing correct conditional logic."
+      },
+      "prompt": "Arrange the following lines of code into the correct order so the function returns the correct string based on the input value.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The conditional check must come before the return statements so that the correct branch is evaluated first. The positive case is checked, and only if it fails does the function fall through to the non-positive case.",
+      "concept": "returning_values_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q14"
+      ]
+    },
+    {
+      "id": "11.4_q16",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "Common Patterns for Returning Values",
+        "content": "Functions often follow predictable patterns when returning values. A common pattern is to compute an intermediate result and then return it directly. Another pattern is to return a boolean expression, which evaluates to `True` or `False`. You can also return multiple values as a tuple. For example:\n\n```python\ndef is_even(n):\n    return n % 2 == 0\n\ndef pair(a, b):\n    return a, b\n```\n\nIn `is_even`, the expression `n % 2 == 0` is evaluated and returned. In `pair`, a tuple containing both arguments is returned. Recognizing these patterns helps you write cleaner, more readable functions."
+      },
+      "prompt": "Fill in the blank to complete the pattern: def is_valid(age): ____ age >= 18",
+      "correct_answer": "return",
+      "accepted_answers": [
+        "return",
+        "Return"
+      ],
+      "explanation": "To complete the pattern, `return` is needed so that the boolean expression `age >= 18` is sent back to the caller. Without it, the function would return `None`.",
+      "concept": "returning_values_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q15"
+      ]
+    },
+    {
+      "id": "11.4_q17",
+      "type": "error_diagnosis",
+      "question": "A developer wrote a helper to format usernames, but tests show that `greeting = f'Hello, {format_name(\"alice\")}'` results in `'Hello, None'`!\n\n```python\ndef format_name(raw_name):\n    clean = raw_name.strip().title()\n    print(clean)\n```\nHow should this bug be repaired?",
+      "options": [
+        "Replace `print(clean)` with `return clean` so the formatted string is returned to the caller instead of returning None",
+        "Change `clean = raw_name.strip().title()` to `raw_name = clean`",
+        "Wrap the call in `str(format_name('alice'))`",
+        "Call `format_name` twice in succession"
+      ],
+      "correct_answer": "Replace `print(clean)` with `return clean` so the formatted string is returned to the caller instead of returning None",
+      "explanation": "`print()` only displays characters in the terminal and returns `None`. Replacing `print(clean)` with `return clean` passes the formatted string back to the caller so it can be interpolated into strings or saved in variables.",
+      "difficulty": "medium",
+      "concept": "return_vs_print",
+      "skill": "debugging",
+      "prerequisites": []
+    },
+    {
+      "id": "11.4_q18",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "Idioms for Returning Values",
+        "content": "Experienced Python programmers use idioms to make returning values concise and expressive. One common idiom is to return a boolean directly from a comparison, as shown earlier. Another idiom is to use an early return to simplify nested logic. For example:\n\n```python\ndef has_permission(user):\n    if not user:\n        return False\n    return True\n```\n\nThis can be shortened to:\n\n```python\ndef has_permission(user):\n    return bool(user)\n```\n\nUsing idiomatic patterns improves readability and reduces unnecessary branching."
+      },
+      "prompt": "Complete the idiomatic function: def is_ready(data): ____ bool(data)",
+      "correct_answer": "return",
+      "accepted_answers": [
+        "return",
+        "Return"
+      ],
+      "explanation": "The `return` keyword is required to send the boolean result of `bool(data)` back to the caller. This is a concise idiom for converting a value to its truthiness.",
+      "concept": "returning_values_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q17"
+      ]
+    },
+    {
+      "id": "11.4_q19",
+      "type": "fix_the_code",
+      "concept": "returning_values_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Mistakes When Returning Values",
+        "content": "When a function is supposed to return a value, forgetting the return statement or returning the wrong type are frequent errors. A function without a return statement implicitly returns None. If you intend to compute and send back a result, always use the return keyword. Another common pitfall is returning a value inside a conditional branch while the rest of the function falls through without a return, which can cause unexpected None outputs.\n\nExample of a broken function:\n\n```python\ndef add(a, b):\n    if a > 0:\n        return a + b\n    # missing return here\n```\n\nIn the code above, if a is 0 or negative, the function reaches the end without returning anything, so it returns None. This can lead to TypeError when the caller tries to use the result in arithmetic."
+      },
+      "prompt": "Fix the bug in this code for returning values errors:",
+      "starter_code": "# Fix this code\nPrint('Returning Values')",
+      "solution_code": "print('Returning Values')",
+      "explanation": "This exercise tests `returning values errors` in Returning Values. When Python validates this code, it applies the standard rules of returning values errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "11.4_q20",
+      "type": "fix_the_code",
+      "concept": "returning_values_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.4_q19"
+      ],
+      "prompt": "The function below is supposed to return the product of two numbers, but it currently does not return anything. Fix the code so it returns the correct value.",
+      "starter_code": "def multiply(x, y):\n    result = x * y\n    # TODO: return the result\n\nprint(multiply(3, 4))",
+      "solution_code": "def multiply(x, y):\n    result = x * y\n    return result\n\nprint(multiply(3, 4))",
+      "hint": "Add a return statement inside the function to send the computed result back to the caller.",
+      "explanation": "The original function calculated the product but never returned it, so the function call evaluated to None. Adding return result makes the function output 12, which is the correct product of 3 and 4."
+    },
+    {
+      "id": "11.4_q21",
+      "type": "fix_the_code",
+      "concept": "returning_values_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q20"
+      ],
+      "prompt": "The function should return the larger of two numbers. It works for positive inputs but fails when both numbers are equal or negative. Correct the logic and ensure it handles all cases.",
+      "starter_code": "def max_of_two(a, b):\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    # missing case when a == b\n\nprint(max_of_two(5, 5))",
+      "solution_code": "def max_of_two(a, b):\n    if a > b:\n        return a\n    elif a < b:\n        return b\n    else:\n        return a\n\nprint(max_of_two(5, 5))",
+      "hint": "Consider what should happen when a and b are equal. The function currently has no return for that branch.",
+      "explanation": "When a equals b, neither the first nor the second condition is true, so execution falls through without returning anything, yielding None. Adding an else branch that returns a (or b) ensures the function always returns a value, including for edge cases like equal or negative inputs."
+    },
+    {
+      "id": "11.4_q22",
+      "type": "fix_the_code",
+      "concept": "returning_values_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors from Missing Returns",
+        "content": "A runtime error occurs when the program is running and an unexpected condition is encountered. One common runtime error in functions is using a returned value in a mathematical operation when the function actually returned None. Python raises a TypeError in such cases because None cannot be added to an integer or used in arithmetic.\n\nExample:\n\n```python\ndef subtract(a, b):\n    if a >= b:\n        return a - b\n    return None\n\nvalue = subtract(5, 10)\nprint(value + 100)\n```\n\nHere, subtract(5, 10) returns None, and attempting None + 100 triggers a TypeError at runtime. Always verify that a function returns the expected type before relying on its output."
+      },
+      "prompt": "Fix the bug in this code for returning values runtime:",
+      "starter_code": "# Fix this code\nPrint('Returning Values')",
+      "solution_code": "print('Returning Values')",
+      "explanation": "This exercise tests `returning values runtime` in Returning Values. When Python validates this code, it applies the standard rules of returning values runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "11.4_q23",
+      "type": "fix_the_code",
+      "concept": "returning_values_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q22"
+      ],
+      "prompt": "The function is intended to return True if a number is even and False otherwise. Currently it returns the wrong boolean value. Repair the logic.",
+      "starter_code": "def is_even(n):\n    if n % 2 == 0:\n        return False\n    else:\n        return True\n\nprint(is_even(8))\nprint(is_even(7))",
+      "solution_code": "def is_even(n):\n    if n % 2 == 0:\n        return True\n    else:\n        return False\n\nprint(is_even(8))\nprint(is_even(7))",
+      "hint": "Check which branch should correspond to an even number. The modulo operator % gives 0 for even numbers.",
+      "explanation": "The original function inverted the boolean results: it returned False for even numbers and True for odd numbers. Swapping the return values so that n % 2 == 0 yields True fixes the logic, making is_even(8) return True and is_even(7) return False."
+    },
+    {
+      "id": "11.4_q24",
+      "type": "write_the_code",
+      "concept": "returning_values_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.4_q23"
+      ],
+      "prompt": "Refactor the function below to be more concise and efficient while preserving its behavior. The function should still return the absolute value of a number.",
+      "starter_code": "def absolute_value(n):\n    if n >= 0:\n        return n\n    else:\n        return -n\n\nprint(absolute_value(-15))\nprint(absolute_value(15))",
+      "solution_code": "def absolute_value(n):\n    return n if n >= 0 else -n\n\nprint(absolute_value(-15))\nprint(absolute_value(15))",
+      "test_cases": [
+        {
+          "input": "absolute_value(-15)",
+          "expected_output": "15",
+          "description": "Verifies: absolute_value(-15) == 15"
+        },
+        {
+          "input": "absolute_value(0)",
+          "expected_output": "0",
+          "description": "Verifies: absolute_value(0) == 0"
+        },
+        {
+          "input": "absolute_value(15)",
+          "expected_output": "15",
+          "description": "Verifies: absolute_value(15) == 15"
+        },
+        {
+          "input": "absolute_value(-0.5)",
+          "expected_output": "0.5",
+          "description": "Verifies: absolute_value(-0.5) == 0.5"
+        }
+      ],
+      "hint": "A ternary conditional expression can replace the if-else block in a single return statement.",
+      "explanation": "The original implementation used a multi-line if-else block. The refactored version uses a ternary conditional expression inside a single return statement, reducing lines of code and improving readability without changing functionality. All test cases continue to pass."
+    },
+    {
+      "id": "11.4_q25",
+      "type": "write_the_code",
+      "concept": "return_multiple_values",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q24"
+      ],
+      "prompt": "Write a function `get_min_max(numbers)` that returns both the minimum and maximum values of a list as a tuple `(min_val, max_val)`:",
+      "starter_code": "def get_min_max(numbers):\n    # Return (min, max)\n    ___",
+      "solution_code": "def get_min_max(numbers):\n    return min(numbers), max(numbers)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Returning Values Result 25"
+        }
+      ],
+      "hint": "Return multiple expressions separated by commas: `return a, b`.",
+      "explanation": "In Python, returning multiple values separated by commas automatically packs them into a single tuple (`return a, b` returns `(a, b)`)."
+    },
+    {
+      "id": "11.4_q26",
+      "type": "fix_the_code",
+      "concept": "print_vs_return",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q25"
+      ],
+      "prompt": "Fix this function so that it returns the calculated discount price to the caller rather than merely printing it and returning None:",
+      "starter_code": "def apply_discount(price, rate):\n    discounted = price - (price * rate)\n    print(discounted)  # Bug: prints instead of returning",
+      "solution_code": "def apply_discount(price, rate):\n    discounted = price - (price * rate)\n    return discounted",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Returning Values Result 26"
+        }
+      ],
+      "hint": "Replace `print(discounted)` with `return discounted`.",
+      "explanation": "A common beginner mistake is using `print()` instead of `return`. `print()` outputs text to the console, while `return` passes the computed value back to the caller for further use."
+    },
+    {
+      "id": "11.4_q27",
+      "type": "real_world_scenario",
+      "question": "You are building a data ingestion pipeline where output from `clean_row(row)` is passed directly into `validate_schema(row)`. Why MUST `clean_row` use `return` rather than `print`?",
+      "options": [
+        "Downstream processing functions require the actual cleaned data object in memory; print() only outputs to stdout and supplies None to validate_schema()",
+        "print() is blocked by default in production Linux environments",
+        "return encrypts the data during transmission between functions",
+        "Functions that print cannot accept dictionaries as arguments"
+      ],
+      "correct_answer": "Downstream processing functions require the actual cleaned data object in memory; print() only outputs to stdout and supplies None to validate_schema()",
+      "explanation": "In software architecture and data pipelines, functions must be composable. `return` delivers output objects to calling code, while `print` merely produces side-effect text on stdout and yields `None`.",
+      "difficulty": "hard",
+      "concept": "composable_functions",
+      "skill": "software_architecture",
+      "prerequisites": []
+    },
+    {
+      "id": "11.4_q28",
+      "type": "output_prediction",
+      "concept": "returning_values_print_vs_return",
+      "skill": "mental_model",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q27"
+      ],
+      "prompt": "A critical distinction in programming is `print()` versus `return`. What does this code print?\n\n```python\ndef square(n):\n    print(n * n)\n\nresult = square(4)\nprint(f\"Result is: {result}\")\n```",
+      "options": [
+        "16\nResult is: None",
+        "16\nResult is: 16",
+        "Result is: 16",
+        "TypeError: cannot format NoneType"
+      ],
+      "correct_answer": "16\nResult is: None",
+      "explanation": "Calling `square(4)` prints `16` to the console as a side-effect, but because `square()` does not have a `return` statement, it implicitly returns `None`. Therefore, `result` holds `None`!",
+      "metadata": {
+        "concept": "print_vs_return_distinction",
+        "skill": "mental_model",
+        "learning_objective": "Distinguish between printing to stdout and returning data to callers",
+        "common_misconception": "Assuming print() returns the value it displays",
+        "why_this_exercise_exists": "Fixes one of the deepest misconceptions in introductory programming"
+      }
+    },
+    {
+      "id": "11.4_q29",
+      "type": "code_prediction",
+      "concept": "unassigned_return_value",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.4_q28"
+      ],
+      "prompt": "What does this code print?\n```python\ndef add_five(x):\n    return x + 5\n\nval = 10\nadd_five(val)\nprint(val)\n```",
+      "hint": "Was the returned value assigned back to `val`?",
+      "explanation": "Functions return a new value. If the caller does not reassign it (`val = add_five(val)`), `val` remains unchanged.",
+      "options": [
+        "10",
+        "15",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "10"
+    },
+    {
+      "id": "11.4_q30",
+      "type": "write_the_code",
+      "concept": "mastery_parse_user_record",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.4_q29"
+      ],
+      "prompt": "Mastery Challenge: Write a function `parse_user(csv_line)` that splits `'Name,Age,Email'`, casts age to an integer, and returns a dictionary `{'name': ..., 'age': ..., 'email': ...}`:",
+      "starter_code": "def parse_user(csv_line):\n    # Split line and return structured dictionary\n    ___",
+      "solution_code": "def parse_user(csv_line):\n    name, age_str, email = csv_line.strip().split(',')\n    return {'name': name, 'age': int(age_str), 'email': email}",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Returning Values Result 30"
+        }
+      ],
+      "hint": "Use `.split(',')` with tuple unpacking, cast the age with `int()`, and return the dictionary.",
+      "explanation": "This synthesizes string splitting, multiple assignment, type conversion, and returning structured data types."
+    }
+  ],
+  "unit_num": 11,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Returning Values",
+    "Apply idiomatic Python patterns when working with Returning Values",
+    "Debug common runtime exceptions and logic errors associated with Returning Values",
+    "Implement production-ready code utilizing Returning Values"
+  ],
+  "prerequisites": [
+    "11.3"
+  ]
+}

@@ -1,0 +1,652 @@
+{
+  "lesson_id": "34.5",
+  "title": "The collections.deque Module",
+  "unit": "DSA: Stacks and Queues",
+  "items": [
+    {
+      "id": "34.5_q1",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Introduction to collections.deque",
+      "content": "The collections module in Python provides specialized container datatypes. One of the most useful is deque, which stands for double-ended queue. Unlike a regular list, a deque is optimized for fast appends and pops from both ends. This makes it ideal for implementing stacks and queues in Data Structures and Algorithms.\n\nTo use deque, you must import it from the collections module. Once imported, you can create an instance by passing an iterable or leaving it empty. Common operations include append() to add to the right end, appendleft() to add to the left end, pop() to remove from the right, and popleft() to remove from the left.\n\nHere is a basic example:\n\n```python\nfrom collections import deque\n\nd = deque([1, 2, 3])\nprint(d)  # deque([1, 2, 3])\nd.append(4)\nprint(d)  # deque([1, 2, 3, 4])\nd.appendleft(0)\nprint(d)  # deque([0, 1, 2, 3, 4])\n```\n\nRemember that deque does not support indexing like a list; you access elements using iteration or by converting to a list when needed.",
+      "concept": "the_collectionsdeque_module_basics",
+      "skill": "recognition",
+      "prompt": "",
+      "explanation": "The collections module in Python provides specialized container datatypes. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "34.5_q2",
+      "type": "multiple_choice",
+      "question": "Why is `collections.deque` strongly preferred over a standard Python `list` when implementing a First-In-First-Out (FIFO) queue?",
+      "options": [
+        "deque.popleft() is O(1) constant time, whereas list.pop(0) is O(N) linear time because all remaining elements must shift left in memory",
+        "deque can store infinite elements while list is capped at 1,000",
+        "Lists do not support string items when used as queues",
+        "deque operations run on separate CPU threads automatically"
+      ],
+      "correct_answer": "deque.popleft() is O(1) constant time, whereas list.pop(0) is O(N) linear time because all remaining elements must shift left in memory",
+      "explanation": "A Python `list` is a dynamic array. Popping the first element (`list.pop(0)`) requires shifting every remaining element one index to the left in memory, making it O(N). `deque` is implemented as a doubly linked list of fixed blocks, allowing O(1) appends and pops from both ends.",
+      "difficulty": "easy",
+      "concept": "deque_vs_list_queue",
+      "skill": "dsa_tradeoffs",
+      "prerequisites": []
+    },
+    {
+      "id": "34.5_q3",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.5_q2"
+      ],
+      "title": "Core deque Syntax and Methods",
+      "content": "Once you have imported deque, you can use several methods to manipulate the structure. The most frequently used methods are append(), appendleft(), pop(), and popleft(). These correspond to adding and removing elements from the right and left ends, respectively.\n\nYou can also initialize a deque with a maximum length. When the deque is full, adding a new element to either end automatically removes an element from the opposite end. This is useful for sliding window problems.\n\nConsider the following syntax examples:\n\n```python\nfrom collections import deque\n\n# Basic operations\ndq = deque()\ndq.append('a')\ndq.appendleft('b')\nprint(dq)  # deque(['b', 'a'])\n\n# With maxlen\ndq_maxlen = deque(maxlen=3)\ndq_maxlen.append(1)\ndq_maxlen.append(2)\ndq_maxlen.append(3)\ndq_maxlen.append(4)  # 1 is removed\nprint(dq_maxlen)  # deque([2, 3, 4])\n```\n\nAlways ensure that your code imports deque before calling any of these methods, or you will encounter an AttributeError.",
+      "concept": "the_collectionsdeque_module_syntax",
+      "skill": "understanding",
+      "prompt": "",
+      "explanation": "Once you have imported deque, you can use several methods to manipulate the structure. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "34.5_q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.5_q3"
+      ],
+      "concept": "the_collectionsdeque_module_syntax",
+      "prompt": "Given the code below, what is the final state of dq after execution?\n\n```python\nfrom collections import deque\ndq = deque([10, 20])\ndq.append(30)\ndq.appendleft(5)\n```",
+      "options": [
+        "deque([5, 10, 20, 30])",
+        "deque([5, 10, 20])",
+        "deque([10, 20, 30, 5])",
+        "deque([5, 30, 20, 10])"
+      ],
+      "correct_answer": "deque([5, 10, 20, 30])",
+      "explanation": "append(30) adds 30 to the right, resulting in deque([10, 20, 30]). appendleft(5) adds 5 to the left, resulting in deque([5, 10, 20, 30]).",
+      "skill": "reasoning"
+    },
+    {
+      "id": "34.5_q5",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.5_q4"
+      ],
+      "concept": "the_collectionsdeque_module_matching",
+      "prompt": "Match the deque operation to its correct description.",
+      "options": [
+        "append: removes from the left end; appendleft: removes from the right end",
+        "append: adds to the right end; popleft: removes from the left end",
+        "append: adds to the left end; pop: removes from the right end",
+        "appendleft: adds to the right end; pop: removes from the left end"
+      ],
+      "correct_answer": "append: adds to the right end; popleft: removes from the left end",
+      "explanation": "append inserts at the right end, appendleft inserts at the left end, pop removes from the right, and popleft removes from the left. Only option B correctly pairs append with the right end and popleft with the left end.",
+      "skill": "recognition"
+    },
+    {
+      "id": "34.5_q6",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.5_q5"
+      ],
+      "concept": "the_collectionsdeque_module_pitfalls",
+      "prompt": "Which common mistake should a learner avoid when using collections.deque?",
+      "options": [
+        "Forgetting to import deque from collections before use.",
+        "Using append() to add elements to the left side of the deque.",
+        "Calling len() on a deque to get its size.",
+        "Converting a deque to a list using list(dq) for iteration."
+      ],
+      "correct_answer": "Forgetting to import deque from collections before use.",
+      "explanation": "If you try to use deque without importing it from collections, Python raises a NameError. append() is the correct method for the right side; len() works fine; and converting to a list is a valid strategy when indexing is required.",
+      "skill": "comprehension"
+    },
+    {
+      "id": "34.5_q7",
+      "type": "code_prediction",
+      "concept": "the_collectionsdeque_module_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.5_q6"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfrom collections import deque\n\nd = deque(['a', 'b', 'c'])\nd.append('x')\nprint(d)\n```",
+      "options": [
+        "deque(['a', 'b', 'c', 'x'])",
+        "deque(['x', 'a', 'b', 'c'])",
+        "['a', 'b', 'c', 'x']",
+        "deque(['a', 'b', 'c'])"
+      ],
+      "correct_answer": "deque(['a', 'b', 'c', 'x'])",
+      "explanation": "The append() method adds an element to the right end of the deque. Since the initial deque contains ['a', 'b', 'c'], appending 'x' results in deque(['a', 'b', 'c', 'x'])."
+    },
+    {
+      "id": "34.5_q8",
+      "type": "output_prediction",
+      "concept": "the_collectionsdeque_module_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfrom collections import deque\n\nd = deque([1, 2, 3])\nd.popleft()\nd.appendleft(99)\nprint(d)\n```",
+      "options": [
+        "deque([99, 1, 2, 3])",
+        "deque([1, 2, 3, 99])",
+        "deque([99, 2, 3])",
+        "deque([2, 3, 99])"
+      ],
+      "correct_answer": "deque([99, 1, 2, 3])",
+      "explanation": "popleft() removes and returns the leftmost element (1), leaving deque([2, 3]). Then appendleft(99) inserts 99 at the left end, resulting in deque([99, 2, 3])."
+    },
+    {
+      "id": "34.5_q9",
+      "type": "code_prediction",
+      "concept": "the_collectionsdeque_module_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q8"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfrom collections import deque\n\nd = deque()\nd.extend([10, 20, 30])\nd.pop()\nprint(d)\n```",
+      "options": [
+        "deque([10, 20])",
+        "deque([10, 20, 30])",
+        "deque([30, 20, 10])",
+        "deque()"
+      ],
+      "correct_answer": "deque([10, 20])",
+      "explanation": "extend() adds all elements from the iterable to the right end, producing deque([10, 20, 30]). pop() removes the rightmost element (30), leaving deque([10, 20])."
+    },
+    {
+      "id": "34.5_q10",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q9"
+      ],
+      "prompt": "Explain the output and behavior of the following code:\n\n```python\nfrom collections import deque\n\nd = deque([5, 6, 7, 8])\nprint(d[1])\nprint(d[-1])\nprint(len(d))\n```",
+      "correct_answer": "It prints 6, 8, 4 because deque supports indexing and slicing like a list, and len() returns the number of elements.",
+      "explanation": "A deque object supports indexing (both positive and negative) and the len() function, similar to a list. d[1] accesses the second element (6), d[-1] accesses the last element (8), and len(d) returns 4.",
+      "starter_code": "# TODO: Implement solution for The collections.deque Module\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('The collections.deque Module')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The collections.deque Module"
+        }
+      ]
+    },
+    {
+      "id": "34.5_q11",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q10"
+      ],
+      "prompt": "Trace the execution of the following code and describe the state of the deque after each step:\n\n```python\nfrom collections import deque\n\nd = deque([100])\nprint(d)\nd.append(200)\nprint(d)\nd.appendleft(50)\nprint(d)\nd.pop()\nprint(d)\n```",
+      "correct_answer": "Step 1: deque([100]), Step 2: deque([100, 200]), Step 3: deque([50, 100, 200]), Step 4: deque([50, 100])",
+      "explanation": "Initially d = deque([100]). append(200) adds 200 to the right, yielding deque([100, 200]). appendleft(50) adds 50 to the left, yielding deque([50, 100, 200]). pop() removes the rightmost element (200), leaving deque([50, 100]).",
+      "starter_code": "# TODO: Implement solution for The collections.deque Module\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('The collections.deque Module')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The collections.deque Module"
+        }
+      ]
+    },
+    {
+      "id": "34.5_q12",
+      "type": "output_prediction",
+      "concept": "the_collectionsdeque_module_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q11"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfrom collections import deque\n\nd = deque([1, 2, 3, 4, 5])\nif len(d) > 4:\n    d.popleft()\n    d.append(99)\nprint(d)\n```",
+      "options": [
+        "deque([2, 3, 4, 5, 99])",
+        "deque([1, 2, 3, 4, 5])",
+        "deque([2, 3, 4, 5, 99, 99])",
+        "deque([99, 1, 2, 3, 4, 5])"
+      ],
+      "correct_answer": "deque([2, 3, 4, 5, 99])",
+      "explanation": "len(d) is 5, which is greater than 4, so the if block executes. popleft() removes 1, and append(99) adds 99 to the right, resulting in deque([2, 3, 4, 5, 99])."
+    },
+    {
+      "id": "34.5_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "the_collectionsdeque_module_syntax",
+      "prompt": "To use a double-ended queue in Python, you must first import it from the collections module and then create an instance using the ____ constructor.",
+      "correct_answer": "deque",
+      "accepted_answers": [
+        "deque",
+        "deque()",
+        "Deque"
+      ],
+      "explanation": "The collections module provides the deque class, which is instantiated by calling deque(). This is the standard way to create a double-ended queue for stack and queue operations.",
+      "prerequisites": [
+        "34.5_q12"
+      ]
+    },
+    {
+      "id": "34.5_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_collectionsdeque_module_keywords",
+      "prompt": "The methods append() and appendleft() are used to add elements to a deque, while ____ and ____ are used to remove elements from the right and left ends respectively.",
+      "correct_answer": "pop, popleft",
+      "accepted_answers": [
+        "pop, popleft",
+        "remove_right, remove_left",
+        "pop(), popleft()",
+        "pop and popleft"
+      ],
+      "explanation": "In the collections.deque API, append() adds to the right, appendleft() adds to the left, pop() removes from the right, and popleft() removes from the left. These four methods are the core of stack and queue manipulation.",
+      "prerequisites": [
+        "34.5_q13"
+      ]
+    },
+    {
+      "id": "34.5_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "the_collectionsdeque_module_sequence",
+      "prompt": "Arrange the following operations in the correct order to create a deque, add three items, and print the result.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The import statement must appear before the class is used. After importing deque, you instantiate it, then append elements in sequence, and finally print the deque to verify its contents.",
+      "prerequisites": [
+        "34.5_q14"
+      ]
+    },
+    {
+      "id": "34.5_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_collectionsdeque_module_patterns",
+      "prompt": "When implementing a queue using collections.deque, the standard pattern is to use append() for enqueue and ____ for dequeue.",
+      "correct_answer": "popleft()",
+      "accepted_answers": [
+        "popleft()",
+        "popleft",
+        "popleft()",
+        "remove_left()"
+      ],
+      "explanation": "A queue follows FIFO (first-in-first-out) behavior. append() adds to the right end, and popleft() removes from the left end, which matches the queue dequeue operation.",
+      "prerequisites": [
+        "34.5_q15"
+      ]
+    },
+    {
+      "id": "34.5_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "the_collectionsdeque_module_algorithm",
+      "prompt": "Order the steps to implement a simple stack using collections.deque, then push 10, 20, and 30, and finally pop and print the top element.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Import first, then initialize the deque. Use append() to push elements onto the stack. pop() removes and returns the rightmost element (the top), which is 30 in this case, leaving the remaining stack intact.",
+      "prerequisites": [
+        "34.5_q16"
+      ]
+    },
+    {
+      "id": "34.5_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_collectionsdeque_module_idioms",
+      "prompt": "A common idiom for checking whether a deque is empty is to compare it with ____.",
+      "correct_answer": "deque()",
+      "accepted_answers": [
+        "deque()",
+        "deque",
+        "[]",
+        "None"
+      ],
+      "explanation": "An empty deque is represented by deque(), so the idiom is if not d: or if d == deque():. Comparing against deque() is the canonical way to test for emptiness in collections.deque.",
+      "prerequisites": [
+        "34.5_q17"
+      ]
+    },
+    {
+      "id": "34.5_q19",
+      "type": "fix_the_code",
+      "concept": "the_collectionsdeque_module_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q18"
+      ],
+      "prompt": "Identify and explain the error in the following code that attempts to use a deque as a stack.",
+      "starter_code": "from collections import deque\n\ndef push_stack(items, value):\n    items.append(value)  # intended to push\n    return items\n\ndef pop_stack(items):\n    if not items:\n        raise IndexError('empty')\n    return items.pop()  # intended to pop\n\ns = deque([1, 2, 3])\npush_stack(s, 4)\nprint(pop_stack(s))",
+      "solution_code": "from collections import deque\n\ndef push_stack(items, value):\n    items.append(value)\n    return items\n\ndef pop_stack(items):\n    if not items:\n        raise IndexError('empty')\n    return items.pop()\n\ns = deque([1, 2, 3])\npush_stack(s, 4)\nprint(pop_stack(s))",
+      "hint": "Review the difference between list append/pop and deque append/popleft. The code runs without syntax errors, but the conceptual model of a stack is misaligned with the data structure used.",
+      "explanation": "The code executes without runtime exceptions, but the exercise expects a diagnosis of conceptual misuse. A stack requires LIFO behavior; while deque.append and deque.pop() do provide LIFO, the error_diagnosis item targets the subtle bug where a queue operation (popleft) was mistakenly used in a prior version. Here, the code is actually correct for a stack, so the diagnosed error is the absence of validation when deque is empty after pops, and the misleading comment that does not match the function's true stack semantics. The fix is to add a length check before popping and to use deque explicitly with comments clarifying stack behavior."
+    },
+    {
+      "id": "34.5_q20",
+      "type": "fix_the_code",
+      "concept": "the_collectionsdeque_module_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.5_q19"
+      ],
+      "prompt": "Fix the code so it correctly implements a queue using collections.deque with enqueue and dequeue operations.",
+      "starter_code": "from collections import deque\n\ndef enqueue(q, item):\n    q.append(item)\n\ndef dequeue(q):\n    return q.pop(0)\n\nq = deque()\nenqueue(q, 'a')\nenqueue(q, 'b')\nprint(dequeue(q))",
+      "solution_code": "from collections import deque\n\ndef enqueue(q, item):\n    q.append(item)\n\ndef dequeue(q):\n    if not q:\n        raise IndexError('queue is empty')\n    return q.popleft()\n\nq = deque()\nenqueue(q, 'a')\nenqueue(q, 'b')\nprint(dequeue(q))",
+      "hint": "Use deque.popleft() for O(1) dequeue instead of list-style pop(0), which is O(n).",
+      "explanation": "The original code used q.pop(0), which is inefficient for deque because it shifts all remaining elements. The corrected version uses q.popleft() for true O(1) queue dequeue semantics. Additionally, a guard against empty deque prevents an unhandled IndexError."
+    },
+    {
+      "id": "34.5_q21",
+      "type": "fix_the_code",
+      "concept": "the_collectionsdeque_module_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q20"
+      ],
+      "prompt": "Fix the code to handle edge cases when rotating a deque by a negative amount and when the deque is empty.",
+      "starter_code": "from collections import deque\n\ndef safe_rotate(d, n):\n    d.rotate(n)\n    return d\n\nd = deque([1, 2, 3])\nprint(safe_rotate(d, -1))\nempty = deque()\nprint(safe_rotate(empty, 2))",
+      "solution_code": "from collections import deque\n\ndef safe_rotate(d, n):\n    if not d:\n        return d\n    d.rotate(n)\n    return d\n\nd = deque([1, 2, 3])\nprint(safe_rotate(d, -1))\nempty = deque()\nprint(safe_rotate(empty, 2))",
+      "hint": "Rotating an empty deque is valid in Python, but the exercise expects explicit handling to avoid unexpected behavior in larger pipelines.",
+      "explanation": "While deque.rotate() on an empty deque does not raise an exception, the edge case fix adds an explicit early return for empty deques to make the behavior explicit and safe for downstream consumers. Negative rotation correctly moves elements to the left, and the fix preserves this semantics."
+    },
+    {
+      "id": "34.5_q22",
+      "type": "fix_the_code",
+      "concept": "the_collectionsdeque_module_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q21"
+      ],
+      "prompt": "Identify the runtime error in the following code that uses deque methods.",
+      "starter_code": "from collections import deque\n\ndef process(d):\n    d.append('x')\n    d.popleft()\n    d.remove('y')\n    return d\n\ns = deque([1, 2, 3])\nprint(process(s))",
+      "solution_code": "from collections import deque\n\ndef process(d):\n    d.append('x')\n    if d:\n        d.popleft()\n    try:\n        d.remove('y')\n    except ValueError:\n        pass\n    return d\n\ns = deque([1, 2, 3])\nprint(process(s))",
+      "hint": "The remove method raises ValueError when the value is not present. Also consider what happens if popleft is called on an empty deque.",
+      "explanation": "The runtime error occurs because d.remove('y') raises ValueError when 'y' is absent from the deque. Additionally, calling d.popleft() without checking emptiness could raise IndexError if the deque were empty. The fixed version wraps remove in try/except and guards popleft with an if check."
+    },
+    {
+      "id": "34.5_q23",
+      "type": "fix_the_code",
+      "concept": "the_collectionsdeque_module_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q22"
+      ],
+      "prompt": "Repair the logic so the function correctly implements a palindrome checker using a deque as a stack-like structure.",
+      "starter_code": "from collections import deque\n\ndef is_palindrome(s):\n    d = deque(s)\n    while len(d) > 1:\n        if d.popleft() != d.pop():\n            return False\n    return True\n\nprint(is_palindrome('radar'))\nprint(is_palindrome('hello'))",
+      "solution_code": "from collections import deque\n\ndef is_palindrome(s):\n    d = deque(s)\n    while len(d) > 1:\n        if d.popleft() != d.pop():\n            return False\n    return True\n\nprint(is_palindrome('radar'))\nprint(is_palindrome('hello'))",
+      "hint": "The logic is actually correct for even and odd lengths, but the starter code mutates the original string order in a way that fails for odd-length inputs due to mid-element comparison. Verify the loop invariant.",
+      "explanation": "The original logic is flawed for odd-length strings because after each popleft/pop pair, the middle element remains and is never compared, causing a false negative for odd lengths when the middle character is not duplicated. The corrected logic must compare characters from both ends inward; the fixed version uses a while loop that stops when one element remains, which is correct. The starter code was already logically valid, so the repair is to add an explicit comment and ensure the loop invariant is documented, plus handle non-string iterables safely."
+    },
+    {
+      "id": "34.5_q24",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.5_q23"
+      ],
+      "prompt": "Refactor the following breadth-first search (BFS) implementation to use deque efficiently and minimize memory overhead for large graphs.",
+      "starter_code": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    order = []\n    while queue:\n        node = queue.pop(0)\n        if node not in visited:\n            visited.add(node)\n            order.append(node)\n            for neighbor in graph.get(node, []):\n                if neighbor not in visited:\n                    queue.append(neighbor)\n    return order\n\ngraph = {0: [1, 2], 1: [3], 2: [3], 3: []}\nprint(bfs(graph, 0))",
+      "solution_code": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    order = []\n    while queue:\n        node = queue.popleft()\n        if node not in visited:\n            visited.add(node)\n            order.append(node)\n            queue.extend(neighbor for neighbor in graph.get(node, []) if neighbor not in visited)\n    return order\n\ngraph = {0: [1, 2], 1: [3], 2: [3], 3: []}\nprint(bfs(graph, 0))",
+      "test_cases": [
+        {
+          "input": "bfs({0: [1, 2], 1: [3], 2: [3], 3: []}, 0)",
+          "expected": "[0, 1, 2, 3]"
+        },
+        {
+          "input": "bfs({'a': ['b'], 'b': []}, 'a')",
+          "expected": [
+            "'a', 'b'"
+          ]
+        },
+        {
+          "input": "bfs({}, 'x')",
+          "expected": "[]"
+        }
+      ],
+      "hint": "Replace queue.pop(0) with popleft, and replace the inner for-loop with a generator expression passed to extend to avoid repeated membership checks on the queue itself.",
+      "explanation": "The original code used queue.pop(0), which is O(n) per operation, leading to O(n^2) total BFS time. The refactored version uses popleft for O(1) dequeue and extends the queue with a generator expression that filters unvisited neighbors, reducing redundant membership tests and improving cache locality. The visited set is still checked before enqueuing to prevent duplicates, preserving correctness while optimizing both time and space for large sparse graphs."
+    },
+    {
+      "id": "34.5_q25",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q24"
+      ],
+      "prompt": "Implement a queue using collections.deque. The queue should support enqueue (add to the right), dequeue (remove from the left), and is_empty operations.",
+      "starter_code": "from collections import deque\n\nclass Queue:\n    def __init__(self):\n        self._data = deque()\n    \n    def enqueue(self, item):\n        # TODO: add item to the right\n        pass\n    \n    def dequeue(self):\n        # TODO: remove and return item from the left\n        pass\n    \n    def is_empty(self):\n        return len(self._data) == 0\n\n# Test\nq = Queue()\nq.enqueue(10)\nq.enqueue(20)\nprint(q.dequeue())\nprint(q.is_empty())",
+      "solution_code": "from collections import deque\n\nclass Queue:\n    def __init__(self):\n        self._data = deque()\n    \n    def enqueue(self, item):\n        self._data.append(item)\n    \n    def dequeue(self):\n        if self.is_empty():\n            raise IndexError('Queue is empty')\n        return self._data.popleft()\n    \n    def is_empty(self):\n        return len(self._data) == 0\n\n# Test\nq = Queue()\nq.enqueue(10)\nq.enqueue(20)\nprint(q.dequeue())\nprint(q.is_empty())",
+      "test_cases": [
+        {
+          "input": "q.enqueue(5); q.enqueue(15); assert q.dequeue()",
+          "expected_output": "5; assert q.dequeue() == 15",
+          "description": "Verifies: q.enqueue(5); q.enqueue(15); assert q.dequeue() == 5; assert q.dequeue() == 15"
+        },
+        {
+          "input": "q = Queue(); assert q.is_empty()",
+          "expected_output": "True; q.enqueue(1); assert q.is_empty() == False",
+          "description": "Verifies: q = Queue(); assert q.is_empty() == True; q.enqueue(1); assert q.is_empty() == False"
+        },
+        {
+          "input": "q.enqueue('a'); q.enqueue('b'); assert q.dequeue()",
+          "expected_output": "'a'",
+          "description": "Verifies: q.enqueue('a'); q.enqueue('b'); assert q.dequeue() == 'a'"
+        }
+      ],
+      "hint": "Use append() to add to the right and popleft() to remove from the left in a deque.",
+      "explanation": "A queue follows FIFO (First-In-First-Out). collections.deque provides O(1) append and popleft operations, making it ideal for queue implementations. Using a list for dequeue would be O(n)."
+    },
+    {
+      "id": "34.5_q26",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.5_q25"
+      ],
+      "prompt": "Build a simple task scheduler using collections.deque. Tasks are added to the scheduler and processed in the order they arrive.",
+      "starter_code": "from collections import deque\n\nclass TaskScheduler:\n    def __init__(self):\n        self.tasks = deque()\n    \n    def add_task(self, task):\n        # TODO: add task\n        pass\n    \n    def process_next(self):\n        # TODO: return and remove next task\n        pass\n    \n    def remaining(self):\n        return len(self.tasks)\n\n# Example\nscheduler = TaskScheduler()\nscheduler.add_task('backup')\nscheduler.add_task('cleanup')\nprint(scheduler.remaining())\nprint(scheduler.process_next())",
+      "solution_code": "from collections import deque\n\nclass TaskScheduler:\n    def __init__(self):\n        self.tasks = deque()\n    \n    def add_task(self, task):\n        self.tasks.append(task)\n    \n    def process_next(self):\n        if self.remaining() == 0:\n            return None\n        return self.tasks.popleft()\n    \n    def remaining(self):\n        return len(self.tasks)\n\n# Example\nscheduler = TaskScheduler()\nscheduler.add_task('backup')\nscheduler.add_task('cleanup')\nprint(scheduler.remaining())\nprint(scheduler.process_next())\nprint(scheduler.remaining())",
+      "test_cases": [
+        {
+          "input": "scheduler = TaskScheduler(); scheduler.add_task(1); scheduler.add_task(2); assert scheduler.process_next()",
+          "expected_output": "1; assert scheduler.process_next() == 2",
+          "description": "Verifies: scheduler = TaskScheduler(); scheduler.add_task(1); scheduler.add_task(2); assert scheduler.process_next() == 1; assert scheduler.process_next() == 2"
+        },
+        {
+          "input": "scheduler = TaskScheduler(); assert scheduler.process_next() is None; scheduler.add_task('x'); assert scheduler.remaining()",
+          "expected_output": "1",
+          "description": "Verifies: scheduler = TaskScheduler(); assert scheduler.process_next() is None; scheduler.add_task('x'); assert scheduler.remaining() == 1"
+        },
+        {
+          "input": "scheduler = TaskScheduler(); scheduler.add_task('a'); scheduler.add_task('b'); scheduler.add_task('c'); assert scheduler.remaining()",
+          "expected_output": "3",
+          "description": "Verifies: scheduler = TaskScheduler(); scheduler.add_task('a'); scheduler.add_task('b'); scheduler.add_task('c'); assert scheduler.remaining() == 3"
+        }
+      ],
+      "hint": "append() adds to the right; popleft() removes from the left. Check for empty queue before popping.",
+      "explanation": "This demonstrates a real-world queue where tasks are processed in arrival order. deque ensures efficient operations at both ends, unlike a list where pop(0) is O(n)."
+    },
+    {
+      "id": "34.5_q27",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.5_q26"
+      ],
+      "prompt": "Implement a sliding window maximum using collections.deque. Given a list of numbers and a window size k, return the maximum in each sliding window.",
+      "starter_code": "from collections import deque\n\ndef sliding_window_max(nums, k):\n    dq = deque()\n    result = []\n    for i, num in enumerate(nums):\n        # TODO: remove indices out of window\n        # TODO: remove smaller elements from back\n        # TODO: add current index\n        # TODO: append max to result when window is full\n        pass\n    return result\n\n# Test\nprint(sliding_window_max([1, 3, -1, -3, 5, 3, 6, 7], 3))",
+      "solution_code": "from collections import deque\n\ndef sliding_window_max(nums, k):\n    dq = deque()\n    result = []\n    for i, num in enumerate(nums):\n        while dq and dq[0] <= i - k:\n            dq.popleft()\n        while dq and nums[dq[-1]] < num:\n            dq.pop()\n        dq.append(i)\n        if i >= k - 1:\n            result.append(nums[dq[0]])\n    return result\n\n# Test\nprint(sliding_window_max([1, 3, -1, -3, 5, 3, 6, 7], 3))",
+      "test_cases": [
+        {
+          "input": "assert sliding_window_max([1, 2, 3, 4, 5], 2)",
+          "expected_output": "[2, 3, 4, 5]",
+          "description": "Verifies: assert sliding_window_max([1, 2, 3, 4, 5], 2) == [2, 3, 4, 5]"
+        },
+        {
+          "input": "assert sliding_window_max([5, 4, 3, 2, 1], 3)",
+          "expected_output": "[5, 4, 3]",
+          "description": "Verifies: assert sliding_window_max([5, 4, 3, 2, 1], 3) == [5, 4, 3]"
+        },
+        {
+          "input": "assert sliding_window_max([1], 1)",
+          "expected_output": "[1]",
+          "description": "Verifies: assert sliding_window_max([1], 1) == [1]"
+        }
+      ],
+      "hint": "Store indices in the deque, not values. Maintain decreasing order of values at indices.",
+      "explanation": "The deque stores candidate indices in decreasing order of their corresponding values. This yields O(n) time complexity because each index is pushed and popped at most once."
+    },
+    {
+      "id": "34.5_q28",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.5_q27"
+      ],
+      "prompt": "Write a function is_palindrome_deque(s) that checks if a string is a palindrome using collections.deque. Ignore non-alphanumeric characters and case.",
+      "starter_code": "from collections import deque\n\ndef is_palindrome_deque(s):\n    cleaned = ''.join(ch.lower() for ch in s if ch.isalnum())\n    dq = deque(cleaned)\n    # TODO: compare front and back until middle\n    pass\n\n# Tests\nprint(is_palindrome_deque('A man, a plan, a canal: Panama'))\nprint(is_palindrome_deque('race a car'))",
+      "solution_code": "from collections import deque\n\ndef is_palindrome_deque(s):\n    cleaned = ''.join(ch.lower() for ch in s if ch.isalnum())\n    dq = deque(cleaned)\n    while len(dq) > 1:\n        if dq.popleft() != dq.pop():\n            return False\n    return True\n\n# Tests\nprint(is_palindrome_deque('A man, a plan, a canal: Panama'))\nprint(is_palindrome_deque('race a car'))",
+      "test_cases": [
+        {
+          "input": "assert is_palindrome_deque('racecar')",
+          "expected_output": "True",
+          "description": "Verifies: assert is_palindrome_deque('racecar') == True"
+        },
+        {
+          "input": "assert is_palindrome_deque('No lemon, no melon')",
+          "expected_output": "True",
+          "description": "Verifies: assert is_palindrome_deque('No lemon, no melon') == True"
+        },
+        {
+          "input": "assert is_palindrome_deque('hello')",
+          "expected_output": "False",
+          "description": "Verifies: assert is_palindrome_deque('hello') == False"
+        }
+      ],
+      "hint": "Use popleft() and pop() to compare characters from both ends simultaneously.",
+      "explanation": "Using deque avoids index arithmetic and makes the two-pointer comparison intuitive. Each comparison removes one character from each end, stopping when 0 or 1 character remains."
+    },
+    {
+      "id": "34.5_q29",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.5_q28"
+      ],
+      "prompt": "Design a printer job queue for a multi-user office. Jobs arrive with a priority level (1 = highest). Implement a priority queue using collections.deque where higher priority jobs are processed first, but jobs with the same priority maintain FIFO order.",
+      "starter_code": "from collections import deque\n\nclass PriorityPrinterQueue:\n    def __init__(self):\n        self.jobs = deque()\n    \n    def add_job(self, priority, job_name):\n        # TODO: insert job maintaining priority and FIFO for ties\n        pass\n    \n    def next_job(self):\n        # TODO: return and remove highest priority job\n        pass\n    \n    def is_empty(self):\n        return len(self.jobs) == 0\n\n# Scenario\npq = PriorityPrinterQueue()\npq.add_job(2, 'report_A')\npq.add_job(1, 'urgent_memo')\npq.add_job(2, 'report_B')\nprint(pq.next_job())\nprint(pq.next_job())",
+      "solution_code": "from collections import deque\n\nclass PriorityPrinterQueue:\n    def __init__(self):\n        self.jobs = deque()\n    \n    def add_job(self, priority, job_name):\n        new_job = (priority, job_name)\n        inserted = False\n        for i, existing in enumerate(self.jobs):\n            if existing[0] < priority:\n                self.jobs.insert(i, new_job)\n                inserted = True\n                break\n        if not inserted:\n            self.jobs.append(new_job)\n    \n    def next_job(self):\n        if self.is_empty():\n            return None\n        return self.jobs.popleft()[1]\n    \n    def is_empty(self):\n        return len(self.jobs) == 0\n\n# Scenario\npq = PriorityPrinterQueue()\npq.add_job(2, 'report_A')\npq.add_job(1, 'urgent_memo')\npq.add_job(2, 'report_B')\nprint(pq.next_job())\nprint(pq.next_job())\nprint(pq.next_job())",
+      "test_cases": [
+        {
+          "input": "pq = PriorityPrinterQueue(); pq.add_job(1, 'a'); pq.add_job(1, 'b'); pq.add_job(2, 'c'); assert pq.next_job()",
+          "expected_output": "'a'; assert pq.next_job() == 'b'; assert pq.next_job() == 'c'",
+          "description": "Verifies: pq = PriorityPrinterQueue(); pq.add_job(1, 'a'); pq.add_job(1, 'b'); pq.add_job(2, 'c'); assert pq.next_job() == 'a'; assert pq.next_job() == 'b'; assert pq.next_job() == 'c'"
+        },
+        {
+          "input": "pq = PriorityPrinterQueue(); pq.add_job(3, 'x'); pq.add_job(2, 'y'); pq.add_job(3, 'z'); assert pq.next_job()",
+          "expected_output": "'y'; assert pq.next_job() == 'x'; assert pq.next_job() == 'z'",
+          "description": "Verifies: pq = PriorityPrinterQueue(); pq.add_job(3, 'x'); pq.add_job(2, 'y'); pq.add_job(3, 'z'); assert pq.next_job() == 'y'; assert pq.next_job() == 'x'; assert pq.next_job() == 'z'"
+        },
+        {
+          "input": "assert pq.is_empty()",
+          "expected_output": "True; pq = PriorityPrinterQueue(); pq.add_job(1, 'solo'); assert pq.next_job() == 'solo'; assert pq.is_empty() == True",
+          "description": "Verifies: assert pq.is_empty() == True; pq = PriorityPrinterQueue(); pq.add_job(1, 'solo'); assert pq.next_job() == 'solo'; assert pq.is_empty() == True"
+        }
+      ],
+      "hint": "Iterate through the deque to find the first job with lower priority and insert before it. If none found, append to the right.",
+      "explanation": "This scenario synthesizes deque operations with priority-based ordering. The deque maintains insertion order for equal priorities, ensuring fairness. While a heap would be more efficient for large queues, deque is suitable for small-to-medium office scenarios and simpler to implement."
+    },
+    {
+      "id": "34.5_q30",
+      "type": "write_the_code",
+      "concept": "the_collectionsdeque_module_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.5_q29"
+      ],
+      "prompt": "Implement a fixed-size circular buffer using collections.deque with a maximum capacity. When full, adding a new item should overwrite the oldest item. Provide append, get, and is_full methods.",
+      "starter_code": "from collections import deque\n\nclass CircularBuffer:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.buffer = deque(maxlen=capacity)\n    \n    def append(self, item):\n        # TODO: add item, overwriting oldest if full\n        pass\n    \n    def get(self, index):\n        # TODO: return item at index from left\n        pass\n    \n    def is_full(self):\n        # TODO: return True if buffer reached capacity\n        pass\n\n# Mastery test\ncb = CircularBuffer(3)\ncb.append(10)\ncb.append(20)\ncb.append(30)\nprint(cb.get(0))   # 10\ncb.append(40)      # overwrites 10\nprint(cb.get(0))   # 20\nprint(cb.is_full())\nprint(cb.get(1))   # 30",
+      "solution_code": "from collections import deque\n\nclass CircularBuffer:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.buffer = deque(maxlen=capacity)\n    \n    def append(self, item):\n        self.buffer.append(item)\n    \n    def get(self, index):\n        if not 0 <= index < len(self.buffer):\n            raise IndexError('Index out of range')\n        return self.buffer[index]\n    \n    def is_full(self):\n        return len(self.buffer) == self.capacity\n\n# Mastery test\ncb = CircularBuffer(3)\ncb.append(10)\ncb.append(20)\ncb.append(30)\nprint(cb.get(0))   # 10\ncb.append(40)      # overwrites 10\nprint(cb.get(0))   # 20\nprint(cb.is_full())\nprint(cb.get(1))   # 30",
+      "test_cases": [
+        {
+          "input": "cb = CircularBuffer(2); cb.append(1); cb.append(2); assert cb.is_full()",
+          "expected_output": "True; cb.append(3); assert cb.get(0) == 2; assert cb.get(1) == 3",
+          "description": "Verifies: cb = CircularBuffer(2); cb.append(1); cb.append(2); assert cb.is_full() == True; cb.append(3); assert cb.get(0) == 2; assert cb.get(1) == 3"
+        },
+        {
+          "input": "cb = CircularBuffer(4); cb.append(5); cb.append(6); assert cb.get(0)",
+          "expected_output": "5; assert cb.get(1) == 6; assert cb.is_full() == False",
+          "description": "Verifies: cb = CircularBuffer(4); cb.append(5); cb.append(6); assert cb.get(0) == 5; assert cb.get(1) == 6; assert cb.is_full() == False"
+        },
+        {
+          "input": "cb = CircularBuffer(1); cb.append(9); assert cb.get(0)",
+          "expected_output": "9; cb.append(8); assert cb.get(0) == 8; assert cb.is_full() == True",
+          "description": "Verifies: cb = CircularBuffer(1); cb.append(9); assert cb.get(0) == 9; cb.append(8); assert cb.get(0) == 8; assert cb.is_full() == True"
+        }
+      ],
+      "hint": "deque with maxlen automatically discards the leftmost item when a new item is appended beyond capacity. Use indexing for get().",
+      "explanation": "This mastery item demonstrates the built-in circular behavior of deque when maxlen is set. It is memory-efficient and thread-safe for producer-consumer patterns. The get() method uses standard indexing, and is_full() checks against the configured capacity, not the current length after potential overwrites."
+    }
+  ],
+  "unit_num": 34,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of collections.deque Module",
+    "Apply idiomatic Python patterns when working with collections.deque Module",
+    "Debug common runtime exceptions and logic errors associated with collections.deque Module",
+    "Implement production-ready code utilizing collections.deque Module"
+  ],
+  "prerequisites": [
+    "34.4"
+  ]
+}

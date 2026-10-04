@@ -1,0 +1,606 @@
+{
+  "lesson_id": "31.1",
+  "title": "What is Big O?",
+  "unit": "Big O Notation",
+  "items": [
+    {
+      "id": "31.1_q1",
+      "type": "micro_lesson",
+      "concept": "what_is_big_o_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Big O?",
+      "content": "Big O notation is a mathematical tool used in computer science to describe the performance or complexity of an algorithm. It measures how the runtime or space requirements of an algorithm grow as the input size increases. Big O focuses on the worst-case scenario and ignores constant factors. For example, if an algorithm takes 2n + 5 operations, its Big O complexity is O(n) because we drop constants and lower-order terms. Common notations include O(1) for constant time, O(n) for linear time, O(n^2) for quadratic time, and O(log n) for logarithmic time. Understanding Big O helps you compare algorithms and choose the most efficient one for a given problem. Here is a simple Python example:\n\n```python\ndef greet(name):\n    print('Hello, ' + name)\n```\n\nThis function runs in O(1) time because it performs a fixed number of operations regardless of the input size.",
+      "prompt": "",
+      "explanation": "Big O notation is a mathematical tool used in computer science to describe the performance or complexity of an algorithm. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "31.1_q2",
+      "type": "multiple_choice",
+      "concept": "what_is_big_o_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q1"
+      ],
+      "prompt": "Which of the following best describes Big O notation?",
+      "options": [
+        "It measures the exact runtime in seconds of an algorithm.",
+        "It describes how runtime grows relative to input size, focusing on the worst case.",
+        "It calculates the average memory usage for all possible inputs.",
+        "It only applies to recursive functions."
+      ],
+      "correct_answer": "It describes how runtime grows relative to input size, focusing on the worst case.",
+      "explanation": "Big O notation describes the upper bound of growth rate relative to input size, not exact runtime. It emphasizes worst-case behavior and ignores constants."
+    },
+    {
+      "id": "31.1_q3",
+      "type": "micro_lesson",
+      "concept": "what_is_big_o_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q2"
+      ],
+      "title": "Big O Syntax and Common Forms",
+      "content": "When expressing Big O, you use the letter O followed by a function in parentheses. The function inside typically represents the dominant term of the growth rate. For example, O(1), O(n), O(n^2), O(log n), and O(2^n) are standard forms. You do not include coefficients or lower-order terms. A Python function with O(n) complexity processes each element once. Consider this example:\n\n```python\ndef sum_list(numbers):\n    total = 0\n    for num in numbers:\n        total = total + num\n    return total\n```\n\nThis function iterates through the list once, so its time complexity is O(n), where n is the length of the list.",
+      "prompt": "",
+      "explanation": "When expressing Big O, you use the letter O followed by a function in parentheses. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "31.1_q4",
+      "type": "multiple_choice",
+      "concept": "what_is_big_o_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q3"
+      ],
+      "prompt": "Given the following Python function, which Big O notation correctly describes its time complexity?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n^2)",
+        "O(log n)"
+      ],
+      "correct_answer": "O(n)",
+      "explanation": "The function contains one loop that runs n times, where n is the length of the list. Therefore, the time complexity is linear, or O(n). It is not constant because the work scales with input size, and it is not quadratic because there is no nested loop."
+    },
+    {
+      "id": "31.1_q5",
+      "type": "multiple_choice",
+      "concept": "what_is_big_o_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q4"
+      ],
+      "prompt": "Match the algorithm pattern to its Big O complexity.",
+      "options": [
+        "Single loop over n items: O(n^2)",
+        "Single loop over n items: O(n)",
+        "Nested loop over n items: O(n)",
+        "Nested loop over n items: O(log n)"
+      ],
+      "correct_answer": "Single loop over n items: O(n)",
+      "explanation": "A single loop that iterates over n items has linear time complexity, O(n). A nested loop over n items typically results in O(n^2), not O(n) or O(log n)."
+    },
+    {
+      "id": "31.1_q6",
+      "type": "multiple_choice",
+      "concept": "what_is_big_o_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q5"
+      ],
+      "prompt": "Which statement correctly identifies a common pitfall when using Big O notation?",
+      "options": [
+        "Big O always tells you which algorithm is faster in practice.",
+        "Big O ignores constants, so a slower-looking O(n) algorithm may outperform an O(1) algorithm for small inputs.",
+        "Big O only applies to sorting algorithms.",
+        "Big O assumes all operations take the same amount of time, including disk access."
+      ],
+      "correct_answer": "Big O ignores constants, so a slower-looking O(n) algorithm may outperform an O(1) algorithm for small inputs.",
+      "explanation": "A common misconception is that Big O alone determines real-world speed. In practice, constants and hardware factors matter, especially for small input sizes. Big O describes asymptotic behavior, not absolute performance."
+    },
+    {
+      "id": "31.1_q7",
+      "type": "code_prediction",
+      "concept": "what_is_big_o_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q6"
+      ],
+      "prompt": "Consider the following Python function:\n\n```python\ndef count_items(n):\n    count = 0\n    for i in range(n):\n        count += 1\n    return count\n```\n\nIf `count_items(100)` is called, how does the number of operations scale as `n` grows?",
+      "options": [
+        "The operations grow linearly with n, so this is O(n)",
+        "The operations grow quadratically, so this is O(n^2)",
+        "The operations are constant, so this is O(1)",
+        "The operations grow logarithmically, so this is O(log n)"
+      ],
+      "correct_answer": "The operations grow linearly with n, so this is O(n)",
+      "explanation": "The function contains a single loop that runs exactly n times. Each iteration performs a constant amount of work. Therefore, the total work increases proportionally with n, which is described by linear time complexity O(n)."
+    },
+    {
+      "id": "31.1_q8",
+      "type": "output_prediction",
+      "concept": "what_is_big_o_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q7"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef greet(x):\n    if x > 0:\n        print('positive')\n    else:\n        print('non-positive')\n    for i in range(x):\n        print(i)\ngreet(3)\n```\n\nWhat is the output and what is the Big O complexity of this function with respect to x?",
+      "options": [
+        "Output: 'positive' then 0, 1, 2. Complexity: O(1)",
+        "Output: 'positive' then 0, 1, 2. Complexity: O(x)",
+        "Output: 'non-positive' then nothing. Complexity: O(x)",
+        "Output: 'positive' then 0, 1, 2. Complexity: O(x^2)"
+      ],
+      "correct_answer": "Output: 'positive' then 0, 1, 2. Complexity: O(x)",
+      "explanation": "The conditional print runs in O(1) time. The for loop runs x times, printing each value from 0 to x-1. Thus the total runtime scales linearly with x, giving O(x) complexity."
+    },
+    {
+      "id": "31.1_q9",
+      "type": "code_prediction",
+      "concept": "what_is_big_o_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q8"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef nested_sum(n):\n    total = 0\n    for i in range(n):\n        for j in range(n):\n            total += i + j\n    return total\n```\n\nHow does the number of operations scale as n increases?",
+      "options": [
+        "O(n), because there is only one loop",
+        "O(log n), because the inner loop halves each time",
+        "O(n^2), because the inner loop runs n times for each of the n outer iterations",
+        "O(n^3), because there are two loops and an addition"
+      ],
+      "correct_answer": "O(n^2), because the inner loop runs n times for each of the n outer iterations",
+      "explanation": "The outer loop executes n times. For each outer iteration, the inner loop also executes n times. This results in n * n = n^2 total iterations. Therefore the complexity is O(n^2)."
+    },
+    {
+      "id": "31.1_q10",
+      "type": "write_the_code",
+      "concept": "what_is_big_o_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q9"
+      ],
+      "prompt": "Analyze the following function and explain its Big O complexity:\n\n```python\ndef find_pair(arr, target):\n    n = len(arr)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] + arr[j] == target:\n                return True\n    return False\n```",
+      "correct_answer": "O(n^2): it checks every unique pair using nested loops",
+      "explanation": "The outer loop runs n times. The inner loop runs up to n-i-1 times, which is still proportional to n. In the worst case, every pair is examined, yielding quadratic time O(n^2). The early return improves average case but does not change the worst-case complexity.",
+      "starter_code": "# 1. Define the process_31_1 function\ndef process_31_1():\n    # 2. Implement solution for What is Big O?\n    pass\n",
+      "solution_code": "print('What is Big O?')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "What is Big O?"
+        }
+      ]
+    },
+    {
+      "id": "31.1_q11",
+      "type": "write_the_code",
+      "concept": "what_is_big_o_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q10"
+      ],
+      "prompt": "Trace the execution of the following code for input n = 2 and describe how the total operations relate to n:\n\n```python\ndef mystery(n):\n    steps = 0\n    for k in range(n):\n        steps += 1\n        for m in range(n):\n            steps += 1\n    return steps\n```",
+      "correct_answer": "steps = 6: outer adds 2 and inner adds 2*2=4, so O(n^2)",
+      "explanation": "For n = 2: outer loop runs 2 times, adding 2 to steps. Inner loop runs 2 times for each outer iteration, adding 4 total. Final steps = 6. The inner loop contributes n^2 operations, so the overall complexity is O(n^2).",
+      "starter_code": "# 1. Define the process_31_1 function\ndef process_31_1():\n    # 2. Implement solution for What is Big O?\n    pass\n",
+      "solution_code": "print('What is Big O?')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "What is Big O?"
+        }
+      ]
+    },
+    {
+      "id": "31.1_q12",
+      "type": "output_prediction",
+      "concept": "what_is_big_o_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q11"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef process(data):\n    result = []\n    for item in data:\n        if item % 2 == 0:\n            result.append(item * 2)\n    return result\n```\n\nIf data has length n, what is the output size and the Big O complexity of this function?",
+      "options": [
+        "Output size is n and complexity is O(n^2) because of list growth",
+        "Output size is at most n and complexity is O(n) because each item is processed once",
+        "Output size is n and complexity is O(1) because the list is pre-allocated",
+        "Output size is at most n/2 and complexity is O(log n) because only even numbers are kept"
+      ],
+      "correct_answer": "Output size is at most n and complexity is O(n) because each item is processed once",
+      "explanation": "The function iterates over the input list exactly once, performing O(1) work per element. Therefore the time complexity is O(n). The output list contains at most n elements, one for each input item, so its size is bounded by n."
+    },
+    {
+      "id": "31.1_q13",
+      "idx": 13,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "what_is_big_o_syntax",
+      "prompt": "The Big O notation describes how the runtime of an algorithm grows as the input size increases. In Python, we often write this using the symbol O(___).",
+      "correct_answer": "n",
+      "accepted_answers": [
+        "n",
+        "N"
+      ],
+      "explanation": "Big O notation uses a variable like n to represent the size of the input. For example, O(n) means the runtime grows linearly with the input size.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q12"
+      ]
+    },
+    {
+      "id": "31.1_q14",
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "what_is_big_o_keywords",
+      "prompt": "When analyzing algorithms, we classify their efficiency using keywords such as O(1), O(n), O(n^2), and O(log n). The keyword for constant time complexity is O(___).",
+      "correct_answer": "1",
+      "accepted_answers": [
+        "1",
+        "one"
+      ],
+      "explanation": "O(1) represents constant time complexity, meaning the algorithm takes the same amount of time regardless of the input size.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q13"
+      ]
+    },
+    {
+      "id": "31.1_q15",
+      "idx": 15,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "what_is_big_o_sequence",
+      "prompt": "Arrange the following steps in the correct order to describe how we determine the Big O complexity of a function.",
+      "options": [
+        "Count the number of operations and express it in terms of n.",
+        "Identify the input variable n that represents the size of the data.",
+        "Ignore constant factors and lower-order terms.",
+        "Write the result using Big O notation."
+      ],
+      "correct_answer": [
+        "Identify the input variable n that represents the size of the data.",
+        "Count the number of operations and express it in terms of n.",
+        "Ignore constant factors and lower-order terms.",
+        "Write the result using Big O notation."
+      ],
+      "explanation": "To find Big O, first define n, then count operations in terms of n, drop constants and lower-order terms, and finally express the result with Big O notation.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q14"
+      ]
+    },
+    {
+      "id": "31.1_q16",
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "what_is_big_o_patterns",
+      "prompt": "A function that iterates through a list once has a time complexity of O(___).",
+      "correct_answer": "n",
+      "accepted_answers": [
+        "n",
+        "N"
+      ],
+      "explanation": "A single loop over n elements performs n operations, so its complexity is O(n), which is linear time.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q15"
+      ]
+    },
+    {
+      "id": "31.1_q17",
+      "idx": 17,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "what_is_big_o_algorithm",
+      "prompt": "Order the steps to analyze the Big O complexity of the following algorithm that checks for duplicates in a list.",
+      "options": [
+        "For each element, compare it against every other element in the list.",
+        "Return False immediately if a duplicate is found.",
+        "Return True if no duplicates are found after all comparisons.",
+        "Let n be the length of the list."
+      ],
+      "correct_answer": [
+        "Let n be the length of the list.",
+        "For each element, compare it against every other element in the list.",
+        "Return False immediately if a duplicate is found.",
+        "Return True if no duplicates are found after all comparisons."
+      ],
+      "explanation": "First define n, then the nested comparisons yield n^2 operations, early exit may reduce average cases but worst case remains O(n^2), and finally return True if no duplicates are found.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q16"
+      ]
+    },
+    {
+      "id": "31.1_q18",
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "what_is_big_o_idioms",
+      "prompt": "In Python, accessing an element in a list by index is an O(___) operation, while searching for an element in the list is O(n).",
+      "correct_answer": "1",
+      "accepted_answers": [
+        "1",
+        "constant"
+      ],
+      "explanation": "List indexing uses direct memory addressing, so it takes constant time O(1). Searching requires scanning potentially all elements, giving O(n) time.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q17"
+      ]
+    },
+    {
+      "id": "31.1_q19",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Understanding Common Big O Misconceptions",
+        "content": "Big O notation describes the upper bound of an algorithm's growth rate as input size increases. A common misconception is confusing Big O with exact runtime or assuming O(n) is always faster than O(n log n) regardless of constants. In this lesson, we examine a function that incorrectly claims to run in O(1) time when it actually scans the entire list. Always count operations relative to input size n, not fixed iterations."
+      },
+      "prompt": "Analyze the following function. It is intended to check if a target exists in a list and return True if found. Identify the Big O complexity claim that is incorrect and explain why.",
+      "starter_code": "def contains(nums, target):\n    # Claimed: O(1)\n    for i in range(len(nums)):\n        if nums[i] == target:\n            return True\n    return False\n\nprint(contains([1, 2, 3, 4, 5], 3))",
+      "solution_code": "def contains(nums, target):\n    # Actual: O(n)\n    for i in range(len(nums)):\n        if nums[i] == target:\n            return True\n    return False\n\nprint(contains([1, 2, 3, 4, 5], 3))",
+      "hint": "Count how many comparisons occur in the worst case as the list grows. Does the loop execute a fixed number of times or scale with input size?",
+      "explanation": "The loop runs len(nums) times in the worst case, so the runtime grows linearly with n. This is O(n), not O(1). O(1) would require direct index access without iteration."
+    },
+    {
+      "id": "31.1_q20",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.1_q19"
+      ],
+      "prompt": "The function below is supposed to return the first element of a list in O(1) time. However, it uses an inefficient approach. Fix the code so the operation truly runs in constant time.",
+      "starter_code": "def first_item(items):\n    temp = []\n    for x in items:\n        temp.append(x)\n    return temp[0]\n\nprint(first_item([10, 20, 30]))",
+      "solution_code": "def first_item(items):\n    return items[0] if items else None\n\nprint(first_item([10, 20, 30]))",
+      "hint": "Direct index access on a list in Python is O(1). Avoid building a new list just to retrieve the first element.",
+      "explanation": "Accessing items[0] uses direct memory indexing, which is constant time. The original loop created a new list in O(n) time, violating the intended complexity."
+    },
+    {
+      "id": "31.1_q21",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q20"
+      ],
+      "prompt": "This function attempts to find the maximum value in a list and claims O(n) complexity. It fails on edge cases. Correct the implementation so it handles empty lists and maintains O(n) time.",
+      "starter_code": "def find_max(values):\n    max_val = values[0]\n    for v in values[1:]:\n        if v > max_val:\n            max_val = v\n    return max_val\n\nprint(find_max([]))",
+      "solution_code": "def find_max(values):\n    if not values:\n        raise ValueError('List is empty')\n    max_val = values[0]\n    for v in values[1:]:\n        if v > max_val:\n            max_val = v\n    return max_val\n\nprint(find_max([3, 1, 4, 1, 5]))",
+      "hint": "What happens when the input list has zero elements? Add a guard clause before indexing.",
+      "explanation": "The original code raises IndexError on an empty list. The corrected version checks for emptiness first, preserving O(n) time while handling the edge case safely."
+    },
+    {
+      "id": "31.1_q22",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q21"
+      ],
+      "prompt": "The following nested loops are intended to run in O(n) time. Identify the error in the Big O analysis and explain the actual complexity.",
+      "starter_code": "def count_pairs(data):\n    count = 0\n    for i in range(len(data)):\n        for j in range(len(data)):\n            count += 1\n    return count\n\nprint(count_pairs([1, 2, 3]))",
+      "solution_code": "def count_pairs(data):\n    count = 0\n    for i in range(len(data)):\n        for j in range(len(data)):\n            count += 1\n    return count\n\nprint(count_pairs([1, 2, 3]))",
+      "hint": "How many times does the inner statement execute relative to the length of data?",
+      "explanation": "The inner loop runs len(data) times for each outer iteration, yielding n * n = n^2 operations. The actual complexity is O(n^2), not O(n)."
+    },
+    {
+      "id": "31.1_q23",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q22"
+      ],
+      "prompt": "This function is supposed to check whether a number is even and return True if so, in O(1) time. The logic is flawed and the complexity claim is misleading. Repair the code.",
+      "starter_code": "def is_even(n):\n    # Claimed O(1)\n    temp = 0\n    while n > 0:\n        temp = temp + 1\n        n = n - 1\n    return temp % 2 == 0\n\nprint(is_even(4))",
+      "solution_code": "def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))",
+      "hint": "The modulo operator computes the remainder in constant time. The while loop unnecessarily iterates and changes the complexity.",
+      "explanation": "Using n % 2 == 0 is a single arithmetic operation, so the function is truly O(1). The original loop ran O(n) times, making the claim incorrect."
+    },
+    {
+      "id": "31.1_q24",
+      "type": "write_the_code",
+      "concept": "what_is_big_o_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.1_q23"
+      ],
+      "prompt": "Refactor the following function to reduce its time complexity. The goal is to determine if any two numbers in the list sum to zero. Aim for the most efficient Big O possible.",
+      "starter_code": "def has_zero_sum_pair(nums):\n    for i in range(len(nums)):\n        for j in range(len(nums)):\n            if i != j and nums[i] + nums[j] == 0:\n                return True\n    return False\n\nprint(has_zero_sum_pair([1, -1, 2]))",
+      "solution_code": "def has_zero_sum_pair(nums):\n    seen = set()\n    for num in nums:\n        if -num in seen:\n            return True\n        seen.add(num)\n    return False\n\nprint(has_zero_sum_pair([1, -1, 2]))",
+      "test_cases": [
+        {
+          "input": "[1, -1, 2]",
+          "expected": "True"
+        },
+        {
+          "input": "[3, 4, 5]",
+          "expected": "False"
+        },
+        {
+          "input": "[]",
+          "expected": "False"
+        },
+        {
+          "input": "[0, 1]",
+          "expected": "True"
+        }
+      ],
+      "hint": "Can you avoid the nested loop by remembering values you have already encountered?",
+      "explanation": "The original implementation is O(n^2) due to nested loops. The refactored version uses a hash set to track seen numbers, achieving O(n) time and O(n) space, which is optimal for this problem."
+    },
+    {
+      "id": "31.1_q25",
+      "type": "write_the_code",
+      "concept": "what_is_big_o?_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of What is Big O?.",
+      "starter_code": "def process_31_1_data(items):\n    # Process input according to What is Big O? rules\n    pass",
+      "solution_code": "def process_31_1_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using What is Big O? rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for What is Big O?.",
+      "explanation": "Constructing pure, robust data transformers for What is Big O? avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "31.1_q26",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o?_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.1_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for What is Big O? that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_31_1_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_31_1_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "31.1_q27",
+      "type": "code_prediction",
+      "concept": "what_is_big_o?_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.1_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling What is Big O? encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with What is Big O?.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "31.1_q28",
+      "type": "write_the_code",
+      "concept": "what_is_big_o?_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.1_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using What is Big O?. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for What is Big O?\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for What is Big O? ensures testable domain operations."
+    },
+    {
+      "id": "31.1_q29",
+      "type": "fix_the_code",
+      "concept": "what_is_big_o?_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.1_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for What is Big O? into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "What is Big O? Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "31.1_q30",
+      "type": "write_the_code",
+      "concept": "what_is_big_o?_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.1_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for What is Big O? that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_31_1_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_31_1_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for What is Big O? must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 31,
+  "learning_objectives": [
+    "Explain the purpose and execution model of What is Big O?",
+    "Identify valid Python syntax rules for What is Big O?",
+    "Recognize common syntax errors and pitfalls when writing What is Big O?",
+    "Write and execute simple scripts demonstrating What is Big O?"
+  ],
+  "prerequisites": [
+    "30.6"
+  ]
+}

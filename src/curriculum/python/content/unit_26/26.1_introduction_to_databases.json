@@ -1,0 +1,658 @@
+{
+  "lesson_id": "26.1",
+  "title": "Introduction to Databases",
+  "unit": "Databases and SQL",
+  "items": [
+    {
+      "id": "26.1_q1",
+      "idx": 1,
+      "type": "micro_lesson",
+      "concept": "introduction_to_databases_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is a Database?",
+      "content": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system. In Python, we often interact with databases to store, retrieve, update, and delete data persistently. Unlike in-memory data structures such as lists or dictionaries, databases allow data to survive after the program ends. Common database systems include SQLite, PostgreSQL, and MySQL. SQLite is especially popular for beginners because it is serverless and built into Python's standard library. You can import it using: import sqlite3. A basic workflow involves connecting to a database file, creating a cursor object, executing SQL commands, and committing changes. Here is a simple example: import sqlite3; conn = sqlite3.connect('school.db'); cursor = conn.cursor(); cursor.execute(\"CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, name TEXT)\"); conn.commit(); conn.close(). This snippet creates a database file named school.db and a table called students if they do not already exist.",
+      "prompt": "",
+      "explanation": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "26.1_q2",
+      "idx": 2,
+      "type": "multiple_choice",
+      "concept": "introduction_to_databases_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q1"
+      ],
+      "prompt": "Which of the following best describes a primary advantage of using a database over a Python list?",
+      "options": [
+        "Databases are always faster for small in-memory operations",
+        "Databases persist data beyond the lifetime of a running program",
+        "Databases require no special import statements in Python",
+        "Databases automatically convert all data to strings"
+      ],
+      "correct_answer": "Databases persist data beyond the lifetime of a running program",
+      "explanation": "A database stores data on disk or in a persistent system, so the data remains available even after the Python program terminates. Python lists exist only in memory and are lost when the program ends."
+    },
+    {
+      "id": "26.1_q3",
+      "idx": 3,
+      "type": "micro_lesson",
+      "concept": "introduction_to_databases_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q2"
+      ],
+      "title": "Basic SQL Syntax in Python",
+      "content": "SQL stands for Structured Query Language, and it uses specific keywords to manipulate data. The most common SQL commands are SELECT, INSERT, UPDATE, and DELETE. In Python, you run SQL commands through a cursor object using the execute method. For example, to insert a row into a table named products, you write: cursor.execute(\"INSERT INTO products (name, price) VALUES ('Apple', 1.5)\"). To retrieve data, you use SELECT: cursor.execute(\"SELECT * FROM products WHERE price < 2\"). After executing a query that returns rows, such as SELECT, you typically call cursor.fetchall() to get all results as a list of tuples. Remember to use parameterized queries to avoid SQL injection. Here is a safe pattern: cursor.execute(\"SELECT * FROM users WHERE age = ?\", (25,)). This binds the integer 25 safely into the query.",
+      "prompt": "",
+      "explanation": "SQL stands for Structured Query Language, and it uses specific keywords to manipulate data. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "26.1_q4",
+      "idx": 4,
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.1_q3"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Introduction to Databases. Implement the function below to satisfy the stated contract.",
+      "correct_answer": "It inserts a row with name 'Banana' and price 0.8 into the products table",
+      "explanation": "Applying clean functional contracts for Introduction to Databases ensures testable domain operations.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Introduction to Databases\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "options": [
+        "A. It deletes all records from products where price is 0.8.",
+        "B. It inserts a row with name 'Banana' and price 0.8 into the products table.",
+        "C. It retrieves all rows matching 'Banana'.",
+        "D. It creates a new database named Banana."
+      ],
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ]
+    },
+    {
+      "id": "26.1_q5",
+      "idx": 5,
+      "type": "multiple_choice",
+      "concept": "introduction_to_databases_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q4"
+      ],
+      "prompt": "Match the Python database operation to its corresponding SQL command.",
+      "options": [
+        "INSERT -> retrieve data; SELECT -> add a row; UPDATE -> modify existing data; DELETE -> remove a row",
+        "INSERT -> add a row; SELECT -> retrieve data; UPDATE -> modify existing data; DELETE -> remove a row",
+        "INSERT -> remove a row; SELECT -> add a row; UPDATE -> retrieve data; DELETE -> modify existing data",
+        "INSERT -> modify existing data; SELECT -> remove a row; UPDATE -> add a row; DELETE -> retrieve data"
+      ],
+      "correct_answer": "INSERT -> add a row; SELECT -> retrieve data; UPDATE -> modify existing data; DELETE -> remove a row",
+      "explanation": "INSERT adds new records, SELECT reads data, UPDATE changes existing records, and DELETE removes records. These are the standard SQL data manipulation commands."
+    },
+    {
+      "id": "26.1_q6",
+      "idx": 6,
+      "type": "multiple_choice",
+      "concept": "introduction_to_databases_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q5"
+      ],
+      "prompt": "Which practice helps prevent SQL injection when working with user input in Python?",
+      "options": [
+        "Concatenating user input directly into the SQL string with +",
+        "Using f-strings to embed variables inside SQL queries",
+        "Using parameterized queries with placeholders like ?",
+        "Storing SQL queries in global variables"
+      ],
+      "correct_answer": "Using parameterized queries with placeholders like ?",
+      "explanation": "Parameterized queries separate the SQL logic from the data, ensuring that user input is treated strictly as data rather than executable code, which prevents SQL injection attacks."
+    },
+    {
+      "id": "26.1_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "introduction_to_databases_execution",
+      "micro_lesson": {
+        "title": "Connecting to a Database in Python",
+        "content": "Databases store data persistently, and Python can interact with them using libraries such as sqlite3. To begin, you import the library and create a connection object. The connection represents a session with the database file. If the file does not exist, it is created. Here is the basic pattern:\n\n```python\nimport sqlite3\n\nconn = sqlite3.connect('school.db')\n```\n\nThis single line opens or creates the database file named `school.db` in the current directory. Once connected, you can create a cursor to execute SQL commands."
+      },
+      "prompt": "What will the following code print or return when executed?",
+      "code": "import sqlite3\nconn = sqlite3.connect('school.db')\nprint(conn)",
+      "options": [
+        "A connection object representing the database session",
+        "An error because the file school.db does not exist yet",
+        "The string 'school.db'",
+        "A cursor object ready for SQL queries"
+      ],
+      "correct_answer": "A connection object representing the database session",
+      "explanation": "sqlite3.connect returns a Connection object. It creates the file if it does not exist, so no error is raised. A cursor must be obtained separately using conn.cursor().",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q6"
+      ]
+    },
+    {
+      "id": "26.1_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "introduction_to_databases_execution",
+      "micro_lesson": {
+        "title": "Creating and Inspecting a Cursor",
+        "content": "After connecting to a database, you typically create a cursor. The cursor is used to execute SQL statements and fetch results. You create it by calling the cursor method on the connection object. A cursor does not hold data itself; it acts as a pointer to execute commands and retrieve rows. For example:\n\n```python\nimport sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\nprint(type(cursor))\n```\n\nThis prints the class of the cursor object, which is sqlite3.Cursor."
+      },
+      "prompt": "What is the output of the following code?",
+      "code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\nprint(type(cursor))",
+      "options": [
+        "<class 'sqlite3.Cursor'>",
+        "<class 'sqlite3.Connection'>",
+        "sqlite3.Cursor",
+        "<class 'sqlite3.Connection'> object"
+      ],
+      "correct_answer": "<class 'sqlite3.Cursor'>",
+      "explanation": "The cursor object returned by conn.cursor() is an instance of sqlite3.Cursor. Printing its type shows the fully qualified class name.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q7"
+      ]
+    },
+    {
+      "id": "26.1_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "introduction_to_databases_flow",
+      "micro_lesson": {
+        "title": "Executing SQL and Committing Changes",
+        "content": "To run SQL commands, you use the execute method on the cursor. For CREATE TABLE, you pass the SQL statement as a string. After creating tables or inserting data, you must commit the transaction so changes are saved. Otherwise, they remain temporary. The typical sequence is connect, create cursor, execute, commit, and finally close. Here is an example:\n\n```python\nimport sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE IF NOT EXISTS students (id INTEGER, name TEXT)')\nconn.commit()\nconn.close()\n```\n\nNotice that commit is essential; without it, the table may not persist."
+      },
+      "prompt": "Which statement best describes what happens when this code runs?",
+      "code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE IF NOT EXISTS students (id INTEGER, name TEXT)')\nconn.commit()\nconn.close()",
+      "options": [
+        "A table named students is created or updated, changes are saved, and the connection is closed",
+        "The code raises an error because no data is inserted",
+        "The connection stays open and the table is created in memory only",
+        "A new database file is created but the table is not saved"
+      ],
+      "correct_answer": "A table named students is created or updated, changes are saved, and the connection is closed",
+      "explanation": "CREATE TABLE IF NOT EXISTS safely creates the table. commit() persists the change to disk. close() ends the session. No data insertion is required for the table to exist.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q8"
+      ]
+    },
+    {
+      "id": "26.1_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "introduction_to_databases_analysis",
+      "micro_lesson": {
+        "title": "Analyzing Query Results",
+        "content": "When you query a database, the cursor returns rows that you can fetch using fetchall or fetchone. fetchall returns a list of tuples, where each tuple represents one row. Understanding the structure of the result is important for processing data in Python. For example:\n\n```python\nimport sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('SELECT * FROM students')\nrows = cursor.fetchall()\nprint(rows)\n```\n\nIf the table has columns id and name, each row will be a tuple like (1, 'Alice')."
+      },
+      "prompt": "Given the code above, what does the variable rows contain after execution, assuming the students table has two records?",
+      "correct_answer": "A list of tuples, where each tuple holds one student's data",
+      "explanation": "fetchall() returns all matching rows as a list of tuples. It does not return dictionaries, strings, or counts unless explicitly aggregated with SQL functions.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q9"
+      ],
+      "starter_code": "# TODO: Implement solution for Introduction to Databases\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Introduction to Databases')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Introduction to Databases"
+        }
+      ]
+    },
+    {
+      "id": "26.1_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "introduction_to_databases_tracing",
+      "micro_lesson": {
+        "title": "Step-by-Step Execution Trace",
+        "content": "Tracing helps you understand how control flows through database operations. Start by importing the module, then open the connection, obtain the cursor, run the SQL, fetch results, and close the connection. Each step depends on the previous one. If you skip commit after writes, the transaction is rolled back when the connection closes. Here is a trace-worthy example:\n\n```python\nimport sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('INSERT INTO students (id, name) VALUES (3, \"Bob\")')\ncursor.execute('SELECT * FROM students')\nresult = cursor.fetchall()\nconn.close()\n```\n\nAfter insertion, the SELECT retrieves all rows including the new one."
+      },
+      "prompt": "Trace the execution and identify the final value of result.",
+      "code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('INSERT INTO students (id, name) VALUES (3, \"Bob\")')\ncursor.execute('SELECT * FROM students')\nresult = cursor.fetchall()\nconn.close()",
+      "correct_answer": "A list of tuples containing all students including the newly inserted record",
+      "explanation": "In SQLite, DML statements like INSERT are auto-committed in autocommit mode by default in many contexts, but even without explicit commit, the row is visible in the same connection. The SELECT fetches all rows, so result contains every student tuple.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q10"
+      ],
+      "starter_code": "# TODO: Implement solution for Introduction to Databases\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Introduction to Databases')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Introduction to Databases"
+        }
+      ]
+    },
+    {
+      "id": "26.1_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "introduction_to_databases_logic",
+      "micro_lesson": {
+        "title": "Using Conditional Logic After a Query",
+        "content": "When a query may return no rows, fetchone() returns None. Python treats None as falsy, so an if statement can directly check whether a record was found. This is useful for safe data retrieval. The following example demonstrates this logic."
+      },
+      "prompt": "What is printed when the students table contains no row with id 1?",
+      "code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('SELECT name FROM students WHERE id = 1')\nrow = cursor.fetchone()\nif row:\n    print('Found:', row[0])\nelse:\n    print('Not found')\nconn.close()",
+      "options": [
+        "'Not found'",
+        "'Found: None'",
+        "An error because row[0] is accessed on None",
+        "'Found: ' "
+      ],
+      "correct_answer": "'Not found'",
+      "explanation": "fetchone() returns None when no matching row exists. The if row condition fails, so the else branch executes and prints 'Not found'. The code never accesses row[0] when row is None.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q11"
+      ]
+    },
+    {
+      "id": "26.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "introduction_to_databases_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q12"
+      ],
+      "prompt": "To connect to a database in Python, you typically import the module and call connect() with the database file name. Complete the import statement: import ____",
+      "correct_answer": "sqlite3",
+      "accepted_answers": [
+        "sqlite3"
+      ],
+      "explanation": "The sqlite3 module is Python's built-in library for working with SQLite databases. It allows you to create, query, and manage database files without installing external software."
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "introduction_to_databases_keywords",
+      "id": "26.1_q14",
+      "prompt": "A SQL command used to retrieve data from a database table is called ____",
+      "correct_answer": "SELECT",
+      "accepted_answers": [
+        "SELECT",
+        "select"
+      ],
+      "explanation": "SELECT is the standard SQL keyword for querying data from one or more tables. It is case-insensitive in most SQL dialects, though uppercase is conventional.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q13"
+      ]
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "introduction_to_databases_sequence",
+      "id": "26.1_q15",
+      "prompt": "Arrange the following steps to create a table and insert a row in an SQLite database using Python:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is: connect to the database, create a cursor, execute the CREATE TABLE statement, execute the INSERT statement, and commit the transaction. The cursor must exist before executing SQL commands.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q14"
+      ]
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "introduction_to_databases_patterns",
+      "id": "26.1_q16",
+      "prompt": "After running SQL commands, you must call ____ on the connection object to save changes permanently.",
+      "correct_answer": "commit",
+      "accepted_answers": [
+        "commit",
+        "conn.commit()"
+      ],
+      "explanation": "The commit() method persists all changes made during the current transaction to the database file. Without committing, modifications remain only in memory and are lost when the connection closes.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q15"
+      ]
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "introduction_to_databases_algorithm",
+      "id": "26.1_q17",
+      "prompt": "Order these lines to query all records from the products table and print each row:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must first establish a connection, then obtain a cursor, execute the SELECT query, iterate over the result set, and finally close the connection (implicitly or explicitly). Iteration must occur after execution.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q16"
+      ]
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "introduction_to_databases_idioms",
+      "id": "26.1_q18",
+      "prompt": "A common Python idiom for ensuring a database connection is closed automatically is to use the ____ statement.",
+      "correct_answer": "with",
+      "accepted_answers": [
+        "with",
+        "with statement"
+      ],
+      "explanation": "The with statement calls the connection's __enter__ and __exit__ methods, guaranteeing that close() is invoked even if an error occurs. This prevents resource leaks in database programming.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q17"
+      ]
+    },
+    {
+      "id": "26.1_q19",
+      "type": "fix_the_code",
+      "concept": "introduction_to_databases_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q18"
+      ],
+      "prompt": "The following Python code attempts to connect to an SQLite database and query a table, but it raises an exception. Identify the error and explain why it occurs.",
+      "starter_code": "import sqlite3\n\ndef get_users(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute('SELECT * FROM users WHERE age > 18')\n    results = cursor.fetchall()\n    return results\n\nprint(get_users('school.db'))",
+      "solution_code": "import sqlite3\n\ndef get_users(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT * FROM users WHERE age > 18\")\n    results = cursor.fetchall()\n    conn.close()\n    return results\n\nprint(get_users('school.db'))",
+      "hint": "Check whether the database connection is properly closed and whether the SQL string is correctly formatted.",
+      "explanation": "The original code leaks the database connection because conn.close() is never called, which can lead to resource exhaustion in larger applications. Additionally, while single-quoted SQL strings work, best practice is to use double quotes for SQL literals inside Python strings to avoid confusion with apostrophes in data. The corrected version closes the connection and uses a double-quoted SQL string."
+    },
+    {
+      "id": "26.1_q20",
+      "type": "fix_the_code",
+      "concept": "introduction_to_databases_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.1_q19"
+      ],
+      "prompt": "Fix the syntax error in the code below so it successfully inserts a new record into the 'students' table.",
+      "starter_code": "import sqlite3\n\ndef add_student(name):\n    conn = sqlite3.connect('academy.db')\n    cursor = conn.cursor()\n    sql = 'INSERT INTO students (name) VALUES (' + name + ')'\n    cursor.execute(sql)\n    conn.commit()\n    conn.close()\n\nadd_student('Alice')",
+      "solution_code": "import sqlite3\n\ndef add_student(name):\n    conn = sqlite3.connect('academy.db')\n    cursor = conn.cursor()\n    sql = \"INSERT INTO students (name) VALUES ('\" + name + \"')\"\n    cursor.execute(sql)\n    conn.commit()\n    conn.close()\n\nadd_student('Alice')",
+      "hint": "The SQL string contains an unquoted name value, which causes a syntax error. Wrap the variable in single quotes inside the SQL string.",
+      "explanation": "The starter code concatenates the name directly into the SQL string without quotes, producing invalid SQL such as INSERT INTO students (name) VALUES (Alice). The fix wraps the name in single quotes within the SQL string, ensuring valid syntax. Using parameterized queries is the safer long-term approach, but for this exercise the string-level fix is sufficient."
+    },
+    {
+      "id": "26.1_q21",
+      "type": "fix_the_code",
+      "concept": "introduction_to_databases_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q20"
+      ],
+      "prompt": "The function below crashes when the 'email' field is None. Update the code to handle missing values gracefully by inserting NULL explicitly.",
+      "starter_code": "import sqlite3\n\ndef insert_contact(email, phone):\n    conn = sqlite3.connect('contacts.db')\n    cursor = conn.cursor()\n    cursor.execute('INSERT INTO contacts (email, phone) VALUES (' + str(email) + ', ' + str(phone) + ')')\n    conn.commit()\n    conn.close()\n\ninsert_contact(None, '555-0100')",
+      "solution_code": "import sqlite3\n\ndef insert_contact(email, phone):\n    conn = sqlite3.connect('contacts.db')\n    cursor = conn.cursor()\n    if email is None:\n        email_sql = 'NULL'\n    else:\n        email_sql = \"'\" + email + \"'\"\n    if phone is None:\n        phone_sql = 'NULL'\n    else:\n        phone_sql = \"'\" + phone + \"'\"\n    cursor.execute('INSERT INTO contacts (email, phone) VALUES (' + email_sql + ', ' + phone_sql + ')')\n    conn.commit()\n    conn.close()\n\ninsert_contact(None, '555-0100')",
+      "hint": "When a Python value is None, the SQL should use the literal NULL, not the string 'None'.",
+      "explanation": "The starter code passes the Python None directly into the SQL string, resulting in invalid SQL like VALUES (None, '555-0100'). The corrected code checks for None and substitutes the SQL keyword NULL, while quoting non-None string values. This prevents both syntax errors and unintended string insertion of the word 'None'."
+    },
+    {
+      "id": "26.1_q22",
+      "type": "fix_the_code",
+      "concept": "introduction_to_databases_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q21"
+      ],
+      "prompt": "This script runs without syntax errors but fails at runtime. Determine the runtime issue and describe the underlying cause.",
+      "starter_code": "import sqlite3\n\ndef list_active_users(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute('SELECT id, name FROM users WHERE status = active')\n    for row in cursor:\n        print(row)\n    # forgot to close connection\n\nlist_active_users('users.db')",
+      "solution_code": "import sqlite3\n\ndef list_active_users(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    try:\n        cursor.execute(\"SELECT id, name FROM users WHERE status = 'active'\")\n        for row in cursor:\n            print(row)\n    finally:\n        conn.close()\n\nlist_active_users('users.db')",
+      "hint": "Consider what happens if an exception occurs between connect and the implicit end of the function, and whether the SQL literal is properly quoted.",
+      "explanation": "Two runtime issues exist. First, the SQL literal active is unquoted, causing a database syntax error because status expects a quoted string. Second, the connection is never closed, which can exhaust available file handles if the function is called repeatedly. The solution quotes the SQL literal and ensures conn.close() runs via a finally block."
+    },
+    {
+      "id": "26.1_q23",
+      "type": "fix_the_code",
+      "concept": "introduction_to_databases_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q22"
+      ],
+      "prompt": "The query is intended to return only users older than 18, but the current logic returns the wrong subset. Repair the logic in the SQL statement.",
+      "starter_code": "import sqlite3\n\ndef get_adult_users(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute('SELECT * FROM users WHERE age < 18')\n    return cursor.fetchall()\n\nprint(get_adult_users('community.db'))",
+      "solution_code": "import sqlite3\n\ndef get_adult_users(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT * FROM users WHERE age >= 18\")\n    return cursor.fetchall()\n\nprint(get_adult_users('community.db'))",
+      "hint": "The condition should include users who are 18 years old or older, not younger than 18.",
+      "explanation": "The starter code uses age < 18, which selects minors instead of adults. The corrected code changes the operator to >= 18 so that users aged 18 and above are returned. This is a logic repair rather than a syntax fix, emphasizing the importance of verifying query intent against business rules."
+    },
+    {
+      "id": "26.1_q24",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.1_q23"
+      ],
+      "prompt": "Refactor the following repetitive database helper into a reusable context manager class that safely handles connections, commits, and rollbacks.",
+      "starter_code": "import sqlite3\n\ndef query_db(db_path, sql, params=None):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    if params:\n        cursor.execute(sql, params)\n    else:\n        cursor.execute(sql)\n    results = cursor.fetchall()\n    conn.commit()\n    conn.close()\n    return results\n\ndef insert_db(db_path, sql, params=None):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    if params:\n        cursor.execute(sql, params)\n    else:\n        cursor.execute(sql)\n    conn.commit()\n    conn.close()\n\n# Example usage\nquery_db('shop.db', \"SELECT * FROM products WHERE price > ?\", (100,))\ninsert_db('shop.db', \"INSERT INTO orders (item) VALUES (?)\", ('book',))",
+      "solution_code": "import sqlite3\nfrom contextlib import contextmanager\n\n@contextmanager\ndef db_connection(db_path):\n    conn = sqlite3.connect(db_path)\n    try:\n        yield conn\n    except Exception:\n        conn.rollback()\n        raise\n    else:\n        conn.commit()\n    finally:\n        conn.close()\n\ndef query_db(db_path, sql, params=None):\n    with db_connection(db_path) as conn:\n        cursor = conn.cursor()\n        if params:\n            cursor.execute(sql, params)\n        else:\n            cursor.execute(sql)\n        return cursor.fetchall()\n\ndef insert_db(db_path, sql, params=None):\n    with db_connection(db_path) as conn:\n        cursor = conn.cursor()\n        if params:\n            cursor.execute(sql, params)\n        else:\n            cursor.execute(sql)\n\n# Example usage\nquery_db('shop.db', \"SELECT * FROM products WHERE price > ?\", (100,))\ninsert_db('shop.db', \"INSERT INTO orders (item) VALUES (?)\", ('book',))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "query_db('shop.db', 'SELECT 1') returns [(1,)]",
+          "description": "query_db('shop.db', 'SELECT 1') returns [(1,)]"
+        },
+        {
+          "input": "",
+          "expected_output": "insert_db('shop.db', 'INSERT INTO logs (msg) VALUES (?)', ('test',)) commits without error",
+          "description": "insert_db('shop.db', 'INSERT INTO logs (msg) VALUES (?)', ('test',)) commits without error"
+        },
+        {
+          "input": "",
+          "expected_output": "A simulated exception during query triggers rollback and connection closure",
+          "description": "A simulated exception during query triggers rollback and connection closure"
+        }
+      ],
+      "hint": "Use a context manager to guarantee commit or rollback and ensure the connection is always closed.",
+      "explanation": "The original code duplicates connection and commit logic across functions, increasing maintenance burden and risking resource leaks. The refactored solution introduces a db_connection context manager that centralizes commit, rollback, and close behavior. Both query_db and insert_db now use with-statements, making the code DRY, exception-safe, and easier to extend for connection pooling or logging in future lessons."
+    },
+    {
+      "id": "26.1_q25",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q24"
+      ],
+      "prompt": "Write a Python script using the sqlite3 module to create a database named library.db, create a table named books with columns id (INTEGER PRIMARY KEY), title (TEXT), and author (TEXT), and insert three sample records into it.",
+      "starter_code": "import sqlite3\n\n# TODO: create connection and cursor\n# TODO: create the books table\n# TODO: insert sample records\n\nconn = None\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n\ncursor.execute('''\n    CREATE TABLE books (\n        id INTEGER PRIMARY KEY,\n        title TEXT,\n        author TEXT\n    )\n''')\n\n# Insert sample records here\n\nconn.commit()\nconn.close()",
+      "solution_code": "import sqlite3\n\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n\ncursor.execute('''\n    CREATE TABLE IF NOT EXISTS books (\n        id INTEGER PRIMARY KEY,\n        title TEXT,\n        author TEXT\n    )\n''')\n\ncursor.execute('INSERT INTO books (title, author) VALUES (?, ?)', ('The Great Gatsby', 'F. Scott Fitzgerald'))\ncursor.execute('INSERT INTO books (title, author) VALUES (?, ?)', ('1984', 'George Orwell'))\ncursor.execute('INSERT INTO books (title, author) VALUES (?, ?)', ('To Kill a Mockingbird', 'Harper Lee'))\n\nconn.commit()\nconn.close()",
+      "test_cases": [
+        {
+          "description": "Database file is created and contains 3 rows in books table",
+          "code": "import sqlite3\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\ncursor.execute('SELECT COUNT(*) FROM books')\ncount = cursor.fetchone()[0]\nconn.close()\nassert count == 3"
+        }
+      ],
+      "hint": "Use IF NOT EXISTS to avoid errors on repeated runs, and use parameterized queries with placeholders (?, ?) instead of string formatting.",
+      "explanation": "This exercise introduces the sqlite3 module for lightweight file-based databases. Creating a connection, executing a CREATE TABLE statement, and inserting rows with parameterized queries are foundational skills for any SQL-based application."
+    },
+    {
+      "id": "26.1_q26",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.1_q25"
+      ],
+      "prompt": "Extend the previous script to query the books table and print a formatted list of all books with their titles and authors sorted alphabetically by title.",
+      "starter_code": "import sqlite3\n\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n\n# TODO: write a SELECT query to fetch all books ordered by title\n# TODO: loop through results and print each book\n\nconn.close()",
+      "solution_code": "import sqlite3\n\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n\ncursor.execute('SELECT title, author FROM books ORDER BY title')\nbooks = cursor.fetchall()\n\nfor book in books:\n    print(f'Title: {book[0]}, Author: {book[1]}')\n\nconn.close()",
+      "test_cases": [
+        {
+          "description": "Output contains all 3 books in alphabetical order by title",
+          "code": "import io, sys\nfrom contextlib import redirect_stdout\n\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\ncursor.execute('SELECT title, author FROM books ORDER BY title')\nbooks = cursor.fetchall()\nconn.close()\n\noutput = ''\nwith redirect_stdout(io.StringIO()) as buf:\n    for book in books:\n        print(f'Title: {book[0]}, Author: {book[1]}')\n        output += buf.getvalue()\n\nexpected = ['Title: 1984, Author: George Orwell', 'Title: The Great Gatsby, Author: F. Scott Fitzgerald', 'Title: To Kill a Mockingbird, Author: Harper Lee']\nassert all(line in output for line in expected)"
+        }
+      ],
+      "hint": "Use ORDER BY title in your SQL query. Remember that fetchall() returns a list of tuples, so access elements by index.",
+      "explanation": "This practical task reinforces querying data with SQL and processing results in Python. Sorting at the database level is more efficient than sorting in Python, and formatted output prepares students for real reporting tasks."
+    },
+    {
+      "id": "26.1_q27",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.1_q26"
+      ],
+      "prompt": "Write a Python function update_book_author(db_path, title, new_author) that opens the database, finds a book by its exact title, updates its author to new_author, and returns True if exactly one row was updated, otherwise False.",
+      "starter_code": "import sqlite3\n\ndef update_book_author(db_path, title, new_author):\n    # TODO: implement the update logic\n    # TODO: return True if exactly one row matched, else False\n    pass",
+      "solution_code": "import sqlite3\n\ndef update_book_author(db_path, title, new_author):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    \n    cursor.execute('UPDATE books SET author = ? WHERE title = ?', (new_author, title))\n    conn.commit()\n    \n    rows_affected = cursor.rowcount\n    conn.close()\n    return rows_affected == 1",
+      "test_cases": [
+        {
+          "description": "Update succeeds when title exists",
+          "code": "import sqlite3, os\nos.remove('library.db')\nimport run_previous_solution\nrun_previous_solution.run_all()\nassert update_book_author('library.db', '1984', 'George Orwell Updated') == True"
+        },
+        {
+          "description": "Update fails when title does not exist",
+          "code": "assert update_book_author('library.db', 'Nonexistent Book', 'Nobody') == False"
+        },
+        {
+          "description": "Only one row is updated even if duplicates hypothetically exist",
+          "code": "assert update_book_author('library.db', '1984', 'Another Author') == True"
+        }
+      ],
+      "hint": "Use the rowcount attribute after executing an UPDATE statement to determine how many rows were modified. Always commit changes and close the connection.",
+      "explanation": "This advanced exercise introduces rowcount for verifying update impact, parameterized WHERE clauses for precise targeting, and defensive programming by checking the number of affected rows."
+    },
+    {
+      "id": "26.1_q28",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.1_q27"
+      ],
+      "prompt": "Given a database with a students table (id, name, age) and an enrollments table (student_id, course), write a Python function get_student_courses(db_path, student_name) that returns a list of course names for the given student. Handle the case where the student does not exist by returning an empty list.",
+      "starter_code": "import sqlite3\n\ndef get_student_courses(db_path, student_name):\n    # TODO: query both tables and collect courses\n    # TODO: handle missing student gracefully\n    return []",
+      "solution_code": "import sqlite3\n\ndef get_student_courses(db_path, student_name):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    \n    cursor.execute('''\n        SELECT e.course\n        FROM enrollments e\n        JOIN students s ON e.student_id = s.id\n        WHERE s.name = ?\n    ''', (student_name,))\n    \n    courses = [row[0] for row in cursor.fetchall()]\n    conn.close()\n    return courses",
+      "test_cases": [
+        {
+          "description": "Returns correct courses for existing student",
+          "code": "import sqlite3, os\nos.remove('school.db')\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)')\ncursor.execute('CREATE TABLE enrollments (student_id INTEGER, course TEXT)')\ncursor.execute('INSERT INTO students (name, age) VALUES (?, ?)', ('Alice', 20))\ncursor.execute('INSERT INTO students (name, age) VALUES (?, ?)', ('Bob', 21))\ncursor.execute('INSERT INTO enrollments (student_id, course) VALUES (?, ?)', (1, 'Math'))\ncursor.execute('INSERT INTO enrollments (student_id, course) VALUES (?, ?)', (1, 'Science'))\ncursor.execute('INSERT INTO enrollments (student_id, course) VALUES (?, ?)', (2, 'History'))\nconn.commit()\nconn.close()\n\nassert get_student_courses('school.db', 'Alice') == ['Math', 'Science']\nassert get_student_courses('school.db', 'Bob') == ['History']\nassert get_student_courses('school.db', 'Charlie') == []"
+        }
+      ],
+      "hint": "Use an INNER JOIN between students and enrollments on student_id. Parameterize the name to prevent injection. fetchall() returns tuples, so extract the first element of each tuple.",
+      "explanation": "This challenge requires joining two tables and translating relational data into a Python list. It also tests defensive behavior when no matching records exist, which mirrors real-world API and reporting requirements."
+    },
+    {
+      "id": "26.1_q29",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.1_q28"
+      ],
+      "prompt": "Scenario: You are building a small inventory tracker for a bookstore. The inventory table has columns product_id (TEXT PRIMARY KEY), product_name (TEXT), stock (INTEGER), and price (REAL). Write a Python script that safely inserts a new product only if it does not already exist, updates stock if the product exists, and logs each transaction to a separate audit table with columns action (TEXT), product_id (TEXT), timestamp (TEXT), and details (TEXT). Use a transaction and a context manager pattern.",
+      "starter_code": "import sqlite3\nfrom datetime import datetime\n\ndef manage_inventory(db_path, product_id, product_name, stock, price):\n    # TODO: implement upsert logic with audit logging\n    pass",
+      "solution_code": "import sqlite3\nfrom datetime import datetime\n\ndef manage_inventory(db_path, product_id, product_name, stock, price):\n    timestamp = datetime.now().isoformat()\n    conn = sqlite3.connect(db_path)\n    \n    try:\n        cursor = conn.cursor()\n        \n        cursor.execute('''\n            INSERT OR IGNORE INTO inventory (product_id, product_name, stock, price)\n            VALUES (?, ?, ?, ?)\n        ''', (product_id, product_name, stock, price))\n        \n        if cursor.rowcount == 0:\n            cursor.execute('''\n                UPDATE inventory\n                SET stock = stock + ?, price = ?\n                WHERE product_id = ?\n            ''', (stock, price, product_id))\n            action = 'UPDATE_STOCK'\n        else:\n            action = 'INSERT'\n        \n        cursor.execute('''\n            INSERT INTO audit (action, product_id, timestamp, details)\n            VALUES (?, ?, ?, ?)\n        ''', (action, product_id, timestamp, f'{action}: {product_name}'))\n        \n        conn.commit()\n    except Exception:\n        conn.rollback()\n        raise\n    finally:\n        conn.close()",
+      "test_cases": [
+        {
+          "description": "New product is inserted and audit record created",
+          "code": "import sqlite3, os\nos.remove('inventory.db')\nmanage_inventory('inventory.db', 'B001', 'Python Basics', 10, 29.99)\n\nconn = sqlite3.connect('inventory.db')\ncursor = conn.cursor()\ncursor.execute('SELECT product_name, stock FROM inventory WHERE product_id = ?', ('B001',))\nassert cursor.fetchone() == ('Python Basics', 10)\ncursor.execute('SELECT action, details FROM audit WHERE product_id = ?', ('B001',))\nassert cursor.fetchone()[0] == 'INSERT'\nconn.close()"
+        },
+        {
+          "description": "Existing product stock is updated and audit records update",
+          "code": "manage_inventory('inventory.db', 'B001', 'Python Basics', 5, 32.00)\n\nconn = sqlite3.connect('inventory.db')\ncursor = conn.cursor()\ncursor.execute('SELECT stock FROM inventory WHERE product_id = ?', ('B001',))\nassert cursor.fetchone()[0] == 15\ncursor.execute('SELECT action FROM audit WHERE product_id = ?', ('B001',))\nassert cursor.fetchall()[-1][0] == 'UPDATE_STOCK'\nconn.close()"
+        }
+      ],
+      "hint": "Use INSERT OR IGNORE to avoid primary key violations, check rowcount to decide between insert and update, and wrap operations in try/except/finally with commit and rollback for atomicity.",
+      "explanation": "This scenario synthesizes transaction safety, upsert patterns, and audit logging—core concerns in production database applications. Students must coordinate multiple SQL statements within a single transaction and ensure cleanup via finally."
+    },
+    {
+      "id": "26.1_q30",
+      "type": "write_the_code",
+      "concept": "introduction_to_databases_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.1_q29"
+      ],
+      "prompt": "Write a Python function analyze_inventory(db_path) that returns a dictionary with keys total_products, average_price, and most_stocked_product. The function must use a single SQL query with aggregation and subquery logic, and return None for any metric that cannot be computed due to missing data.",
+      "starter_code": "import sqlite3\n\ndef analyze_inventory(db_path):\n    # TODO: implement with one SQL query using aggregation\n    # TODO: handle missing data gracefully\n    return {}",
+      "solution_code": "import sqlite3\n\ndef analyze_inventory(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    \n    cursor.execute('''\n        SELECT\n            COUNT(product_id) AS total_products,\n            AVG(price) AS average_price,\n            (SELECT product_id FROM inventory ORDER BY stock DESC LIMIT 1) AS most_stocked_product\n        FROM inventory\n    ''')\n    \n    row = cursor.fetchone()\n    conn.close()\n    \n    if row is None or row[0] is None:\n        return None\n    \n    return {\n        'total_products': row[0],\n        'average_price': round(row[1], 2) if row[1] is not None else None,\n        'most_stocked_product': row[2]\n    }",
+      "test_cases": [
+        {
+          "description": "Returns correct aggregated metrics",
+          "code": "import sqlite3, os\nos.remove('master.db')\nconn = sqlite3.connect('master.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE inventory (product_id TEXT PRIMARY KEY, product_name TEXT, stock INTEGER, price REAL)')\nfor i, (pid, name, stock, price) in enumerate([\n    ('P001', 'A', 50, 10.0),\n    ('P002', 'B', 30, 20.5),\n    ('P003', 'C', 70, 15.0)\n]):\n    cursor.execute('INSERT INTO inventory VALUES (?, ?, ?, ?)', (pid, name, stock, price))\nconn.commit()\nconn.close()\n\nresult = analyze_inventory('master.db')\nassert result['total_products'] == 3\nassert result['average_price'] == 15.17\nassert result['most_stocked_product'] == 'P003'"
+        },
+        {
+          "description": "Returns None for empty database",
+          "code": "import sqlite3, os\nos.remove('empty.db')\nconn = sqlite3.connect('empty.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE inventory (product_id TEXT PRIMARY KEY, product_name TEXT, stock INTEGER, price REAL)')\nconn.commit()\nconn.close()\n\nassert analyze_inventory('empty.db') is None"
+        }
+      ],
+      "hint": "Use COUNT, AVG, and a correlated subquery or nested SELECT for the most stocked product. Check for None after fetchone() and guard against division by zero implicitly handled by AVG.",
+      "explanation": "This mastery item demands a single optimized query combining aggregation and subqueries, plus robust Python handling of NULL results. It reflects how analysts extract summary statistics directly from the database rather than transferring raw rows."
+    }
+  ],
+  "unit_num": 26,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Introduction to Databases",
+    "Apply idiomatic Python patterns when working with Introduction to Databases",
+    "Debug common runtime exceptions and logic errors associated with Introduction to Databases",
+    "Implement production-ready code utilizing Introduction to Databases"
+  ],
+  "prerequisites": [
+    "25.6"
+  ]
+}

@@ -1,0 +1,628 @@
+{
+  "lesson_id": "37.1",
+  "title": "Linear Search",
+  "unit": "DSA: Searching and Sorting",
+  "items": [
+    {
+      "id": "37.1_q1",
+      "type": "micro_lesson",
+      "concept": "linear_search_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Linear Search?",
+      "content": "Linear search is the simplest searching algorithm. It checks each element in a list one by one, from the beginning, until it finds the target value or reaches the end of the list. If the target is found, the search stops and returns the index. If not, it returns a sentinel value such as -1. It works on both sorted and unsorted data, but it is not efficient for very large datasets because its worst-case time complexity is O(n). Here is a basic implementation:\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n\nmy_list = [10, 20, 30, 40]\nprint(linear_search(my_list, 30))  # Output: 2\n```",
+      "prompt": "",
+      "explanation": "Linear search is the simplest searching algorithm. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "id": "37.1_q2",
+      "type": "multiple_choice",
+      "concept": "linear_search_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q1"
+      ],
+      "prompt": "What does a linear search return when the target value is not present in the list?",
+      "options": [
+        "The length of the list",
+        "-1",
+        "0",
+        "None"
+      ],
+      "correct_answer": "-1",
+      "explanation": "In the standard implementation, when the loop finishes without finding the target, the function returns -1 to indicate that the value was not found. This is a common convention, though some implementations may raise an exception or return None."
+    },
+    {
+      "idx": 3,
+      "id": "37.1_q3",
+      "type": "micro_lesson",
+      "concept": "linear_search_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q2"
+      ],
+      "title": "Writing Linear Search in Python",
+      "content": "To implement linear search in Python, you iterate over the indices of the list using range(len(arr)). At each index i, you compare arr[i] with the target. If they match, you immediately return i. If the loop completes, you return -1. You can also use enumerate for a more Pythonic style, but the index-based version is easiest for beginners to understand. Example:\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n\nprint(linear_search([5, 8, 12], 8))  # Output: 1\nprint(linear_search([5, 8, 12], 7))   # Output: -1\n```\nNotice that the function stops at the first match, so duplicates are not an issue for finding one occurrence.",
+      "prompt": "",
+      "explanation": "To implement linear search in Python, you iterate over the indices of the list using range(len(arr)). Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "id": "37.1_q4",
+      "type": "multiple_choice",
+      "concept": "linear_search_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q3"
+      ],
+      "prompt": "Which line correctly checks whether the current element equals the target inside a linear search loop?",
+      "options": [
+        "if arr[i] = target:",
+        "if arr[i] == target:",
+        "if arr[i] != target:",
+        "if target in arr[i]:"
+      ],
+      "correct_answer": "if arr[i] == target:",
+      "explanation": "Equality comparison in Python uses two equals signs (==). A single equals sign (=) is assignment and causes a syntax error in this context. The != operator checks for inequality, and 'in' cannot be used between a single element and a target in this manner."
+    },
+    {
+      "idx": 5,
+      "id": "37.1_q5",
+      "type": "multiple_choice",
+      "concept": "linear_search_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q4"
+      ],
+      "prompt": "Match the following: the function call linear_search([2, 4, 6, 8], 6) returns which value?",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "correct_answer": "2",
+      "explanation": "The list [2, 4, 6, 8] has 6 at index 2. Linear search checks index 0 (2), index 1 (4), then index 2 (6), finds the match, and returns 2 immediately."
+    },
+    {
+      "idx": 6,
+      "id": "37.1_q6",
+      "type": "multiple_choice",
+      "concept": "linear_search_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q5"
+      ],
+      "prompt": "What is a common pitfall when writing a linear search function?",
+      "options": [
+        "Forgetting to return -1 when the target is not found",
+        "Using a while loop instead of a for loop",
+        "Naming the function with an underscore",
+        "Printing the result inside the loop"
+      ],
+      "correct_answer": "Forgetting to return -1 when the target is not found",
+      "explanation": "If the function lacks a return statement after the loop, it implicitly returns None in Python. This can cause bugs because callers expect an integer index or -1. A complete implementation must handle both the found and not-found cases explicitly."
+    },
+    {
+      "id": "37.1_q7",
+      "type": "code_prediction",
+      "concept": "linear_search_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q6"
+      ],
+      "prompt": "What does the following Python code output when the target is 7?\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n\narr = [3, 7, 2, 9]\nprint(linear_search(arr, 7))\n```",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "-1"
+      ],
+      "correct_answer": "1",
+      "explanation": "The function scans arr from index 0. At index 0, arr[0] is 3, which is not 7. At index 1, arr[1] is 7, so it returns 1 immediately. The search stops as soon as the target is found."
+    },
+    {
+      "id": "37.1_q8",
+      "type": "output_prediction",
+      "concept": "linear_search_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q7"
+      ],
+      "prompt": "What is the output of this code?\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n\narr = [10, 20, 30]\nresult = linear_search(arr, 99)\nprint(result)\n```",
+      "options": [
+        "0",
+        "-1",
+        "3",
+        "None"
+      ],
+      "correct_answer": "-1",
+      "explanation": "The loop checks every index: 0, 1, and 2. Since 99 is not in arr, the loop finishes without returning early. The function reaches the final return -1, so the printed result is -1."
+    },
+    {
+      "id": "37.1_q9",
+      "type": "code_prediction",
+      "concept": "linear_search_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q8"
+      ],
+      "prompt": "Predict the output of this implementation.\n\n```python\ndef linear_search_while(arr, target):\n    i = 0\n    while i < len(arr):\n        if arr[i] == target:\n            return i\n        i += 1\n    return -1\n\narr = [5, 8, 8, 12]\nprint(linear_search_while(arr, 8))\n```",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "correct_answer": "1",
+      "explanation": "The while loop starts with i = 0. At i = 0, arr[0] is 5, not 8, so i becomes 1. At i = 1, arr[1] is 8, which matches the target, so the function returns 1 immediately. It does not check the second 8 at index 2."
+    },
+    {
+      "id": "37.1_q10",
+      "type": "write_the_code",
+      "concept": "linear_search_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q9"
+      ],
+      "prompt": "A list arr contains n elements. A linear search is performed for a target that is guaranteed to be present in the list. Which statement best describes the time complexity of this search?",
+      "correct_answer": "It is O(n) in the worst case, but can be O(1) in the best case.",
+      "explanation": "Linear search examines elements sequentially. If the target is at index 0, the best case is O(1). If the target is at the last index or not present, the worst case is O(n). Since the target is guaranteed to exist, the best case is still O(1), but the overall worst-case complexity remains O(n).",
+      "starter_code": "# TODO: Implement solution for Linear Search\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Linear Search')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Linear Search"
+        }
+      ]
+    },
+    {
+      "id": "37.1_q11",
+      "type": "code_prediction",
+      "concept": "linear_search_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q10"
+      ],
+      "prompt": "Trace the execution and determine the final return value.\n\n```python\ndef linear_search_trace(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n\narr = [4, 4, 4]\nprint(linear_search_trace(arr, 4))\n```",
+      "options": [
+        "0",
+        "2",
+        "-1",
+        "1"
+      ],
+      "correct_answer": "0",
+      "explanation": "The for loop begins with i = 0. The condition arr[0] == 4 is true, so the function returns 0 immediately. No further iterations occur. Therefore, the printed output is 0."
+    },
+    {
+      "id": "37.1_q12",
+      "type": "output_prediction",
+      "concept": "linear_search_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q11"
+      ],
+      "prompt": "What does this code print?\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n\narr = [1, 2, 3]\nprint(linear_search(arr, 3) == 2)\n```",
+      "options": [
+        "True",
+        "False",
+        "1",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "explanation": "linear_search(arr, 3) returns 2 because 3 is found at index 2. The expression 2 == 2 evaluates to True, and print(True) displays True."
+    },
+    {
+      "id": "37.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "linear_search_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "37.1_q12"
+      ],
+      "micro_lesson": {
+        "title": "Linear Search Syntax Basics",
+        "content": "Linear search is a simple algorithm that checks each element of a list sequentially until the target is found or the list ends. The core syntax involves iterating through indices and comparing values. In Python, we use a for loop with range(len(list)) or enumerate to access both index and value. The key pattern is: if current_element == target: return index. This approach works for unsorted collections and guarantees finding the element if it exists."
+      },
+      "prompt": "Complete the code to perform a basic linear search. The function should return the index of the target if found, otherwise return -1.\n\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return ____",
+      "correct_answer": "-1",
+      "accepted_answers": [
+        "-1",
+        "None"
+      ],
+      "explanation": "When the loop finishes without finding the target, the function must indicate 'not found.' Returning -1 is the standard convention for linear search in many programming contexts, as it cannot be a valid index in a non-empty list."
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "linear_search_keywords",
+      "id": "37.1_q14",
+      "prompt": "Fill in the missing keyword to make this linear search implementation valid. The loop must iterate over every element in the list.\n\nvalues = [10, 20, 30, 40]\nfor ____ in values:\n    if element == 30:\n        print('Found')\n        break",
+      "correct_answer": "element",
+      "accepted_answers": [
+        "element",
+        "num",
+        "item",
+        "x"
+      ],
+      "explanation": "The for loop variable must capture each item from the iterable 'values.' Common names are 'element', 'num', 'item', or 'x', but the blank expects the variable name used in the subsequent comparison.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q13"
+      ]
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "linear_search_sequence",
+      "id": "37.1_q15",
+      "prompt": "Arrange the following code lines in the correct order to implement a linear search that returns True when the target exists.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The loop must execute before any final return False. The conditional check for equality must be inside the loop, and the early exit return True must come before the final return False.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q14"
+      ]
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "linear_search_patterns",
+      "id": "37.1_q16",
+      "prompt": "Identify the common pattern used in linear search. Complete the sentence: A typical linear search uses a ____ loop to check each position until a match is found or the end is reached.\n\nPattern: for index in range(len(sequence)): if sequence[index] == value:",
+      "correct_answer": "for",
+      "accepted_answers": [
+        "for",
+        "while"
+      ],
+      "explanation": "Linear search most commonly uses a for loop with range(len(sequence)) to traverse indices. While loops can also implement linear search, but the 'for' pattern is the standard introductory syntax.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q15"
+      ]
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "linear_search_algorithm",
+      "id": "37.1_q17",
+      "prompt": "Order the steps to describe the linear search algorithm correctly.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must first iterate and compare. Only upon finding a match should it exit early with the index. If the entire list is exhausted without a match, -1 is returned.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q16"
+      ]
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "linear_search_idioms",
+      "id": "37.1_q18",
+      "prompt": "Fill in the blank to complete this Python idiom: if ____ in my_list:\n    print('Present')",
+      "correct_answer": "target",
+      "accepted_answers": [
+        "target",
+        "value",
+        "item",
+        "x"
+      ],
+      "explanation": "Python's 'in' operator provides a concise idiom for linear search. The variable on the left of 'in' is the value being searched, and it is compared against each element of my_list in sequence.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q17"
+      ]
+    },
+    {
+      "id": "37.1_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "linear_search_errors",
+      "prerequisites": [
+        "37.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Mistakes in Linear Search",
+        "content": "Linear search scans a list element by element to find a target value. A frequent bug is using the wrong loop range. If you use `range(len(arr))` but access `arr[i + 1]`, you risk an IndexError when `i` reaches the last index. Another common error is returning inside the loop too early or not returning anything when the item is absent. Always check bounds before accessing adjacent elements, and ensure you return the index or `-1` after the loop finishes. Here is an example of incorrect code:\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n```\n\nIn this snippet, the logic is actually correct for basic cases, but a buggy variant might return `-1` inside the loop or use `range(len(arr) - 1)`. Always verify that the loop covers every index and that the return statements are placed correctly."
+      },
+      "prompt": "Fix the bug in this code for linear search errors:",
+      "starter_code": "# Fix this code\nPrint('Linear Search')",
+      "solution_code": "print('Linear Search')",
+      "explanation": "This exercise tests `linear search errors` in Linear Search. When Python validates this code, it applies the standard rules of linear search errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "37.1_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "concept": "linear_search_fix",
+      "prerequisites": [
+        "37.1_q19"
+      ],
+      "prompt": "The function below is supposed to return the index of `target` in `data`, or `-1` if not found. It currently has a simple off-by-one error.",
+      "starter_code": "def linear_search(data, target):\n    for i in range(len(data) - 1):\n        if data[i] == target:\n            return i\n    return -1",
+      "solution_code": "def linear_search(data, target):\n    for i in range(len(data)):\n        if data[i] == target:\n            return i\n    return -1",
+      "hint": "The loop should include the last index of the list. Check the upper bound of `range()`.",
+      "explanation": "The original code used `range(len(data) - 1)`, which stops one index early and misses the last element. Changing it to `range(len(data))` ensures every element is checked. The rest of the logic was already correct."
+    },
+    {
+      "id": "37.1_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "linear_search_edge_cases",
+      "prerequisites": [
+        "37.1_q20"
+      ],
+      "prompt": "This implementation crashes on an empty list. Fix it so it handles empty input and duplicate values correctly.",
+      "starter_code": "def linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i",
+      "solution_code": "def linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1",
+      "hint": "Consider what happens when `arr` has length 0 and whether a return statement is needed after the loop.",
+      "explanation": "The starter code lacks a return statement after the loop, so it returns `None` when the target is absent. For an empty list, `range(0)` is empty and the loop never executes, so the missing post-loop return causes `None` to be returned instead of `-1`. Adding `return -1` after the loop fixes this edge case."
+    },
+    {
+      "id": "37.1_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "linear_search_runtime",
+      "prerequisites": [
+        "37.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Understanding Linear Search Runtime",
+        "content": "Linear search has a worst-case time complexity of O(n), where n is the number of elements, because it may inspect every element before concluding the target is absent. The best case is O(1) when the target is at index 0. A common runtime misconception is that binary search applies to unsorted lists; it does not. Another pitfall is assuming the average case is always O(n/2) and therefore negligible; constants matter in practice for small inputs. When analyzing runtime, focus on the number of comparisons in the worst case. Here is a reference implementation:\n\n```python\ndef linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1\n```\n\nIn the worst case, the loop runs `len(arr)` times, giving O(n). If the list is empty, the loop body never executes, yielding O(1) best case for that input."
+      },
+      "prompt": "Fix the bug in this code for linear search runtime:",
+      "starter_code": "# Fix this code\nPrint('Linear Search')",
+      "solution_code": "print('Linear Search')",
+      "explanation": "This exercise tests `linear search runtime` in Linear Search. When Python validates this code, it applies the standard rules of linear search runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "37.1_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "linear_search_logic_repair",
+      "prerequisites": [
+        "37.1_q22"
+      ],
+      "prompt": "The function is meant to return the first index where `target` appears, but it currently returns the last index instead due to misplaced logic.",
+      "starter_code": "def linear_search(data, target):\n    result = -1\n    for i in range(len(data)):\n        if data[i] == target:\n            result = i\n    return result",
+      "solution_code": "def linear_search(data, target):\n    for i in range(len(data)):\n        if data[i] == target:\n            return i\n    return -1",
+      "hint": "Once you find the target, you should exit immediately rather than continuing to update a variable.",
+      "explanation": "The buggy code keeps scanning after finding the target and stores the final occurrence in `result`. The correct linear search returns the first match immediately upon discovery. Replacing the accumulator pattern with an early `return i` restores the intended behavior."
+    },
+    {
+      "id": "37.1_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "concept": "linear_search_optimization",
+      "prerequisites": [
+        "37.1_q23"
+      ],
+      "prompt": "Refactor the following linear search to use a more Pythonic approach while preserving O(n) worst-case behavior and returning the first index or `-1`.",
+      "starter_code": "def linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1",
+      "solution_code": "def linear_search(arr, target):\n    for i, val in enumerate(arr):\n        if val == target:\n            return i\n    return -1",
+      "test_cases": [
+        {
+          "input": {
+            "arr": [
+              3,
+              1,
+              4,
+              1,
+              5
+            ],
+            "target": 4
+          },
+          "expected": 2
+        },
+        {
+          "input": {
+            "arr": [],
+            "target": 7
+          },
+          "expected": -1
+        },
+        {
+          "input": {
+            "arr": [
+              9,
+              9,
+              9
+            ],
+            "target": 9
+          },
+          "expected": 0
+        }
+      ],
+      "hint": "Use `enumerate` to get both index and value in a single loop iteration.",
+      "explanation": "The refactored version replaces manual indexing with `enumerate(arr)`, which is more readable and avoids off-by-one mistakes. It maintains the same O(n) time complexity and correctly returns the first matching index or `-1`. This style is preferred in idiomatic Python."
+    },
+    {
+      "id": "37.1_q25",
+      "type": "write_the_code",
+      "concept": "linear_search_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Linear Search.",
+      "starter_code": "def process_37_1_data(items):\n    # Process input according to Linear Search rules\n    pass",
+      "solution_code": "def process_37_1_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Linear Search rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Linear Search.",
+      "explanation": "Constructing pure, robust data transformers for Linear Search avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "37.1_q26",
+      "type": "fix_the_code",
+      "concept": "linear_search_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "37.1_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Linear Search that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_37_1_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_37_1_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "37.1_q27",
+      "type": "code_prediction",
+      "concept": "linear_search_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.1_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Linear Search encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Linear Search.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "37.1_q28",
+      "type": "write_the_code",
+      "concept": "linear_search_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.1_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Linear Search. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Linear Search\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Linear Search ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "37.1_q29",
+      "type": "fix_the_code",
+      "concept": "linear_search_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.1_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Linear Search into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Linear Search Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "37.1_q30",
+      "type": "write_the_code",
+      "concept": "linear_search_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "37.1_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Linear Search that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_37_1_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_37_1_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Linear Search must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 37,
+  "learning_objectives": [
+    "Implement the fundamental Linear Search algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "36.6"
+  ]
+}

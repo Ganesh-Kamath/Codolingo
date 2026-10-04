@@ -1,0 +1,568 @@
+{
+  "lesson_id": "6.1",
+  "title": "Why We Need Loops",
+  "unit": "Loops and Repetition",
+  "items": [
+    {
+      "id": "6.1_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "why_we_need_loops_basics",
+      "prerequisites": [],
+      "title": "What Is Repetition in Programming?",
+      "content": "In programming, we often need to perform the same action many times. Writing the same code over and over is slow, hard to read, and easy to make mistakes. A loop lets us repeat a block of code without copying it again and again. For example, if you want to print the numbers 1 through 5, you could write five separate print statements, but a loop does it in one place. Here is a simple example:\n\n```python\nfor i in range(1, 6):\n    print('Number:', i)\n```\n\nThis loop runs five times. Instead of typing print five times, we use a loop to repeat the action cleanly and efficiently.",
+      "difficulty": "easy",
+      "prompt": "",
+      "explanation": "In programming, we often need to perform the same action many times. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "6.1_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "why_we_need_loops_basics",
+      "prerequisites": [
+        "6.1_q1"
+      ],
+      "prompt": "Why do programmers use loops?",
+      "options": [
+        "To make programs run faster by default",
+        "To repeat a block of code many times without rewriting it",
+        "To store data in variables",
+        "To create new functions"
+      ],
+      "correct_answer": "To repeat a block of code many times without rewriting it",
+      "explanation": "Loops are designed to reduce repetition. They let you run the same instructions multiple times using one compact block of code, which saves effort and reduces errors.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "6.1_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "why_we_need_loops_syntax",
+      "prerequisites": [
+        "6.1_q2"
+      ],
+      "title": "The Basic for Loop Syntax",
+      "content": "A for loop in Python uses the for keyword, a variable that tracks each item, the in keyword, and a sequence such as range. The code inside the loop is indented. Here is the general pattern:\n\n```python\nfor item in sequence:\n    # do something with item\n```\n\nWhen you use range(3), the loop variable takes the values 0, 1, and 2. You can also start at a different number. For example, range(2, 6) gives 2, 3, 4, and 5. This lets you control exactly how many times the loop runs and which values are used inside the loop body.\n\n```python\nfor num in range(2, 6):\n    print('Current number:', num)\n```\n\nUnderstanding this syntax helps you write loops that perform repeated tasks in a predictable way.",
+      "difficulty": "easy",
+      "prompt": "",
+      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+    },
+    {
+      "id": "6.1_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "why_we_need_loops_syntax",
+      "prerequisites": [
+        "6.1_q3"
+      ],
+      "prompt": "Which code correctly prints the numbers 2 through 5 using a for loop?",
+      "options": [
+        "for x in range(1, 5):\n    print('x:', x)",
+        "for x in range(2, 6):\n    print('x:', x)",
+        "for x in range(2, 5):\n    print('x:', x)",
+        "for x in range(5):\n    print('x:', x + 2)"
+      ],
+      "correct_answer": "for x in range(2, 6):\n    print('x:', x)",
+      "explanation": "range(2, 6) produces 2, 3, 4, and 5. The loop variable x takes each of these values, and print displays them. Option C only prints 2, 3, and 4, so it is incorrect.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "6.1_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "why_we_need_loops_matching",
+      "prerequisites": [
+        "6.1_q4"
+      ],
+      "prompt": "Match the loop behavior to the correct range call.",
+      "options": [
+        "range(1, 4) prints 1, 2, 3",
+        "range(1, 4) prints 1, 2, 3, 4",
+        "range(3) prints 0, 1, 2",
+        "range(3) prints 1, 2, 3"
+      ],
+      "correct_answer": "range(3) prints 0, 1, 2",
+      "explanation": "range(3) starts at 0 and stops before 3, so it yields 0, 1, and 2. range(1, 4) yields 1, 2, and 3. The stop value in range is exclusive, which is a key idea when matching loop output to range calls.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "6.1_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "why_we_need_loops_pitfalls",
+      "prerequisites": [
+        "6.1_q5"
+      ],
+      "prompt": "What happens if you forget to indent the code inside a for loop?",
+      "options": [
+        "The loop runs forever",
+        "Python raises an IndentationError and the loop body is not recognized",
+        "The loop prints nothing but does not crash",
+        "The loop skips the first iteration"
+      ],
+      "correct_answer": "Python raises an IndentationError and the loop body is not recognized",
+      "explanation": "In Python, indentation defines blocks of code. If the statements inside a for loop are not indented, Python cannot tell which code belongs to the loop. This causes an IndentationError, so proper indentation is essential for loops to work.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "6.1_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "why_we_need_loops_execution",
+      "prerequisites": [
+        "6.1_q6"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfor i in range(3):\n    print('Count:', i)\n```",
+      "options": [
+        "Count: 0\nCount: 1\nCount: 2",
+        "Count: 1\nCount: 2\nCount: 3",
+        "Count: 3\nCount: 3\nCount: 3",
+        "Error: range() is not defined"
+      ],
+      "correct_answer": "Count: 0\nCount: 1\nCount: 2",
+      "explanation": "The for loop iterates over range(3), which produces the values 0, 1, and 2. In each iteration, it prints 'Count:' followed by the current value of i. This demonstrates how loops repeat actions without writing the same code multiple times."
+    },
+    {
+      "id": "6.1_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "why_we_need_loops_execution",
+      "prerequisites": [
+        "6.1_q7"
+      ],
+      "prompt": "What is the final output of the following code?\n\n```python\nname = 'Ada'\nfor letter in name:\n    print(letter, end='')\nprint()\n```",
+      "options": [
+        "'Ada'",
+        "A\nd\na",
+        "A\n\nd\n\na",
+        "Error: end='' is invalid"
+      ],
+      "correct_answer": "'Ada'",
+      "explanation": "The loop iterates over each character in the string 'Ada'. The end='' argument in print prevents a newline after each character, so they appear on the same line. A final print() adds a newline. This shows that loops help process each item in a sequence efficiently."
+    },
+    {
+      "id": "6.1_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "why_we_need_loops_flow",
+      "prerequisites": [
+        "6.1_q8"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfor n in range(1, 4):\n    if n % 2 == 0:\n        print(n, 'is even')\n    else:\n        print(n, 'is odd')\n```",
+      "options": [
+        "1 is odd\n2 is even\n3 is odd",
+        "1 is odd\n2 is odd\n3 is even",
+        "1 is even\n2 is odd\n3 is even",
+        "2 is even\n3 is odd"
+      ],
+      "correct_answer": "1 is odd\n2 is even\n3 is odd",
+      "explanation": "range(1, 4) generates 1, 2, and 3. The modulo operator % checks for evenness: 1 % 2 == 1 (odd), 2 % 2 == 0 (even), and 3 % 2 == 1 (odd). Loops allow us to test each number in a sequence without writing separate if-else blocks for every value."
+    },
+    {
+      "id": "6.1_q10",
+      "type": "multiple_choice",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "why_we_need_loops_analysis",
+      "prerequisites": [
+        "6.1_q9"
+      ],
+      "prompt": "Why do programmers use loops instead of copying and pasting the same code many times?",
+      "options": [
+        "Loops make code shorter, easier to read, and simpler to update when requirements change.",
+        "Loops are required by Python syntax for any repeated action.",
+        "Loops automatically fix bugs in repeated code.",
+        "Loops run faster than any non-loop code regardless of the task."
+      ],
+      "correct_answer": "Loops make code shorter, easier to read, and simpler to update when requirements change.",
+      "explanation": "Duplicating code leads to maintenance problems: changing the logic requires editing many places. A loop centralizes the repeated logic, making the program shorter, clearer, and easier to modify. This is the core reason loops exist."
+    },
+    {
+      "id": "6.1_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "concept": "why_we_need_loops_tracing",
+      "prerequisites": [
+        "6.1_q10"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ntotal = 0\nfor x in range(2, 5):\n    total = total + x\nprint(total)\n```",
+      "options": [
+        "0",
+        "3",
+        "9",
+        "Error: total is not defined"
+      ],
+      "correct_answer": "9",
+      "explanation": "Initially total is 0. The loop iterates over range(2, 5), yielding 2, 3, and 4. In each iteration, total accumulates the value: 0 + 2 = 2, 2 + 3 = 5, 5 + 4 = 9. Finally, print(total) outputs 9. Tracing step-by-step shows how a loop maintains and updates state across repetitions."
+    },
+    {
+      "id": "6.1_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "why_we_need_loops_logic",
+      "prerequisites": [
+        "6.1_q11"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nfor i in range(1, 4):\n    print('*' * i)\n```",
+      "options": [
+        "*\\n**\\n***",
+        "1*\\n2*\\n3*",
+        "***\\n**\\n*",
+        "Error: '*' cannot be multiplied by i"
+      ],
+      "correct_answer": "*\\n**\\n***",
+      "explanation": "range(1, 4) produces 1, 2, and 3. The expression '*' * i repeats the asterisk i times, yielding '*', '**', and '***' respectively. Each print adds a newline. This illustrates a common loop pattern: building a pattern or sequence incrementally, which would be tedious to write manually for many iterations."
+    },
+    {
+      "id": "6.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "why_we_need_loops_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.1_q12"
+      ],
+      "prompt": "Loops allow us to execute a block of code repeatedly without writing it out each time. In Python, the keyword used to start a loop is _____. For example: for i in range(3): print('hello')",
+      "correct_answer": "for",
+      "accepted_answers": [
+        "for",
+        "For"
+      ],
+      "explanation": "The 'for' keyword is required to initiate a loop in Python. It tells the interpreter to repeat the indented block of code for each item in a sequence."
+    },
+    {
+      "id": "6.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "why_we_need_loops_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q13"
+      ],
+      "prompt": "To make a loop stop before reaching its full range, we can use the _____ keyword inside the loop body. Example: for i in range(5): if i == 3: _____\nprint('done')",
+      "correct_answer": "break",
+      "accepted_answers": [
+        "break",
+        "break;"
+      ],
+      "explanation": "The 'break' keyword immediately exits the loop, skipping any remaining iterations. This is useful when we want to stop early based on a condition."
+    },
+    {
+      "id": "6.1_q15",
+      "type": "code_ordering",
+      "concept": "why_we_need_loops_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q14"
+      ],
+      "prompt": "Reorder the following code lines so they print 'A', 'B', and 'C' on separate lines using a loop:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The loop must come first, iterating over the list. Inside the loop, print(letter) executes once per item, producing the desired output without extra statements."
+    },
+    {
+      "id": "6.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "why_we_need_loops_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q15"
+      ],
+      "prompt": "When we want to print numbers from 0 up to (but not including) 4, we write: for i in range(____): print(i). This avoids manually typing four separate print statements.",
+      "correct_answer": "4",
+      "accepted_answers": [
+        "4",
+        "4 "
+      ],
+      "explanation": "range(4) generates the sequence 0, 1, 2, 3. Using a loop with range is more efficient and less error-prone than writing print(0), print(1), print(2), print(3) individually."
+    },
+    {
+      "id": "6.1_q17",
+      "type": "code_ordering",
+      "concept": "why_we_need_loops_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q16"
+      ],
+      "prompt": "Arrange these steps to build a simple program that asks for a name and prints it five times:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, capture the input once. Then use a loop to repeat the print action. Placing input inside the loop would prompt the user repeatedly, which is not the intended algorithm."
+    },
+    {
+      "id": "6.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "why_we_need_loops_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q17"
+      ],
+      "prompt": "A common Python idiom to process every element in a list is: for item in _____: print(item). This replaces the need for an index variable and manual counting.",
+      "correct_answer": "my_list",
+      "accepted_answers": [
+        "my_list",
+        "items",
+        "the_list"
+      ],
+      "explanation": "Iterating directly over a list with 'for item in my_list' is a standard Python idiom. It is cleaner and less error-prone than using range(len(my_list)) with manual indexing."
+    },
+    {
+      "id": "6.1_q19",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q18"
+      ],
+      "prompt": "A beginner wrote code to print numbers from 1 to 5 but forgot to repeat the print statement. Identify the problem and explain why repetition is needed.",
+      "starter_code": "x = 1\nprint(x)\nx = x + 1\nprint(x)\nx = x + 1\nprint(x)\nx = x + 1\nprint(x)\nx = x + 1\nprint(x)",
+      "solution_code": "for i in range(1, 6):\n    print(i)",
+      "hint": "Consider how many lines are needed to repeat an action and whether this scales to larger ranges.",
+      "explanation": "Writing the same operation multiple times is tedious, error-prone, and does not scale. A loop automates repetition, making code shorter, clearer, and easier to maintain."
+    },
+    {
+      "id": "6.1_q20",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.1_q19"
+      ],
+      "prompt": "Fix the code so it prints the message 'Hello' three times without repeating the print statement manually.",
+      "starter_code": "print('Hello')\nprint('Hello')\nprint('Hello')",
+      "solution_code": "for _ in range(3):\n    print('Hello')",
+      "hint": "Use a loop with range(3) to repeat the print statement exactly three times.",
+      "explanation": "The loop replaces three nearly identical lines with one reusable block. This demonstrates the core benefit of loops: reducing repetition."
+    },
+    {
+      "id": "6.1_q21",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q20"
+      ],
+      "prompt": "The code below should print numbers from 0 to 2, but it produces an incorrect result. Correct it.",
+      "starter_code": "for i in range(1, 3):\n    print(i)",
+      "solution_code": "for i in range(0, 3):\n    print(i)",
+      "hint": "Check the start value of range and how it affects which numbers are included.",
+      "explanation": "range(1, 3) yields 1 and 2, skipping 0. Using range(0, 3) includes 0, 1, and 2, which is the intended sequence. Loops let us precisely control repetition boundaries."
+    },
+    {
+      "id": "6.1_q22",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q21"
+      ],
+      "prompt": "This program is supposed to greet a user five times, but it fails when run. Diagnose the runtime issue.",
+      "starter_code": "name = input('Enter name: ')\nprint('Hi, ' + name)\nprint('Hi, ' + name)\nprint('Hi, ' + name)\nprint('Hi, ' + name)\nprint('Hi, ' + name)",
+      "solution_code": "name = input('Enter name: ')\nfor _ in range(5):\n    print('Hi, ' + name)",
+      "hint": "Consider what happens if the user enters a very long name or if the requirement changes to 10 greetings.",
+      "explanation": "Hard-coding repeated statements is inflexible and inefficient. If the requirement changes, every line must be edited. A loop centralizes the repetition, improving runtime behavior and maintainability."
+    },
+    {
+      "id": "6.1_q23",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q22"
+      ],
+      "prompt": "Repair the logic so the program prints 'Even' for every even number from 2 to 8 and 'Odd' for every odd number from 2 to 8.",
+      "starter_code": "for num in [2, 3, 4, 5, 6, 7, 8]:\n    if num % 2 == 0:\n        print('Odd')\n    else:\n        print('Even')",
+      "solution_code": "for num in [2, 3, 4, 5, 6, 7, 8]:\n    if num % 2 == 0:\n        print('Even')\n    else:\n        print('Odd')",
+      "hint": "The labels 'Even' and 'Odd' are swapped in the if-else block.",
+      "explanation": "Loops allow us to iterate over a collection and apply conditional logic to each item. Without a loop, we would need separate if-else blocks for every number."
+    },
+    {
+      "id": "6.1_q24",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.1_q23"
+      ],
+      "prompt": "Refactor this code to avoid duplication and improve performance when generating a list of squares from 1 to 100.",
+      "starter_code": "squares = []\nfor i in range(1, 101):\n    squares.append(i * i)\nprint(squares)\nfor i in range(1, 101):\n    squares.append(i * i)\nprint(squares)",
+      "solution_code": "def build_squares(n):\n    return [i * i for i in range(1, n + 1)]\n\nsquares = build_squares(100)\nprint(squares)\nprint(squares)",
+      "hint": "Extract the repeated logic into a reusable function and use a list comprehension for cleaner, faster construction.",
+      "explanation": "The original code repeats the same loop twice and uses imperative append style. By extracting a function and using a list comprehension, we reduce duplication, improve readability, and leverage Python's optimized internal iteration."
+    },
+    {
+      "id": "6.1_q25",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q24"
+      ],
+      "prompt": "Write a Python program that prints the numbers from 1 to 5 on separate lines using a loop. Avoid writing five separate print statements.",
+      "starter_code": "for i in range(1, 6):\n    print(i)",
+      "solution_code": "for i in range(1, 6):\n    print(i)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "1\n2\n3\n4\n5\n"
+        }
+      ],
+      "hint": "Use a for loop with range() to iterate through the desired sequence of numbers.",
+      "explanation": "Without a loop, you would need to write print(1), print(2), print(3), print(4), print(5) separately. A loop allows one block of code to execute repeatedly, saving time and reducing errors when the task is repetitive."
+    },
+    {
+      "id": "6.1_q26",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.1_q25"
+      ],
+      "prompt": "Write a Python program that greets a user by name five times using a loop. Store the name in a variable first.",
+      "starter_code": "name = 'Alex'\nfor i in range(5):\n    print('Hello', name)",
+      "solution_code": "name = 'Alex'\nfor i in range(5):\n    print('Hello', name)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Hello Alex\nHello Alex\nHello Alex\nHello Alex\nHello Alex\n"
+        }
+      ],
+      "hint": "Define the name variable before the loop, then use the loop to repeat the greeting.",
+      "explanation": "Loops are practical when a task must be performed multiple times with the same logic. Changing the name variable allows you to reuse the same loop structure for different users without rewriting code."
+    },
+    {
+      "id": "6.1_q27",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.1_q26"
+      ],
+      "prompt": "Write a Python program that asks the user for a number and then prints the multiplication table for that number from 1 to 10. Use a loop to avoid writing ten separate print statements.",
+      "starter_code": "n = int(input('Enter a number: '))\n# TODO: complete the loop below\nfor i in range(1, 11):\n    print(n, 'x', i, '=', n * i)",
+      "solution_code": "n = int(input('Enter a number: '))\nfor i in range(1, 11):\n    print(n, 'x', i, '=', n * i)",
+      "test_cases": [
+        {
+          "input": "7",
+          "expected_output": "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70\n"
+        }
+      ],
+      "hint": "The for loop already iterates from 1 to 10. Inside the loop, compute the product and print it using the variable n and the loop variable i.",
+      "explanation": "As the range of repetition grows, manually duplicating code becomes impractical and error-prone. A loop scales cleanly: whether you need 10 lines or 10,000 lines, the same loop structure applies. This demonstrates why loops are essential for handling repetitive tasks efficiently."
+    },
+    {
+      "id": "6.1_q28",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.1_q27"
+      ],
+      "prompt": "Write a Python program that prints only the even numbers from 1 to 10 using a loop. Do not use a list or filter function.",
+      "starter_code": "for num in range(1, 11):\n    # TODO: add condition to print only even numbers\n    pass",
+      "solution_code": "for num in range(1, 11):\n    if num % 2 == 0:\n        print(num)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "2\n4\n6\n8\n10\n"
+        }
+      ],
+      "hint": "Use the modulo operator % inside the loop to check if a number is divisible by 2 with no remainder.",
+      "explanation": "This challenge requires combining a loop with a conditional check. It reinforces that loops are not just for blind repetition; they can be paired with logic to selectively execute code, which is a common real-world pattern."
+    },
+    {
+      "id": "6.1_q29",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.1_q28"
+      ],
+      "prompt": "You are building a simple attendance tracker. Write a Python program that reads a list of 5 student names and prints a welcome message for each one using a loop. This simulates processing each record in a database without writing separate print statements for every student.",
+      "starter_code": "students = ['Priya', 'Liam', 'Sofia', 'Noah', 'Emma']\n# TODO: use a loop to print a welcome message for each student\nprint('Done')",
+      "solution_code": "students = ['Priya', 'Liam', 'Sofia', 'Noah', 'Emma']\nfor name in students:\n    print('Welcome,', name, '!')\nprint('Done')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Welcome, Priya !\nWelcome, Liam !\nWelcome, Sofia !\nWelcome, Noah !\nWelcome, Emma !\nDone\n"
+        }
+      ],
+      "hint": "Iterate over the students list and print a formatted string that includes each name.",
+      "explanation": "In real-world software, data sets often contain hundreds or thousands of items. A loop allows a program to process each record uniformly. Without loops, scaling such a task would require exponentially more code and maintenance effort."
+    },
+    {
+      "id": "6.1_q30",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.1_q29"
+      ],
+      "prompt": "Write a Python function called repeat_greeting that takes a name and a count, then prints 'Hello, [name]' exactly count times using a loop. Do not hardcode the number of prints inside the function body.",
+      "starter_code": "def repeat_greeting(name, count):\n    # TODO: implement the loop here\n    pass\n\n# Example usage:\nrepeat_greeting('Sam', 3)",
+      "solution_code": "def repeat_greeting(name, count):\n    for i in range(count):\n        print('Hello,', name, '!')\n\n# Example usage:\nrepeat_greeting('Sam', 3)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Hello, Sam !\nHello, Sam !\nHello, Sam !\n"
+        }
+      ],
+      "hint": "Use a for loop that runs count times. Inside the loop, print the greeting using the parameters passed to the function.",
+      "explanation": "This mastery item demonstrates abstraction and reusability. By encapsulating repetition inside a function with parameters, you show that loops are the foundation of scalable, maintainable code. Hardcoding repetitions would make the function inflexible and violate the DRY (Don't Repeat Yourself) principle."
+    }
+  ],
+  "unit_num": 6,
+  "learning_objectives": [
+    "Construct iterative loops using Why We Need Loops with proper loop bounds",
+    "Trace variable mutation across loop iterations",
+    "Prevent and debug infinite loop execution bugs",
+    "Apply loop control statements (break and continue) to control execution flow"
+  ],
+  "prerequisites": [
+    "5.6"
+  ]
+}

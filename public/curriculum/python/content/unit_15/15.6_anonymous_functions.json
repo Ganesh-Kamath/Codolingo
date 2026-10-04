@@ -1,0 +1,709 @@
+{
+  "lesson_id": "15.6",
+  "title": "Anonymous Functions (lambdas)",
+  "unit": "Advanced Functions",
+  "items": [
+    {
+      "id": "15.6_q1",
+      "type": "micro_lesson",
+      "concept": "anonymous_functions_lambdas_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is a Lambda?",
+      "content": "A lambda is an anonymous function, meaning it is not bound to a name at runtime. It is a small, single-expression function defined with the lambda keyword. You write a lambda as lambda arguments: expression. Unlike a regular function created with def, a lambda can only contain one expression, and that expression is automatically returned. Lambdas are often used when you need a simple function temporarily, especially as arguments to higher-order functions like map(), filter(), and sorted().\n\nExample:\n```\n# Regular function\ndef add(a, b):\n    return a + b\n\n# Equivalent lambda\nadd_lambda = lambda a, b: a + b\nprint(add_lambda(3, 4))  # Output: 7\n```\nNotice that the lambda does not use the return keyword; the expression after the colon is evaluated and returned automatically.",
+      "prompt": "",
+      "explanation": "A lambda is an anonymous function, meaning it is not bound to a name at runtime. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.6_q2",
+      "type": "multiple_choice",
+      "concept": "anonymous_functions_lambdas_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.6_q1"
+      ],
+      "prompt": "Which of the following is a valid lambda expression in Python?",
+      "options": [
+        "lambda x: x * 2",
+        "def x: return x * 2",
+        "lambda x = return x * 2",
+        "lambda: x * 2"
+      ],
+      "correct_answer": "lambda x: x * 2",
+      "explanation": "The correct syntax for a lambda is lambda arguments: expression. Option A follows this exactly. Option B uses def, which creates a named function, not a lambda. Option C incorrectly places return inside the lambda syntax. Option D omits the required argument list before the colon."
+    },
+    {
+      "id": "15.6_q3",
+      "type": "micro_lesson",
+      "concept": "anonymous_functions_lambdas_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.6_q2"
+      ],
+      "title": "Lambda Syntax Rules",
+      "content": "The general form of a lambda is:\n\nlambda parameter1, parameter2, ...: expression\n\nKey rules to remember:\n1. The lambda keyword is always lowercase.\n2. Parameters are listed after the keyword, separated by commas.\n3. A single colon separates the parameters from the expression.\n4. The expression is evaluated and its result is returned automatically; no return statement is used.\n5. Only one expression is allowed; you cannot include statements like assignments or loops.\n\nExamples:\n```\n# Lambda with one parameter\nsquare = lambda x: x ** 2\nprint(square(5))  # Output: 25\n\n# Lambda with multiple parameters\nadd = lambda a, b: a + b\nprint(add(10, 20))  # Output: 30\n\n# Lambda returning a string\ngreet = lambda name: 'Hello, ' + name\nprint(greet('Alice'))  # Output: Hello, Alice\n```\nBecause a lambda is just an expression, it is often assigned to a variable or passed directly to another function.",
+      "prompt": "",
+      "explanation": "The general form of a lambda is:\n\nlambda parameter1, parameter2,. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.6_q4",
+      "type": "multiple_choice",
+      "concept": "anonymous_functions_lambdas_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.6_q3"
+      ],
+      "prompt": "Given the lambda lambda x, y: x - y, what is the result of calling it with arguments 10 and 4?",
+      "options": [
+        "6",
+        "14",
+        "40",
+        "Error: lambda requires a return statement"
+      ],
+      "correct_answer": "6",
+      "explanation": "The lambda computes x - y. Substituting 10 for x and 4 for y gives 10 - 4 = 6. The lambda automatically returns the result of the expression, so no return keyword is needed and no error occurs."
+    },
+    {
+      "id": "15.6_q5",
+      "type": "multiple_choice",
+      "concept": "anonymous_functions_lambdas_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.6_q4"
+      ],
+      "prompt": "Match each lambda expression to its equivalent regular function.",
+      "options": [
+        "lambda x: x * 3  ->  def triple(x): return x * 3",
+        "lambda x: x * 3  ->  def triple(x): x * 3",
+        "lambda x: x * 3  ->  def triple(x): print(x * 3)",
+        "lambda x: x * 3  ->  def triple(x): return x + 3"
+      ],
+      "correct_answer": "lambda x: x * 3  ->  def triple(x): return x * 3",
+      "explanation": "The lambda lambda x: x * 3 multiplies the input by 3 and returns the result. The equivalent regular function must also multiply by 3 and return the value. Only option A correctly captures this behavior with return x * 3."
+    },
+    {
+      "id": "15.6_q6",
+      "type": "multiple_choice",
+      "concept": "anonymous_functions_lambdas_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.6_q5"
+      ],
+      "prompt": "Which statement correctly describes a common pitfall of using lambda functions?",
+      "options": [
+        "Lambdas can contain multiple statements separated by semicolons.",
+        "Lambdas cannot be assigned to variables.",
+        "Lambdas are limited to a single expression and cannot include statements like assignments or loops.",
+        "Lambdas automatically print their return value."
+      ],
+      "correct_answer": "Lambdas are limited to a single expression and cannot include statements like assignments or loops.",
+      "explanation": "A frequent mistake is trying to write multiple statements inside a lambda. Python restricts lambdas to one expression only. You cannot use assignment statements, for loops, or if blocks inside a lambda. This makes lambdas unsuitable for complex logic, which should instead use a regular def function."
+    },
+    {
+      "id": "15.6_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "anonymous_functions_lambdas_execution",
+      "prerequisites": [
+        "15.6_q6"
+      ],
+      "micro_lesson": {
+        "title": "Executing a Lambda Expression",
+        "content": "A lambda is an anonymous function defined with the lambda keyword. It evaluates to a function object that can be called immediately. The syntax is lambda arguments: expression. When executed, the expression is evaluated and returned. For example, (lambda x: x + 1)(5) returns 6. Lambdas are useful for short, throwaway functions, especially when passed as arguments to higher-order functions like map or filter."
+      },
+      "prompt": "What is the output of the following code?\n```python\nresult = (lambda a, b: a * b)(4, 7)\nprint(result)\n```",
+      "options": [
+        "28",
+        "11",
+        "47",
+        "Error"
+      ],
+      "correct_answer": "28",
+      "explanation": "The lambda takes two arguments a and b and returns their product. Calling it with 4 and 7 yields 28, which is printed."
+    },
+    {
+      "id": "15.6_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "anonymous_functions_lambdas_execution",
+      "prerequisites": [
+        "15.6_q7"
+      ],
+      "micro_lesson": {
+        "title": "Lambdas with Built-in Functions",
+        "content": "Lambdas often appear inside built-in functions that expect a function argument. The filter function, for instance, keeps items where the lambda returns True. The map function applies the lambda to every item in an iterable. When predicting output, trace each element through the lambda and the built-in function carefully."
+      },
+      "prompt": "What is printed by this code?\n```python\nnumbers = [1, 4, 9, 16]\nfiltered = list(filter(lambda x: x > 5, numbers))\nprint(filtered)\n```",
+      "options": [
+        "[1, 4, 9, 16]",
+        "[9, 16]",
+        "[1, 4]",
+        "[]"
+      ],
+      "correct_answer": "[9, 16]",
+      "explanation": "The lambda keeps only numbers greater than 5. From the list, 9 and 16 satisfy this condition, so the filtered list is [9, 16]."
+    },
+    {
+      "id": "15.6_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "anonymous_functions_lambdas_flow",
+      "prerequisites": [
+        "15.6_q8"
+      ],
+      "micro_lesson": {
+        "title": "Control Flow Inside Lambdas",
+        "content": "A lambda expression contains only a single expression, not statements. However, you can use a conditional expression (ternary operator) inside a lambda to simulate branching. The form is value_if_true if condition else value_if_false. This keeps the lambda valid as an expression while allowing simple logic."
+      },
+      "prompt": "What does this code print?\n```python\ncheck = lambda n: 'even' if n % 2 == 0 else 'odd'\nprint(check(10))\n```",
+      "options": [
+        "'even'",
+        "'odd'",
+        "10",
+        "SyntaxError"
+      ],
+      "correct_answer": "'even'",
+      "explanation": "10 modulo 2 equals 0, so the condition is True and the lambda returns 'even'."
+    },
+    {
+      "id": "15.6_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "anonymous_functions_lambdas_analysis",
+      "prerequisites": [
+        "15.6_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Lambda Behavior",
+        "content": "When analyzing lambda output, consider variable scope, default arguments, and side effects. A lambda captures variables from its enclosing scope. If the captured variable changes after the lambda is defined, the lambda uses the current value at call time. Default arguments, however, are evaluated once at definition time, which can lead to unexpected behavior if mutable objects are involved."
+      },
+      "prompt": "Explain why the following code prints [2, 2, 2] instead of [0, 1, 2].\n```python\nfuncs = [lambda i=i: i for i in range(3)]\nprint([f() for f in funcs])\n```",
+      "correct_answer": "Default arguments are evaluated at definition time, so i is captured as 2 for all lambdas.",
+      "explanation": "In Python, default argument values are bound when the function is defined. Since i reaches 2 by the end of the loop, all three lambdas default to i=2, producing [2, 2, 2].",
+      "starter_code": "# TODO: Implement solution for Anonymous Functions (lambdas)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Anonymous Functions (lambdas)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Anonymous Functions (lambdas)"
+        }
+      ]
+    },
+    {
+      "id": "15.6_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "concept": "anonymous_functions_lambdas_tracing",
+      "prerequisites": [
+        "15.6_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing Lambda Execution Step-by-Step",
+        "content": "To trace a lambda, follow the input values through each nested function call. Map applies the lambda to each item sequentially. If the lambda itself calls another function or uses arithmetic, compute those operations in order. Pay attention to operator precedence and how each intermediate result feeds into the next step."
+      },
+      "prompt": "What is the final value of total after this code runs?\n```python\ntotal = sum(map(lambda x: x * x + 1, [2, 3]))\n```",
+      "options": [
+        "15",
+        "14",
+        "10",
+        "9"
+      ],
+      "correct_answer": "15",
+      "explanation": "For 2: 2*2 + 1 = 5. For 3: 3*3 + 1 = 10. sum([5, 10]) = 15."
+    },
+    {
+      "id": "15.6_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "anonymous_functions_lambdas_logic",
+      "prerequisites": [
+        "15.6_q11"
+      ],
+      "micro_lesson": {
+        "title": "Lambda Logic with Boolean Conditions",
+        "content": "Lambdas frequently implement simple logical checks. The and and or operators can be used inside a lambda expression, but the result must be a single expression. When predicting output, evaluate each boolean sub-expression in order, respecting short-circuit behavior, then determine the final truth value returned by the lambda."
+      },
+      "prompt": "What does this code output?\n```python\nvalid = lambda a, b: (a > 0 and b < 10) or (a == 0 and b == 0)\nprint(valid(0, 0))\n```",
+      "options": [
+        "True",
+        "False",
+        "0",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "explanation": "The second condition a == 0 and b == 0 is True, so the whole or expression evaluates to True."
+    },
+    {
+      "id": "15.6_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.6_q12"
+      ],
+      "concept": "anonymous_functions_lambdas_syntax",
+      "prompt": "Complete the lambda expression: result = lambda x, y: x + y\nprint(result(5, 3))\n\nThe keyword used to create an anonymous function is: ___",
+      "correct_answer": "lambda",
+      "accepted_answers": [
+        "lambda",
+        "Lambda"
+      ],
+      "explanation": "The lambda keyword creates a small anonymous function. Unlike def, it does not require a name and is limited to a single expression."
+    },
+    {
+      "id": "15.6_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q13"
+      ],
+      "concept": "anonymous_functions_lambdas_keywords",
+      "prompt": "When using a lambda, you cannot use the keyword ___ inside the body because lambdas only support a single expression, not statements like loops or assignments.",
+      "correct_answer": "return",
+      "accepted_answers": [
+        "return",
+        "Return"
+      ],
+      "explanation": "The return keyword is implicit in a lambda because the expression itself is the return value. You cannot write return inside a lambda body."
+    },
+    {
+      "id": "15.6_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q14"
+      ],
+      "concept": "anonymous_functions_lambdas_sequence",
+      "prompt": "Arrange the following lines to filter even numbers from a list using a lambda with filter().",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First define the list, then apply filter with a lambda that checks x % 2 == 0, and finally convert the filter object to a list for printing."
+    },
+    {
+      "id": "15.6_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q15"
+      ],
+      "concept": "anonymous_functions_lambdas_patterns",
+      "prompt": "Complete the expression: sorted(players, key=lambda p: p['___'])\n\nThis sorts a list of dictionaries by the value associated with a specific key.",
+      "correct_answer": "score",
+      "accepted_answers": [
+        "score",
+        "Score",
+        "points",
+        "Points"
+      ],
+      "explanation": "The lambda receives each dictionary p and returns p['score'], which sorted uses as the comparison key. Any valid dictionary key name is acceptable here."
+    },
+    {
+      "id": "15.6_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q16"
+      ],
+      "concept": "anonymous_functions_lambdas_algorithm",
+      "prompt": "Arrange the lines to compute the sum of squares of numbers 0 through 4 using a lambda and reduce().",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Import reduce first, define the list, use reduce with a lambda that accumulates a + b ** 2 starting from 0, and print the final sum."
+    },
+    {
+      "id": "15.6_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q17"
+      ],
+      "concept": "anonymous_functions_lambdas_idioms",
+      "prompt": "A common idiom is to replace a small named function with a lambda inside a list comprehension. For example: [x * 2 for x in range(3) if x > ___]\n\nFill in the blank to include only positive integers in the result.",
+      "correct_answer": "0",
+      "accepted_answers": [
+        "0",
+        "zero"
+      ],
+      "explanation": "Using x > 0 filters out zero, so the resulting list contains 2 and 4. This demonstrates a concise lambda-free idiom, though the same logic can be expressed with filter and lambda."
+    },
+    {
+      "id": "15.6_q19",
+      "idx": 19,
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "anonymous_functions_lambdas_errors",
+      "prerequisites": [
+        "15.6_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Lambda Syntax Errors",
+        "content": "Lambdas in Python are anonymous functions defined with the `lambda` keyword. A frequent mistake is using a `return` statement inside a lambda, which is invalid because lambdas can only contain a single expression. Another common error is attempting to include statements (like assignments or loops) within a lambda. Additionally, forgetting parentheses when invoking a lambda assigned to a variable causes a `TypeError`. Below is an example of an invalid lambda:\n\n```python\n# Invalid: return statement not allowed\ninvalid = lambda x: return x * 2\n\n# Invalid: statement not allowed\ninvalid2 = lambda x: x = x + 1\n```\n\nTo fix these, convert the lambda into a regular `def` function when multiple statements or explicit returns are needed."
+      },
+      "difficulty": "medium",
+      "prompt": "Fix the bug in this code for anonymous functions lambdas errors:",
+      "starter_code": "# Fix this code\nPrint('Anonymous Functions (lambdas)')",
+      "solution_code": "print('Anonymous Functions (lambdas)')",
+      "explanation": "This exercise tests `anonymous functions lambdas errors` in Anonymous Functions (lambdas). When Python validates this code, it applies the standard rules of anonymous functions lambdas errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "15.6_q20",
+      "idx": 20,
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "easy",
+      "concept": "anonymous_functions_lambdas_fix",
+      "prerequisites": [
+        "15.6_q19"
+      ],
+      "prompt": "The following code attempts to create a lambda that doubles a number, but it raises a SyntaxError. Fix the code so it works correctly.",
+      "starter_code": "double = lambda x: return x * 2\nresult = double(5)\nprint(result)",
+      "solution_code": "double = lambda x: x * 2\nresult = double(5)\nprint(result)",
+      "hint": "Lambdas in Python do not use the `return` keyword. They evaluate and return the expression directly.",
+      "explanation": "The `return` keyword is not permitted in lambda expressions. The expression `x * 2` is automatically returned when the lambda is called. Removing `return` resolves the SyntaxError.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "15.6_q21",
+      "idx": 21,
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "anonymous_functions_lambdas_edge_cases",
+      "prerequisites": [
+        "15.6_q20"
+      ],
+      "prompt": "This lambda is used inside `filter()` but fails when given an empty list or non-numeric values. Fix it to handle edge cases safely.",
+      "starter_code": "data = []\nfiltered = list(filter(lambda x: x > 0, data))\nprint(filtered)",
+      "solution_code": "data = []\nfiltered = list(filter(lambda x: isinstance(x, (int, float)) and x > 0, data))\nprint(filtered)",
+      "hint": "Check the type of each element before comparing it to a number to avoid TypeError.",
+      "explanation": "An empty list is valid and `filter()` simply returns an empty iterator, but non-numeric inputs cause a TypeError during comparison. Adding `isinstance` guards against invalid types, making the lambda robust.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "15.6_q22",
+      "idx": 22,
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "anonymous_functions_lambdas_runtime",
+      "prerequisites": [
+        "15.6_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Lambdas",
+        "content": "Lambdas are evaluated at runtime, so errors often surface only when the lambda is invoked. A common runtime issue is referencing a variable that does not exist in the lambda's scope, known as a `NameError`. Another scenario is a `TypeError` when the lambda is called with arguments of the wrong type or the wrong number of arguments. Consider this example:\n\n```python\n# This raises NameError at runtime\nmy_lambda = lambda a: a + missing_var\n\n# This raises TypeError at runtime\nmy_lambda2 = lambda a: a + 1\nmy_lambda2('text')\n```\n\nAlways ensure that referenced variables are defined and that argument types match the expected operations."
+      },
+      "difficulty": "medium",
+      "prompt": "Fix the bug in this code for anonymous functions lambdas runtime:",
+      "starter_code": "# Fix this code\nPrint('Anonymous Functions (lambdas)')",
+      "solution_code": "print('Anonymous Functions (lambdas)')",
+      "explanation": "This exercise tests `anonymous functions lambdas runtime` in Anonymous Functions (lambdas). When Python validates this code, it applies the standard rules of anonymous functions lambdas runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "15.6_q23",
+      "idx": 23,
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "anonymous_functions_lambdas_logic_repair",
+      "prerequisites": [
+        "15.6_q22"
+      ],
+      "prompt": "The lambda inside `sorted()` does not sort strings by length as intended. Repair the logic so the list is ordered from shortest to longest string.",
+      "starter_code": "words = ['apple', 'pie', 'banana', 'kiwi']\nsorted_words = sorted(words, key=lambda x: len(x))\nprint(sorted_words)",
+      "solution_code": "words = ['apple', 'pie', 'banana', 'kiwi']\nsorted_words = sorted(words, key=lambda x: len(x))\nprint(sorted_words)",
+      "hint": "The current lambda already computes length. Verify that `sorted()` is being used correctly and that no extra logic is interfering.",
+      "explanation": "The provided lambda correctly returns `len(x)`, which `sorted()` uses as the key. The original code was already correct; the task reinforces that `key=lambda x: len(x)` sorts by string length without modification.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "15.6_q24",
+      "idx": 24,
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "diff": "hard",
+      "concept": "anonymous_functions_lambdas_optimization",
+      "prerequisites": [
+        "15.6_q23"
+      ],
+      "prompt": "Refactor the following code to use a lambda where appropriate, then optimize it by replacing repeated lambda definitions with a single reusable callable or a named helper. Ensure readability and performance.",
+      "starter_code": "def process(items):\n    positives = list(filter(lambda x: x > 0, items))\n    doubled = list(map(lambda x: x * 2, positives))\n    return doubled\n\nitems = [1, -2, 3, 0, 4]\nprint(process(items))",
+      "solution_code": "def process(items):\n    def transform(x):\n        return x * 2\n    positives = list(filter(lambda x: x > 0, items))\n    doubled = list(map(transform, positives))\n    return doubled\n\nitems = [1, -2, 3, 0, 4]\nprint(process(items))",
+      "test_cases": [
+        {
+          "input": [
+            1,
+            -2,
+            3,
+            0,
+            4
+          ],
+          "expected": [
+            2,
+            6,
+            8
+          ]
+        },
+        {
+          "input": [],
+          "expected": []
+        },
+        {
+          "input": [
+            -5,
+            -1,
+            2
+          ],
+          "expected": [
+            4
+          ]
+        }
+      ],
+      "hint": "Extract the multiplication logic into a named helper to avoid defining an anonymous function twice and improve clarity.",
+      "explanation": "The original code defined two separate lambdas, one for filtering and one for mapping. By extracting the multiplication into a named `transform` function, we reduce redundancy, improve testability, and maintain the lambda for the simple predicate `x > 0`. This is a cleaner, more maintainable refactoring.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "15.6_q25",
+      "type": "write_the_code",
+      "title": "Implement a Lambda for Simple Transformation",
+      "concept": "anonymous_functions_lambdas_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q24"
+      ],
+      "prompt": "Write a Python function `apply_square` that takes a list of numbers and returns a new list where each number is squared. Use a lambda function inside `map()` to perform the transformation.",
+      "starter_code": "def apply_square(numbers):\n    # TODO: use a lambda with map to square each number\n    return list(map(lambda x: x ** 2, numbers))\n\nprint(apply_square([1, 2, 3, 4]))",
+      "solution_code": "def apply_square(numbers):\n    return list(map(lambda x: x ** 2, numbers))\n\nprint(apply_square([1, 2, 3, 4]))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[1, 2, 3, 4]",
+          "description": "[1, 2, 3, 4]"
+        },
+        {
+          "input": "",
+          "expected_output": "[-1, -2, 0]",
+          "description": "[-1, -2, 0]"
+        },
+        {
+          "input": "",
+          "expected_output": "[5, 10, 15]",
+          "description": "[5, 10, 15]"
+        }
+      ],
+      "hint": "Recall that `map()` applies a function to every item of an iterable. A lambda is a concise anonymous function defined with `lambda arguments: expression`.",
+      "explanation": "The lambda `lambda x: x ** 2` takes one argument `x` and returns its square. `map()` applies this lambda to each element of the input list, and `list()` converts the resulting map object into a list."
+    },
+    {
+      "id": "15.6_q26",
+      "type": "write_the_code",
+      "title": "Practical Lambda with Filtering and Sorting",
+      "concept": "anonymous_functions_lambdas_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.6_q25"
+      ],
+      "prompt": "Given a list of dictionaries representing students with `name` and `score`, filter out students whose score is below 60 and return a list of their names sorted in descending order of score. Use a lambda in both `filter()` and `sorted()`.",
+      "starter_code": "students = [\n    {'name': 'Alice', 'score': 85},\n    {'name': 'Bob', 'score': 58},\n    {'name': 'Charlie', 'score': 72},\n    {'name': 'Diana', 'score': 49}\n]\n\ndef passing_students(data):\n    # TODO: filter and sort using lambdas\n    pass\n\nprint(passing_students(students))",
+      "solution_code": "students = [\n    {'name': 'Alice', 'score': 85},\n    {'name': 'Bob', 'score': 58},\n    {'name': 'Charlie', 'score': 72},\n    {'name': 'Diana', 'score': 49}\n]\n\ndef passing_students(data):\n    filtered = filter(lambda s: s['score'] >= 60, data)\n    sorted_list = sorted(filtered, key=lambda s: s['score'], reverse=True)\n    return [s['name'] for s in sorted_list]\n\nprint(passing_students(students))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "students",
+          "description": "students"
+        },
+        {
+          "input": "",
+          "expected_output": "[{'name': 'Eve', 'score': 60}, {'name': 'Frank', 'score': 59}]",
+          "description": "[{'name': 'Eve', 'score': 60}, {'name': 'Frank', 'score': 59}]"
+        },
+        {
+          "input": "",
+          "expected_output": "[]",
+          "description": "[]"
+        }
+      ],
+      "hint": "Use `filter()` with a lambda that checks `score >= 60`. Then use `sorted()` with a `key` lambda that extracts `score`, setting `reverse=True` for descending order.",
+      "explanation": "The `filter()` lambda keeps only passing students. The `sorted()` lambda uses `key=lambda s: s['score']` to sort by score. Finally, a list comprehension extracts just the names."
+    },
+    {
+      "id": "15.6_q27",
+      "type": "write_the_code",
+      "title": "Advanced Lambda with Default Arguments and Closure",
+      "concept": "anonymous_functions_lambdas_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.6_q26"
+      ],
+      "prompt": "Create a higher-order function `make_multiplier(factor)` that returns a lambda. The returned lambda takes a number `n` and returns `n * factor`. Demonstrate by creating multipliers for 3 and 5, then applying them to 4 and 7 respectively.",
+      "starter_code": "def make_multiplier(factor):\n    # TODO: return a lambda that multiplies by factor\n    return lambda n: n * factor\n\nmult3 = make_multiplier(3)\nmult5 = make_multiplier(5)\nprint(mult3(4), mult5(7))",
+      "solution_code": "def make_multiplier(factor):\n    return lambda n: n * factor\n\nmult3 = make_multiplier(3)\nmult5 = make_multiplier(5)\nprint(mult3(4), mult5(7))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "make_multiplier(2)(10)",
+          "description": "make_multiplier(2)(10)"
+        },
+        {
+          "input": "",
+          "expected_output": "make_multiplier(10)(1)(5)",
+          "description": "make_multiplier(10)(1)(5)"
+        },
+        {
+          "input": "",
+          "expected_output": "make_multiplier(0)(99)",
+          "description": "make_multiplier(0)(99)"
+        }
+      ],
+      "hint": "A lambda can capture variables from its enclosing scope. The `factor` parameter is closed over by the lambda returned from `make_multiplier`.",
+      "explanation": "`make_multiplier(factor)` returns a lambda that remembers the value of `factor`. When called later with `n`, it computes `n * factor`, demonstrating a closure with an anonymous function."
+    },
+    {
+      "id": "15.6_q28",
+      "type": "write_the_code",
+      "title": "Lambda Challenge: Complex Data Processing",
+      "concept": "anonymous_functions_lambdas_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.6_q27"
+      ],
+      "prompt": "Given a list of tuples `(product, price, quantity)`, compute the total value per product (price * quantity), filter products with total value above 500, and return the top 2 by total value. Use only lambda functions and built-in functions.",
+      "starter_code": "inventory = [\n    ('laptop', 800, 2),\n    ('mouse', 25, 10),\n    ('keyboard', 120, 5),\n    ('monitor', 300, 3)\n]\n\ndef top_products(data):\n    # TODO: use map, filter, and sorted with lambdas\n    pass\n\nprint(top_products(inventory))",
+      "solution_code": "inventory = [\n    ('laptop', 800, 2),\n    ('mouse', 25, 10),\n    ('keyboard', 120, 5),\n    ('monitor', 300, 3)\n]\n\ndef top_products(data):\n    with_total = map(lambda t: (t[0], t[1] * t[2]), data)\n    filtered = filter(lambda t: t[1] > 500, with_total)\n    sorted_list = sorted(filtered, key=lambda t: t[1], reverse=True)\n    return sorted_list[:2]\n\nprint(top_products(inventory))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "inventory",
+          "description": "inventory"
+        },
+        {
+          "input": "",
+          "expected_output": "[(x, 10) for x in range(5)]",
+          "description": "[(x, 10) for x in range(5)]"
+        },
+        {
+          "input": "",
+          "expected_output": "[]",
+          "description": "[]"
+        }
+      ],
+      "hint": "Chain `map()` to compute totals, `filter()` to keep values above 500, and `sorted()` with `reverse=True` to get the highest values first.",
+      "explanation": "The pipeline computes total value per product, removes low-value items, sorts descending by total value, and slices the top two. Each stage uses a lambda to encapsulate the logic concisely."
+    },
+    {
+      "id": "15.6_q29",
+      "type": "write_the_code",
+      "title": "Real-World Scenario: Data Pipeline with Lambdas",
+      "concept": "anonymous_functions_lambdas_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.6_q28"
+      ],
+      "prompt": "You are processing raw sales records as a list of dictionaries. Each record has `date`, `region`, `amount`, and `currency`. Normalize amounts to USD using a fixed exchange rate dictionary, filter records from 'EMEA', and compute total USD per region. Write a function using lambda expressions to perform this ETL-like transformation.",
+      "starter_code": "records = [\n    {'date': '2024-01-01', 'region': 'NA', 'amount': 100, 'currency': 'USD'},\n    {'date': '2024-01-02', 'region': 'EMEA', 'amount': 90, 'currency': 'EUR'},\n    {'date': '2024-01-03', 'region': 'APAC', 'amount': 120, 'currency': 'USD'},\n    {'date': '2024-01-04', 'region': 'EMEA', 'amount': 80, 'currency': 'GBP'}\n]\n\nexchange = {'USD': 1.0, 'EUR': 1.1, 'GBP': 1.25}\n\ndef process_sales(data, rates):\n    # TODO: convert to USD, filter EMEA, group by region and sum\n    pass\n\nprint(process_sales(records, exchange))",
+      "solution_code": "records = [\n    {'date': '2024-01-01', 'region': 'NA', 'amount': 100, 'currency': 'USD'},\n    {'date': '2024-01-02', 'region': 'EMEA', 'amount': 90, 'currency': 'EUR'},\n    {'date': '2024-01-03', 'region': 'APAC', 'amount': 120, 'currency': 'USD'},\n    {'date': '2024-01-04', 'region': 'EMEA', 'amount': 80, 'currency': 'GBP'}\n]\n\nexchange = {'USD': 1.0, 'EUR': 1.1, 'GBP': 1.25}\n\ndef process_sales(data, rates):\n    usd_records = map(\n        lambda r: {**r, 'amount_usd': r['amount'] * rates[r['currency']]},\n        data\n    )\n    emea = filter(lambda r: r['region'] == 'EMEA', usd_records)\n    from collections import defaultdict\n    totals = defaultdict(float)\n    for r in emea:\n        totals[r['region']] += r['amount_usd']\n    return dict(totals)\n\nprint(process_sales(records, exchange))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "records",
+          "description": "records"
+        },
+        {
+          "input": "",
+          "expected_output": "[{'a': 1}, {'a': 2}]",
+          "description": "[{'a': 1}, {'a': 2}]"
+        },
+        {
+          "input": "",
+          "expected_output": "[]",
+          "description": "[]"
+        }
+      ],
+      "hint": "Use `map()` to add `amount_usd`. Use `filter()` for EMEA. Then aggregate with a `defaultdict` or `reduce()`.",
+      "explanation": "In production data pipelines, lambdas allow inline transformations without defining named helper functions. Here we convert currencies, isolate a region, and aggregate totals efficiently."
+    },
+    {
+      "id": "15.6_q30",
+      "type": "write_the_code",
+      "title": "Mastery: Lambda with reduce and Conditional Expression",
+      "concept": "anonymous_functions_lambdas_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.6_q29"
+      ],
+      "prompt": "Given a list of integers, use `reduce()` with a lambda to compute the product of all even numbers. If there are no even numbers, return 0. Do not use explicit loops or named helper functions.",
+      "starter_code": "from functools import reduce\n\ndef even_product(nums):\n    # TODO: use reduce and a lambda with conditional logic\n    pass\n\nprint(even_product([2, 3, 4, 5]))\nprint(even_product([1, 3, 5]))",
+      "solution_code": "from functools import reduce\n\ndef even_product(nums):\n    evens = list(filter(lambda x: x % 2 == 0, nums))\n    if not evens:\n        return 0\n    return reduce(lambda a, b: a * b, evens)\n\nprint(even_product([2, 3, 4, 5]))\nprint(even_product([1, 3, 5]))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[2, 4, 6]",
+          "description": "[2, 4, 6]"
+        },
+        {
+          "input": "",
+          "expected_output": "[0, 5, 8]",
+          "description": "[0, 5, 8]"
+        },
+        {
+          "input": "",
+          "expected_output": "[1, 2, 3, 4, 5, 6]",
+          "description": "[1, 2, 3, 4, 5, 6]"
+        }
+      ],
+      "hint": "First isolate even numbers with `filter()` and `lambda`. Then use `reduce()` with a multiplication lambda. Handle the empty case before reducing.",
+      "explanation": "This exercise demonstrates mastery by combining `filter()`, `reduce()`, and a conditional check—all orchestrated through anonymous functions. `reduce(lambda a, b: a * b, evens)` accumulates the product, and the guard clause ensures correctness for edge cases."
+    }
+  ],
+  "unit_num": 15,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Anonymous s (lambdas)",
+    "Apply idiomatic Python patterns when working with Anonymous s (lambdas)",
+    "Debug common runtime exceptions and logic errors associated with Anonymous s (lambdas)",
+    "Implement production-ready code utilizing Anonymous s (lambdas)"
+  ],
+  "prerequisites": [
+    "15.5"
+  ]
+}

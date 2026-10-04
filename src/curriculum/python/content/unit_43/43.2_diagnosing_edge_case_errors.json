@@ -1,0 +1,604 @@
+{
+  "lesson_id": "43.2",
+  "title": "Diagnosing Edge Case Errors",
+  "unit": "Python Mastery",
+  "items": [
+    {
+      "id": "43.2_q1",
+      "idx": 1,
+      "type": "micro_lesson",
+      "title": "What Are Edge Case Errors?",
+      "content": "An edge case error occurs when a program behaves unexpectedly because it was tested only on typical, 'happy path' inputs and fails on unusual or boundary values. For example, dividing by zero, passing an empty list to a function that expects at least one element, or using a negative number where only positives make sense. Recognizing these situations early prevents crashes and subtle bugs. Always ask: 'What happens if the input is empty, zero, negative, or extremely large?' Below is a simple demonstration.",
+      "concept": "diagnosing_edge_case_errors_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "An edge case error occurs when a program behaves unexpectedly because it was tested only on typical, 'happy path' inputs and fails on unusual or boundary values. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "43.2_q2",
+      "idx": 2,
+      "type": "multiple_choice",
+      "prompt": "Which of the following is the best example of an edge case?",
+      "options": [
+        "A function that adds two numbers",
+        "A function that divides by a user-provided denominator",
+        "A function that prints a welcome message",
+        "A function that returns True for valid input"
+      ],
+      "correct_answer": "A function that divides by a user-provided denominator",
+      "explanation": "Division by zero is a classic edge case because the program may crash or produce an invalid result when the denominator is zero, an unusual boundary value.",
+      "concept": "diagnosing_edge_case_errors_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q1"
+      ]
+    },
+    {
+      "id": "43.2_q3",
+      "idx": 3,
+      "type": "micro_lesson",
+      "title": "Syntax Errors vs. Edge Case Errors",
+      "content": "A syntax error prevents the code from running at all because the Python interpreter cannot parse the statement. An edge case error, by contrast, is a logical failure that only appears under specific input conditions. Syntax errors are caught before execution; edge case errors are found while the code is running with unusual data. Consider the following code: it has no syntax issues, yet it can still fail if the input is unexpected. Always separate 'does it run?' from 'does it behave correctly for every input?'",
+      "concept": "diagnosing_edge_case_errors_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q2"
+      ],
+      "prompt": "",
+      "explanation": "A syntax error prevents the code from running at all because the Python interpreter cannot parse the statement. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "43.2_q4",
+      "idx": 4,
+      "type": "multiple_choice",
+      "prompt": "The code below runs without syntax errors but raises an exception for a specific input. What category of error is this?",
+      "options": [
+        "Syntax error",
+        "Edge case error",
+        "Import error",
+        "Indentation error"
+      ],
+      "correct_answer": "Edge case error",
+      "explanation": "Since the code parses and executes, it is not a syntax, import, or indentation error. When the program fails only for unusual inputs such as zero or empty data, it is an edge case error.",
+      "concept": "diagnosing_edge_case_errors_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q3"
+      ]
+    },
+    {
+      "id": "43.2_q5",
+      "idx": 5,
+      "type": "multiple_choice",
+      "prompt": "Match the scenario to the correct edge case category.",
+      "options": [
+        "Empty list passed to a function expecting at least one item",
+        "Using a string where an integer is required",
+        "Missing a colon at the end of an if statement",
+        "Forgetting to close a parenthesis"
+      ],
+      "correct_answer": "Empty list passed to a function expecting at least one item",
+      "explanation": "This describes a boundary condition where the input size is zero, which is an edge case. The other options describe type mismatches or syntax mistakes, not edge cases.",
+      "concept": "diagnosing_edge_case_errors_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q4"
+      ]
+    },
+    {
+      "id": "43.2_q6",
+      "idx": 6,
+      "type": "multiple_choice",
+      "prompt": "Which pitfall commonly leads to an edge case error when processing user input?",
+      "options": [
+        "Assuming all inputs are valid and non-empty",
+        "Using descriptive variable names",
+        "Adding comments to explain logic",
+        "Testing with only one sample value"
+      ],
+      "correct_answer": "Assuming all inputs are valid and non-empty",
+      "explanation": "Blindly trusting inputs without checking for empty, zero, or negative values causes edge case failures. Defensive checks and diverse test data help avoid this pitfall.",
+      "concept": "diagnosing_edge_case_errors_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q5"
+      ]
+    },
+    {
+      "id": "43.2_q7",
+      "type": "code_prediction",
+      "concept": "diagnosing_edge_case_errors_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q6"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef safe_divide(a, b):\n    if b == 0:\n        return None\n    return a / b\n\nresult = safe_divide(10, 0)\nprint(result)\n```\n\nWhat is the output when this code is executed?",
+      "options": [
+        "10",
+        "None",
+        "ZeroDivisionError",
+        "0"
+      ],
+      "correct_answer": "None",
+      "explanation": "The function checks if b equals 0 before performing division. When b is 0, it returns None instead of attempting the division. Therefore, the print statement outputs None."
+    },
+    {
+      "id": "43.2_q8",
+      "type": "output_prediction",
+      "concept": "diagnosing_edge_case_errors_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q7"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef get_last_item(items):\n    return items[-1]\n\nmy_list = []\noutput = get_last_item(my_list)\nprint(output)\n```\n\nWhat is the output when this code is executed?",
+      "options": [
+        "IndexError: list index out of range",
+        "None",
+        "0",
+        "[]"
+      ],
+      "correct_answer": "IndexError: list index out of range",
+      "explanation": "Accessing items[-1] on an empty list raises an IndexError because there is no last element. The program crashes and prints the exception message."
+    },
+    {
+      "id": "43.2_q9",
+      "type": "code_prediction",
+      "concept": "diagnosing_edge_case_errors_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q8"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef is_positive(n):\n    if n > 0:\n        return True\n    elif n < 0:\n        return False\n    else:\n        return None\n\nprint(is_positive(-5))\nprint(is_positive(0))\nprint(is_positive(5))\n```\n\nWhat is the output when this code is executed?",
+      "options": [
+        "True, None, True",
+        "False, None, True",
+        "False, False, True",
+        "True, False, True"
+      ],
+      "correct_answer": "False, None, True",
+      "explanation": "For -5, the first condition fails and the second condition n < 0 is True, so it returns False. For 0, both comparisons fail, so the else branch returns None. For 5, n > 0 is True, so it returns True."
+    },
+    {
+      "id": "43.2_q10",
+      "type": "write_the_code",
+      "concept": "diagnosing_edge_case_errors_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q9"
+      ],
+      "prompt": "Explain why the following code produces an unexpected result for the input '007':\n\n```python\ndef check_numeric_string(s):\n    if s.isdigit():\n        return int(s) > 0\n    return False\n\nprint(check_numeric_string('007'))\n```",
+      "correct_answer": "int('007') evaluates to 7, which is greater than 0, so the function returns True.",
+      "explanation": "'007'.isdigit() returns True because all characters are digits. int('007') converts the string to the integer 7. Since 7 > 0 is True, the function returns True. The edge case is that leading zeros do not prevent conversion to a valid integer.",
+      "starter_code": "# 1. Define the process_43_2 function\ndef process_43_2():\n    # 2. Implement solution for Diagnosing Edge Case Errors\n    pass\n",
+      "solution_code": "print('Diagnosing Edge Case Errors')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Diagnosing Edge Case Errors"
+        }
+      ]
+    },
+    {
+      "id": "43.2_q11",
+      "type": "code_prediction",
+      "concept": "diagnosing_edge_case_errors_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q10"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef countdown(n):\n    if n <= 0:\n        print('Blastoff!')\n    else:\n        print(n)\n        countdown(n - 1)\n\ncountdown(0)\n```\n\nWhat is the output when this code is executed?",
+      "options": [
+        "0, Blastoff!",
+        "Blastoff!",
+        "0",
+        "Error: maximum recursion depth exceeded"
+      ],
+      "explanation": "When countdown(0) is called, n is not greater than 0, so the else branch is skipped. The if n <= 0 condition is True, so 'Blastoff!' is printed. No further recursive calls occur, so the output is just 'Blastoff!'.",
+      "correct_answer": "Blastoff!"
+    },
+    {
+      "id": "43.2_q12",
+      "type": "output_prediction",
+      "concept": "diagnosing_edge_case_errors_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q11"
+      ],
+      "prompt": "Consider the following Python code:\n\n```python\ndef is_even_or_odd(n):\n    if n % 2 == 0:\n        return 'even'\n    elif n % 2 == 1:\n        return 'odd'\n    else:\n        return 'unknown'\n\nprint(is_even_or_odd(-3))\n```\n\nWhat is the output when this code is executed?",
+      "options": [
+        "'even'",
+        "'odd'",
+        "'unknown'",
+        "TypeError"
+      ],
+      "correct_answer": "'odd'",
+      "explanation": "For -3, -3 % 2 evaluates to 1 in Python because the result of the modulo operator has the same sign as the divisor. Since 1 == 1 is True, the second condition is satisfied and the function returns 'odd'."
+    },
+    {
+      "id": "43.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "diagnosing_edge_case_errors_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q12"
+      ],
+      "prompt": "When a function receives an empty list, it may raise a ValueError. To safely handle this, you can use an if statement with the ___ operator to check if the list is empty.",
+      "correct_answer": "not",
+      "accepted_answers": [
+        "not",
+        "is not",
+        "!= len"
+      ],
+      "explanation": "In Python, the idiomatic way to check if a sequence is empty is to use 'if not my_list:'. This leverages Python's truthiness evaluation where empty sequences evaluate to False. Using 'not' is the most concise and readable approach for diagnosing edge cases involving empty inputs."
+    },
+    {
+      "id": "43.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "diagnosing_edge_case_errors_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q13"
+      ],
+      "prompt": "When dividing two numbers, passing zero as the divisor triggers a ZeroDivisionError. To catch this specific exception, you must use the ___ keyword inside the except block, followed by the exception class name.",
+      "correct_answer": "as",
+      "accepted_answers": [
+        "as",
+        "with",
+        "from"
+      ],
+      "explanation": "The 'as' keyword in Python exception handling allows you to capture the exception instance into a variable for inspection. The syntax 'except ZeroDivisionError as e:' is the correct pattern for diagnosing and handling edge case errors where specific exception types must be identified and managed."
+    },
+    {
+      "id": "43.2_q15",
+      "type": "code_ordering",
+      "concept": "diagnosing_edge_case_errors_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q14"
+      ],
+      "prompt": "Reorder the following code lines to correctly validate user input and prevent an edge case error when the input is not a number.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence places the try block around the conversion operation that can raise ValueError. The input must be collected inside the try block so that the exception is caught when non-numeric input is provided. Placing the input outside the try block, as in options 2 and 4, would cause an unhandled exception. Option 3 has the except block before the operation, which is syntactically invalid."
+    },
+    {
+      "id": "43.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "diagnosing_edge_case_errors_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q15"
+      ],
+      "prompt": "Accessing an index that exceeds the list length raises an IndexError. A defensive pattern to diagnose this edge case is to check if the index is within range using ___ before attempting access.",
+      "correct_answer": "len",
+      "accepted_answers": [
+        "len",
+        "len()",
+        "len(my_list)"
+      ],
+      "explanation": "The built-in len() function returns the number of items in a sequence. The standard defensive pattern is 'if 0 <= idx < len(my_list):' to safely access elements. This pattern prevents IndexError by validating bounds before indexing, which is essential when processing dynamic or externally provided data."
+    },
+    {
+      "id": "43.2_q17",
+      "type": "code_ordering",
+      "concept": "diagnosing_edge_case_errors_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q16"
+      ],
+      "prompt": "Reorder the following lines to implement a function that safely computes the average of a list, returning None for an empty list to avoid a ZeroDivisionError.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence defines the function, checks for the empty list edge case first to prevent division by zero, computes the total, and then performs the division. Option 3 fails because it divides before checking for emptiness, risking ZeroDivisionError. Options 2 and 4 have invalid Python syntax with misplaced statements."
+    },
+    {
+      "id": "43.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "diagnosing_edge_case_errors_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q17"
+      ],
+      "prompt": "To safely check if a string is numeric without raising an exception on None, a common Python idiom is to use the ___ method combined with a conditional check.",
+      "correct_answer": "isdigit",
+      "accepted_answers": [
+        "isdigit()",
+        "isdigit",
+        "is_numeric"
+      ],
+      "explanation": "The str.isdigit() method returns True only if all characters in the string are digits and the string is non-empty. The full idiom is 'if my_string and my_string.isdigit():', which safely handles None and empty strings without raising AttributeError. This pattern is critical for diagnosing edge cases in data validation pipelines where inputs may be missing or malformed."
+    },
+    {
+      "id": "43.2_q19",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Recognizing Edge Case Failures",
+        "content": "When writing Python programs, edge cases are inputs that lie at the extreme ends of the operating parameters. A common source of bugs occurs when code works for typical inputs but fails on boundary values such as zero, empty collections, or negative numbers. To diagnose these errors, always trace the program with values at the limits of your expected domain. For example, consider a function that divides the first element of a list by the last element. If the list has only one element, the first and last are identical, causing a division-by-zero error. Another frequent edge case is an empty list, which raises an IndexError when attempting to access index 0. The key debugging strategy is to write assertions or print statements that inspect the state before the operation that crashes. Below is a buggy snippet that attempts to compute a ratio but fails on certain inputs:\n\n```python\ndef compute_ratio(values):\n    return values[0] / values[-1]\n```\n\nRunning `compute_ratio([5])` raises a ZeroDivisionError, and `compute_ratio([])` raises an IndexError. Recognizing these symptoms and linking them to boundary conditions is the first step in diagnosing edge case errors."
+      },
+      "prompt": "Fix the bug in this code for diagnosing edge case errors errors:",
+      "starter_code": "# Fix this code\nPrint('Diagnosing Edge Case Errors')",
+      "solution_code": "print('Diagnosing Edge Case Errors')",
+      "explanation": "This exercise tests `diagnosing edge case errors errors` in Diagnosing Edge Case Errors. When Python validates this code, it applies the standard rules of diagnosing edge case errors errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "43.2_q20",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "43.2_q19"
+      ],
+      "prompt": "Fix the function so it safely returns None when division by zero would occur.",
+      "starter_code": "def safe_divide(a, b):\n    return a / b\n\nresult = safe_divide(10, 0)\nprint(result)",
+      "solution_code": "def safe_divide(a, b):\n    if b == 0:\n        return None\n    return a / b\n\nresult = safe_divide(10, 0)\nprint(result)",
+      "hint": "Check the denominator before performing the division.",
+      "explanation": "The original code crashes with a ZeroDivisionError when b is 0. By adding a conditional check for b == 0 and returning None, the function handles the edge case gracefully without raising an exception."
+    },
+    {
+      "id": "43.2_q21",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q20"
+      ],
+      "prompt": "Handle both the empty list and single-element list cases so the function returns None for invalid inputs.",
+      "starter_code": "def first_last_ratio(values):\n    return values[0] / values[-1]\n\nprint(first_last_ratio([2, 4]))\nprint(first_last_ratio([7]))\nprint(first_last_ratio([]))",
+      "solution_code": "def first_last_ratio(values):\n    if not values or len(values) == 1:\n        return None\n    return values[0] / values[-1]\n\nprint(first_last_ratio([2, 4]))\nprint(first_last_ratio([7]))\nprint(first_last_ratio([]))",
+      "hint": "Use len(values) to detect a single element and an empty list.",
+      "explanation": "The starter code crashes on `[7]` because values[0] and values[-1] refer to the same element, yielding 1.0, but more importantly it crashes on `[]` with an IndexError. The fixed version checks for an empty list with `not values` and for a single-element list with `len(values) == 1`, returning None in both invalid edge cases."
+    },
+    {
+      "id": "43.2_q22",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime vs. Compile-Time Failures",
+        "content": "In Python, many errors are runtime errors, meaning they only surface when the program executes a specific line with particular data. Edge cases often trigger runtime failures that static inspection cannot reveal. Consider a function that strips whitespace from every string in a list and then joins them. If the list contains non-string elements, the call to `.strip()` raises an AttributeError at runtime. Similarly, if the list is empty, joining produces an empty string, which may be valid or unexpected depending on requirements. To diagnose runtime edge cases, instrument your code with assertions or logging before the critical operation. For instance, verifying `isinstance(item, str)` before calling `.strip()` prevents the crash. Below is a buggy runtime example:\n\n```python\ndef normalize_strings(items):\n    cleaned = [item.strip() for item in items]\n    return ''.join(cleaned)\n```\n\nCalling `normalize_strings([\" hello \", 42])` fails at runtime with an AttributeError because `42` has no `.strip` method. Recognizing that the error occurs during list comprehension execution, not at definition time, is essential for debugging."
+      },
+      "prompt": "Fix the bug in this code for diagnosing edge case errors runtime:",
+      "starter_code": "# Fix this code\nPrint('Diagnosing Edge Case Errors')",
+      "solution_code": "print('Diagnosing Edge Case Errors')",
+      "explanation": "This exercise tests `diagnosing edge case errors runtime` in Diagnosing Edge Case Errors. When Python validates this code, it applies the standard rules of diagnosing edge case errors runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "43.2_q23",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q22"
+      ],
+      "prompt": "Repair the logic so non-string items are converted to strings before stripping, and an empty list returns an empty string.",
+      "starter_code": "def normalize_strings(items):\n    cleaned = [item.strip() for item in items]\n    return ''.join(cleaned)\n\nprint(normalize_strings([\" hello \", 42, \" world \"]))\nprint(normalize_strings([]))",
+      "solution_code": "def normalize_strings(items):\n    if not items:\n        return ''\n    cleaned = [str(item).strip() for item in items]\n    return ''.join(cleaned)\n\nprint(normalize_strings([\" hello \", 42, \" world \"]))\nprint(normalize_strings([]))",
+      "hint": "Convert each item to a string with str(item) before calling strip, and handle the empty list early.",
+      "explanation": "The original code crashes because `42` is an int and lacks `.strip()`. The repair casts every item to a string with `str(item)`, safely handles empty lists by returning `''`, and preserves the intended concatenation behavior."
+    },
+    {
+      "id": "43.2_q24",
+      "type": "write_the_code",
+      "concept": "diagnosing_edge_case_errors_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.2_q23"
+      ],
+      "prompt": "Refactor the function to be robust, efficient, and readable. It should accept any iterable of items, convert each to a stripped string, and return the concatenated result. Return an empty string for an empty iterable.",
+      "starter_code": "def normalize_strings(items):\n    if len(items) == 0:\n        return ''\n    cleaned = []\n    for item in items:\n        cleaned.append(str(item).strip())\n    return ''.join(cleaned)",
+      "solution_code": "def normalize_strings(items):\n    if not items:\n        return ''\n    return ''.join(str(item).strip() for item in items)\n\n# Validation examples\nassert normalize_strings([\" hello \", 42, \" world \"]) == 'hello42world'\nassert normalize_strings([]) == ''\nassert normalize_strings([\"  a  \", \"  b  \"]) == 'ab'",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "normalize_strings([\" hello \", 42, \" world \"])",
+          "description": "normalize_strings([\" hello \", 42, \" world \"])"
+        },
+        {
+          "input": "",
+          "expected_output": "normalize_strings([])",
+          "description": "normalize_strings([])"
+        },
+        {
+          "input": "",
+          "expected_output": "normalize_strings([\"  a  \", \"  b  \"])",
+          "description": "normalize_strings([\"  a  \", \"  b  \"])"
+        },
+        {
+          "input": "",
+          "expected_output": "normalize_strings((x for x in [\"x\", \" y \"]))",
+          "description": "normalize_strings((x for x in [\"x\", \" y \"]))"
+        }
+      ],
+      "hint": "Use a generator expression inside join to avoid building an intermediate list, and rely on truthiness for empty-iterable detection.",
+      "explanation": "The refactored version replaces the explicit loop and temporary list with a generator expression inside `''.join()`, reducing memory overhead. It uses `if not items:` for concise empty-iterable detection, and `str(item).strip()` ensures type safety. This preserves correctness for all edge cases while improving readability and performance."
+    },
+    {
+      "id": "43.2_q25",
+      "type": "write_the_code",
+      "concept": "diagnosing_edge_case_errors_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Diagnosing Edge Case Errors.",
+      "starter_code": "def process_43_2_data(items):\n    # Process input according to Diagnosing Edge Case Errors rules\n    pass",
+      "solution_code": "def process_43_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Diagnosing Edge Case Errors rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Diagnosing Edge Case Errors.",
+      "explanation": "Constructing pure, robust data transformers for Diagnosing Edge Case Errors avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "43.2_q26",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "43.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Diagnosing Edge Case Errors that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_43_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_43_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "43.2_q27",
+      "type": "code_prediction",
+      "concept": "diagnosing_edge_case_errors_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Diagnosing Edge Case Errors encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Diagnosing Edge Case Errors.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "43.2_q28",
+      "type": "write_the_code",
+      "concept": "diagnosing_edge_case_errors_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Diagnosing Edge Case Errors. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Diagnosing Edge Case Errors\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Diagnosing Edge Case Errors ensures testable domain operations."
+    },
+    {
+      "id": "43.2_q29",
+      "type": "fix_the_code",
+      "concept": "diagnosing_edge_case_errors_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Diagnosing Edge Case Errors into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Diagnosing Edge Case Errors Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "43.2_q30",
+      "type": "write_the_code",
+      "concept": "diagnosing_edge_case_errors_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "43.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Diagnosing Edge Case Errors that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_43_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_43_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Diagnosing Edge Case Errors must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 43,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Diagnosing Edge Case Errors",
+    "Apply idiomatic Python patterns when working with Diagnosing Edge Case Errors",
+    "Debug common runtime exceptions and logic errors associated with Diagnosing Edge Case Errors",
+    "Implement production-ready code utilizing Diagnosing Edge Case Errors"
+  ],
+  "prerequisites": [
+    "43.1"
+  ]
+}

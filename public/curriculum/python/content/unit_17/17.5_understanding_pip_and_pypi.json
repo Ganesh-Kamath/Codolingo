@@ -1,0 +1,612 @@
+{
+  "lesson_id": "17.5",
+  "title": "Understanding pip and PyPI",
+  "unit": "Modules, Packages, and Environments",
+  "items": [
+    {
+      "id": "17.5_q1",
+      "type": "micro_lesson",
+      "concept": "understanding_pip_and_pypi_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is pip and PyPI?",
+      "content": "pip is Python's package installer, a command-line tool used to install and manage software packages written in Python. PyPI (Python Package Index) is the official repository where these packages are published and stored. When you run a command like pip install requests, pip connects to PyPI, downloads the latest compatible version of the requests package, and places it into your Python environment. Understanding this relationship is essential: pip is the tool, and PyPI is the library. You do not install PyPI itself with pip; rather, you use pip to fetch packages from PyPI. Here is a simple example of checking your pip version:\n\n```python\nimport subprocess\nresult = subprocess.run(['pip', '--version'], capture_output=True, text=True)\nprint(result.stdout)\n```\n\nThis command prints information about the pip installation on your system, confirming that your environment can communicate with package repositories.",
+      "prompt": "",
+      "explanation": "pip is Python's package installer, a command-line tool used to install and manage software packages written in Python. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "17.5_q2",
+      "type": "multiple_choice",
+      "concept": "understanding_pip_and_pypi_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q1"
+      ],
+      "prompt": "Which of the following best describes the relationship between pip and PyPI?",
+      "options": [
+        "pip is a package repository, and PyPI is the command-line tool used to install packages.",
+        "pip is the command-line tool that installs packages, and PyPI is the official package repository.",
+        "pip and PyPI are both Python libraries used for writing code.",
+        "PyPI installs packages automatically, and pip is only used for updating Python itself."
+      ],
+      "correct_answer": "pip is the command-line tool that installs packages, and PyPI is the official package repository.",
+      "explanation": "pip is the installer tool, while PyPI (Python Package Index) is the online repository where packages are hosted. You use pip to download packages from PyPI."
+    },
+    {
+      "id": "17.5_q3",
+      "type": "micro_lesson",
+      "concept": "understanding_pip_and_pypi_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q2"
+      ],
+      "title": "Common pip Installation Syntax",
+      "content": "The most common pip commands follow a predictable pattern. To install a package, use pip install package_name. To upgrade an installed package, use pip install --upgrade package_name. To uninstall a package, use pip uninstall package_name. You can also install a specific version using pip install package_name==1.2.3. After installation, you import and use the package in your Python scripts. For example, after installing the requests package, you can fetch a web page. Here is a demonstration of installing and using a package:\n\n```python\n# Install the requests package using pip in your terminal:\n# pip install requests\n\nimport requests\nresponse = requests.get('https://api.github.com')\nprint(response.status_code)\n```\n\nNotice that the pip install command is run in the terminal, while the import and usage happen inside a Python script. Always ensure your environment is active before running pip commands.",
+      "prompt": "",
+      "explanation": "The most common pip commands follow a predictable pattern. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "17.5_q4",
+      "type": "multiple_choice",
+      "concept": "understanding_pip_and_pypi_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q3"
+      ],
+      "prompt": "You want to install version 2.5.0 of a package named numpy. Which command correctly specifies this version?",
+      "options": [
+        "pip install numpy=2.5.0",
+        "pip install numpy==2.5.0",
+        "pip install --version numpy 2.5.0",
+        "pip install numpy 2.5.0"
+      ],
+      "correct_answer": "pip install numpy==2.5.0",
+      "explanation": "The == operator is used in pip to specify an exact version. Without it, pip installs the latest version. The --version flag is used with pip show, not pip install."
+    },
+    {
+      "id": "17.5_q5",
+      "type": "multiple_choice",
+      "concept": "understanding_pip_and_pypi_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q4"
+      ],
+      "prompt": "Match each pip command to its correct purpose.",
+      "options": [
+        "pip show requests: Install a package | pip list: Show installed packages | pip uninstall requests: Remove a package",
+        "pip show requests: Show package details | pip list: Show installed packages | pip uninstall requests: Remove a package",
+        "pip show requests: Remove a package | pip list: Install a package | pip uninstall requests: Show package details",
+        "pip show requests: Show installed packages | pip list: Show package details | pip uninstall requests: Install a package"
+      ],
+      "correct_answer": "pip show requests: Show package details | pip list: Show installed packages | pip uninstall requests: Remove a package",
+      "explanation": "pip show displays metadata about an installed package, pip list lists all installed packages, and pip uninstall removes a package. These are distinct commands with distinct purposes."
+    },
+    {
+      "id": "17.5_q6",
+      "type": "multiple_choice",
+      "concept": "understanding_pip_and_pypi_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when using pip?",
+      "options": [
+        "Installing packages without activating the correct virtual environment can lead to version conflicts.",
+        "Using pip install without internet access always installs the package from local cache automatically.",
+        "PyPI only hosts packages written in Python 2, so modern projects cannot use it.",
+        "The pip command is built into every Python installation and never requires separate installation."
+      ],
+      "correct_answer": "Installing packages without activating the correct virtual environment can lead to version conflicts.",
+      "explanation": "Virtual environments isolate dependencies per project. Installing packages globally without care can cause conflicts between projects that require different versions of the same package."
+    },
+    {
+      "id": "17.5_q7",
+      "type": "code_prediction",
+      "concept": "understanding_pip_and_pypi_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q6"
+      ],
+      "prompt": "What is the result of running the following command in a terminal?",
+      "code": "import subprocess\nresult = subprocess.run(['pip', 'install', '--version'], capture_output=True, text=True)\nprint(result.stdout)",
+      "options": [
+        "A version string such as 'pip 23.2.1' printed to stdout",
+        "An error because pip is not recognized",
+        "The string 'installed' with no version",
+        "A JSON object with pip metadata"
+      ],
+      "correct_answer": "A version string such as 'pip 23.2.1' printed to stdout",
+      "explanation": "The command 'pip install --version' queries pip's own version and prints it to standard output. This is a common first step when verifying that pip is installed and accessible in your environment."
+    },
+    {
+      "id": "17.5_q8",
+      "type": "output_prediction",
+      "concept": "understanding_pip_and_pypi_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q7"
+      ],
+      "prompt": "Given a fresh virtual environment activated in the terminal, predict the output of the following script.",
+      "code": "import sys\nimport subprocess\nprint('Python executable:', sys.executable)\nprint('Pip command path:', subprocess.run(['which', 'pip'], capture_output=True, text=True).stdout.strip())",
+      "options": [
+        "The Python executable path and the pip executable path, both pointing to the virtual environment",
+        "Only the global Python path and no pip output",
+        "An error because subprocess.run requires shell=True",
+        "The string 'None' for both lines"
+      ],
+      "correct_answer": "The Python executable path and the pip executable path, both pointing to the virtual environment",
+      "explanation": "Inside an activated virtual environment, sys.executable refers to the venv's Python binary, and 'which pip' resolves to the venv's pip binary. This demonstrates that pip and Python are environment-specific in a virtual environment."
+    },
+    {
+      "id": "17.5_q9",
+      "type": "code_prediction",
+      "concept": "understanding_pip_and_pypi_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q8"
+      ],
+      "prompt": "What happens when the following code runs in a script?",
+      "code": "import importlib.util\nprint('Checking requests availability...')\nspec = importlib.util.find_spec('requests')\nif spec is None:\n    print('requests not found; pip install requests would be needed')",
+      "options": [
+        "Prints a message about checking availability and then prints that requests is not found",
+        "Installs requests automatically via pip",
+        "Raises ImportError immediately",
+        "Prints only 'Checking requests availability...' and stops"
+      ],
+      "correct_answer": "Prints a message about checking availability and then prints that requests is not found",
+      "explanation": "importlib.util.find_spec checks whether a module is importable without actually importing it. If 'requests' is not installed, spec is None, so the conditional branch executes. This illustrates the typical flow: check, then install via pip if missing."
+    },
+    {
+      "id": "17.5_q10",
+      "type": "write_the_code",
+      "concept": "understanding_pip_and_pypi_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q9"
+      ],
+      "prompt": "Explain the output and behavior of the following terminal interaction.",
+      "code": "pip install --user numpy\n# Output:\n# Collecting numpy\n#   Downloading numpy-1.26.2-cp311-cp311-manylinux_2_17_x86_64.whl (15.9 MB)\n# Installing collected packages: numpy\n# Successfully installed numpy-1.26.2\n\nimport numpy as np\nprint(np.__version__)",
+      "correct_answer": "numpy is downloaded from PyPI, installed for the current user, and its version is printed successfully",
+      "explanation": "The --user flag installs the package into the user site-packages directory, avoiding system-wide permission issues. PyPI hosts the wheel file, pip downloads and installs it, and the subsequent import confirms the package is usable.",
+      "starter_code": "# TODO: Implement solution for Understanding pip and PyPI\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Understanding pip and PyPI')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Understanding pip and PyPI"
+        }
+      ]
+    },
+    {
+      "id": "17.5_q11",
+      "type": "code_prediction",
+      "concept": "understanding_pip_and_pypi_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q10"
+      ],
+      "prompt": "Trace the execution and predict the final state after running this sequence.",
+      "code": "import subprocess\nimport os\nos.chdir('/tmp')\nsubprocess.run(['pip', 'install', 'requests'], check=True)\nprint('Current directory:', os.getcwd())\nprint('requests version:', subprocess.run(['python', '-c', \"import requests; print(requests.__version__)\"], capture_output=True, text=True).stdout.strip())",
+      "options": [
+        "The working directory is /tmp, requests is installed there, and its version is printed",
+        "The working directory remains unchanged, requests is installed globally, and the version is printed",
+        "The script fails because /tmp is not writable",
+        "requests is installed but the version print raises NameError"
+      ],
+      "correct_answer": "The working directory is /tmp, requests is installed there, and its version is printed",
+      "explanation": "os.chdir changes the directory before pip install, so the package is installed relative to /tmp. The subsequent python -c command imports requests from the installed location and prints its version. This traces how directory context and pip interact."
+    },
+    {
+      "id": "17.5_q12",
+      "type": "output_prediction",
+      "concept": "understanding_pip_and_pypi_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q11"
+      ],
+      "prompt": "Predict the output of the following script that manages a package.",
+      "code": "import subprocess\nprint('Before uninstall:')\nprint(subprocess.run(['pip', 'uninstall', '-y', 'colorama'], capture_output=True, text=True).stdout.strip())\nprint('After uninstall:')\nprint(subprocess.run(['pip', 'show', 'colorama'], capture_output=True, text=True).stdout.strip())",
+      "options": [
+        "Uninstall confirmation output followed by an empty or 'WARNING: Package(s) not found' message",
+        "An error because -y requires interactive confirmation",
+        "The package is reinstalled automatically and show returns its metadata",
+        "Only the 'Before uninstall' line prints; the rest raises RuntimeError"
+      ],
+      "correct_answer": "Uninstall confirmation output followed by an empty or 'WARNING: Package(s) not found' message",
+      "explanation": "The -y flag automatically confirms uninstallation. If colorama is already absent, pip prints a warning or empty output. The show command then attempts to display metadata, which fails gracefully. This demonstrates pip's idempotent uninstall logic and output handling."
+    },
+    {
+      "id": "17.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "understanding_pip_and_pypi_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q12"
+      ],
+      "micro_lesson": {
+        "title": "Installing a Package with pip",
+        "content": "The pip command is Python's package installer. To install a package from PyPI, use the install subcommand followed by the package name. For example, to install the requests library, you run: `pip install requests`. This downloads and installs the package into your current Python environment. Always verify installation by importing the module in a Python shell."
+      },
+      "prompt": "Complete the command to install the 'requests' package using pip: pip ____ requests",
+      "correct_answer": "install",
+      "accepted_answers": [
+        "install"
+      ],
+      "explanation": "The standard syntax for installing a package is 'pip install <package_name>'. The 'install' keyword tells pip to fetch and install the specified package from PyPI."
+    },
+    {
+      "id": "17.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "understanding_pip_and_pypi_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "Common pip Keywords and Flags",
+        "content": "pip supports several useful keywords. 'install' adds a package, 'uninstall' removes one, 'list' shows installed packages, and 'freeze' outputs installed packages in requirements format. You can also use '--user' to install for the current user only, or '--upgrade' to update an existing package. Understanding these keywords helps manage dependencies efficiently."
+      },
+      "prompt": "To remove an installed package named 'numpy', the correct pip command uses the ____ keyword: pip ____ numpy",
+      "correct_answer": "uninstall",
+      "accepted_answers": [
+        "uninstall",
+        "remove"
+      ],
+      "explanation": "'uninstall' is the official pip keyword to remove a package. While 'remove' might seem intuitive, it is not a valid pip subcommand and will raise an error."
+    },
+    {
+      "id": "17.5_q15",
+      "type": "code_ordering",
+      "concept": "understanding_pip_and_pypi_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Typical Workflow for Managing Dependencies",
+        "content": "A common workflow involves checking installed packages, installing a new one, and then verifying it. First, list current packages with `pip list`. Next, install the desired package with `pip install <name>`. Finally, confirm availability by importing it in Python. This sequence ensures you know what you have before adding new dependencies."
+      },
+      "prompt": "Arrange the following commands in the correct order to install and verify the 'flask' package:",
+      "options": [
+        "import flask",
+        "pip list",
+        "pip install flask"
+      ],
+      "correct_answer": [
+        "pip list",
+        "pip install flask",
+        "import flask"
+      ],
+      "explanation": "You should first list existing packages to review the environment, then install the new package, and finally import it to verify that it is accessible in your Python session."
+    },
+    {
+      "id": "17.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "understanding_pip_and_pypi_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q15"
+      ],
+      "micro_lesson": {
+        "title": "Specifying Versions and Upgrades",
+        "content": "You can pin a package to a specific version using '==' followed by the version string, or use '>=' for minimum version requirements. For example, `pip install 'requests==2.25.1'` installs exactly that version. To upgrade, use `pip install --upgrade <package>`. These patterns help maintain reproducible environments across different machines."
+      },
+      "prompt": "Fill in the blank to install version 3.7.0 or higher of the 'pandas' package: pip install pandas ____ '3.7.0'",
+      "correct_answer": ">=",
+      "accepted_answers": [
+        ">=",
+        ">= 3.7.0"
+      ],
+      "explanation": "The '>=' operator specifies that the installed version must be greater than or equal to the given version. This is the standard pattern for expressing minimum version constraints in pip."
+    },
+    {
+      "id": "17.5_q17",
+      "type": "code_ordering",
+      "concept": "understanding_pip_and_pypi_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Saving and Restoring Dependencies",
+        "content": "When collaborating or deploying, you often need to save your current environment to a requirements.txt file and later recreate it elsewhere. The algorithm is: run `pip freeze > requirements.txt` to capture all installed packages with versions, then on another machine run `pip install -r requirements.txt` to install them all at once. This ensures consistency between development and production environments."
+      },
+      "prompt": "Arrange the steps to save dependencies to a file and reinstall them on another machine:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "To save dependencies properly, use 'pip freeze' because it outputs exact versions. 'pip list' does not include versions and is therefore less reliable. After saving, 'pip install -r requirements.txt' reads the file and installs all specified packages."
+    },
+    {
+      "id": "17.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "understanding_pip_and_pypi_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic pip Usage and Virtual Environments",
+        "content": "A best practice is to use virtual environments before installing packages. The idiom is to create one with `python -m venv venv`, activate it, and then run `pip install <package>`. This isolates dependencies and prevents conflicts with system packages. Another useful idiom is `pip check`, which verifies that installed packages are compatible with each other."
+      },
+      "prompt": "After activating a virtual environment, the idiomatic command to verify package compatibility is: pip ____",
+      "correct_answer": "check",
+      "accepted_answers": [
+        "check",
+        "pip check"
+      ],
+      "explanation": "'pip check' is the dedicated command that inspects the installed distribution packages and reports any conflicts. It is an important idiom for maintaining a healthy dependency tree."
+    },
+    {
+      "id": "17.5_q19",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q18"
+      ],
+      "prompt": "You are debugging a student's attempt to install a package. Identify the error in the following terminal session and explain why it fails.",
+      "starter_code": "import subprocess\nresult = subprocess.run(['pip', 'install', 'requests'], capture_output=True, text=True)\nprint('STDOUT:', result.stdout)\nprint('STDERR:', result.stderr)",
+      "solution_code": "import subprocess\nresult = subprocess.run(['pip', 'install', 'requests'], capture_output=True, text=True)\nprint('STDOUT:', result.stdout)\nprint('STDERR:', result.stderr)\n# The error is a permission denied issue when using pip without a virtual environment.\n# Fix: use 'pip install --user requests' or activate a virtual environment first.",
+      "hint": "Check whether the user has write permissions to the global Python installation and whether a virtual environment is active.",
+      "explanation": "When pip is run without a virtual environment and the user lacks administrative privileges, the installation fails with a permission error. The correct approach is to use a virtual environment (python -m venv venv) or use the --user flag to install packages in the user's home directory. PyPI packages must be installed into a writable Python environment."
+    },
+    {
+      "id": "17.5_q20",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.5_q19"
+      ],
+      "prompt": "The following script tries to ensure the 'numpy' package is available, but it crashes. Fix the code so it safely installs and imports numpy.",
+      "starter_code": "import subprocess\nsubprocess.check_call(['pip', 'install', 'numpy'])\nimport numpy\nprint('numpy version:', numpy.__version__)",
+      "solution_code": "import subprocess\nsubprocess.check_call(['pip', 'install', '--quiet', 'numpy'])\nimport numpy\nprint('numpy version:', numpy.__version__)",
+      "hint": "Consider what happens if numpy is already installed and whether the script should suppress output.",
+      "explanation": "The original code works but prints verbose output during installation. Adding --quiet reduces noise. Additionally, wrapping installation in a try-except block makes the script more robust, though for this easy level the primary fix is ensuring the package is installed before import."
+    },
+    {
+      "id": "17.5_q21",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q20"
+      ],
+      "prompt": "A developer wrote a script to freeze installed packages into requirements.txt, but the output is malformed. Correct the script.",
+      "starter_code": "import subprocess\nwith open('requirements.txt', 'w') as f:\n    subprocess.run(['pip', 'freeze'], stdout=f)\nprint('requirements saved')",
+      "solution_code": "import subprocess\nwith open('requirements.txt', 'w') as f:\n    subprocess.run(['pip', 'freeze'], stdout=f, text=True)\nprint('requirements saved')",
+      "hint": "On some systems, subprocess output is bytes rather than text, which causes a TypeError when writing to a text file.",
+      "explanation": "The bug occurs because pip freeze returns bytes on certain platforms (e.g., Windows without text mode). Setting text=True ensures stdout is a string, preventing a TypeError. This edge case is important when writing portable Python scripts that interact with pip."
+    },
+    {
+      "id": "17.5_q22",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q21"
+      ],
+      "prompt": "A program fails at runtime with an ImportError after a package was installed globally. Diagnose the issue based on the traceback and terminal output.",
+      "starter_code": "import sys\nprint('Python path:', sys.path)\n# Terminal output:\n# pip install pandas\n# Successfully installed pandas-2.1.0\n# Traceback (most recent call last):\n#   File \"app.py\", line 2, in <module>\n#     import pandas\n# ModuleNotFoundError: No module named 'pandas'",
+      "solution_code": "import sys\nprint('Python path:', sys.path)\n# Diagnosis: pandas was installed into a different Python interpreter than the one running app.py.\n# Fix: use the same interpreter (python -m pip install pandas) or activate the correct virtual environment.",
+      "hint": "Compare the Python executable used to run the script with the one used to run pip.",
+      "explanation": "If pip and python point to different executables (common with multiple Python installations or virtual environments), packages installed via pip are not visible to the running interpreter. The solution is to ensure pip is invoked through the same interpreter: python -m pip install <package>."
+    },
+    {
+      "id": "17.5_q23",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q22"
+      ],
+      "prompt": "The following helper is supposed to install a package only if it is not already importable. It contains a logic error. Repair it.",
+      "starter_code": "def ensure_package(name):\n    try:\n        __import__(name)\n    except ImportError:\n        subprocess.check_call(['pip', 'install', name])\n    print(f'{name} is ready')",
+      "solution_code": "def ensure_package(name):\n    try:\n        __import__(name)\n    except ImportError:\n        subprocess.check_call(['pip', 'install', '--quiet', name])\n    print(f'{name} is ready')",
+      "hint": "Think about whether the function should handle cases where the package name is invalid and whether suppressing output is useful.",
+      "explanation": "The original logic is mostly correct but lacks error handling for invalid package names and prints verbose pip output. The repaired version adds --quiet for cleaner execution and could be extended with a broader except clause. The core fix ensures the package is installed only when import fails, avoiding redundant installations."
+    },
+    {
+      "id": "17.5_q24",
+      "type": "write_the_code",
+      "concept": "understanding_pip_and_pypi_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.5_q23"
+      ],
+      "prompt": "Refactor the following script into a reusable, idempotent utility that manages a virtual environment, installs dependencies from a requirements file, and returns the active interpreter path. Minimize redundant operations and ensure all resources are cleaned up properly.",
+      "starter_code": "import subprocess\nimport os\nimport sys\n\ndef setup_env():\n    if not os.path.exists('venv'):\n        subprocess.run(['python', '-m', 'venv', 'venv'])\n    subprocess.run(['venv/bin/pip', 'install', '-r', 'requirements.txt'])\n    return 'venv/bin/python'",
+      "solution_code": "import os\nimport subprocess\nimport tempfile\n\ndef setup_env(req_path='requirements.txt', env_dir='venv'):\n    if not os.path.exists(env_dir):\n        subprocess.run(['python', '-m', 'venv', env_dir], check=True)\n    pip = os.path.join(env_dir, 'bin', 'pip')\n    subprocess.run([pip, 'install', '-r', req_path], check=True)\n    return os.path.join(env_dir, 'bin', 'python')\n\nif __name__ == '__main__':\n    interpreter = setup_env()\n    print('Active interpreter:', interpreter)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Calling setup_env twice should not recreate the virtual environment.",
+          "description": "Calling setup_env twice should not recreate the virtual environment."
+        },
+        {
+          "input": "",
+          "expected_output": "If requirements.txt is missing, a FileNotFoundError should be raised.",
+          "description": "If requirements.txt is missing, a FileNotFoundError should be raised."
+        },
+        {
+          "input": "",
+          "expected_output": "The returned path should point to a valid Python executable.",
+          "description": "The returned path should point to a valid Python executable."
+        }
+      ],
+      "hint": "Use check=True to let subprocess raise on failure, and avoid reinstalling if the environment already exists.",
+      "explanation": "The refactored utility is idempotent: it only creates the virtual environment if absent. It uses explicit paths for pip and python to avoid shell-dependent behavior, raises exceptions on failure via check=True, and returns the interpreter path for downstream use. This pattern is essential for reproducible environments and CI/CD pipelines where pip and PyPI interactions must be deterministic."
+    },
+    {
+      "id": "17.5_q25",
+      "type": "write_the_code",
+      "concept": "understanding_pip_and_pypi_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Understanding pip and PyPI.",
+      "starter_code": "def process_17_5_data(items):\n    # Process input according to Understanding pip and PyPI rules\n    pass",
+      "solution_code": "def process_17_5_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Understanding pip and PyPI rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Understanding pip and PyPI.",
+      "explanation": "Constructing pure, robust data transformers for Understanding pip and PyPI avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "17.5_q26",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.5_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Understanding pip and PyPI that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_17_5_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_17_5_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "17.5_q27",
+      "type": "code_prediction",
+      "concept": "understanding_pip_and_pypi_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.5_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Understanding pip and PyPI encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Understanding pip and PyPI.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "17.5_q28",
+      "type": "write_the_code",
+      "concept": "understanding_pip_and_pypi_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.5_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Understanding pip and PyPI. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Understanding pip and PyPI\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Understanding pip and PyPI ensures testable domain operations."
+    },
+    {
+      "id": "17.5_q29",
+      "type": "fix_the_code",
+      "concept": "understanding_pip_and_pypi_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.5_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Understanding pip and PyPI into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Understanding pip and PyPI Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "17.5_q30",
+      "type": "write_the_code",
+      "concept": "understanding_pip_and_pypi_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.5_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Understanding pip and PyPI that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_17_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_17_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Understanding pip and PyPI must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 17,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Understanding pip and PyPI",
+    "Apply idiomatic Python patterns when working with Understanding pip and PyPI",
+    "Debug common runtime exceptions and logic errors associated with Understanding pip and PyPI",
+    "Implement production-ready code utilizing Understanding pip and PyPI"
+  ],
+  "prerequisites": [
+    "17.4"
+  ]
+}

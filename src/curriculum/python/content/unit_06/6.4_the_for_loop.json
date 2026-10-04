@@ -1,0 +1,642 @@
+{
+  "lesson_id": "6.4",
+  "title": "The for Loop",
+  "unit": "Loops and Repetition",
+  "items": [
+    {
+      "id": "6.4_q1",
+      "type": "micro_lesson",
+      "concept": "the_for_loop_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is a For Loop?",
+      "content": "A for loop in Python is used to repeat a block of code a specific number of times. It is ideal when you know in advance how many iterations you need. The basic idea is to iterate over a sequence, such as a list, tuple, or string, and execute the same code for each item. For example, if you have a list of fruits and you want to print each one, a for loop lets you do that without writing the print statement multiple times. Here is a simple example:\n\n```python\nmy_list = ['apple', 'banana', 'cherry']\nfor item in my_list:\n    print(item)\n```\n\nIn this code, the for keyword starts the loop, item is a variable that holds the current element during each iteration, and the colon indicates the start of the indented block. Python executes the indented code once for every element in my_list.",
+      "prompt": "",
+      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+    },
+    {
+      "id": "6.4_q2",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q1"
+      ],
+      "prompt": "Which of the following best describes the purpose of a for loop in Python?",
+      "options": [
+        "To run a block of code only once",
+        "To repeat a block of code a known number of times",
+        "To stop the program immediately",
+        "To define a new function"
+      ],
+      "correct_answer": "To repeat a block of code a known number of times",
+      "explanation": "A for loop is designed for repetition when the number of iterations is known beforehand, such as when iterating over a list or a range of numbers."
+    },
+    {
+      "id": "6.4_q3",
+      "type": "micro_lesson",
+      "concept": "the_for_loop_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q2"
+      ],
+      "title": "For Loop Syntax and Structure",
+      "content": "The standard syntax of a for loop in Python follows this pattern:\n\n```python\nfor variable in iterable:\n    # indented block of code\n```\n\nThe variable on the left of the in keyword acts as a placeholder that receives the next value from the iterable during each iteration. The iterable can be a list, tuple, string, dictionary, or any object that supports iteration. The code inside the loop must be indented, typically with four spaces. If you forget the indentation or the colon, Python raises an IndentationError or SyntaxError. Here is a complete example using a string:\n\n```python\nmessage = 'hello'\nfor character in message:\n    print(character)\n```\n\nThis loop prints 'h', then 'e', then 'l', then 'l', then 'o', each on a separate line. Understanding this structure is essential before writing more complex loops.",
+      "prompt": "",
+      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+    },
+    {
+      "id": "6.4_q4",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q3"
+      ],
+      "prompt": "Consider the following code snippet:\n\n```python\nfor x in [10, 20, 30]:\n    print(x)\n```\n\nWhat will happen if the print statement is not indented under the for line?",
+      "options": [
+        "The code will print 10, 20, and 30 on separate lines",
+        "The code will run but produce no output",
+        "Python will raise an IndentationError",
+        "The code will print 10, 20, and 30 on one line"
+      ],
+      "correct_answer": "Python will raise an IndentationError",
+      "explanation": "In Python, the body of a for loop must be indented. Without indentation, the interpreter cannot determine which lines belong to the loop, so it raises an IndentationError."
+    },
+    {
+      "id": "6.4_q5",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q4"
+      ],
+      "prompt": "Match each Python iterable with the correct example of a for loop that would process it:",
+      "options": [
+        "List: for name in ['Ana', 'Ben']; String: for ch in 'cat'; Range: for i in range(3)",
+        "List: for i in range(5); String: for name in ['Ana', 'Ben']; Range: for ch in 'cat'",
+        "List: for ch in 'cat'; String: for i in range(5); Range: for name in ['Ana', 'Ben']",
+        "List: for i in range(3); String: for ch in 'cat'; Range: for name in ['Ana', 'Ben']"
+      ],
+      "correct_answer": "List: for name in ['Ana', 'Ben']; String: for ch in 'cat'; Range: for i in range(3)",
+      "explanation": "A list is best shown with a list literal such as ['Ana', 'Ben']; a string is shown with a string literal such as 'cat'; and a range is shown with range(3)."
+    },
+    {
+      "id": "6.4_q6",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q5"
+      ],
+      "prompt": "What is a common mistake when using a for loop with a list that you intend to modify during iteration?",
+      "options": [
+        "The loop will always skip the first item",
+        "Modifying the list while iterating can cause items to be skipped or raise an error",
+        "The loop will automatically create a copy of the list",
+        "The loop will run forever"
+      ],
+      "correct_answer": "Modifying the list while iterating can cause items to be skipped or raise an error",
+      "explanation": "Changing the size or contents of a list while a for loop is iterating over it can lead to unexpected behavior, such as skipped elements, because the iterator tracks the original sequence."
+    },
+    {
+      "id": "6.4_q7",
+      "type": "code_prediction",
+      "concept": "the_for_loop_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q6"
+      ],
+      "micro_lesson": {
+        "title": "Executing a Simple For Loop",
+        "content": "A for loop in Python iterates over a sequence, such as a list, tuple, or string. Each time the loop runs, the loop variable takes on the next value from the sequence. The indented block under the for statement executes once per item. For example:\n\n```python\nfor i in [1, 2, 3]:\n    print(i)\n```\n\nThis code prints 1, then 2, then 3 on separate lines, because the loop variable i is assigned each value in turn before the print statement runs."
+      },
+      "prompt": "What will the following code print?\n\n```python\nfor x in [10, 20]:\n    print(x)\n```",
+      "options": [
+        "10\n20",
+        "20\n10",
+        "10 20",
+        "Nothing is printed"
+      ],
+      "correct_answer": "10\n20",
+      "explanation": "The loop iterates over the list [10, 20] in order. On the first iteration, x is 10 and it prints 10. On the second iteration, x is 20 and it prints 20. Each print statement adds a newline by default."
+    },
+    {
+      "id": "6.4_q8",
+      "type": "output_prediction",
+      "concept": "the_for_loop_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q7"
+      ],
+      "micro_lesson": {
+        "title": "Predicting Output from Nested and Repeated Loops",
+        "content": "When a loop contains another statement, the indented block determines what repeats. If the loop variable is used inside the block, its current value is available for that iteration only. For example:\n\n```python\nfor letter in ['a', 'b']:\n    print(letter * 2)\n```\n\nHere, letter is 'a' on the first pass, so letter * 2 produces 'aa'. On the second pass, letter is 'b', so the output becomes 'bb'. The loop body runs completely for each item before moving to the next."
+      },
+      "prompt": "What is the exact output of the following program?\n\n```python\nfor n in [2, 3]:\n    print('Count:', n)\n```",
+      "options": [
+        "Count: 2\nCount: 3",
+        "Count: 3\nCount: 2",
+        "Count: 23",
+        "Count: 2\nCount: 3\nCount: 2\nCount: 3"
+      ],
+      "correct_answer": "Count: 2\nCount: 3",
+      "explanation": "The loop visits 2 first, printing 'Count: 2', then visits 3, printing 'Count: 3'. There are no extra repetitions because the loop runs exactly once per item in the list."
+    },
+    {
+      "id": "6.4_q9",
+      "type": "code_prediction",
+      "concept": "the_for_loop_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q8"
+      ],
+      "micro_lesson": {
+        "title": "Understanding For Loop Control Flow",
+        "content": "A for loop follows a strict sequence: initialize the iterator, check if there is a remaining item, assign it to the loop variable, execute the body, then advance to the next item. If the sequence is exhausted, the loop ends and execution continues after the loop. This means any code after the loop runs exactly once, regardless of how many iterations occurred.\n\n```python\nfor value in [1, 2]:\n    print(value)\nprint('Done')\n```\n\nThe print('Done') statement is outside the indentation, so it executes after the loop finishes."
+      },
+      "prompt": "How many times does the statement print('Done') execute in this code?\n\n```python\nfor i in range(3):\n    print(i)\nprint('Done')\n```",
+      "options": [
+        "0 times",
+        "1 time",
+        "3 times",
+        "4 times"
+      ],
+      "correct_answer": "1 time",
+      "explanation": "The print('Done') statement is not indented under the for loop, so it belongs to the outer scope. It executes exactly once after the loop has completed all its iterations."
+    },
+    {
+      "id": "6.4_q10",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing For Loop Structure",
+        "content": "When analyzing a for loop, identify the iterable, the loop variable, the body, and any code outside the loop. The body repeats for each element, while code outside runs once. Indentation is critical in Python because it defines scope. A common mistake is placing a statement at the wrong indentation level, which changes when it executes.\n\n```python\nfor item in ['x', 'y']:\n    print(item)\nprint('End')\n```\n\nIn this example, print('End') is outside the loop and therefore executes after both iterations."
+      },
+      "prompt": "Which statement correctly describes the role of indentation in a Python for loop?",
+      "options": [
+        "Indentation determines which statements belong inside the loop and which run after it.",
+        "Indentation only affects readability and has no effect on execution.",
+        "All statements in a file must have the same indentation to run.",
+        "Indentation is used only to separate the for keyword from the loop variable."
+      ],
+      "correct_answer": "Indentation determines which statements belong inside the loop and which run after it.",
+      "explanation": "In Python, indentation defines code blocks. Statements indented under the for line are part of the loop body and repeat for each item. Statements at the same or lower indentation level are outside the loop and execute once after the loop finishes."
+    },
+    {
+      "id": "6.4_q11",
+      "type": "code_prediction",
+      "concept": "the_for_loop_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing Variables Through a For Loop",
+        "content": "Tracing means following the value of variables step by step. In a for loop, the loop variable changes on each iteration. You can trace by writing down the current value before and after each pass. This helps predict output and debug logic errors. Consider this example:\n\n```python\ntotal = 0\nfor num in [4, 5]:\n    total = total + num\nprint(total)\n```\n\nInitially, total is 0. After the first iteration, total becomes 4. After the second iteration, total becomes 9. The final print outputs 9."
+      },
+      "prompt": "Trace the value of total after each iteration of this code. What is the final value printed?\n\n```python\ntotal = 1\nfor value in [3, 2]:\n    total = total + value\nprint(total)\n```",
+      "options": [
+        "Final total is 6",
+        "Final total is 3",
+        "Final total is 1",
+        "Final total is 5"
+      ],
+      "correct_answer": "Final total is 6",
+      "explanation": "Start with total = 1. First iteration: total = 1 + 3 = 4. Second iteration: total = 4 + 2 = 6. The print statement outputs 6."
+    },
+    {
+      "id": "6.4_q12",
+      "type": "output_prediction",
+      "concept": "the_for_loop_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q11"
+      ],
+      "micro_lesson": {
+        "title": "Combining Loop Logic with String Output",
+        "content": "A for loop can be used to build or display strings repeatedly. When a print statement is inside the loop, it produces output on every iteration. If the loop variable is included in the string, the output changes per iteration. Understanding this pattern helps you predict multi-line results and design programs that process sequences.\n\n```python\nfor step in [1, 2]:\n    print('Step', step)\n```\n\nThis prints Step 1 on one line and Step 2 on the next, because the loop variable step is updated each time."
+      },
+      "prompt": "What output does this program produce?\n\n```python\nfor letter in ['p', 'q']:\n    print('Letter is', letter)\n```",
+      "options": [
+        "Letter is p\nLetter is q",
+        "Letter is q\nLetter is p",
+        "Letter is p q",
+        "Letter is p\nLetter is q\nLetter is p"
+      ],
+      "correct_answer": "Letter is p\nLetter is q",
+      "explanation": "The loop visits 'p' first, printing 'Letter is p', then visits 'q', printing 'Letter is q'. The print function adds a newline after each call, so the output appears on two separate lines in that exact order."
+    },
+    {
+      "id": "6.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "the_for_loop_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.4_q12"
+      ],
+      "prompt": "Complete the sentence: A Python for loop that iterates over a sequence uses the keyword ___ followed by a variable name, a colon, and an indented block.",
+      "correct_answer": "for",
+      "accepted_answers": [
+        "for"
+      ],
+      "explanation": "The for loop in Python always begins with the keyword for. This keyword signals to the interpreter that a repetition structure is starting. The syntax is: for variable in sequence: followed by an indented suite of statements."
+    },
+    {
+      "id": "6.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "the_for_loop_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q13"
+      ],
+      "prompt": "In a for loop, the block of code that repeats is defined by indentation and is introduced by the keyword ___ at the end of the header line.",
+      "correct_answer": "colon",
+      "accepted_answers": [
+        "colon",
+        ":"
+      ],
+      "explanation": "Python uses a colon (:) at the end of the for loop header to separate the header from the indented block. Unlike some languages that use braces or keywords, Python relies on the colon and consistent indentation to define the loop body."
+    },
+    {
+      "id": "6.4_q15",
+      "type": "code_ordering",
+      "concept": "the_for_loop_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q14"
+      ],
+      "prompt": "Arrange the following lines into a valid Python for loop that prints each number from 1 to 3 inclusive. The lines are: (A) print(num) (B) for num in range(1, 4): (C) num = 1",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The for loop header must come first, specifying the iterator variable and the sequence. The print statement belongs inside the indented block and should not reassign the loop variable. The range(1, 4) correctly yields 1, 2, and 3 because the stop value is exclusive."
+    },
+    {
+      "id": "6.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "the_for_loop_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q15"
+      ],
+      "prompt": "The common pattern for looping over every element in a list uses: for ___ in ___:",
+      "correct_answer": "item, my_list",
+      "accepted_answers": [
+        "item, my_list",
+        "element, my_list",
+        "x, data",
+        "name, names"
+      ],
+      "explanation": "A typical pattern is to use a descriptive variable name such as item or element for the loop variable, and the name of the list or iterable after the in keyword. This makes the code readable and follows Python conventions."
+    },
+    {
+      "id": "6.4_q17",
+      "type": "code_ordering",
+      "concept": "the_for_loop_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q16"
+      ],
+      "prompt": "Arrange the following lines to compute and print the sum of squares for numbers 0 through 2. The lines are: (A) total = 0 (B) for n in range(3): (C) total = total + n ** 2 (D) print('sum of squares:', total)",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The accumulator total must be initialized before the loop begins. Inside the loop, each number is squared and added to total. After the loop, the final sum is printed. Initializing total inside the loop would reset it on every iteration and produce an incorrect result."
+    },
+    {
+      "id": "6.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "the_for_loop_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q17"
+      ],
+      "prompt": "A common Python idiom for iterating over a sequence and accessing both the index and the value is: for ___ in ___:",
+      "correct_answer": "index, enumerate(my_list)",
+      "accepted_answers": [
+        "index, enumerate(my_list)",
+        "i, enumerate(data)",
+        "idx, enumerate(items)",
+        "i, range(len(my_list))"
+      ],
+      "explanation": "The enumerate function returns pairs of (index, value), which is a widely used idiom when both the position and the element are needed. An alternative is range(len(my_list)), but enumerate is generally preferred for clarity and efficiency."
+    },
+    {
+      "id": "6.4_q19",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_errors",
+      "skill": "debugging",
+      "diff": "medium",
+      "prerequisites": [
+        "6.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common for Loop Errors",
+        "content": "The for loop in Python iterates over an iterable. Common errors include using the wrong iterable type, modifying the iterable during iteration, or incorrect indentation. Always ensure the loop variable is assigned correctly and the body is indented consistently.\n\nExample of a valid for loop:\n```\nfor i in range(3):\n    print('Iteration', i)\n```\n\nIf you attempt to modify a list while iterating over it, Python raises a RuntimeError. To avoid this, iterate over a copy of the list or collect changes separately."
+      },
+      "difficulty": "medium",
+      "prompt": "Fix the bug in this code for the for loop errors:",
+      "starter_code": "# Fix this code\nPrint('The for Loop')",
+      "solution_code": "print('The for Loop')",
+      "explanation": "This exercise tests `the for loop errors` in The for Loop. When Python validates this code, it applies the standard rules of the for loop errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "6.4_q20",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_fix",
+      "skill": "debugging",
+      "diff": "easy",
+      "prerequisites": [
+        "6.4_q19"
+      ],
+      "prompt": "Fix the code so it prints each number from 0 to 4.",
+      "starter_code": "for i in range(5)\n    print('i is', i)",
+      "solution_code": "for i in range(5):\n    print('i is', i)",
+      "hint": "Check the indentation and colon placement after the for statement.",
+      "explanation": "The for statement must end with a colon, and the body must be indented on the next line. Without the colon and proper indentation, Python raises a SyntaxError.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "6.4_q21",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_edge_cases",
+      "skill": "debugging",
+      "diff": "medium",
+      "prerequisites": [
+        "6.4_q20"
+      ],
+      "prompt": "Fix the code so it safely handles an empty list and prints each item.",
+      "starter_code": "items = []\nfor item in items:\n    print('Item:', item)\nprint('Done')",
+      "solution_code": "items = []\nfor item in items:\n    print('Item:', item)\nprint('Done')",
+      "hint": "Consider what happens when the iterable is empty; the loop body simply does not execute.",
+      "explanation": "When the iterable is empty, the for loop body is skipped entirely, and execution continues with the statement after the loop. No error occurs, so no fix is needed beyond ensuring the code structure is valid.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "6.4_q22",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_runtime",
+      "skill": "debugging",
+      "diff": "medium",
+      "prerequisites": [
+        "6.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in for Loops",
+        "content": "Runtime errors occur during execution, not during parsing. In for loops, a common runtime error is trying to iterate over a non-iterable object like an integer. Another is using an undefined variable inside the loop.\n\nExample of a runtime error:\n```\nfor x in 5:\n    print(x)\n```\nThis raises a TypeError because integers are not iterable. Always verify that the object after 'in' supports iteration."
+      },
+      "difficulty": "medium",
+      "prompt": "Fix the bug in this code for the for loop runtime:",
+      "starter_code": "# Fix this code\nPrint('The for Loop')",
+      "solution_code": "print('The for Loop')",
+      "explanation": "This exercise tests `the for loop runtime` in The for Loop. When Python validates this code, it applies the standard rules of the for loop runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "6.4_q23",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_logic_repair",
+      "skill": "debugging",
+      "diff": "medium",
+      "prerequisites": [
+        "6.4_q22"
+      ],
+      "prompt": "Fix the code so it counts only even numbers from 0 to 9 and prints the total.",
+      "starter_code": "total = 0\nfor num in range(10):\n    if num % 2 == 0\n        total = total + num\nprint('Total even numbers:', total)",
+      "solution_code": "total = 0\nfor num in range(10):\n    if num % 2 == 0:\n        total = total + num\nprint('Total even numbers:', total)",
+      "hint": "Check the if statement for a missing colon and ensure the addition is inside the conditional block.",
+      "explanation": "The if statement requires a colon after the condition, and the indented block must contain the statement that updates total. Without the colon, Python raises a SyntaxError.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "6.4_q24",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_optimization",
+      "skill": "refactoring",
+      "diff": "hard",
+      "prerequisites": [
+        "6.4_q23"
+      ],
+      "prompt": "Refactor the code to use a generator expression inside a for loop for memory-efficient processing of large data.",
+      "starter_code": "numbers = range(1000000)\nresult = []\nfor n in numbers:\n    if n % 2 == 0:\n        result.append(n * n)",
+      "solution_code": "numbers = range(1000000)\nresult = (n * n for n in numbers if n % 2 == 0)\nfor value in result:\n    print(value)",
+      "test_cases": [
+        {
+          "input": "range(10)",
+          "expected_behavior": "Produces squares of even numbers without storing all values in memory at once."
+        }
+      ],
+      "hint": "Replace the list accumulation with a generator expression to yield values lazily.",
+      "explanation": "A generator expression uses parentheses and avoids building an intermediate list. This reduces memory usage for large iterables, making the code more scalable and efficient.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "6.4_q25",
+      "type": "write_the_code",
+      "concept": "the_for_loop_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q24"
+      ],
+      "prompt": "Write a Python program that uses a for loop to print each number from 1 to 10 on a separate line.",
+      "starter_code": "for i in range(1, 11):\n    print(i)",
+      "solution_code": "for i in range(1, 11):\n    print(i)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Output should contain 10 lines with numbers 1 through 10.",
+          "description": "Output should contain 10 lines with numbers 1 through 10."
+        },
+        {
+          "input": "",
+          "expected_output": "No extra text or symbols should appear before or after each number.",
+          "description": "No extra text or symbols should appear before or after each number."
+        }
+      ],
+      "hint": "Use range(1, 11) to generate numbers starting at 1 up to and including 10.",
+      "explanation": "The for loop iterates over a sequence created by range(1, 11). Each iteration assigns the next integer to i, and print(i) displays it. This demonstrates the basic structure of a for loop in Python."
+    },
+    {
+      "id": "6.4_q26",
+      "type": "write_the_code",
+      "concept": "the_for_loop_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.4_q25"
+      ],
+      "prompt": "Write a Python program that uses a for loop to print the message 'Item X' for each X from 1 to 5.",
+      "starter_code": "for item in range(1, 6):\n    print('Item ' + item)",
+      "solution_code": "for item in range(1, 6):\n    print('Item ' + str(item))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Output must show 'Item 1' through 'Item 5' on separate lines.",
+          "description": "Output must show 'Item 1' through 'Item 5' on separate lines."
+        },
+        {
+          "input": "",
+          "expected_output": "Each line must exactly match the format 'Item X' with no extra spaces.",
+          "description": "Each line must exactly match the format 'Item X' with no extra spaces."
+        }
+      ],
+      "hint": "Remember that range produces integers, but string concatenation requires both operands to be strings, so convert the number using str().",
+      "explanation": "This task reinforces string formatting inside a loop. Without str(), Python raises a TypeError because you cannot concatenate an int and a str. Converting to str() ensures valid concatenation."
+    },
+    {
+      "id": "6.4_q27",
+      "type": "write_the_code",
+      "concept": "the_for_loop_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.4_q26"
+      ],
+      "prompt": "Write a Python program that uses a for loop to print only the even numbers from 1 to 20, each on a new line.",
+      "starter_code": "for num in range(1, 21):\n    if num % 2 == 0:\n        print(num)",
+      "solution_code": "for num in range(2, 21, 2):\n    print(num)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Output must list 2, 4, 6, 8, 10, 12, 14, 16, 18, 20.",
+          "description": "Output must list 2, 4, 6, 8, 10, 12, 14, 16, 18, 20."
+        },
+        {
+          "input": "",
+          "expected_output": "No odd numbers should appear in the output.",
+          "description": "No odd numbers should appear in the output."
+        }
+      ],
+      "hint": "range accepts a step argument. Setting the step to 2 starts at 2 and skips every other number, automatically yielding only even values.",
+      "explanation": "Using range(2, 21, 2) is more efficient than checking every number with an if statement. The step parameter controls the increment, so the loop visits only even integers without additional conditional logic inside the loop body."
+    },
+    {
+      "id": "6.4_q28",
+      "type": "write_the_code",
+      "concept": "the_for_loop_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.4_q27"
+      ],
+      "prompt": "Write a Python program that uses a nested for loop to print a 3x3 multiplication table where each row shows the product of the row number and the column number, from 1 to 3.",
+      "starter_code": "for row in range(1, 4):\n    for col in range(1, 4):\n        print(row * col)",
+      "solution_code": "for row in range(1, 4):\n    for col in range(1, 4):\n        print(row * col, end='\t')\n    print()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Output must contain 3 rows and 3 columns of products.",
+          "description": "Output must contain 3 rows and 3 columns of products."
+        },
+        {
+          "input": "",
+          "expected_output": "Each row should be separated by a newline, and values within a row should be separated by a tab character.",
+          "description": "Each row should be separated by a newline, and values within a row should be separated by a tab character."
+        }
+      ],
+      "hint": "Use end='\\t' inside the inner print to place a tab after each product, and call print() with no arguments after the inner loop to move to the next line.",
+      "explanation": "Nested loops allow one loop to run completely for each iteration of the outer loop. The inner loop computes row * col for every column, and end='\\t' plus an empty print() call formats the grid cleanly."
+    },
+    {
+      "id": "6.4_q29",
+      "type": "write_the_code",
+      "concept": "the_for_loop_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.4_q28"
+      ],
+      "prompt": "You are building a simple inventory report. Write a Python program that stores a list of product prices, then uses a for loop to calculate and print the total price of all items.",
+      "starter_code": "prices = [12.5, 3.0, 7.75, 15.2]\ntotal = 0.0\nfor price in prices:\n    total += price\nprint('Total:', total)",
+      "solution_code": "prices = [12.5, 3.0, 7.75, 15.2]\ntotal = 0.0\nfor price in prices:\n    total += price\nprint('Total inventory value: $' + str(round(total, 2)))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The total must equal 38.45.",
+          "description": "The total must equal 38.45."
+        },
+        {
+          "input": "",
+          "expected_output": "The output string must include the dollar sign and the rounded value to two decimal places.",
+          "description": "The output string must include the dollar sign and the rounded value to two decimal places."
+        }
+      ],
+      "hint": "Use round(total, 2) to format the monetary value to two decimal places before converting it to a string for concatenation.",
+      "explanation": "This scenario combines list storage with iterative accumulation. The for loop traverses each element of the prices list, adding it to total. Rounding ensures standard currency formatting, and string concatenation produces a readable report line."
+    },
+    {
+      "id": "6.4_q30",
+      "type": "write_the_code",
+      "concept": "the_for_loop_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.4_q29"
+      ],
+      "prompt": "Write a Python program that uses a for loop with enumerate to print each index and value from the list ['apple', 'banana', 'cherry'].",
+      "starter_code": "fruits = ['apple', 'banana', 'cherry']\nfor index, fruit in enumerate(fruits):\n    print(index, fruit)",
+      "solution_code": "fruits = ['apple', 'banana', 'cherry']\nfor index, fruit in enumerate(fruits):\n    print('Index ' + str(index) + ': ' + fruit)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Output must show three lines with indices 0, 1, and 2 paired with their corresponding fruit names.",
+          "description": "Output must show three lines with indices 0, 1, and 2 paired with their corresponding fruit names."
+        },
+        {
+          "input": "",
+          "expected_output": "Each line must follow the exact format 'Index X: Y' with a space after the colon.",
+          "description": "Each line must follow the exact format 'Index X: Y' with a space after the colon."
+        }
+      ],
+      "hint": "enumerate returns pairs of (index, value). Convert both index and fruit to strings before concatenating them into the final output message.",
+      "explanation": "enumerate is a built-in function that simplifies indexed iteration. It yields a tuple containing the counter and the current item on each iteration. Using it avoids manual counter management and makes the code clearer and less error-prone."
+    }
+  ],
+  "unit_num": 6,
+  "learning_objectives": [
+    "Construct iterative loops using for Loop with proper loop bounds",
+    "Trace variable mutation across loop iterations",
+    "Prevent and debug infinite loop execution bugs",
+    "Apply loop control statements (break and continue) to control execution flow"
+  ],
+  "prerequisites": [
+    "6.3"
+  ]
+}

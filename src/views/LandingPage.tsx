@@ -77,8 +77,8 @@ export const LandingPage: React.FC = () => {
             >
               Mistake Bank
             </button>
-            <Button variant="primary" size="md" onClick={() => navigateTo('/app')} icon={<Icon name="arrow-right" size={16} stroke={3} />} iconPosition="right">
-              Open App
+            <Button variant="primary" size="md" onClick={() => navigateTo('/onboarding')} icon={<Icon name="arrow-right" size={16} stroke={3} />} iconPosition="right">
+              Get Started
             </Button>
           </div>
         </div>
@@ -133,11 +133,11 @@ export const LandingPage: React.FC = () => {
         </p>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '48px' }}>
-          <Button variant="primary" size="lg" onClick={() => navigateTo('/app/lesson/py_lesson_1')} icon={<Icon name="player-play" size={20} fill="#fff" />}>
-            Start Free Python Lesson
+          <Button variant="primary" size="lg" onClick={() => navigateTo('/onboarding')} icon={<Icon name="player-play" size={20} fill="#fff" />}>
+            Start Learning
           </Button>
           <Button variant="secondary" size="lg" onClick={() => navigateTo('/app')}>
-            Explore Learner Dashboard
+            Skip to Dashboard
           </Button>
         </div>
 
@@ -357,8 +357,8 @@ export const LandingPage: React.FC = () => {
           <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', fontSize: '0.9375rem' }}>
             Jump into the Python Foundations course and write your first real program in under 3 minutes.
           </p>
-          <Button variant="primary" size="lg" onClick={() => navigateTo('/app/lesson/py_lesson_1')}>
-            Launch Python Track
+          <Button variant="primary" size="lg" onClick={() => navigateTo('/onboarding')}>
+            Create Account
           </Button>
           <div style={{ marginTop: '32px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             Codon © 2026. Built with modern engineering principles for millions of aspiring developers.

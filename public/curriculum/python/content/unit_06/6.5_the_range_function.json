@@ -1,0 +1,616 @@
+{
+  "lesson_id": "6.5",
+  "title": "The range() Function",
+  "unit": "Loops and Repetition",
+  "items": [
+    {
+      "id": "6.5_q1",
+      "type": "micro_lesson",
+      "concept": "the_range_function_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is range()?",
+      "content": "The range() function generates a sequence of numbers. It is commonly used with a for loop to repeat an action a specific number of times. By default, range(stop) starts at 0 and ends just before stop. For example, range(5) produces 0, 1, 2, 3, 4. This makes it ideal for looping a fixed number of times without needing to count manually.",
+      "prompt": "",
+      "explanation": "The range() function generates a sequence of numbers. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "6.5_q2",
+      "type": "multiple_choice",
+      "concept": "the_range_function_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q1"
+      ],
+      "prompt": "Which of the following best describes what range(3) produces when used in a for loop?",
+      "options": [
+        "The numbers 1, 2, and 3",
+        "The numbers 0, 1, and 2",
+        "The numbers 1, 2, 3, and 4",
+        "An error because range requires two arguments"
+      ],
+      "correct_answer": "The numbers 0, 1, and 2",
+      "explanation": "range(3) starts at 0 by default and stops before 3, yielding 0, 1, and 2."
+    },
+    {
+      "id": "6.5_q3",
+      "type": "micro_lesson",
+      "concept": "the_range_function_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q2"
+      ],
+      "title": "range() Syntax",
+      "content": "range() can be called with one, two, or three arguments. range(stop) starts at 0. range(start, stop) starts at start and ends before stop. range(start, stop, step) starts at start and increases by step each time. Remember that the stop value is not included in the sequence. Here is an example:\n\n```python\nfor i in range(2, 8, 2):\n    print(i)\n```\n\nThis prints 2, 4, and 6 because the loop starts at 2 and stops before reaching 8, stepping by 2 each time.",
+      "prompt": "",
+      "explanation": "range() can be called with one, two, or three arguments. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "6.5_q4",
+      "type": "multiple_choice",
+      "concept": "the_range_function_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q3"
+      ],
+      "prompt": "Given the code below, what will be printed?\n\n```python\nfor x in range(1, 6):\n    print(x)\n```",
+      "options": [
+        "1, 2, 3, 4, 5",
+        "1, 2, 3, 4",
+        "0, 1, 2, 3, 4, 5",
+        "Nothing is printed"
+      ],
+      "correct_answer": "1, 2, 3, 4, 5",
+      "explanation": "range(1, 6) starts at 1 and stops before 6, so it includes 1, 2, 3, 4, and 5."
+    },
+    {
+      "id": "6.5_q5",
+      "type": "multiple_choice",
+      "concept": "the_range_function_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q4"
+      ],
+      "prompt": "Match the range() call to the sequence it generates:",
+      "options": [
+        "range(4) -> 0, 1, 2, 3",
+        "range(4) -> 1, 2, 3, 4",
+        "range(0, 4) -> 0, 1, 2, 3",
+        "range(3, 0) -> 3, 2, 1"
+      ],
+      "correct_answer": "range(4) -> 0, 1, 2, 3",
+      "explanation": "range(4) starts at 0 by default and stops before 4, producing 0, 1, 2, 3. range(0, 4) also produces 0, 1, 2, 3, but only one option is correct here."
+    },
+    {
+      "id": "6.5_q6",
+      "type": "multiple_choice",
+      "concept": "the_range_function_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q5"
+      ],
+      "prompt": "What happens if you use a negative step with range(5, 0, -1)?",
+      "options": [
+        "It prints 5, 4, 3, 2, 1, 0",
+        "It prints 5, 4, 3, 2, 1",
+        "It causes an infinite loop",
+        "It produces an empty sequence"
+      ],
+      "correct_answer": "It prints 5, 4, 3, 2, 1",
+      "explanation": "range(5, 0, -1) starts at 5 and stops before 0, decreasing by 1 each time. Since 0 is not included, the last value printed is 1."
+    },
+    {
+      "id": "6.5_q7",
+      "type": "code_prediction",
+      "concept": "the_range_function_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q6"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfor i in range(3):\n    print(i)\n```",
+      "options": [
+        "0\n1\n2",
+        "1\n2\n3",
+        "3\n4\n5",
+        "0\n1\n2\n3"
+      ],
+      "correct_answer": "0\n1\n2",
+      "explanation": "The range(3) function generates numbers starting from 0 up to, but not including, 3. Therefore, the loop iterates with i taking values 0, 1, and 2. Each value is printed on a new line."
+    },
+    {
+      "id": "6.5_q8",
+      "type": "output_prediction",
+      "concept": "the_range_function_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q7"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfor i in range(1, 4):\n    print('Count:', i)\n```",
+      "options": [
+        "Count: 1\nCount: 2\nCount: 3",
+        "Count: 0\nCount: 1\nCount: 2",
+        "Count: 4\nCount: 3\nCount: 2",
+        "Count: 1\nCount: 2\nCount: 3\nCount: 4"
+      ],
+      "correct_answer": "Count: 1\nCount: 2\nCount: 3",
+      "explanation": "range(1, 4) starts at 1 and stops before 4, so i takes values 1, 2, and 3. Each iteration prints the string 'Count:' followed by the current value of i."
+    },
+    {
+      "id": "6.5_q9",
+      "type": "code_prediction",
+      "concept": "the_range_function_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q8"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfor i in range(0, 10, 2):\n    if i % 2 == 0:\n        print(i)\n```",
+      "options": [
+        "0\n2\n4\n6\n8",
+        "1\n3\n5\n7\n9",
+        "0\n1\n2\n3\n4",
+        "2\n4\n6\n8\n10"
+      ],
+      "correct_answer": "0\n2\n4\n6\n8",
+      "explanation": "range(0, 10, 2) generates 0, 2, 4, 6, and 8. Since each of these numbers is even, the condition i % 2 == 0 is always true, so every value is printed."
+    },
+    {
+      "id": "6.5_q10",
+      "type": "multiple_choice",
+      "concept": "the_range_function_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q9"
+      ],
+      "prompt": "Which statement correctly describes range(5, 10) in a for loop?",
+      "options": [
+        "It iterates over 5, 6, 7, 8, 9, and 10.",
+        "It iterates over 5, 6, 7, 8, and 9.",
+        "It iterates over 6, 7, 8, 9, and 10.",
+        "It iterates over 5, 10, 15, 20, and 25."
+      ],
+      "correct_answer": "It iterates over 5, 6, 7, 8, and 9.",
+      "explanation": "range(5, 10) uses 5 as the start value and 10 as the stop value. The loop includes 5 but excludes 10, producing 5, 6, 7, 8, and 9."
+    },
+    {
+      "id": "6.5_q11",
+      "type": "code_prediction",
+      "concept": "the_range_function_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q10"
+      ],
+      "prompt": "Trace the execution of the following code and list the values printed in order:\n```python\nfor x in range(2):\n    for y in range(3):\n        print(x, y)\n```",
+      "options": [
+        "0 0\n0 1\n0 2\n1 0\n1 1\n1 2",
+        "0 0\n0 1\n0 2\n1 0\n1 1\n1 2\n2 0\n2 1\n2 2",
+        "0 0\n1 0\n0 1\n1 1\n0 2\n1 2",
+        "0 0\n0 1\n1 1\n1 2\n0 2\n1 2"
+      ],
+      "correct_answer": "0 0\n0 1\n0 2\n1 0\n1 1\n1 2",
+      "explanation": "The outer loop runs with x = 0 and x = 1. For each x, the inner loop runs with y = 0, 1, and 2. The print statement outputs x and y for each combination, resulting in six lines in the order shown."
+    },
+    {
+      "id": "6.5_q12",
+      "type": "output_prediction",
+      "concept": "the_range_function_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q11"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nfor i in range(10, 5, -1):\n    print(i)\n```",
+      "options": [
+        "10\n9\n8\n7\n6\n5",
+        "9\n8\n7\n6\n5",
+        "10\n9\n8\n7\n6",
+        "5\n6\n7\n8\n9"
+      ],
+      "correct_answer": "10\n9\n8\n7\n6",
+      "explanation": "range(10, 5, -1) starts at 10, decrements by 1 each time, and stops before reaching 5. Therefore, it yields 10, 9, 8, 7, and 6. The value 5 is not included because the stop value is exclusive."
+    },
+    {
+      "id": "6.5_q13",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "The range() Syntax",
+        "content": "The range() function generates a sequence of numbers. The basic syntax is range(stop), which starts at 0 and goes up to but does not include stop. For example, range(5) produces 0, 1, 2, 3, 4. You can also specify a start value with range(start, stop), and a step with range(start, stop, step). Remember that the stop value is exclusive."
+      },
+      "prompt": "Complete the syntax: numbers = range(___, 10)",
+      "correct_answer": "0",
+      "accepted_answers": [
+        "0",
+        "start=0"
+      ],
+      "explanation": "When only one argument is provided, range(stop) starts at 0. To start at a different value, use range(start, stop). Here, 0 is the default start, so numbers will be 0 through 9.",
+      "concept": "the_range_function_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q12"
+      ]
+    },
+    {
+      "id": "6.5_q14",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "range() Keywords and Arguments",
+        "content": "range() can accept up to three arguments: start, stop, and step. The stop argument is required; start and step are optional. If you omit start, it defaults to 0. If you omit step, it defaults to 1. Common patterns include range(10) for 0 to 9, range(2, 10) for 2 to 9, and range(0, 10, 2) for even numbers."
+      },
+      "prompt": "Fill in the keyword argument: nums = range(___=2, 8)",
+      "correct_answer": "start",
+      "accepted_answers": [
+        "start"
+      ],
+      "explanation": "To specify the starting value, use the named argument start. range(start=2, 8) produces 2, 3, 4, 5, 6, 7.",
+      "concept": "the_range_function_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q13"
+      ]
+    },
+    {
+      "id": "6.5_q15",
+      "type": "code_ordering",
+      "micro_lesson": {
+        "title": "Sequencing with range()",
+        "content": "When using range() inside a for loop, you must first create the range object, then iterate over it, and finally use each value in the loop body. A common pattern is: for i in range(5): print(i). The range object is created before the loop begins, and each iteration assigns the next number to i."
+      },
+      "prompt": "Arrange the following lines in the correct order to print numbers 0 through 4.",
+      "options": [
+        "print(i)",
+        "for i in range(5):",
+        "i = 0"
+      ],
+      "correct_answer": [
+        "for i in range(5):",
+        "print(i)",
+        "i = 0"
+      ],
+      "explanation": "The for loop must be defined first to iterate over the range. Inside the loop, print(i) uses the current value. i = 0 is unnecessary because range() handles initialization automatically.",
+      "concept": "the_range_function_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q14"
+      ]
+    },
+    {
+      "id": "6.5_q16",
+      "type": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "range() Patterns",
+        "content": "A frequent pattern is to step by 2 to get even or odd numbers. For example, range(0, 10, 2) gives 0, 2, 4, 6, 8. Another pattern is range(-5, 0) to count up to zero, or range(10, 0, -1) to count down. Always remember that the stop value is not included in the output."
+      },
+      "prompt": "Complete the pattern: evens = range(0, 10, ___)",
+      "correct_answer": "2",
+      "accepted_answers": [
+        "2"
+      ],
+      "explanation": "The third argument is step. Using 2 means every second number is selected, producing 0, 2, 4, 6, 8. The stop value 10 is excluded.",
+      "concept": "the_range_function_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q15"
+      ]
+    },
+    {
+      "id": "6.5_q17",
+      "type": "code_ordering",
+      "micro_lesson": {
+        "title": "range() Algorithm",
+        "content": "To use range() to sum the first n integers, create a range from 1 to n+1, initialize an accumulator variable, loop through the range adding each value to the accumulator, and then print the result. The +1 is necessary because range() excludes the stop value."
+      },
+      "prompt": "Arrange the lines to compute and print the sum of numbers 1 through 4.",
+      "options": [
+        "total = 0",
+        "for num in range(1, 5):",
+        "print(total)",
+        "total = total + num"
+      ],
+      "correct_answer": [
+        "total = 0",
+        "for num in range(1, 5):",
+        "total = total + num",
+        "print(total)"
+      ],
+      "explanation": "Initialize total before the loop. range(1, 5) yields 1, 2, 3, 4. Accumulate each number, then print the final sum, which is 10.",
+      "concept": "the_range_function_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q16"
+      ]
+    },
+    {
+      "id": "6.5_q18",
+      "type of": "fill_in_the_blank",
+      "micro_lesson": {
+        "title": "range() Idioms",
+        "content": "A common idiom is using range() with len() to iterate over indices: for i in range(len(my_list)): print(my_list[i]). Another idiom is range(len(s)) to access characters by index. You can also use reversed(range(n)) for countdown behavior. These patterns make loops more flexible when you need index-based access."
+      },
+      "prompt": "Complete the idiom: for idx in ___:",
+      "correct_answer": "range(len(items))",
+      "accepted_answers": [
+        "range(len(items))",
+        "range(len(my_list))"
+      ],
+      "explanation": "range(len(items)) creates indices from 0 to len(items)-1, allowing safe access to each element by index. This is a standard idiom when you need both the index and the value.",
+      "type": "fill_in_the_blank",
+      "concept": "the_range_function_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q17"
+      ]
+    },
+    {
+      "id": "6.5_q19",
+      "type": "fix_the_code",
+      "concept": "the_range_function_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common range() Mistakes",
+        "content": "The range() function generates a sequence of numbers. A frequent error is confusing range(start, stop) with range(stop), or using a non-integer step incorrectly. Another issue is expecting range() to include the stop value, when it actually stops before it. Always remember: range(stop) starts at 0, range(start, stop) begins at start and ends before stop, and range(start, stop, step) increments by step. If you pass a float or negative step unexpectedly, Python raises a TypeError."
+      },
+      "prompt": "A student wrote the following code to print numbers from 1 to 5. However, the output is empty. Identify the error in the range() call.",
+      "starter_code": "for i in range(1, 5):\n    print(i)\nprint('Done')",
+      "solution_code": "for i in range(1, 6):\n    print(i)\nprint('Done')",
+      "hint": "Check whether the stop argument is inclusive or exclusive, and whether the intended upper bound is reached.",
+      "explanation": "range(1, 5) produces 1, 2, 3, 4. To include 5, the stop value must be 6. The original code never prints 5, which may have caused the student to think nothing ran."
+    },
+    {
+      "id": "6.5_q20",
+      "type": "fix_the_code",
+      "concept": "the_range_function_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "6.5_q19"
+      ],
+      "prompt": "The code below is supposed to print the first 3 even numbers starting from 2, but it prints nothing. Fix the range() parameters.",
+      "starter_code": "for n in range(2, 4):\n    print(n)\nprint('Done')",
+      "solution_code": "for n in range(2, 8, 2):\n    print(n)\nprint('Done')",
+      "hint": "Consider the step argument and the upper bound needed to capture three values.",
+      "explanation": "range(2, 4) only yields 2. Using step 2 and a stop of 8 gives 2, 4, 6. This satisfies the requirement for three even numbers starting at 2."
+    },
+    {
+      "id": "6.5_q21",
+      "type": "fix_the_code",
+      "concept": "the_range_function_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q20"
+      ],
+      "prompt": "This snippet attempts to iterate backward from 10 down to 1, but it produces an empty sequence. Correct the range() call.",
+      "starter_code": "for i in range(10, 0):\n    print(i)\nprint('Done')",
+      "solution_code": "for i in range(10, 0, -1):\n    print(i)\nprint('Done')",
+      "hint": "Backward iteration requires a negative step. Also verify that the stop value does not exclude the final desired number.",
+      "explanation": "Without the step -1, range(10, 0) has no valid start because 10 > 0 and the default step is positive, yielding an empty sequence. Adding -1 makes it count down to 1."
+    },
+    {
+      "id": "6.5_q22",
+      "type": "fix_the_code",
+      "concept": "the_range_function_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q21"
+      ],
+      "prompt": "The following loop is intended to print 0 through 9, but it raises a RuntimeError at runtime. Diagnose the issue.",
+      "starter_code": "nums = range(10)\nfor i in nums:\n    nums = range(5)\n    print(i)\nprint('Done')",
+      "solution_code": "nums = range(10)\nfor i in nums:\n    print(i)\nprint('Done')",
+      "hint": "Look at where the variable nums is reassigned and how that affects the ongoing iteration.",
+      "explanation": "Reassigning nums inside the loop changes the iterable being traversed, which can corrupt the iteration state and trigger a RuntimeError. The fix is to remove the reassignment and simply print i."
+    },
+    {
+      "id": "6.5_q23",
+      "type": "fix_the_code",
+      "concept": "the_range_function_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q22"
+      ],
+      "prompt": "A function is supposed to return a list of multiples of 3 from 0 up to but not including 21. The current implementation returns an incorrect list. Repair the logic.",
+      "starter_code": "def multiples_of_three():\n    result = []\n    for x in range(3, 21, 3):\n        result.append(x)\n    return result\nprint(multiples_of_three())",
+      "solution_code": "def multiples_of_three():\n    result = []\n    for x in range(0, 21, 3):\n        result.append(x)\n    return result\nprint(multiples_of_three())",
+      "hint": "The sequence should begin at 0. Check the start argument of range().",
+      "explanation": "range(3, 21, 3) skips 0 and starts at 3. Changing the start to 0 includes 0, 3, 6, 9, 12, 15, 18, which matches the requirement of multiples of 3 below 21."
+    },
+    {
+      "id": "6.5_q24",
+      "type": "fix_the_code",
+      "concept": "the_range_function_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.5_q23"
+      ],
+      "prompt": "The following function builds a list using a loop and range(). Refactor it into a single list comprehension while preserving behavior.",
+      "starter_code": "def build_list(n):\n    out = []\n    for i in range(n):\n        if i % 2 == 0:\n            out.append(i * i)\n    return out\nprint(build_list(10))",
+      "solution_code": "def build_list(n):\n    return [i * i for i in range(n) if i % 2 == 0]\nprint(build_list(10))",
+      "test_cases": [
+        {
+          "input": 10,
+          "expected": [
+            0,
+            4,
+            16,
+            36,
+            64
+          ]
+        },
+        {
+          "input": 0,
+          "expected": []
+        },
+        {
+          "input": 1,
+          "expected": [
+            0
+          ]
+        }
+      ],
+      "hint": "List comprehensions allow you to combine iteration, filtering, and expression in one line.",
+      "explanation": "The original loop iterates over range(n), filters even i, and appends i*i. The list comprehension [i * i for i in range(n) if i % 2 == 0] performs the same steps more concisely and efficiently."
+    },
+    {
+      "id": "6.5_q25",
+      "type": "write_the_code",
+      "concept": "the_range_function_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q24"
+      ],
+      "prompt": "Write a Python program that uses the range() function to print the numbers from 1 to 10 (inclusive).",
+      "starter_code": "for i in range(10):\n    print(i)",
+      "solution_code": "for i in range(1, 11):\n    print(i)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n"
+        }
+      ],
+      "hint": "Remember that range() stops before the stop value. To include 10, set the stop argument to 11.",
+      "explanation": "The range() function generates a sequence of numbers. By default, it starts at 0 and stops before the given stop value. Using range(1, 11) starts at 1 and stops before 11, producing 1 through 10."
+    },
+    {
+      "id": "6.5_q26",
+      "type": "write_the_code",
+      "concept": "the_range_function_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "6.5_q25"
+      ],
+      "prompt": "Write a Python program that prints the first 5 even numbers using range() with a step argument.",
+      "starter_code": "for i in range(5):\n    print(i)",
+      "solution_code": "for i in range(0, 10, 2):\n    print(i)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "0\n2\n4\n6\n8\n"
+        }
+      ],
+      "hint": "Use the step argument to skip by 2, starting from 0.",
+      "explanation": "The range(start, stop, step) function allows you to control the increment. Setting step to 2 generates every second number, which yields even numbers when starting from 0."
+    },
+    {
+      "id": "6.5_q27",
+      "type": "write_the_code",
+      "concept": "the_range_function_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.5_q26"
+      ],
+      "prompt": "Write a Python program that prints numbers from 10 down to 1 in reverse order using range().",
+      "starter_code": "for i in range(1, 11):\n    print(i)",
+      "solution_code": "for i in range(10, 0, -1):\n    print(i)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "10\n9\n8\n7\n6\n5\n4\n3\n2\n1\n"
+        }
+      ],
+      "hint": "Use a negative step value and make sure the stop value is one less than the start value.",
+      "explanation": "When the step is negative, range() counts downward. range(10, 0, -1) starts at 10, decrements by 1, and stops before reaching 0, producing 10 down to 1."
+    },
+    {
+      "id": "6.5_q28",
+      "type": "write_the_code",
+      "concept": "the_range_function_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.5_q27"
+      ],
+      "prompt": "Write a Python program that creates a list of squares for numbers from 0 to 9 using range() and a list comprehension.",
+      "starter_code": "squares = []\nfor i in range(10):\n    squares.append(i * i)",
+      "solution_code": "squares = [i * i for i in range(10)]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]"
+        }
+      ],
+      "hint": "List comprehensions provide a concise way to build lists from an iterable.",
+      "explanation": "The list comprehension [i * i for i in range(10)] iterates over each integer from 0 to 9 and computes its square, storing the result in a new list."
+    },
+    {
+      "id": "6.5_q29",
+      "type": "write_the_code",
+      "concept": "the_range_function_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.5_q28"
+      ],
+      "prompt": "A gym membership costs $50 per month. Write a Python program that asks the user for the number of months they plan to stay and prints the total cost using range() to accumulate the total.",
+      "starter_code": "months = int(input('Enter months: '))\ntotal = 0\nfor i in range(months):\n    total += 50\nprint(total)",
+      "solution_code": "months = int(input('Enter months: '))\ntotal = 0\nfor i in range(months):\n    total += 50\nprint('Total cost:', total)",
+      "test_cases": [
+        {
+          "input": "3\n",
+          "expected_output": "Total cost: 150"
+        },
+        {
+          "input": "0\n",
+          "expected_output": "Total cost: 0"
+        }
+      ],
+      "hint": "Convert the user input to an integer and use range() to loop exactly that many times, adding $50 each time.",
+      "explanation": "By converting input to an integer and iterating with range(months), the program dynamically calculates the total membership cost. This demonstrates how range() supports real-world repetitive calculations."
+    },
+    {
+      "id": "6.5_q30",
+      "type": "write_the_code",
+      "concept": "the_range_function_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "6.5_q29"
+      ],
+      "prompt": "Write a Python program that prints only the even numbers between 1 and 20 (inclusive) using a single for loop with range() and a conditional check.",
+      "starter_code": "for i in range(1, 21):\n    if i % 2 == 0:\n        print(i)",
+      "solution_code": "for i in range(2, 21, 2):\n    print(i)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "2\n4\n6\n8\n10\n12\n14\n16\n18\n20\n"
+        }
+      ],
+      "hint": "Consider how the step argument can eliminate the need for an if statement inside the loop.",
+      "explanation": "Using range(2, 21, 2) directly generates even numbers by starting at 2 and stepping by 2. This is more efficient than filtering with a modulo operation inside the loop."
+    }
+  ],
+  "unit_num": 6,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of range()",
+    "Apply idiomatic Python patterns when working with range()",
+    "Debug common runtime exceptions and logic errors associated with range()",
+    "Implement production-ready code utilizing range()"
+  ],
+  "prerequisites": [
+    "6.4"
+  ]
+}

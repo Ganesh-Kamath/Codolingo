@@ -1,0 +1,651 @@
+{
+  "lesson_id": "15.2",
+  "title": "Keyword Arguments",
+  "unit": "Advanced Functions",
+  "items": [
+    {
+      "id": "15.2_q1",
+      "type": "micro_lesson",
+      "concept": "keyword_arguments_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Named Keyword Arguments",
+      "content": "When calling functions, you can specify arguments by parameter name:\n\n```python\ndef setup_user(username, role=\"viewer\"):\n    return f\"{username}: {role}\"\n\n# Order-independent call:\nsetup_user(role=\"admin\", username=\"kiran\")\n```\n\nKeyword arguments clarify meaning at call sites and allow arguments to be supplied in any order.",
+      "explanation": "Keyword arguments match parameter names explicitly, avoiding ordering ambiguities.",
+      "metadata": {
+        "concept": "keyword_arguments_concept",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches keyword argument clarity"
+      }
+    },
+    {
+      "id": "15.2_q2",
+      "type": "output_prediction",
+      "concept": "keyword_arguments_basics",
+      "skill": "tracing",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.2_q1"
+      ],
+      "prompt": "What is output when calling this function with explicit keyword arguments?\n\n```python\ndef format_user(name, role):\n    return f\"{name}: {role}\"\n\nprint(format_user(role=\"Admin\", name=\"Maya\"))\n```",
+      "options": [
+        "Maya: Admin",
+        "Admin: Maya",
+        "TypeError: parameters out of order",
+        "None"
+      ],
+      "correct_answer": "Maya: Admin",
+      "explanation": "Keyword arguments allow arguments to be passed in any order because Python matches values by parameter name rather than position.",
+      "metadata": {
+        "concept": "keyword_argument_order_independence",
+        "skill": "mental_model",
+        "learning_objective": "Understand that named keyword arguments resolve by identifier, ignoring position",
+        "common_misconception": "Thinking keyword arguments must match positional declaration order",
+        "why_this_exercise_exists": "Replaces template function with proper keyword resolution"
+      }
+    },
+    {
+      "id": "15.2_q3",
+      "type": "micro_lesson",
+      "concept": "keyword_arguments_kwargs_dict",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.2_q2"
+      ],
+      "title": "Arbitrary Keyword Arguments (**kwargs)",
+      "content": "Using `**kwargs` allows a function to accept any number of named arguments, which Python packs into a dictionary:\n\n```python\ndef build_profile(first, last, **details):\n    details[\"first_name\"] = first\n    details[\"last_name\"] = last\n    return details\n```",
+      "explanation": "**kwargs captures unassigned keyword arguments into a standard Python dictionary.",
+      "metadata": {
+        "concept": "kwargs_dictionary_capture",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches **kwargs dictionary packing"
+      }
+    },
+    {
+      "id": "15.2_q4",
+      "type": "error_diagnosis",
+      "concept": "keyword_arguments_basics",
+      "skill": "syntax_rules",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q3"
+      ],
+      "prompt": "Why does Python reject this function call?\n\n```python\ndef setup_server(host, port=8080, debug=False):\n    pass\n\nsetup_server(port=9000, \"localhost\")\n```",
+      "options": [
+        "SyntaxError: positional argument follows keyword argument",
+        "TypeError: host is missing",
+        "ValueError: duplicate arguments",
+        "NameError: localhost is not defined"
+      ],
+      "correct_answer": "SyntaxError: positional argument follows keyword argument",
+      "explanation": "In Python call syntax, all positional arguments MUST appear before any keyword arguments. Placing `\"localhost\"` after `port=9000` causes a parse-time `SyntaxError`.",
+      "metadata": {
+        "concept": "positional_before_keyword_rule",
+        "skill": "syntax_rules",
+        "learning_objective": "Enforce that positional arguments precede keyword arguments in calls",
+        "common_misconception": "Mixing positional arguments freely after named keyword arguments",
+        "why_this_exercise_exists": "Replaces template function with core Python grammar rule"
+      }
+    },
+    {
+      "id": "15.2_q5",
+      "type": "output_prediction",
+      "concept": "keyword_arguments_basics",
+      "skill": "kwargs_unpacking",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q4"
+      ],
+      "prompt": "What does `**kwargs` receive when passing named options?\n\n```python\ndef configure_db(**settings):\n    return sorted(settings.keys())\n\nkeys = configure_db(host=\"localhost\", port=5432, ssl=True)\nprint(keys)\n```",
+      "options": [
+        "['host', 'port', 'ssl']",
+        "['localhost', 5432, True]",
+        "('host', 'port', 'ssl')",
+        "TypeError"
+      ],
+      "correct_answer": "['host', 'port', 'ssl']",
+      "explanation": "`**settings` packs arbitrary keyword arguments into a standard Python dictionary `{'host': 'localhost', 'port': 5432, 'ssl': True}`. `sorted(settings.keys())` returns the alphabetically sorted list of keys.",
+      "metadata": {
+        "concept": "kwargs_dictionary_packing",
+        "skill": "dict_manipulation",
+        "learning_objective": "Inspect keyword arguments captured via **kwargs",
+        "common_misconception": "Thinking kwargs produces a tuple",
+        "why_this_exercise_exists": "Replaces template function with practical kwargs dictionary usage"
+      }
+    },
+    {
+      "id": "15.2_q6",
+      "type": "fix_the_code",
+      "concept": "keyword_arguments_basics",
+      "skill": "repair",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q5"
+      ],
+      "prompt": "Fix the call to `create_user` below so positional arguments come first:\n\n```python\ndef create_user(username, email, is_admin=False):\n    return f\"{username} ({email}) admin={is_admin}\"\n\n# Fix this call:\nprofile = create_user(is_admin=True, \"sam\", \"sam@code.org\")\n```",
+      "starter_code": "def create_user(username, email, is_admin=False):\n    return f\"{username} ({email}) admin={is_admin}\"\n\nprofile = create_user(is_admin=True, \"sam\", \"sam@code.org\")",
+      "solution_code": "def create_user(username, email, is_admin=False):\n    return f\"{username} ({email}) admin={is_admin}\"\n\nprofile = create_user(\"sam\", \"sam@code.org\", is_admin=True)\nprint(profile)",
+      "explanation": "Supplying `\"sam\"` and `\"sam@code.org\"` as the leading positional arguments followed by `is_admin=True` satisfies Python's ordering requirement.",
+      "metadata": {
+        "concept": "argument_order_correction",
+        "skill": "repair",
+        "learning_objective": "Order positional parameters before keyword arguments in invocations",
+        "common_misconception": "Passing keyword overrides before positional parameters",
+        "why_this_exercise_exists": "Replaces template function with practical argument cleanup"
+      }
+    },
+    {
+      "id": "15.2_q7",
+      "type": "code_prediction",
+      "concept": "keyword_arg_syntax",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q6"
+      ],
+      "prompt": "In the context of Keyword Arguments, what is the primary behavior demonstrated here?\n```python\n# Keyword Arguments\nprint('keyword_arg_syntax')\n```",
+      "options": [
+        "keyword_arg_syntax",
+        "SyntaxError",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "keyword_arg_syntax",
+      "explanation": "This directly illustrates the standard behavior of keyword_arg_syntax: keyword arguments allow passing parameters by name and overriding defaults."
+    },
+    {
+      "id": "15.2_q8",
+      "type": "multiple_choice",
+      "concept": "keyword_arg_syntax_rules",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q7"
+      ],
+      "prompt": "What is a core design principle when working with Keyword Arguments in Python?",
+      "options": [
+        "Keyword arguments allow passing parameters by name and overriding defaults",
+        "It bypasses all memory management constraints",
+        "It causes the interpreter to compile to C++ automatically",
+        "It can only be executed in interactive REPL mode"
+      ],
+      "correct_answer": "Keyword arguments allow passing parameters by name and overriding defaults",
+      "explanation": "Understanding this rule is essential: keyword arguments allow passing parameters by name and overriding defaults."
+    },
+    {
+      "id": "15.2_q9",
+      "type": "fix_the_code",
+      "concept": "keyword_arg_syntax_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q8"
+      ],
+      "prompt": "Fix this code snippet implementing Keyword Arguments correctly:",
+      "correct_answer": "45",
+      "explanation": "Applying standard Python idioms ensures correct behavior: keyword arguments allow passing parameters by name and overriding defaults.",
+      "starter_code": "# Keyword Arguments implementation\n___",
+      "solution_code": "# Keyword Arguments implementation\ndef send_message(to, subject='Notification', urgent=False):\n    return f'{to}: {subject}'"
+    },
+    {
+      "id": "15.2_q10",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q9"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Keyword Arguments. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Keyword Arguments\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Keyword Arguments ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "15.2_q11",
+      "type": "multiple_choice",
+      "concept": "keyword_arg_syntax_tradeoffs",
+      "skill": "evaluation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q10"
+      ],
+      "prompt": "Which common pitfall must programmers avoid when using Keyword Arguments?",
+      "options": [
+        "Misunderstanding edge cases related to: keyword arguments allow passing parameters by name and overriding defaults",
+        "Forgetting that Python does not support functions",
+        "Assuming integers are capped at 32 bits",
+        "Using lowercase variable names"
+      ],
+      "correct_answer": "Misunderstanding edge cases related to: keyword arguments allow passing parameters by name and overriding defaults",
+      "explanation": "Careful attention to requirements avoids common traps: keyword arguments allow passing parameters by name and overriding defaults."
+    },
+    {
+      "id": "15.2_q12",
+      "type": "write_the_code",
+      "concept": "keyword_arg_syntax_application",
+      "skill": "implementation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q11"
+      ],
+      "prompt": "Write the canonical Python code statement for Keyword Arguments:",
+      "correct_answer": "60",
+      "explanation": "Canonical implementation: def send_message(to, subject='Notification', urgent=False):\n    return f'{to}: {subject}'. Keyword arguments allow passing parameters by name and overriding defaults.",
+      "starter_code": "# Complete the statement\n___",
+      "solution_code": "def send_message(to, subject='Notification', urgent=False):\n    return f'{to}: {subject}'"
+    },
+    {
+      "id": "15.2_q13",
+      "type": "output_prediction",
+      "concept": "keyword_arguments_unpacking",
+      "skill": "dictionary_unpacking",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q12"
+      ],
+      "prompt": "What happens when unpacking a dictionary using `**` into a function?\n\n```python\ndef connect(host, port):\n    return f\"{host}:{port}\"\n\nconfig = {\"host\": \"api.codolingo.com\", \"port\": 443}\nprint(connect(**config))\n```",
+      "options": [
+        "api.codolingo.com:443",
+        "host:port",
+        "TypeError: connect() accepts 2 arguments, got 1 dict",
+        "None"
+      ],
+      "correct_answer": "api.codolingo.com:443",
+      "explanation": "The `**config` syntax unpacks key-value pairs as individual keyword arguments into `connect()`, perfectly binding `host='api.codolingo.com'` and `port=443`.",
+      "metadata": {
+        "concept": "dictionary_argument_unpacking",
+        "skill": "idiomatic_python",
+        "learning_objective": "Unpack dictionaries into keyword arguments using double-splat (**)",
+        "common_misconception": "Passing the dict directly as a single positional parameter",
+        "why_this_exercise_exists": "Replaces template function with essential configuration unpacking"
+      }
+    },
+    {
+      "id": "15.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "keyword_arguments_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q13"
+      ],
+      "micro_lesson": {
+        "title": "Choosing Keyword Names",
+        "content": "When using keyword arguments, the name you provide must match a parameter name in the function definition. Python does not allow arbitrary strings as keywords; they must correspond to actual parameter names. If a parameter has a default value, you can omit it when calling the function, but if you want to override the default, you must use the exact parameter name. For example, if `def save_file(filename, mode='w'):` is defined, calling `save_file('data.txt', mode='a')` opens the file in append mode. Using a misspelled or non-existent parameter name raises a TypeError."
+      },
+      "prompt": "The function `def send_email(recipient, subject, body):` is defined. Fill in the blank with a valid keyword argument to specify the subject: `send_email('alice@example.com', ____)`",
+      "correct_answer": "subject='Hello'",
+      "accepted_answers": [
+        "subject='Hello'",
+        "subject = 'Hello'"
+      ],
+      "explanation": "The parameter name for the subject is `subject`. Therefore, the keyword argument must be `subject='Hello'` to correctly pass the value."
+    },
+    {
+      "id": "15.2_q15",
+      "type": "code_ordering",
+      "concept": "keyword_arguments_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q14"
+      ],
+      "micro_lesson": {
+        "title": "Ordering Keyword Arguments",
+        "content": "When calling a function with keyword arguments, Python matches each keyword to its corresponding parameter by name, so the order of keyword arguments does not affect the result. However, if you mix positional and keyword arguments, all positional arguments must come before any keyword arguments. This rule ensures that Python can unambiguously assign values. For example, `def display(a, b):` can be called as `display(1, b=2)` but not as `display(b=2, 1)`."
+      },
+      "prompt": "Reorder the following code lines to correctly call the function `def log_event(level, message, timestamp=None):` with level='error', message='Disk full', and timestamp='2024-01-01': Lines: A: `log_event(level='error', message='Disk full', timestamp='2024-01-01')` B: `def log_event(level, message, timestamp=None):` C: `# Call the logging function` D: `print('Event logged')`",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function definition must come first (B), followed by the call with keyword arguments in any order (A), then any related print statement (C), and finally the output (D). The correct sequence is B, A, C, D."
+    },
+    {
+      "id": "15.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "keyword_arguments_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Keyword Argument Patterns",
+        "content": "A common pattern is to combine required positional arguments with optional keyword arguments that have default values. Another pattern is to use keyword arguments to override defaults selectively. For instance, `def connect(host, port=8080, ssl=False):` allows `connect('server.com')` to use defaults, or `connect('server.com', ssl=True)` to enable SSL. You can also pass keyword arguments that match the parameter names exactly, even if some are omitted. This flexibility is powerful when functions have many optional settings."
+      },
+      "prompt": "Given `def configure(debug=False, retries=3):`, fill in the blank to enable debug mode without changing retries: `configure(____)`",
+      "correct_answer": "debug=True",
+      "accepted_answers": [
+        "debug=True",
+        "debug = True"
+      ],
+      "explanation": "To enable debug mode, we must use the parameter name `debug` with the value `True`. The retries parameter is omitted, so it retains its default value of 3."
+    },
+    {
+      "id": "15.2_q17",
+      "type": "code_ordering",
+      "concept": "keyword_arguments_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm: Building a Call with Conditionals",
+        "content": "When constructing a function call programmatically, you may conditionally include keyword arguments based on runtime values. The algorithm is: define the base call with required positional arguments; then, if a condition is met, append the corresponding keyword argument; finally, execute the call. For example, `def send(to, text):` can be called as `send('bob', text='Hi')` if a flag is true, or `send('bob')` otherwise. The order of keyword arguments in the final call must remain after all positional arguments."
+      },
+      "prompt": "Reorder the following lines to build and execute a conditional keyword argument call for `def update_profile(user_id, bio=None):` based on `has_bio=True`: Lines: A: `if has_bio: kwargs['bio'] = 'Engineer'` B: `def update_profile(user_id, bio=None):` C: `update_profile(42, **kwargs)` D: `# Prepare arguments` E: `kwargs = {}`",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First define the function (B), initialize the dictionary (E), add a separator comment (D), conditionally add the keyword argument (A), and finally unpack the dictionary into the call (C). The correct sequence is B, E, D, A, C."
+    },
+    {
+      "id": "15.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "keyword_arguments_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Use of Keyword Arguments",
+        "content": "A common Python idiom is to build a dictionary of optional settings and unpack it into a function call using the double-asterisk operator. For example, `def render(width, height, border=False):` can be called as `render(100, 200, **{'border': True})`. This pattern is useful when the set of keyword arguments is dynamic or determined at runtime. It keeps the call site clean and separates configuration from invocation. Another idiom is to use keyword-only arguments (defined after a bare `*`) to force callers to use names, improving clarity."
+      },
+      "prompt": "Complete the idiomatic call to `def launch(app, version, env='prod'):` by filling in the blank: `launch('myapp', '1.0', ____)`",
+      "correct_answer": "env='test'",
+      "accepted_answers": [
+        "env='test'",
+        "env = 'test'"
+      ],
+      "explanation": "To override the default environment, we use the parameter name `env` with the value `'test'`. This follows the standard idiom of specifying optional settings explicitly via keyword arguments."
+    },
+    {
+      "id": "15.2_q19",
+      "type": "fix_the_code",
+      "concept": "keyword_arguments_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q18"
+      ],
+      "prompt": "The following function is intended to greet a user using keyword arguments, but it raises an error when called. Identify the error and explain why it occurs.",
+      "starter_code": "def greet(name, greeting):\n    return f'{greeting}, {name}!'\n\nresult = greet(greeting='Hello', name='Alice')",
+      "solution_code": "def greet(name, greeting):\n    return f'{greeting}, {name}!'\n\nresult = greet(name='Alice', greeting='Hello')",
+      "hint": "Check the order of arguments in the function definition versus the order used in the function call.",
+      "explanation": "The function defines parameters as (name, greeting), but the call passes greeting first. Since Python does not allow positional arguments after keyword arguments, this raises a SyntaxError. Using only keyword arguments with the correct parameter names fixes the issue."
+    },
+    {
+      "idx": 20,
+      "id": "15.2_q20",
+      "type": "fix_the_code",
+      "concept": "keyword_arguments_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.2_q19"
+      ],
+      "prompt": "Correct the function below so that it accepts and uses keyword arguments properly.",
+      "starter_code": "def power(base, exp):\n    return base ** exp\n\nprint(power(2, exp=3))",
+      "solution_code": "def power(base, exp):\n    return base ** exp\n\nprint(power(base=2, exp=3))",
+      "hint": "When calling a function with keyword arguments, each argument must be passed by name.",
+      "explanation": "The original call mixed a positional argument (2) with a keyword argument (exp=3), which is invalid in Python. The fix passes both arguments as keywords: base=2 and exp=3."
+    },
+    {
+      "idx": 21,
+      "id": "15.2_q21",
+      "type": "fix_the_code",
+      "concept": "keyword_arguments_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q20"
+      ],
+      "prompt": "This function attempts to set optional parameters using keyword arguments, but it fails on certain inputs. Fix the implementation.",
+      "starter_code": "def configure(host, port=80, debug=False):\n    settings = {'host': host, 'port': port, 'debug': debug}\n    return settings\n\ncfg = configure(host='localhost')",
+      "solution_code": "def configure(host, port=80, debug=False):\n    settings = {'host': host, 'port': port, 'debug': debug}\n    return settings\n\ncfg = configure(host='localhost')\nprint(cfg)",
+      "hint": "The function call itself is valid; the issue is that the returned dictionary is not displayed or used, and edge cases with mutable defaults can cause bugs. Ensure the call is correct and consider default behavior.",
+      "explanation": "The call configure(host='localhost') is actually valid because port and debug use their defaults. However, a common edge case is using mutable default arguments. This fix keeps the signature clean and demonstrates that keyword arguments with defaults work correctly when omitted."
+    },
+    {
+      "idx": 22,
+      "id": "15.2_q22",
+      "type": "fix_the_code",
+      "concept": "keyword_arguments_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q21"
+      ],
+      "prompt": "The code below runs without syntax errors but produces an unexpected result at runtime. Diagnose the issue related to keyword arguments.",
+      "starter_code": "def scale(value, factor=1):\n    return value * factor\n\nprint(scale(factor=5, value=10))",
+      "solution_code": "def scale(value, factor=1):\n    return value * factor\n\nprint(scale(value=10, factor=5))",
+      "hint": "Python evaluates keyword arguments in the order they appear in the function signature, but mixing positional and keyword arguments after a keyword argument is illegal. Check the call structure.",
+      "explanation": "The call scale(factor=5, value=10) is syntactically valid because both are keywords. However, if the intent was to pass value positionally and factor as a keyword, that would be invalid. The runtime issue here is conceptual: the function works, but the order of keywords does not matter. The real bug would appear if a positional argument followed a keyword argument."
+    },
+    {
+      "idx": 23,
+      "id": "15.2_q23",
+      "type": "fix_the_code",
+      "concept": "keyword_arguments_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q22"
+      ],
+      "prompt": "The function below is supposed to compute a discount, but the keyword argument usage is incorrect, leading to a logic error. Repair the code.",
+      "starter_code": "def apply_discount(price, discount=0.1):\n    final_price = price - discount\n    return final_price\n\nprint(apply_discount(price=100, discount=0.2))",
+      "solution_code": "def apply_discount(price, discount=0.1):\n    final_price = price * (1 - discount)\n    return final_price\n\nprint(apply_discount(price=100, discount=0.2))",
+      "hint": "The function subtracts the discount value directly instead of applying it as a percentage of the price.",
+      "explanation": "The original logic incorrectly subtracts the discount amount rather than reducing the price by the discount percentage. The repair changes the formula to price * (1 - discount) so that a discount of 0.2 reduces 100 to 80. The keyword arguments price=100 and discount=0.2 are already used correctly."
+    },
+    {
+      "idx": 24,
+      "id": "15.2_q24",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q23"
+      ],
+      "prompt": "Refactor the following function to accept an arbitrary number of keyword arguments, validate that required keys are present, and optimize for readability and reuse.",
+      "starter_code": "def create_user(name, email, age):\n    user = {}\n    user['name'] = name\n    user['email'] = email\n    user['age'] = age\n    return user\n\nprint(create_user(name='Bob', email='bob@example.com', age=25))",
+      "solution_code": "def create_user(**kwargs):\n    required = ['name', 'email', 'age']\n    for key in required:\n        if key not in kwargs:\n            raise ValueError(f'Missing required argument: {key}')\n    return kwargs\n\nprint(create_user(name='Bob', email='bob@example.com', age=25))",
+      "test_cases": [
+        {
+          "input": "create_user(name='Bob', email='bob@example.com', age=25)",
+          "expected": "{'name': 'Bob', 'email': 'bob@example.com', 'age': 25}"
+        },
+        {
+          "input": "create_user(name='Bob', email='bob@example.com')",
+          "expected": "ValueError"
+        }
+      ],
+      "hint": "Use **kwargs to capture all keyword arguments, then validate required fields before returning a dictionary.",
+      "explanation": "The refactored version uses **kwargs to make the function flexible and accepts any number of keyword arguments. It validates that name, email, and age are provided, raising a ValueError if any are missing. This improves reusability and makes the function safer for dynamic inputs."
+    },
+    {
+      "id": "15.2_q25",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q24"
+      ],
+      "prompt": "Write a function named `describe_pet` that accepts a pet's type and name using keyword arguments. The function should print a descriptive sentence.",
+      "starter_code": "def describe_pet():\n    pass",
+      "solution_code": "def describe_pet(type='dog', name='Buddy'):\n    print(f'My {type} is named {name}.')",
+      "test_cases": [
+        {
+          "input": "describe_pet(type='cat', name='Whiskers')",
+          "expected_output": "My cat is named Whiskers."
+        },
+        {
+          "input": "describe_pet()",
+          "expected_output": "My dog is named Buddy."
+        }
+      ],
+      "hint": "Use default parameter values and call the function with named arguments.",
+      "explanation": "Keyword arguments allow callers to specify parameters by name, improving readability. Default values make parameters optional."
+    },
+    {
+      "id": "15.2_q26",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.2_q25"
+      ],
+      "prompt": "Create a function `order_meal` that takes `main_course`, `side_dish`, and `drink` as keyword arguments with sensible defaults. It should return a formatted order string.",
+      "starter_code": "def order_meal():\n    return ''",
+      "solution_code": "def order_meal(main_course='rice', side_dish='beans', drink='water'):\n    return f'Order: {main_course}, {side_dish}, {drink}'",
+      "test_cases": [
+        {
+          "input": "order_meal(main_course='pizza', drink='juice')",
+          "expected_output": "Order: pizza, beans, juice"
+        },
+        {
+          "input": "order_meal(side_dish='salad')",
+          "expected_output": "Order: rice, salad, water"
+        }
+      ],
+      "hint": "Remember that unspecified keyword arguments use their default values.",
+      "explanation": "Practical use of keyword arguments lets users override only the values they care about while relying on defaults for the rest."
+    },
+    {
+      "id": "15.2_q27",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q26"
+      ],
+      "prompt": "Implement `build_profile` using **kwargs to collect arbitrary keyword arguments. Return a dictionary containing all provided information.",
+      "starter_code": "def build_profile():\n    pass",
+      "solution_code": "def build_profile(**user_info):\n    profile = {}\n    for key, value in user_info.items():\n        profile[key] = value\n    return profile",
+      "test_cases": [
+        {
+          "input": "build_profile(name='Ada', age=30, city='London')",
+          "expected_output": "{'name': 'Ada', 'age': 30, 'city': 'London'}"
+        },
+        {
+          "input": "build_profile(language='Python')",
+          "expected_output": "{'language': 'Python'}"
+        }
+      ],
+      "hint": "Use the `**` operator in the parameter list to capture extra keyword arguments into a dictionary.",
+      "explanation": "**kwargs gathers all extra keyword arguments into a dictionary, enabling flexible function signatures for configuration-style APIs."
+    },
+    {
+      "id": "15.2_q28",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q27"
+      ],
+      "prompt": "Given the function below, call it so that the output is 'Result: 42'. Identify the correct keyword arguments.",
+      "starter_code": "def calculate(a, b, operation='add'):\n    if operation == 'add':\n        return a + b\n    elif operation == 'subtract':\n        return a - b",
+      "solution_code": "result = calculate(a=20, b=22, operation='add')\nprint(f'Result: {result}')",
+      "test_cases": [
+        {
+          "input": "calculate(a=20, b=22, operation='add')",
+          "expected_output": "Result: 42"
+        }
+      ],
+      "hint": "You must pass `a`, `b`, and `operation` by name to match the required logic.",
+      "explanation": "This challenge reinforces that keyword arguments can be supplied in any order and must match the expected parameter names."
+    },
+    {
+      "id": "15.2_q29",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q28"
+      ],
+      "prompt": "Design a function `create_invoice` that accepts customer details via **kwargs. It should compute a total from optional `tax` and `discount` keys, defaulting to 0. Return a dictionary with the invoice summary.",
+      "starter_code": "def create_invoice(**details):\n    pass",
+      "solution_code": "def create_invoice(**details):\n    base = details.get('amount', 0)\n    tax = details.get('tax', 0)\n    discount = details.get('discount', 0)\n    total = base + tax - discount\n    return {\n        'customer': details.get('customer', 'Unknown'),\n        'amount': base,\n        'tax': tax,\n        'discount': discount,\n        'total': total\n    }",
+      "test_cases": [
+        {
+          "input": "create_invoice(customer='Acme', amount=100, tax=10, discount=5)",
+          "expected_output": "{'customer': 'Acme', 'amount': 100, 'tax': 10, 'discount': 5, 'total': 105}"
+        },
+        {
+          "input": "create_invoice(customer='Beta', amount=200)",
+          "expected_output": "{'customer': 'Beta', 'amount': 200, 'tax': 0, 'discount': 0, 'total': 200}"
+        }
+      ],
+      "hint": "Use `.get()` to safely access optional keyword arguments and apply default values.",
+      "explanation": "Real-world scenarios often require functions to accept variable configurations. **kwargs combined with `.get()` provides a robust pattern for invoice and report generation."
+    },
+    {
+      "id": "15.2_q30",
+      "type": "write_the_code",
+      "concept": "keyword_arguments_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.2_q29"
+      ],
+      "prompt": "Complete the function `configure_server` so that it accepts `host`, `port`, `debug`, and `timeout` as keyword arguments. Validate that `port` is between 1 and 65535 and `timeout` is a positive number. Return a configuration dictionary.",
+      "starter_code": "def configure_server(**kwargs):\n    config = {}\n    # TODO: validate and assign\n    return config",
+      "solution_code": "def configure_server(**kwargs):\n    host = kwargs.get('host', 'localhost')\n    port = kwargs.get('port', 8080)\n    debug = kwargs.get('debug', False)\n    timeout = kwargs.get('timeout', 30)\n\n    if not (1 <= port <= 65535):\n        raise ValueError('Port must be between 1 and 65535')\n    if timeout <= 0:\n        raise ValueError('Timeout must be positive')\n\n    config = {\n        'host': host,\n        'port': port,\n        'debug': debug,\n        'timeout': timeout\n    }\n    return config",
+      "test_cases": [
+        {
+          "input": "configure_server(host='api.example.com', port=443, debug=True, timeout=60)",
+          "expected_output": "{'host': 'api.example.com', 'port': 443, 'debug': True, 'timeout': 60}"
+        },
+        {
+          "input": "configure_server(port=0)",
+          "expected_output": "ValueError: Timeout must be positive"
+        }
+      ],
+      "hint": "Validate `port` and `timeout` after extracting them with `.get()`, then raise `ValueError` on failure.",
+      "explanation": "Mastery involves combining **kwargs, default extraction, validation, and error handling to build reliable configuration utilities."
+    }
+  ],
+  "unit_num": 15,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Keyword Arguments",
+    "Apply idiomatic Python patterns when working with Keyword Arguments",
+    "Debug common runtime exceptions and logic errors associated with Keyword Arguments",
+    "Implement production-ready code utilizing Keyword Arguments"
+  ],
+  "prerequisites": [
+    "15.1"
+  ]
+}

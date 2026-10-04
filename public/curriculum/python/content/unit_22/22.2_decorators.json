@@ -1,0 +1,611 @@
+{
+  "lesson_id": "22.2",
+  "title": "Decorators",
+  "unit": "Advanced Python Magic",
+  "items": [
+    {
+      "id": "22.2_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "decorators_basics",
+      "title": "What is a Decorator?",
+      "content": "A decorator is a higher-order function that takes another function as an argument, adds some functionality, and returns another function without modifying the source code of the original function. The '@' symbol is used to apply a decorator to a function definition. For example, consider the following code:\n\n```python\ndef my_decorator(func):\n    def wrapper():\n        print('Before the function runs.')\n        func()\n        print('After the function runs.')\n    return wrapper\n\n@my_decorator\ndef say_hello():\n    print('Hello!')\n\nsay_hello()\n```\n\nWhen `say_hello` is called, the decorator wraps the original function with extra behavior, printing messages before and after the original logic executes.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A decorator is a higher-order function that takes another function as an argument, adds some functionality, and returns another function without modifying the source code of the original function. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "22.2_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "decorators_basics",
+      "prompt": "Which keyword is used to apply a decorator to a Python function?",
+      "options": [
+        "@decorator_name",
+        "apply decorator_name",
+        "use decorator_name",
+        "decorator decorator_name"
+      ],
+      "correct_answer": "@decorator_name",
+      "explanation": "The '@' symbol placed directly above a function definition is the standard syntax for applying a decorator in Python.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q1"
+      ]
+    },
+    {
+      "id": "22.2_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "decorators_syntax",
+      "title": "Decorator Syntax and Execution Order",
+      "content": "Decorators are evaluated from bottom to top. The function closest to the definition line is decorated first, and then each outer decorator wraps the result. Consider this example:\n\n```python\ndef decorator_one(func):\n    def wrapper():\n        print('One')\n        func()\n    return wrapper\n\ndef decorator_two(func):\n    def wrapper():\n        print('Two')\n        func()\n    return wrapper\n\n@decorator_two\n@decorator_one\ndef greet():\n    print('Greet')\n\ngreet()\n```\n\nWhen `greet()` is invoked, the call stack becomes: decorator_two.wrapper -> decorator_one.wrapper -> greet. Thus, 'Two' prints first, then 'One', then 'Greet'. Understanding this order is essential for building layered behavior.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q2"
+      ],
+      "prompt": "",
+      "explanation": "Decorators are evaluated from bottom to top. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "22.2_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "decorators_syntax",
+      "prompt": "Given the code below, what is printed when `run()` is called?\n\n```python\ndef outer(func):\n    def inner():\n        print('inner')\n        func()\n    return inner\n\ndef inner(func):\n    def wrapper():\n        print('wrapper')\n        func()\n    return wrapper\n\n@outer\n@inner\ndef run():\n    print('run')\n\nrun()\n```",
+      "options": [
+        "'wrapper', 'inner', 'run'",
+        "'inner', 'wrapper', 'run'",
+        "'run', 'wrapper', 'inner'",
+        "'wrapper', 'run', 'inner'"
+      ],
+      "correct_answer": "'wrapper', 'inner', 'run'",
+      "explanation": "Decorators are applied bottom-up. @inner wraps run first, then @outer wraps the result. Execution is top-down: outer.wrapper -> inner.wrapper -> run, producing 'wrapper', then 'inner', then 'run'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q3"
+      ]
+    },
+    {
+      "id": "22.2_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "decorators_matching",
+      "prompt": "Match the decorator to its common built-in use case.",
+      "options": [
+        "@property: used to cache function results",
+        "@staticmethod: used to define read-only computed attributes",
+        "@classmethod: used to create methods bound to the class, not the instance",
+        "@classmethod: used to cache function results"
+      ],
+      "correct_answer": "@classmethod: used to create methods bound to the class, not the instance",
+      "explanation": "@classmethod receives the class as the first argument and is commonly used for factory methods or class-level utilities. @property creates read-only attributes, and @staticmethod does not receive class or instance automatically.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q4"
+      ]
+    },
+    {
+      "id": "22.2_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "decorators_pitfalls",
+      "prompt": "What is a common pitfall when a decorator does not use `functools.wraps`?",
+      "options": [
+        "The decorated function loses its original metadata such as `__name__` and `__doc__`",
+        "The decorator will raise a TypeError at runtime",
+        "The original function becomes uncallable",
+        "The decorator cannot accept arguments"
+      ],
+      "correct_answer": "The decorated function loses its original metadata such as `__name__` and `__doc__`",
+      "explanation": "Without `functools.wraps`, the wrapper function replaces the original function's identity. Using `wraps` copies metadata like `__name__`, `__doc__`, and annotations to preserve introspection and debugging information.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q5"
+      ]
+    },
+    {
+      "id": "22.2_q7",
+      "type": "code_prediction",
+      "concept": "decorators_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q6"
+      ],
+      "prompt": "Given the following decorator and function, what is the output when called?\n\n```python\n@my_decorator\ndef greet(name):\n    return 'Hello, ' + name\n\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print('Before')\n        result = func(*args, **kwargs)\n        print('After')\n        return result\n    return wrapper\n\nprint(greet('Alice'))\n```",
+      "options": [
+        "Before\\nAfter\\nHello, Alice",
+        "Before\\nHello, Alice\\nAfter",
+        "Before\\nAfter\\nHello, Alice\\n",
+        "Hello, Alice\\nBefore\\nAfter"
+      ],
+      "correct_answer": "Before\\nAfter\\nHello, Alice",
+      "explanation": "The decorator wraps the function. When greet('Alice') is called, wrapper runs first, printing 'Before', then calls the original function returning 'Hello, Alice', then prints 'After' before returning the result. The print(greet('Alice')) displays the returned string."
+    },
+    {
+      "id": "22.2_q8",
+      "type": "output_prediction",
+      "concept": "decorators_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q7"
+      ],
+      "prompt": "What is the output of this code?\n\n```python\ndef repeat_twice(func):\n    def wrapper():\n        func()\n        func()\n    return wrapper\n\ndef say_hi():\n    print('Hi')\n\nsay_hi = repeat_twice(say_hi)\nsay_hi()\n```",
+      "options": [
+        "Hi\\nHi",
+        "Hi",
+        "Hi\\nHi\\nHi",
+        "Error: say_hi is not callable"
+      ],
+      "correct_answer": "Hi\\nHi",
+      "explanation": "repeat_twice returns wrapper, which is assigned back to say_hi. Calling say_hi() invokes wrapper, which calls func() twice, printing 'Hi' each time."
+    },
+    {
+      "id": "22.2_q9",
+      "type": "code_prediction",
+      "concept": "decorators_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q8"
+      ],
+      "prompt": "What happens when this code runs?\n\n```python\ndef uppercase_decorator(func):\n    def wrapper(text):\n        return func(text).upper()\n    return wrapper\n\ndef greet(text):\n    return text\n\ngreet = uppercase_decorator(greet)\nprint(greet('hello'))\n```",
+      "options": [
+        "hello",
+        "HELLO",
+        "Error: greet is not defined",
+        "Error: uppercase_decorator missing return"
+      ],
+      "correct_answer": "HELLO",
+      "explanation": "greet is reassigned to the wrapper returned by uppercase_decorator. When greet('hello') is called, wrapper receives 'hello', passes it to the original greet returning 'hello', then .upper() converts it to 'HELLO'."
+    },
+    {
+      "id": "22.2_q10",
+      "type": "write_the_code",
+      "concept": "decorators_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q9"
+      ],
+      "prompt": "Analyze the following code and explain why the output is what it is. Provide a step-by-step breakdown.\n\n```python\ndef timer(func):\n    import time\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f'Time taken: {end - start}')\n        return result\n    return wrapper\n\n@timer\ndef slow_add(a, b):\n    time.sleep(0.1)\n    return a + b\n\nprint(slow_add(2, 3))\n```",
+      "correct_answer": "The decorator measures execution time and prints it; the function returns 5 after a brief delay.",
+      "explanation": "The @timer syntax applies timer to slow_add, replacing it with the wrapper. When slow_add(2, 3) is called, wrapper records start time, calls the original slow_add which sleeps 0.1 seconds and returns 5, records end time, prints the elapsed time, and returns 5. print displays 5.",
+      "starter_code": "# 1. Define the process_22_2 function\ndef process_22_2():\n    # 2. Implement solution for Decorators\n    pass\n",
+      "solution_code": "print('Decorators')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Decorators"
+        }
+      ]
+    },
+    {
+      "id": "22.2_q11",
+      "type": "write_the_code",
+      "concept": "decorators_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q10"
+      ],
+      "prompt": "Trace the execution order of the following code step by step and list the exact sequence of print statements.\n\n```python\ndef trace(func):\n    def wrapper():\n        print('Trace start')\n        func()\n        print('Trace end')\n    return wrapper\n\ndef inner():\n    print('Inner')\n\n@trace\ndef outer():\n    print('Outer')\n    inner()\n\nouter()\n```",
+      "correct_answer": "Trace start, Outer, Inner, Trace end",
+      "explanation": "outer() calls wrapper from the trace decorator. wrapper prints 'Trace start', then calls the original outer which prints 'Outer', then calls inner() which prints 'Inner', then wrapper prints 'Trace end'. The sequence is Trace start, Outer, Inner, Trace end.",
+      "starter_code": "# 1. Define the process_22_2 function\ndef process_22_2():\n    # 2. Implement solution for Decorators\n    pass\n",
+      "solution_code": "print('Decorators')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Decorators"
+        }
+      ]
+    },
+    {
+      "id": "22.2_q12",
+      "type": "output_prediction",
+      "concept": "decorators_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q11"
+      ],
+      "prompt": "Predict the output of this code, considering how the decorator modifies the function behavior.\n\n```python\ndef require_positive(func):\n    def wrapper(x):\n        if x <= 0:\n            return 'Invalid'\n        return func(x)\n    return wrapper\n\ndef square(x):\n    return x * x\n\nsquare = require_positive(square)\nprint(square(5))\nprint(square(-3))\n```",
+      "options": [
+        "25\\nInvalid",
+        "25\\n9",
+        "Invalid\\n25",
+        "Error: wrapper does not return a value for x <= 0"
+      ],
+      "explanation": "The require_positive decorator wraps square. For square(5), x is positive so func(5) returns 25. For square(-3), x is not positive so the wrapper returns 'Invalid' directly without calling the original square. The prints display 25 and Invalid on separate lines.",
+      "correct_answer": "25\\nInvalid"
+    },
+    {
+      "id": "22.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "decorators_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q12"
+      ],
+      "prompt": "Complete the decorator definition by filling in the blank: @____\n\ndef greet(name):\n    return 'Hello, ' + name",
+      "correct_answer": "greet",
+      "accepted_answers": [
+        "greet"
+      ],
+      "explanation": "A decorator is applied using the @ symbol followed by the decorator function name. Here, the blank should be filled with greet to apply the decorator to the function below it."
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "concept": "decorators_keywords",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "22.2_q13"
+      ],
+      "id": "22.2_q14",
+      "prompt": "When a decorator accepts arguments, it must be a function that returns a decorator. Fill in the blank: def repeat(n): ____\n\n@repeat(3)\ndef shout(text):\n    return text.upper()",
+      "correct_answer": "return lambda func: ...",
+      "accepted_answers": [
+        "return lambda func: ...",
+        "return lambda func: wrapper"
+      ],
+      "explanation": "A decorator with arguments is a higher-order function. It takes arguments (n), then returns a decorator (a function that takes func). The inner function (wrapper) performs the actual decoration. Using a lambda is a concise way to express this pattern.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "concept": "decorators_sequence",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "22.2_q14"
+      ],
+      "id": "22.2_q15",
+      "prompt": "Arrange the following code lines in the correct order to define and use a simple logging decorator:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The decorator must be defined before it is used with @. The decorator function log is defined first, containing the inner wrapper. Only after log is defined can it be applied to add with @log.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "concept": "decorators_patterns",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "22.2_q15"
+      ],
+      "id": "22.2_q16",
+      "prompt": "Fill in the blank to preserve the original function's metadata using functools: import functools\n\ndef my_decorator(func): ____\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        return func(*args, **kwargs)\n    return wrapper",
+      "correct_answer": "def my_decorator(func):",
+      "accepted_answers": [
+        "def my_decorator(func):"
+      ],
+      "explanation": "The wrapper function inside the decorator must be defined with @functools.wraps(func) to copy metadata such as __name__ and __doc__. The blank is the start of the decorator function definition, which accepts the function being decorated as an argument.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "concept": "decorators_algorithm",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "22.2_q16"
+      ],
+      "id": "22.2_q17",
+      "prompt": "Order the code to implement a timer decorator that measures execution time:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Imports must come before use. The decorator timer must be defined before it is applied with @timer. The function slow is decorated after timer exists. The wrapper correctly captures start and end times and prints the elapsed duration.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "concept": "decorators_idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "22.2_q17"
+      ],
+      "id": "22.2_q18",
+      "prompt": "Complete the idiom for a simple cache decorator using a dictionary: def cache(func): ____\n    _cache = {}\n    def wrapper(*args):\n        if args not in _cache:\n            _cache[args] = func(*args)\n        return _cache[args]",
+      "correct_answer": "def cache(func):",
+      "accepted_answers": [
+        "def cache(func):"
+      ],
+      "explanation": "This is a common caching idiom. The decorator factory cache takes func and closes over _cache. The wrapper checks if args are in the cache; if not, it computes and stores the result. This avoids redundant calls for identical arguments.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "22.2_q19",
+      "type": "fix_the_code",
+      "concept": "decorators_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Decorator Pitfalls",
+        "content": "Decorators are powerful, but they introduce subtle bugs. A frequent error is forgetting to return the wrapped function's result, causing loss of data. Another is mishandling arguments with *args and **kwargs, which breaks functions expecting specific signatures. Additionally, decorator order matters: applying @timer after @cache changes when timing starts. Always verify that your decorator preserves the original function's metadata using functools.wraps and that it correctly propagates both positional and keyword arguments."
+      },
+      "prompt": "Fix the bug in this code for decorators errors:",
+      "starter_code": "# Fix this code\nPrint('Decorators')",
+      "solution_code": "print('Decorators')",
+      "explanation": "This exercise tests `decorators errors` in Decorators. When Python validates this code, it applies the standard rules of decorators errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "22.2_q20",
+      "type": "fix_the_code",
+      "concept": "decorators_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "22.2_q19"
+      ],
+      "prompt": "The following decorator is intended to print a message before and after calling the function. However, it currently fails to execute the wrapped function. Fix the implementation.",
+      "starter_code": "def announce(func):\n    def wrapper():\n        print('Before')\n        # missing call to func()\n        print('After')\n    return wrapper\n\n@announce\ndef greet():\n    print('Hello')",
+      "solution_code": "def announce(func):\n    def wrapper():\n        print('Before')\n        result = func()\n        print('After')\n        return result\n    return wrapper\n\n@announce\ndef greet():\n    print('Hello')",
+      "hint": "Ensure the wrapper actually invokes the original function and returns its value.",
+      "explanation": "The wrapper was missing the invocation of func(). Adding result = func() and returning result restores correct behavior."
+    },
+    {
+      "id": "22.2_q21",
+      "type": "fix_the_code",
+      "concept": "decorators_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q20"
+      ],
+      "prompt": "This decorator should accept any number of positional and keyword arguments. It currently raises a TypeError when called with extra arguments. Repair the decorator.",
+      "starter_code": "def log_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f'Calling {func.__name__} with {args} and {kwargs}')\n        return func(args, kwargs)\n    return wrapper\n\n@log_calls\ndef add(a, b):\n    return a + b\n\nprint(add(2, 3))",
+      "solution_code": "def log_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f'Calling {func.__name__} with {args} and {kwargs}')\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_calls\ndef add(a, b):\n    return a + b\n\nprint(add(2, 3))",
+      "hint": "Pass arguments directly to func() using unpacking operators instead of bundling them into tuples.",
+      "explanation": "Passing args and kwargs as separate unpacked sequences preserves the original signature. Using func(args, kwargs) treats them as single positional arguments, causing a mismatch."
+    },
+    {
+      "id": "22.2_q22",
+      "type": "fix_the_code",
+      "concept": "decorators_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Decorator Execution Timing",
+        "content": "Decorators execute at definition time, not call time. When you stack decorators, they wrap from bottom to top. A runtime error may only surface when the decorated function is invoked, not when the module is imported. For example, a decorator that accesses a global variable defined later will raise NameError at runtime. Always trace both decoration and invocation phases separately."
+      },
+      "prompt": "Fix the bug in this code for decorators runtime:",
+      "starter_code": "# Fix this code\nPrint('Decorators')",
+      "solution_code": "print('Decorators')",
+      "explanation": "This exercise tests `decorators runtime` in Decorators. When Python validates this code, it applies the standard rules of decorators runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "22.2_q23",
+      "type": "fix_the_code",
+      "concept": "decorators_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q22"
+      ],
+      "prompt": "The retry decorator below is meant to retry a function up to 3 times on failure, but it currently retries infinitely and ignores exceptions. Correct the logic.",
+      "starter_code": "def retry(func):\n    def wrapper(*args, **kwargs):\n        attempts = 0\n        while True:\n            try:\n                return func(*args, **kwargs)\n            except Exception:\n                attempts += 1\n                if attempts >= 3:\n                    raise\n    return wrapper\n\n@retry\ndef unstable():\n    import random\n    if random.random() < 0.5:\n        raise ValueError('fail')\n    return 42\n\nprint(unstable())",
+      "solution_code": "def retry(func):\n    def wrapper(*args, **kwargs):\n        attempts = 0\n        while attempts < 3:\n            try:\n                return func(*args, **kwargs)\n            except Exception:\n                attempts += 1\n        raise\n    return wrapper\n\n@retry\ndef unstable():\n    import random\n    if random.random() < 0.5:\n        raise ValueError('fail')\n    return 42\n\nprint(unstable())",
+      "hint": "Limit the loop to a fixed number of attempts and only raise after exhausting retries.",
+      "explanation": "The original loop was infinite because the break condition was misplaced inside the except block without incrementing attempts toward a limit. Restructuring to a while attempts < 3 loop ensures at most 3 attempts."
+    },
+    {
+      "id": "22.2_q24",
+      "type": "write_the_code",
+      "concept": "decorators_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.2_q23"
+      ],
+      "prompt": "Refactor the following memoization decorator to use functools.lru_cache for better performance and cleaner code. Preserve the original behavior of caching up to 128 results.",
+      "starter_code": "def memoize(func):\n    cache = {}\n    def wrapper(*args):\n        if args not in cache:\n            cache[args] = func(*args)\n        return cache[args]\n    return wrapper\n\n@memoize\ndef fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nprint(fib(35))",
+      "solution_code": "from functools import lru_cache\n\n@lru_cache(maxsize=128)\ndef fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nprint(fib(35))",
+      "test_cases": [
+        {
+          "input": "fib(35)",
+          "expected": 9227465
+        },
+        {
+          "input": "fib(5)",
+          "expected": 5
+        }
+      ],
+      "hint": "Replace the manual dictionary cache with functools.lru_cache and set maxsize appropriately.",
+      "explanation": "functools.lru_cache provides thread-safe, optimized caching with automatic eviction. It avoids manual dictionary management and handles hashable arguments correctly, yielding O(n) time for Fibonacci."
+    },
+    {
+      "id": "22.2_q25",
+      "type": "write_the_code",
+      "concept": "decorators_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q24"
+      ],
+      "prompt": "Implement a decorator named `timer` that measures and prints the execution time of any function it wraps. The decorator should use the `time` module and print the elapsed time in seconds formatted to 4 decimal places.",
+      "starter_code": "import time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f'Elapsed: {end - start:.4f}s')\n        return result\n    return wrapper\n\n@timer\ndef compute(n):\n    total = 0\n    for i in range(n):\n        total += i ** 2\n    return total",
+      "solution_code": "import time\n\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print('Elapsed: {:.4f}s'.format(end - start))\n        return result\n    return wrapper\n\n@timer\ndef compute(n):\n    total = 0\n    for i in range(n):\n        total += i ** 2\n    return total",
+      "test_cases": [
+        {
+          "input": "compute(1000)",
+          "expected_output": "Elapsed: 0.00xxs\n82144750"
+        }
+      ],
+      "hint": "Remember that `*args` and `**kwargs` capture positional and keyword arguments. Use `time.time()` to record timestamps before and after the function call.",
+      "explanation": "A decorator is a higher-order function that takes another function and returns a wrapped version. Here, `wrapper` records the start time, calls the original function, records the end time, computes the difference, and prints it. The `@timer` syntax is equivalent to `compute = timer(compute)`."
+    },
+    {
+      "id": "22.2_q26",
+      "type": "write_the_code",
+      "concept": "decorators_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "22.2_q25"
+      ],
+      "prompt": "Create a decorator `require_positive` that raises a `ValueError` if the first argument of the decorated function is not a positive number. Apply it to a function `square` that returns the square of its input.",
+      "starter_code": "def require_positive(func):\n    def wrapper(x, *args, **kwargs):\n        if x <= 0:\n            raise ValueError('Input must be positive')\n        return func(x, *args, **kwargs)\n    return wrapper\n\n@require_positive\ndef square(x):\n    return x * x",
+      "solution_code": "def require_positive(func):\n    def wrapper(x, *args, **kwargs):\n        if not isinstance(x, (int, float)) or x <= 0:\n            raise ValueError('Input must be a positive number')\n        return func(x, *args, **kwargs)\n    return wrapper\n\n@require_positive\ndef square(x):\n    return x * x",
+      "test_cases": [
+        {
+          "input": "square(5)",
+          "expected_output": "25"
+        },
+        {
+          "input": "square(-3)",
+          "expected_output": "ValueError"
+        }
+      ],
+      "hint": "Use `isinstance` to check numeric types before comparing with zero. This prevents string inputs from causing unexpected comparison behavior.",
+      "explanation": "This decorator demonstrates input validation using a closure. The `wrapper` intercepts the call, validates the first argument, and only proceeds to the original function if the condition is met. This pattern is common for enforcing preconditions."
+    },
+    {
+      "id": "22.2_q27",
+      "type": "write_the_code",
+      "concept": "decorators_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.2_q26"
+      ],
+      "prompt": "Write a decorator `log_calls` that logs every call to the decorated function with the function name, arguments, and return value. Preserve the original function's metadata using `functools.wraps`.",
+      "starter_code": "import functools\n\ndef log_calls(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        result = func(*args, **kwargs)\n        print(f'Called {func.__name__} with args={args}, kwargs={kwargs}, returned={result}')\n        return result\n    return wrapper",
+      "solution_code": "import functools\n\ndef log_calls(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        result = func(*args, **kwargs)\n        print('log: {} called with args={} kwargs={} returned={}'.format(func.__name__, args, kwargs, result))\n        return result\n    return wrapper",
+      "test_cases": [
+        {
+          "input": "log_calls(lambda x: x + 1)(10)",
+          "expected_output": "log: <lambda> called with args=(10,) kwargs={} returned=11"
+        }
+      ],
+      "hint": "Apply `@functools.wraps(func)` immediately inside the decorator so that `wrapper.__name__`, `wrapper.__doc__`, and other attributes reflect those of `func`.",
+      "explanation": "`functools.wraps` copies metadata from the original function to the wrapper, preventing introspection and debugging issues. Logging calls is essential for tracing execution in complex systems and for building debugging tools."
+    },
+    {
+      "id": "22.2_q28",
+      "type": "write_the_code",
+      "concept": "decorators_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.2_q27"
+      ],
+      "prompt": "A decorator `retry` should call the decorated function up to `max_attempts` times if it raises an exception. Return the successful result, or re-raise the last exception if all attempts fail. Use a class-based decorator to maintain attempt count.",
+      "starter_code": "class Retry:\n    def __init__(self, max_attempts=3):\n        self.max_attempts = max_attempts\n\n    def __call__(self, func):\n        def wrapper(*args, **kwargs):\n            attempts = 0\n            while attempts < self.max_attempts:\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    attempts += 1\n            raise e\n        return wrapper",
+      "solution_code": "class Retry:\n    def __init__(self, max_attempts=3):\n        self.max_attempts = max_attempts\n\n    def __call__(self, func):\n        def wrapper(*args, **kwargs):\n            last_exception = None\n            for attempts in range(self.max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    last_exception = e\n            raise last_exception\n        return wrapper",
+      "test_cases": [
+        {
+          "input": "@Retry(max_attempts=2)\ndef flaky():\n    import random\n    if random.random() < 0.5:\n        raise ValueError('fail')\n    return 'ok'\nflaky()",
+          "expected_output": "'ok'"
+        },
+        {
+          "input": "@Retry(max_attempts=1)\ndef always_fail():\n    raise RuntimeError('nope')\nalways_fail()",
+          "expected_output": "RuntimeError"
+        }
+      ],
+      "hint": "Store the exception in a variable inside the loop so you can re-raise it after exhausting all attempts. A class-based decorator is useful when you need to store configuration state like `max_attempts`.",
+      "explanation": "Class-based decorators use `__init__` to accept arguments and `__call__` to return the wrapper. This pattern is ideal for stateful decorators. The `retry` decorator improves resilience in network or I/O operations by transparently handling transient failures."
+    },
+    {
+      "id": "22.2_q29",
+      "type": "output_prediction",
+      "concept": "decorators_wraps_metadata",
+      "skill": "mental_model",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.2_q28"
+      ],
+      "prompt": "Why is `functools.wraps` used when writing custom decorators?\n\n```python\nfrom functools import wraps\n\ndef my_decorator(f):\n    @wraps(f)\n    def wrapper(*args, **kwargs):\n        return f(*args, **kwargs)\n    return wrapper\n\n@my_decorator\ndef compute_cube(n):\n    \"\"\"Calculates n cubed.\"\"\"\n    return n ** 3\n\nprint(compute_cube.__name__)\n```",
+      "options": [
+        "compute_cube",
+        "wrapper",
+        "my_decorator",
+        "None"
+      ],
+      "correct_answer": "compute_cube",
+      "explanation": "Without `@wraps(f)`, the decorated function would adopt the identity of the inner function (`compute_cube.__name__` would be `'wrapper'`), destroying docstrings and function names. `@wraps` copies original metadata back to the wrapper.",
+      "metadata": {
+        "concept": "decorator_metadata_preservation",
+        "skill": "meta_programming",
+        "learning_objective": "Preserve function docstrings and __name__ using functools.wraps",
+        "common_misconception": "Assuming decorators preserve function metadata automatically",
+        "why_this_exercise_exists": "Crucial requirement for building professional decorators"
+      }
+    },
+    {
+      "id": "22.2_q30",
+      "type": "write_the_code",
+      "concept": "decorators_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "22.2_q29"
+      ],
+      "prompt": "Create a parameterized decorator `@authorize(roles)` that checks if the first argument of the decorated function is a dictionary containing a `'role'` key. If the role is not in `roles`, raise `PermissionError`. Support both class and function decorators, and ensure the wrapper preserves the original function's signature using `inspect.signature`.",
+      "starter_code": "import inspect\n\ndef authorize(roles):\n    def decorator(func):\n        sig = inspect.signature(func)\n        def wrapper(*args, **kwargs):\n            if not args:\n                raise TypeError('First argument must be a user dict')\n            user = args[0]\n            if not isinstance(user, dict):\n                raise TypeError('First argument must be a dict')\n            if user.get('role') not in roles:\n                raise PermissionError('Access denied')\n            return func(*args, **kwargs)\n        return wrapper\n    return decorator",
+      "solution_code": "import inspect\nimport functools\n\ndef authorize(roles):\n    def decorator(func):\n        sig = inspect.signature(func)\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            if not args:\n                raise TypeError('First argument must be a user dict')\n            user = args[0]\n            if not isinstance(user, dict) or 'role' not in user:\n                raise PermissionError('User missing role')\n            if user['role'] not in roles:\n                raise PermissionError('Access denied')\n            return func(*args, **kwargs)\n        return wrapper\n    return decorator",
+      "test_cases": [
+        {
+          "input": "@authorize(['admin', 'editor'])\ndef edit(user, text):\n    return text.upper()\nedit({'role': 'admin'}, 'hello')",
+          "expected_output": "'HELLO'"
+        },
+        {
+          "input": "edit({'role': 'guest'}, 'hello')",
+          "expected_output": "PermissionError"
+        }
+      ],
+      "hint": "Use `@functools.wraps` to preserve metadata. Validate that the first argument is a dictionary with a `'role'` key before checking membership in `roles`. Parameterized decorators require an outer function that returns the actual decorator.",
+      "explanation": "Parameterized decorators are created by returning a decorator from a function that accepts configuration. This pattern enables reusable, configurable security policies. Combining `inspect.signature` with `functools.wraps` ensures that decorated functions remain introspectable and well-documented, which is vital for maintainable enterprise code."
+    }
+  ],
+  "unit_num": 22,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Decorators",
+    "Apply idiomatic Python patterns when working with Decorators",
+    "Debug common runtime exceptions and logic errors associated with Decorators",
+    "Implement production-ready code utilizing Decorators"
+  ],
+  "prerequisites": [
+    "22.1"
+  ]
+}

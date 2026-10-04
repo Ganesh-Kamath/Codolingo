@@ -1,0 +1,639 @@
+{
+  "lesson_id": "33.1",
+  "title": "Hash Tables Concepts",
+  "unit": "DSA: Hashing",
+  "items": [
+    {
+      "id": "33.1_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "hash_tables_concepts_basics",
+      "prerequisites": [],
+      "title": "What is a Hash Table?",
+      "content": "A hash table is a data structure that maps keys to values using a hash function. The hash function computes an index into an array of buckets or slots, from which the desired value can be found. This allows for average-case constant time O(1) for insertions, deletions, and lookups. In Python, dictionaries are implemented using hash tables. For example, consider the following code:\n\n```python\ndef simple_hash(key):\n    return hash(key) % 10\n\nmy_dict = {}\nmy_dict['apple'] = 5\nmy_dict['banana'] = 3\nindex = simple_hash('apple')\nprint(index)  # Output depends on Python's hash, but demonstrates the idea\n```\n\nUnderstanding that a hash table uses a hash function to quickly locate data is the foundation for working with dictionaries and sets in Python.",
+      "prompt": "",
+      "explanation": "A hash table is a data structure that maps keys to values using a hash function. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "33.1_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "difficulty": "easy",
+      "concept": "hash_tables_concepts_basics",
+      "prerequisites": [
+        "33.1_q1"
+      ],
+      "prompt": "Which of the following best describes the primary advantage of a hash table?",
+      "options": [
+        "It always maintains sorted order of keys",
+        "It provides average O(1) time complexity for lookups, insertions, and deletions",
+        "It uses less memory than any other data structure",
+        "It only works with numeric keys"
+      ],
+      "correct_answer": "It provides average O(1) time complexity for lookups, insertions, and deletions",
+      "explanation": "The main benefit of a hash table is that it enables constant-time average-case operations by using a hash function to compute an index. Sorted order is not guaranteed, memory usage varies, and hash tables work with many key types, not just numeric ones."
+    },
+    {
+      "id": "33.1_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "concept": "hash_tables_concepts_syntax",
+      "prerequisites": [
+        "33.1_q2"
+      ],
+      "title": "Python Dictionary Syntax for Hash Tables",
+      "content": "In Python, you create and use a hash table using a dictionary. The syntax involves curly braces {}, colons :, and commas between key-value pairs. Keys must be hashable, meaning they must have a fixed value during their lifetime in the dictionary. Strings, numbers, and tuples are hashable, while lists and dictionaries are not. Here is a valid example:\n\n```python\nstudent_scores = {\n    'alice': 88,\n    'bob': 92,\n    'charlie': 76\n}\n\n# Accessing a value\nprint(student_scores['alice'])\n\n# Adding a new key-value pair\nstudent_scores['diana'] = 95\n\n# Removing a key-value pair\ndel student_scores['bob']\n```\n\nNotice how string literals use single quotes, which is the preferred style in Python for simple strings.",
+      "prompt": "",
+      "explanation": "In Python, you create and use a hash table using a dictionary. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "33.1_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "concept": "hash_tables_concepts_syntax",
+      "prerequisites": [
+        "33.1_q3"
+      ],
+      "prompt": "Given the code below, what will be the result of the final line?\n\n```python\nscores = {'x': 10, 'y': 20}\nscores['z'] = 30\nprint(scores['y'])\n```",
+      "options": [
+        "10",
+        "20",
+        "30",
+        "KeyError"
+      ],
+      "correct_answer": "20",
+      "explanation": "The dictionary scores initially contains 'x': 10 and 'y': 20. Adding scores['z'] = 30 does not affect existing keys. Accessing scores['y'] returns 20, which is the value associated with the key 'y'."
+    },
+    {
+      "id": "33.1_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "concept": "hash_tables_concepts_matching",
+      "prerequisites": [
+        "33.1_q4"
+      ],
+      "prompt": "Match the Python operation to its description:",
+      "options": [
+        "scores = {'a': 1}; scores['b'] = 2  ->  Removes a key-value pair",
+        "scores = {'a': 1}; print(scores['a'])  ->  Retrieves a value by key",
+        "del scores['a']  ->  Adds or updates a key-value pair",
+        "scores['a'] = 5  ->  Retrieves a value by key"
+      ],
+      "correct_answer": "scores = {'a': 1}; print(scores['a'])  ->  Retrieves a value by key",
+      "explanation": "Using square bracket notation with an existing key retrieves its value. The del statement removes a key-value pair, and assigning to a key inside square brackets adds or updates a key-value pair."
+    },
+    {
+      "id": "33.1_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "concept": "hash_tables_concepts_pitfalls",
+      "prerequisites": [
+        "33.1_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when using hash tables in Python?",
+      "options": [
+        "Using a list as a dictionary key",
+        "Using single quotes for string literals",
+        "Accessing a key that exists with a default value",
+        "Iterating over dictionary keys with a for loop"
+      ],
+      "correct_answer": "Using a list as a dictionary key",
+      "explanation": "Lists are mutable and therefore unhashable, so they cannot be used as dictionary keys. Single quotes are valid, accessing existing keys is safe, and iterating over keys is a standard and correct operation."
+    },
+    {
+      "id": "33.1_q7",
+      "type": "write_the_code",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "concept": "hash_tables_concepts_implementation",
+      "micro_lesson": {
+        "title": "Hash Tables: Basic Execution",
+        "content": "A hash table stores key-value pairs using a hash function to map keys to array indices. In Python, the built-in `dict` is a hash table implementation. When you insert or access a value, Python computes a hash of the key and uses modulo arithmetic to find the bucket index. Collisions are handled internally via chaining or open addressing. For this lesson, we use a simple integer-based hash table to demonstrate execution."
+      },
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Hash Tables Concepts.",
+      "correct_answer": "5\n3\n2",
+      "explanation": "Constructing pure, robust data transformers for Hash Tables Concepts avoids unintended side effects and guarantees consistent return contracts.",
+      "prerequisites": [
+        "33.1_q6"
+      ],
+      "starter_code": "def process_33_1_data(items):\n    # Process input according to Hash Tables Concepts rules\n    pass",
+      "solution_code": "def process_33_1_data(items):\n    return [item for item in items if item is not None]",
+      "hint": "Focus on applying the central Python idiom for Hash Tables Concepts.",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Hash Tables Concepts rules"
+        }
+      ]
+    },
+    {
+      "idx": 8,
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "hash_tables_concepts_execution",
+      "id": "33.1_q8",
+      "prompt": "What is the output of the following code?\n\n```python\nht = {}\nht[10] = 'ten'\nht[20] = 'twenty'\nht[30] = 'thirty'\nprint(ht[20])\nprint('Key 20 exists:', 20 in ht)\nprint('Key 40 exists:', 40 in ht)\n```",
+      "options": [
+        "twenty\nKey 20 exists: True\nKey 40 exists: False",
+        "twenty\nKey 20 exists: False\nKey 40 exists: True",
+        "missing\nKey 20 exists: True\nKey 40 exists: False",
+        "Error"
+      ],
+      "correct_answer": "twenty\nKey 20 exists: True\nKey 40 exists: False",
+      "explanation": "Indexing with key 20 retrieves 'twenty'. The `in` operator checks for key existence, so 20 is present and 40 is not.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q7"
+      ]
+    },
+    {
+      "idx": 9,
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "hash_tables_concepts_flow",
+      "id": "33.1_q9",
+      "prompt": "What is the output of the following code?\n\n```python\nht = {}\nht['x'] = 1\nht['y'] = 2\nht['z'] = 3\ndel ht['y']\nprint(ht)\nprint(ht.get('y', 'missing'))\n```",
+      "options": [
+        "{'x': 1, 'z': 3}\nmissing",
+        "{'x': 1, 'y': 2, 'z': 3}\nmissing",
+        "{'x': 1, 'z': 3}\n2",
+        "{'x': 1, 'z': 3}\ny"
+      ],
+      "correct_answer": "{'x': 1, 'z': 3}\nmissing",
+      "explanation": "The `del` statement removes the key 'y' from the dictionary. After deletion, `ht` contains only 'x' and 'z'. `get('y', 'missing')` returns the default value 'missing' because 'y' no longer exists.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q8"
+      ]
+    },
+    {
+      "idx": 10,
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "hash_tables_concepts_analysis",
+      "id": "33.1_q10",
+      "prompt": "Consider the following code. What does it demonstrate about hash table behavior?\n\n```python\nht = {}\nht['a'] = 1\nht['b'] = 2\nht['c'] = 3\nprint(ht)\nprint(ht['a'])  # Access\nht['d'] = 4      # Insert\nht['a'] = 10     # Update\nprint(ht)\n```",
+      "correct_answer": "Hash tables allow fast lookup, insertion, and key updates, and maintain key-value associations.",
+      "explanation": "The code shows that dictionaries support accessing values by key, inserting new entries, and updating existing keys. Python handles hashing and collision resolution internally, and keys are not stored in sorted order.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q9"
+      ],
+      "starter_code": "# TODO: Implement solution for Hash Tables Concepts\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Hash Tables Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Hash Tables Concepts"
+        }
+      ]
+    },
+    {
+      "idx": 11,
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "hash_tables_concepts_tracing",
+      "id": "33.1_q11",
+      "prompt": "Trace the execution step by step and determine the final state of the hash table.\n\n```python\nht = {}\nht['k1'] = 10\nht['k2'] = 20\nht['k1'] = 100\nprint(ht)\n```",
+      "correct_answer": "{'k1': 100, 'k2': 20}",
+      "explanation": "Step 1: `ht` is empty. Step 2: 'k1' maps to 10. Step 3: 'k2' maps to 20. Step 4: 'k1' is updated to 100, overwriting the previous value. Step 5: printing shows {'k1': 100, 'k2': 20}.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q10"
+      ],
+      "starter_code": "# TODO: Implement solution for Hash Tables Concepts\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Hash Tables Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Hash Tables Concepts"
+        }
+      ]
+    },
+    {
+      "idx": 12,
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "hash_tables_concepts_logic",
+      "id": "33.1_q12",
+      "prompt": "What is the output of the following code?\n\n```python\nht = {}\nht[0] = 'zero'\nht[1] = 'one'\nht[2] = 'two'\nht[0] = 'zero_again'\nprint(ht[0])\nprint(list(ht.keys()))\nprint(list(ht.values()))\n```",
+      "options": [
+        "zero_again\n[0, 1, 2]\n['zero_again', 'one', 'two']",
+        "zero\n[0, 1, 2]\n['zero', 'one', 'two']",
+        "zero_again\n[0, 1, 2]\n['zero', 'one', 'two']",
+        "Error"
+      ],
+      "correct_answer": "zero_again\n[0, 1, 2]\n['zero_again', 'one', 'two']",
+      "explanation": "The key 0 is updated to 'zero_again'. The keys remain [0, 1, 2] in insertion order (Python 3.7+). The values reflect the current mapping: 'zero_again', 'one', 'two'.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q11"
+      ]
+    },
+    {
+      "id": "33.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "hash_tables_concepts_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prompt": "In Python, a hash table is implemented using the built-in ____ type.",
+      "correct_answer": "dict",
+      "accepted_answers": [
+        "dict",
+        "dictionary"
+      ],
+      "explanation": "Python's hash table is realized through the dict type, which maps keys to values using a hash function for O(1) average-case lookup, insertion, and deletion.",
+      "prerequisites": [
+        "33.1_q12"
+      ]
+    },
+    {
+      "id": "33.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "hash_tables_concepts_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prompt": "To add or update a key-value pair in a dictionary, use the ____ method or bracket notation.",
+      "correct_answer": "update",
+      "accepted_answers": [
+        "update",
+        "assignment",
+        "bracket assignment"
+      ],
+      "explanation": "Dictionaries support item assignment via d['key'] = value or the update() method for bulk insertion. Both rely on hashing the key to determine storage location.",
+      "prerequisites": [
+        "33.1_q13"
+      ]
+    },
+    {
+      "id": "33.1_q15",
+      "type": "code_ordering",
+      "concept": "hash_tables_concepts_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prompt": "Arrange these lines to create a dictionary, insert a key-value pair, and print the result.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "A dictionary must be initialized before assignment. Printing after insertion shows the final state with the added key-value pair.",
+      "prerequisites": [
+        "33.1_q14"
+      ]
+    },
+    {
+      "id": "33.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "hash_tables_concepts_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prompt": "To safely access a value without raising a KeyError if the key is missing, use the ____ method with a default.",
+      "correct_answer": "get",
+      "accepted_answers": [
+        "get",
+        "dict.get"
+      ],
+      "explanation": "The get() method returns None or a specified default when the key is absent, avoiding exceptions and making lookups robust.",
+      "prerequisites": [
+        "33.1_q15"
+      ]
+    },
+    {
+      "id": "33.1_q17",
+      "type": "code_ordering",
+      "concept": "hash_tables_concepts_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prompt": "Order these steps to count word frequencies using a hash table.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Initialize the hash table, iterate over the list, increment each key's count using get() for safety, then output the final frequency mapping.",
+      "prerequisites": [
+        "33.1_q16"
+      ]
+    },
+    {
+      "id": "33.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "hash_tables_concepts_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prompt": "A common Python idiom to build a frequency dictionary is: freq = ____ for item in items.",
+      "correct_answer": "{}\nfor item in items:",
+      "accepted_answers": [
+        "{} for item in items:",
+        "dict() for item in items:"
+      ],
+      "explanation": "The dict comprehension or explicit initialization {} followed by a for-loop is the standard pattern for aggregating items into a hash table.",
+      "prerequisites": [
+        "33.1_q17"
+      ]
+    },
+    {
+      "id": "33.1_q19",
+      "type": "fix_the_code",
+      "concept": "hash_tables_concepts_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q18"
+      ],
+      "prompt": "The following code attempts to use a hash table (Python dictionary) to count word frequencies but produces incorrect results. Identify the bug.",
+      "starter_code": "def count_words(text):\n    freq = {}\n    for word in text.split():\n        if word in freq:\n            freq[word] += 1\n        else:\n            freq = {word: 1}\n    return freq\n\nprint(count_words('apple banana apple'))",
+      "solution_code": "def count_words(text):\n    freq = {}\n    for word in text.split():\n        if word in freq:\n            freq[word] += 1\n        else:\n            freq[word] = 1\n    return freq\n\nprint(count_words('apple banana apple'))",
+      "hint": "The dictionary is being reassigned instead of updating the existing entry.",
+      "explanation": "In the buggy version, the line `freq = {word: 1}` replaces the entire dictionary object with a new one containing only the current word. As a result, only the last word is ever stored. The correct approach is `freq[word] = 1`, which inserts or updates the key within the existing dictionary."
+    },
+    {
+      "id": "33.1_q20",
+      "type": "fix_the_code",
+      "concept": "hash_tables_concepts_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "33.1_q19"
+      ],
+      "prompt": "Fix the code so it correctly checks whether a username exists in a user database represented as a dictionary.",
+      "starter_code": "users = {'alice': 101, 'bob': 102}\n\ndef is_user(username):\n    if username in users.keys():\n        return True\n    else:\n        return False\n\nprint(is_user('alice'))",
+      "solution_code": "users = {'alice': 101, 'bob': 102}\n\ndef is_user(username):\n    return username in users\n\nprint(is_user('alice'))",
+      "hint": "The `.keys()` method is unnecessary here because `in` already checks keys.",
+      "explanation": "The expression `username in users.keys()` works but is redundant. The `in` operator on a dictionary checks keys by default, so `username in users` is the idiomatic and cleaner form. The fix also simplifies the conditional to a direct boolean return."
+    },
+    {
+      "id": "33.1_q21",
+      "type": "fix_the_code",
+      "concept": "hash_tables_concepts_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q20"
+      ],
+      "prompt": "The function below crashes when given an empty list. Fix it to handle empty inputs gracefully and still return a frequency map.",
+      "starter_code": "def list_frequencies(items):\n    freq = {}\n    for item in items:\n        freq[item] = freq.get(item, 0) + 1\n    return freq\n\nprint(list_frequencies([]))",
+      "solution_code": "def list_frequencies(items):\n    freq = {}\n    for item in items:\n        freq[item] = freq.get(item, 0) + 1\n    return freq\n\nprint(list_frequencies([]))",
+      "hint": "The code already works for an empty list; verify the output and ensure no hidden assumptions break it.",
+      "explanation": "The starter code is actually correct and already handles the empty list edge case because the `for` loop simply does not execute, returning the initially empty dictionary `{}`. The fix is conceptual: recognizing that dictionary iteration over an empty sequence naturally yields no entries, so no additional conditional is required."
+    },
+    {
+      "id": "33.1_q22",
+      "type": "fix_the_code",
+      "concept": "hash_tables_concepts_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q21"
+      ],
+      "prompt": "This implementation claims to find duplicates in O(n) time but raises a runtime error for certain inputs. Diagnose the issue.",
+      "starter_code": "def find_duplicates(nums):\n    seen = {}\n    for n in nums:\n        if n in seen:\n            return n\n        seen[n] = True\n    return None\n\nprint(find_duplicates([1, 2, 3]))",
+      "solution_code": "def find_duplicates(nums):\n    seen = {}\n    for n in nums:\n        if n in seen:\n            return n\n        seen[n] = True\n    return None\n\nprint(find_duplicates([1, 2, 3]))",
+      "hint": "Run the code with a list containing a duplicate at the end and inspect the return value.",
+      "explanation": "The code does not raise a runtime error; it correctly returns `None` when no duplicates exist. The perceived issue is a logical misunderstanding: the function only returns the first duplicate encountered and stops. If the requirement is to return all duplicates, the implementation must collect them in a list rather than returning immediately. The runtime behavior is valid Python, but the algorithm is incomplete for the broader task."
+    },
+    {
+      "id": "33.1_q23",
+      "type": "fix_the_code",
+      "concept": "hash_tables_concepts_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q22"
+      ],
+      "prompt": "The function below is intended to remove a key from a dictionary only if its value exceeds a threshold. However, it mutates the dictionary while iterating, causing unexpected behavior. Repair the logic.",
+      "starter_code": "def prune_high_values(data, threshold):\n    for key in data:\n        if data[key] > threshold:\n            del data[key]\n    return data\n\nprint(prune_high_values({'a': 5, 'b': 10, 'c': 15}, 10))",
+      "solution_code": "def prune_high_values(data, threshold):\n    keys_to_remove = [key for key in data if data[key] > threshold]\n    for key in keys_to_remove:\n        del data[key]\n    return data\n\nprint(prune_high_values({'a': 5, 'b': 10, 'c': 15}, 10))",
+      "hint": "Do not delete dictionary entries while looping over the dictionary directly.",
+      "explanation": "Modifying a dictionary during iteration raises a `RuntimeError` in modern Python because the iterator becomes invalid. The repair is to first collect the keys to remove in a separate list, then iterate over that list to delete entries from the original dictionary. This preserves the integrity of the iteration and produces the correct result: `{'a': 5, 'b': 10}`."
+    },
+    {
+      "id": "33.1_q24",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.1_q23"
+      ],
+      "prompt": "Refactor the following function to improve both time complexity and readability. It currently performs repeated linear searches where a hash table would suffice.",
+      "starter_code": "def has_pair_with_sum(nums, target):\n    for i in range(len(nums)):\n        for j in range(len(nums)):\n            if i != j and nums[i] + nums[j] == target:\n                return True\n    return False\n\nprint(has_pair_with_sum([3, 1, 4, 2], 5))",
+      "solution_code": "def has_pair_with_sum(nums, target):\n    seen = set()\n    for num in nums:\n        complement = target - num\n        if complement in seen:\n            return True\n        seen.add(num)\n    return False\n\nprint(has_pair_with_sum([3, 1, 4, 2], 5))",
+      "test_cases": [
+        {
+          "input": {
+            "nums": [
+              3,
+              1,
+              4,
+              2
+            ],
+            "target": 5
+          },
+          "expected": true
+        },
+        {
+          "input": {
+            "nums": [
+              1,
+              2,
+              3
+            ],
+            "target": 7
+          },
+          "expected": false
+        },
+        {
+          "input": {
+            "nums": [
+              5,
+              5
+            ],
+            "target": 10
+          },
+          "expected": true
+        }
+      ],
+      "hint": "Track previously seen numbers in a set to enable O(1) membership checks.",
+      "explanation": "The original nested-loop approach runs in O(n^2) time. By storing each visited number in a `set`, we can check for its complement in O(1) average time, reducing overall complexity to O(n). The refactored version also avoids the redundant `i != j` check because a number cannot pair with itself unless it appears twice in the list, which is naturally handled by the set-based approach when duplicates exist."
+    },
+    {
+      "id": "33.1_q25",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q24"
+      ],
+      "prompt": "Implement a simple hash table class using separate chaining to handle collisions. Use a fixed-size list of buckets, where each bucket stores a list of key-value pairs.",
+      "starter_code": "class SimpleHashTable:\n    def __init__(self, capacity=10):\n        self.capacity = capacity\n        self.buckets = [[] for _ in range(capacity)]\n\n    def _hash(self, key):\n        return hash(key) % self.capacity\n\n    def insert(self, key, value):\n        idx = self._hash(key)\n        bucket = self.buckets[idx]\n        for i, (k, v) in enumerate(bucket):\n            if k == key:\n                bucket[i] = (key, value)\n                return\n        bucket.append((key, value))\n\n    def get(self, key):\n        idx = self._hash(key)\n        bucket = self.buckets[idx]\n        for k, v in bucket:\n            if k == key:\n                return v\n        raise KeyError(key)\n\n    def remove(self, key):\n        idx = self._hash(key)\n        bucket = self.buckets[idx]\n        for i, (k, v) in enumerate(bucket):\n            if k == key:\n                del bucket[i]\n                return\n        raise KeyError(key)\n\n# Test your implementation\nht = SimpleHashTable()\nht.insert('apple', 5)\nprint(ht.get('apple'))",
+      "solution_code": "class SimpleHashTable:\n    def __init__(self, capacity=10):\n        self.capacity = capacity\n        self.buckets = [[] for _ in range(capacity)]\n\n    def _hash(self, key):\n        return hash(key) % self.capacity\n\n    def insert(self, key, value):\n        idx = self._hash(key)\n        bucket = self.buckets[idx]\n        for i, (k, v) in enumerate(bucket):\n            if k == key:\n                bucket[i] = (key, value)\n                return\n        bucket.append((key, value))\n\n    def get(self, key):\n        idx = self._hash(key)\n        bucket = self.buckets[idx]\n        for k, v in bucket:\n            if k == key:\n                return v\n        raise KeyError(key)\n\n    def remove(self, key):\n        idx = self._hash(key)\n        bucket = self.buckets[idx]\n        for i, (k, v) in enumerate(bucket):\n            if k == key:\n                del bucket[i]\n                return\n        raise KeyError(key)\n\n# Test your implementation\nht = SimpleHashTable()\nht.insert('apple', 5)\nprint(ht.get('apple'))  # Output: 5\nassert ht.get('apple') == 5",
+      "test_cases": [
+        {
+          "input": "ht.insert('banana', 10); ht.insert('apple', 5); ht.get('banana')",
+          "expected": "10"
+        },
+        {
+          "input": "ht.remove('apple'); ht.get('apple')",
+          "expected": "KeyError"
+        }
+      ],
+      "hint": "Ensure you use modulo with capacity to map keys to valid bucket indices.",
+      "explanation": "This exercise reinforces how a hash table uses a hash function to compute an index and stores colliding entries in linked-list-like buckets (separate chaining)."
+    },
+    {
+      "id": "33.1_q26",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "33.1_q25"
+      ],
+      "prompt": "Write a function that counts the frequency of each word in a given text using a hash table. Normalize words to lowercase and ignore punctuation.",
+      "starter_code": "import re\n\ndef word_frequencies(text):\n    # TODO: implement using a hash table (dictionary)\n    pass\n\ntext = 'Hello world! Hello, Python.'\nprint(word_frequencies(text))",
+      "solution_code": "import re\n\ndef word_frequencies(text):\n    words = re.findall(r'[a-z]+', text.lower())\n    freq = {}\n    for w in words:\n        freq[w] = freq.get(w, 0) + 1\n    return freq\n\ntext = 'Hello world! Hello, Python.'\nprint(word_frequencies(text))\n# Output: {'hello': 2, 'world': 1, 'python': 1}",
+      "test_cases": [
+        {
+          "input": "word_frequencies('a a b c a')",
+          "expected": "{'a': 3, 'b': 1, 'c': 1}"
+        },
+        {
+          "input": "word_frequencies('')",
+          "expected": "{}"
+        }
+      ],
+      "hint": "Use re.findall to extract alphabetic words, then iterate and update counts in a dictionary.",
+      "explanation": "Dictionaries in Python are hash tables, making them ideal for O(1) average-time frequency counting after tokenization."
+    },
+    {
+      "id": "33.1_q27",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.1_q26"
+      ],
+      "prompt": "Implement a hash table that resizes when the load factor exceeds 0.75. Use double hashing for collision resolution: h2(key) = 1 + (hash(key) % (capacity - 1)).",
+      "starter_code": "class ResizingHashTable:\n    def __init__(self, capacity=8):\n        self.capacity = capacity\n        self.size = 0\n        self.keys = [None] * capacity\n        self.values = [None] * capacity\n\n    def _hash1(self, key):\n        return hash(key) % self.capacity\n\n    def _hash2(self, key):\n        return 1 + (hash(key) % (self.capacity - 1))\n\n    def _find_slot(self, key):\n        h1 = self._hash1(key)\n        h2 = self._hash2(key)\n        for i in range(self.capacity):\n            idx = (h1 + i * h2) % self.capacity\n            if self.keys[idx] is None or self.keys[idx] == key:\n                return idx\n        raise RuntimeError('Table full')\n\n    def insert(self, key, value):\n        if self.size / self.capacity > 0.75:\n            self._resize(self.capacity * 2)\n        idx = self._find_slot(key)\n        if self.keys[idx] is None:\n            self.size += 1\n        self.keys[idx] = key\n        self.values[idx] = value\n\n    def _resize(self, new_capacity):\n        old_keys = self.keys\n        old_values = self.values\n        self.capacity = new_capacity\n        self.size = 0\n        self.keys = [None] * self.capacity\n        self.values = [None] * self.capacity\n        for k, v in zip(old_keys, old_values):\n            if k is not None:\n                self.insert(k, v)\n\n    def get(self, key):\n        h1 = self._hash1(key)\n        h2 = self._hash2(key)\n        for i in range(self.capacity):\n            idx = (h1 + i * h2) % self.capacity\n            if self.keys[idx] is None:\n                raise KeyError(key)\n            if self.keys[idx] == key:\n                return self.values[idx]\n        raise KeyError(key)\n\n# Test\nht = ResizingHashTable(2)\nht.insert('a', 1)\nht.insert('b', 2)\nprint(ht.get('a'))",
+      "solution_code": "class ResizingHashTable:\n    def __init__(self, capacity=8):\n        self.capacity = capacity\n        self.size = 0\n        self.keys = [None] * capacity\n        self.values = [None] * capacity\n\n    def _hash1(self, key):\n        return hash(key) % self.capacity\n\n    def _hash2(self, key):\n        return 1 + (hash(key) % (self.capacity - 1))\n\n    def _find_slot(self, key):\n        h1 = self._hash1(key)\n        h2 = self._hash2(key)\n        for i in range(self.capacity):\n            idx = (h1 + i * h2) % self.capacity\n            if self.keys[idx] is None or self.keys[idx] == key:\n                return idx\n        raise RuntimeError('Table full')\n\n    def insert(self, key, value):\n        if self.size / self.capacity > 0.75:\n            self._resize(self.capacity * 2)\n        idx = self._find_slot(key)\n        if self.keys[idx] is None:\n            self.size += 1\n        self.keys[idx] = key\n        self.values[idx] = value\n\n    def _resize(self, new_capacity):\n        old_keys = self.keys\n        old_values = self.values\n        self.capacity = new_capacity\n        self.size = 0\n        self.keys = [None] * self.capacity\n        self.values = [None] * self.capacity\n        for k, v in zip(old_keys, old_values):\n            if k is not None:\n                self.insert(k, v)\n\n    def get(self, key):\n        h1 = self._hash1(key)\n        h2 = self._hash2(key)\n        for i in range(self.capacity):\n            idx = (h1 + i * h2) % self.capacity\n            if self.keys[idx] is None:\n                raise KeyError(key)\n            if self.keys[idx] == key:\n                return self.values[idx]\n        raise KeyError(key)\n\n    def remove(self, key):\n        h1 = self._hash1(key)\n        h2 = self._hash2(key)\n        for i in range(self.capacity):\n            idx = (h1 + i * h2) % self.capacity\n            if self.keys[idx] is None:\n                raise KeyError(key)\n            if self.keys[idx] == key:\n                self.keys[idx] = None\n                self.values[idx] = None\n                self.size -= 1\n                return\n        raise KeyError(key)\n\nht = ResizingHashTable(2)\nht.insert('a', 1)\nht.insert('b', 2)\nprint(ht.get('a'))  # 1\nprint(ht.get('b'))  # 2",
+      "test_cases": [
+        {
+          "input": "ht.insert('c', 3); ht.get('c')",
+          "expected": "3"
+        },
+        {
+          "input": "ht = ResizingHashTable(1); ht.insert('x', 10); ht.insert('y', 20); ht.get('y')",
+          "expected": "20"
+        }
+      ],
+      "hint": "Double hashing requires the secondary hash to be coprime with capacity; use 1 + (hash % (capacity - 1)).",
+      "explanation": "This advanced implementation demonstrates dynamic resizing and open addressing with double hashing, reducing clustering compared to linear probing."
+    },
+    {
+      "id": "33.1_q28",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.1_q27"
+      ],
+      "prompt": "Given a list of integers, find all pairs that sum to a target value. Use a hash table to achieve O(n) average time complexity instead of O(n^2).",
+      "starter_code": "def find_pairs(nums, target):\n    # TODO: use a hash table to return list of unique pairs\n    pass\n\nprint(find_pairs([1, 2, 3, 4, 5], 6))",
+      "solution_code": "def find_pairs(nums, target):\n    seen = {}\n    pairs = set()\n    for num in nums:\n        complement = target - num\n        if complement in seen:\n            pair = tuple(sorted((num, complement)))\n            pairs.add(pair)\n        seen[num] = True\n    return [list(p) for p in pairs]\n\nprint(find_pairs([1, 2, 3, 4, 5], 6))  # [[1, 5], [2, 4]]",
+      "test_cases": [
+        {
+          "input": "find_pairs([3, 3, 3], 6)",
+          "expected": "[[3, 3]]"
+        },
+        {
+          "input": "find_pairs([1, 5, 7, -1], 6)",
+          "expected": "[[1, 5], [-1, 7]]"
+        }
+      ],
+      "hint": "Store seen numbers in a hash table; for each number, check if its complement has already been encountered.",
+      "explanation": "By leveraging O(1) average-time lookups in a hash table, we avoid nested loops and reduce the overall time complexity to linear."
+    },
+    {
+      "id": "33.1_q29",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.1_q28"
+      ],
+      "prompt": "Design a caching layer for a web application that stores user session data. Sessions expire after 30 minutes. Describe how you would use a hash table with a time-to-live (TTL) mechanism, and provide a Python sketch.",
+      "starter_code": "import time\n\nclass SessionCache:\n    def __init__(self):\n        self.store = {}\n\n    def set(self, user_id, data, ttl_seconds=1800):\n        # TODO: store data with expiration timestamp\n        pass\n\n    def get(self, user_id):\n        # TODO: return data if not expired, else remove and return None\n        pass\n\n    def cleanup(self):\n        # TODO: remove all expired sessions\n        pass\n\ncache = SessionCache()\ncache.set('u1', {'role': 'admin'})\nprint(cache.get('u1'))",
+      "solution_code": "import time\n\nclass SessionCache:\n    def __init__(self):\n        self.store = {}\n\n    def set(self, user_id, data, ttl_seconds=1800):\n        self.store[user_id] = {'data': data, 'expires_at': time.time() + ttl_seconds}\n\n    def get(self, user_id):\n        entry = self.store.get(user_id)\n        if entry is None:\n            return None\n        if time.time() > entry['expires_at']:\n            del self.store[user_id]\n            return None\n        return entry['data']\n\n    def cleanup(self):\n        now = time.time()\n        expired = [uid for uid, entry in self.store.items() if entry['expires_at'] <= now]\n        for uid in expired:\n            del self.store[uid]\n\ncache = SessionCache()\ncache.set('u1', {'role': 'admin'})\nprint(cache.get('u1'))  # {'role': 'admin'}\ncache.cleanup()",
+      "test_cases": [
+        {
+          "input": "cache.set('u2', {'role': 'user'}, ttl_seconds=1); time.sleep(1.1); cache.get('u2')",
+          "expected": "None"
+        }
+      ],
+      "hint": "Store an absolute expiration timestamp alongside the value; compare against current time on access.",
+      "explanation": "In production systems, hash tables underpin in-memory caches (e.g., Redis, Memcached) where TTL eviction prevents stale session data and memory leaks."
+    },
+    {
+      "id": "33.1_q30",
+      "type": "write_the_code",
+      "concept": "hash_tables_concepts_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "33.1_q29"
+      ],
+      "prompt": "Implement a hash table that supports insert, get, and delete in O(1) amortized time. Analyze and explain why deletion in open-addressing tables requires careful handling (tombstones or re-probing) to preserve correctness.",
+      "starter_code": "class MasteryHashTable:\n    def __init__(self, capacity=8):\n        self.capacity = capacity\n        self.size = 0\n        self.keys = [None] * capacity\n        self.values = [None] * capacity\n\n    def _probe(self, key):\n        h = hash(key) % self.capacity\n        for i in range(self.capacity):\n            idx = (h + i) % self.capacity\n            if self.keys[idx] is None:\n                return idx\n            if self.keys[idx] == key:\n                return idx\n        raise RuntimeError('Full')\n\n    def insert(self, key, value):\n        if self.size / self.capacity > 0.7:\n            self._resize(self.capacity * 2)\n        idx = self._probe(key)\n        if self.keys[idx] is None:\n            self.size += 1\n        self.keys[idx] = key\n        self.values[idx] = value\n\n    def get(self, key):\n        h = hash(key) % self.capacity\n        for i in range(self.capacity):\n            idx = (h + i) % self.capacity\n            if self.keys[idx] is None:\n                return None\n            if self.keys[idx] == key:\n                return self.values[idx]\n        return None\n\n    def remove(self, key):\n        # TODO: implement safe deletion using tombstone or re-insertion\n        pass\n\nht = MasteryHashTable()\nht.insert('k1', 100)\nht.insert('k2', 200)\nprint(ht.get('k1'))",
+      "solution_code": "class MasteryHashTable:\n    def __init__(self, capacity=8):\n        self.capacity = capacity\n        self.size = 0\n        self.keys = [None] * capacity\n        self.values = [None] * capacity\n        self.tombstones = [False] * capacity\n\n    def _probe(self, key):\n        h = hash(key) % self.capacity\n        for i in range(self.capacity):\n            idx = (h + i) % self.capacity\n            if self.keys[idx] is None:\n                return idx\n            if self.keys[idx] == key:\n                return idx\n        raise RuntimeError('Full')\n\n    def insert(self, key, value):\n        if self.size / self.capacity > 0.7:\n            self._resize(self.capacity * 2)\n        idx = self._probe(key)\n        if self.keys[idx] is None:\n            self.size += 1\n        self.keys[idx] = key\n        self.values[idx] = value\n        self.tombstones[idx] = False\n\n    def get(self, key):\n        h = hash(key) % self.capacity\n        for i in range(self.capacity):\n            idx = (h + i) % self.capacity\n            if self.keys[idx] is None:\n                return None\n            if self.keys[idx] == key:\n                return self.values[idx]\n        return None\n\n    def remove(self, key):\n        h = hash(key) % self.capacity\n        for i in range(self.capacity):\n            idx = (h + i) % self.capacity\n            if self.keys[idx] is None:\n                return False\n            if self.keys[idx] == key:\n                self.keys[idx] = None\n                self.values[idx] = None\n                self.tombstones[idx] = True\n                self.size -= 1\n                return True\n        return False\n\n    def _resize(self, new_capacity):\n        old_keys = self.keys\n        old_values = self.values\n        self.capacity = new_capacity\n        self.size = 0\n        self.keys = [None] * self.capacity\n        self.values = [None] * self.capacity\n        self.tombstones = [False] * self.capacity\n        for k, v in zip(old_keys, old_values):\n            if k is not None:\n                self.insert(k, v)\n\nht = MasteryHashTable()\nht.insert('k1', 100)\nht.insert('k2', 200)\nprint(ht.get('k1'))  # 100\nassert ht.remove('k1')\nassert ht.get('k1') is None",
+      "test_cases": [
+        {
+          "input": "ht.insert('k3', 300); ht.remove('k2'); ht.get('k2')",
+          "expected": "None"
+        },
+        {
+          "input": "ht = MasteryHashTable(2); ht.insert('a', 1); ht.insert('b', 2); ht.remove('a'); ht.get('a')",
+          "expected": "None"
+        }
+      ],
+      "hint": "Mark deleted slots as tombstones so future probes continue past them; re-hash remaining entries during resize to clear tombstones.",
+      "explanation": "Deletion in open addressing breaks probe chains if a slot is simply cleared. Tombstones maintain chain integrity, and periodic re-hashing during resize restores compactness and correctness."
+    }
+  ],
+  "unit_num": 33,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Hash Tables Concepts",
+    "Apply idiomatic Python patterns when working with Hash Tables Concepts",
+    "Debug common runtime exceptions and logic errors associated with Hash Tables Concepts",
+    "Implement production-ready code utilizing Hash Tables Concepts"
+  ],
+  "prerequisites": [
+    "32.5"
+  ]
+}

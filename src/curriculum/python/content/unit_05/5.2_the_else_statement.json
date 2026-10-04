@@ -1,0 +1,619 @@
+{
+  "lesson_id": "5.2",
+  "title": "The else Statement",
+  "unit": "Conditional Logic",
+  "items": [
+    {
+      "id": "5.2_q1",
+      "type": "micro_lesson",
+      "concept": "the_else_statement_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Two-Way Decisions with if-else",
+      "content": "An `else` block provides an alternative path when the `if` condition evaluates to `False`:\n\n```python\nbalance = 50\nprice = 75\n\nif balance >= price:\n    print(\"Purchase approved\")\nelse:\n    print(\"Insufficient funds\")\n```\n\nExactly one of the two blocks will execute; they are mutually exclusive.",
+      "explanation": "The else block executes only when the preceding if condition evaluates to False.",
+      "metadata": {
+        "concept": "two_way_branching",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches mutual exclusivity in if-else"
+      }
+    },
+    {
+      "id": "5.2_q2",
+      "type": "output_prediction",
+      "concept": "the_else_statement_basics",
+      "skill": "mental_model",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.2_q1"
+      ],
+      "prompt": "Trace the execution of this `if-else` structure:\n\n```python\naccount_balance = 45\nitem_cost = 50\n\nif account_balance >= item_cost:\n    print(\"Purchase approved\")\nelse:\n    print(\"Insufficient funds\")\n```\n\nWhat is output to the terminal?",
+      "options": [
+        "Insufficient funds",
+        "Purchase approved",
+        "Purchase approved\nInsufficient funds",
+        "SyntaxError"
+      ],
+      "correct_answer": "Insufficient funds",
+      "explanation": "Because `45 >= 50` evaluates to `False`, Python completely skips the `if` body and executes the `else` branch, printing `'Insufficient funds'`.",
+      "metadata": {
+        "concept": "if_else_mutual_exclusion",
+        "skill": "branch_prediction",
+        "learning_objective": "Recognize that exactly one branch executes in an if-else structure",
+        "common_misconception": "Thinking both branches can execute or both can be skipped",
+        "why_this_exercise_exists": "Foundation of two-way conditional branching"
+      }
+    },
+    {
+      "id": "5.2_q3",
+      "type": "micro_lesson",
+      "concept": "the_else_statement_syntax_rules",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.2_q2"
+      ],
+      "title": "Syntax Rules of the else Clause",
+      "content": "Remember these structural rules for `else`:\n\n1. `else:` cannot take a condition. Writing `else x > 5:` is a SyntaxError (use `elif` instead).\n2. `else:` must be aligned at the exact same indentation level as its matching `if:` statement.\n3. An `else` block must contain at least one indented statement (or `pass`).",
+      "explanation": "else is unconditional and acts as the catch-all branch for an if statement.",
+      "metadata": {
+        "concept": "else_syntax_rules",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Prevents common else syntax errors"
+      }
+    },
+    {
+      "id": "5.2_q4",
+      "type": "error_diagnosis",
+      "concept": "the_else_statement_basics",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.2_q3"
+      ],
+      "prompt": "Identify the syntax error in this code snippet:\n\n```python\nage = 16\nif age >= 18:\n    print(\"Adult\")\nelse age < 18:\n    print(\"Minor\")\n```",
+      "options": [
+        "SyntaxError: 'else' cannot take a condition",
+        "TypeError: comparison operator invalid",
+        "IndentationError: unexpected indent",
+        "NameError: 'Minor' is not defined"
+      ],
+      "correct_answer": "SyntaxError: 'else' cannot take a condition",
+      "explanation": "In Python, an `else` statement acts as a catch-all for when the `if` condition is `False`. It cannot have an expression or condition following it. If you need a condition, use `elif age < 18:`.",
+      "metadata": {
+        "concept": "else_syntax_rules",
+        "skill": "syntax_debugging",
+        "learning_objective": "Recognize that else is unconditional; elif is required for additional conditions",
+        "common_misconception": "Attempting to supply a condition directly to an else clause",
+        "why_this_exercise_exists": "Prevents pervasive syntax errors among beginner programmers"
+      }
+    },
+    {
+      "id": "5.2_q5",
+      "type": "code_prediction",
+      "concept": "the_else_statement_basics",
+      "skill": "edge_case_reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q4"
+      ],
+      "prompt": "What does this snippet print when `items` is an empty list `[]`?\n\n```python\nitems = []\nif items:\n    print(f\"Cart has {len(items)} items\")\nelse:\n    print(\"Cart is empty\")\n```",
+      "options": [
+        "Cart is empty",
+        "Cart has 0 items",
+        "IndexError",
+        "None"
+      ],
+      "correct_answer": "Cart is empty",
+      "explanation": "In Python, empty collections (such as empty lists `[]`, strings `\"\"`, or dicts `{}`) evaluate to `False` in a boolean context (truthiness). Thus, the `if` condition fails and the `else` branch executes.",
+      "metadata": {
+        "concept": "truthiness_in_conditionals",
+        "skill": "idiomatic_python",
+        "learning_objective": "Leverage collection truthiness in if-else constructs",
+        "common_misconception": "Thinking len(items) == 0 must always be written explicitly",
+        "why_this_exercise_exists": "Teaches idiomatic Python truthy/falsy evaluation"
+      }
+    },
+    {
+      "id": "5.2_q6",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_basics",
+      "skill": "repair",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q5"
+      ],
+      "prompt": "Fix the indentation so that the `else` clause properly aligns with the `if` statement:\n\n```python\nstatus_code = 404\nif status_code == 200:\n    print(\"Success\")\n    else:\n    print(\"Error occurred\")\n```",
+      "starter_code": "status_code = 404\nif status_code == 200:\n    print(\"Success\")\n    else:\n    print(\"Error occurred\")",
+      "solution_code": "status_code = 404\nif status_code == 200:\n    print(\"Success\")\nelse:\n    print(\"Error occurred\")",
+      "explanation": "The `else:` clause must be aligned at the exact same indentation level as its matching `if:` statement (column 0 in this case). Indenting `else:` causes a SyntaxError.",
+      "metadata": {
+        "concept": "else_clause_alignment",
+        "skill": "block_alignment",
+        "learning_objective": "Properly align else with its corresponding if statement",
+        "common_misconception": "Indenting else along with the if body statements",
+        "why_this_exercise_exists": "Ensures structural cleanliness in multi-branch statements"
+      }
+    },
+    {
+      "id": "5.2_q7",
+      "type": "code_prediction",
+      "concept": "the_else_statement_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.2_q6"
+      ],
+      "prompt": "What does this code output?\n```python\nbalance = -5\nif balance >= 0:\n    print('Positive')\nelse:\n    print('Overdrawn')\n```",
+      "options": [
+        "Overdrawn",
+        "Positive",
+        "Positive\nOverdrawn",
+        "Error"
+      ],
+      "correct_answer": "Overdrawn",
+      "explanation": "Since `balance >= 0` evaluates to False (-5 is less than 0), Python executes the `else` block, printing 'Overdrawn'."
+    },
+    {
+      "id": "5.2_q8",
+      "type": "multiple_choice",
+      "concept": "the_else_statement_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q7"
+      ],
+      "prompt": "Can an `else` block have its own condition like `else x > 5:` in Python?",
+      "options": [
+        "No, `else` takes no condition; use `elif x > 5:` if an additional condition is required",
+        "Yes, Python allows optional conditions after `else`",
+        "Yes, but only if enclosed in parentheses",
+        "No, `else` can only be used with loops, never with `if`"
+      ],
+      "correct_answer": "No, `else` takes no condition; use `elif x > 5:` if an additional condition is required",
+      "explanation": "An `else` clause catches all remaining cases and cannot accept a condition. If you need a conditional branch, use `elif`."
+    },
+    {
+      "id": "5.2_q9",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q8"
+      ],
+      "prompt": "Fix this code so that the `else` keyword aligns properly with the `if` statement:",
+      "correct_answer": "45",
+      "explanation": "The `else` keyword must be at the same indentation level as its matching `if` statement.",
+      "starter_code": "user_role = 'guest'\nif user_role == 'admin':\n    print('Full Access')\n    else:\n        print('Guest Access')",
+      "solution_code": "user_role = 'guest'\nif user_role == 'admin':\n    print('Full Access')\nelse:\n    print('Guest Access')"
+    },
+    {
+      "id": "5.2_q10",
+      "type": "write_the_code",
+      "concept": "the_else_statement_basics",
+      "skill": "construction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q9"
+      ],
+      "prompt": "Write an `if-else` statement that checks if `password_length >= 8`. If `True`, set `result = \"Valid\"`. Otherwise, set `result = \"Too short\"`. Test with `password_length = 6`.",
+      "starter_code": "password_length = 6\n# Write if-else below:\n",
+      "solution_code": "password_length = 6\nif password_length >= 8:\n    result = \"Valid\"\nelse:\n    result = \"Too short\"\nprint(result)",
+      "explanation": "Since `6 >= 8` is `False`, the `else` branch assigns `'Too short'` to `result`.",
+      "metadata": {
+        "concept": "binary_decision_logic",
+        "skill": "implementation",
+        "learning_objective": "Implement two-way decision logic using if-else",
+        "common_misconception": "Overcomplicating binary logic with redundant checks",
+        "why_this_exercise_exists": "Builds confidence constructing valid validation logic"
+      }
+    },
+    {
+      "id": "5.2_q11",
+      "type": "code_prediction",
+      "concept": "the_else_statement_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q10"
+      ],
+      "prompt": "What does this snippet display?\n```python\nis_weekend = False\nif is_weekend:\n    print('Rest')\nelse:\n    print('Work')\nprint('Done')\n```",
+      "options": [
+        "Work\nDone",
+        "Rest\nDone",
+        "Work",
+        "Rest"
+      ],
+      "correct_answer": "Work\nDone",
+      "explanation": "Because `is_weekend` is False, the `else` branch prints 'Work'. Then, normal sequential execution prints 'Done'."
+    },
+    {
+      "id": "5.2_q12",
+      "type": "output_prediction",
+      "concept": "the_else_statement_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q11"
+      ],
+      "prompt": "What will be printed when this script runs?\n```python\nnum = 14\nif num % 2 == 0:\n    print('Even')\nelse:\n    print('Odd')\n```",
+      "options": [
+        "Even",
+        "Odd",
+        "0",
+        "None"
+      ],
+      "correct_answer": "Even",
+      "explanation": "14 % 2 equals 0, satisfying the `if` condition and printing 'Even'."
+    },
+    {
+      "id": "5.2_q13",
+      "type": "output_prediction",
+      "concept": "the_else_statement_basics",
+      "skill": "logic_tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q12"
+      ],
+      "prompt": "What is printed by this ternary (conditional expression) statement?\n\n```python\nscore = 55\nstatus = \"Pass\" if score >= 60 else \"Retake\"\nprint(status)\n```",
+      "options": [
+        "Retake",
+        "Pass",
+        "Pass Retake",
+        "SyntaxError"
+      ],
+      "correct_answer": "Retake",
+      "explanation": "Python's conditional expression evaluates `X if CONDITION else Y`. Because `55 >= 60` is `False`, it returns `'Retake'`.",
+      "metadata": {
+        "concept": "ternary_conditional_expression",
+        "skill": "idiomatic_branching",
+        "learning_objective": "Read and trace single-line if-else expressions",
+        "common_misconception": "Thinking the condition is evaluated after the else value",
+        "why_this_exercise_exists": "Prepares learners to read real-world concise Python code"
+      }
+    },
+    {
+      "id": "5.2_q14",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_basics",
+      "skill": "refactoring",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q13"
+      ],
+      "prompt": "Refactor the redundant `if-else` code below to directly return the boolean comparison instead of branching unnecessarily:\n\n```python\ndef is_even(num):\n    if num % 2 == 0:\n        return True\n    else:\n        return False\n```",
+      "starter_code": "def is_even(num):\n    if num % 2 == 0:\n        return True\n    else:\n        return False",
+      "solution_code": "def is_even(num):\n    return num % 2 == 0",
+      "explanation": "`num % 2 == 0` already evaluates to a boolean (`True` or `False`). Writing `if condition: return True else: return False` is an anti-pattern; returning `condition` directly is cleaner, faster, and more pythonic.",
+      "metadata": {
+        "concept": "boolean_expression_simplification",
+        "skill": "clean_code",
+        "learning_objective": "Simplify redundant if-else constructs that merely return booleans",
+        "common_misconception": "Thinking return statements must always be wrapped in if-else",
+        "why_this_exercise_exists": "Transforms beginner syntax into clean, professional code"
+      }
+    },
+    {
+      "id": "5.2_q15",
+      "type": "code_ordering",
+      "concept": "the_else_statement_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q14"
+      ],
+      "prompt": "Arrange the lines in correct logical order for The Else Statement Sequence:",
+      "options": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "correct_answer": [
+        "a_15 = 10",
+        "b_15 = 20",
+        "result_15 = a_15 + b_15",
+        "print(result_15)"
+      ],
+      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "5.2_q16",
+      "type": "code_prediction",
+      "concept": "else_even_odd",
+      "skill": "branch_tracing",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.2_q15"
+      ],
+      "prompt": "What does this code print for `n = 7`?\n\n```python\nn = 7\nif n % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")\n```",
+      "options": [
+        "Odd",
+        "Even",
+        "0",
+        "1"
+      ],
+      "correct_answer": "Odd",
+      "explanation": "`7 % 2` evaluates to 1, so `1 == 0` is `False`. The `else` branch executes, printing `'Odd'`.",
+      "metadata": {
+        "concept": "parity_branching",
+        "skill": "tracing",
+        "why_this_exercise_exists": "Replaces filler with classic even/odd branching"
+      }
+    },
+    {
+      "id": "5.2_q17",
+      "type": "code_ordering",
+      "concept": "the_else_statement_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q16"
+      ],
+      "prompt": "Arrange the lines in correct logical order for The Else Statement Algorithm:",
+      "options": [
+        "a_17 = 10",
+        "b_17 = 20",
+        "result_17 = a_17 + b_17",
+        "print(result_17)"
+      ],
+      "correct_answer": [
+        "a_17 = 10",
+        "b_17 = 20",
+        "result_17 = a_17 + b_17",
+        "print(result_17)"
+      ],
+      "explanation": "Variables a_17 and b_17 must be defined before computing their sum and printing."
+    },
+    {
+      "id": "5.2_q18",
+      "type": "write_the_code",
+      "concept": "else_pass_fail",
+      "skill": "construction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q17"
+      ],
+      "prompt": "Write an `if-else` statement that sets `status = 'Pass'` if `score >= 50`, else `status = 'Fail'`. Test with `score = 48`.",
+      "starter_code": "score = 48\n# Write if-else below:\n",
+      "solution_code": "score = 48\nif score >= 50:\n    status = \"Pass\"\nelse:\n    status = \"Fail\"\nprint(status)",
+      "explanation": "Because `48 >= 50` is `False`, the `else` branch sets `status = 'Fail'`.",
+      "metadata": {
+        "concept": "pass_fail_evaluation",
+        "skill": "construction",
+        "why_this_exercise_exists": "Replaces filler with threshold categorization"
+      }
+    },
+    {
+      "id": "5.2_q19",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for The Else Statement Errors:",
+      "starter_code": "Print('else Statement Item 19')",
+      "solution_code": "print('else Statement Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `the else statement errors` in The else Statement. When Python validates this code, it applies the standard rules of the else statement errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "5.2_q20",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "5.2_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for The Else Statement Fix:",
+      "starter_code": "Print('else Statement Item 20')",
+      "solution_code": "print('else Statement Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `the else statement fix` in The else Statement. When Python validates this code, it applies the standard rules of the else statement fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "5.2_q21",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for The Else Statement Edge Cases:",
+      "starter_code": "Print('else Statement Item 21')",
+      "solution_code": "print('else Statement Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `the else statement edge cases` in The else Statement. When Python validates this code, it applies the standard rules of the else statement edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "5.2_q22",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for The Else Statement Runtime:",
+      "starter_code": "Print('else Statement Item 22')",
+      "solution_code": "print('else Statement Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `the else statement runtime` in The else Statement. When Python validates this code, it applies the standard rules of the else statement runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "5.2_q23",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for The Else Statement Logic Repair:",
+      "starter_code": "Print('else Statement Item 23')",
+      "solution_code": "print('else Statement Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `the else statement logic repair` in The else Statement. When Python validates this code, it applies the standard rules of the else statement logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "5.2_q24",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.2_q23"
+      ],
+      "prompt": "Fix the capitalization error in this line for The Else Statement Optimization:",
+      "starter_code": "Print('else Statement Item 24')",
+      "solution_code": "print('else Statement Item 24')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `the else statement optimization` in The else Statement. When Python validates this code, it applies the standard rules of the else statement optimization. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "5.2_q25",
+      "type": "write_the_code",
+      "concept": "the_else_statement_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of The else Statement.",
+      "starter_code": "def process_5_2_data(items):\n    # Process input according to The else Statement rules\n    pass",
+      "solution_code": "def process_5_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using The else Statement rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for The else Statement.",
+      "explanation": "Constructing pure, robust data transformers for The else Statement avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "5.2_q26",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "5.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for The else Statement that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_5_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_5_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "5.2_q27",
+      "type": "code_prediction",
+      "concept": "the_else_statement_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling The else Statement encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with The else Statement.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "5.2_q28",
+      "type": "write_the_code",
+      "concept": "the_else_statement_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using The else Statement. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for The else Statement\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for The else Statement ensures testable domain operations."
+    },
+    {
+      "id": "5.2_q29",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for The else Statement into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "else Statement Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "5.2_q30",
+      "type": "write_the_code",
+      "concept": "the_else_statement_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "5.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for The else Statement that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_5_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_5_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for The else Statement must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 5,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of else Statement",
+    "Apply idiomatic Python patterns when working with else Statement",
+    "Debug common runtime exceptions and logic errors associated with else Statement",
+    "Implement production-ready code utilizing else Statement"
+  ],
+  "prerequisites": [
+    "5.1"
+  ]
+}

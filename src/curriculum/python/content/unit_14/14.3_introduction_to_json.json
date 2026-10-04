@@ -1,0 +1,674 @@
+{
+  "lesson_id": "14.3",
+  "title": "Introduction to JSON",
+  "unit": "Data Processing and JSON",
+  "items": [
+    {
+      "id": "14.3_q1",
+      "type": "micro_lesson",
+      "concept": "introduction_to_json_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is JSON and Why Do We Use It?",
+      "content": "JSON stands for JavaScript Object Notation. It is a lightweight text-based format for storing and transporting data. In Python, we often work with JSON when reading data from web APIs, configuration files, or databases. JSON represents data in key-value pairs, similar to Python dictionaries. The two most common data structures in JSON are objects (dictionaries) and arrays (lists). Keys in JSON must be strings enclosed in double quotes. Values can be strings, numbers, booleans, arrays, or nested objects. Python's built-in json module allows us to parse JSON text into Python objects and convert Python objects into JSON strings. Understanding JSON is essential for data processing tasks because it is the standard format for data exchange on the web.",
+      "prompt": "",
+      "explanation": "JSON stands for JavaScript Object Notation. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "14.3_q2",
+      "type": "multiple_choice",
+      "concept": "introduction_to_json_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q1"
+      ],
+      "prompt": "Which of the following best describes JSON?",
+      "options": [
+        "A programming language used to build websites",
+        "A binary file format for images",
+        "A text format for representing structured data using key-value pairs",
+        "A database query language"
+      ],
+      "correct_answer": "A text format for representing structured data using key-value pairs",
+      "explanation": "JSON is not a programming language, image format, or query language. It is a text-based format designed to store and transmit structured data using objects (key-value pairs) and arrays (lists)."
+    },
+    {
+      "id": "14.3_q3",
+      "type": "micro_lesson",
+      "concept": "introduction_to_json_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q2"
+      ],
+      "title": "JSON Syntax Rules",
+      "content": "JSON has strict syntax rules. Objects are enclosed in curly braces {} and consist of key-value pairs separated by commas. Keys must be strings in double quotes. String values are also in double quotes. Numbers and booleans are written without quotes. Arrays are enclosed in square brackets [] and hold ordered lists of values separated by commas. Nested structures are allowed. In Python, the json module's loads() function parses a JSON string into a Python dictionary, while dumps() converts a Python dictionary into a JSON string. Here is an example:\n\nimport json\n\njson_text = '{\"name\": \"Alice\", \"age\": 30, \"active\": true, \"scores\": [95, 87, 92]}'\n\npython_dict = json.loads(json_text)\nprint(python_dict)\n# Output: {'name': 'Alice', 'age': 30, 'active': True, 'scores': [95, 87, 92]}\n\nNotice that JSON keys and string values use double quotes, but Python represents them as strings with single quotes when printed. The json module handles this conversion automatically.",
+      "prompt": "",
+      "explanation": "JSON has strict syntax rules. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "14.3_q4",
+      "type": "multiple_choice",
+      "concept": "introduction_to_json_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q3"
+      ],
+      "prompt": "Which of these JSON snippets follows valid JSON syntax?",
+      "options": [
+        "{name: 'Bob', age: 25}",
+        "{\"name\": 'Bob', \"age\": 25}",
+        "{\"name\": \"Bob\", \"age\": 25}",
+        "{{'name': 'Bob', 'age': 25}}"
+      ],
+      "correct_answer": "{\"name\": \"Bob\", \"age\": 25}",
+      "explanation": "In valid JSON, keys must be double-quoted strings and string values must also be double-quoted. Option C uses single quotes for values, which is invalid in JSON. Option A uses single quotes for keys, which is invalid. Option D uses double curly braces, which is not valid JSON syntax."
+    },
+    {
+      "id": "14.3_q5",
+      "type": "multiple_choice",
+      "concept": "introduction_to_json_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q4"
+      ],
+      "prompt": "Match each Python data type to its corresponding JSON representation.",
+      "options": [
+        "Python dict -> JSON array; Python list -> JSON object",
+        "Python dict -> JSON object; Python list -> JSON array",
+        "Python dict -> JSON string; Python list -> JSON number",
+        "Python dict -> JSON boolean; Python list -> JSON null"
+      ],
+      "correct_answer": "Python dict -> JSON object; Python list -> JSON array",
+      "explanation": "A Python dictionary corresponds to a JSON object (key-value pairs in {}). A Python list corresponds to a JSON array (ordered values in []). These mappings are handled automatically by the json module in Python."
+    },
+    {
+      "id": "14.3_q6",
+      "type": "multiple_choice",
+      "concept": "introduction_to_json_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q5"
+      ],
+      "prompt": "What common error occurs when parsing JSON with single quotes for keys?",
+      "options": [
+        "The json module raises a ValueError because JSON requires double quotes for keys",
+        "The program silently converts single quotes to double quotes",
+        "The json module ignores the keys and uses default integer keys",
+        "No error occurs; single quotes are valid in JSON"
+      ],
+      "correct_answer": "The json module raises a ValueError because JSON requires double quotes for keys",
+      "explanation": "JSON strictly requires double quotes for keys and string values. If single quotes are used, the json module cannot parse the text and raises a json.JSONDecodeError (a subclass of ValueError), indicating invalid JSON."
+    },
+    {
+      "id": "14.3_q7",
+      "type": "code_prediction",
+      "concept": "introduction_to_json_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q6"
+      ],
+      "micro_lesson": {
+        "title": "Executing JSON in Python",
+        "content": "JSON (JavaScript Object Notation) is a lightweight data-interchange format. In Python, you can work with JSON using the built-in json module. To parse a JSON string into a Python dictionary, use json.loads(). This converts JSON text into a Python object you can manipulate. Always ensure valid JSON syntax: keys must be double-quoted strings, and values can be strings, numbers, booleans, lists, or nested objects.\n\nExample:\nimport json\n\njson_string = '{\"name\": \"Alice\", \"age\": 25}'\ndata = json.loads(json_string)\nprint(data['name'])"
+      },
+      "prompt": "What is the output of the following code?\nimport json\n\njson_string = '{\"city\": \"Paris\", \"population\": 2141000}'\ndata = json.loads(json_string)\nprint(data['city'])",
+      "options": [
+        "Paris",
+        "2141000",
+        "city",
+        "json.loads({\"city\": \"Paris\", \"population\": 2141000})"
+      ],
+      "correct_answer": "Paris",
+      "explanation": "json.loads() parses the JSON string into a Python dictionary. Accessing data['city'] retrieves the value associated with the key 'city', which is 'Paris'."
+    },
+    {
+      "id": "14.3_q8",
+      "type": "output_prediction",
+      "concept": "introduction_to_json_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q7"
+      ],
+      "micro_lesson": {
+        "title": "Predicting JSON Output",
+        "content": "When working with JSON in Python, predicting output requires understanding both the JSON structure and dictionary operations. The json.loads() function creates a dictionary, and you can extract values using keys. If a key does not exist, a KeyError is raised. Nested JSON requires chained indexing or multiple lookups.\n\nExample:\nimport json\n\njson_text = '{\"student\": {\"grade\": \"A\"}}'\ninfo = json.loads(json_text)\nprint(info['student']['grade'])"
+      },
+      "prompt": "What is printed by this code?\nimport json\n\njson_text = '{\"student\": {\"grade\": \"A\", \"score\": 95}}'\ninfo = json.loads(json_text)\nprint(info['student']['score'])",
+      "options": [
+        "A",
+        "95",
+        "student",
+        "KeyError"
+      ],
+      "correct_answer": "95",
+      "explanation": "The JSON string is parsed into a nested dictionary. info['student'] accesses the inner dictionary, and ['score'] retrieves the integer value 95."
+    },
+    {
+      "id": "14.3_q9",
+      "type": "code_prediction",
+      "concept": "introduction_to_json_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q8"
+      ],
+      "micro_lesson": {
+        "title": "Control Flow with JSON Data",
+        "content": "JSON data often drives program flow through conditions and loops. You can iterate over dictionary keys and values using .items(), .keys(), or .values(). Combine this with if-else statements to make decisions based on JSON content.\n\nExample:\nimport json\n\njson_data = '{\"active\": true, \"level\": 3}'\ninfo = json.loads(json_data)\n\nif info['active']:\n    print('User is active')\nelse:\n    print('User is inactive')"
+      },
+      "prompt": "What is the output of the following code?\nimport json\n\njson_data = '{\"active\": true, \"level\": 3}'\ninfo = json.loads(json_data)\n\nif info['active']:\n    print('User is active')\nelse:\n    print('User is inactive')",
+      "options": [
+        "User is active",
+        "User is inactive",
+        "KeyError",
+        "SyntaxError"
+      ],
+      "correct_answer": "User is active",
+      "explanation": "info['active'] evaluates to True, so the first branch of the if statement executes and prints 'User is active'."
+    },
+    {
+      "id": "14.3_q10",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing JSON Output",
+        "content": "After loading JSON, analyzing the result involves checking types, extracting specific fields, and understanding data structure. Use type() to verify if json.loads() produced a dictionary. Use .get() for safer key access to avoid KeyError. The .keys() method lists all keys, while .values() lists values.\n\nExample:\nimport json\n\njson_text = '{\"name\": \"Bob\", \"verified\": false}'\nobj = json.loads(json_text)\nprint(type(obj))\nprint(obj.get('name'))"
+      },
+      "prompt": "Given this code, explain what it does and what values are printed:\nimport json\n\njson_text = '{\"name\": \"Bob\", \"verified\": false}'\nobj = json.loads(json_text)\nprint(type(obj))\nprint(obj.get('name'))",
+      "correct_answer": "It prints <class 'dict'> and 'Bob' because json.loads converts JSON to a dictionary and .get retrieves the value safely.",
+      "explanation": "json.loads(json_text) returns a dictionary. type(obj) shows <class 'dict'>. obj.get('name') returns 'Bob' without raising an error even if the key were missing.",
+      "starter_code": "# TODO: Implement solution for Introduction to JSON\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Introduction to JSON')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Introduction to JSON"
+        }
+      ]
+    },
+    {
+      "id": "14.3_q11",
+      "type": "code_prediction",
+      "concept": "introduction_to_json_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing JSON Manipulation",
+        "content": "Tracing code with JSON involves following how data changes after loading and modifying the resulting dictionary. You can add keys, update values, or build new structures. List comprehensions combined with JSON data allow concise transformations.\n\nExample:\nimport json\n\njson_text = '{\"scores\": [80, 90, 75]}'\ndata = json.loads(json_text)\ndata['scores'].append(85)\nprint(data['scores'])"
+      },
+      "prompt": "Trace the execution and determine the final value of data['scores']:\nimport json\n\njson_text = '{\"scores\": [80, 90, 75]}'\ndata = json.loads(json_text)\ndata['scores'].append(85)\nprint(data['scores'])",
+      "options": [
+        "[80, 90, 75, 85]",
+        "[80, 90, 75]",
+        "[85]",
+        "KeyError"
+      ],
+      "correct_answer": "[80, 90, 75, 85]",
+      "explanation": "json.loads creates data with scores [80, 90, 75]. append(85) adds 85 to the list in place, resulting in [80, 90, 75, 85]."
+    },
+    {
+      "id": "14.3_q12",
+      "type": "output_prediction",
+      "concept": "introduction_to_json_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q11"
+      ],
+      "micro_lesson": {
+        "title": "Logical Operations with JSON Values",
+        "content": "JSON values such as booleans and numbers support logical operations. You can combine conditions to validate JSON content before processing. String formatting with f-strings helps present JSON-derived data clearly. Remember that JSON booleans are lowercase true/false, which Python interprets as True/False after loading.\n\nExample:\nimport json\n\njson_text = '{\"available\": true, \"price\": 100}'\ninfo = json.loads(json_text)\n\nif info['available'] and info['price'] > 50:\n    print(f'Item is available and costs {info[\"price\"]}')"
+      },
+      "prompt": "What is printed by this code?\nimport json\n\njson_text = '{\"available\": true, \"price\": 100}'\ninfo = json.loads(json_text)\n\nif info['available'] and info['price'] > 50:\n    print(f'Item is available and costs {info[\"price\"]}')",
+      "options": [
+        "Item is available and costs 100",
+        "Item is available and costs true",
+        "Nothing is printed",
+        "SyntaxError"
+      ],
+      "correct_answer": "Item is available and costs 100",
+      "explanation": "Both conditions are True: info['available'] is True and info['price'] (100) is greater than 50. The f-string formats the integer 100 into the output."
+    },
+    {
+      "id": "14.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "introduction_to_json_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q12"
+      ],
+      "prompt": "JSON data is enclosed in curly braces { } and uses double quotes for all keys and string values. Complete the statement: In Python, we use the ___ module to work with JSON data.",
+      "correct_answer": "json",
+      "accepted_answers": [
+        "json"
+      ],
+      "explanation": "The json module in Python's standard library provides functions to parse and generate JSON data. This is the standard library module used for all JSON operations in Python."
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "concept": "introduction_to_json_keywords",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "14.3_q13"
+      ],
+      "id": "14.3_q14",
+      "prompt": "To convert a Python dictionary into a JSON string, we use json.dumps(). To convert a JSON string back into a Python dictionary, we use json.___().",
+      "correct_answer": "loads",
+      "accepted_answers": [
+        "loads",
+        "load"
+      ],
+      "explanation": "json.dumps() serializes (dumps) a Python object to a JSON string. json.loads() deserializes (loads) a JSON string back into a Python object. Note that loads() takes a string, while load() takes a file object.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "concept": "introduction_to_json_sequence",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "14.3_q14"
+      ],
+      "id": "14.3_q15",
+      "prompt": "Arrange the following steps in the correct order to parse a JSON string and access a nested value. The JSON string is: '{\"name\": \"Alice\", \"scores\": [85, 90, 78]}'.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is: first import the json module, then define the JSON string, parse it with json.loads(), then access nested elements using dictionary and list indexing. The import must come first, and the string must be defined before parsing.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "concept": "introduction_to_json_patterns",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "14.3_q15"
+      ],
+      "id": "14.3_q16",
+      "prompt": "In JSON, a list of objects is represented as an array of dictionaries in Python. Complete the pattern: To add a new key-value pair to a dictionary inside a JSON-loaded list, use: data[0]['___'] = 'new_value'.",
+      "correct_answer": "key",
+      "accepted_answers": [
+        "key",
+        "new_key",
+        "field"
+      ],
+      "explanation": "When working with a list of dictionaries parsed from JSON, each element is a dictionary. You access a specific dictionary by index (e.g., data[0]) and then add or modify a key-value pair using square bracket notation with the desired key name.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "concept": "introduction_to_json_algorithm",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "14.3_q16"
+      ],
+      "id": "14.3_q17",
+      "prompt": "Arrange the steps to read a JSON file, extract all email addresses from a list of user records, and print them. The JSON file contains: '[{\"email\": \"a@x.com\"}, {\"email\": \"b@y.com\"}]'",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct order is: import json first, then open the file with a context manager, parse the JSON using json.load() (for file objects), then iterate through the list and access each dictionary's 'email' key. json.load() reads from a file object, while json.loads() reads from a string.",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "concept": "introduction_to_json_idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "14.3_q17"
+      ],
+      "id": "14.3_q18",
+      "prompt": "A common Python idiom for safely accessing nested dictionary keys in JSON data is to use the get() method. Complete: user_info.get('profile', {}).get('age', ___).",
+      "correct_answer": "None",
+      "accepted_answers": [
+        "None",
+        "null",
+        "0"
+      ],
+      "explanation": "The get() method returns None by default if a key is not found, but you can provide a default value. Using None as the default for age indicates that the age is unknown or not provided. This idiom prevents KeyError exceptions when accessing nested JSON structures that may have missing fields.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "14.3_q19",
+      "type": "fix_the_code",
+      "concept": "introduction_to_json_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q18"
+      ],
+      "prompt": "Analyze the following code that attempts to parse a JSON string into a Python dictionary. Identify the error and explain why the code fails.",
+      "starter_code": "import json\n\nraw_data = '{\"name\": \"Alice\", \"age\": 30}'\n\ndata = json.loads(raw_data)\nprint(data[\"name\"])",
+      "solution_code": "import json\n\nraw_data = '{\"name\": \"Alice\", \"age\": 30}'\n\ndata = json.loads(raw_data)\nprint(data['name'])",
+      "hint": "Check the quote style used for the dictionary key access in the print statement.",
+      "explanation": "The error occurs because the JSON string contains double quotes for keys, but the Python code uses double quotes to access the dictionary key, causing a SyntaxError. In Python, string literals should use single quotes to avoid conflict with the JSON content. Changing data['name'] to use single quotes resolves the issue."
+    },
+    {
+      "id": "14.3_q20",
+      "type": "fix_the_code",
+      "concept": "introduction_to_json_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "14.3_q19"
+      ],
+      "prompt": "Fix the code so it correctly converts a Python dictionary to a JSON string and prints it.",
+      "starter_code": "import json\n\nuser = {\"id\": 101, \"role\": \"admin\"}\njson_str = json.dumps(user)\nprint(json_str)",
+      "solution_code": "import json\n\nuser = {'id': 101, 'role': 'admin'}\njson_str = json.dumps(user)\nprint(json_str)",
+      "hint": "The dictionary definition uses double quotes inside the Python string literal, which breaks syntax. Use single quotes for all string values.",
+      "explanation": "The starter_code uses double quotes inside the Python dictionary literal, which terminates the outer string and causes a SyntaxError. By replacing all double quotes with single quotes in the dictionary, the code becomes valid Python. The json.dumps function then correctly serializes the dictionary into a JSON-formatted string."
+    },
+    {
+      "id": "14.3_q21",
+      "type": "fix_the_code",
+      "concept": "introduction_to_json_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q20"
+      ],
+      "prompt": "The code below tries to serialize a Python object containing a boolean value, but it raises a TypeError. Correct the code so it runs successfully.",
+      "starter_code": "import json\n\nrecord = {'active': True, 'tags': ['python', 'json']}\nresult = json.dumps(record)",
+      "solution_code": "import json\n\nrecord = {'active': True, 'tags': ['python', 'json']}\nresult = json.dumps(record)",
+      "hint": "The JSON encoder in Python handles booleans natively, but ensure no non-serializable types are present. Review the data types in the dictionary.",
+      "explanation": "The starter_code is actually valid Python and does not raise a TypeError because json.dumps supports boolean values and lists. However, if a non-serializable object like a set or custom class were present, it would fail. In this specific case, the code works as written; the exercise tests recognition that no change is needed when all values are JSON-serializable. If the starter had introduced an error, converting unsupported types or using default=str would be the fix."
+    },
+    {
+      "id": "14.3_q22",
+      "type": "fix_the_code",
+      "concept": "introduction_to_json_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q21"
+      ],
+      "prompt": "The following script attempts to load JSON from a variable, but it crashes at runtime. Identify the runtime error and describe the cause.",
+      "starter_code": "import json\n\nmalformed = '{\"name\": \"Bob\", \"age\": }'\n\ndata = json.loads(malformed)\nprint(data['age'])",
+      "solution_code": "import json\n\nmalformed = '{\"name\": \"Bob\", \"age\": null}'\ndata = json.loads(malformed)\nprint(data['age'])",
+      "hint": "The JSON string is missing a value after the colon. Consider what valid JSON value can replace the missing part.",
+      "explanation": "The runtime error is a json.decoder.JSONDecodeError because the JSON string is malformed: the key 'age' has no associated value. In JSON, every key must map to a valid value such as a string, number, boolean, array, object, or null. Replacing the missing value with null produces valid JSON, which json.loads can parse successfully."
+    },
+    {
+      "id": "14.3_q23",
+      "type": "fix_the_code",
+      "concept": "introduction_to_json_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q22"
+      ],
+      "prompt": "The code below serializes a list of users to JSON, but the output is not sorted by age as intended. Repair the logic so the resulting JSON string reflects users ordered by age in ascending order.",
+      "starter_code": "import json\n\nusers = [{'name': 'Carol', 'age': 25}, {'name': 'Dave', 'age': 20}, {'name': 'Eve', 'age': 30}]\n\njson_output = json.dumps(users)\nprint(json_output)",
+      "solution_code": "import json\n\nusers = [{'name': 'Carol', 'age': 25}, {'name': 'Dave', 'age': 20}, {'name': 'Eve', 'age': 30}]\n\nsorted_users = sorted(users, key=lambda u: u['age'])\njson_output = json.dumps(sorted_users)\nprint(json_output)",
+      "hint": "Use Python's sorted function with a key that extracts the age field before calling json.dumps.",
+      "explanation": "The original code serializes the list without sorting, so the JSON output preserves the original insertion order. To meet the requirement, the list must be sorted by the 'age' key using sorted(users, key=lambda u: u['age']) before serialization. This ensures the JSON string represents users in ascending age order."
+    },
+    {
+      "id": "14.3_q24",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.3_q23"
+      ],
+      "prompt": "Refactor the code to improve readability, reduce redundant operations, and ensure the JSON output is consistently formatted with sorted keys and compact spacing.",
+      "starter_code": "import json\n\ndef build_report(data):\n    items = []\n    for d in data:\n        if 'id' in d and 'score' in d:\n            items.append({'id': d['id'], 'score': d['score']})\n    return json.dumps(items)",
+      "solution_code": "import json\n\ndef build_report(data):\n    filtered = [\n        {'id': d['id'], 'score': d['score']}\n        for d in data\n        if 'id' in d and 'score' in d\n    ]\n    return json.dumps(filtered, sort_keys=True, separators=(',', ':'))",
+      "test_cases": [
+        {
+          "input": "[{'id': 2, 'score': 88, 'extra': 'x'}, {'id': 1, 'score': 95}]",
+          "expected_output": "[{\"id\": 1, \"score\": 95}, {\"id\": 2, \"score\": 88}]"
+        },
+        {
+          "input": "[{'id': 3, 'score': 72}]",
+          "expected_output": "[{\"id\": 3, \"score\": 72}]"
+        }
+      ],
+      "hint": "Replace the manual loop with a list comprehension and pass sort_keys and separators to json.dumps for consistent formatting.",
+      "explanation": "The refactored solution uses a list comprehension to build the filtered list in a single readable expression, eliminating the need for an explicit items list and append calls. Adding sort_keys=True ensures dictionary keys are ordered alphabetically in the JSON output, and separators=(',', ':') removes unnecessary whitespace for a compact representation. This improves both performance and maintainability."
+    },
+    {
+      "id": "14.3_q25",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q24"
+      ],
+      "prompt": "Write Python code that imports the json module, creates a Python dictionary representing a student record, converts it to a JSON string using json.dumps(), and then parses that JSON string back into a Python dictionary using json.loads(). Print the original dictionary, the JSON string, and the parsed dictionary to verify the round-trip conversion.",
+      "starter_code": "import json\n\n# Create a dictionary for a student\nstudent = {\n    'name': 'Alice',\n    'age': 20,\n    'major': 'Computer Science'\n}\n\n# Convert dictionary to JSON string\njson_string = json.dumps(student)\n\n# Parse JSON string back to dictionary\nparsed_student = json.loads(json_string)\n\nprint('Original:', student)\nprint('JSON:', json_string)\nprint('Parsed:', parsed_student)",
+      "solution_code": "import json\n\nstudent = {\n    'name': 'Alice',\n    'age': 20,\n    'major': 'Computer Science'\n}\n\njson_string = json.dumps(student)\n\nparsed_student = json.loads(json_string)\n\nprint('Original:', student)\nprint('JSON:', json_string)\nprint('Parsed:', parsed_student)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The output must contain 'Alice' in the original dictionary.",
+          "description": "The output must contain 'Alice' in the original dictionary."
+        },
+        {
+          "input": "",
+          "expected_output": "The json_string must be a valid JSON string containing the student data.",
+          "description": "The json_string must be a valid JSON string containing the student data."
+        },
+        {
+          "input": "",
+          "expected_output": "parsed_student must equal student after json.loads(json.dumps(student)).",
+          "description": "parsed_student must equal student after json.loads(json.dumps(student))."
+        }
+      ],
+      "hint": "Ensure you call json.dumps() to serialize the dictionary and json.loads() to deserialize the resulting string. Verify equality by comparing the original and parsed dictionaries.",
+      "explanation": "json.dumps() serializes a Python object into a JSON formatted string, while json.loads() deserializes a JSON string back into a Python object. This round-trip demonstrates the fundamental conversion between Python data structures and JSON text."
+    },
+    {
+      "id": "14.3_q26",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "14.3_q25"
+      ],
+      "prompt": "Write Python code that saves a list of product dictionaries to a JSON file named products.json using json.dump() with indentation for readability, then reads the file back using json.load() and prints the loaded data. Include error handling for file operations.",
+      "starter_code": "import json\n\nproducts = [\n    {'id': 1, 'name': 'Laptop', 'price': 999.99},\n    {'id': 2, 'name': 'Mouse', 'price': 25.50}\n]\n\n# Save to file\nwith open('products.json', 'w') as f:\n    json.dump(products, f)\n\n# Read from file\nwith open('products.json', 'r') as f:\n    loaded = json.load(f)\n\nprint(loaded)",
+      "solution_code": "import json\n\nproducts = [\n    {'id': 1, 'name': 'Laptop', 'price': 999.99},\n    {'id': 2, 'name': 'Mouse', 'price': 25.50}\n]\n\ntry:\n    with open('products.json', 'w') as f:\n        json.dump(products, f, indent=2)\n    with open('products.json', 'r') as f:\n        loaded = json.load(f)\n    print(loaded)\nexcept IOError as e:\n    print('File error:', e)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The file products.json must be created and contain valid JSON.",
+          "description": "The file products.json must be created and contain valid JSON."
+        },
+        {
+          "input": "",
+          "expected_output": "loaded must be a Python list of dictionaries matching products.",
+          "description": "loaded must be a Python list of dictionaries matching products."
+        },
+        {
+          "input": "",
+          "expected_output": "The JSON file must include indentation (indent=2) for readability.",
+          "description": "The JSON file must include indentation (indent=2) for readability."
+        }
+      ],
+      "hint": "Use json.dump() for writing to a file object and json.load() for reading from a file object. Wrap file operations in a try-except block to handle potential I/O errors gracefully.",
+      "explanation": "json.dump() writes a Python object directly to a file-like object, while json.load() reads from a file-like object. This is the standard pattern for persisting JSON data to disk and retrieving it later in Python applications."
+    },
+    {
+      "id": "14.3_q27",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.3_q26"
+      ],
+      "prompt": "Write Python code that defines a custom class Employee with attributes name and salary, implements a custom JSON encoder to serialize Employee instances by converting them to a dictionary with a special 'type' key, and then decodes the JSON back into an Employee object. Demonstrate with an instance named 'Bob' earning 75000.",
+      "starter_code": "import json\n\nclass Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n\nclass EmployeeEncoder(json.JSONEncoder):\n    def default(self, obj):\n        if isinstance(obj, Employee):\n            return {'type': 'Employee', 'name': obj.name, 'salary': obj.salary}\n        return super().default(obj)\n\nemp = Employee('Bob', 75000)\n\njson_str = json.dumps(emp, cls=EmployeeEncoder)\n\nprint(json_str)",
+      "solution_code": "import json\n\nclass Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n\n    def __eq__(self, other):\n        return isinstance(other, Employee) and self.name == other.name and self.salary == other.salary\n\nclass EmployeeEncoder(json.JSONEncoder):\n    def default(self, obj):\n        if isinstance(obj, Employee):\n            return {'type': 'Employee', 'name': obj.name, 'salary': obj.salary}\n        return super().default(obj)\n\nclass EmployeeDecoder:\n    @staticmethod\n    def decode(dct):\n        if dct.get('type') == 'Employee':\n            return Employee(dct['name'], dct['salary'])\n        return dct\n\njson.JSONDecoder().object_hook = EmployeeDecoder\n\nemp = Employee('Bob', 75000)\n\njson_str = json.dumps(emp, cls=EmployeeEncoder)\n\nrestored = json.loads(json_str)\n\nprint('JSON:', json_str)\nprint('Restored:', restored)\nprint('Is Employee?', isinstance(restored, Employee))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "json_str must contain 'Bob' and 75000.",
+          "description": "json_str must contain 'Bob' and 75000."
+        },
+        {
+          "input": "",
+          "expected_output": "restored must be an instance of Employee.",
+          "description": "restored must be an instance of Employee."
+        },
+        {
+          "input": "",
+          "expected_output": "restored.name must equal 'Bob' and restored.salary must equal 75000.",
+          "description": "restored.name must equal 'Bob' and restored.salary must equal 75000."
+        }
+      ],
+      "hint": "Override json.JSONEncoder.default() to handle custom objects during serialization, and use json.JSONDecoder with object_hook to reconstruct custom objects during deserialization.",
+      "explanation": "Custom JSON serialization allows handling non-serializable Python types by defining how objects should be converted to JSON-compatible structures and how JSON structures should be converted back to Python objects. This is essential when working with domain-specific data models."
+    },
+    {
+      "id": "14.3_q28",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.3_q27"
+      ],
+      "prompt": "You are given a JSON string representing a nested configuration. Write Python code to parse it, extract the database host and port, update the port to 5433, and serialize the modified configuration back to a JSON string with sorted keys. The original JSON is: {'database': {'host': 'localhost', 'port': 5432}, 'debug': True}",
+      "starter_code": "import json\n\nconfig_json = '{\"database\": {\"host\": \"localhost\", \"port\": 5432}, \"debug\": true}'\n\n# Parse and modify\nconfig = json.loads(config_json)\nconfig['database']['port'] = 5433\n\n# Serialize with sorted keys\nupdated_json = json.dumps(config, sort_keys=True)",
+      "solution_code": "import json\n\nconfig_json = '{\"database\": {\"host\": \"localhost\", \"port\": 5432}, \"debug\": true}'\n\nconfig = json.loads(config_json)\n\nconfig['database']['port'] = 5433\n\nupdated_json = json.dumps(config, sort_keys=True)\n\nprint(updated_json)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "updated_json must contain 'port': 5433.",
+          "description": "updated_json must contain 'port': 5433."
+        },
+        {
+          "input": "",
+          "expected_output": "The JSON keys must be sorted alphabetically.",
+          "description": "The JSON keys must be sorted alphabetically."
+        },
+        {
+          "input": "",
+          "expected_output": "The host must remain 'localhost'.",
+          "description": "The host must remain 'localhost'."
+        }
+      ],
+      "hint": "Use json.loads() to parse the string, modify the nested dictionary in place, then use json.dumps() with sort_keys=True to produce the final output.",
+      "explanation": "Parsing nested JSON requires accessing nested dictionary keys. Modifying the parsed structure and re-serializing with sort_keys=True ensures deterministic output, which is useful for configuration management and testing."
+    },
+    {
+      "id": "14.3_q29",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.3_q28"
+      ],
+      "prompt": "A weather API returns JSON data as a string: '{\"city\": \"London\", \"temperature\": 15, \"conditions\": \"cloudy\", \"forecast\": [{\"day\": \"Mon\", \"temp\": 14}, {\"day\": \"Tue\", \"temp\": 17}]}'. Write Python code to parse this JSON, calculate the average temperature across all days including the current temperature, and write the result along with the city name to a file named weather_summary.json in JSON format. Ensure the output JSON has keys sorted and indented.",
+      "starter_code": "import json\n\napi_response = '{\"city\": \"London\", \"temperature\": 15, \"conditions\": \"cloudy\", \"forecast\": [{\"day\": \"Mon\", \"temp\": 14}, {\"day\": \"Tue\", \"temp\": 17}]}'\n\nweather = json.loads(api_response)\n\nall_temps = [weather['temperature']] + [day['temp'] for day in weather['forecast']]\naverage = sum(all_temps) / len(all_temps)\n\nsummary = {\n    'city': weather['city'],\n    'average_temperature': round(average, 2)\n}\n\nwith open('weather_summary.json', 'w') as f:\n    json.dump(summary, f, indent=2, sort_keys=True)",
+      "solution_code": "import json\n\napi_response = '{\"city\": \"London\", \"temperature\": 15, \"conditions\": \"cloudy\", \"forecast\": [{\"day\": \"Mon\", \"temp\": 14}, {\"day\": \"Tue\", \"temp\": 17}]}'\n\nweather = json.loads(api_response)\n\nall_temps = [weather['temperature']] + [day['temp'] for day in weather['forecast']]\naverage = sum(all_temps) / len(all_temps)\n\nsummary = {\n    'city': weather['city'],\n    'average_temperature': round(average, 2)\n}\n\nwith open('weather_summary.json', 'w') as f:\n    json.dump(summary, f, indent=2, sort_keys=True)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "weather_summary.json must be created and contain valid JSON.",
+          "description": "weather_summary.json must be created and contain valid JSON."
+        },
+        {
+          "input": "",
+          "expected_output": "The average temperature must be 15.33 (15 + 14 + 17 divided by 3).",
+          "description": "The average temperature must be 15.33 (15 + 14 + 17 divided by 3)."
+        },
+        {
+          "input": "",
+          "expected_output": "The output JSON must have sorted keys and 2-space indentation.",
+          "description": "The output JSON must have sorted keys and 2-space indentation."
+        }
+      ],
+      "hint": "Extract the current temperature from the top-level key and the forecast temperatures from the list of dictionaries. Compute the arithmetic mean and structure the result with city and average_temperature keys before writing to a file.",
+      "explanation": "Real-world applications often involve parsing API responses, performing computations on nested data, and persisting structured results. This scenario combines JSON parsing, list comprehensions, arithmetic operations, and file I/O to produce a clean, human-readable summary."
+    },
+    {
+      "id": "14.3_q30",
+      "type": "write_the_code",
+      "concept": "introduction_to_json_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "14.3_q29"
+      ],
+      "prompt": "Given a potentially malformed JSON string that may contain invalid syntax, write Python code that safely attempts to parse it using json.loads() inside a try-except block. If parsing fails, catch the JSONDecodeError and return a dictionary with 'error': 'invalid_json'. If successful, extract the 'name' field if present, otherwise return the entire parsed object. Test with both valid JSON '{\"name\": \"Sam\", \"age\": 30}' and invalid JSON '{\"name\": \"Sam\", \"age\": 30}'.",
+      "starter_code": "import json\n\ndef safe_parse(json_str):\n    try:\n        data = json.loads(json_str)\n        if 'name' in data:\n            return {'name': data['name']}\n        return data\n    except json.JSONDecodeError:\n        return {'error': 'invalid_json'}\n\n# Test cases\nvalid = '{\"name\": \"Sam\", \"age\": 30}'\ninvalid = '{\"name\": \"Sam\", \"age\": 30,'\n\nprint(safe_parse(valid))\nprint(safe_parse(invalid))",
+      "solution_code": "import json\n\ndef safe_parse(json_str):\n    try:\n        data = json.loads(json_str)\n        if 'name' in data:\n            return {'name': data['name']}\n        return data\n    except json.JSONDecodeError:\n        return {'error': 'invalid_json'}\n\nvalid = '{\"name\": \"Sam\", \"age\": 30}'\ninvalid = '{\"name\": \"Sam\", \"age\": 30,'\n\nprint(safe_parse(valid))\nprint(safe_parse(invalid))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "safe_parse(valid) must return {'name': 'Sam'}.",
+          "description": "safe_parse(valid) must return {'name': 'Sam'}."
+        },
+        {
+          "input": "",
+          "expected_output": "safe_parse(invalid) must return {'error': 'invalid_json'}.",
+          "description": "safe_parse(invalid) must return {'error': 'invalid_json'}."
+        },
+        {
+          "input": "",
+          "expected_output": "The function must not raise an uncaught exception on invalid JSON.",
+          "description": "The function must not raise an uncaught exception on invalid JSON."
+        }
+      ],
+      "hint": "Import json.JSONDecodeError explicitly to catch parsing failures. Use a conditional check for the 'name' key after successful parsing, and return a uniform error structure when decoding fails.",
+      "explanation": "Robust JSON processing requires defensive programming: validating input, handling malformed data gracefully, and normalizing output. This pattern is critical when integrating with external systems where data quality cannot be guaranteed."
+    }
+  ],
+  "unit_num": 14,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Introduction to JSON",
+    "Apply idiomatic Python patterns when working with Introduction to JSON",
+    "Debug common runtime exceptions and logic errors associated with Introduction to JSON",
+    "Implement production-ready code utilizing Introduction to JSON"
+  ],
+  "prerequisites": [
+    "14.2"
+  ]
+}

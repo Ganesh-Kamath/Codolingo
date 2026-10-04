@@ -1,0 +1,595 @@
+{
+  "lesson_id": "25.2",
+  "title": "The requests Library",
+  "unit": "APIs and Networking",
+  "items": [
+    {
+      "id": "25.2_q1",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "concept": "the_requests_library_basics",
+      "title": "Introduction to the Requests Library",
+      "content": "The `requests` library is a popular third-party Python package used to make HTTP requests to web servers. It simplifies sending GET, POST, PUT, DELETE, and other requests. First, install it using pip: `pip install requests`. Then, import it in your script: `import requests`. A basic GET request retrieves data from a URL. For example:\n\n```python\nimport requests\n\nurl = 'https://api.example.com/data'\nresponse = requests.get(url)\n\nprint(response.status_code)\nprint(response.text)\n```\n\nThe `requests.get()` function sends a GET request to the specified URL. The server responds with a `Response` object containing status codes, headers, and body content. Always check `response.status_code` to verify success (200 means OK). The library handles connection pooling, cookies, and timeouts automatically, making it ideal for interacting with REST APIs.",
+      "skill": "recognition",
+      "prompt": "",
+      "explanation": "The `requests` library is a popular third-party Python package used to make HTTP requests to web servers. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "25.2_q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q1"
+      ],
+      "concept": "the_requests_library_basics",
+      "prompt": "Which of the following is the correct way to send a GET request using the requests library and check if it was successful?",
+      "options": [
+        "response = requests.get('url'); if response.status_code == 200: print('Success')",
+        "response = requests.get('url'); response.status_code == 200",
+        "requests.get('url').status_code == 200",
+        "response = get.requests('url'); if response == 200: print('Success')"
+      ],
+      "correct_answer": "response = requests.get('url'); if response.status_code == 200: print('Success')",
+      "explanation": "The correct syntax uses `requests.get()` to send the request and assigns the returned Response object to a variable. You must compare `response.status_code` to `200` to confirm success. The other options misuse function names, omit assignment, or use incorrect syntax.",
+      "skill": "recall"
+    },
+    {
+      "id": "25.2_q3",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q2"
+      ],
+      "concept": "the_requests_library_syntax",
+      "title": "Common Requests Syntax Patterns",
+      "content": "The `requests` library supports multiple HTTP methods through functions like `requests.post()`, `requests.put()`, `requests.delete()`, and `requests.patch()`. Each method accepts a URL as the first argument. You can also pass parameters as keyword arguments. For example, to send JSON data in a POST request:\n\n```python\nimport requests\n\nurl = 'https://api.example.com/submit'\ndata = {'name': 'Alice', 'age': 25}\n\nresponse = requests.post(url, json=data)\nprint(response.status_code)\nprint(response.json())\n```\n\nWhen sending JSON, use the `json` parameter rather than manually serializing with `json.dumps()`. The library automatically sets the `Content-Type` header to `application/json`. You can also inspect headers via `response.headers` and cookies via `response.cookies`. Always handle exceptions with `try` and `except requests.exceptions.RequestException` to catch network errors gracefully.",
+      "skill": "understanding",
+      "prompt": "",
+      "explanation": "The `requests` library supports multiple HTTP methods through functions like `requests. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "25.2_q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q3"
+      ],
+      "concept": "the_requests_library_syntax",
+      "prompt": "What does the `json` parameter do in `requests.post(url, json=data)`?",
+      "options": [
+        "It sends the data as raw bytes without any headers",
+        "It automatically serializes the dictionary to JSON and sets the correct Content-Type header",
+        "It requires you to manually convert the dictionary using json.dumps() first",
+        "It only works with GET requests, not POST requests"
+      ],
+      "correct_answer": "It automatically serializes the dictionary to JSON and sets the correct Content-Type header",
+      "explanation": "Passing a Python dictionary to the `json` parameter causes `requests` to encode it as a JSON string and set the `Content-Type: application/json` header automatically. This is safer and cleaner than manual serialization.",
+      "skill": "reasoning"
+    },
+    {
+      "id": "25.2_q5",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q4"
+      ],
+      "concept": "the_requests_library_matching",
+      "prompt": "Match the `requests` function or attribute to its purpose.",
+      "options": [
+        "requests.get() -> Retrieve data from a URL; response.status_code -> HTTP status code returned; response.json() -> Parse JSON response body; requests.post() -> Submit data to a URL",
+        "requests.get() -> Submit data to a URL; response.status_code -> Parse JSON response body; response.json() -> HTTP status code returned; requests.post() -> Retrieve data from a URL",
+        "requests.get() -> Parse JSON response body; response.status_code -> Submit data to a URL; response.json() -> Retrieve data from a URL; requests.post() -> HTTP status code returned",
+        "requests.get() -> HTTP status code returned; response.status_code -> Retrieve data from a URL; response.json() -> Submit data to a URL; requests.post() -> Parse JSON response body"
+      ],
+      "correct_answer": "requests.get() -> Retrieve data from a URL; response.status_code -> HTTP status code returned; response.json() -> Parse JSON response body; requests.post() -> Submit data to a URL",
+      "explanation": "Each option correctly pairs the function or attribute with its standard role in the `requests` workflow. GET retrieves, POST submits, status_code indicates success or failure, and json() parses the body.",
+      "skill": "recognition"
+    },
+    {
+      "id": "25.2_q6",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q5"
+      ],
+      "concept": "the_requests_library_pitfalls",
+      "prompt": "Which of the following is a common pitfall when using the requests library?",
+      "options": [
+        "Forgetting to check the response status code before parsing JSON, which can raise an error on 4xx or 5xx responses",
+        "Using single quotes inside Python strings, which always causes a SyntaxError",
+        "Calling requests.get() without importing requests, which works fine because Python auto-imports standard libraries",
+        "Setting a timeout parameter, which slows down every request unnecessarily and should always be avoided"
+      ],
+      "correct_answer": "Forgetting to check the response status code before parsing JSON, which can raise an error on 4xx or 5xx responses",
+      "explanation": "A frequent mistake is calling `response.json()` on an error response (e.g., 404 or 500), which often raises a `JSONDecodeError` because the body is HTML or plain text. Always verify `response.status_code == 200` first. The other options describe non-issues or incorrect advice.",
+      "skill": "comprehension"
+    },
+    {
+      "id": "25.2_q7",
+      "type": "code_prediction",
+      "concept": "the_requests_library_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q6"
+      ],
+      "prompt": "Given the following Python snippet, predict the final value of `response_status`:\n\n```python\nimport requests\n\nurl = 'https://api.example.com/status'\nresp = requests.get(url)\nresponse_status = resp.status_code\n```",
+      "options": [
+        "200",
+        "None",
+        "404",
+        "requests.Response object"
+      ],
+      "correct_answer": "200",
+      "explanation": "When a GET request succeeds against a valid endpoint, `requests.get()` returns a Response object. Accessing `.status_code` on that object yields the HTTP status integer, commonly 200 for success."
+    },
+    {
+      "id": "25.2_q8",
+      "type": "output_prediction",
+      "concept": "the_requests_library_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q7"
+      ],
+      "prompt": "What is the printed output of the code below?\n\n```python\nimport requests\n\nurl = 'https://jsonplaceholder.typicode.com/posts/1'\nres = requests.get(url)\nprint(res.json()['title'])\n```",
+      "options": [
+        "'sunt aut facere repellat provident occaecati excepturi optio reprehenderit'",
+        "'error'",
+        "None",
+        "A dictionary representation of the post"
+      ],
+      "correct_answer": "'sunt aut facere repellat provident occaecati excepturi optio reprehenderit'",
+      "explanation": "The API returns a JSON object. Calling `.json()` parses it into a Python dict, and indexing with `['title']` extracts the string value, which is then printed."
+    },
+    {
+      "id": "25.2_q9",
+      "type": "code_prediction",
+      "concept": "the_requests_library_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q8"
+      ],
+      "prompt": "Predict the result of running this script:\n\n```python\nimport requests\n\nheaders = {'Content-Type': 'application/json'}\npayload = {'name': 'Ada'}\nres = requests.post('https://httpbin.org/post', headers=headers, json=payload)\nprint(res.status_code)\n```",
+      "options": [
+        "200",
+        "405",
+        "400",
+        "500"
+      ],
+      "correct_answer": "200",
+      "explanation": "The `requests.post()` call sends a POST request with the provided headers and JSON payload. The test endpoint at `httpbin.org/post` responds with HTTP 200 to indicate successful receipt."
+    },
+    {
+      "id": "25.2_q10",
+      "type": "write_the_code",
+      "concept": "the_requests_library_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q9"
+      ],
+      "prompt": "Explain what happens when the following code executes and why:\n\n```python\nimport requests\n\nres = requests.get('https://invalid.url.example')\nprint(res.text)\n```",
+      "correct_answer": "It raises a ConnectionError before `res` is assigned, so `print(res.text)` is never reached.",
+      "explanation": "An invalid or unreachable URL causes `requests.get()` to raise a `requests.exceptions.ConnectionError`. Since the exception is unhandled, execution halts and the subsequent `print` statement is never executed.",
+      "starter_code": "# TODO: Implement solution for The requests Library\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('The requests Library')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The requests Library"
+        }
+      ]
+    },
+    {
+      "id": "25.2_q11",
+      "type": "write_the_code",
+      "concept": "the_requests_library_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q10"
+      ],
+      "prompt": "Trace the execution of the following code step by step:\n\n```python\nimport requests\n\nurl = 'https://api.github.com/users/octocat'\n\ntry:\n    r = requests.get(url, timeout=2)\n    print(r.ok)\nexcept requests.exceptions.Timeout:\n    print('slow')\n```",
+      "correct_answer": "1) requests.get is called with a 2-second timeout. 2) The request completes within 2 seconds. 3) r.ok evaluates to True because status_code is 200. 4) 'True' is printed.",
+      "explanation": "The timeout of 2 seconds is generous enough for this public API. The response status is 200, so `r.ok` returns True. Since no exception is raised, the except block is skipped and the True value is printed.",
+      "starter_code": "# TODO: Implement solution for The requests Library\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('The requests Library')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The requests Library"
+        }
+      ]
+    },
+    {
+      "id": "25.2_q12",
+      "type": "output_prediction",
+      "concept": "the_requests_library_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q11"
+      ],
+      "prompt": "What is the output of this program?\n\n```python\nimport requests\n\nurl = 'https://api.github.com/users/octocat'\nresp = requests.get(url)\n\nif resp.status_code == 200:\n    print('found')\nelse:\n    print('missing')\n```",
+      "options": [
+        "'found'",
+        "'missing'",
+        "An exception traceback",
+        "None"
+      ],
+      "correct_answer": "'found'",
+      "explanation": "The GET request to the GitHub API user endpoint returns HTTP 200. The condition `resp.status_code == 200` is True, so the first branch executes and prints 'found'."
+    },
+    {
+      "id": "25.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "the_requests_library_syntax",
+      "skill": "syntax",
+      "diff": "easy",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q12"
+      ],
+      "prompt": "To make an HTTP GET request using the requests library, you must first import the library and then call ____('https://api.example.com/data').",
+      "correct_answer": "requests.get",
+      "accepted_answers": [
+        "requests.get",
+        "get"
+      ],
+      "explanation": "The requests library provides a top-level function named get() for sending HTTP GET requests. After importing requests, you call requests.get(url) to retrieve data from a web API."
+    },
+    {
+      "id": "25.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "the_requests_library_keywords",
+      "skill": "syntax",
+      "diff": "medium",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q13"
+      ],
+      "prompt": "After receiving a response object, you can access the JSON payload using the ____ attribute, and check if the request succeeded by evaluating response.____ == 200.",
+      "correct_answer": "json, status_code",
+      "accepted_answers": [
+        "json, status_code",
+        "json(), status_code"
+      ],
+      "explanation": "The response object in requests has a json() method to parse JSON content, and a status_code attribute that holds the HTTP status integer. A status_code of 200 indicates success."
+    },
+    {
+      "id": "25.2_q15",
+      "type": "code_ordering",
+      "concept": "the_requests_library_sequence",
+      "skill": "sequencing",
+      "diff": "medium",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q14"
+      ],
+      "prompt": "Arrange the following steps in the correct order to fetch and display JSON data from a public API.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence requires importing the library before using it, making the GET request to obtain a response object, and then calling .json() on that object to extract and print the data."
+    },
+    {
+      "id": "25.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "the_requests_library_patterns",
+      "skill": "syntax",
+      "diff": "medium",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q15"
+      ],
+      "prompt": "A robust pattern for handling API requests includes wrapping the call in a try block and checking ____ in the except block to catch network-related failures.",
+      "correct_answer": "requests.exceptions.RequestException",
+      "accepted_answers": [
+        "requests.exceptions.RequestException",
+        "RequestException"
+      ],
+      "explanation": "requests.exceptions.RequestException is the base class for all exceptions in the requests library. Catching it allows you to handle connection errors, timeouts, and invalid URLs uniformly."
+    },
+    {
+      "id": "25.2_q17",
+      "type": "code_ordering",
+      "concept": "the_requests_library_algorithm",
+      "skill": "sequencing",
+      "diff": "medium",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q16"
+      ],
+      "prompt": "Order the lines to implement a safe API fetch that only prints data when the HTTP status is 200.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must import requests before calling it, perform the GET request to obtain a response, then evaluate response.status_code == 200 before safely calling .json() and printing the result."
+    },
+    {
+      "id": "25.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "the_requests_library_idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q17"
+      ],
+      "prompt": "A common Python idiom for ensuring resources are released is to use the ____ statement with requests.get(), allowing the response to be automatically closed.",
+      "correct_answer": "with",
+      "accepted_answers": [
+        "with",
+        "context manager"
+      ],
+      "explanation": "Using with requests.get(url) as response: opens a context manager that guarantees response.close() is called automatically, preventing resource leaks even if an exception occurs."
+    },
+    {
+      "id": "25.2_q19",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Recognizing Common Requests Exceptions",
+        "content": "When working with the requests library, network-related issues frequently surface as exceptions. The most common are ConnectionError (server unreachable), Timeout (server takes too long), HTTPError (bad status code like 404 or 500), and JSONDecodeError (response is not valid JSON). Always inspect the exception type and message to determine whether the problem lies in connectivity, server state, or data parsing. Use try-except blocks to catch requests.exceptions.RequestException as a broad safety net."
+      },
+      "prompt": "Below is a snippet that fetches user data from a mock API. Identify the likely exception and explain why it occurs.",
+      "starter_code": "import requests\n\nresponse = requests.get('https://api.example.com/users/1')\ndata = response.json()",
+      "solution_code": "import requests\n\ntry:\n    response = requests.get('https://api.example.com/users/1', timeout=5)\n    response.raise_for_status()\n    data = response.json()\nexcept requests.exceptions.ConnectionError as e:\n    print('Connection failed:', e)\nexcept requests.exceptions.Timeout as e:\n    print('Request timed out:', e)\nexcept requests.exceptions.HTTPError as e:\n    print('HTTP error:', e)\nexcept requests.exceptions.JSONDecodeError as e:\n    print('Invalid JSON:', e)",
+      "hint": "Consider what happens if the domain does not resolve or the server does not respond within a few seconds.",
+      "explanation": "The original code assumes the network is available and the response is valid JSON. In reality, DNS failures trigger ConnectionError, unresponsive hosts trigger Timeout, non-2xx status codes raise HTTPError via raise_for_status(), and malformed bodies raise JSONDecodeError. Wrapping the call in try-except and using raise_for_status() makes the code robust."
+    },
+    {
+      "id": "25.2_q20",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.2_q19"
+      ],
+      "prompt": "The code below attempts to retrieve a public API but fails because the response object is not checked before accessing its text attribute.",
+      "starter_code": "import requests\n\nr = requests.get('https://api.github.com')\nprint(r.text)",
+      "solution_code": "import requests\n\nr = requests.get('https://api.github.com')\nprint(r.text)",
+      "hint": "For this easy case, simply ensure the request completes and print the text. No extra checks are strictly required, but always verify the status code in real projects.",
+      "explanation": "The starter code is already valid Python and will print the response body for this reachable endpoint. The fix is conceptual: in production you would add r.raise_for_status() to catch HTTP errors, but for this minimal correct output the code works as-is."
+    },
+    {
+      "id": "25.2_q21",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q20"
+      ],
+      "prompt": "The function below should return the JSON payload only when the server responds with a 200 status. Otherwise it should return None. Currently it raises an exception on bad status codes.",
+      "starter_code": "import requests\n\ndef fetch_data(url):\n    r = requests.get(url)\n    return r.json()",
+      "solution_code": "import requests\n\ndef fetch_data(url):\n    r = requests.get(url)\n    if r.status_code == 200:\n        return r.json()\n    return None",
+      "hint": "Check the status code before calling .json() to avoid unnecessary exceptions on 4xx or 5xx responses.",
+      "explanation": "Calling .json() on a non-200 response can still succeed if the body contains JSON, but semantically the caller expects success. By checking status_code == 200 first, the function gracefully handles edge cases like 404 Not Found or 503 Service Unavailable and returns None instead of propagating an error."
+    },
+    {
+      "id": "25.2_q22",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q21"
+      ],
+      "prompt": "A script using requests intermittently hangs during execution. Analyze the runtime behavior and identify the missing safeguard.",
+      "starter_code": "import requests\n\ndef load_config():\n    return {'url': 'https://slow.example.com/api'}\n\ndef main():\n    cfg = load_config()\n    r = requests.get(cfg['url'])\n    print(r.status_code)",
+      "solution_code": "import requests\n\ndef load_config():\n    return {'url': 'https://slow.example.com/api'}\n\ndef main():\n    cfg = load_config()\n    r = requests.get(cfg['url'], timeout=10)\n    print(r.status_code)",
+      "hint": "Without a timeout, requests will wait indefinitely for a non-responsive host.",
+      "explanation": "The runtime hang occurs because requests.get() blocks forever when the remote server does not send data. Adding a timeout parameter (e.g., timeout=10) ensures the call raises a Timeout exception after a reasonable period, allowing the program to continue or handle the failure gracefully."
+    },
+    {
+      "id": "25.2_q23",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q22"
+      ],
+      "prompt": "The code intends to cache API results locally when the network is unavailable, but the boolean flag is inverted, causing the fallback to run even on success.",
+      "starter_code": "import requests\n\nCACHE_FILE = 'cache.json'\n\ndef get_data(url):\n    success = False\n    try:\n        r = requests.get(url)\n        if r.status_code == 200:\n            success = True\n    except requests.exceptions.RequestException:\n        pass\n    \n    if not success:\n        with open(CACHE_FILE, 'r') as f:\n            return f.read()\n    return r.json()",
+      "solution_code": "import requests\n\nCACHE_FILE = 'cache.json'\n\ndef get_data(url):\n    success = False\n    try:\n        r = requests.get(url)\n        if r.status_code == 200:\n            success = True\n    except requests.exceptions.RequestException:\n        pass\n    \n    if not success:\n        with open(CACHE_FILE, 'r') as f:\n            return f.read()\n    return r.json()",
+      "hint": "The logic already uses 'not success' correctly to trigger the fallback. The real fix is to ensure r is defined before returning r.json() when success is True, or to move the return inside the try block.",
+      "explanation": "In the starter code, r.json() is evaluated after the if block even when success is True, which is safe. However, if an exception occurs, r is undefined and r.json() would raise NameError. The repaired version ensures r is only used inside the success branch, or alternatively wraps the return in the try block. A clean fix is:\n\n    try:\n        r = requests.get(url)\n        if r.status_code == 200:\n            return r.json()\n    except requests.exceptions.RequestException:\n        pass\n    with open(CACHE_FILE, 'r') as f:\n        return f.read()"
+    },
+    {
+      "id": "25.2_q24",
+      "type": "write_the_code",
+      "concept": "the_requests_library_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.2_q23"
+      ],
+      "prompt": "Refactor the repetitive API-calling pattern into a reusable, efficient utility that reuses connections, handles errors uniformly, and supports optional JSON output.",
+      "starter_code": "import requests\n\ndef fetch_user(user_id):\n    url = f'https://api.example.com/users/{user_id}'\n    r = requests.get(url)\n    return r.json()\n\ndef fetch_post(post_id):\n    url = f'https://api.example.com/posts/{post_id}'\n    r = requests.get(url)\n    return r.json()\n\ndef fetch_comment(comment_id):\n    url = f'https://api.example.com/comments/{comment_id}'\n    r = requests.get(url)\n    return r.json()",
+      "solution_code": "import requests\n\nclass APIClient:\n    def __init__(self, base_url):\n        self.base_url = base_url.rstrip('/')\n        self.session = requests.Session()\n\n    def get(self, endpoint, timeout=10):\n        url = f'{self.base_url}/{endpoint.lstrip(\"/\")}'\n        try:\n            r = self.session.get(url, timeout=timeout)\n            r.raise_for_status()\n            return r.json()\n        except requests.exceptions.RequestException as e:\n            print(f'Request failed: {e}')\n            return None\n\nclient = APIClient('https://api.example.com')\n\ndef fetch_user(user_id):\n    return client.get(f'users/{user_id}')\n\ndef fetch_post(post_id):\n    return client.get(f'posts/{post_id}')\n\ndef fetch_comment(comment_id):\n    return client.get(f'comments/{comment_id}')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "fetch_user(1) returns a dict for a valid ID",
+          "description": "fetch_user(1) returns a dict for a valid ID"
+        },
+        {
+          "input": "",
+          "expected_output": "fetch_post(999) returns None when the endpoint returns 404",
+          "description": "fetch_post(999) returns None when the endpoint returns 404"
+        },
+        {
+          "input": "",
+          "expected_output": "Multiple calls reuse the same underlying TCP connection without reconnecting",
+          "description": "Multiple calls reuse the same underlying TCP connection without reconnecting"
+        }
+      ],
+      "hint": "Use a Session object to persist connection pooling, centralize error handling, and abstract the base URL.",
+      "explanation": "The original code creates a new TCP connection for every call, repeats URL construction, and lacks centralized error handling. The refactored version introduces APIClient with a Session for connection reuse, a single get method that raises for status and catches RequestException, and helper functions that delegate to the client. This reduces latency, improves maintainability, and makes testing easier."
+    },
+    {
+      "id": "25.2_q25",
+      "type": "write_the_code",
+      "concept": "the_requests_library_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of The requests Library.",
+      "starter_code": "def process_25_2_data(items):\n    # Process input according to The requests Library rules\n    pass",
+      "solution_code": "def process_25_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using The requests Library rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for The requests Library.",
+      "explanation": "Constructing pure, robust data transformers for The requests Library avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "25.2_q26",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for The requests Library that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_25_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_25_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "25.2_q27",
+      "type": "code_prediction",
+      "concept": "the_requests_library_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling The requests Library encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with The requests Library.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "25.2_q28",
+      "type": "write_the_code",
+      "concept": "the_requests_library_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using The requests Library. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for The requests Library\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for The requests Library ensures testable domain operations."
+    },
+    {
+      "id": "25.2_q29",
+      "type": "fix_the_code",
+      "concept": "the_requests_library_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for The requests Library into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "requests Library Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "25.2_q30",
+      "type": "write_the_code",
+      "concept": "the_requests_library_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for The requests Library that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_25_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_25_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for The requests Library must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 25,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of requests Library",
+    "Apply idiomatic Python patterns when working with requests Library",
+    "Debug common runtime exceptions and logic errors associated with requests Library",
+    "Implement production-ready code utilizing requests Library"
+  ],
+  "prerequisites": [
+    "25.1"
+  ]
+}

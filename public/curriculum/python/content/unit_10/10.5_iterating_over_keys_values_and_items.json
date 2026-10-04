@@ -1,0 +1,576 @@
+{
+  "lesson_id": "10.5",
+  "title": "Iterating Over keys(), values(), and items()",
+  "unit": "Dictionaries",
+  "items": [
+    {
+      "id": "10.5_q1",
+      "type": "micro_lesson",
+      "concept": "iterating_over_keys_values_and_items_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Introduction to Iterating Over Dictionaries",
+      "content": "Dictionaries in Python store data as key-value pairs. When you need to access every element in a dictionary, you can iterate over its keys, values, or both. The built-in methods `.keys()`, `.values()`, and `.items()` return view objects that let you loop through dictionary contents. For example, given `student = {'name': 'Aisha', 'age': 20, 'grade': 'A'}`, using `for key in student.keys():` yields 'name', 'age', and 'grade'. Similarly, `student.values()` yields 'Aisha', 20, and 'A', while `student.items()` yields tuples like ('name', 'Aisha'). This lesson focuses on recognizing when to use each method.",
+      "prompt": "",
+      "explanation": "Dictionaries in Python store data as key-value pairs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "10.5_q2",
+      "type": "multiple_choice",
+      "concept": "iterating_over_keys_values_and_items_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q1"
+      ],
+      "prompt": "Which built-in dictionary method returns only the keys of a dictionary?",
+      "options": [
+        "dictionary.keys()",
+        "dictionary.values()",
+        "dictionary.items()",
+        "dictionary.get()"
+      ],
+      "correct_answer": "dictionary.keys()",
+      "explanation": "The `.keys()` method returns a view object containing all the keys in the dictionary. `.values()` returns values, `.items()` returns key-value pairs, and `.get()` retrieves a single value by key rather than returning all keys."
+    },
+    {
+      "id": "10.5_q3",
+      "type": "micro_lesson",
+      "concept": "iterating_over_keys_values_and_items_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q2"
+      ],
+      "title": "Syntax for Keys, Values, and Items",
+      "content": "To iterate over dictionary contents, use a `for` loop combined with the appropriate method. The general syntax is `for variable in dictionary.keys():`, `for variable in dictionary.values():`, or `for key, value in dictionary.items():`. When using `.items()`, the loop unpacks each key-value pair into two variables. Here is a complete example:\n\n```python\nscores = {'math': 95, 'science': 88, 'english': 92}\n\nprint('Keys:')\nfor subject in scores.keys():\n    print(subject)\n\nprint('Values:')\nfor score in scores.values():\n    print(score)\n\nprint('Items:')\nfor subject, score in scores.items():\n    print(subject, ':', score)\n```\n\nThis code prints each category separately, demonstrating how each method exposes a different slice of the dictionary.",
+      "prompt": "",
+      "explanation": "To iterate over dictionary contents, use a `for` loop combined with the appropriate method. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "10.5_q4",
+      "type": "multiple_choice",
+      "concept": "iterating_over_keys_values_and_items_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q3"
+      ],
+      "prompt": "Given the dictionary `data = {'x': 10, 'y': 20}`, which loop correctly prints both keys and values using `.items()`?",
+      "options": [
+        "for k, v in data.items(): print(k, v)",
+        "for k in data.items(): print(k)",
+        "for v in data.keys(): print(v)",
+        "for k, v in data.values(): print(k, v)"
+      ],
+      "correct_answer": "for k, v in data.items(): print(k, v)",
+      "explanation": "`.items()` returns key-value pairs, so the loop must unpack into two variables. Option A does this correctly. Option B iterates over pairs without unpacking. Option C uses `.keys()` which yields only keys. Option D uses `.values()` which yields only values, making the unpacking invalid."
+    },
+    {
+      "id": "10.5_q5",
+      "type": "multiple_choice",
+      "concept": "iterating_over_keys_values_and_items_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q4"
+      ],
+      "prompt": "Match the dictionary method to its description: 'Returns only the values in the dictionary'.",
+      "options": [
+        "Method: .keys() | Description: Returns only the values in the dictionary",
+        "Method: .values() | Description: Returns only the values in the dictionary",
+        "Method: .items() | Description: Returns only the values in the dictionary",
+        "Method: .get() | Description: Returns only the values in the dictionary"
+      ],
+      "correct_answer": "Method: .values() | Description: Returns only the values in the dictionary",
+      "explanation": "`.values()` is the correct method for retrieving only the values. `.keys()` returns keys, `.items()` returns key-value pairs, and `.get()` retrieves a single value by a specified key rather than all values."
+    },
+    {
+      "id": "10.5_q6",
+      "type": "multiple_choice",
+      "concept": "iterating_over_keys_values_and_items_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q5"
+      ],
+      "prompt": "What happens if you try to unpack a single value from `.values()` into two variables?",
+      "options": [
+        "It prints the value twice.",
+        "It raises a ValueError because there are not enough values to unpack.",
+        "It automatically converts the value to a tuple.",
+        "It skips the iteration silently."
+      ],
+      "correct_answer": "It raises a ValueError because there are not enough values to unpack.",
+      "explanation": "Python requires the number of variables on the left side of an assignment to match the number of elements in the iterable. Since `.values()` yields one element per key, attempting `for a, b in my_dict.values():` when there are not enough values triggers a `ValueError: not enough values to unpack (expected 2, got 1)`."
+    },
+    {
+      "id": "10.5_q7",
+      "type": "code_prediction",
+      "concept": "iterating_over_keys_values_and_items_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q6"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nstudent = {'name': 'Aisha', 'age': 14, 'city': 'Lagos'}\nfor key in student:\n    print(key)\n```",
+      "options": [
+        "Aisha\n14\nLagos",
+        "'name'\n'age'\n'city'",
+        "name\nage\ncity",
+        "Error: student is not iterable"
+      ],
+      "correct_answer": "'name'\n'age'\n'city'",
+      "explanation": "When you iterate directly over a dictionary, Python yields each key by default. Therefore, the loop prints the keys: 'name', 'age', and 'city', each on a new line."
+    },
+    {
+      "id": "10.5_q8",
+      "type": "output_prediction",
+      "concept": "iterating_over_keys_values_and_items_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nscores = {'math': 88, 'science': 92, 'english': 79}\nfor value in scores.values():\n    print(value * 2)\n```",
+      "options": [
+        "88\n92\n79",
+        "176\n184\n158",
+        "176\n176\n158",
+        "Error: values() returns a dictionary"
+      ],
+      "correct_answer": "176\n184\n158",
+      "explanation": "scores.values() returns a view of the dictionary's values: 88, 92, and 79. Each value is multiplied by 2 and printed: 176, 184, and 158."
+    },
+    {
+      "id": "10.5_q9",
+      "type": "code_prediction",
+      "concept": "iterating_over_keys_values_and_items_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q8"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nbook = {'title': 'Python 101', 'author': 'Sam', 'year': 2023}\nfor k, v in book.items():\n    print(f'{k} = {v}')\n```",
+      "options": [
+        "title = Python 101\nauthor = Sam\nyear = 2023",
+        "Python 101 = title\nSam = author\n2023 = year",
+        "Error: items() does not support unpacking",
+        "title = Python 101\nauthor = Sam\nyear = 2023\n(extra blank line)"
+      ],
+      "correct_answer": "title = Python 101\nauthor = Sam\nyear = 2023",
+      "explanation": "book.items() returns key-value pairs as tuples. The for loop unpacks each tuple into k and v, and the f-string prints each key and its corresponding value on separate lines."
+    },
+    {
+      "id": "10.5_q10",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q9"
+      ],
+      "prompt": "Consider the following code:\n```python\nweather = {'mon': 'rainy', 'tue': 'sunny', 'wed': 'cloudy'}\nfor key in weather.keys():\n    print(key.upper())\n```\nExplain why the output consists of uppercase keys and what would happen if you replaced `weather.keys()` with just `weather`.",
+      "correct_answer": "weather.keys() returns a view object, and key.upper() is called on each key string. Replacing it with weather would produce the same output because direct iteration also yields keys.",
+      "explanation": "Directly iterating over a dictionary yields its keys, so weather and weather.keys() produce identical sequences of keys. The .upper() method is called on each key string, converting 'mon', 'tue', and 'wed' to uppercase before printing.",
+      "starter_code": "# TODO: Implement solution for Iterating Over keys(), values(), and items()\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Iterating Over keys(), values(), and items()')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Iterating Over keys(), values(), and items()"
+        }
+      ]
+    },
+    {
+      "id": "10.5_q11",
+      "type": "fix_the_code",
+      "concept": "iterating_over_keys,_values,_and_items_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.5_q10"
+      ],
+      "prompt": "Refactor this procedural snippet for Iterating Over keys(), values(), and items() into clean, modular, and idiomatic Python:",
+      "correct_answer": "40",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed.",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension."
+    },
+    {
+      "id": "10.5_q12",
+      "type": "output_prediction",
+      "concept": "iterating_over_keys_values_and_items_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q11"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\nteam = {'captain': 'Priya', 'vice': 'Omar', 'coach': 'Lin'}\nfor role, person in team.items():\n    if role.startswith('c'):\n        print(person.upper())\n    else:\n        print(person)\n```",
+      "options": [
+        "Priya\nOmar\nLIN",
+        "PRIYA\nOmar\nLIN",
+        "Priya\nOmar\nLin",
+        "Error: role.startswith requires a string argument"
+      ],
+      "correct_answer": "PRIYA\nOmar\nLIN",
+      "explanation": "team.items() yields ('captain', 'Priya'), ('vice', 'Omar'), and ('coach', 'Lin'). 'captain' starts with 'c', so 'Priya' is printed in uppercase. 'vice' does not start with 'c', so 'Omar' is printed as-is. 'coach' starts with 'c', so 'Lin' is printed in uppercase. The output is PRIYA, Omar, LIN."
+    },
+    {
+      "id": "10.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "iterating_over_keys_values_and_items_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q12"
+      ],
+      "prompt": "Complete the code to iterate over the keys of a dictionary named `student` and print each key:\n\nfor ___ in student:",
+      "correct_answer": "key",
+      "accepted_answers": [
+        "key",
+        "k"
+      ],
+      "explanation": "The dict.keys() method returns an iterable of all keys in the dictionary. When used directly in a for loop, it yields each key one at a time. The blank should be a variable name that receives each key during iteration."
+    },
+    {
+      "id": "10.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "iterating_over_keys_values_and_items_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q13"
+      ],
+      "prompt": "Fill in the blank to iterate over both keys and values using the appropriate dictionary method:\n\nfor ___ in student.items():",
+      "correct_answer": "key, value",
+      "accepted_answers": [
+        "key, value",
+        "k, v"
+      ],
+      "explanation": "The items() method returns key-value pairs as tuples. To unpack each tuple into two variables, use comma-separated variable names. The first variable holds the key, the second holds the value."
+    },
+    {
+      "id": "10.5_q15",
+      "type": "code_ordering",
+      "concept": "iterating_over_keys_values_and_items_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to create a dictionary, iterate over its values, and print each value:\n\nLine A: print(v)\nLine B: student = {'math': 88, 'science': 92}\nLine C: for v in student.values():",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, the dictionary must be created (Line B). Then, the for loop iterates over student.values() (Line C). Finally, inside the loop, each value is printed (Line A). Without creating the dictionary first, the loop would raise a NameError."
+    },
+    {
+      "id": "10.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "iterating_over_keys_values_and_items_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q15"
+      ],
+      "prompt": "Complete the pattern to print each key-value pair in the format 'key: value':\n\nfor ___ in student.items():\n    print(f'{___[0]}: {___[1]}')",
+      "correct_answer": "k, v",
+      "accepted_answers": [
+        "k, v",
+        "key, value"
+      ],
+      "explanation": "Each item from student.items() is a tuple containing (key, value). Unpacking with k, v (or key, value) makes the tuple elements accessible by name. The tuple indices [0] and [1] can also be used directly without unpacking."
+    },
+    {
+      "id": "10.5_q17",
+      "type": "code_ordering",
+      "concept": "iterating_over_keys_values_and_items_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q16"
+      ],
+      "prompt": "Arrange the following lines to build a dictionary, iterate over keys, and print only keys that start with 's':\n\nLine A: print(k)\nLine B: student = {'sam': 90, 'alex': 85, 'sarah': 95}\nLine C: if k.startswith('s'):",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The dictionary must exist before iteration (Line B). The for loop begins with for k in student.keys():, then the condition checks if k starts with 's' (Line C), and only then is the matching key printed (Line A). The for loop header itself is implied and must come before Line C."
+    },
+    {
+      "id": "10.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "iterating_over_keys_values_and_items_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q17"
+      ],
+      "prompt": "Complete the common idiom to count how many keys in `scores` have a value greater than 90:\n\ncount = 0\nfor ___ in scores.items():\n    if ___[1] > 90:\n        count += 1",
+      "correct_answer": "k, v",
+      "accepted_answers": [
+        "k, v",
+        "key, value"
+      ],
+      "explanation": "A widely used Python idiom is to unpack each key-value tuple from items() into descriptive variable names like k and v. This makes the subsequent comparison with the threshold (v > 90) more readable than using numeric indices."
+    },
+    {
+      "id": "10.5_q19",
+      "type": "fix_the_code",
+      "concept": "iterating_over_keys_values_and_items_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing Errors When Iterating Dictionary Views",
+        "content": "When working with dictionaries, it is common to iterate over keys, values, or key-value pairs using `.keys()`, `.values()`, and `.items()`. A frequent mistake is attempting to modify a dictionary while iterating over it, which raises a `RuntimeError`. Another common error is using the wrong variable name inside the loop, causing a `NameError`. Always remember that `.items()` returns a view of `(key, value)` tuples, and you must unpack them correctly. For example:\n\n```python\nmy_dict = {'a': 1, 'b': 2}\nfor key in my_dict.keys():\n    print('Key:', key)\n```\n\nIf you try to change `my_dict` inside this loop, Python will raise a `RuntimeError: dictionary changed size during iteration`."
+      },
+      "prompt": "Fix the bug in this code for iterating over keys values and items errors:",
+      "starter_code": "# Fix this code\nPrint('Iterating Over keys(), values(), and items()')",
+      "solution_code": "print('Iterating Over keys(), values(), and items()')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "10.5_q20",
+      "type": "fix_the_code",
+      "concept": "iterating_over_keys_values_and_items_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "10.5_q19"
+      ],
+      "prompt": "The code below is supposed to print each key and its corresponding value from a dictionary. However, it contains a small syntax error. Fix the code so it runs correctly.",
+      "starter_code": "student_scores = {'alice': 92, 'bob': 85, 'carol': 78}\nfor k, v in student_scores.items()\n    print(k, v)",
+      "solution_code": "student_scores = {'alice': 92, 'bob': 85, 'carol': 78}\nfor k, v in student_scores.items():\n    print(k, v)",
+      "hint": "Check the line where the loop header ends. Python requires a colon at the end of a for-loop statement.",
+      "explanation": "The original code was missing the colon (`:`) at the end of the `for` loop line. In Python, every compound statement such as a `for` loop must end with a colon. After adding the colon, the loop correctly unpacks each `(key, value)` pair from `student_scores.items()` and prints them."
+    },
+    {
+      "id": "10.5_q21",
+      "type": "fix_the_code",
+      "concept": "iterating_over_keys_values_and_items_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q20"
+      ],
+      "prompt": "This code attempts to collect all values greater than 80 into a new list. It fails on an edge case. Fix the code so it handles empty dictionaries and non-numeric values safely.",
+      "starter_code": "data = {'x': 90, 'y': 'high', 'z': 85}\nresult = []\nfor v in data.values():\n    if v > 80:\n        result.append(v)\nprint(result)",
+      "solution_code": "data = {'x': 90, 'y': 'high', 'z': 85}\nresult = []\nfor v in data.values():\n    if isinstance(v, (int, float)) and v > 80:\n        result.append(v)\nprint(result)",
+      "hint": "Consider what happens when `v` is a string like 'high'. The comparison `v > 80` will raise a `TypeError`.",
+      "explanation": "The original code compared every value directly to `80`, which causes a `TypeError` when a string value is encountered. The fixed code first checks whether `v` is an instance of `int` or `float` before comparing it to `80`. This makes the loop robust against mixed-type values and empty dictionaries."
+    },
+    {
+      "id": "10.5_q22",
+      "type": "fix_the_code",
+      "concept": "iterating_over_keys_values_and_items_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors During Dictionary Iteration",
+        "content": "A `RuntimeError` occurs when you modify the size of a dictionary while iterating over it. Python dictionaries are dynamic, but the iteration protocol expects a stable snapshot of keys. If you add or remove keys during the loop, the iterator becomes invalid. To avoid this, build a separate list of modifications first, then apply them after the loop. For example:\n\n```python\nconfig = {'a': 1, 'b': 2}\nkeys_to_remove = []\nfor k in config.keys():\n    if k == 'a':\n        keys_to_remove.append(k)\nfor k in keys_to_remove:\n    del config[k]\n```\n\nAlternatively, iterate over a static copy using `list(config.keys())`."
+      },
+      "prompt": "Fix the bug in this code for iterating over keys values and items runtime:",
+      "starter_code": "# Fix this code\nPrint('Iterating Over keys(), values(), and items()')",
+      "solution_code": "print('Iterating Over keys(), values(), and items()')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "10.5_q23",
+      "type": "fix_the_code",
+      "concept": "iterating_over_keys_values_and_items_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q22"
+      ],
+      "prompt": "The goal is to build a summary string listing each student and their score only if the score is at least 80. The current logic incorrectly appends scores below 80. Fix the conditional logic.",
+      "starter_code": "grades = {'anna': 88, 'ben': 76, 'cora': 92}\nsummary = ''\nfor name, score in grades.items():\n    if score < 80:\n        summary += name + ': ' + str(score) + '\\n'\nprint(summary)",
+      "solution_code": "grades = {'anna': 88, 'ben': 76, 'cora': 92}\nsummary = ''\nfor name, score in grades.items():\n    if score >= 80:\n        summary += name + ': ' + str(score) + '\\n'\nprint(summary)",
+      "hint": "The comparison operator is reversed. The requirement is to include scores of 80 or higher, not lower.",
+      "explanation": "The original condition used `< 80`, which collected only failing grades. The corrected condition uses `>= 80` so that only passing students are included in the summary. The output now correctly lists 'anna: 88' and 'cora: 92'."
+    },
+    {
+      "id": "10.5_q24",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.5_q23"
+      ],
+      "prompt": "Refactor the following code to use a dictionary comprehension and a generator expression where appropriate. The original code builds a dictionary of uppercase keys with squared values, then filters for even squares. Minimize memory usage and improve readability.",
+      "starter_code": "raw = {'a': 2, 'b': 3, 'c': 4}\ntemp = {}\nfor k, v in raw.items():\n    temp[k.upper()] = v ** 2\nresult = {}\nfor k, v in temp.items():\n    if v % 2 == 0:\n        result[k] = v\nprint(result)",
+      "solution_code": "raw = {'a': 2, 'b': 3, 'c': 4}\nresult = {k.upper(): v ** 2 for k, v in raw.items() if (v ** 2) % 2 == 0}",
+      "test_cases": [
+        {
+          "input": "{'a': 2, 'b': 3, 'c': 4}",
+          "expected": "{'A': 4, 'C': 16}"
+        },
+        {
+          "input": "{'x': 5, 'y': 6}",
+          "expected": "{'Y': 36}"
+        }
+      ],
+      "hint": "Combine the transformation and filtering into a single dictionary comprehension. Avoid creating intermediate dictionaries.",
+      "explanation": "The original code created two intermediate dictionaries (`temp` and `result`), consuming extra memory. The refactored solution uses a single dictionary comprehension that transforms keys to uppercase, squares values, and filters for even squares in one pass. This is both more memory-efficient and more Pythonic."
+    },
+    {
+      "id": "10.5_q25",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q24"
+      ],
+      "prompt": "Write a Python program that iterates over a dictionary using the keys() method and prints each key on a separate line.",
+      "starter_code": "student_scores = {'alice': 85, 'bob': 92, 'charlie': 78}\nfor key in student_scores.____:\n    print(key)",
+      "solution_code": "student_scores = {'alice': 85, 'bob': 92, 'charlie': 78}\nfor key in student_scores.keys():\n    print(key)",
+      "test_cases": [
+        {
+          "input": "student_scores = {'alice': 85, 'bob': 92, 'charlie': 78}",
+          "expected_output": "alice\nbob\ncharlie"
+        }
+      ],
+      "hint": "Recall that the keys() method returns a view object containing the dictionary keys. Use it directly inside the for loop.",
+      "explanation": "The keys() method returns all keys in the dictionary. Iterating over it allows you to process each key individually. In this solution, we call student_scores.keys() to retrieve the keys and print them one by one."
+    },
+    {
+      "id": "10.5_q26",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "10.5_q25"
+      ],
+      "prompt": "Write a Python program that iterates over a dictionary using the values() method and prints each value on a separate line.",
+      "starter_code": "inventory = {'apples': 10, 'bananas': 5, 'oranges': 8}\nfor value in inventory.____:\n    print(value)",
+      "solution_code": "inventory = {'apples': 10, 'bananas': 5, 'oranges': 8}\nfor value in inventory.values():\n    print(value)",
+      "test_cases": [
+        {
+          "input": "inventory = {'apples': 10, 'bananas': 5, 'oranges': 8}",
+          "expected_output": "10\n5\n8"
+        }
+      ],
+      "hint": "The values() method returns a view object containing all the values in the dictionary.",
+      "explanation": "By calling inventory.values(), we access only the values stored in the dictionary. The for loop then iterates over these values and prints each one. This is useful when you only need the data associated with keys, not the keys themselves."
+    },
+    {
+      "id": "10.5_q27",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.5_q26"
+      ],
+      "prompt": "Write a Python program that iterates over a dictionary using the items() method and prints each key-value pair as a tuple on a separate line.",
+      "starter_code": "product_prices = {'laptop': 999, 'mouse': 25, 'keyboard': 75}\nfor pair in product_prices.____:\n    print(pair)",
+      "solution_code": "product_prices = {'laptop': 999, 'mouse': 25, 'keyboard': 75}\nfor pair in product_prices.items():\n    print(pair)",
+      "test_cases": [
+        {
+          "input": "product_prices = {'laptop': 999, 'mouse': 25, 'keyboard': 75}",
+          "expected_output": "(laptop, 999)\n(mouse, 25)\n(keyboard, 75)"
+        }
+      ],
+      "hint": "The items() method returns a view object that displays a list of a given dictionary's key-value tuple pairs.",
+      "explanation": "The items() method yields both keys and values simultaneously as tuples. In this solution, we iterate over product_prices.items() and print each resulting tuple, giving us access to both pieces of information in a single loop."
+    },
+    {
+      "id": "10.5_q28",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.5_q27"
+      ],
+      "prompt": "Given the dictionary below, iterate over it using items() and print only the key-value pairs where the value is greater than 50. Use a conditional statement inside the loop.",
+      "starter_code": "temperatures = {'monday': 45, 'tuesday': 55, 'wednesday': 60, 'thursday': 40}\nfor key, value in temperatures.____:\n    if value > 50:\n        print(key, value)",
+      "solution_code": "temperatures = {'monday': 45, 'tuesday': 55, 'wednesday': 60, 'thursday': 40}\nfor key, value in temperatures.items():\n    if value > 50:\n        print(key, value)",
+      "test_cases": [
+        {
+          "input": "temperatures = {'monday': 45, 'tuesday': 55, 'wednesday': 60, 'thursday': 40}",
+          "expected_output": "tuesday 55\nwednesday 60"
+        }
+      ],
+      "hint": "Use items() to unpack both key and value in the for loop, then apply the if condition to filter based on value.",
+      "explanation": "By using temperatures.items(), we unpack each key and value. The conditional if value > 50 ensures only entries with values above 50 are printed. This demonstrates how to combine iteration with filtering logic."
+    },
+    {
+      "id": "10.5_q29",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.5_q28"
+      ],
+      "prompt": "You are building a simple report generator for a store. The dictionary below contains product names as keys and their stock quantities as values. Write a Python program that iterates over the dictionary using items() and prints a formatted report line for each product showing the name and stock level. Additionally, compute and print the total stock at the end.",
+      "starter_code": "stock = {'laptop': 12, 'mouse': 34, 'monitor': 8}\ntotal = 0\nfor product, quantity in stock.____:\n    print(f'{product} has {quantity} units in stock.')\n    total += quantity\nprint(f'Total stock: {total}')",
+      "solution_code": "stock = {'laptop': 12, 'mouse': 34, 'monitor': 8}\ntotal = 0\nfor product, quantity in stock.items():\n    print(f'{product} has {quantity} units in stock.')\n    total += quantity\nprint(f'Total stock: {total}')",
+      "test_cases": [
+        {
+          "input": "stock = {'laptop': 12, 'mouse': 34, 'monitor': 8}",
+          "expected_output": "laptop has 12 units in stock.\nmouse has 34 units in stock.\nmonitor has 8 units in stock.\nTotal stock: 54"
+        }
+      ],
+      "hint": "Use items() to access both product name and quantity in one loop. Accumulate quantities in a running total variable and use an f-string for formatted output.",
+      "explanation": "In this real-world scenario, items() is ideal because we need both the product name and its stock quantity. We iterate once, print a formatted line per product, and maintain a running total. This pattern is common in inventory systems and reporting tools."
+    },
+    {
+      "id": "10.5_q30",
+      "type": "write_the_code",
+      "concept": "iterating_over_keys_values_and_items_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "10.5_q29"
+      ],
+      "prompt": "You are given a dictionary of student names and their exam scores. Write a Python program that iterates over the dictionary using items() and creates a new dictionary containing only the students who scored above 70. Print the resulting filtered dictionary.",
+      "starter_code": "exam_results = {'anna': 88, 'ben': 65, 'clara': 92, 'david': 74}\npassing = {}\nfor name, score in exam_results.____:\n    if score > 70:\n        passing[name] = score\nprint(passing)",
+      "solution_code": "exam_results = {'anna': 88, 'ben': 65, 'clara': 92, 'david': 74}\npassing = {}\nfor name, score in exam_results.items():\n    if score > 70:\n        passing[name] = score\nprint(passing)",
+      "test_cases": [
+        {
+          "input": "exam_results = {'anna': 88, 'ben': 65, 'clara': 92, 'david': 74}",
+          "expected_output": "{'anna': 88, 'clara': 92, 'david': 74}"
+        }
+      ],
+      "hint": "Use items() to unpack name and score. Inside the loop, build a new dictionary by checking if the score exceeds 70 before adding the entry.",
+      "explanation": "This mastery challenge requires combining iteration with conditional filtering and dynamic dictionary construction. Using items() allows direct access to both keys and values. The new dictionary passing is populated only for qualifying students, demonstrating a practical data transformation workflow."
+    }
+  ],
+  "unit_num": 10,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Iterating Over keys(), values(), and items()",
+    "Apply idiomatic Python patterns when working with Iterating Over keys(), values(), and items()",
+    "Debug common runtime exceptions and logic errors associated with Iterating Over keys(), values(), and items()",
+    "Implement production-ready code utilizing Iterating Over keys(), values(), and items()"
+  ],
+  "prerequisites": [
+    "10.4"
+  ]
+}

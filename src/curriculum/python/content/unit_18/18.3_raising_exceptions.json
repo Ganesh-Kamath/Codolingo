@@ -1,0 +1,601 @@
+{
+  "lesson_id": "18.3",
+  "title": "Raising Exceptions",
+  "unit": "Advanced Error Handling",
+  "items": [
+    {
+      "id": "18.3_q1",
+      "type": "micro_lesson",
+      "concept": "raising_exceptions_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Raising an Exception?",
+      "content": "In Python, exceptions can be triggered manually by using the raise statement. This is useful when a function detects an invalid state and needs to stop normal execution to signal an error. The raise keyword is followed by an exception class or an instance of an exception. When you raise an exception, Python looks for the nearest matching except block to handle it. If no handler is found, the program terminates with a traceback. Raising exceptions allows you to enforce constraints and communicate failures clearly to calling code.",
+      "prompt": "",
+      "explanation": "In Python, exceptions can be triggered manually by using the raise statement. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "18.3_q2",
+      "type": "multiple_choice",
+      "concept": "raising_exceptions_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q1"
+      ],
+      "prompt": "Which of the following statements correctly raises a ValueError with the message 'Invalid input'?",
+      "options": [
+        "raise ValueError('Invalid input')",
+        "raise 'Invalid input' ValueError",
+        "raise ValueError = 'Invalid input'",
+        "raise ValueError: 'Invalid input'"
+      ],
+      "correct_answer": "raise ValueError('Invalid input')",
+      "explanation": "The correct syntax is raise followed by the exception class and a parenthesized string argument. The other options use invalid Python syntax for raising exceptions."
+    },
+    {
+      "id": "18.3_q3",
+      "type": "micro_lesson",
+      "concept": "raising_exceptions_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q2"
+      ],
+      "title": "Syntax for Raising Exceptions",
+      "content": "There are two common ways to raise an exception in Python. First, you can raise an exception class directly and pass a message as an argument: raise ValueError('message'). Second, you can raise an existing exception instance: raise ValueError('message'). Both forms create an exception object and propagate it up the call stack. The raise statement can also be used without arguments to re-raise the currently handled exception inside an except block. Understanding this syntax is essential before writing your own error-handling logic.",
+      "prompt": "",
+      "explanation": "There are two common ways to raise an exception in Python. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "18.3_q4",
+      "type": "multiple_choice",
+      "concept": "raising_exceptions_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q3"
+      ],
+      "prompt": "Which line of code correctly raises a RuntimeError with the description 'Failed to connect'?",
+      "options": [
+        "raise RuntimeError('Failed to connect')",
+        "raise 'Failed to connect' RuntimeError",
+        "raise RuntimeError = 'Failed to connect'",
+        "raise RuntimeError: 'Failed to connect'"
+      ],
+      "correct_answer": "raise RuntimeError('Failed to connect')",
+      "explanation": "The raise statement requires the exception type first, then parentheses containing the message string. Only the first option follows valid Python syntax for raising an exception with a message."
+    },
+    {
+      "id": "18.3_q5",
+      "type": "multiple_choice",
+      "concept": "raising_exceptions_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q4"
+      ],
+      "prompt": "Match the following raise statement to its correct concept category.",
+      "options": [
+        "raise ValueError('Age must be positive')",
+        "raise ValueError",
+        "raise ValueError(123)",
+        "raise ValueError: 'Age must be positive'"
+      ],
+      "correct_answer": "raise ValueError('Age must be positive')",
+      "explanation": "This is a complete raise statement that raises a ValueError with a descriptive string message, matching the concept of raising exceptions with a custom message."
+    },
+    {
+      "id": "18.3_q6",
+      "type": "multiple_choice",
+      "concept": "raising_exceptions_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q5"
+      ],
+      "prompt": "Which scenario best illustrates a common pitfall when raising exceptions?",
+      "options": [
+        "Raising an exception inside a function without documenting it, causing silent failures in callers",
+        "Using a descriptive message with raise to explain why an error occurred",
+        "Catching an exception with a broad except block and logging it",
+        "Raising an exception only after validating user input"
+      ],
+      "correct_answer": "Raising an exception inside a function without documenting it, causing silent failures in callers",
+      "explanation": "A common pitfall is raising exceptions without clear documentation or handling, which makes debugging difficult for code that calls your function. The other options describe good practices rather than pitfalls."
+    },
+    {
+      "id": "18.3_q7",
+      "type": "code_prediction",
+      "concept": "raising_exceptions_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q6"
+      ],
+      "prompt": "Predict the output of the following Python code:\n```python\nvalue = 10\nif value < 0:\n    raise ValueError('negative value')\nprint('done')\n```",
+      "options": [
+        "done",
+        "ValueError: negative value",
+        "ValueError: negative value\ndone",
+        "No output"
+      ],
+      "correct_answer": "done",
+      "explanation": "`value` is 10, so the condition `value < 0` is False. The exception is never raised, and 'done' is printed."
+    },
+    {
+      "id": "18.3_q8",
+      "type": "output_prediction",
+      "concept": "raising_exceptions_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q7"
+      ],
+      "prompt": "Predict the output of the following Python code:\n```python\ntry:\n    raise RuntimeError('error occurred')\nexcept RuntimeError as e:\n    print('caught:', e)\nfinally:\n    print('cleanup')\n```",
+      "options": [
+        "caught: error occurred\ncleanup",
+        "error occurred\ncleanup",
+        "caught: error occurred\nError occurred\ncleanup",
+        "Error occurred\ncleanup"
+      ],
+      "correct_answer": "caught: error occurred\ncleanup",
+      "explanation": "The raise statement creates a RuntimeError. The except block catches it and prints 'caught: ' followed by the exception message. The finally block always executes, printing 'cleanup' regardless of whether an exception was caught or not."
+    },
+    {
+      "id": "18.3_q9",
+      "type": "code_prediction",
+      "concept": "raising_exceptions_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q8"
+      ],
+      "prompt": "Predict the output of the following Python code:\n```python\ndef check(x):\n    if x == 0:\n        raise ValueError('zero not allowed')\n    return x * 2\n\nresult = check(5)\nprint(result)\n```",
+      "options": [
+        "10",
+        "ValueError: zero not allowed",
+        "5",
+        "None"
+      ],
+      "correct_answer": "10",
+      "explanation": "The function check(5) does not trigger the if condition (5 == 0 is False), so no exception is raised. The function returns 5 * 2 = 10. The print statement outputs 10. If x were 0, a ValueError would be raised and the print statement would not execute."
+    },
+    {
+      "id": "18.3_q10",
+      "type": "write_the_code",
+      "concept": "raising_exceptions_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q9"
+      ],
+      "prompt": "Explain why the following code produces a TypeError and what the exception message indicates:\n```python\nraise TypeError('expected int, got str')\n```",
+      "correct_answer": "It raises a TypeError because a string was provided where an integer was expected, indicating a type mismatch in the operation.",
+      "explanation": "The raise statement explicitly creates a TypeError instance with a descriptive message. TypeError is used when an operation or function is applied to an object of inappropriate type. The message 'expected int, got str' clearly communicates that an integer was required but a string was encountered, which is a common pattern in type-checking scenarios.",
+      "starter_code": "# TODO: Implement solution for Raising Exceptions\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Raising Exceptions')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Raising Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "18.3_q11",
+      "type": "code_prediction",
+      "concept": "raising_exceptions_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q10"
+      ],
+      "prompt": "Trace through and predict the output of the following Python code:\n```python\ndef inner():\n    raise Exception('inner error')\ndef outer():\n    inner()\n    print('after inner')\n\ntry:\n    outer()\nexcept Exception as e:\n    print('caught:', type(e).__name__, e)\nfinally:\n    print('finally')\n```",
+      "options": [
+        "caught: Exception inner error\nfinally",
+        "Exception inner error\ncaught: Exception inner error\nfinally",
+        "after inner\ncaught: Exception inner error\nfinally",
+        "after inner\nfinally\ncaught: Exception inner error"
+      ],
+      "correct_answer": "caught: Exception inner error\nfinally",
+      "explanation": "When outer() is called, inner() raises Exception('inner error'). This exception propagates up to the try block in the outer scope. The print('after inner') line is skipped because the exception interrupts normal flow. The except block catches the exception and prints 'caught: Exception inner error'. The finally block always executes, printing 'finally'. The order is: except block output, then finally block output."
+    },
+    {
+      "id": "18.3_q12",
+      "type": "output_prediction",
+      "concept": "raising_exceptions_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q11"
+      ],
+      "prompt": "Predict the output of the following Python code:\n```python\na = True\nif a:\n    raise ValueError('invalid state')\nelse:\n    print('valid')\n```",
+      "options": [
+        "ValueError: invalid state",
+        "valid",
+        "ValueError: invalid state\nvalid",
+        "No output"
+      ],
+      "correct_answer": "ValueError: invalid state",
+      "explanation": "Since a is True, the if condition evaluates to True, triggering the raise ValueError('invalid state'). The except block is not present, so the exception propagates and the program terminates with the error message. The else branch is skipped because the if branch executes. The print('valid') statement is never reached."
+    },
+    {
+      "id": "18.3_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "raising_exceptions_syntax",
+      "prerequisites": [
+        "18.3_q12"
+      ],
+      "micro_lesson": {
+        "title": "Raising Exceptions: The raise Statement",
+        "content": "In Python, you can manually trigger an exception using the `raise` statement. This is useful when you detect an invalid condition that should halt normal execution and signal an error. The basic syntax is:\n\n```python\nraise ExceptionType('message')\n```\n\nFor example, to raise a `ValueError` when a user enters a negative number:\n\n```python\nif age < 0:\n    raise ValueError('Age cannot be negative')\n```\n\nWhen `raise` is executed, Python stops the current function and searches for a matching `except` block in the call stack. If none is found, the program terminates and prints a traceback."
+      },
+      "prompt": "Complete the code by filling in the blank to raise a `TypeError` when the input is not an integer:\n\n```python\ndef process(value):\n    if not isinstance(value, int):\n        ____ ValueError('Expected an integer')\n```",
+      "correct_answer": "raise",
+      "accepted_answers": [
+        "raise"
+      ],
+      "explanation": "The `raise` keyword is required to explicitly trigger an exception. Without it, Python treats the line as a normal statement and will raise a `SyntaxError` because `ValueError(...)` is not a valid expression in that context.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "18.3_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "raising_exceptions_keywords",
+      "prerequisites": [
+        "18.3_q13"
+      ],
+      "micro_lesson": {
+        "title": "Exception Keywords and Custom Messages",
+        "content": "Python provides built-in exception classes such as `ValueError`, `TypeError`, `KeyError`, and `IndexError`. You can also create custom exceptions by subclassing `Exception`. When raising an exception, you may optionally pass a descriptive message. The message should be enclosed in quotes and is typically a string.\n\n```python\nraise KeyError('Missing required key')\n```\n\nIf you omit the message, Python uses the default string representation of the exception class. However, providing a clear message helps debugging and improves user experience."
+      },
+      "prompt": "Fill in the blank with the correct exception class name to indicate that a dictionary key is missing:\n\n```python\nuser_id = data['id']  # if 'id' is absent, ____('User ID not found')\n```",
+      "correct_answer": "KeyError",
+      "accepted_answers": [
+        "KeyError"
+      ],
+      "explanation": "`KeyError` is the standard built-in exception raised when a dictionary key is not found. Using `ValueError`, `TypeError`, or `IndexError` would misrepresent the nature of the error and confuse anyone reading the traceback.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "18.3_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "raising_exceptions_sequence",
+      "prerequisites": [
+        "18.3_q14"
+      ],
+      "micro_lesson": {
+        "title": "Order of Operations When Raising Exceptions",
+        "content": "When you raise an exception inside a function, the normal flow of execution stops immediately. Any code after the `raise` statement in the same block is skipped unless it is in a `finally` block. Therefore, the sequence matters: validation checks should occur before any risky operations, and the `raise` should appear as soon as an invalid state is detected.\n\nConsider this pattern:\n\n```python\ndef divide(a, b):\n    if b == 0:\n        raise ZeroDivisionError('Cannot divide by zero')\n    return a / b\n```\n\nThe check for `b == 0` must happen before the division. If you placed the `raise` after the return, it would be unreachable."
+      },
+      "prompt": "Arrange the following code lines in the correct order so that the exception is raised before the division occurs and the function returns the quotient only when valid.",
+      "options": [
+        "return a / b",
+        "if b == 0:\n    raise ZeroDivisionError('Cannot divide by zero')",
+        "def divide(a, b):"
+      ],
+      "correct_answer": [
+        "def divide(a, b):",
+        "if b == 0:\n    raise ZeroDivisionError('Cannot divide by zero')",
+        "return a / b"
+      ],
+      "explanation": "The function definition must come first. The validation check must precede the division so that the exception is raised before any arithmetic is attempted. Placing the return before the check would make the raise statement unreachable.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "18.3_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "raising_exceptions_patterns",
+      "prerequisites": [
+        "18.3_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Patterns for Raising Exceptions",
+        "content": "A frequent pattern is to validate inputs at the start of a function and raise an appropriate exception if the input is invalid. Another pattern is to raise an exception after catching one, to re-signal a higher-level error. For custom exceptions, you define a class that inherits from `Exception` and then raise it with a descriptive message.\n\n```python\nclass InvalidAgeError(Exception):\n    pass\n\nif age < 0:\n    raise InvalidAgeError('Age must be non-negative')\n```\n\nUsing custom exceptions makes your API clearer because callers can catch specific error types."
+      },
+      "prompt": "Complete the blank to follow the common pattern of validating that a username contains at least one digit, raising an exception if it does not:\n\n```python\nif not any(c.isdigit() for c in username):\n    ____(ValueError('Username must contain a digit'))\n```",
+      "correct_answer": "raise",
+      "accepted_answers": [
+        "raise"
+      ],
+      "explanation": "The `raise` keyword is the only way to explicitly trigger an exception from within a conditional block. Without it, the line is a syntax error because `ValueError(...)` alone is not a statement. The parentheses around the message are part of the exception constructor call.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "18.3_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "raising_exceptions_algorithm",
+      "prerequisites": [
+        "18.3_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithmic Steps for Raising Exceptions in Loops",
+        "content": "When processing a collection, you often need to validate each element before using it. The algorithm is:\n\n1. Iterate through the items.\n2. Check each item for validity.\n3. If invalid, raise an exception immediately to stop further processing.\n4. If all items are valid, continue with the main logic.\n\n```python\nfor item in items:\n    if item < 0:\n        raise ValueError('Negative value encountered')\n    total += item\n```\n\nThe exception must be raised inside the loop but before the accumulation step, otherwise invalid data corrupts the result."
+      },
+      "prompt": "Order the following lines to implement an algorithm that sums a list of positive integers and raises an exception if any element is negative or zero.",
+      "options": [
+        "if num <= 0:\n    raise ValueError('Only positive integers allowed')",
+        "total = 0",
+        "for num in numbers:",
+        "total += num"
+      ],
+      "correct_answer": [
+        "total = 0",
+        "for num in numbers:",
+        "if num <= 0:\n    raise ValueError('Only positive integers allowed')",
+        "total += num"
+      ],
+      "explanation": "Initialization must occur before the loop. The validation check must happen inside the loop before the accumulation to ensure no invalid number is added. Placing the raise after `total += num` would allow invalid data to corrupt the sum.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "18.3_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "raising_exceptions_idioms",
+      "prerequisites": [
+        "18.3_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Exception Raising",
+        "content": "In Python, idiomatic code raises exceptions early and with clear, concise messages. A common idiom is to guard clauses: place all validation checks at the top of a function and exit via `raise` as soon as a precondition fails. This avoids deeply nested `if-else` structures and makes the function easier to read.\n\n```python\ndef save_config(cfg):\n    if not isinstance(cfg, dict):\n        raise TypeError('cfg must be a dictionary')\n    if 'name' not in cfg:\n        raise KeyError('Missing required key: name')\n    # proceed with saving\n```\n\nThis pattern keeps the happy path uncluttered and ensures errors are reported unambiguously."
+      },
+      "prompt": "Fill in the blank to complete the idiomatic guard-clause pattern that validates a file path before opening it:\n\n```python\ndef read_file(path):\n    if not path.endswith('.txt'):\n        ____(ValueError('Only .txt files are supported'))\n    with open(path, 'r') as f:\n        return f.read()\n```",
+      "correct_answer": "raise",
+      "accepted_answers": [
+        "raise"
+      ],
+      "explanation": "The `raise` keyword is required to trigger the exception in a guard clause. The check is placed before the `with` block so that unsupported file types never reach the file-opening code, preventing unnecessary I/O and clearly communicating the contract of the function.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "18.3_q19",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for Raising Exceptions Errors:",
+      "starter_code": "Print('Raising Exceptions Item 19')",
+      "solution_code": "print('Raising Exceptions Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `raising exceptions errors` in Raising Exceptions. When Python validates this code, it applies the standard rules of raising exceptions errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "18.3_q20",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "18.3_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for Raising Exceptions Fix:",
+      "starter_code": "Print('Raising Exceptions Item 20')",
+      "solution_code": "print('Raising Exceptions Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `raising exceptions fix` in Raising Exceptions. When Python validates this code, it applies the standard rules of raising exceptions fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "18.3_q21",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for Raising Exceptions Edge Cases:",
+      "starter_code": "Print('Raising Exceptions Item 21')",
+      "solution_code": "print('Raising Exceptions Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `raising exceptions edge cases` in Raising Exceptions. When Python validates this code, it applies the standard rules of raising exceptions edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "18.3_q22",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for Raising Exceptions Runtime:",
+      "starter_code": "Print('Raising Exceptions Item 22')",
+      "solution_code": "print('Raising Exceptions Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `raising exceptions runtime` in Raising Exceptions. When Python validates this code, it applies the standard rules of raising exceptions runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "18.3_q23",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for Raising Exceptions Logic Repair:",
+      "starter_code": "Print('Raising Exceptions Item 23')",
+      "solution_code": "print('Raising Exceptions Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `raising exceptions logic repair` in Raising Exceptions. When Python validates this code, it applies the standard rules of raising exceptions logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "18.3_q24",
+      "type": "write_the_code",
+      "concept": "raising_exceptions_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "18.3_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Raising Exceptions that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_18_3_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_18_3_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Raising Exceptions must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "18.3_q25",
+      "type": "write_the_code",
+      "concept": "raising_exceptions_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Raising Exceptions.",
+      "starter_code": "def process_18_3_data(items):\n    # Process input according to Raising Exceptions rules\n    pass",
+      "solution_code": "def process_18_3_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Raising Exceptions rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Raising Exceptions.",
+      "explanation": "Constructing pure, robust data transformers for Raising Exceptions avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "18.3_q26",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "18.3_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Raising Exceptions that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_18_3_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_18_3_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "18.3_q27",
+      "type": "code_prediction",
+      "concept": "raising_exceptions_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "18.3_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Raising Exceptions encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Raising Exceptions.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "18.3_q28",
+      "type": "write_the_code",
+      "concept": "raising_exceptions_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "18.3_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Raising Exceptions. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Raising Exceptions\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Raising Exceptions ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "18.3_q29",
+      "type": "fix_the_code",
+      "concept": "raising_exceptions_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "18.3_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Raising Exceptions into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Raising Exceptions Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "18.3_q30",
+      "type": "write_the_code",
+      "concept": "raising_exceptions_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "18.3_q29"
+      ],
+      "prompt": "Custom Exception Hierarchy: Design a domain-specific `NegativeValueError(ValueError)` subclass and write `validate_positive(val)` that raises it when `val < 0`.",
+      "starter_code": "class NegativeValueError(ValueError):\n    pass\n\ndef validate_positive(val):\n    # Raise NegativeValueError if val < 0\n    pass",
+      "solution_code": "class NegativeValueError(ValueError):\n    pass\n\ndef validate_positive(val):\n    if val < 0:\n        raise NegativeValueError('Value must be positive')\n    return val",
+      "test_cases": [
+        {
+          "input": "5",
+          "expected_output": "5",
+          "description": "positive value passes validation"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Subclassing standard exception classes creates expressive, catchable domain error types. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    }
+  ],
+  "unit_num": 18,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Raising Exceptions",
+    "Apply idiomatic Python patterns when working with Raising Exceptions",
+    "Debug common runtime exceptions and logic errors associated with Raising Exceptions",
+    "Implement production-ready code utilizing Raising Exceptions"
+  ],
+  "prerequisites": [
+    "18.2"
+  ]
+}

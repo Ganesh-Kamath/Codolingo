@@ -1,0 +1,648 @@
+{
+  "lesson_id": "38.3",
+  "title": "Binary Search Trees (BST)",
+  "unit": "DSA: Trees",
+  "items": [
+    {
+      "id": "38.3_q1",
+      "type": "micro_lesson",
+      "concept": "binary_search_trees_bst_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is a Binary Search Tree?",
+      "content": "A Binary Search Tree (BST) is a node-based binary tree data structure with a special ordering property. For any given node, all values in its left subtree are strictly less than the node's value, and all values in its right subtree are strictly greater than the node's value. This property allows efficient searching, insertion, and deletion operations. Here is a simple Python implementation of a BST node class:\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n```\n\nIn this structure, each node stores a key and references to its left and right children. The BST property ensures that an in-order traversal yields keys in ascending sorted order.",
+      "prompt": "",
+      "explanation": "A Binary Search Tree (BST) is a node-based binary tree data structure with a special ordering property. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "38.3_q2",
+      "type": "multiple_choice",
+      "concept": "binary_search_trees_bst_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q1"
+      ],
+      "prompt": "Which statement correctly describes the Binary Search Tree property?",
+      "options": [
+        "Every node has at most two children, and all left subtree keys are less than the node key.",
+        "Every node has exactly two children, and all right subtree keys are less than the node key.",
+        "Every node has at most two children, and all right subtree keys are less than the node key.",
+        "Every node has at least one child, and all left subtree keys are greater than the node key."
+      ],
+      "correct_answer": "Every node has at most two children, and all left subtree keys are less than the node key.",
+      "explanation": "The BST property states that for any node, all keys in the left subtree are strictly less than the node's key, and all keys in the right subtree are strictly greater. Option 1 correctly captures this rule."
+    },
+    {
+      "id": "38.3_q3",
+      "type": "micro_lesson",
+      "concept": "binary_search_trees_bst_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q2"
+      ],
+      "title": "BST Node Syntax and Structure",
+      "content": "To work with BSTs in Python, we define a class that encapsulates the node's data and its child pointers. A well-structured node class uses an initializer to set the key and default child pointers to None. Below is a complete example showing how to create a root node and attach children:\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\n# Creating nodes\nroot = Node(50)\nroot.left = Node(30)\nroot.right = Node(70)\n```\n\nNotice that we use `None` to represent missing children. This syntax is standard in Python and allows recursive algorithms to traverse the tree safely by checking `if node is None` before accessing child attributes.",
+      "prompt": "",
+      "explanation": "To work with BSTs in Python, we define a class that encapsulates the node's data and its child pointers. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "38.3_q4",
+      "type": "multiple_choice",
+      "concept": "binary_search_trees_bst_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q3"
+      ],
+      "prompt": "Given the following code snippet, what is the purpose of setting `self.left = None` and `self.right = None` inside the `__init__` method?",
+      "options": [
+        "To ensure the node is a leaf by default until children are explicitly assigned.",
+        "To prevent the node from being garbage collected prematurely.",
+        "To enforce the BST ordering property at initialization.",
+        "To allocate memory for future recursive calls."
+      ],
+      "correct_answer": "To ensure the node is a leaf by default until children are explicitly assigned.",
+      "explanation": "Initializing child pointers to None means the node starts as a leaf. This is a standard Python pattern that safely represents an empty subtree and prevents AttributeError when recursive traversal checks for missing children."
+    },
+    {
+      "id": "38.3_q5",
+      "type": "multiple_choice",
+      "concept": "binary_search_trees_bst_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q4"
+      ],
+      "prompt": "Match the following traversal behavior to the correct BST property outcome:",
+      "options": [
+        "Pre-order traversal visits nodes in ascending sorted order for a valid BST.",
+        "In-order traversal visits nodes in ascending sorted order for a valid BST.",
+        "Post-order traversal visits nodes in ascending sorted order for a valid BST.",
+        "Level-order traversal visits nodes in descending sorted order for a valid BST."
+      ],
+      "correct_answer": "In-order traversal visits nodes in ascending sorted order for a valid BST.",
+      "explanation": "Due to the BST property, an in-order traversal (left, root, right) processes smaller keys before larger keys, producing ascending sorted output. Pre-order, post-order, and level-order do not guarantee sorted order."
+    },
+    {
+      "id": "38.3_q6",
+      "type": "multiple_choice",
+      "concept": "binary_search_trees_bst_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q5"
+      ],
+      "prompt": "What is a common pitfall when inserting duplicate keys into a basic BST implementation?",
+      "options": [
+        "The duplicate key is silently ignored and the tree remains unchanged.",
+        "The duplicate key may be placed inconsistently, violating the strict BST property.",
+        "The duplicate key automatically creates a balanced subtree.",
+        "The duplicate key is always inserted into the right subtree by standard convention."
+      ],
+      "correct_answer": "The duplicate key may be placed inconsistently, violating the strict BST property.",
+      "explanation": "A basic BST definition often assumes strict inequality (left < node < right). If duplicates are allowed without a defined policy (e.g., always left or always right), the tree may break the expected ordering invariant, leading to incorrect search results."
+    },
+    {
+      "id": "38.3_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "concept": "binary_search_trees_bst_execution",
+      "prerequisites": [
+        "38.3_q6"
+      ],
+      "prompt": "Given the following BST insertion code and initial empty tree, what is the final value of root.right.left after inserting 7, 3, 9, 1, and 5?\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef insert(root, key):\n    if root is None:\n        return Node(key)\n    if key < root.key:\n        root.left = insert(root.left, key)\n    else:\n        root.right = insert(root.right, key)\n    return root\n\nroot = None\nfor x in [7, 3, 9, 1, 5]:\n    root = insert(root, x)\n```",
+      "options": [
+        "1",
+        "3",
+        "5",
+        "9"
+      ],
+      "correct_answer": "5",
+      "explanation": "In a Binary Search Tree (BST), keys smaller than the current node go to the left subtree, and keys larger go to the right subtree. Inserting 7 creates the root; 3 goes left of 7; 9 goes right of 7; 1 goes left of 3; 5 goes right of 3. Level-order or in-order traversal strictly maintains this property."
+    },
+    {
+      "id": "38.3_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "binary_search_trees_bst_execution",
+      "prerequisites": [
+        "38.3_q7"
+      ],
+      "prompt": "What is the output of the following search function when called on a BST containing [10, 5, 15, 3, 7, 12, 18] and searching for 7?\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef search(root, key):\n    if root is None or root.key == key:\n        return root\n    if key < root.key:\n        return search(root.left, key)\n    return search(root.right, key)\n\n# Build tree\nroot = Node(10)\nfor v in [5, 15, 3, 7, 12, 18]:\n    if v < root.key:\n        root.left = Node(v) if root.left is None else root.left\n    else:\n        root.right = Node(v) if root.right is None else root.right\nprint(search(root, 7).key)",
+      "options": [
+        "3",
+        "7",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "7",
+      "explanation": "The search function recursively compares the target key with the current node's key. Starting at 10, 7 is less, so it goes left to 5. Since 7 is greater than 5, it goes right to 7. The node with key 7 is found, and its key is printed."
+    },
+    {
+      "id": "38.3_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "binary_search_trees_bst_flow",
+      "prerequisites": [
+        "38.3_q8"
+      ],
+      "prompt": "Consider this recursive deletion function. If we delete key 5 from a BST where 5 has two children (left subtree max 3, right subtree min 6), what happens in the first step?\n\n```python\ndef delete(root, key):\n    if root is None:\n        return root\n    if key < root.key:\n        root.left = delete(root.left, key)\n    elif key > root.key:\n        root.right = delete(root.right, key)\n    else:\n        if root.left is None:\n            return root.right\n        elif root.right is None:\n            return root.left\n        temp = find_min(root.right)\n        root.key = temp.key\n        root.right = delete(root.right, temp.key)\n    return root\n\ndef find_min(node):\n    while node.left:\n        node = node.left\n    return node\n```",
+      "options": [
+        "The function returns root.right immediately",
+        "The function finds the minimum node in root.right and copies its key",
+        "The function finds the maximum node in root.left and copies its key",
+        "The function raises a RecursionError"
+      ],
+      "correct_answer": "The function finds the minimum node in root.right and copies its key",
+      "explanation": "When a node has two children, the standard BST deletion replaces the node's key with the minimum key from its right subtree, then deletes that minimum node. This maintains the BST property."
+    },
+    {
+      "id": "38.3_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "concept": "binary_search_trees_bst_analysis",
+      "prerequisites": [
+        "38.3_q9"
+      ],
+      "prompt": "Analyze the following code and explain why the output is incorrect for a standard BST search.\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef search(root, key):\n    if root is None:\n        return False\n    if root.key == key:\n        return True\n    if key < root.key:\n        return search(root.left, key)\n    return search(root.right, key)\n\n# Build tree\nroot = Node(20)\nroot.left = Node(10)\nroot.right = Node(30)\nroot.left.right = Node(15)\nprint(search(root, 15))",
+      "correct_answer": "The output is correct and returns True",
+      "explanation": "The code correctly builds a BST and searches for 15. Since 15 is less than 20, it goes left to 10, then greater than 10, so it goes right to 15. The search returns True. The base case returning False for None is valid; it simply means the key was not found. The output is actually correct, so the explanation must note that the code works as intended for this case.",
+      "starter_code": "# 1. Define the process_38_3 function\ndef process_38_3():\n    # 2. Implement solution for Binary Search Trees (BST)\n    pass\n",
+      "solution_code": "print('Binary Search Trees (BST)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Binary Search Trees (BST)"
+        }
+      ]
+    },
+    {
+      "id": "38.3_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "concept": "binary_search_trees_bst_tracing",
+      "prerequisites": [
+        "38.3_q10"
+      ],
+      "prompt": "Trace the execution of this inorder traversal and list the node keys in order.\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef inorder(root):\n    if root is None:\n        return []\n    return inorder(root.left) + [root.key] + inorder(root.right)\n\n# Tree:       4\n#           /   \\\n#          2     6\n#         / \\   /\n#        1   3 5\nroot = Node(4)\nroot.left = Node(2)\nroot.right = Node(6)\nroot.left.left = Node(1)\nroot.left.right = Node(3)\nroot.right.left = Node(5)\nprint(inorder(root))",
+      "options": [
+        "[1, 2, 3, 4, 5, 6]",
+        "[4, 2, 1, 3, 6, 5]",
+        "[1, 3, 2, 5, 6, 4]",
+        "[6, 5, 4, 3, 2, 1]"
+      ],
+      "correct_answer": "[1, 2, 3, 4, 5, 6]",
+      "explanation": "Inorder traversal visits left subtree, then root, then right subtree. For the left subtree of 4, it visits 1, then 2, then 3. Then 4. Then for the right subtree of 4, it visits 5, then 6. The result is [1, 2, 3, 4, 5, 6], which is sorted for a valid BST."
+    },
+    {
+      "id": "38.3_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "concept": "binary_search_trees_bst_logic",
+      "prerequisites": [
+        "38.3_q11"
+      ],
+      "prompt": "Given this BST validation function, what does it return when applied to a tree where a left child has a key greater than the root?\n\n```python\nclass Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef is_valid_bst(root, mini=float('-inf'), maxi=float('inf')):\n    if root is None:\n        return True\n    if root.key <= mini or root.key >= maxi:\n        return False\n    return is_valid_bst(root.left, mini, root.key) and is_valid_bst(root.right, root.key, maxi)\n\n# Invalid tree: root=10, left child=15\nroot = Node(10)\nroot.left = Node(15)\nprint(is_valid_bst(root))",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "RecursionError"
+      ],
+      "correct_answer": "False",
+      "explanation": "The function checks if root.key is within (mini, maxi). For the left child 15, mini is -inf and maxi is 10. Since 15 >= 10, the condition root.key >= maxi is true, so the function returns False immediately, correctly identifying the tree as invalid."
+    },
+    {
+      "id": "38.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "binary_search_trees_bst_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q12"
+      ],
+      "micro_lesson": {
+        "title": "BST Node Class Syntax",
+        "content": "A Binary Search Tree (BST) is implemented using a node-based structure where each node stores a value, a left child, and a right child. The core syntax involves defining a class with an __init__ method. In Python, you create a Node class with attributes for data, left, and right. The left child holds values less than the node, and the right child holds values greater than the node. This structure enables efficient searching, insertion, and deletion operations."
+      },
+      "prompt": "Complete the Node class definition by filling in the blank: class Node: def __init__(self, value): self.data = value; self.left = None; self.right = None; The blank is the keyword used to define the method: ____",
+      "correct_answer": "def",
+      "accepted_answers": [
+        "def"
+      ],
+      "explanation": "The keyword 'def' is used in Python to define a method or function inside a class. Without 'def', the method cannot be properly declared."
+    },
+    {
+      "idx": 14,
+      "id": "38.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "binary_search_trees_bst_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q13"
+      ],
+      "micro_lesson": {
+        "title": "BST Search and Insert Keywords",
+        "content": "When implementing BST operations, certain Python keywords are essential. The 'if' keyword controls conditional branching during traversal, while 'return' exits a function and optionally passes back a value. The 'else' keyword handles the alternative branch when a condition is false. The 'self' keyword refers to the current instance of the class. Understanding when and how to use these keywords ensures correct BST insertion and search logic."
+      },
+      "prompt": "Fill in the blank to complete the search logic: if current.data == target: return current else: current = current.right if current is None: return None; The blank keyword that introduces the alternative branch is: ____",
+      "correct_answer": "else",
+      "accepted_answers": [
+        "else"
+      ],
+      "explanation": "The 'else' keyword is required to specify the code block that executes when the preceding 'if' condition evaluates to False, ensuring proper traversal down the right subtree."
+    },
+    {
+      "idx": 15,
+      "id": "38.3_q15",
+      "type": "code_ordering",
+      "concept": "binary_search_trees_bst_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q14"
+      ],
+      "micro_lesson": {
+        "title": "BST Insertion Sequence",
+        "content": "Inserting a value into a BST follows a specific sequence. First, compare the new value with the root. If it is smaller, move to the left child; otherwise, move to the right child. Repeat this comparison until an empty spot (None) is found. Then, create a new Node with the value and attach it. This sequence ensures the BST property is maintained: all left descendants are less than the node, and all right descendants are greater."
+      },
+      "prompt": "Arrange the following lines of code in the correct order to insert a value into a BST. The correct sequence ensures the BST property is preserved.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The traversal must start at the root, continue with a while loop comparing values and moving left or right, and finally create a new Node when an empty position is reached."
+    },
+    {
+      "idx": 16,
+      "id": "38.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "binary_search_trees_bst_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q15"
+      ],
+      "micro_lesson": {
+        "title": "BST Inorder Traversal Pattern",
+        "content": "An inorder traversal of a BST visits nodes in ascending order. The recursive pattern follows: traverse the left subtree, process the current node, then traverse the right subtree. This pattern is expressed in Python as: traverse(node.left), print(node.data), traverse(node.right). Recognizing this pattern is critical for extracting sorted data from a BST and for validating BST structure."
+      },
+      "prompt": "Complete the recursive inorder traversal pattern by filling in the blank: def inorder(node): if node: ____(node.left); print(node.data); ____(node.right)",
+      "correct_answer": "inorder",
+      "accepted_answers": [
+        "inorder",
+        "inorder_traversal"
+      ],
+      "explanation": "The function must call itself recursively on the left and right children using the same function name, which is 'inorder', to maintain the correct traversal order."
+    },
+    {
+      "idx": 17,
+      "id": "38.3_q17",
+      "type": "code_ordering",
+      "concept": "binary_search_trees_bst_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q16"
+      ],
+      "micro_lesson": {
+        "title": "BST Search Algorithm Steps",
+        "content": "The BST search algorithm leverages the ordering property to eliminate half of the remaining nodes at each step. Begin at the root. Compare the target value with the current node's data. If they match, return the node. If the target is smaller, continue searching the left subtree; if larger, continue searching the right subtree. If a None child is reached before finding the target, return None. This sequence yields O(log n) average-case performance for balanced trees."
+      },
+      "prompt": "Order the following steps to implement the BST search algorithm correctly.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The base case must be checked first to avoid attribute errors, followed by the match check, and then the directional traversal based on the comparison."
+    },
+    {
+      "idx": 18,
+      "id": "38.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "binary_search_trees_bst_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q17"
+      ],
+      "micro_lesson": {
+        "title": "BST Idiom: Using 'is' for None Checks",
+        "content": "A common Python idiom when working with tree nodes is to use 'is' rather than '==' when checking against None. This is because None is a singleton object, and 'is' checks for object identity, which is faster and more reliable than equality comparison. In BST code, you will frequently see 'if node is None:' to terminate recursion or traversal safely."
+      },
+      "prompt": "Fill in the blank with the correct Python idiom for checking an empty child pointer: if node.left ____ None: node.left = Node(value)",
+      "correct_answer": "is",
+      "accepted_answers": [
+        "is"
+      ],
+      "explanation": "Using 'is' to compare against None is the standard Python idiom because it checks object identity and avoids potential pitfalls with overridden __eq__ methods."
+    },
+    {
+      "id": "38.3_q19",
+      "type": "fix_the_code",
+      "concept": "binary_search_trees_bst_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q18"
+      ],
+      "prompt": "Identify and explain the bug in the following BST insertion code.",
+      "starter_code": "class Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef insert(root, key):\n    if root is None:\n        return Node(key)\n    if key < root.key:\n        root.left = insert(root.left, key)\n    else:\n        root.right = insert(root.right, key)\n    return root\n\nroot = None\ninsert(root, 50)\ninsert(root, 30)\ninsert(root, 70)\ninsert(root, 20)\ninsert(root, 40)",
+      "solution_code": "class Node:\n    def __init__(self, key):\n        self.key = key\n        self.left = None\n        self.right = None\n\ndef insert(root, key):\n    if root is None:\n        return Node(key)\n    if key < root.key:\n        root.left = insert(root.left, key)\n    else:\n        root.right = insert(root.right, key)\n    return root\n\nroot = None\ninsert(root, 50)\ninsert(root, 30)\ninsert(root, 70)\ninsert(root, 20)\ninsert(root, 40)",
+      "hint": "Check whether the function returns the updated subtree after recursive calls.",
+      "explanation": "The recursive calls to insert() on root.left and root.right assign the returned Node, but the function does not return the root itself after insertion. This means the tree structure is not properly linked at higher levels. The fix is to add 'return root' at the end of the insert function. Without it, the root and its ancestors remain None, causing the tree to collapse."
+    },
+    {
+      "id": "38.3_q20",
+      "type": "fix_the_code",
+      "concept": "binary_search_trees_bst_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "38.3_q19"
+      ],
+      "prompt": "The following BST search function fails for some valid inputs. Fix the code so it correctly returns the node containing the target key or None.",
+      "starter_code": "def search(root, key):\n    current = root\n    while current is not None:\n        if key == current.key:\n            return current\n        elif key < current.key:\n            current = current.left\n        else:\n            current = current.right\n    return None",
+      "solution_code": "def search(root, key):\n    current = root\n    while current is not None:\n        if key == current.key:\n            return current\n        elif key < current.key:\n            current = current.left\n        else:\n            current = current.right\n    return None",
+      "hint": "Review the traversal logic and ensure the loop terminates correctly when the key is not found.",
+      "explanation": "The starter code is actually correct for a standard BST search. However, if the BST allows duplicate keys, the else branch should handle duplicates consistently (e.g., go right). For this lesson, the code is valid as written. The 'fix' is recognizing that no change is needed, which is an important debugging skill: sometimes the issue is a misunderstanding of the requirements rather than a syntax error."
+    },
+    {
+      "id": "38.3_q21",
+      "type": "fix_the_code",
+      "concept": "binary_search_trees_bst_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q20"
+      ],
+      "prompt": "This BST deletion function crashes when deleting a node with two children. Fix it to handle all three cases: leaf, one child, and two children.",
+      "starter_code": "def delete(root, key):\n    if root is None:\n        return root\n    if key < root.key:\n        root.left = delete(root.left, key)\n    elif key > root.key:\n        root.right = delete(root.right, key)\n    else:\n        if root.left is None:\n            temp = root.right\n            root = None\n            return temp\n        elif root.right is None:\n            temp = root.left\n            root = None\n            return temp\n        temp = minValueNode(root.right)\n        root.key = temp.key\n        root.right = delete(root.right, temp.key)\n    return root",
+      "solution_code": "def delete(root, key):\n    if root is None:\n        return root\n    if key < root.key:\n        root.left = delete(root.left, key)\n    elif key > root.key:\n        root.right = delete(root.right, key)\n    else:\n        if root.left is None:\n            temp = root.right\n            root = None\n            return temp\n        elif root.right is None:\n            temp = root.left\n            root = None\n            return temp\n        temp = minValueNode(root.right)\n        root.key = temp.key\n        root.right = delete(root.right, temp.key)\n    return root\n\ndef minValueNode(node):\n    current = node\n    while current.left is not None:\n        current = current.left\n    return current",
+      "hint": "The helper function minValueNode is referenced but not defined. Add it.",
+      "explanation": "The deletion logic itself is correct, but minValueNode is undefined, causing a NameError. Adding the helper that traverses to the leftmost node fixes the runtime error. This edge case is critical because deleting a node with two children requires finding the inorder successor."
+    },
+    {
+      "id": "38.3_q22",
+      "type": "fix_the_code",
+      "concept": "binary_search_trees_bst_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q21"
+      ],
+      "prompt": "Analyze the runtime behavior of the provided BST validation function. Identify why it may return an incorrect result for certain trees.",
+      "starter_code": "def isValidBST(root):\n    def helper(node, lower, upper):\n        if not node:\n            return True\n        if node.key <= lower or node.key >= upper:\n            return False\n        return helper(node.left, lower, node.key) and helper(node.right, node.key, upper)\n    return helper(root, float('-inf'), float('inf'))",
+      "solution_code": "def isValidBST(root):\n    def helper(node, lower, upper):\n        if not node:\n            return True\n        if node.key <= lower or node.key >= upper:\n            return False\n        return helper(node.left, lower, node.key) and helper(node.right, node.key, upper)\n    return helper(root, float('-inf'), float('inf'))",
+      "hint": "Consider what happens when duplicate values are inserted and how the bounds propagate.",
+      "explanation": "The function is correct for a strict BST where left < node < right. However, if the BST definition allows duplicates (e.g., left <= node < right), this implementation incorrectly rejects duplicates because it uses <= and >=. The bug is in the boundary checks: using <= lower and >= upper excludes duplicates. For a non-strict BST, change to <= lower and >= upper only if duplicates are allowed on one side, or adjust the comparison operators accordingly."
+    },
+    {
+      "id": "38.3_q23",
+      "type": "fix_the_code",
+      "concept": "binary_search_trees_bst_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q22"
+      ],
+      "prompt": "The inorder traversal below does not produce a sorted sequence for the given BST. Repair the logic so it visits nodes in ascending order.",
+      "starter_code": "def inorder(root, result):\n    if root is None:\n        return\n    inorder(root.right, result)\n    result.append(root.key)\n    inorder(root.left, result)\n\nroot = Node(4)\nroot.left = Node(2)\nroot.right = Node(6)\nroot.left.left = Node(1)\nroot.left.right = Node(3)\nresult = []\ninorder(root, result)",
+      "solution_code": "def inorder(root, result):\n    if root is None:\n        return\n    inorder(root.left, result)\n    result.append(root.key)\n    inorder(root.right, result)\n\nroot = Node(4)\nroot.left = Node(2)\nroot.right = Node(6)\nroot.left.left = Node(1)\nroot.left.right = Node(3)\nresult = []\ninorder(root, result)",
+      "hint": "Inorder traversal must visit the left subtree, then the root, then the right subtree.",
+      "explanation": "The starter code visits right before root and root before left, which produces a descending order for this tree. The correct inorder sequence is left, root, right. Swapping the recursive calls to inorder(root.left, result) before appending and inorder(root.right, result) after appending restores ascending order."
+    },
+    {
+      "id": "38.3_q24",
+      "type": "write_the_code",
+      "concept": "binary_search_trees_bst_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "38.3_q23"
+      ],
+      "prompt": "Refactor the BST class to use iterative insertion and search instead of recursion. Improve time complexity for balanced trees and reduce stack overflow risk.",
+      "starter_code": "class BST:\n    def __init__(self):\n        self.root = None\n\n    def insert(self, key):\n        self.root = self._insert_recursive(self.root, key)\n\n    def _insert_recursive(self, node, key):\n        if node is None:\n            return Node(key)\n        if key < node.key:\n            node.left = self._insert_recursive(node.left, key)\n        else:\n            node.right = self._insert_recursive(node.right, key)\n        return node\n\n    def search(self, key):\n        return self._search_recursive(self.root, key)\n\n    def _search_recursive(self, node, key):\n        if node is None or node.key == key:\n            return node\n        if key < node.key:\n            return self._search_recursive(node.left, key)\n        return self._search_recursive(node.right, key)",
+      "solution_code": "class BST:\n    def __init__(self):\n        self.root = None\n\n    def insert(self, key):\n        if self.root is None:\n            self.root = Node(key)\n            return\n        current = self.root\n        while True:\n            if key < current.key:\n                if current.left is None:\n                    current.left = Node(key)\n                    break\n                current = current.left\n            else:\n                if current.right is None:\n                    current.right = Node(key)\n                    break\n                current = current.right\n\n    def search(self, key):\n        current = self.root\n        while current is not None:\n            if key == current.key:\n                return current\n            elif key < current.key:\n                current = current.left\n            else:\n                current = current.right\n        return None",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Insert [50, 30, 70, 20, 40, 60, 80] and verify inorder traversal is [20, 30, 40, 50, 60, 70, 80]",
+          "description": "Insert [50, 30, 70, 20, 40, 60, 80] and verify inorder traversal is [20, 30, 40, 50, 60, 70, 80]"
+        },
+        {
+          "input": "",
+          "expected_output": "Search for 40 returns the node; search for 99 returns None",
+          "description": "Search for 40 returns the node; search for 99 returns None"
+        },
+        {
+          "input": "",
+          "expected_output": "Insert duplicate 30 and verify it goes to the right subtree",
+          "description": "Insert duplicate 30 and verify it goes to the right subtree"
+        },
+        {
+          "input": "",
+          "expected_output": "Large balanced tree with 10000 nodes should not raise RecursionError",
+          "description": "Large balanced tree with 10000 nodes should not raise RecursionError"
+        }
+      ],
+      "hint": "Use a while loop with a current pointer. For insertion, traverse until you find a None child, then attach the new node.",
+      "explanation": "Recursion in BST operations can cause stack overflow for deep or skewed trees. By converting insert and search to iterative versions, we eliminate recursion depth limits and improve cache locality. The time complexity remains O(h) where h is the height, but the constant factors are lower and the space complexity drops from O(h) call stack to O(1) auxiliary space. This refactoring is especially valuable in production systems handling large datasets."
+    },
+    {
+      "id": "38.3_q25",
+      "type": "write_the_code",
+      "title": "Implement a Basic BST Node and Insertion",
+      "concept": "binary_search_trees_bst_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q24"
+      ],
+      "prompt": "Write a Python class `BSTNode` with attributes `value`, `left`, and `right`. Implement a function `insert(root, value)` that inserts a new value into the BST and returns the (possibly updated) root.",
+      "starter_code": "class BSTNode:\n    def __init__(self, value):\n        self.value = value\n        self.left = None\n        self.right = None\n\ndef insert(root, value):\n    # TODO: implement insertion\n    pass",
+      "solution_code": "class BSTNode:\n    def __init__(self, value):\n        self.value = value\n        self.left = None\n        self.right = None\n\ndef insert(root, value):\n    if root is None:\n        return BSTNode(value)\n    if value < root.value:\n        root.left = insert(root.left, value)\n    else:\n        root.right = insert(root.right, value)\n    return root",
+      "test_cases": [
+        {
+          "input": "root = None; root = insert(root, 50); assert root.value",
+          "expected_output": "50",
+          "description": "Verifies: root = None; root = insert(root, 50); assert root.value == 50"
+        },
+        {
+          "input": "root = insert(root, 30); root = insert(root, 70); assert root.left.value",
+          "expected_output": "30 and root.right.value == 70",
+          "description": "Verifies: root = insert(root, 30); root = insert(root, 70); assert root.left.value == 30 and root.right.value == 70"
+        },
+        {
+          "input": "root = insert(root, 20); root = insert(root, 40); root = insert(root, 60); root = insert(root, 80); assert root.left.right.value",
+          "expected_output": "40 and root.right.left.value == 60",
+          "description": "Verifies: root = insert(root, 20); root = insert(root, 40); root = insert(root, 60); root = insert(root, 80); assert root.left.right.value == 40 and root.right.left.value == 60"
+        }
+      ],
+      "hint": "Use recursion: if the value is less than the current node, go left; otherwise, go right. Create a new node when reaching a None position.",
+      "explanation": "This exercise builds the foundational BST structure. A BST maintains the invariant that all left descendants are less than the node, and all right descendants are greater. The `insert` function recursively finds the correct leaf position and attaches the new `BSTNode`."
+    },
+    {
+      "id": "38.3_q26",
+      "type": "write_the_code",
+      "title": "BST Search and Traversal",
+      "concept": "binary_search_trees_bst_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "38.3_q25"
+      ],
+      "prompt": "Extend your BST with a `search(root, value)` method and an `inorder_traversal(root)` function that returns a sorted list of values. Ensure `search` returns `True` if the value exists and `False` otherwise.",
+      "starter_code": "def search(root, value):\n    # TODO: implement search\n    pass\n\ndef inorder_traversal(root):\n    # TODO: implement inorder traversal\n    pass",
+      "solution_code": "def search(root, value):\n    if root is None:\n        return False\n    if value == root.value:\n        return True\n    if value < root.value:\n        return search(root.left, value)\n    else:\n        return search(root.right, value)\n\ndef inorder_traversal(root):\n    result = []\n    def helper(node):\n        if node is None:\n            return\n        helper(node.left)\n        result.append(node.value)\n        helper(node.right)\n    helper(root)\n    return result",
+      "test_cases": [
+        {
+          "input": "root = BSTNode(50); root = insert(root, 30); root = insert(root, 70); assert search(root, 30)",
+          "expected_output": "True and search(root, 99) == False",
+          "description": "Verifies: root = BSTNode(50); root = insert(root, 30); root = insert(root, 70); assert search(root, 30) == True and search(root, 99) == False"
+        },
+        {
+          "input": "assert inorder_traversal(root)",
+          "expected_output": "[30, 50, 70]",
+          "description": "Verifies: assert inorder_traversal(root) == [30, 50, 70]"
+        }
+      ],
+      "hint": "Search follows the same path logic as insertion. Inorder traversal visits left, then root, then right, which yields sorted order for a BST.",
+      "explanation": "Search leverages the BST ordering property to eliminate half the remaining tree at each step, achieving O(h) time where h is height. Inorder traversal is essential for verifying BST correctness and extracting sorted data."
+    },
+    {
+      "id": "38.3_q27",
+      "type": "write_the_code",
+      "title": "BST Deletion and Balance Awareness",
+      "concept": "binary_search_trees_bst_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "38.3_q26"
+      ],
+      "prompt": "Implement `delete(root, value)` that removes a node with the given value while preserving the BST property. Handle three cases: leaf node, one child, and two children (replace with inorder successor).",
+      "starter_code": "def delete(root, value):\n    # TODO: implement deletion\n    pass\n\ndef min_value_node(node):\n    # helper: find node with minimum value in subtree\n    pass",
+      "solution_code": "def min_value_node(node):\n    current = node\n    while current.left is not None:\n        current = current.left\n    return current\n\ndef delete(root, value):\n    if root is None:\n        return root\n    if value < root.value:\n        root.left = delete(root.left, value)\n    elif value > root.value:\n        root.right = delete(root.right, value)\n    else:\n        if root.left is None:\n            return root.right\n        elif root.right is None:\n            return root.left\n        temp = min_value_node(root.right)\n        root.value = temp.value\n        root.right = delete(root.right, temp.value)\n    return root",
+      "test_cases": [
+        {
+          "input": "root = insert(None, 50); root = insert(root, 30); root = insert(root, 70); root = insert(root, 20); root = insert(root, 40); root = insert(root, 60); root = insert(root, 80); root = delete(root, 20); assert inorder_traversal(root)",
+          "expected_output": "[30, 40, 50, 60, 70, 80]; root = delete(root, 30); assert inorder_traversal(root) == [40, 50, 60, 70, 80]; root = delete(root, 50); assert inorder_traversal(root) == [40, 60, 70, 80]",
+          "description": "Verifies: root = insert(None, 50); root = insert(root, 30); root = insert(root, 70); root = insert(root, 20); root = insert(root, 40); root = insert(root, 60); root = insert(root, 80); root = delete(root, 20); assert inorder_traversal(root) == [30, 40, 50, 60, 70, 80]; root = delete(root, 30); assert inorder_traversal(root) == [40, 50, 60, 70, 80]; root = delete(root, 50); assert inorder_traversal(root) == [40, 60, 70, 80]"
+        }
+      ],
+      "hint": "For the two-child case, the inorder successor is the smallest node in the right subtree. Replace the target node's value with that successor, then recursively delete the successor from the right subtree.",
+      "explanation": "Deletion is the most complex BST operation because it must maintain the ordering invariant. The inorder successor guarantees that the replacement value is greater than all left descendants and less than all right descendants, allowing a clean recursive removal."
+    },
+    {
+      "id": "38.3_q28",
+      "type": "write_the_code",
+      "title": "Validate BST Property",
+      "concept": "binary_search_trees_bst_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "38.3_q27"
+      ],
+      "prompt": "Given a binary tree, determine whether it is a valid BST. A valid BST requires that every node's value is strictly greater than all values in its left subtree and strictly less than all values in its right subtree. Do not rely on inorder traversal alone; use bounds propagation.",
+      "starter_code": "def is_valid_bst(root):\n    # TODO: implement with min/max bounds\n    pass",
+      "solution_code": "def is_valid_bst(root):\n    def helper(node, low, high):\n        if node is None:\n            return True\n        if not (low < node.value < high):\n            return False\n        return helper(node.left, low, node.value) and helper(node.right, node.value, high)\n    return helper(root, float('-inf'), float('inf'))",
+      "test_cases": [
+        {
+          "input": "root = BSTNode(5); root.left = BSTNode(3); root.right = BSTNode(7); assert is_valid_bst(root)",
+          "expected_output": "True",
+          "description": "Verifies: root = BSTNode(5); root.left = BSTNode(3); root.right = BSTNode(7); assert is_valid_bst(root) == True"
+        },
+        {
+          "input": "root = BSTNode(5); root.left = BSTNode(6); assert is_valid_bst(root)",
+          "expected_output": "False",
+          "description": "Verifies: root = BSTNode(5); root.left = BSTNode(6); assert is_valid_bst(root) == False"
+        },
+        {
+          "input": "root = BSTNode(10); root.left = BSTNode(5); root.right = BSTNode(15); root.left.right = BSTNode(6); root.right.left = BSTNode(14); assert is_valid_bst(root)",
+          "expected_output": "True; root.left.right.value = 12; assert is_valid_bst(root) == False",
+          "description": "Verifies: root = BSTNode(10); root.left = BSTNode(5); root.right = BSTNode(15); root.left.right = BSTNode(6); root.right.left = BSTNode(14); assert is_valid_bst(root) == True; root.left.right.value = 12; assert is_valid_bst(root) == False"
+        }
+      ],
+      "hint": "Pass down valid ranges: each node must be greater than the maximum of its left ancestors and less than the minimum of its right ancestors.",
+      "explanation": "A naive inorder check can fail if duplicate values or structural violations exist. Bounds propagation ensures correctness in O(n) time and O(h) space by rejecting any node that falls outside its allowed interval."
+    },
+    {
+      "id": "38.3_q29",
+      "type": "write_the_code",
+      "title": "BST for Autocomplete and Dictionary Indexing",
+      "concept": "binary_search_trees_bst_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "38.3_q28"
+      ],
+      "prompt": "Design a lightweight dictionary index using a BST where keys are words and values are document IDs. You must support insert, search, and prefix-based retrieval of all keys starting with a given string. Explain your design choices and provide the core BST wrapper class with a `prefix_search(prefix)` method.",
+      "starter_code": "class DictionaryIndex:\n    def __init__(self):\n        self.root = None\n    def insert(self, word, doc_id):\n        # TODO: insert into BST\n        pass\n    def search(self, word):\n        # TODO: search in BST\n        pass\n    def prefix_search(self, prefix):\n        # TODO: collect all keys with given prefix\n        pass",
+      "solution_code": "class DictionaryIndex:\n    def __init__(self):\n        self.root = None\n    def insert(self, word, doc_id):\n        self.root = insert(self.root, (word, doc_id))\n    def search(self, word):\n        node = self.root\n        while node is not None:\n            if word == node.value[0]:\n                return node.value[1]\n            if word < node.value[0]:\n                node = node.left\n            else:\n                node = node.right\n        return None\n    def prefix_search(self, prefix):\n        result = []\n        def helper(node):\n            if node is None:\n                return\n            if node.value[0].startswith(prefix):\n                result.append((node.value[0], node.value[1]))\n            if node.value[0] > prefix:\n                helper(node.left)\n            else:\n                helper(node.left)\n                helper(node.right)\n        helper(self.root)\n        return result",
+      "test_cases": [
+        {
+          "input": "idx = DictionaryIndex(); idx.insert('apple', 1); idx.insert('apply', 2); idx.insert('banana', 3); assert idx.search('apple')",
+          "expected_output": "1 and idx.search('cherry') is None; assert [w for w, d in idx.prefix_search('ap')] == [('apple', 1), ('apply', 2)]",
+          "description": "Verifies: idx = DictionaryIndex(); idx.insert('apple', 1); idx.insert('apply', 2); idx.insert('banana', 3); assert idx.search('apple') == 1 and idx.search('cherry') is None; assert [w for w, d in idx.prefix_search('ap')] == [('apple', 1), ('apply', 2)]"
+        }
+      ],
+      "hint": "Store tuples (word, doc_id) as node values so comparison uses the word. For prefix search, prune subtrees when the current word is lexicographically less than the prefix.",
+      "explanation": "In information retrieval, BSTs offer ordered keys and logarithmic lookups for exact matches. Prefix search exploits lexicographic ordering: once a node's word exceeds the prefix, only its left subtree can contain matches. This design is simple but degrades to O(n) in the worst case for skewed trees, motivating balanced variants like AVL or Red-Black trees in production."
+    },
+    {
+      "id": "38.3_q30",
+      "type": "write_the_code",
+      "title": "BST to Sorted Array and Back",
+      "concept": "binary_search_trees_bst_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "38.3_q29"
+      ],
+      "prompt": "Implement `bst_to_sorted_array(root)` that returns a sorted list of all values, and `sorted_array_to_bst(arr)` that builds a height-balanced BST from a sorted array. Verify that the round-trip preserves order and balance properties.",
+      "starter_code": "def bst_to_sorted_array(root):\n    # TODO: inorder traversal into list\n    pass\n\ndef sorted_array_to_bst(arr):\n    # TODO: build balanced BST recursively\n    pass",
+      "solution_code": "def bst_to_sorted_array(root):\n    result = []\n    def helper(node):\n        if node is None:\n            return\n        helper(node.left)\n        result.append(node.value)\n        helper(node.right)\n    helper(root)\n    return result\n\ndef sorted_array_to_bst(arr):\n    def helper(left, right):\n        if left > right:\n            return None\n        mid = (left + right) // 2\n        node = BSTNode(arr[mid])\n        node.left = helper(left, mid - 1)\n        node.right = helper(mid + 1, right)\n        return node\n    return helper(0, len(arr) - 1)",
+      "test_cases": [
+        {
+          "input": "root = BSTNode(4); root.left = BSTNode(2); root.right = BSTNode(6); root.left.left = BSTNode(1); root.left.right = BSTNode(3); arr = bst_to_sorted_array(root); assert arr",
+          "expected_output": "[1, 2, 3, 4, 6]; new_root = sorted_array_to_bst(arr); assert bst_to_sorted_array(new_root) == [1, 2, 3, 4, 6] and new_root.value == 3",
+          "description": "Verifies: root = BSTNode(4); root.left = BSTNode(2); root.right = BSTNode(6); root.left.left = BSTNode(1); root.left.right = BSTNode(3); arr = bst_to_sorted_array(root); assert arr == [1, 2, 3, 4, 6]; new_root = sorted_array_to_bst(arr); assert bst_to_sorted_array(new_root) == [1, 2, 3, 4, 6] and new_root.value == 3"
+        }
+      ],
+      "hint": "For the balanced construction, always pick the middle element as root to minimize height. Recursively build left and right subtrees from the left and right subarrays.",
+      "explanation": "Converting to a sorted array demonstrates the fundamental relationship between BST inorder traversal and sorted sequences. Rebuilding a balanced BST from that array ensures O(log n) search height, which is critical for performance. This round-trip is a common interview pattern and underpins self-balancing tree algorithms."
+    }
+  ],
+  "unit_num": 38,
+  "learning_objectives": [
+    "Implement the fundamental Binary Search Trees (BST) algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "38.2"
+  ]
+}

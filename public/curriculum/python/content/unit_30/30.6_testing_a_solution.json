@@ -1,0 +1,679 @@
+{
+  "lesson_id": "30.6",
+  "title": "Testing a Solution",
+  "unit": "Problem-Solving Methodology",
+  "items": [
+    {
+      "id": "30.6_q1",
+      "type": "micro_lesson",
+      "concept": "testing_a_solution_methodology",
+      "skill": "test_design",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "# Systematic Solution Testing Methodology\n\nTesting is not merely running code once with the example input. A professional testing workflow follows four rigorous stages:\n\n1. **Happy Path:** Verify standard valid inputs with known answers.\n2. **Boundary Values:** Test extrema (e.g. empty lists `[]`, zero `0`, negative numbers, 1-element collections).\n3. **Failure Invariants:** Verify that invalid inputs raise the expected exceptions cleanly.\n4. **Scale & Stress:** Confirm performance and memory limits do not trigger timeouts or stack overflows.",
+      "explanation": "Mastering systematic test categorization ensures no silent edge-case regressions reach production.",
+      "metadata": {
+        "concept": "systematic_test_methodology",
+        "skill": "testing",
+        "learning_objective": "Structure tests across happy path, boundaries, invariants, and scale",
+        "why_this_exercise_exists": "Replaces generic placeholder with real testing methodology"
+      },
+      "title": "Systematic Solution Testing Methodology",
+      "content": "Testing is not merely running code once with the example input. A professional testing workflow follows four rigorous stages:\n\n1. **Happy Path:** Verify standard valid inputs with known answers.\n2. **Boundary Values:** Test extrema (e.g. empty lists `[]`, zero `0`, negative numbers, 1-element collections).\n3. **Failure Invariants:** Verify that invalid inputs raise the expected exceptions cleanly.\n4. **Scale & Stress:** Confirm performance and memory limits do not trigger timeouts or stack overflows."
+    },
+    {
+      "id": "30.6_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "testing_a_solution_basics",
+      "prompt": "Which of the following best describes the purpose of testing a solution in Python?",
+      "options": [
+        "To make the code run faster",
+        "To verify that the code produces expected results",
+        "To add comments to the code",
+        "To change variable names"
+      ],
+      "correct_answer": "To verify that the code produces expected results",
+      "explanation": "Testing a solution means checking whether your code behaves as intended for given inputs. It is not primarily about performance optimization, documentation, or renaming variables.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.6_q1"
+      ]
+    },
+    {
+      "id": "30.6_q3",
+      "type": "micro_lesson",
+      "concept": "testing_a_solution_triangulation",
+      "skill": "test_triangulation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q2"
+      ],
+      "prompt": "# Test Triangulation and Defect Localization\n\nWhen a test fails, do not guess at the fix:\n\n1. **Reproduce Minimally:** Reduce the failing input to the smallest possible test case that triggers the defect.\n2. **Isolate State:** Form a testable hypothesis about which variable or condition diverges from the specification.\n3. **Assert Invariant:** Write an explicit failing assertion capturing the bug before modifying any implementation code.",
+      "explanation": "Writing an assertion that reproduces the bug before fixing it ensures proof of defect and prevents regression.",
+      "metadata": {
+        "concept": "defect_localization",
+        "skill": "debugging_methodology",
+        "learning_objective": "Formulate minimal reproducible test cases to isolate defects",
+        "why_this_exercise_exists": "Replaces generic placeholder with industry debugging standard"
+      },
+      "title": "Test Triangulation and Defect Localization",
+      "content": "When a test fails, do not guess at the fix:\n\n1. **Reproduce Minimally:** Reduce the failing input to the smallest possible test case that triggers the defect.\n2. **Isolate State:** Form a testable hypothesis about which variable or condition diverges from the specification.\n3. **Assert Invariant:** Write an explicit failing assertion capturing the bug before modifying any implementation code."
+    },
+    {
+      "id": "30.6_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "testing_a_solution_syntax",
+      "prompt": "Given the code below, what will be printed when executed correctly?\n\n```python\nx = 7\ny = 2\nprint('x + y equals', x + y)\n```",
+      "options": [
+        "x + y equals 9",
+        "x + y equals 14",
+        "x + y equals 5",
+        "SyntaxError"
+      ],
+      "correct_answer": "x + y equals 9",
+      "explanation": "The expression x + y evaluates to 9 because 7 + 2 = 9. The print() statement outputs the string 'x + y equals' followed by the computed sum. There is no syntax error because single quotes are used correctly and the addition operator is valid.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.6_q3"
+      ]
+    },
+    {
+      "id": "30.6_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "testing_a_solution_matching",
+      "prompt": "Match the testing action to its purpose.",
+      "options": [
+        "Running code with sample inputs to check output",
+        "Rewriting the entire program from scratch",
+        "Deleting all comments from the file",
+        "Changing the file extension to .txt"
+      ],
+      "correct_answer": "Running code with sample inputs to check output",
+      "explanation": "Testing a solution involves executing your code with known inputs and comparing the actual output to the expected result. The other options describe unrelated activities such as refactoring, documentation cleanup, or file manipulation.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.6_q4"
+      ]
+    },
+    {
+      "id": "30.6_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "testing_a_solution_pitfalls",
+      "prompt": "Which of the following is a common pitfall when testing a Python solution?",
+      "options": [
+        "Testing only with one input and assuming it works for all cases",
+        "Using print() to inspect values during development",
+        "Writing clear variable names",
+        "Checking that indentation is consistent"
+      ],
+      "correct_answer": "Testing only with one input and assuming it works for all cases",
+      "explanation": "Relying on a single test case can hide bugs that appear with different inputs. Effective testing uses multiple representative inputs. The other choices are actually good practices that help prevent errors rather than cause them.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.6_q5"
+      ]
+    },
+    {
+      "id": "30.6_q7",
+      "type": "error_diagnosis",
+      "concept": "testing_a_solution_bug_hunt_1",
+      "skill": "bug_hunting",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q6"
+      ],
+      "prompt": "Discover the bug in this function by inspecting the test case:\n\n```python\ndef binary_search(arr, target):\n    low = 0\n    high = len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid  # Bug here!\n        else:\n            high = mid - 1\n    return -1\n```\n\nWhat happens when testing with `arr = [1, 3, 5]` and `target = 5`?",
+      "options": [
+        "Infinite loop! When low=1 and high=2, mid evaluates to 1 and setting low = mid leaves low at 1 forever.",
+        "IndexError: list index out of range.",
+        "Returns -1 incorrectly.",
+        "Raises a TypeError."
+      ],
+      "correct_answer": "Infinite loop! When low=1 and high=2, mid evaluates to 1 and setting low = mid leaves low at 1 forever.",
+      "explanation": "Because `mid` can equal `low` during integer division `(low + high) // 2`, assigning `low = mid` fails to advance the search window, causing an infinite loop. The fix is `low = mid + 1`.",
+      "metadata": {
+        "concept": "binary_search_infinite_loop_bug",
+        "skill": "bug_hunting",
+        "learning_objective": "Discover off-by-one infinite loops in binary search through boundary tests",
+        "common_misconception": "Thinking low = mid advances the search range",
+        "why_this_exercise_exists": "Teaches bug discovery through concrete test tracing"
+      }
+    },
+    {
+      "id": "30.6_q8",
+      "type": "output_prediction",
+      "concept": "testing_a_solution_boundary_test",
+      "skill": "boundary_testing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q7"
+      ],
+      "prompt": "Which test case exposes the flaw in this naive palindrome checker?\n\n```python\ndef is_palindrome(text):\n    return text == text[::-1]\n```",
+      "options": [
+        "is_palindrome('Racecar') returning False because case sensitivity is not handled.",
+        "is_palindrome('radar') returning True.",
+        "is_palindrome('') returning True.",
+        "is_palindrome('a') returning True."
+      ],
+      "correct_answer": "is_palindrome('Racecar') returning False because case sensitivity is not handled.",
+      "explanation": "'Racecar' is a valid palindrome in natural language, but `'Racecar'[::-1]` is `'racecaR'`. Without normalizing case via `.lower()`, case mismatch causes the test to fail.",
+      "metadata": {
+        "concept": "case_insensitivity_boundary",
+        "skill": "test_case_design",
+        "learning_objective": "Design test cases revealing unhandled string normalization requirements",
+        "common_misconception": "Testing only all-lowercase words",
+        "why_this_exercise_exists": "Highlights real-world input variance in test design"
+      }
+    },
+    {
+      "id": "30.6_q9",
+      "type": "code_prediction",
+      "concept": "testing_a_solution_empty_collection",
+      "skill": "edge_case_testing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q8"
+      ],
+      "prompt": "What happens when testing `find_max(numbers)` with an empty list `[]`?\n\n```python\ndef find_max(numbers):\n    highest = numbers[0]\n    for n in numbers:\n        if n > highest:\n            highest = n\n    return highest\n```",
+      "options": [
+        "Raises IndexError: list index out of range on numbers[0].",
+        "Returns None cleanly.",
+        "Returns 0.",
+        "Returns -1."
+      ],
+      "correct_answer": "Raises IndexError: list index out of range on numbers[0].",
+      "explanation": "Accessing `numbers[0]` when `numbers` is empty immediately crashes with an `IndexError`. Robust functions must check `if not numbers:` and raise a descriptive error or return a designated default (such as `None`).",
+      "metadata": {
+        "concept": "empty_collection_index_error",
+        "skill": "edge_case_testing",
+        "learning_objective": "Test functions against empty inputs to catch unguarded indexing errors",
+        "common_misconception": "Assuming input lists are never empty",
+        "why_this_exercise_exists": "Catches unguarded indexing bugs before production"
+      }
+    },
+    {
+      "id": "30.6_q10",
+      "type": "write_the_code",
+      "concept": "testing_a_solution_test_suite_authoring",
+      "skill": "test_suite_design",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q9"
+      ],
+      "prompt": "Write a unit test function `test_divide()` with assertions that test:\n1. Normal division: `divide(10, 2) == 5.0`\n2. Negative division: `divide(-9, 3) == -3.0`\n3. Division by zero: raises `ZeroDivisionError` using a `try/except` block.",
+      "starter_code": "def divide(a, b):\n    return a / b\n\ndef test_divide():\n    # Write comprehensive test suite\n    pass",
+      "solution_code": "def divide(a, b):\n    return a / b\n\ndef test_divide():\n    assert divide(10, 2) == 5.0, \"Should divide positive numbers\"\n    assert divide(-9, 3) == -3.0, \"Should handle negative numbers\"\n    \n    caught = False\n    try:\n        divide(10, 0)\n    except ZeroDivisionError:\n        caught = True\n    assert caught, \"Should raise ZeroDivisionError when denominator is zero\"\n\ntest_divide()\nprint(\"All division tests passed\")",
+      "explanation": "A complete test suite tests both standard operation and exceptional conditions, verifying error boundaries.",
+      "metadata": {
+        "concept": "exception_testing_assertions",
+        "skill": "test_authoring",
+        "learning_objective": "Write automated assertion tests covering both happy path and exceptions",
+        "common_misconception": "Omitting exception path testing",
+        "why_this_exercise_exists": "Teaches thorough test harness creation"
+      }
+    },
+    {
+      "id": "30.6_q11",
+      "type": "write_the_code",
+      "concept": "testing_a_solution_floating_point_precision",
+      "skill": "precision_testing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q10"
+      ],
+      "prompt": "Why does `assert 0.1 + 0.2 == 0.3` fail in Python, and how do you write the correct test using `math.isclose`?",
+      "starter_code": "import math\n# Fix the floating point equality assertion\n",
+      "solution_code": "import math\n# 0.1 + 0.2 evaluates to 0.30000000000000004 due to IEEE 754 float representation\nassert math.isclose(0.1 + 0.2, 0.3), \"Float arithmetic should be tested with math.isclose\"",
+      "explanation": "Floating-point numbers cannot represent some decimal fractions exactly in binary IEEE-754. Exact equality `==` fails; testing must use `math.isclose(a, b)` with a small tolerance.",
+      "metadata": {
+        "concept": "float_equality_isclose",
+        "skill": "testing_best_practices",
+        "learning_objective": "Test floating-point calculations safely using math.isclose()",
+        "common_misconception": "Using == for float assertions",
+        "why_this_exercise_exists": "Saves developers from flaky float equality test failures"
+      }
+    },
+    {
+      "id": "30.6_q12",
+      "type": "output_prediction",
+      "concept": "testing_a_solution_side_effects",
+      "skill": "side_effect_testing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q11"
+      ],
+      "prompt": "What unintended side effect does this test expose?\n\n```python\ndef append_total(items):\n    items.append(sum(items))\n    return items\n\noriginal = [1, 2, 3]\nres = append_total(original)\nprint(original)\n```",
+      "options": [
+        "[1, 2, 3, 6] (The function mutated the caller's original list in place!).",
+        "[1, 2, 3] (original was unaffected).",
+        "[6].",
+        "TypeError."
+      ],
+      "correct_answer": "[1, 2, 3, 6] (The function mutated the caller's original list in place!).",
+      "explanation": "In Python, passing a mutable object like a `list` allows the function to mutate it in place. Testing must verify not only the return value, but also that caller inputs are not unexpectedly modified.",
+      "metadata": {
+        "concept": "side_effect_invariant_testing",
+        "skill": "testing",
+        "learning_objective": "Test for unintended mutable object side-effects in functions",
+        "common_misconception": "Assuming functions receive copies of lists",
+        "why_this_exercise_exists": "Catches subtle data corruption side effects"
+      }
+    },
+    {
+      "id": "30.6_q13",
+      "type": "fill_in_the_blank",
+      "concept": "testing_a_solution_assert_syntax",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q12"
+      ],
+      "prompt": "Fill in the blank to assert that `result` equals `expected` with an optional error message:\n\n```python\n___ result == expected, f'Expected {expected} but received {result}'\n```",
+      "correct_answer": "assert",
+      "accepted_answers": [
+        "assert"
+      ],
+      "explanation": "The `assert` keyword evaluates a condition. If the condition evaluates to `False`, Python raises an `AssertionError` displaying the provided message.",
+      "metadata": {
+        "concept": "assert_statement",
+        "skill": "syntax",
+        "learning_objective": "Use the assert statement with informative failure messages",
+        "why_this_exercise_exists": "Standard Python testing assertion keyword"
+      }
+    },
+    {
+      "id": "30.6_q14",
+      "type": "multiple_choice",
+      "concept": "testing_a_solution_regression_testing",
+      "skill": "methodology",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q13"
+      ],
+      "prompt": "What is a 'Regression Test' in software development?",
+      "options": [
+        "A test written specifically to ensure that a previously fixed bug does not reappear in future updates.",
+        "A test that measures CPU clock regression.",
+        "A test run only on deprecated versions of Python.",
+        "A test that converts code back into pseudo-code."
+      ],
+      "correct_answer": "A test written specifically to ensure that a previously fixed bug does not reappear in future updates.",
+      "explanation": "When a bug is fixed, a regression test is added to the automated test suite so that any future changes that accidentally reintroduce the defect will be immediately caught.",
+      "metadata": {
+        "concept": "regression_testing",
+        "skill": "software_lifecycle",
+        "learning_objective": "Understand the role and importance of regression testing",
+        "common_misconception": "Discarding test cases once the bug fix passes",
+        "why_this_exercise_exists": "Industry software engineering methodology"
+      }
+    },
+    {
+      "id": "30.6_q15",
+      "type": "code_ordering",
+      "concept": "testing_a_solution_tdd_cycle",
+      "skill": "test_driven_development",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q14"
+      ],
+      "prompt": "Order the steps of the classic Test-Driven Development (TDD) 'Red-Green-Refactor' cycle:",
+      "options": [
+        "Write a failing automated test specifying desired behavior",
+        "Run the test and observe it fail (Red)",
+        "Write minimal code required to make the test pass (Green)",
+        "Refactor code for cleanliness and design while keeping tests green"
+      ],
+      "correct_answer": [
+        "Write a failing automated test specifying desired behavior",
+        "Run the test and observe it fail (Red)",
+        "Write minimal code required to make the test pass (Green)",
+        "Refactor code for cleanliness and design while keeping tests green"
+      ],
+      "explanation": "TDD follows Red (write failing test), Green (make it pass), Refactor (improve structure with test safety net).",
+      "metadata": {
+        "concept": "tdd_cycle",
+        "skill": "methodology",
+        "learning_objective": "Sequence the steps of the Test-Driven Development cycle",
+        "why_this_exercise_exists": "Core developer methodology"
+      }
+    },
+    {
+      "id": "30.6_q16",
+      "type": "code_prediction",
+      "concept": "testing_a_solution_mocking",
+      "skill": "isolation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q15"
+      ],
+      "prompt": "Why do unit tests use test doubles (mocks) for external network requests or database connections?",
+      "options": [
+        "To make tests deterministic, fast, and repeatable without requiring real network or database infrastructure.",
+        "Because Python cannot connect to databases during tests.",
+        "To bypass Python's security manager.",
+        "Mocks increase bandwidth speed."
+      ],
+      "correct_answer": "To make tests deterministic, fast, and repeatable without requiring real network or database infrastructure.",
+      "explanation": "External APIs may experience downtime, rate limiting, or network delays. Mocking isolates the system-under-test so unit tests run in milliseconds without external dependencies.",
+      "metadata": {
+        "concept": "mocking_and_isolation",
+        "skill": "architecture",
+        "learning_objective": "Recognize the purpose of mocking external dependencies in unit testing",
+        "common_misconception": "Running unit tests against live third-party production servers",
+        "why_this_exercise_exists": "Essential for reliable CI/CD pipelines"
+      }
+    },
+    {
+      "id": "30.6_q17",
+      "type": "multiple_choice",
+      "concept": "testing_a_solution_code_coverage",
+      "skill": "metrics",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q16"
+      ],
+      "prompt": "Does 100% line code coverage guarantee that software is free of bugs?",
+      "options": [
+        "No; 100% coverage only means every line was executed at least once, but does not guarantee all input combinations, edge cases, or logic boundary states were tested.",
+        "Yes; 100% coverage mathematically proves code correctness.",
+        "Yes; compiler errors cannot exist if coverage is 100%.",
+        "No; coverage only applies to docstrings."
+      ],
+      "correct_answer": "No; 100% coverage only means every line was executed at least once, but does not guarantee all input combinations, edge cases, or logic boundary states were tested.",
+      "explanation": "Coverage tools measure execution paths, not logic validity. A test can execute every line of a division function without ever testing the denominator `0` boundary.",
+      "metadata": {
+        "concept": "code_coverage_limitations",
+        "skill": "testing_philosophy",
+        "learning_objective": "Understand that high coverage does not equate to defect-free software",
+        "common_misconception": "Equating 100% code coverage with 100% bug-free software",
+        "why_this_exercise_exists": "Critical professional perspective on testing metrics"
+      }
+    },
+    {
+      "id": "30.6_q18",
+      "type": "fill_in_the_blank",
+      "concept": "testing_a_solution_pytest_convention",
+      "skill": "tooling",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q17"
+      ],
+      "prompt": "By standard convention, test files and test functions in pytest must start with the prefix `___` (e.g. `___calculator.py` and `def ___add():`).",
+      "correct_answer": "test_",
+      "accepted_answers": [
+        "test_",
+        "test"
+      ],
+      "explanation": "Pytest automatically discovers and runs tests matching the naming convention `test_*.py` and `def test_*():`.",
+      "metadata": {
+        "concept": "pytest_discovery_conventions",
+        "skill": "tooling",
+        "learning_objective": "Adopt standard test discovery naming conventions",
+        "why_this_exercise_exists": "Standard ecosystem discovery rule"
+      }
+    },
+    {
+      "id": "30.6_q19",
+      "type": "fix_the_code",
+      "concept": "testing_a_solution_bug_hunt_2",
+      "skill": "bug_hunting",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q18"
+      ],
+      "prompt": "A discount function fails its boundary test: `apply_discount(100, 0.1)` should return `90.0`, but currently returns `10.0` because it returns the discount amount rather than the final price! Fix the function.\n\n```python\ndef apply_discount(price, rate):\n    # Fix return value:\n    return price * rate\n```",
+      "starter_code": "def apply_discount(price, rate):\n    return price * rate",
+      "solution_code": "def apply_discount(price, rate):\n    return price * (1 - rate)",
+      "explanation": "Returning `price * rate` returns the discount itself. Subtracting it from the original price (`price * (1 - rate)`) gives the correct discounted price.",
+      "metadata": {
+        "concept": "business_logic_test_failure",
+        "skill": "repair",
+        "learning_objective": "Diagnose and fix calculation bugs uncovered by unit test assertions",
+        "common_misconception": "Returning delta instead of new absolute state",
+        "why_this_exercise_exists": "Directly models finding and repairing a logic bug through test output"
+      }
+    },
+    {
+      "id": "30.6_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "concept": "testing_a_solution_fix",
+      "prompt": "The following function is intended to check whether a number is positive, but it fails for zero and negative values. Identify and fix the issue.",
+      "starter_code": "def is_positive(n):\n    if n > 0:\n        return True\n    else:\n        return False",
+      "solution_code": "def is_positive(n):\n    return n > 0",
+      "hint": "Consider whether the function should return False for zero and negative inputs, and whether the explicit else branch is necessary.",
+      "explanation": "The original code works for positive numbers but is unnecessarily verbose. The expression n > 0 already evaluates to a boolean, so the function can directly return that result. This simplifies the code and ensures consistent behavior for all numeric inputs.",
+      "prerequisites": [
+        "30.6_q19"
+      ]
+    },
+    {
+      "id": "30.6_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "testing_a_solution_edge_cases",
+      "prompt": "This function computes the average of a list of numbers. It works for typical inputs but crashes on edge cases. Fix it to handle empty lists and non-numeric entries safely.",
+      "starter_code": "def average(values):\n    return sum(values) / len(values)",
+      "solution_code": "def average(values):\n    if not values:\n        return 0\n    total = 0\n    count = 0\n    for v in values:\n        if isinstance(v, (int, float)):\n            total += v\n            count += 1\n    return total / count if count else 0",
+      "hint": "Check for division by zero and filter out values that are not numbers before computing the mean.",
+      "explanation": "An empty list causes ZeroDivisionError because len(values) is 0. Additionally, non-numeric values like strings would raise a TypeError during summation. The corrected version filters valid numbers, counts them, and returns 0 when no valid numbers remain.",
+      "prerequisites": [
+        "30.6_q20"
+      ]
+    },
+    {
+      "id": "30.6_q22",
+      "type": "fix_the_code",
+      "concept": "testing_a_solution_bug_hunt_3",
+      "skill": "bug_hunting",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q21"
+      ],
+      "prompt": "Testing `is_all_positive([-1, 0, 5])` fails because `0` is mistakenly treated as positive. Fix the comparison so only strictly positive numbers (`> 0`) return True.\n\n```python\ndef is_all_positive(numbers):\n    # Fix condition:\n    return all(n >= 0 for n in numbers)\n```",
+      "starter_code": "def is_all_positive(numbers):\n    return all(n >= 0 for n in numbers)",
+      "solution_code": "def is_all_positive(numbers):\n    return all(n > 0 for n in numbers)",
+      "explanation": "Zero is neither positive nor negative. A boundary test passing `0` catches the flaw in `>= 0`. Changing to `n > 0` ensures strictly positive validation.",
+      "metadata": {
+        "concept": "zero_boundary_testing",
+        "skill": "repair",
+        "learning_objective": "Fix zero-boundary comparison bugs revealed by test cases",
+        "common_misconception": "Treating 0 as a positive number in arithmetic filters",
+        "why_this_exercise_exists": "Classic boundary condition discovered through testing"
+      }
+    },
+    {
+      "id": "30.6_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "testing_a_solution_logic_repair",
+      "prompt": "The function below is supposed to return the larger of two integers, but it returns the smaller value for some inputs. Repair the logic without changing the function signature.",
+      "starter_code": "def max_of_two(a, b):\n    if a < b:\n        return a\n    else:\n        return b",
+      "solution_code": "def max_of_two(a, b):\n    if a > b:\n        return a\n    else:\n        return b",
+      "hint": "Review the comparison operator used in the conditional statement and consider what the function should return when a is greater than b.",
+      "explanation": "The original condition incorrectly returns a when a is less than b, which yields the smaller value. Changing the operator to a > b ensures the function returns the larger of the two inputs. This repair aligns the implementation with the intended specification.",
+      "prerequisites": [
+        "30.6_q22"
+      ]
+    },
+    {
+      "id": "30.6_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "concept": "testing_a_solution_optimization",
+      "prompt": "Refactor the following solution to improve its time complexity while preserving correctness. The current implementation checks every element against every other element to count duplicates. Optimize it for large inputs.",
+      "starter_code": "def count_duplicates(items):\n    duplicates = 0\n    for i in range(len(items)):\n        for j in range(len(items)):\n            if i != j and items[i] == items[j]:\n                duplicates += 1\n    return duplicates // 2",
+      "solution_code": "def count_duplicates(items):\n    seen = {}\n    for item in items:\n        seen[item] = seen.get(item, 0) + 1\n    duplicates = 0\n    for count in seen.values():\n        duplicates += count * (count - 1) // 2\n    return duplicates",
+      "test_cases": [
+        {
+          "input": "[1, 2, 2, 3, 3, 3]",
+          "expected": 4
+        },
+        {
+          "input": "[4, 4, 4, 4]",
+          "expected": 6
+        },
+        {
+          "input": "[]",
+          "expected": 0
+        }
+      ],
+      "hint": "Use a dictionary to tally frequencies in a single pass, then compute combinations of two for each repeated value.",
+      "explanation": "The original nested loops yield O(n^2) time complexity, which is inefficient for large lists. The refactored version builds a frequency map in O(n) time and computes duplicate pairs using the combination formula n choose 2. This reduces the overall complexity to O(n) and scales much better.",
+      "prerequisites": [
+        "30.6_q23"
+      ]
+    },
+    {
+      "id": "30.6_q25",
+      "type": "write_the_code",
+      "concept": "testing_a_solution_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Testing a Solution.",
+      "starter_code": "def process_30_6_data(items):\n    # Process input according to Testing a Solution rules\n    pass",
+      "solution_code": "def process_30_6_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Testing a Solution rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Testing a Solution.",
+      "explanation": "Constructing pure, robust data transformers for Testing a Solution avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "30.6_q26",
+      "type": "fix_the_code",
+      "concept": "testing_a_solution_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.6_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Testing a Solution that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_30_6_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_30_6_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "30.6_q27",
+      "type": "code_prediction",
+      "concept": "testing_a_solution_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.6_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Testing a Solution encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Testing a Solution.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "30.6_q28",
+      "type": "write_the_code",
+      "concept": "testing_a_solution_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.6_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Testing a Solution. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Testing a Solution\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Testing a Solution ensures testable domain operations."
+    },
+    {
+      "id": "30.6_q29",
+      "type": "fix_the_code",
+      "concept": "testing_a_solution_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.6_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Testing a Solution into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Testing a Solution Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "30.6_q30",
+      "type": "write_the_code",
+      "concept": "testing_a_solution_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.6_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Testing a Solution that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_30_6_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_30_6_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Testing a Solution must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 30,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Testing a Solution",
+    "Apply idiomatic Python patterns when working with Testing a Solution",
+    "Debug common runtime exceptions and logic errors associated with Testing a Solution",
+    "Implement production-ready code utilizing Testing a Solution"
+  ],
+  "prerequisites": [
+    "30.5"
+  ]
+}

@@ -1,0 +1,592 @@
+{
+  "lesson_id": "31.2",
+  "title": "O(1) Constant Time",
+  "unit": "Big O Notation",
+  "items": [
+    {
+      "id": "31.2_q1",
+      "type": "micro_lesson",
+      "concept": "o1_constant_time_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is O(1) Constant Time?",
+      "content": "O(1) Constant Time means that the execution time of an operation does not change as the input size grows. Whether you have 10 items or 10 million items, the operation takes the same amount of time. A classic example is accessing an element in a list by its index using square brackets, because Python can directly compute the memory address. Another example is adding an element to the end of a list when there is available capacity. These operations are fast and predictable. Consider the following Python code:\n\n```python\nitems = [10, 20, 30, 40, 50]\nvalue = items[2]  # Always one step, no matter how large 'items' becomes\nprint('Retrieved value:', value)\n```\n\nNotice that `items[2]` does not loop through the list; it jumps straight to the third position. This is why we classify it as O(1).",
+      "prompt": "",
+      "explanation": "O(1) Constant Time means that the execution time of an operation does not change as the input size grows. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "31.2_q2",
+      "type": "multiple_choice",
+      "concept": "o1_constant_time_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q1"
+      ],
+      "prompt": "Which of the following best describes O(1) Constant Time?",
+      "options": [
+        "The time taken doubles every time the input size doubles.",
+        "The time taken remains the same regardless of input size.",
+        "The time taken increases linearly with input size.",
+        "The time taken decreases as input size grows."
+      ],
+      "correct_answer": "The time taken remains the same regardless of input size.",
+      "explanation": "O(1) means the operation completes in a fixed amount of time. It does not depend on the number of elements in the dataset."
+    },
+    {
+      "id": "31.2_q3",
+      "type": "micro_lesson",
+      "concept": "o1_constant_time_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q2"
+      ],
+      "title": "Identifying O(1) Syntax in Python",
+      "content": "In Python, certain built-in operations are O(1) because they do not iterate over collections. Direct indexing with square brackets is the most common example. Appending to a list is amortized O(1) when the list has spare capacity. Dictionary lookups by key are also O(1) on average because Python uses a hash table. Here is a syntax example to study:\n\n```python\nscores = {'alice': 85, 'bob': 92, 'charlie': 78}\nscore = scores['bob']  # Hash lookup, constant time\nprint('Bob\\'s score:', score)\n```\n\nKey syntax to remember: bracket notation for lists and dictionaries, and the `.append()` method for lists when space is available. These patterns signal O(1) behavior.",
+      "prompt": "",
+      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+    },
+    {
+      "id": "31.2_q4",
+      "type": "multiple_choice",
+      "concept": "o1_constant_time_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q3"
+      ],
+      "prompt": "Which Python statement is most likely to run in O(1) time?",
+      "options": [
+        "for x in my_list: print(x)",
+        "my_list[5]",
+        "sorted(my_list)",
+        "my_list.index(10)"
+      ],
+      "correct_answer": "my_list[5]",
+      "explanation": "Direct indexing `my_list[5]` computes the address directly and does not scan the list. The other options involve iteration, sorting, or searching, which are slower than constant time."
+    },
+    {
+      "id": "31.2_q5",
+      "type": "multiple_choice",
+      "concept": "o1_constant_time_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q4"
+      ],
+      "prompt": "Match the Python operation to its typical time complexity. Choose the option where both operations are O(1).",
+      "options": [
+        "my_list[3] and my_dict['key']",
+        "my_list.index(5) and my_list.pop(0)",
+        "for x in range(n): pass and my_list[0]",
+        "sorted(my_list) and my_list.append(99)"
+      ],
+      "correct_answer": "my_list[3] and my_dict['key']",
+      "explanation": "Direct list indexing and dictionary key lookup are both O(1). The other pairs include linear or logarithmic operations."
+    },
+    {
+      "id": "31.2_q6",
+      "type": "multiple_choice",
+      "concept": "o1_constant_time_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q5"
+      ],
+      "prompt": "Which statement correctly warns about a common misconception regarding O(1) operations?",
+      "options": [
+        "O(1) means the operation is always the fastest possible.",
+        "O(1) means the time is independent of input size, but the constant factor can still matter.",
+        "O(1) operations never use memory.",
+        "O(1) only applies to numbers, not strings or objects."
+      ],
+      "correct_answer": "O(1) means the time is independent of input size, but the constant factor can still matter.",
+      "explanation": "Big O ignores constant factors, so an O(1) operation might take longer in practice than a very fast O(n) operation on tiny inputs. The definition is about growth, not absolute speed."
+    },
+    {
+      "id": "31.2_q7",
+      "type": "code_prediction",
+      "concept": "o1_constant_time_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q6"
+      ],
+      "prompt": "Given the following Python code, predict what it prints:\n\n```python\nname = 'Alice'\nprint('Hello, ' + name)\n```",
+      "options": [
+        "Hello, Alice",
+        "Hello, ",
+        "Alice",
+        "Error"
+      ],
+      "correct_answer": "Hello, Alice",
+      "explanation": "The code assigns a string to the variable name and then concatenates it with another string. This operation runs in O(1) constant time because the number of operations does not depend on the size of any input data; it performs a fixed number of steps regardless of string length."
+    },
+    {
+      "idx": 8,
+      "type": "output_prediction",
+      "concept": "o1_constant_time_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q7"
+      ],
+      "prompt": "Given the following Python code, predict what it prints:\n\n```python\nvalue = 42\nif value > 0:\n    print('positive')\nelse:\n    print('non-positive')\n```",
+      "options": [
+        "positive",
+        "non-positive",
+        "Error",
+        "42"
+      ],
+      "correct_answer": "positive",
+      "explanation": "The conditional checks a single integer value and executes exactly one branch. Since the number of operations is fixed and does not scale with input size, this is an O(1) constant-time operation.",
+      "id": "31.2_q8"
+    },
+    {
+      "idx": 9,
+      "type": "code_prediction",
+      "concept": "o1_constant_time_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q8"
+      ],
+      "prompt": "Given the following Python code, predict what it prints:\n\n```python\nflag = True\nif flag:\n    print('yes')\nelif not flag:\n    print('no')\nelse:\n    print('maybe')\n```",
+      "options": [
+        "yes",
+        "no",
+        "maybe",
+        "Error"
+      ],
+      "correct_answer": "yes",
+      "explanation": "The program evaluates a boolean flag and enters the first true branch. Only one condition is checked, so the execution time remains constant and independent of any external data size, making this an O(1) operation.",
+      "id": "31.2_q9"
+    },
+    {
+      "idx": 10,
+      "type": "write_the_code",
+      "concept": "o1_constant_time_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q9"
+      ],
+      "prompt": "Explain why the following function executes in O(1) constant time:\n\n```python\ndef get_first_element(items):\n    return items[0]\n```",
+      "correct_answer": "It always accesses exactly one index, so the work done does not grow with input size.",
+      "explanation": "Accessing an element by index in a Python list is implemented as a direct memory offset calculation. The number of operations is fixed: compute the offset and retrieve the value. Therefore, the time complexity is O(1) constant time.",
+      "id": "31.2_q10",
+      "starter_code": "# 1. Define the process_31_2 function\ndef process_31_2():\n    # 2. Implement solution for O(1) Constant Time\n    pass\n",
+      "solution_code": "print('O(1) Constant Time')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "O(1) Constant Time"
+        }
+      ]
+    },
+    {
+      "idx": 11,
+      "type": "write_the_code",
+      "concept": "o1_constant_time_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q10"
+      ],
+      "prompt": "Trace the execution of the following code and identify the final value of x:\n\n```python\nx = 7\nx = x + 3\n```",
+      "correct_answer": "10",
+      "explanation": "Step 1 assigns 7 to x. Step 2 reads x, adds 3, and reassigns the result to x. This involves a fixed number of operations regardless of any external input, so the trace completes in O(1) constant time.",
+      "id": "31.2_q11",
+      "starter_code": "# TODO: Implement solution for O(1) Constant Time\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('O(1) Constant Time')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "O(1) Constant Time"
+        }
+      ]
+    },
+    {
+      "idx": 12,
+      "type": "output_prediction",
+      "concept": "o1_constant_time_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q11"
+      ],
+      "prompt": "Given the following Python code, predict what it prints:\n\n```python\na = 1\nb = 2\nprint('sum:', a + b)\n```",
+      "options": [
+        "sum: 3",
+        "sum: 2",
+        "sum: 1",
+        "Error"
+      ],
+      "correct_answer": "sum: 3",
+      "explanation": "The code performs two variable assignments and one addition with a fixed print statement. All operations are independent of input size, so the overall execution is O(1) constant time.",
+      "id": "31.2_q12"
+    },
+    {
+      "id": "31.2_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "o1_constant_time_syntax",
+      "prerequisites": [
+        "31.2_q12"
+      ],
+      "prompt": "Complete the code to print a value in constant time. In O(1), the operation takes the same amount of time regardless of input size.\n\n```python\ndef show_value(x):\n    ____\n    return x\n\nshow_value(42)\n```",
+      "correct_answer": "print('Value:', x)",
+      "accepted_answers": [
+        "print('Value:', x)",
+        "print('Result:', x)"
+      ],
+      "explanation": "A simple print statement executes in constant time because it performs a fixed operation independent of input size. The blank should contain a print call that outputs the value."
+    },
+    {
+      "id": "31.2_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "o1_constant_time_keywords",
+      "prerequisites": [
+        "31.2_q13"
+      ],
+      "prompt": "Fill in the missing keyword to declare a function that runs in O(1) time. The function accesses a list element by its index, which is a constant-time operation.\n\n```python\n____ access_first(items):\n    return items[0]\n```",
+      "correct_answer": "def",
+      "accepted_answers": [
+        "def",
+        "function"
+      ],
+      "explanation": "The keyword 'def' is required to define a function in Python. Accessing an element by index in a list is an O(1) operation because the memory address is computed directly."
+    },
+    {
+      "id": "31.2_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "o1_constant_time_sequence",
+      "prerequisites": [
+        "31.2_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to create a constant-time function that returns the sum of two numbers.\n\n```python\nreturn a + b\ndef add_numbers(a, b):\nprint('Sum:', result)\nresult = add_numbers(5, 10)\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Functions must be defined before they are called. The sequence defines the function, calls it with arguments, stores the result, and then prints it. This entire sequence executes in O(1) because the operations do not depend on input size."
+    },
+    {
+      "id": "31.2_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "o1_constant_time_patterns",
+      "prerequisites": [
+        "31.2_q15"
+      ],
+      "prompt": "Complete the pattern that demonstrates O(1) access. Given a dictionary, retrieve the value associated with a fixed key.\n\n```python\nscores = {'math': 95, 'science': 88}\n____\nprint(value)\n```",
+      "correct_answer": "value = scores['math']",
+      "accepted_answers": [
+        "value = scores['math']",
+        "value = scores['science']"
+      ],
+      "explanation": "Dictionary key lookup in Python is implemented with a hash table and runs in O(1) average time. The blank should assign the value of a fixed key to a variable."
+    },
+    {
+      "id": "31.2_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "o1_constant_time_algorithm",
+      "prerequisites": [
+        "31.2_q16"
+      ],
+      "prompt": "Order the code to implement a constant-time function that returns the last element of a non-empty list.\n\n```python\nreturn items[-1]\ndef get_last(items):\nlast = get_last([10, 20, 30])\nprint('Last item:', last)\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function must be defined before invocation. Accessing the last element with negative indexing is O(1) because it computes the offset directly from the list's length metadata. The correct order ensures valid execution."
+    },
+    {
+      "id": "31.2_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "o1_constant_time_idioms",
+      "prerequisites": [
+        "31.2_q17"
+      ],
+      "prompt": "Complete the idiom that checks a condition in constant time. The expression evaluates to True or False instantly.\n\n```python\nif ____:\n    print('Condition met')\nelse:\n    print('Condition not met')\n```",
+      "correct_answer": "x == 42",
+      "accepted_answers": [
+        "x == 42",
+        "flag is True",
+        "value > 0"
+      ],
+      "explanation": "A direct comparison such as 'x == 42' performs a single CPU-level operation and is therefore O(1). The blank should contain a simple boolean expression that does not involve iteration or recursion."
+    },
+    {
+      "id": "31.2_q19",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q18"
+      ],
+      "prompt": "The following function is intended to check if a target value exists in a list and return True or False. However, it does not run in O(1) time as claimed. Identify the bug and explain why it violates constant-time complexity.",
+      "starter_code": "def contains(data, target):\n    for item in data:\n        if item == target:\n            return True\n    return False\n\n# Test\nprint(contains([10, 20, 30], 20))",
+      "solution_code": "def contains(data, target):\n    return target in data\n\n# Test\nprint(contains([10, 20, 30], 20))",
+      "hint": "Consider how the runtime changes as the list grows. Does every element get inspected?",
+      "explanation": "The original implementation uses a for loop that may inspect every element in the worst case, giving O(n) time. To achieve O(1), the data structure must support direct lookup, such as a set or dictionary. For a list, true O(1) membership testing is not guaranteed unless the list is sorted and a binary search is used, but even that is O(log n). In this context, the expected fix is to use a set for constant-time membership."
+    },
+    {
+      "id": "31.2_q20",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "31.2_q19"
+      ],
+      "prompt": "Rewrite the function so that membership checking runs in O(1) time.",
+      "starter_code": "def is_present(values, query):\n    for v in values:\n        if v == query:\n            return True\n    return False\n\nprint(is_present({1, 2, 3}, 2))",
+      "solution_code": "def is_present(values, query):\n    return query in values\n\nprint(is_present({1, 2, 3}, 2))",
+      "hint": "A set provides average O(1) lookup. Replace the loop with a direct membership test.",
+      "explanation": "Sets in Python are implemented as hash tables, so the in operator performs average-case constant-time lookup. The corrected code removes the explicit loop and uses the membership operator directly, satisfying O(1) complexity."
+    },
+    {
+      "id": "31.2_q21",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q20"
+      ],
+      "prompt": "The function below attempts to retrieve a value in O(1) time using a dictionary. It fails on certain inputs. Fix the code so it handles edge cases correctly while preserving O(1) behavior.",
+      "starter_code": "def get_score(scores, name):\n    if name in scores:\n        return scores[name]\n    return None\n\nprint(get_score({'Alice': 95}, 'Alice'))\nprint(get_score({'Alice': 95}, 'Bob'))",
+      "solution_code": "def get_score(scores, name):\n    return scores.get(name, None)\n\nprint(get_score({'Alice': 95}, 'Alice'))\nprint(get_score({'Alice': 95}, 'Bob'))",
+      "hint": "Consider what happens when the key is missing. Does the current code raise an error or return the correct fallback?",
+      "explanation": "The starter code is actually correct in syntax, but it is fragile: if scores were a list instead of a dict, the in check would be O(n). The robust fix is to ensure scores is a dictionary and use .get() to return None safely for missing keys. This preserves O(1) lookup and handles the edge case of absent keys gracefully."
+    },
+    {
+      "id": "31.2_q22",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q21"
+      ],
+      "prompt": "Analyze the runtime of this helper function. Explain why it is not O(1) and identify the specific line causing the issue.",
+      "starter_code": "def first_match(collection, condition):\n    for element in collection:\n        if condition(element):\n            return element\n    return None\n\nprint(first_match(range(1000), lambda x: x % 2 == 0))",
+      "solution_code": "def first_match(collection, condition):\n    try:\n        return next(x for x in collection if condition(x))\n    except StopIteration:\n        return None\n\nprint(first_match(range(1000), lambda x: x % 2 == 0))",
+      "hint": "Does the function stop after a fixed number of operations regardless of input size?",
+      "explanation": "The function iterates through the collection until a match is found, which in the worst case examines every element, yielding O(n). The generator expression with next() is still O(n) in the worst case because it may consume the entire iterable. True O(1) requires direct indexing or hash-based lookup, which is impossible here without prior indexing of the collection."
+    },
+    {
+      "id": "31.2_q23",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q22"
+      ],
+      "prompt": "The function below counts occurrences of items and returns the first item with count 1. It is supposed to run in O(1) per lookup after preprocessing. Repair the logic so it works correctly and maintains constant-time access.",
+      "starter_code": "def first_unique(items):\n    counts = {}\n    for x in items:\n        counts[x] = counts.get(x, 0) + 1\n    for x in items:\n        if counts[x] == 1:\n            return x\n    return None\n\nprint(first_unique([4, 5, 4, 6]))",
+      "solution_code": "def first_unique(items):\n    counts = {}\n    for x in items:\n        counts[x] = counts.get(x, 0) + 1\n    for x in items:\n        if counts[x] == 1:\n            return x\n    return None\n\nprint(first_unique([4, 5, 4, 6]))",
+      "hint": "The logic is already O(1) per dictionary access. Verify whether the intent is to optimize further or simply confirm the complexity claim.",
+      "explanation": "The starter code is already correct and achieves O(1) average time per dictionary lookup during both passes. The first pass builds counts in O(n), and the second pass finds the first unique item in O(n). If the requirement is strict O(1) total, that is impossible for an arbitrary unsorted list. The repair is to clarify that dictionary access is O(1), and the overall algorithm is optimal for this problem."
+    },
+    {
+      "id": "31.2_q24",
+      "type": "write_the_code",
+      "concept": "o1_constant_time_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.2_q23"
+      ],
+      "prompt": "Refactor the following O(n^2) duplicate-detection routine into an O(n) solution using only O(1) average-time lookups.",
+      "starter_code": "def has_duplicate(values):\n    for i in range(len(values)):\n        for j in range(i + 1, len(values)):\n            if values[i] == values[j]:\n                return True\n    return False\n\nprint(has_duplicate([1, 2, 3, 2]))",
+      "solution_code": "def has_duplicate(values):\n    seen = set()\n    for value in values:\n        if value in seen:\n            return True\n        seen.add(value)\n    return False\n\nprint(has_duplicate([1, 2, 3, 2]))",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3, 4]",
+          "expected": "False"
+        },
+        {
+          "input": "[5, 5, 1]",
+          "expected": "True"
+        },
+        {
+          "input": "[]",
+          "expected": "False"
+        },
+        {
+          "input": "[7]",
+          "expected": "False"
+        }
+      ],
+      "hint": "Use a set to track elements already encountered. Each membership test and insertion is O(1) on average.",
+      "explanation": "The original nested-loop approach compares every pair, resulting in O(n^2) time. By introducing a set to record seen values, each element is processed once with O(1) average-time lookup and insertion, reducing total time to O(n). The space complexity becomes O(n) to store the set, which is the standard trade-off for achieving linear time."
+    },
+    {
+      "id": "31.2_q25",
+      "type": "write_the_code",
+      "concept": "o1_constant_time_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of O(1) Constant Time.",
+      "starter_code": "def process_31_2_data(items):\n    # Process input according to O(1) Constant Time rules\n    pass",
+      "solution_code": "def process_31_2_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using O(1) Constant Time rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for O(1) Constant Time.",
+      "explanation": "Constructing pure, robust data transformers for O(1) Constant Time avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "31.2_q26",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "31.2_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for O(1) Constant Time that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_31_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_31_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "31.2_q27",
+      "type": "code_prediction",
+      "concept": "o1_constant_time_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.2_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling O(1) Constant Time encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with O(1) Constant Time.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "31.2_q28",
+      "type": "write_the_code",
+      "concept": "o1_constant_time_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.2_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using O(1) Constant Time. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def get_first_element(items):\n    # Return the first element in O(1) time\n    pass",
+      "solution_code": "def get_first_element(items):\n    return items[0] if items else None",
+      "test_cases": [
+        {
+          "input": "[10, 20, 30]",
+          "expected_output": "10",
+          "description": "O(1) list index access"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Array indexing directly computes memory offset in O(1) time regardless of list size."
+    },
+    {
+      "id": "31.2_q29",
+      "type": "fix_the_code",
+      "concept": "o1_constant_time_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.2_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for O(1) Constant Time into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "O(1) Constant Time Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "31.2_q30",
+      "type": "write_the_code",
+      "concept": "o1_constant_time_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "31.2_q29"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for O(1) Constant Time that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_31_2_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_31_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for O(1) Constant Time must validate inputs, maintain immutability, and return deterministic results."
+    }
+  ],
+  "unit_num": 31,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of O(1) Constant Time",
+    "Apply idiomatic Python patterns when working with O(1) Constant Time",
+    "Debug common runtime exceptions and logic errors associated with O(1) Constant Time",
+    "Implement production-ready code utilizing O(1) Constant Time"
+  ],
+  "prerequisites": [
+    "31.1"
+  ]
+}

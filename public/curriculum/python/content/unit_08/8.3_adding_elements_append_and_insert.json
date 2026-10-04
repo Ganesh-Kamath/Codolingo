@@ -1,0 +1,618 @@
+{
+  "lesson_id": "8.3",
+  "title": "Adding Elements: append() and insert()",
+  "unit": "Lists",
+  "items": [
+    {
+      "id": "8.3_q1",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "concept": "adding_elements_append_and_insert_basics",
+      "title": "Introduction to Adding Elements in Lists",
+      "content": "In Python, lists are mutable sequences that allow you to add new elements after they are created. Two fundamental methods for adding elements are append() and insert(). The append() method adds an element to the very end of the list. The insert() method adds an element at a specific position you choose. Understanding when to use each method is key to working with lists effectively.",
+      "skill": "recognition",
+      "prompt": "",
+      "explanation": "In Python, lists are mutable sequences that allow you to add new elements after they are created. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "8.3_q2",
+      "type": "multiple_choice",
+      "question": "What is the crucial difference between `numbers.append(4)` and `numbers = numbers + [4]`?",
+      "options": [
+        "append(4) mutates the existing list in-place and returns None, whereas numbers + [4] creates a brand-new list object in memory",
+        "append(4) creates a new list and returns it, while + [4] modifies the list in place",
+        "Both operations create a new list, but append() is only allowed for integer elements",
+        "append(4) leaves the original list unchanged and prints the new item to the console"
+      ],
+      "correct_answer": "append(4) mutates the existing list in-place and returns None, whereas numbers + [4] creates a brand-new list object in memory",
+      "explanation": "In Python, `.append()` is an in-place mutation: it adds the element directly to the existing list object and returns `None`. In contrast, concatenation `+` creates a brand-new list object containing all combined items and requires reassigning the variable.",
+      "difficulty": "easy",
+      "concept": "mutation_vs_reassignment",
+      "skill": "mental_model",
+      "prerequisites": []
+    },
+    {
+      "id": "8.3_q3",
+      "type": "micro_lesson",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.3_q2"
+      ],
+      "concept": "adding_elements_append_and_insert_syntax",
+      "title": "Syntax for append() and insert()",
+      "content": "To use append(), call it on a list object and pass the value you want to add as an argument. For insert(), provide two arguments: the index where you want to place the element, and the element itself. Here is the syntax:\n\n```python\nmy_list = [10, 20, 30]\nmy_list.append(40)\n# Result: [10, 20, 30, 40]\n\nmy_list.insert(1, 15)\n# Result: [10, 15, 20, 30, 40]\n```\n\nNote that insert() shifts existing elements to the right to make room for the new item at the given index.",
+      "skill": "understanding",
+      "prompt": "",
+      "explanation": "To use append(), call it on a list object and pass the value you want to add as an argument. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "8.3_q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.3_q3"
+      ],
+      "concept": "adding_elements_append_and_insert_syntax",
+      "prompt": "What is the result of the following code?\n```python\nlst = [1, 2]\nlst.insert(1, 99)\nprint(lst)\n```",
+      "options": [
+        "[1, 99, 2]",
+        "[1, 2, 99]",
+        "[99, 1, 2]",
+        "[1, 2, 99, 99]"
+      ],
+      "correct_answer": "[1, 99, 2]",
+      "explanation": "insert(1, 99) places 99 at index 1, pushing the original element at index 1 (which is 2) to index 2.",
+      "skill": "reasoning"
+    },
+    {
+      "id": "8.3_q5",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.3_q4"
+      ],
+      "concept": "adding_elements_append_and_insert_matching",
+      "prompt": "Match the method to its correct description.",
+      "options": [
+        "append(): adds to the end; insert(): adds at a specific index",
+        "append(): adds at a specific index; insert(): adds to the end",
+        "append(): removes from the end; insert(): adds to the end",
+        "append(): sorts the list; insert(): reverses the list"
+      ],
+      "correct_answer": "append(): adds to the end; insert(): adds at a specific index",
+      "explanation": "append() always adds to the last position, while insert() requires an index argument to specify where to add the new element.",
+      "skill": "recognition"
+    },
+    {
+      "id": "8.3_q6",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.3_q5"
+      ],
+      "concept": "adding_elements_append_and_insert_pitfalls",
+      "prompt": "What happens if you use insert() with an index that is larger than the current length of the list?",
+      "options": [
+        "It raises an IndexError",
+        "It inserts the element at the end of the list",
+        "It inserts the element at the beginning of the list",
+        "It deletes the last element"
+      ],
+      "correct_answer": "It inserts the element at the end of the list",
+      "explanation": "Unlike some languages, Python's list insert() is forgiving: if the index is beyond the list length, the element is appended at the end rather than causing an error.",
+      "skill": "comprehension"
+    },
+    {
+      "id": "8.3_q7",
+      "type": "code_prediction",
+      "concept": "adding_elements_append_and_insert_execution",
+      "skill": "prediction",
+      "diff": "easy",
+      "prerequisites": [
+        "8.3_q6"
+      ],
+      "micro_lesson": {
+        "title": "Understanding append()",
+        "content": "The append() method adds an element to the end of a list. It modifies the list in place and returns None. For example, if you have a list my_list = [1, 2, 3], calling my_list.append(4) changes the list to [1, 2, 3, 4]. This is useful when you want to grow a list by one item at the tail."
+      },
+      "prompt": "What is the value of the list after executing the following code?\n```python\nmylist = [10, 20]\nmylist.append(30)\nprint(mylist)\n```",
+      "options": [
+        "[10, 20]",
+        "[10, 20, 30]",
+        "[10, 20, 30, 30]",
+        "Error: append() does not return the list"
+      ],
+      "correct_answer": "[10, 20, 30]",
+      "explanation": "append() adds the argument to the end of the list in place. The original list becomes [10, 20, 30] and print displays that result.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "8.3_q8",
+      "type": "output_prediction",
+      "concept": "adding_elements_append_and_insert_execution",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "8.3_q7"
+      ],
+      "micro_lesson": {
+        "title": "Using insert() to place elements",
+        "content": "The insert(index, element) method inserts an element at a specified index, shifting existing elements to the right. For example, if you have data = ['a', 'b', 'c'] and call data.insert(1, 'x'), the list becomes ['a', 'x', 'b', 'c']. Note that insert() modifies the list in place and also returns None. The index is 0-based, so index 0 inserts at the beginning."
+      },
+      "prompt": "What is printed by the following code?\n```python\nnames = ['Alice', 'Charlie']\nnames.insert(1, 'Bob')\nprint(names)\n```",
+      "options": [
+        "['Alice', 'Charlie']",
+        "['Alice', 'Bob', 'Charlie']",
+        "['Bob', 'Alice', 'Charlie']",
+        "['Alice', 'Charlie', 'Bob']"
+      ],
+      "correct_answer": "['Alice', 'Bob', 'Charlie']",
+      "explanation": "insert(1, 'Bob') places 'Bob' at index 1, pushing 'Charlie' to index 2. The resulting list is ['Alice', 'Bob', 'Charlie'].",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.3_q9",
+      "type": "output_prediction",
+      "question": "What is the exact output of this code?\n\n```python\nfirst = [1, 2]\nsecond = first\nsecond.append(3)\nprint(first)\n```",
+      "options": [
+        "[1, 2, 3]",
+        "[1, 2]",
+        "None",
+        "RuntimeError: aliased list modified"
+      ],
+      "correct_answer": "[1, 2, 3]",
+      "explanation": "`second = first` does NOT create a copy of the list; both variables reference the exact same list object in memory (aliasing). When `second.append(3)` mutates the underlying list, viewing it via `first` reflects the change `[1, 2, 3]`.",
+      "difficulty": "medium",
+      "concept": "aliasing_and_mutability",
+      "skill": "state_tracing",
+      "prerequisites": []
+    },
+    {
+      "id": "8.3_q10",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_analysis",
+      "skill": "analysis",
+      "diff": "medium",
+      "prerequisites": [
+        "8.3_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing list method behavior",
+        "content": "When you call append() or insert() on a list, the list object is modified in place. These methods do not return the updated list; they return None. A common beginner mistake is writing new_list = my_list.append(5), which sets new_list to None instead of the modified list."
+      },
+      "prompt": "Explain why the following code does not work as intended:\n```python\nmy_list = [1, 2]\nresult = my_list.append(3)\nprint(result)\n```",
+      "correct_answer": "append() returns None, so result is None and my_list is not updated",
+      "explanation": "my_list.append(3) modifies my_list to [1, 2, 3] but returns None. Therefore result becomes None, and printing it shows None instead of the list.",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for Adding Elements: append() and insert()\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Adding Elements: append() and insert()')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Adding Elements: append() and insert()"
+        }
+      ]
+    },
+    {
+      "id": "8.3_q11",
+      "type": "code_prediction",
+      "concept": "adding_elements_append_and_insert_tracing",
+      "skill": "tracing",
+      "diff": "medium",
+      "prerequisites": [
+        "8.3_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing multiple list modifications",
+        "content": "To trace list changes, write down the list state after each method call. Remember that insert() shifts elements to the right starting from the given index, and append() adds to the end. Keeping an intermediate state helps avoid errors when multiple operations are chained."
+      },
+      "prompt": "Trace the list through these steps and state the final output:\n```python\nlst = [2, 4]\nlst.insert(2, 3)\nlst.append(5)\nprint(lst)\n```",
+      "options": [
+        "[2, 4, 3, 5]",
+        "[2, 3, 4, 5]",
+        "[2, 4, 5, 3]",
+        "[3, 2, 4, 5]"
+      ],
+      "correct_answer": "[2, 4, 3, 5]",
+      "explanation": "`lst.insert(2, 3)` on `[2, 4]` places 3 at index 2 (the current end), making `[2, 4, 3]`. `lst.append(5)` adds 5 to the end, giving `[2, 4, 3, 5]`.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.3_q12",
+      "type": "output_prediction",
+      "concept": "adding_elements_append_and_insert_logic",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "8.3_q11"
+      ],
+      "micro_lesson": {
+        "title": "Predicting output with logic",
+        "content": "When predicting output, consider whether the index in insert() is within bounds. If the index is greater than or equal to the current length, insert() behaves like append(). For example, inserting at index 100 on a 3-element list places the item at the end."
+      },
+      "prompt": "What is printed?\n```python\nitems = ['x']\nitems.insert(10, 'y')\nprint(items)\n```",
+      "options": [
+        "['x']",
+        "['x', 'y']",
+        "Error: index out of range",
+        "['y', 'x']"
+      ],
+      "correct_answer": "['x', 'y']",
+      "explanation": "When the index is beyond the list length, insert() appends the element at the end. So 'y' is added after 'x', producing ['x', 'y'].",
+      "difficulty": "medium"
+    },
+    {
+      "id": "8.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "adding_elements_append_and_insert_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.3_q12"
+      ],
+      "prompt": "To add an element to the end of a list in Python, use the ____ method. For example, to add 'apple' to my_list, you would write: my_list ____ 'apple'.",
+      "correct_answer": "append",
+      "accepted_answers": [
+        "append",
+        "append()"
+      ],
+      "explanation": "The append() method adds a single element to the end of a list. It modifies the list in place and does not return a value."
+    },
+    {
+      "id": "8.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "adding_elements_append_and_insert_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q13"
+      ],
+      "prompt": "The insert() method requires two arguments: the ____ at which to insert, and the element to add. For example: my_list.insert(1, 'banana') inserts 'banana' at index 1.",
+      "correct_answer": "index",
+      "accepted_answers": [
+        "index",
+        "position",
+        "index number"
+      ],
+      "explanation": "insert() takes the index first, then the value. This differs from append(), which takes only the value."
+    },
+    {
+      "id": "8.3_q15",
+      "type": "code_ordering",
+      "concept": "adding_elements_append_and_insert_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q14"
+      ],
+      "prompt": "Arrange the following lines of code in the correct order to build a list, add an item to the end, and then insert an item at position 2.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, initialize the list. Then append(30) adds 30 to the end, resulting in [10, 20, 30]. Finally, insert(2, 15) places 15 at index 2, giving [10, 15, 20, 30]."
+    },
+    {
+      "id": "8.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "adding_elements_append_and_insert_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q15"
+      ],
+      "prompt": "Given my_list = [1, 2], after executing my_list.append(3) followed by my_list.insert(0, 0), the final list is [0, 1, 2, 3]. The pattern for adding to the beginning is: my_list.insert(____, value).",
+      "correct_answer": "0",
+      "accepted_answers": [
+        "0",
+        "the first index",
+        "index 0"
+      ],
+      "explanation": "Inserting at index 0 places the new element at the front of the list, shifting all existing elements one position to the right."
+    },
+    {
+      "id": "8.3_q17",
+      "type": "code_ordering",
+      "concept": "adding_elements_append_and_insert_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q16"
+      ],
+      "prompt": "Arrange the steps to create a shopping list, add 'milk' to the end, and then insert 'bread' at the beginning.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Start with an empty list. append('milk') yields ['milk']. Then insert(0, 'bread') places 'bread' at the front, resulting in ['bread', 'milk']."
+    },
+    {
+      "id": "8.3_q18",
+      "type": "error_diagnosis",
+      "question": "A developer wrote this code to add a score to their leaderboard:\n\n```python\nscores = [95, 88, 72]\nscores = scores.append(90)\nprint(len(scores))\n```\nWhy does line 3 raise a `TypeError: object of type 'NoneType' has no len()`?",
+      "options": [
+        "scores.append() mutates the list in place and returns None, so rebinding scores = scores.append(90) sets scores to None",
+        "append() can only accept strings, so passing 90 causes a silent conversion to None",
+        "len() cannot measure lists that have more than 3 elements",
+        "The list must be sorted before calling len()"
+      ],
+      "correct_answer": "scores.append() mutates the list in place and returns None, so rebinding scores = scores.append(90) sets scores to None",
+      "explanation": "This is one of the most frequent Python beginner bugs: `.append()` modifies the list in place and returns `None`. By assigning `scores = scores.append(90)`, the variable `scores` is overwritten with `None`, breaking subsequent operations.",
+      "difficulty": "medium",
+      "concept": "append_returns_none",
+      "skill": "debugging",
+      "prerequisites": []
+    },
+    {
+      "id": "8.3_q19",
+      "type": "fix_the_code",
+      "concept": "adding_elements_append_and_insert_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Errors When Using append() and insert()",
+        "content": "When adding elements to a list, two frequent mistakes occur. First, confusing append() with insert() leads to incorrect placement: append() adds to the end, while insert(index, value) places the element at a specific index. Second, using an invalid index with insert() raises an IndexError. Remember that valid indices for insert() range from 0 to len(list), inclusive. For example, inserting at len(list) appends to the end. Always verify your index is within bounds before calling insert()."
+      },
+      "prompt": "Identify the error(s) in the following code and explain why it fails.",
+      "starter_code": "def add_items(lst, x):\n    lst.insert(len(lst) + 1, x)\n    return lst\n\nmy_list = [10, 20]\nresult = add_items(my_list, 30)\nprint(result)",
+      "solution_code": "def add_items(lst, x):\n    lst.insert(len(lst), x)\n    return lst\n\nmy_list = [10, 20]\nresult = add_items(my_list, 30)\nprint(result)",
+      "hint": "Check whether the index passed to insert() is within the valid range of 0 to len(lst), inclusive.",
+      "explanation": "The original code uses len(lst) + 1 as the index, which is out of bounds for a list of length 2. The valid indices for insertion are 0, 1, and 2 (where 2 appends to the end). Using len(lst) fixes the error and correctly appends 30."
+    },
+    {
+      "id": "8.3_q20",
+      "type": "fix_the_code",
+      "concept": "adding_elements_append_and_insert_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.3_q19"
+      ],
+      "prompt": "The function below is supposed to add a new score to the end of the leaderboard. However, it currently uses the wrong method. Fix it so the score is appended correctly.",
+      "starter_code": "def update_leaderboard(scores, new_score):\n    scores.insert(0, new_score)\n    return scores\n\nleaderboard = [85, 92, 78]\nprint(update_leaderboard(leaderboard, 95))",
+      "solution_code": "def update_leaderboard(scores, new_score):\n    scores.append(new_score)\n    return scores\n\nleaderboard = [85, 92, 78]\nprint(update_leaderboard(leaderboard, 95))",
+      "hint": "Consider the requirement: the new score should appear at the end of the list.",
+      "explanation": "The starter code incorrectly uses insert(0, new_score), which places the score at the beginning. Replacing it with append(new_score) adds the element to the end of the list, matching the intended behavior."
+    },
+    {
+      "id": "8.3_q21",
+      "type": "fix_the_code",
+      "concept": "adding_elements_append_and_insert_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q20"
+      ],
+      "prompt": "This function attempts to insert a default value at the start of a list only when the list is empty. It fails for non-empty lists due to an edge case. Correct the logic.",
+      "starter_code": "def ensure_default(values):\n    if len(values) == 0:\n        values.insert(0, 'default')\n    else:\n        values.insert(1, 'default')\n    return values\n\nprint(ensure_default([]))\nprint(ensure_default([10]))",
+      "solution_code": "def ensure_default(values):\n    if len(values) == 0:\n        values.append('default')\n    else:\n        values.insert(0, 'default')\n    return values\n\nprint(ensure_default([]))\nprint(ensure_default([10]))",
+      "hint": "Review the behavior required for an empty list versus a non-empty list.",
+      "explanation": "For an empty list, insert(0, 'default') works, but using append() is clearer. For a non-empty list, insert(0, 'default') correctly places the default at the start. The original code inserted at index 1 for non-empty lists, which does not meet the requirement of placing the default at the beginning."
+    },
+    {
+      "id": "8.3_q22",
+      "type": "fix_the_code",
+      "concept": "adding_elements_append_and_insert_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with insert()",
+        "content": "A runtime error occurs when code executes but encounters an invalid operation. With insert(), passing a negative index or an index greater than len(list) triggers an IndexError at runtime. Unlike append(), insert() does not silently ignore bad indices. To avoid runtime crashes, validate indices before insertion or catch IndexError exceptions."
+      },
+      "prompt": "Explain the runtime error that occurs when this code is executed.",
+      "starter_code": "def add_middle(lst, val):\n    idx = len(lst) // 2 + 5\n    lst.insert(idx, val)\n    return lst\n\nprint(add_middle([1, 2, 3], 99))",
+      "solution_code": "def add_middle(lst, val):\n    idx = len(lst) // 2\n    lst.insert(idx, val)\n    return lst\n\nprint(add_middle([1, 2, 3], 99))",
+      "hint": "Calculate the intended index and compare it to the list length.",
+      "explanation": "The original code computes idx = 1 + 5 = 6, but the list length is 3. Since valid insertion indices are 0 to 3, index 6 causes an IndexError at runtime. Reducing idx to len(lst) // 2 = 1 places 99 in the middle safely."
+    },
+    {
+      "id": "8.3_q23",
+      "type": "fix_the_code",
+      "concept": "adding_elements_append_and_insert_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q22"
+      ],
+      "prompt": "The function is meant to add a prefix to every string in a list by inserting it at position 0. It currently corrupts the list structure. Repair the logic.",
+      "starter_code": "def add_prefix(items, prefix):\n    for item in items:\n        items.insert(0, prefix + item)\n    return items\n\nprint(add_prefix(['a', 'b'], 'pre_'))",
+      "solution_code": "def add_prefix(items, prefix):\n    new_items = []\n    for item in items:\n        new_items.append(prefix + item)\n    return new_items\n\nprint(add_prefix(['a', 'b'], 'pre_'))",
+      "hint": "Modifying a list while iterating over it causes unexpected behavior. Build a new list instead.",
+      "explanation": "The starter code mutates items while iterating, causing elements to shift and duplicate. The corrected version creates a new list, appends each prefixed string, and returns it, preserving the original order without side effects."
+    },
+    {
+      "id": "8.3_q24",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.3_q23"
+      ],
+      "prompt": "Refactor the following inefficient implementation that repeatedly inserts elements into a list to improve time complexity. Preserve the final output.",
+      "starter_code": "def build_sequence(n):\n    seq = []\n    for i in range(n):\n        seq.insert(0, i * 2)\n    return seq\n\nprint(build_sequence(5))",
+      "solution_code": "def build_sequence(n):\n    seq = [i * 2 for i in range(n)]\n    seq.reverse()\n    return seq\n\nprint(build_sequence(5))",
+      "test_cases": [
+        {
+          "input": 5,
+          "expected": [
+            8,
+            6,
+            4,
+            2,
+            0
+          ]
+        },
+        {
+          "input": 0,
+          "expected": []
+        },
+        {
+          "input": 3,
+          "expected": [
+            4,
+            2,
+            0
+          ]
+        }
+      ],
+      "hint": "Consider the cost of repeated insert(0, ...) operations and whether a list comprehension or reversed construction is faster.",
+      "explanation": "Repeated insert(0, ...) is O(n^2) because each insertion shifts all existing elements. The refactored version builds the list in order using a comprehension (O(n)) and reverses it (O(n)), yielding O(n) overall. This preserves the output while significantly improving performance for large n."
+    },
+    {
+      "id": "8.3_q25",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.3_q24"
+      ],
+      "prompt": "Create a Python list named `tasks` containing `['read', 'write', 'review']`. Use `append()` to add `'test'` to the end of the list and `insert()` to place `'design'` at index 1. Print the final list.",
+      "starter_code": "tasks = ['read', 'write', 'review']\n# TODO: append 'test' and insert 'design' at index 1\nprint(tasks)",
+      "solution_code": "tasks = ['read', 'write', 'review']\ntasks.append('test')\ntasks.insert(1, 'design')\nprint(tasks)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "['read', 'design', 'write', 'review', 'test']"
+        }
+      ],
+      "hint": "Recall that `append()` adds an element to the last position, while `insert(index, element)` shifts existing elements to the right starting at the given index.",
+      "explanation": "The `append()` method modifies the list in-place by adding the argument to the end. The `insert()` method also modifies the list in-place but places the new element before the element currently at the specified index, shifting all subsequent elements one position to the right. After both operations, the list becomes `['read', 'design', 'write', 'review', 'test']`."
+    },
+    {
+      "id": "8.3_q26",
+      "type": "multiple_choice",
+      "question": "You are building an e-commerce checkout. You want to create a preview cart with a promotional item added, WITHOUT modifying the user's active shopping cart session. Which pattern safely achieves this?",
+      "options": [
+        "preview = user_cart.copy()\npreview.append(promo_item)",
+        "preview = user_cart\npreview.append(promo_item)",
+        "preview = user_cart.append(promo_item)",
+        "preview = list(user_cart.append(promo_item))"
+      ],
+      "correct_answer": "preview = user_cart.copy()\npreview.append(promo_item)",
+      "explanation": "To prevent modifying the active session cart, you must create a shallow copy (`user_cart.copy()` or `list(user_cart)`). Simply doing `preview = user_cart` would alias the active cart, causing promo modifications to corrupt the live user session.",
+      "difficulty": "hard",
+      "concept": "shallow_copy_vs_alias",
+      "skill": "system_design",
+      "prerequisites": []
+    },
+    {
+      "id": "8.3_q27",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.3_q26"
+      ],
+      "prompt": "Given a list `scores = [85, 90, 78]`, conditionally append `92` if it is greater than `90`, otherwise insert `88` at index 2. Print the resulting list.",
+      "starter_code": "scores = [85, 90, 78]\n# TODO: use an if-else block to append 92 or insert 88 at index 2\nprint(scores)",
+      "solution_code": "scores = [85, 90, 78]\nif 92 > 90:\n    scores.append(92)\nelse:\n    scores.insert(2, 88)\nprint(scores)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "[85, 90, 92]"
+        }
+      ],
+      "hint": "Evaluate the condition first. Since `92 > 90` is `True`, the `append()` branch executes. If the condition were `False`, you would use `insert(2, 88)` instead.",
+      "explanation": "Because `92 > 90` evaluates to `True`, the `append(92)` method is called, producing `[85, 90, 78, 92]`. The `else` branch is skipped. This demonstrates how list mutation can be controlled by program logic."
+    },
+    {
+      "id": "8.3_q28",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.3_q27"
+      ],
+      "prompt": "You are given a list `inventory = []`. Write a loop that appends the strings `'apple'`, `'banana'`, and `'cherry'` in that order. Then insert `'blueberry'` at index 1. Print the final list.",
+      "starter_code": "inventory = []\n# TODO: loop to append fruits, then insert 'blueberry' at index 1\nprint(inventory)",
+      "solution_code": "inventory = []\nfor fruit in ['apple', 'banana', 'cherry']:\n    inventory.append(fruit)\ninventory.insert(1, 'blueberry')\nprint(inventory)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "['apple', 'blueberry', 'banana', 'cherry']"
+        }
+      ],
+      "hint": "Use a `for` loop to iterate over the three fruit names. After the loop, `insert(1, ...)` places the new item between the first and second existing elements.",
+      "explanation": "The loop appends each fruit sequentially, yielding `['apple', 'banana', 'cherry']`. Inserting `'blueberry'` at index `1` shifts `'banana'` and `'cherry'` right, resulting in `['apple', 'blueberry', 'banana', 'cherry']`."
+    },
+    {
+      "id": "8.3_q29",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.3_q28"
+      ],
+      "prompt": "A project manager maintains a task list in Python. The initial list is `['planning', 'coding']`. A new urgent task `'urgent_review'` must be added to the end, and `'testing'` must be placed before `'coding'`. Construct the list using `append()` and `insert()`, then print it.",
+      "starter_code": "tasks = ['planning', 'coding']\n# TODO: append 'urgent_review' and insert 'testing' before 'coding'\nprint(tasks)",
+      "solution_code": "tasks = ['planning', 'coding']\ntasks.append('urgent_review')\ntasks.insert(1, 'testing')\nprint(tasks)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "['planning', 'testing', 'coding', 'urgent_review']"
+        }
+      ],
+      "hint": "To place `'testing'` before `'coding'`, determine the index of `'coding'` first or use the known position after appending.",
+      "explanation": "After `append('urgent_review')`, the list is `['planning', 'coding', 'urgent_review']`. Inserting `'testing'` at index `1` shifts `'coding'` and `'urgent_review'` right, producing `['planning', 'testing', 'coding', 'urgent_review']`. This mirrors real-world prioritization where urgent items are appended and preparatory steps are inserted into the workflow."
+    },
+    {
+      "id": "8.3_q30",
+      "type": "write_the_code",
+      "concept": "adding_elements_append_and_insert_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.3_q29"
+      ],
+      "prompt": "Define a function `build_schedule(base)` that takes a list `base` and returns a new list with `'meeting'` appended and `'break'` inserted at index 2. Call it with `['start', 'work']` and print the result.",
+      "starter_code": "def build_schedule(base):\n    # TODO: return a new list with 'meeting' appended and 'break' inserted at index 2\n    pass\n\nschedule = build_schedule(['start', 'work'])\nprint(schedule)",
+      "solution_code": "def build_schedule(base):\n    new_list = base.copy()\n    new_list.append('meeting')\n    new_list.insert(2, 'break')\n    return new_list\n\nschedule = build_schedule(['start', 'work'])\nprint(schedule)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "['start', 'work', 'break', 'meeting']"
+        },
+        {
+          "input": "",
+          "expected_output": "['start', 'work', 'break', 'meeting']"
+        }
+      ],
+      "hint": "Avoid mutating the original list passed as an argument. Copy it first with `.copy()` or slicing, then apply `append()` and `insert()` on the copy.",
+      "explanation": "The function copies the input list to preserve immutability of the caller's data. Appending `'meeting'` yields `['start', 'work', 'meeting']`. Inserting `'break'` at index `2` shifts `'meeting'` right, producing `['start', 'work', 'break', 'meeting']`. This pattern is essential when functions must return transformed collections without side effects."
+    }
+  ],
+  "unit_num": 8,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Adding Elements: append() and insert()",
+    "Apply idiomatic Python patterns when working with Adding Elements: append() and insert()",
+    "Debug common runtime exceptions and logic errors associated with Adding Elements: append() and insert()",
+    "Implement production-ready code utilizing Adding Elements: append() and insert()"
+  ],
+  "prerequisites": [
+    "8.2"
+  ]
+}

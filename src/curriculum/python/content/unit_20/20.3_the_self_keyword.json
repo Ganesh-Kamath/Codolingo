@@ -1,0 +1,701 @@
+{
+  "lesson_id": "20.3",
+  "title": "The self Keyword",
+  "unit": "Object-Oriented Programming (Basics)",
+  "items": [
+    {
+      "id": "20.3_q1",
+      "type": "micro_lesson",
+      "concept": "the_self_keyword_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "The Role of self in Python Methods",
+      "content": "In Python, `self` represents the specific instance of the class upon which a method is being called.\n\n```python\nclass Dog:\n    def __init__(self, name):\n        self.name = name  # Binds name to this specific dog\n```\n\nWhen you call `d.bark()`, Python translates it to `Dog.bark(d)` behind the scenes, passing the instance automatically as `self`.",
+      "explanation": "self is the explicit reference to the current instance passed to class methods.",
+      "metadata": {
+        "concept": "self_parameter_semantics",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches instance self binding"
+      }
+    },
+    {
+      "id": "20.3_q2",
+      "type": "output_prediction",
+      "concept": "the_self_keyword_basics",
+      "skill": "mental_model",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.3_q1"
+      ],
+      "prompt": "What does `self` represent inside an instance method?\n\n```python\nclass Account:\n    def __init__(self, owner):\n        self.owner = owner\n\nacc = Account(\"Kiran\")\nprint(acc.owner)\n```",
+      "options": [
+        "Kiran",
+        "Account",
+        "self",
+        "TypeError"
+      ],
+      "correct_answer": "Kiran",
+      "explanation": "`self` refers to the specific instance of the class being created or operated upon. In this case, `acc` is the instance, so `self.owner = owner` attaches the attribute `'owner'` with value `'Kiran'` to `acc`.",
+      "metadata": {
+        "concept": "self_instance_reference",
+        "skill": "mental_model",
+        "learning_objective": "Understand that self represents the current instance object",
+        "common_misconception": "Thinking self is a reserved keyword that refers to the class itself",
+        "why_this_exercise_exists": "Replaces template function with foundational OOP principles"
+      }
+    },
+    {
+      "id": "20.3_q3",
+      "type": "micro_lesson",
+      "concept": "the_self_keyword_state",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.3_q2"
+      ],
+      "title": "Instance State and Encapsulation",
+      "content": "Attributes attached to `self` belong exclusively to that instance object. Two separate instances maintain completely independent state:\n\n```python\nd1 = Dog(\"Buddy\")\nd2 = Dog(\"Milo\")\nprint(d1.name, d2.name)  # Completely separate!\n```",
+      "explanation": "Assigning to self.attr isolates instance state, preventing data bleeding across objects.",
+      "metadata": {
+        "concept": "instance_state_encapsulation",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches instance state isolation"
+      }
+    },
+    {
+      "id": "20.3_q4",
+      "type": "error_diagnosis",
+      "concept": "the_self_keyword_basics",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q3"
+      ],
+      "prompt": "Why does calling `greeter.say_hello()` fail below?\n\n```python\nclass Greeter:\n    def say_hello():\n        print(\"Hello world!\")\n\ng = Greeter()\ng.say_hello()\n```",
+      "options": [
+        "TypeError: say_hello() takes 0 positional arguments but 1 was given",
+        "NameError: say_hello is not defined",
+        "AttributeError: Greeter object has no attribute 'say_hello'",
+        "SyntaxError: method must return a string"
+      ],
+      "correct_answer": "TypeError: say_hello() takes 0 positional arguments but 1 was given",
+      "explanation": "When invoking an instance method as `g.say_hello()`, Python automatically passes the instance `g` as the first argument. Because `def say_hello():` did not define the `self` parameter, Python complains that 1 argument was unexpectedly given.",
+      "metadata": {
+        "concept": "implicit_self_argument",
+        "skill": "error_recognition",
+        "learning_objective": "Diagnose the classic missing self TypeError in instance methods",
+        "common_misconception": "Thinking methods without arguments don't need self",
+        "why_this_exercise_exists": "Replaces template function with Python's most famous OOP signature error"
+      }
+    },
+    {
+      "id": "20.3_q5",
+      "type": "code_prediction",
+      "concept": "the_self_keyword_basics",
+      "skill": "state_mutation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q4"
+      ],
+      "prompt": "Trace the balance after these method calls:\n\n```python\nclass Wallet:\n    def __init__(self, initial=0):\n        self.balance = initial\n    def add(self, amount):\n        self.balance += amount\n\nw = Wallet(50)\nw.add(25)\nprint(w.balance)\n```",
+      "options": [
+        "75",
+        "50",
+        "25",
+        "None"
+      ],
+      "correct_answer": "75",
+      "explanation": "`self.balance` starts at 50. Invoking `w.add(25)` updates `self.balance` by adding 25, resulting in 75.",
+      "metadata": {
+        "concept": "instance_state_mutation",
+        "skill": "tracing",
+        "learning_objective": "Track state mutations on instance attributes across method calls",
+        "common_misconception": "Believing instance variables reset after each method call",
+        "why_this_exercise_exists": "Replaces template function with authentic object state tracking"
+      }
+    },
+    {
+      "id": "20.3_q6",
+      "type": "fix_the_code",
+      "concept": "the_self_keyword_basics",
+      "skill": "repair",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q5"
+      ],
+      "prompt": "Fix the method definition so it accepts `self` and correctly updates `self.total`:\n\n```python\nclass Counter:\n    def __init__(self):\n        self.total = 0\n    # Fix this method signature:\n    def increment(by):\n        self.total += by\n```",
+      "starter_code": "class Counter:\n    def __init__(self):\n        self.total = 0\n    def increment(by):\n        self.total += by",
+      "solution_code": "class Counter:\n    def __init__(self):\n        self.total = 0\n    def increment(self, by):\n        self.total += by",
+      "explanation": "Instance methods must declare `self` as their first parameter. Writing `def increment(self, by):` allows Python to pass the instance implicitly.",
+      "metadata": {
+        "concept": "method_signature_repair",
+        "skill": "repair",
+        "learning_objective": "Supply self as the first parameter in parameterized methods",
+        "common_misconception": "Omitting self when other parameters are present",
+        "why_this_exercise_exists": "Replaces template function with essential OOP method repairs"
+      }
+    },
+    {
+      "id": "20.3_q7",
+      "type": "code_prediction",
+      "concept": "the_self_keyword_execution",
+      "skill": "prediction",
+      "diff": "easy",
+      "prerequisites": [
+        "20.3_q6"
+      ],
+      "micro_lesson": {
+        "title": "Understanding self in Method Calls",
+        "content": "When you call a method on an object, Python automatically passes the object itself as the first argument. This argument is conventionally named self. Inside an instance method, self refers to the specific object on which the method was invoked. This allows the method to access and modify the object's attributes. For example, if you have a class Person with an attribute name, self.name accesses that attribute on the current instance."
+      },
+      "prompt": "Consider the following class and the code that creates an instance and calls a method:\n\nclass Student:\n    def __init__(self, grade):\n        self.grade = grade\n\n    def display(self):\n        print('Grade:', self.grade)\n\ns1 = Student('A')\ns1.display()\n\nWhat is printed to the console when s1.display() is executed?",
+      "options": [
+        "Grade: A",
+        "self: A",
+        "Grade: self",
+        "Error: self is not defined"
+      ],
+      "correct_answer": "Grade: A",
+      "explanation": "Inside display(), self refers to the s1 object. self.grade is 'A', so the print statement outputs Grade: A.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "20.3_q8",
+      "type": "output_prediction",
+      "concept": "the_self_keyword_execution",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "20.3_q7"
+      ],
+      "micro_lesson": {
+        "title": "Tracing self Across Multiple Objects",
+        "content": "Each object has its own namespace. When you create multiple instances of a class, each instance gets its own self reference during method execution. This means changes made via self inside one instance do not affect another instance unless they share a mutable attribute. Always trace which object is active when evaluating self in a method call."
+      },
+      "prompt": "Study this code carefully:\n\nclass Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1\n\nc1 = Counter()\nc2 = Counter()\nc1.increment()\nc1.increment()\nc2.increment()\nprint(c1.count, c2.count)\n\nWhat is the output of the final print statement?",
+      "options": [
+        "2 1",
+        "1 2",
+        "2 2",
+        "0 1"
+      ],
+      "correct_answer": "2 1",
+      "explanation": "c1 and c2 are separate objects. c1.increment() is called twice, so c1.count becomes 2. c2.increment() is called once, so c2.count becomes 1. The print outputs 2 1.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "20.3_q9",
+      "type": "code_prediction",
+      "concept": "the_self_keyword_flow",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "20.3_q8"
+      ],
+      "micro_lesson": {
+        "title": "Flow of Control with self",
+        "content": "The self keyword controls which instance's data is accessed during execution. In conditional logic inside methods, self is used to compare or update the current object's state. Understanding the flow means tracking which object is active at each line and how self enables that object to interact with its own attributes."
+      },
+      "prompt": "Given this class, what happens when the method is invoked on an instance where age is 12?\n\nclass Person:\n    def __init__(self, age):\n        self.age = age\n\n    def check(self):\n        if self.age < 13:\n            self.age += 1\n            return 'young'\n        else:\n            return 'teen'\n\np = Person(12)\nresult = p.check()\nprint(p.age, result)\n\nSelect the exact output produced.",
+      "options": [
+        "13 young",
+        "12 young",
+        "13 teen",
+        "12 teen"
+      ],
+      "correct_answer": "13 young",
+      "explanation": "p.age starts at 12. Since 12 < 13, the if branch executes: self.age becomes 13 and 'young' is returned. The print shows 13 young.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "20.3_q10",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_analysis",
+      "skill": "analysis",
+      "diff": "medium",
+      "prerequisites": [
+        "20.3_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing self in Attribute Assignment",
+        "content": "When a method assigns a value using self.attribute, it modifies the instance's own dictionary. This is different from local variables or class variables. To analyze output, identify every self reference and determine which instance it belongs to at runtime."
+      },
+      "prompt": "Explain why the following code produces the output it does:\n\nclass Box:\n    def __init__(self, value):\n        self.value = value\n\n    def double(self):\n        self.value = self.value * 2\n\nb = Box(5)\nb.double()\nprint(b.value)\n\nWrite a detailed explanation of how self enables this result.",
+      "correct_answer": "self in double() refers to b, so b.value is updated from 5 to 10.",
+      "explanation": "When b.double() is called, self is bound to b. self.value reads 5 and assigns 10 back to b.value. Printing b.value therefore yields 10.",
+      "difficulty": "medium",
+      "starter_code": "# 1. Define the process_20_3 function\ndef process_20_3():\n    # 2. Implement solution for The self Keyword\n    pass\n",
+      "solution_code": "print('The self Keyword')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The self Keyword"
+        }
+      ]
+    },
+    {
+      "id": "20.3_q11",
+      "type": "code_prediction",
+      "concept": "the_self_keyword_tracing",
+      "skill": "tracing",
+      "diff": "medium",
+      "prerequisites": [
+        "20.3_q10"
+      ],
+      "micro_lesson": {
+        "title": "Step-by-Step Tracing with self",
+        "content": "Tracing means following the value of self and each attribute through every line of execution. Start at instantiation, then follow each method call by noting which object self represents and how attributes change. This is essential for debugging object-oriented programs."
+      },
+      "prompt": "Trace the execution of this code and predict the final state of each object:\n\nclass Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None\n\nn1 = Node(10)\nn2 = Node(20)\nn1.next = n2\n\nAfter these lines, what is n1.next.data?",
+      "options": [
+        "10",
+        "20",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "20",
+      "explanation": "n1 is an instance with data 10 and next initially None. n2 is an instance with data 20. n1.next is set to n2. Therefore n1.next.data is 20.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "20.3_q12",
+      "type": "output_prediction",
+      "concept": "the_self_keyword_logic",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "20.3_q11"
+      ],
+      "micro_lesson": {
+        "title": "Logical Reasoning with self in Methods",
+        "content": "self is the bridge between a method and its object. When reasoning about logic, ask: which object is active, what does self point to, and how does that affect attribute reads and writes? This mindset prevents common bugs in object-oriented design."
+      },
+      "prompt": "Determine the output of this program:\n\nclass Team:\n    def __init__(self, members):\n        self.members = members\n\n    def add(self, name):\n        self.members.append(name)\n\nt = Team(['Alice', 'Bob'])\nt.add('Carol')\nprint(t.members)\n\nWhat is printed?",
+      "options": [
+        "['Alice', 'Bob', 'Carol']",
+        "['Alice', 'Bob']",
+        "['Carol']",
+        "Error: append is not defined"
+      ],
+      "correct_answer": "['Alice', 'Bob', 'Carol']",
+      "explanation": "t.members is a list. self in add() refers to t, so self.members.append('Carol') mutates the same list. The final print shows the updated list.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "20.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "the_self_keyword_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.3_q12"
+      ],
+      "micro_lesson": {
+        "title": "The self Keyword Syntax",
+        "content": "In Python, the `self` parameter is used inside instance methods to refer to the current instance of the class. It must be the first parameter of any instance method. While you can name it differently, `self` is the conventional name. It allows access to instance attributes and other methods. For example, when defining a method, you write `def method_name(self, ...):`. The `self` parameter is not passed explicitly when calling the method; Python supplies it automatically."
+      },
+      "prompt": "Complete the method definition by filling in the blank: def greet(____):",
+      "correct_answer": "self",
+      "accepted_answers": [
+        "self"
+      ],
+      "explanation": "The first parameter of an instance method must be the reference to the current object. By convention, this parameter is named `self`."
+    },
+    {
+      "id": "20.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "the_self_keyword_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q13"
+      ],
+      "micro_lesson": {
+        "title": "Keywords Related to self",
+        "content": "The `self` keyword is closely related to the concept of instance methods and instance attributes. It is not a reserved keyword in Python, meaning you could technically use another name, but doing so breaks convention and confuses readers. It pairs with `__init__` to initialize instance state. When you write `self.attribute = value`, you are storing data on the specific object. Understanding how `self` connects to instance variables is essential for building reusable classes."
+      },
+      "prompt": "In the following snippet, the blank represents the conventional name for the first parameter that refers to the current instance: class Dog: def __init__(____): self.name = 'Buddy'",
+      "correct_answer": "self",
+      "accepted_answers": [
+        "self"
+      ],
+      "explanation": "`self` is the standard identifier for the instance reference in the `__init__` method and all other instance methods."
+    },
+    {
+      "id": "20.3_q15",
+      "type": "code_ordering",
+      "concept": "the_self_keyword_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Sequence with self",
+        "content": "When constructing an object, Python calls `__init__` automatically. Inside `__init__`, `self` is bound to the new instance before any instance attributes are assigned. Therefore, the correct sequence is: define the class, define `__init__` with `self`, assign attributes using `self.`, then create an instance. This order ensures that `self` exists before you try to store data on it."
+      },
+      "prompt": "Arrange the following code lines in the correct order to create a valid class with an instance attribute:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The class must be defined before it is instantiated. The `__init__` method must be inside the class definition, and `self` must be used to assign the attribute before the object is created."
+    },
+    {
+      "id": "20.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "the_self_keyword_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Patterns with self",
+        "content": "A frequent pattern is to use `self` to both receive arguments and store them as instance attributes. For example, `def set_age(self, age): self.age = age`. Another pattern is returning `self` from a method to enable method chaining. Always remember that `self` refers to the specific object on which the method is invoked, not the class itself."
+      },
+      "prompt": "Fill in the blank to complete the pattern that stores the passed argument as an instance attribute: def set_name(self, name): ____ = name",
+      "correct_answer": "self.name",
+      "accepted_answers": [
+        "self.name"
+      ],
+      "explanation": "To store data on the current instance, you prefix the attribute name with `self`. This makes `name` an instance attribute accessible via any instance of the class."
+    },
+    {
+      "id": "20.3_q17",
+      "type": "code_ordering",
+      "concept": "the_self_keyword_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm Steps Involving self",
+        "content": "To design an algorithm using `self`, follow these steps: (1) Define a class. (2) Define `__init__` with `self` to set up initial state. (3) Define other instance methods that also take `self` as the first parameter. (4) Instantiate the class to create an object. (5) Call methods on the object; Python passes `self` automatically. Keeping this sequence ensures that every method operates on a valid instance."
+      },
+      "prompt": "Order the steps to implement a simple counter class:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The class and its methods must be fully defined before instantiation. `__init__` must initialize `self.count`, and `increment` must use `self.count` to modify the instance state."
+    },
+    {
+      "id": "20.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "the_self_keyword_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idioms Using self",
+        "content": "An idiom is a common, conventional way of writing code. With `self`, a key idiom is the initialization pattern: `def __init__(self, value): self.value = value`. Another idiom is using `self` to access other methods within the same class, such as `self.helper()`. Avoid shadowing `self` by reassigning it inside a method, as this destroys the reference to the instance."
+      },
+      "prompt": "Complete the idiomatic initialization: def __init__(self, value): ____ = value",
+      "correct_answer": "self.value",
+      "accepted_answers": [
+        "self.value"
+      ],
+      "explanation": "Assigning the parameter to `self.value` stores it as an instance attribute, which is the standard idiom for setting up object state in `__init__`."
+    },
+    {
+      "id": "20.3_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "the_self_keyword_errors",
+      "prerequisites": [
+        "20.3_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Errors with the self Keyword",
+        "content": "In Python, the self parameter in instance methods refers to the specific object calling the method. A frequent beginner mistake is omitting self, using it as a regular parameter, or reassigning it inside a method, which breaks attribute access. For example, if you write def greet(name): instead of def greet(self, name):, Python will raise a TypeError because the method receives no instance. Another error is shadowing self by writing self = 5 inside a method, which destroys the reference to the instance and causes AttributeError when accessing instance attributes later."
+      },
+      "prompt": "Identify the errors in the following class and explain why it fails.",
+      "starter_code": "class Dog:\n    def __init__(name, breed):\n        name = breed\n\n    def bark(self):\n        self = 'woof'\n        print(self)",
+      "solution_code": "class Dog:\n    def __init__(self, breed):\n        self.breed = breed\n\n    def bark(self):\n        print('woof')",
+      "hint": "Check the __init__ signature and ensure self is used to store breed on the instance, not as a local variable. Also, avoid reassigning self inside bark.",
+      "explanation": "The __init__ method must include self as the first parameter to bind the instance; otherwise Python passes the instance without a place to store it. Assigning name = breed creates a local variable instead of an instance attribute. Reassigning self inside bark shadows the instance reference, so print(self) would output a string rather than accessing the object. The corrected version stores breed on the instance via self.breed and prints a literal string without reassigning self."
+    },
+    {
+      "id": "20.3_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "concept": "the_self_keyword_fix",
+      "prerequisites": [
+        "20.3_q19"
+      ],
+      "prompt": "Fix the class so that the age attribute is properly initialized and accessible.",
+      "starter_code": "class Person:\n    def __init__(self, age):\n        age = age\n\n    def get_age(self):\n        return age",
+      "solution_code": "class Person:\n    def __init__(self, age):\n        self.age = age\n\n    def get_age(self):\n        return self.age",
+      "hint": "Use self to attach age to the instance, then return self.age from get_age.",
+      "explanation": "Without self.age, age remains a local variable in __init__ and is lost after the method ends. get_age then references an undefined local name, causing a NameError. Using self.age stores the value on the object, making it reachable by other methods and external code."
+    },
+    {
+      "id": "20.3_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "the_self_keyword_edge_cases",
+      "prerequisites": [
+        "20.3_q20"
+      ],
+      "prompt": "Correct the class so that the subclass properly initializes both parent and child attributes.",
+      "starter_code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        self.breed = breed\n        super().__init__(name)",
+      "solution_code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name)\n        self.breed = breed",
+      "hint": "Call super().__init__ before assigning breed, or ensure both attributes are set on self. The current code works but is fragile if super changes; also verify self.breed is stored on the instance.",
+      "explanation": "The starter code actually runs, but it omits self.breed = breed entirely, so breed is never stored on the Dog instance. Additionally, relying on super without first ensuring the parent is initialized can lead to missed state in more complex hierarchies. The corrected version explicitly stores breed on self and calls super().__init__(name) to guarantee the parent attribute is set."
+    },
+    {
+      "id": "20.3_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "the_self_keyword_runtime",
+      "prerequisites": [
+        "20.3_q21"
+      ],
+      "prompt": "Predict the runtime behavior and explain the error.",
+      "starter_code": "class Box:\n    def __init__(self, value):\n        self.value = value\n\n    def double(self):\n        self.value = self.value * 2\n\n    def show(self):\n        print(value)",
+      "solution_code": "class Box:\n    def __init__(self, value):\n        self.value = value\n\n    def double(self):\n        self.value = self.value * 2\n\n    def show(self):\n        print(self.value)",
+      "hint": "show references a local name instead of an instance attribute.",
+      "explanation": "show() omits self.value, so Python looks for a local variable named value, finds none, and raises NameError. The fix adds self.value so the method accesses the instance attribute created in __init__."
+    },
+    {
+      "id": "20.3_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "the_self_keyword_logic_repair",
+      "prerequisites": [
+        "20.3_q22"
+      ],
+      "prompt": "Repair the logic so that reset_score works on the instance and returns the updated score.",
+      "starter_code": "class Game:\n    def __init__(self):\n        score = 0\n\n    def reset_score(self):\n        score = 0\n        return score\n\n    def get_score(self):\n        return score",
+      "solution_code": "class Game:\n    def __init__(self):\n        self.score = 0\n\n    def reset_score(self):\n        self.score = 0\n        return self.score\n\n    def get_score(self):\n        return self.score",
+      "hint": "Both score variables need self. to become instance attributes; reset_score must also return self.score.",
+      "explanation": "In __init__, score = 0 is local and discarded. In reset_score, score = 0 is also local, so the instance never changes. get_score then references an undefined local name. Using self.score in all three places ensures the value persists across method calls and is correctly returned."
+    },
+    {
+      "id": "20.3_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "concept": "the_self_keyword_optimization",
+      "prerequisites": [
+        "20.3_q23"
+      ],
+      "prompt": "Refactor the class to use a property for read-only access and reduce redundant self assignments.",
+      "starter_code": "class Counter:\n    def __init__(self, count):\n        self.count = count\n\n    def get_count(self):\n        return self.count\n\n    def set_count(self, count):\n        self.count = count\n\n    def increment(self):\n        self.count = self.count + 1\n        return self.count",
+      "solution_code": "class Counter:\n    def __init__(self, count):\n        self._count = count\n\n    @property\n    def count(self):\n        return self._count\n\n    def increment(self):\n        self._count += 1\n        return self._count",
+      "test_cases": [
+        {
+          "input": "c = Counter(5)\nassert c.count",
+          "expected_output": "5",
+          "description": "Verifies: c = Counter(5)\nassert c.count == 5"
+        },
+        {
+          "input": "c.increment()\nassert c.count",
+          "expected_output": "6",
+          "description": "Verifies: c.increment()\nassert c.count == 6"
+        },
+        {
+          "input": "c2 = Counter(0)\nassert c2.count",
+          "expected_output": "0",
+          "description": "Verifies: c2 = Counter(0)\nassert c2.count == 0"
+        }
+      ],
+      "hint": "Replace public count with a private _count attribute, expose it via @property, and simplify increment to use += on the private attribute.",
+      "explanation": "The original design exposes count directly, allowing external mutation without control. The refactored version uses _count to signal internal use, exposes a read-only count property, and makes increment the sole mutator. This reduces redundant self.count lookups, centralizes state changes, and improves encapsulation."
+    },
+    {
+      "id": "20.3_q25",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q24"
+      ],
+      "prompt": "Create a class named `Student` that uses `self` to initialize `name` and `grade` attributes. Then write a method `display_info` that prints both attributes using `self`.",
+      "starter_code": "# TODO: Implement solution for The self Keyword\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    def display_info(self):\n        print('Name:', self.name)\n        print('Grade:', self.grade)\n\ns1 = Student('Alice', 85)\ns1.display_info()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Student('Bob', 90).display_info() should print Name: Bob and Grade: 90",
+          "description": "Student('Bob', 90).display_info() should print Name: Bob and Grade: 90"
+        },
+        {
+          "input": "",
+          "expected_output": "Changing s1.name to 'Charlie' should not affect a new instance",
+          "description": "Changing s1.name to 'Charlie' should not affect a new instance"
+        }
+      ],
+      "hint": "Remember that `self` refers to the current instance inside every method. Use it to assign and access instance variables.",
+      "explanation": "The `self` parameter allows a class method to access and modify the specific instance's data. Without `self`, the attributes would not be tied to any object."
+    },
+    {
+      "id": "20.3_q26",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.3_q25"
+      ],
+      "prompt": "Extend the `Student` class by adding a method `update_grade(self, new_grade)` that modifies the `grade` attribute using `self`. Then demonstrate it by updating a student's grade.",
+      "starter_code": "# TODO: Implement solution for The self Keyword\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    def update_grade(self, new_grade):\n        self.grade = new_grade\n\ns1 = Student('Dana', 78)\ns1.update_grade(92)\nprint('Updated grade:', s1.grade)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "After calling update_grade(88), the instance's grade should be 88",
+          "description": "After calling update_grade(88), the instance's grade should be 88"
+        },
+        {
+          "input": "",
+          "expected_output": "A new Student('Eve', 80) should retain grade 80 until explicitly updated",
+          "description": "A new Student('Eve', 80) should retain grade 80 until explicitly updated"
+        }
+      ],
+      "hint": "Inside `update_grade`, assign the new value to `self.grade` so the change persists on the instance.",
+      "explanation": "Using `self` inside a method lets you mutate the state of the calling object. This is essential for object-oriented behavior where objects manage their own data."
+    },
+    {
+      "id": "20.3_q27",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.3_q26"
+      ],
+      "prompt": "Create a class `BankAccount` with `self` to track `balance`. Implement `deposit(self, amount)` and `withdraw(self, amount)` methods that update `self.balance`. Prevent withdrawals that exceed the balance.",
+      "starter_code": "# TODO: Implement solution for The self Keyword\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "class BankAccount:\n    def __init__(self, initial_balance=0):\n        self.balance = initial_balance\n\n    def deposit(self, amount):\n        self.balance += amount\n\n    def withdraw(self, amount):\n        if amount <= self.balance:\n            self.balance -= amount\n            return True\n        return False\n\nacc = BankAccount(100)\nacc.deposit(50)\nprint(acc.withdraw(30))\nprint('Balance:', acc.balance)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "deposit(25) followed by withdraw(10) on balance 100 should yield 115",
+          "description": "deposit(25) followed by withdraw(10) on balance 100 should yield 115"
+        },
+        {
+          "input": "",
+          "expected_output": "withdraw(200) on balance 100 should return False and leave balance unchanged",
+          "description": "withdraw(200) on balance 100 should return False and leave balance unchanged"
+        }
+      ],
+      "hint": "Check the condition before subtracting from `self.balance` to avoid negative balances.",
+      "explanation": "Advanced use of `self` involves conditional logic and validation within methods, ensuring that each instance maintains valid internal state."
+    },
+    {
+      "id": "20.3_q28",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.3_q27"
+      ],
+      "prompt": "A class `Counter` is supposed to increment a value each time `increment(self)` is called. The provided starter code has a bug. Fix it so `self.count` correctly tracks increments across multiple instances.",
+      "starter_code": "class Counter:\n    def __init__(self):\n        count = 0\n\n    def increment(self):\n        count += 1\n        return count",
+      "solution_code": "class Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1\n        return self.count",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "c1 = Counter(); c1.increment(); c1.increment() should return 2",
+          "description": "c1 = Counter(); c1.increment(); c1.increment() should return 2"
+        },
+        {
+          "input": "",
+          "expected_output": "c2 = Counter(); c2.increment() should return 1 and not affect c1",
+          "description": "c2 = Counter(); c2.increment() should return 1 and not affect c1"
+        }
+      ],
+      "hint": "Local variables inside methods do not persist. You must use `self.count` to store state on the instance.",
+      "explanation": "The bug occurred because `count` was a local variable rather than an instance attribute. Using `self.count` ensures each object maintains its own independent state."
+    },
+    {
+      "id": "20.3_q29",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.3_q28"
+      ],
+      "prompt": "Design a `LibraryBook` class for a small library system. Each book has a title and availability status. Use `self` to implement `borrow(self)` and `return_book(self)` methods that update availability. Ensure borrowing an already borrowed book is rejected.",
+      "starter_code": "# TODO: Implement solution for The self Keyword\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "class LibraryBook:\n    def __init__(self, title):\n        self.title = title\n        self.available = True\n\n    def borrow(self):\n        if self.available:\n            self.available = False\n            return 'Borrowed successfully'\n        return 'Book already borrowed'\n\n    def return_book(self):\n        self.available = True\n        return 'Book returned'\n\nb1 = LibraryBook('Python Basics')\nprint(b1.borrow())\nprint(b1.borrow())\nprint(b1.return_book())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "After borrowing, a second borrow attempt should indicate the book is unavailable",
+          "description": "After borrowing, a second borrow attempt should indicate the book is unavailable"
+        },
+        {
+          "input": "",
+          "expected_output": "Returning the book should allow another successful borrow",
+          "description": "Returning the book should allow another successful borrow"
+        }
+      ],
+      "hint": "Track availability with `self.available` and check it before changing state in `borrow`.",
+      "explanation": "Real-world modeling with `self` encapsulates object state and behavior. Each `LibraryBook` instance independently manages its own availability, demonstrating encapsulation."
+    },
+    {
+      "id": "20.3_q30",
+      "type": "write_the_code",
+      "concept": "the_self_keyword_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.3_q29"
+      ],
+      "prompt": "Implement a `TaskManager` class where each task has a `name` and `completed` flag. Provide `complete(self)` and `uncomplete(self)` methods using `self`. Then create two independent tasks and verify that completing one does not affect the other.",
+      "starter_code": "# TODO: Implement solution for The self Keyword\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "class TaskManager:\n    def __init__(self, name):\n        self.name = name\n        self.completed = False\n\n    def complete(self):\n        self.completed = True\n\n    def uncomplete(self):\n        self.completed = False\n\nt1 = TaskManager('Write tests')\nt2 = TaskManager('Refactor code')\nt1.complete()\nprint(t1.completed, t2.completed)\nt2.uncomplete()\nprint(t1.completed, t2.completed)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "After t1.complete(), t1.completed should be True and t2.completed should remain False",
+          "description": "After t1.complete(), t1.completed should be True and t2.completed should remain False"
+        },
+        {
+          "input": "",
+          "expected_output": "After t2.uncomplete(), both t1.completed and t2.completed should reflect their own independent states",
+          "description": "After t2.uncomplete(), both t1.completed and t2.completed should reflect their own independent states"
+        }
+      ],
+      "hint": "Every method that reads or changes instance data must reference `self` so the operation targets the correct object.",
+      "explanation": "Mastery of `self` means consistently using it to isolate state per instance. This prevents unintended side effects and supports scalable, maintainable object-oriented designs."
+    }
+  ],
+  "unit_num": 20,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of self Keyword",
+    "Apply idiomatic Python patterns when working with self Keyword",
+    "Debug common runtime exceptions and logic errors associated with self Keyword",
+    "Implement production-ready code utilizing self Keyword"
+  ],
+  "prerequisites": [
+    "20.2"
+  ]
+}

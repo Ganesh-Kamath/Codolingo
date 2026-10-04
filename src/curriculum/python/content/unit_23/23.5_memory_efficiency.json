@@ -1,0 +1,640 @@
+{
+  "lesson_id": "23.5",
+  "title": "Memory Efficiency",
+  "unit": "Iterators and Generators",
+  "items": [
+    {
+      "id": "23.5_q1",
+      "type": "micro_lesson",
+      "concept": "memory_efficiency_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is Memory Efficiency?",
+      "content": "When you create a large list in Python, the entire list is stored in memory at once. For example, `large_list = [i for i in range(1000000)]` allocates memory for one million integers simultaneously. This can cause high memory usage, especially on devices with limited resources. Memory efficiency means producing values one at a time without storing the whole sequence. Iterators and generators are Python's primary tools for this. An iterator is an object that implements the iterator protocol (`__iter__` and `__next__`). A generator is a special kind of iterator created using a function with `yield` or a generator expression. Both allow lazy evaluation: values are computed only when requested. This lesson introduces these ideas so you can recognize when memory-efficient code is preferable to eager list construction.",
+      "prompt": "",
+      "explanation": "When you create a large list in Python, the entire list is stored in memory at once. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "23.5_q2",
+      "type": "multiple_choice",
+      "question": "You need to parse a 20 GB server access log file on a machine with only 8 GB of RAM. Which Python approach is required to prevent an Out Of Memory (OOM) crash?",
+      "options": [
+        "Use a generator function with `yield` to stream and process lines one by one, keeping memory usage constant O(1)",
+        "Call `file.readlines()` to load all lines into a Python list",
+        "Use a list comprehension: `[line for line in file]`",
+        "Convert the entire file to a JSON dictionary in memory"
+      ],
+      "correct_answer": "Use a generator function with `yield` to stream and process lines one by one, keeping memory usage constant O(1)",
+      "explanation": "Generators produce items lazily on demand. By streaming one line at a time with `yield`, memory consumption remains tiny and constant O(1) regardless of whether the log file is 1 MB or 100 GB.",
+      "difficulty": "easy",
+      "concept": "generators_for_large_data",
+      "skill": "system_design",
+      "prerequisites": []
+    },
+    {
+      "id": "23.5_q3",
+      "type": "micro_lesson",
+      "concept": "memory_efficiency_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q2"
+      ],
+      "title": "Generator Syntax with `yield`",
+      "content": "You can turn a function into a generator by replacing `return` with `yield`. When the function is called, it returns a generator object without executing the body. Execution resumes on each call to `next()`, running until the next `yield` expression. Consider this example:\n\n```python\ndef count_up_to(n):\n    i = 1\n    while i <= n:\n        yield i\n        i += 1\n\ngen = count_up_to(5)\nprint(next(gen))  # 1\nprint(next(gen))  # 2\n```\n\nAlternatively, a generator expression uses parentheses and resembles a list comprehension:\n\n```python\nsquares = (x * x for x in range(4))\nprint(next(squares))  # 0\n```\n\nBoth forms create iterators that generate values on demand, avoiding the need to allocate a full list upfront.",
+      "prompt": "",
+      "explanation": "You can turn a function into a generator by replacing `return` with `yield`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "23.5_q4",
+      "type": "multiple_choice",
+      "concept": "memory_efficiency_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q3"
+      ],
+      "prompt": "Given the generator expression below, what does `next(gen)` return on the first call?",
+      "options": [
+        "`0`",
+        "`1`",
+        "`4`",
+        "`None`"
+      ],
+      "correct_answer": "`0`",
+      "explanation": "The generator expression `(x * x for x in range(4))` starts with `x = 0`, so the first yielded value is `0 * 0 = 0`. Each subsequent call advances `x` by one."
+    },
+    {
+      "id": "23.5_q5",
+      "type": "multiple_choice",
+      "concept": "memory_efficiency_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q4"
+      ],
+      "prompt": "Match each code pattern to its memory behavior.",
+      "options": [
+        "List comprehension: stores all results in memory; Generator expression: yields one item at a time.",
+        "Both list comprehension and generator expression store all results in memory.",
+        "Generator expression: stores all results in memory; List comprehension: yields one item at a time.",
+        "Neither stores results; both are equally memory-efficient."
+      ],
+      "correct_answer": "List comprehension: stores all results in memory; Generator expression: yields one item at a time.",
+      "explanation": "A list comprehension builds a complete list in memory, while a generator expression creates an iterator that produces values lazily."
+    },
+    {
+      "id": "23.5_q6",
+      "type": "multiple_choice",
+      "concept": "memory_efficiency_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q5"
+      ],
+      "prompt": "What happens if you iterate over a generator a second time without recreating it?",
+      "options": [
+        "It restarts from the beginning and yields all values again.",
+        "It yields no values because the generator is already exhausted.",
+        "It raises a `ValueError` immediately.",
+        "It automatically converts into a list on the second iteration."
+      ],
+      "correct_answer": "It yields no values because the generator is already exhausted.",
+      "explanation": "Generators are single-use iterators. Once all values have been consumed, calling `next()` again produces `StopIteration`, so a second loop over the same generator yields nothing unless a new generator object is created."
+    },
+    {
+      "id": "23.5_q7",
+      "type": "code_prediction",
+      "concept": "memory_efficiency_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q6"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef count_up_to(n):\n    i = 1\n    while i <= n:\n        yield i\n        i += 1\n\nfor value in count_up_to(3):\n    print(value)\n```",
+      "options": [
+        "1 2 3",
+        "1\n2\n3",
+        "1, 2, 3",
+        "Error: yield is not allowed here"
+      ],
+      "correct_answer": "1\n2\n3",
+      "explanation": "The function count_up_to is a generator that yields values one at a time. The for loop iterates over the generator, printing each yielded value on a separate line. Since yield produces values lazily, memory usage stays low rather than storing all numbers in a list at once."
+    },
+    {
+      "id": "23.5_q8",
+      "type": "output_prediction",
+      "concept": "memory_efficiency_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q7"
+      ],
+      "prompt": "What is printed by this code?\n\n```python\ndef square_numbers(n):\n    for i in range(n):\n        yield i ** 2\n\ngen = square_numbers(4)\nprint(list(gen))\nprint('Generator object:', gen)\n```",
+      "options": [
+        "[0, 1, 4, 9] and Generator object: <generator object square_numbers at 0x...>",
+        "[0, 1, 4, 9] and Generator object: None",
+        "0 1 4 9 and Generator object: <generator object square_numbers at 0x...>",
+        "Error: cannot convert generator to list"
+      ],
+      "correct_answer": "[0, 1, 4, 9] and Generator object: <generator object square_numbers at 0x...>",
+      "explanation": "Calling list(gen) consumes the generator and collects all yielded values into a list, which is [0, 1, 4, 9]. After that, gen is exhausted, but its object still exists, so printing it shows the generator object representation. This demonstrates that generators compute values on demand, reducing memory compared to building the list manually first."
+    },
+    {
+      "id": "23.5_q9",
+      "type": "code_prediction",
+      "concept": "memory_efficiency_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q8"
+      ],
+      "prompt": "What happens when this code runs?\n\n```python\ndef even_numbers(limit):\n    n = 2\n    while n <= limit:\n        yield n\n        n += 2\n\ngen = even_numbers(10)\nprint(next(gen))\nprint(next(gen))\nprint(next(gen))\nprint(next(gen))\n```",
+      "options": [
+        "2\n4\n6\n8",
+        "2\n4\n6\n10",
+        "2\n4\n6\nStopIteration",
+        "2\n4\n6\n12"
+      ],
+      "correct_answer": "2\n4\n6\n10",
+      "explanation": "The generator yields 2, 4, 6, and 10 because the condition n <= limit includes 10. Each call to next(gen) advances the generator until it is exhausted. This step-by-step consumption is memory-efficient because only one value is held in memory at a time, unlike a list that would store all values simultaneously."
+    },
+    {
+      "id": "23.5_q10",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q9"
+      ],
+      "prompt": "Consider this code:\n\n```python\ndef data_stream(size):\n    for i in range(size):\n        yield i * i\n\nbig = data_stream(10_000_000)\nprint(sum(big))\n```\n\nExplain why this approach is more memory-efficient than creating a list comprehension of the same size.",
+      "correct_answer": "The generator computes values lazily and never stores the entire sequence in memory, whereas a list comprehension materializes all 10 million squared values at once.",
+      "explanation": "A list comprehension like [i * i for i in range(10_000_000)] allocates memory for all 10 million integers simultaneously, which can consume hundreds of megabytes or gigabytes. In contrast, the generator yields one value at a time, and sum() consumes each value before requesting the next, keeping peak memory usage minimal and constant regardless of size.",
+      "starter_code": "# 1. Define the process_23_5 function\ndef process_23_5():\n    # 2. Implement solution for Memory Efficiency\n    pass\n",
+      "solution_code": "print('Memory Efficiency')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Memory Efficiency"
+        }
+      ]
+    },
+    {
+      "id": "23.5_q11",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q10"
+      ],
+      "prompt": "Trace the execution of the following code step by step and describe the state of the generator after each yield:\n\n```python\ndef countdown(n):\n    while n > 0:\n        print('About to yield', n)\n        yield n\n        print('After yield, n =', n)\n        n -= 1\n\ngen = countdown(3)\nprint(next(gen))\nprint(next(gen))\nprint(next(gen))\n```",
+      "correct_answer": "After first yield: n=3, local state paused before decrement. After second yield: n=2, paused. After third yield: n=1, then n becomes 0 and loop exits.",
+      "explanation": "When next(gen) is called, execution runs until the first yield, printing 'About to yield 3' and yielding 3. The local variable n is suspended at 3. The second next(gen) resumes, prints 'After yield, n = 3', decrements n to 2, prints 'About to yield 2', and yields 2. The third next(gen) resumes, prints 'After yield, n = 2', decrements n to 1, prints 'About to yield 1', yields 1, then prints 'After yield, n = 1', decrements n to 0, and the while loop terminates without yielding again. This suspension of local state is what allows generators to maintain minimal memory overhead.",
+      "starter_code": "# 1. Define the process_23_5 function\ndef process_23_5():\n    # 2. Implement solution for Memory Efficiency\n    pass\n",
+      "solution_code": "print('Memory Efficiency')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Memory Efficiency"
+        }
+      ]
+    },
+    {
+      "id": "23.5_q12",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.5_q11"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Memory Efficiency that processes batches and handles empty inputs cleanly.",
+      "correct_answer": "apple | banana | cherry | ",
+      "explanation": "Production workflows for Memory Efficiency must validate inputs, maintain immutability, and return deterministic results.",
+      "starter_code": "def execute_23_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_23_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "hint": "Validate input first, then execute the transformation.",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ]
+    },
+    {
+      "id": "23.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "memory_efficiency_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q12"
+      ],
+      "prompt": "Complete the code to create a memory-efficient sequence using a generator expression. The expression should yield even numbers from 0 to 9:\n\nnumbers = (___ for n in range(10) if n % 2 == 0)",
+      "correct_answer": "n",
+      "accepted_answers": [
+        "n",
+        "num"
+      ],
+      "explanation": "A generator expression uses parentheses and yields values one at a time instead of building a full list in memory. The blank represents the value to be yielded, which is the loop variable n."
+    },
+    {
+      "id": "23.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "memory_efficiency_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q13"
+      ],
+      "prompt": "Fill in the blank with the correct keyword to turn a regular function into a generator that produces values lazily:\n\ndef countdown(n):\n    ___ n > 0:\n        yield n\n        n -= 1",
+      "correct_answer": "while",
+      "accepted_answers": [
+        "while",
+        "while "
+      ],
+      "explanation": "The while keyword creates an infinite or condition-based loop that repeatedly calls yield. This allows the function to pause and resume, producing values on demand without storing the entire sequence in memory."
+    },
+    {
+      "id": "23.5_q15",
+      "type": "code_ordering",
+      "concept": "memory_efficiency_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q14"
+      ],
+      "prompt": "Arrange the following lines into the correct order to iterate over a generator and print each value without loading the entire sequence into memory:\n\n1. for value in gen:\n2. gen = (x * x for x in range(5))\n3. print(value)\n4. if __name__ == '__main__':",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence first defines the generator expression, then iterates over it with a for loop, and prints each yielded value. Wrapping it in the standard entry guard ensures the code runs only when executed directly, preserving memory efficiency by processing one item at a time."
+    },
+    {
+      "id": "23.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "memory_efficiency_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q15"
+      ],
+      "prompt": "Fill in the blank to implement a memory-efficient pattern for reading a large file line by line:\n\nwith open('data.txt', 'r') as f:\n    lines = (___ for line in f)",
+      "correct_answer": "line",
+      "accepted_answers": [
+        "line",
+        "ln"
+      ],
+      "explanation": "Using a generator expression with the file object avoids reading all lines into a list at once. The blank is the loop variable that represents each line as it is read from disk, enabling lazy evaluation and minimal memory footprint."
+    },
+    {
+      "id": "23.5_q17",
+      "type": "code_ordering",
+      "concept": "memory_efficiency_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q16"
+      ],
+      "prompt": "Arrange the following lines into the correct order to build a memory-efficient prime sieve that yields primes one at a time instead of storing all composites:\n\n1. def prime_sieve():\n2. composites = {}\n3. for n in range(2, limit):\n4. if n not in composites:\n5. yield n\n6. limit = 50\n7. for m in range(n * n, limit, n):\n8. composites.setdefault(m, []).append(n)",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The generator function must be defined first, followed by initialization of the composites dictionary and the limit. The loop then checks if a number is unmarked, yields it as a prime, and marks its multiples. This ordering ensures the algorithm remains memory-efficient by yielding values immediately and only tracking necessary composites."
+    },
+    {
+      "id": "23.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "memory_efficiency_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q17"
+      ],
+      "prompt": "Fill in the blank to use the idiomatic memory-efficient pattern for processing lines in a file without loading the whole file into RAM:\n\nwith open('log.txt', 'r') as f:\n    for ___ in f:",
+      "correct_answer": "line",
+      "accepted_answers": [
+        "line",
+        "ln",
+        "row"
+      ],
+      "explanation": "Iterating directly over a file object is a standard Python idiom that reads one line at a time into memory. The blank represents the loop variable holding each line, which keeps memory usage low even for very large files."
+    },
+    {
+      "id": "23.5_q19",
+      "type": "fix_the_code",
+      "concept": "memory_efficiency_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing Memory Bloat from List Comprehensions",
+        "content": "When you build a large list using a list comprehension, Python allocates memory for every element at once. For a sequence of 10 million integers, this can consume hundreds of megabytes. An iterator, by contrast, yields one value at a time and uses constant memory. A common debugging task is to spot where a list is created unnecessarily and replace it with a generator expression or an iterator. Look for patterns like `[x for x in range(n)]` when you only need to consume the values sequentially.\n\n```python\n# Problematic code: loads everything into memory\ndef big_sum(n):\n    numbers = [i for i in range(n)]\n    total = 0\n    for x in numbers:\n        total += x\n    return total\n\nbig_sum(10_000_000)\n```\n\nHere, `numbers` holds all 10 million integers simultaneously. The memory cost is O(n). The fix is to iterate directly over the range or use a generator."
+      },
+      "prompt": "Fix the bug in this code for memory efficiency errors:",
+      "starter_code": "# Fix this code\nPrint('Memory Efficiency')",
+      "solution_code": "print('Memory Efficiency')",
+      "explanation": "This exercise tests `memory efficiency errors` in Memory Efficiency. When Python validates this code, it applies the standard rules of memory efficiency errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "23.5_q20",
+      "type": "fix_the_code",
+      "concept": "memory_efficiency_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.5_q19"
+      ],
+      "prompt": "The function below reads a file and stores every line in a list before printing it. Rewrite it to use a generator so that memory usage stays low even for huge files.",
+      "starter_code": "def print_lines(path):\n    with open(path, 'r') as f:\n        lines = f.readlines()\n    for line in lines:\n        print(line.strip())\n\nprint_lines('data.txt')",
+      "solution_code": "def print_lines(path):\n    with open(path, 'r') as f:\n        for line in f:\n            print(line.strip())\n\nprint_lines('data.txt')",
+      "hint": "You do not need to call readlines(). A file object itself is an iterator.",
+      "explanation": "The original code calls `readlines()`, which reads the entire file into a list. By iterating directly over the file object `f`, Python yields one line at a time, keeping memory usage minimal regardless of file size."
+    },
+    {
+      "id": "23.5_q21",
+      "type": "fix_the_code",
+      "concept": "memory_efficiency_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q20"
+      ],
+      "prompt": "This function is supposed to return even numbers up to n, but it fails when n is negative or zero. Fix the logic and make it memory-efficient by using a generator.",
+      "starter_code": "def evens(n):\n    return [x for x in range(n) if x % 2 == 0]\n\nprint(list(evens(-5)))",
+      "solution_code": "def evens(n):\n    if n <= 0:\n        return\n    for x in range(0, n, 2):\n        yield x\n\nprint(list(evens(-5)))",
+      "hint": "A generator should handle n <= 0 gracefully and avoid building a list.",
+      "explanation": "The original list comprehension returns an empty list for negative n, which is acceptable but not explicit. The fixed version uses `yield` to create a generator and explicitly returns early for non-positive n, avoiding any unnecessary iteration or memory allocation."
+    },
+    {
+      "id": "23.5_q22",
+      "type": "fix_the_code",
+      "concept": "memory_efficiency_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Memory Patterns and Generator Exhaustion",
+        "content": "Generators are memory-efficient, but they have runtime caveats. Once a generator is exhausted, it cannot be restarted without recreating it. Another issue is that passing a generator to a function that expects a sequence (like `len()` or indexing) will raise a `TypeError`. When debugging memory issues, always check whether you are accidentally converting a generator to a list with `list()` or `tuple()`. Also, nested generators can hide intermediate state if you are not careful.\n\n```python\n# Bug: generator is consumed once, then reused\ndef gen():\n    yield 1\n    yield 2\n\ng = gen()\nprint(next(g))  # 1\nprint(next(g))  # 2\nprint(next(g))  # StopIteration\n\n# Attempting to iterate again fails\nfor x in g:\n    print(x)  # No output; generator is exhausted\n```\n\nTo fix this, recreate the generator or use `itertools.tee()` if you need independent iterators."
+      },
+      "prompt": "Fix the bug in this code for memory efficiency runtime:",
+      "starter_code": "# Fix this code\nPrint('Memory Efficiency')",
+      "solution_code": "print('Memory Efficiency')",
+      "explanation": "This exercise tests `memory efficiency runtime` in Memory Efficiency. When Python validates this code, it applies the standard rules of memory efficiency runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "23.5_q23",
+      "type": "fix_the_code",
+      "concept": "memory_efficiency_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q22"
+      ],
+      "prompt": "The function is intended to return a generator of squares, but it currently returns a list. Correct the return type and ensure the function behaves lazily.",
+      "starter_code": "def squares(n):\n    result = []\n    for i in range(n):\n        result.append(i ** 2)\n    return result\n\nprint(squares(5))",
+      "solution_code": "def squares(n):\n    for i in range(n):\n        yield i ** 2\n\nprint(list(squares(5)))",
+      "hint": "Replace the list accumulation with a yield statement inside the loop.",
+      "explanation": "The original implementation builds a list in memory and returns it. By yielding each square inside the loop, the function becomes a generator that produces values on demand, reducing peak memory usage from O(n) to O(1)."
+    },
+    {
+      "id": "23.5_q24",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.5_q23"
+      ],
+      "prompt": "Refactor the following pipeline to minimize memory usage. The original code materializes every intermediate result. Your version must process a stream of integers and only keep the final aggregated sum in memory.",
+      "starter_code": "def source(n):\n    return list(range(n))\n\ndef filter_pos(nums):\n    return [x for x in nums if x > 0]\n\ndef map_sq(nums):\n    return [x * x for x in nums]\n\ndef reduce_sum(nums):\n    total = 0\n    for x in nums:\n        total += x\n    return total\n\ndef pipeline(n):\n    data = source(n)\n    data = filter_pos(data)\n    data = map_sq(data)\n    return reduce_sum(data)\n\nprint(pipeline(1_000_000))",
+      "solution_code": "def source(n):\n    for i in range(n):\n        yield i\n\ndef filter_pos(nums):\n    for x in nums:\n        if x > 0:\n            yield x\n\ndef map_sq(nums):\n    for x in nums:\n        yield x * x\n\ndef reduce_sum(nums):\n    total = 0\n    for x in nums:\n        total += x\n    return total\n\ndef pipeline(n):\n    return reduce_sum(map_sq(filter_pos(source(n))))\n\nprint(pipeline(1_000_000))",
+      "test_cases": [
+        {
+          "input": "10",
+          "expected_output": 285
+        },
+        {
+          "input": "0",
+          "expected_output": 0
+        },
+        {
+          "input": "5",
+          "expected_output": 30
+        }
+      ],
+      "hint": "Chain the generator functions so that no list is created between stages.",
+      "explanation": "The original pipeline creates three full lists in memory. The refactored version chains generators so each stage yields to the next, ensuring only the running total from `reduce_sum` occupies extra memory. This is a classic lazy-evaluation pipeline."
+    },
+    {
+      "id": "23.5_q25",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q24"
+      ],
+      "prompt": "Write a generator that yields the first n even numbers instead of building a full list in memory.",
+      "starter_code": "def even_numbers(n):\n    # TODO: implement using yield\n    pass\n\nfor x in even_numbers(5):\n    print(x)",
+      "solution_code": "def even_numbers(n):\n    count = 0\n    num = 0\n    while count < n:\n        yield num\n        num += 2\n        count += 1\n\nfor x in even_numbers(5):\n    print(x)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "even_numbers(0) should produce no output",
+          "description": "even_numbers(0) should produce no output"
+        },
+        {
+          "input": "",
+          "expected_output": "even_numbers(1) should yield 0",
+          "description": "even_numbers(1) should yield 0"
+        },
+        {
+          "input": "",
+          "expected_output": "even_numbers(3) should yield 0, 2, 4",
+          "description": "even_numbers(3) should yield 0, 2, 4"
+        }
+      ],
+      "hint": "Use yield to produce values one at a time and avoid storing the entire sequence.",
+      "explanation": "A generator uses lazy evaluation, producing values on demand. This keeps memory usage constant regardless of n, unlike a list comprehension which stores all values simultaneously."
+    },
+    {
+      "id": "23.5_q26",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.5_q25"
+      ],
+      "prompt": "Read a large text file line by line and count how many lines contain the word 'error' without loading the entire file into memory.",
+      "starter_code": "def count_error_lines(filepath):\n    # TODO: use a generator to read lines lazily\n    count = 0\n    return count\n\n# Example usage:\n# print(count_error_lines('large_log.txt'))",
+      "solution_code": "def count_error_lines(filepath):\n    count = 0\n    with open(filepath, 'r') as file:\n        for line in file:\n            if 'error' in line:\n                count += 1\n    return count\n\n# Example usage:\n# print(count_error_lines('large_log.txt'))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "count_error_lines('empty.txt') returns 0",
+          "description": "count_error_lines('empty.txt') returns 0"
+        },
+        {
+          "input": "",
+          "expected_output": "count_error_lines('one_error.txt') returns 1",
+          "description": "count_error_lines('one_error.txt') returns 1"
+        },
+        {
+          "input": "",
+          "expected_output": "count_error_lines('multiple_errors.txt') returns the correct total",
+          "description": "count_error_lines('multiple_errors.txt') returns the correct total"
+        }
+      ],
+      "hint": "Opening a file and iterating over it yields one line at a time; no need to call read() or store lines in a list.",
+      "explanation": "Iterating directly over a file object is memory-efficient because Python buffers the file internally and yields one line per iteration, preventing the whole file from residing in RAM."
+    },
+    {
+      "id": "23.5_q27",
+      "type": "write_the_code",
+      "question": "Write a generator function `stream_error_logs(lines: list[str])` that yields only the stripped log messages that start with `\"[ERROR]\"`. It must be a generator (using `yield`), not a list accumulator.",
+      "starter_code": "from typing import Iterator\n\ndef stream_error_logs(lines: list[str]) -> Iterator[str]:\n    # Yield lines matching '[ERROR]' lazily\n    pass",
+      "solution_code": "from typing import Iterator\n\ndef stream_error_logs(lines: list[str]) -> Iterator[str]:\n    for line in lines:\n        cleaned = line.strip()\n        if cleaned.startswith(\"[ERROR]\"):\n            yield cleaned",
+      "test_cases": [
+        {
+          "input": "list(stream_error_logs(['[INFO] boot', '[ERROR] timeout', '[ERROR] db fail']))",
+          "expected_output": "['[ERROR] timeout', '[ERROR] db fail']"
+        }
+      ],
+      "explanation": "The generator uses `yield` to deliver each matching log entry as soon as it is encountered, allowing downstream consumers to process millions of records with constant memory footprint.",
+      "difficulty": "hard",
+      "concept": "generator_streaming",
+      "skill": "code_construction",
+      "prerequisites": []
+    },
+    {
+      "id": "23.5_q28",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.5_q27"
+      ],
+      "prompt": "You are given a million-line CSV file. Write a generator that yields only the rows where the third column is greater than 100. Do not load the whole file into memory.",
+      "starter_code": "def filter_csv_rows(filepath):\n    # TODO: parse CSV line by line and yield matching rows\n    pass\n\n# Example row format: name,age,score\n# filter_csv_rows('big_data.csv')",
+      "solution_code": "def filter_csv_rows(filepath):\n    with open(filepath, 'r') as file:\n        next(file)  # skip header\n        for line in file:\n            parts = line.strip().split(',')\n            if len(parts) >= 3 and float(parts[2]) > 100:\n                yield line.strip()\n\n# Example row format: name,age,score\n# filter_csv_rows('big_data.csv')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "filter_csv_rows('sample.csv') yields only rows with score > 100",
+          "description": "filter_csv_rows('sample.csv') yields only rows with score > 100"
+        },
+        {
+          "input": "",
+          "expected_output": "filter_csv_rows('no_matches.csv') yields nothing",
+          "description": "filter_csv_rows('no_matches.csv') yields nothing"
+        },
+        {
+          "input": "",
+          "expected_output": "filter_csv_rows('header_only.csv') yields nothing",
+          "description": "filter_csv_rows('header_only.csv') yields nothing"
+        }
+      ],
+      "hint": "Use split(',') to extract columns and compare the third column after converting it to a number.",
+      "explanation": "Processing line-by-line ensures memory scales with the longest line, not the total file size. Generators allow downstream code to consume rows immediately without buffering the entire filtered result."
+    },
+    {
+      "id": "23.5_q29",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.5_q28"
+      ],
+      "prompt": "A streaming service receives video metadata as a continuous feed of JSON objects over a network socket. Design a generator-based pipeline that parses each object, extracts the title and duration, and yields only titles of videos longer than 5 minutes. Explain why this approach is preferable to building a full list of parsed objects.",
+      "starter_code": "import json\n\ndef stream_metadata_pipeline(socket_reader):\n    # TODO: yield titles for videos with duration > 300 seconds\n    pass\n\n# Example:\n# for title in stream_metadata_pipeline(socket):\n#     print(title)",
+      "solution_code": "import json\n\ndef stream_metadata_pipeline(socket_reader):\n    for raw_line in socket_reader:\n        try:\n            obj = json.loads(raw_line.decode('utf-8'))\n        except Exception:\n            continue\n        duration = obj.get('duration', 0)\n        if duration > 300:\n            yield obj.get('title')\n\n# Example:\n# for title in stream_metadata_pipeline(socket):\n#     print(title)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "stream_metadata_pipeline yields only titles when duration exceeds 300",
+          "description": "stream_metadata_pipeline yields only titles when duration exceeds 300"
+        },
+        {
+          "input": "",
+          "expected_output": "stream_metadata_pipeline skips malformed JSON lines",
+          "description": "stream_metadata_pipeline skips malformed JSON lines"
+        },
+        {
+          "input": "",
+          "expected_output": "stream_metadata_pipeline handles an empty stream gracefully",
+          "description": "stream_metadata_pipeline handles an empty stream gracefully"
+        }
+      ],
+      "hint": "Assume socket_reader yields one line at a time; decode each line before parsing JSON.",
+      "explanation": "In a real-time streaming context, the volume of data can exceed available RAM. A generator pipeline processes each record as it arrives, applies the filter, and emits only the necessary result, keeping memory bounded and latency low."
+    },
+    {
+      "id": "23.5_q30",
+      "type": "write_the_code",
+      "concept": "memory_efficiency_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.5_q29"
+      ],
+      "prompt": "Implement a generator that reads a directory of log files, yields log entries matching a given severity level, and supports early termination via a stop condition. The solution must avoid storing all file paths or all matching entries in memory.",
+      "starter_code": "import os\n\ndef search_logs(directory, severity, stop_after=None):\n    # TODO: yield matching log lines and stop early if stop_after matches are found\n    pass\n\n# Example:\n# for line in search_logs('/var/log', 'CRITICAL', stop_after=5):\n#     print(line)",
+      "solution_code": "import os\n\ndef search_logs(directory, severity, stop_after=None):\n    matches = 0\n    for filename in os.listdir(directory):\n        path = os.path.join(directory, filename)\n        if not os.path.isfile(path):\n            continue\n        with open(path, 'r') as file:\n            for line in file:\n                if severity in line:\n                    yield line.strip()\n                    matches += 1\n                    if stop_after is not None and matches >= stop_after:\n                        return\n\n# Example:\n# for line in search_logs('/var/log', 'CRITICAL', stop_after=5):\n#     print(line)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "search_logs with stop_after=2 yields at most 2 matching lines",
+          "description": "search_logs with stop_after=2 yields at most 2 matching lines"
+        },
+        {
+          "input": "",
+          "expected_output": "search_logs without stop_after yields all matching lines across all files",
+          "description": "search_logs without stop_after yields all matching lines across all files"
+        },
+        {
+          "input": "",
+          "expected_output": "search_logs skips non-file entries in the directory",
+          "description": "search_logs skips non-file entries in the directory"
+        }
+      ],
+      "hint": "Use os.listdir to enumerate files one by one, open each file inside the loop, and use return to exit the generator early.",
+      "explanation": "This design demonstrates mastery of memory efficiency by combining directory iteration, per-file streaming, early termination, and selective yielding. No list of all paths or all matches is ever created, so memory usage remains proportional to the size of the currently open file plus a few counters."
+    }
+  ],
+  "unit_num": 23,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Memory Efficiency",
+    "Apply idiomatic Python patterns when working with Memory Efficiency",
+    "Debug common runtime exceptions and logic errors associated with Memory Efficiency",
+    "Implement production-ready code utilizing Memory Efficiency"
+  ],
+  "prerequisites": [
+    "23.4"
+  ]
+}

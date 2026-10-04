@@ -1,0 +1,653 @@
+{
+  "lesson_id": "20.1",
+  "title": "Objects and Classes",
+  "unit": "Object-Oriented Programming (Basics)",
+  "items": [
+    {
+      "id": "20.1_q1",
+      "type": "micro_lesson",
+      "concept": "objects_and_classes_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is an Object?",
+      "content": "In Python, an object is an instance of a class. A class is a blueprint that defines attributes (data) and methods (behavior). For example, a class named Car can be used to create objects like my_car. Each object stores its own state. Here is a simple example:\n\n```python\nclass Car:\n    pass\n\nmy_car = Car()\nprint('my_car is an object of type', type(my_car))\n```\n\nNotice that my_car is created from the Car class, making it an object.",
+      "prompt": "",
+      "explanation": "In Python, an object is an instance of a class. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "20.1_q2",
+      "type": "multiple_choice",
+      "concept": "objects_and_classes_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q1"
+      ],
+      "prompt": "Which of the following best describes a class in Python?",
+      "options": [
+        "A variable that stores a single value",
+        "A blueprint used to create objects",
+        "A function that performs a calculation",
+        "A loop that repeats code"
+      ],
+      "correct_answer": "A blueprint used to create objects",
+      "explanation": "A class acts as a template or blueprint. You define attributes and methods inside it, and then create objects from it."
+    },
+    {
+      "id": "20.1_q3",
+      "type": "micro_lesson",
+      "concept": "objects_and_classes_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q2"
+      ],
+      "title": "Defining a Class and Creating an Object",
+      "content": "To define a class, use the class keyword followed by the class name. By convention, class names use PascalCase. After defining the class, you create an object by calling the class name as if it were a function. Here is a complete example:\n\n```python\nclass Dog:\n    pass\n\nbuddy = Dog()\nprint('buddy is an instance of', type(buddy).__name__)\n```\n\nThe line `buddy = Dog()` creates an object named buddy. The `pass` statement is a placeholder when the class body is empty.",
+      "prompt": "",
+      "explanation": "To define a class, use the class keyword followed by the class name. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "20.1_q4",
+      "type": "multiple_choice",
+      "concept": "objects_and_classes_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q3"
+      ],
+      "prompt": "Given the following code, what is printed?\n\n```python\nclass Bird:\n    pass\n\nrobin = Bird()\nprint(type(robin))\n```",
+      "options": [
+        "<class '__main__.Bird'>",
+        "Bird",
+        "robin",
+        "An error occurs"
+      ],
+      "correct_answer": "<class '__main__.Bird'>",
+      "explanation": "The print statement outputs the type object of robin, which includes the module name and the class name. This is the full representation of the class."
+    },
+    {
+      "id": "20.1_q5",
+      "type": "multiple_choice",
+      "concept": "objects_and_classes_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q4"
+      ],
+      "prompt": "Match each term to its role in object-oriented programming.",
+      "options": [
+        "Class: a specific instance; Object: a general template",
+        "Class: a general template; Object: a specific instance",
+        "Class: a method; Object: an attribute",
+        "Class: a function; Object: a variable"
+      ],
+      "correct_answer": "Class: a general template; Object: a specific instance",
+      "explanation": "A class defines the structure and behavior, while an object is a concrete entity created from that class."
+    },
+    {
+      "id": "20.1_q6",
+      "type": "multiple_choice",
+      "concept": "objects_and_classes_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q5"
+      ],
+      "prompt": "Which statement correctly describes a common beginner pitfall when creating objects?",
+      "options": [
+        "Forgetting to assign the created object to a variable",
+        "Using lowercase for class names",
+        "Calling the class without parentheses to create an object",
+        "All of the above are common pitfalls"
+      ],
+      "correct_answer": "Forgetting to assign the created object to a variable",
+      "explanation": "If you call the class to create an object but do not store it in a variable, the object is created and immediately discarded because there is no reference to it."
+    },
+    {
+      "id": "20.1_q7",
+      "type": "code_prediction",
+      "concept": "objects_and_classes_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q6"
+      ],
+      "prompt": "What will the following Python code output when executed?\n\n```python\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        return 'Woof!'\n\nd = Dog('Rex')\nprint(d.bark())\n```",
+      "options": [
+        "Woof!",
+        "Rex",
+        "None",
+        "Error: bark is not defined"
+      ],
+      "correct_answer": "Woof!",
+      "explanation": "An instance of Dog is created with name 'Rex'. Calling the bark method on the instance returns the string 'Woof!'. The print statement outputs this return value."
+    },
+    {
+      "id": "20.1_q8",
+      "type": "output_prediction",
+      "concept": "objects_and_classes_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q7"
+      ],
+      "prompt": "What will the following Python code output when executed?\n\n```python\nclass Car:\n    def __init__(self, color):\n        self.color = color\n\n    def describe(self):\n        return f'The car is {self.color}.'\n\nc = Car('blue')\nprint(c.describe())\n```",
+      "options": [
+        "The car is blue.",
+        "The car is blue",
+        "blue",
+        "Error: f-string not supported"
+      ],
+      "correct_answer": "The car is blue.",
+      "explanation": "The f-string evaluates self.color as 'blue', producing 'The car is blue.' with a period. This is printed to the console."
+    },
+    {
+      "id": "20.1_q9",
+      "type": "code_prediction",
+      "concept": "objects_and_classes_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q8"
+      ],
+      "prompt": "What will the following Python code output when executed?\n\n```python\nclass Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1\n        return self.count\n\nc = Counter()\nprint(c.increment())\nprint(c.increment())\n```",
+      "options": [
+        "1\n2",
+        "2\n2",
+        "0\n1",
+        "Error: count is not defined"
+      ],
+      "correct_answer": "1\n2",
+      "explanation": "The first increment sets count to 1 and returns 1. The second increment sets count to 2 and returns 2. Two print statements output these values on separate lines."
+    },
+    {
+      "id": "20.1_q10",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q9"
+      ],
+      "prompt": "Explain what is happening in the following code and why it produces the output shown.\n\n```python\nclass Book:\n    def __init__(self, title):\n        self.title = title\n\n    def get_title(self):\n        return self.title\n\nb = Book('Python Basics')\nprint(b.get_title())\n```",
+      "correct_answer": "A class Book is defined and an object b is created. The method get_title accesses the instance attribute title and returns it, which is printed.",
+      "explanation": "The class defines an initializer that stores the passed title in self.title. The instance method get_title returns this stored value. The object b is instantiated with 'Python Basics', and calling get_title() returns that string, which print outputs.",
+      "starter_code": "# 1. Define the process_20_1 function\ndef process_20_1():\n    # 2. Implement solution for Objects and Classes\n    pass\n",
+      "solution_code": "print('Objects and Classes')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Objects and Classes"
+        }
+      ]
+    },
+    {
+      "id": "20.1_q11",
+      "type": "code_prediction",
+      "concept": "objects_and_classes_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q10"
+      ],
+      "prompt": "Trace the execution of the following code and determine the final value of the variable result.\n\n```python\nclass Calculator:\n    def __init__(self, value):\n        self.value = value\n\n    def add(self, x):\n        self.value = self.value + x\n        return self.value\n\ncalc = Calculator(10)\nresult = calc.add(5)\nresult = calc.add(3)\n```",
+      "options": [
+        "18",
+        "15",
+        "8",
+        "Error: value is not defined"
+      ],
+      "correct_answer": "18",
+      "explanation": "calc starts with value 10. add(5) sets value to 15 and returns 15. add(3) sets value to 18 and returns 18. The final assignment stores 18 in result."
+    },
+    {
+      "id": "20.1_q12",
+      "type": "output_prediction",
+      "concept": "objects_and_classes_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q11"
+      ],
+      "prompt": "What will the following Python code output when executed?\n\n```python\nclass Student:\n    def __init__(self, name):\n        self.name = name\n\n    def greet(self):\n        return 'Hello, ' + self.name\n\ns = Student('Aisha')\nprint(s.greet())\n```",
+      "options": [
+        "Hello, Aisha",
+        "Aisha",
+        "Hello, Aisha!",
+        "Error: greet method missing"
+      ],
+      "correct_answer": "Hello, Aisha",
+      "explanation": "The Student instance s stores name 'Aisha'. The greet method concatenates 'Hello, ' with self.name and returns the result. print outputs this exact string without an exclamation mark."
+    },
+    {
+      "id": "20.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "objects_and_classes_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q12"
+      ],
+      "micro_lesson": {
+        "title": "Defining a Class with the class Keyword",
+        "content": "In Python, a class is a blueprint for creating objects. You define a class using the `class` keyword, followed by the class name. By convention, class names use PascalCase. Inside the class, you define attributes and methods. Here is an example:\n\n```python\nclass Dog:\n    pass\n```\n\nThe `pass` statement is a placeholder that does nothing but allows the syntax to be valid. Once defined, you can create an instance (object) of the class using the class name followed by parentheses."
+      },
+      "prompt": "Complete the code by filling in the blank: `class ___:`",
+      "correct_answer": "Dog",
+      "accepted_answers": [
+        "Dog"
+      ],
+      "explanation": "The `class` keyword introduces a new class definition. `Dog` is the class name, written in PascalCase. The colon `:` must follow the class name to start the class block."
+    },
+    {
+      "id": "20.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "objects_and_classes_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q13"
+      ],
+      "micro_lesson": {
+        "title": "Using __init__ and self",
+        "content": "The `__init__` method is a special method called a constructor. It initializes an object's attributes when the object is created. The first parameter of any instance method is always `self`, which refers to the current instance of the class. Here is an example:\n\n```python\nclass Car:\n    def __init__(self, brand):\n        self.brand = brand\n```\n\nWhen you create a `Car` object, Python automatically calls `__init__` to set up the `brand` attribute on that specific instance."
+      },
+      "prompt": "Fill in the blank to complete the constructor: `def ___ (self, color):`",
+      "correct_answer": "__init__",
+      "accepted_answers": [
+        "__init__"
+      ],
+      "explanation": "`__init__` is the special constructor method in Python classes. It is automatically invoked when a new object is instantiated."
+    },
+    {
+      "id": "20.1_q15",
+      "type": "code_ordering",
+      "concept": "objects_and_classes_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Order for Class Definition and Instantiation",
+        "content": "To use a class, you must first define it, then create an instance of it. The class definition includes the class header and its methods. After the class is defined, you can call the class name with arguments to create an object. Here is the proper sequence:\n\n```python\nclass Book:\n    def __init__(self, title):\n        self.title = title\n\nmy_book = Book('Python Basics')\nprint(my_book.title)\n```\n\nNotice that the class is defined before any object is created. The `my_book` variable holds the instance, and you access its attribute with dot notation."
+      },
+      "prompt": "Arrange the following code lines into the correct order to define a class and create an instance:",
+      "options": [
+        "my_book = Book('Python Basics')",
+        "class Book:",
+        "    def __init__(self, title):",
+        "        self.title = title"
+      ],
+      "correct_answer": [
+        "class Book:",
+        "    def __init__(self, title):",
+        "        self.title = title",
+        "my_book = Book('Python Basics')"
+      ],
+      "explanation": "The class must be defined before it can be instantiated. The `__init__` method belongs inside the class block, indented under the class header. Only after the class exists can you create an instance with `Book('Python Basics')`."
+    },
+    {
+      "id": "20.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "objects_and_classes_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q15"
+      ],
+      "micro_lesson": {
+        "title": "Accessing Attributes with Dot Notation",
+        "content": "Once an object is created, you access its attributes and methods using dot notation. The object name is followed by a dot and the attribute name. This is the standard pattern for interacting with instances. For example:\n\n```python\nclass Person:\n    def __init__(self, name):\n        self.name = name\n\np = Person('Alice')\nprint(p.name)\n```\n\nThe expression `p.name` retrieves the value stored in the `name` attribute of the `p` object."
+      },
+      "prompt": "Complete the statement: `print(p.___)`",
+      "correct_answer": "name",
+      "accepted_answers": [
+        "name"
+      ],
+      "explanation": "Dot notation (`object.attribute`) is used to access attributes of an instance. Here, `p.name` accesses the `name` attribute set in the `__init__` method."
+    },
+    {
+      "id": "20.1_q17",
+      "type": "code_ordering",
+      "concept": "objects_and_classes_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm: Create Objects and Call Methods",
+        "content": "A common algorithm when working with classes involves creating multiple instances and interacting with them. The steps are: define the class, instantiate objects, modify attributes, and call methods. Here is a complete example:\n\n```python\nclass Calculator:\n    def add(self, a, b):\n        return a + b\n\nc1 = Calculator()\nc2 = Calculator()\nresult = c1.add(3, 5)\nprint(result)\n```\n\nFirst, the class is defined. Then two objects `c1` and `c2` are created. Finally, the `add` method is called on `c1` with arguments `3` and `5`, and the result is printed."
+      },
+      "prompt": "Order the following steps to implement the algorithm of creating two Calculator objects and printing the sum of 4 and 6:",
+      "options": [
+        "print(c1.add(4, 6))",
+        "class Calculator:",
+        "    def add(self, a, b):",
+        "        return a + b",
+        "c1 = Calculator()",
+        "c2 = Calculator()"
+      ],
+      "correct_answer": [
+        "class Calculator:",
+        "    def add(self, a, b):",
+        "        return a + b",
+        "c1 = Calculator()",
+        "c2 = Calculator()",
+        "print(c1.add(4, 6))"
+      ],
+      "explanation": "The class must be defined before any instances exist. After instantiation, you can call methods on the objects. The order ensures valid syntax and correct execution flow."
+    },
+    {
+      "id": "20.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "objects_and_classes_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Class Instantiation and Attribute Access",
+        "content": "A common Python idiom is to create a class with a descriptive name, instantiate it with meaningful arguments, and access attributes directly. This pattern makes code readable and maintainable. For example:\n\n```python\nclass Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\nr = Rectangle(10, 5)\nprint(r.width * r.height)\n```\n\nHere, `Rectangle` models a geometric shape, `r` is a specific instance, and the area is computed by multiplying the instance attributes."
+      },
+      "prompt": "Fill in the blank to complete the idiom: `r = Rectangle(___, ___)`",
+      "correct_answer": "10, 5",
+      "accepted_answers": [
+        "10, 5",
+        "10, 5"
+      ],
+      "explanation": "The `Rectangle` constructor expects `width` and `height` arguments. Passing `10` and `5` creates a rectangle with those dimensions, which is a standard and readable idiom."
+    },
+    {
+      "id": "20.1_q19",
+      "type": "fix_the_code",
+      "concept": "objects_and_classes_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing Common OOP Mistakes",
+        "content": "When working with objects and classes, beginners often confuse class attributes with instance attributes, or forget to use self correctly. In Python, instance methods must include self as the first parameter to access instance data. Another frequent error is trying to call a method on the class instead of an instance. Always verify that you instantiate a class before accessing instance-specific behavior, and remember that methods defined inside a class automatically receive the instance as self. Below is a buggy example to analyze."
+      },
+      "prompt": "Identify and explain the errors in the following code.",
+      "starter_code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        return 'Woof!'\n\ndog = Dog('Rex')\nprint(dog.bark())\nprint(Dog.bark())\nprint(dog.name)",
+      "solution_code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        return 'Woof!'\n\ndog = Dog('Rex')\nprint(dog.bark())\n# To call bark on the class, you must pass an instance explicitly or use the class method\n# print(Dog.bark(dog))\nprint(dog.name)",
+      "hint": "Check how methods are defined and called. Consider whether bark can be invoked directly on the class without an instance.",
+      "explanation": "The error occurs at print(Dog.bark()). bark is an instance method requiring self, so it cannot be called directly on the class without providing an instance. The corrected version either removes that line or passes an instance explicitly."
+    },
+    {
+      "id": "20.1_q20",
+      "type": "fix_the_code",
+      "concept": "objects_and_classes_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.1_q19"
+      ],
+      "prompt": "Fix the code so the Rectangle class correctly computes area.",
+      "starter_code": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):\n        return self.width * height\n\nr = Rectangle(5, 3)\nprint(r.area())",
+      "solution_code": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):\n        return self.width * self.height\n\nr = Rectangle(5, 3)\nprint(r.area())",
+      "hint": "In the area method, height is referenced without self. It should be self.height.",
+      "explanation": "The method area tried to access height as a local variable, but it is stored as an instance attribute self.height. Adding self fixes the NameError and returns the correct area."
+    },
+    {
+      "id": "20.1_q21",
+      "type": "fix_the_code",
+      "concept": "objects_and_classes_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q20"
+      ],
+      "prompt": "Fix the edge case where dividing by zero occurs in the Circle class.",
+      "starter_code": "class Circle:\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        if self.radius <= 0:\n            return 0\n        return 3.14 * self.radius * self.radius\n\nc = Circle(0)\nprint(c.area())",
+      "solution_code": "class Circle:\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):\n        if self.radius <= 0:\n            raise ValueError('Radius must be positive')\n        return 3.14 * self.radius * self.radius\n\nc = Circle(0)\nprint(c.area())",
+      "hint": "Returning 0 for a non-positive radius hides invalid input. Consider raising an exception to signal misuse.",
+      "explanation": "The original code silently returned 0 for radius 0, which is misleading. Raising ValueError makes the edge case explicit and prevents incorrect calculations."
+    },
+    {
+      "id": "20.1_q22",
+      "type": "fix_the_code",
+      "concept": "objects_and_classes_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in Object-Oriented Programs",
+        "content": "Runtime errors happen when code executes but encounters an invalid operation, such as accessing an attribute that does not exist or calling a method on the wrong object. In OOP, a common runtime issue is AttributeError when an instance lacks the expected attribute due to a typo or missing initialization. Another runtime pitfall is modifying a mutable default argument in a class method, which can cause shared state across instances. Always initialize attributes in __init__ and verify object types before operations."
+      },
+      "prompt": "Explain the runtime error in the following snippet.",
+      "starter_code": "class Counter:\n    def __init__(self):\n        self.count = 0\n\nc = Counter()\nc.increment()\nprint(c.count)",
+      "solution_code": "class Counter:\n    def __init__(self):\n        self.count = 0\n\n    def increment(self):\n        self.count += 1\n\nc = Counter()\nc.increment()\nprint(c.count)",
+      "hint": "The method increment is defined but never called before print. Also check whether increment exists on the instance.",
+      "explanation": "The runtime error is actually a logical error: increment is defined but not invoked, so count remains 0. If increment were missing entirely, an AttributeError would occur at c.increment()."
+    },
+    {
+      "id": "20.1_q23",
+      "type": "fix_the_code",
+      "concept": "objects_and_classes_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q22"
+      ],
+      "prompt": "Repair the logic in the Student class so average returns the correct mean of marks.",
+      "starter_code": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def average(self):\n        total = sum(self.marks)\n        return total / len(self.marks) + 1\n\ns = Student('Ana', [80, 90, 100])\nprint(s.average())",
+      "solution_code": "class Student:\n    def __init__(self, name, marks):\n        self.name = name\n        self.marks = marks\n\n    def average(self):\n        total = sum(self.marks)\n        return total / len(self.marks)\n\ns = Student('Ana', [80, 90, 100])\nprint(s.average())",
+      "hint": "The average formula adds an extra 1, which inflates the result. Remove the + 1.",
+      "explanation": "The original code incorrectly added 1 to the mean. The correct average is total divided by the number of marks, yielding 90.0 for the given data."
+    },
+    {
+      "id": "20.1_q24",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.1_q23"
+      ],
+      "prompt": "Refactor the Book class to use properties, a dunder method for string representation, and proper initialization. Also add a method to check if the book is available.",
+      "starter_code": "class Book:\n    def __init__(self, title, author, year):\n        self.title = title\n        self.author = author\n        self.year = year\n        self.available = True\n\n    def is_available(self):\n        return self.available\n\n    def __str__(self):\n        return self.title + ' by ' + self.author\n\nb = Book('1984', 'Orwell', 1949)\nprint(b.is_available())\nprint(b)",
+      "solution_code": "class Book:\n    def __init__(self, title, author, year):\n        self._title = title\n        self._author = author\n        self._year = year\n        self._available = True\n\n    @property\n    def title(self):\n        return self._title\n\n    @property\n    def author(self):\n        return self._author\n\n    @property\n    def year(self):\n        return self._year\n\n    @property\n    def available(self):\n        return self._available\n\n    def is_available(self):\n        return self._available\n\n    def __str__(self):\n        return f'{self._title} by {self._author} ({self._year})'\n\n    def borrow(self):\n        if self._available:\n            self._available = False\n            return True\n        return False\n\nb = Book('1984', 'Orwell', 1949)\nprint(b.is_available())\nprint(b)\nprint(b.borrow())\nprint(b.is_available())",
+      "test_cases": [
+        {
+          "input": "b = Book('Python', 'Guido', 2020); assert b.is_available()",
+          "expected_output": "True; b.borrow(); assert b.is_available() == False",
+          "description": "Verifies: b = Book('Python', 'Guido', 2020); assert b.is_available() == True; b.borrow(); assert b.is_available() == False"
+        },
+        {
+          "input": "b = Book('Clean', 'Martin', 2008); assert str(b)",
+          "expected_output": "'Clean by Martin (2008)'",
+          "description": "Verifies: b = Book('Clean', 'Martin', 2008); assert str(b) == 'Clean by Martin (2008)'"
+        },
+        {
+          "input": "b = Book('OOP', 'Smith', 2023); assert b.title",
+          "expected_output": "'OOP'; assert b.author == 'Smith'",
+          "description": "Verifies: b = Book('OOP', 'Smith', 2023); assert b.title == 'OOP'; assert b.author == 'Smith'"
+        }
+      ],
+      "hint": "Encapsulate internal state with underscores, expose read-only access via properties, and use an f-string in __str__ for cleaner formatting.",
+      "explanation": "Refactoring replaces public attributes with private ones and properties to control access. The __str__ method now uses an f-string for readability, and borrow adds behavior while preserving availability state."
+    },
+    {
+      "id": "20.1_q25",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q24"
+      ],
+      "prompt": "Create a class named 'Book' with an __init__ method that accepts title and author parameters. Add an instance method called 'display_info' that prints the book's title and author.",
+      "starter_code": "class Book:\n    pass",
+      "solution_code": "class Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def display_info(self):\n        print('Title:', self.title)\n        print('Author:', self.author)",
+      "test_cases": [
+        {
+          "input": "b = Book('1984', 'George Orwell')\nassert b.title",
+          "expected_output": "'1984'\nassert b.author == 'George Orwell'\nb.display_info()",
+          "description": "Verifies: b = Book('1984', 'George Orwell')\nassert b.title == '1984'\nassert b.author == 'George Orwell'\nb.display_info()"
+        },
+        {
+          "input": "b2 = Book('Python Crash Course', 'Eric Matthes')\nassert b2.title",
+          "expected_output": "'Python Crash Course'",
+          "description": "Verifies: b2 = Book('Python Crash Course', 'Eric Matthes')\nassert b2.title == 'Python Crash Course'"
+        }
+      ],
+      "hint": "Remember to use self to store instance attributes inside __init__.",
+      "explanation": "This exercise introduces the fundamental structure of a class: defining attributes via __init__ and behavior via instance methods. Using self ensures each object maintains its own state."
+    },
+    {
+      "id": "20.1_q26",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.1_q25"
+      ],
+      "prompt": "Extend the Book class by adding a method called 'get_summary' that returns a formatted string: '\"<title>\" by <author>'. Also, create a class variable 'library_name' set to 'City Library' and print it.",
+      "starter_code": "class Book:\n    library_name = 'City Library'\n\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author",
+      "solution_code": "class Book:\n    library_name = 'City Library'\n\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def get_summary(self):\n        return f'\"{self.title}\" by {self.author}'",
+      "test_cases": [
+        {
+          "input": "b = Book('Dune', 'Frank Herbert')\nassert b.get_summary()",
+          "expected_output": "'\"Dune\" by Frank Herbert'\nassert Book.library_name == 'City Library'",
+          "description": "Verifies: b = Book('Dune', 'Frank Herbert')\nassert b.get_summary() == '\"Dune\" by Frank Herbert'\nassert Book.library_name == 'City Library'"
+        },
+        {
+          "input": "b2 = Book('Clean Code', 'Robert C. Martin')\nassert b2.get_summary()",
+          "expected_output": "'\"Clean Code\" by Robert C. Martin'",
+          "description": "Verifies: b2 = Book('Clean Code', 'Robert C. Martin')\nassert b2.get_summary() == '\"Clean Code\" by Robert C. Martin'"
+        }
+      ],
+      "hint": "Use f-strings for formatted output and access class variables directly via the class name.",
+      "explanation": "This builds practical utility by combining instance methods with class-level data. It reinforces how objects encapsulate both state and behavior."
+    },
+    {
+      "id": "20.1_q27",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.1_q26"
+      ],
+      "prompt": "Create a base class 'Vehicle' with __init__(self, brand) and a method 'describe()'. Then create a subclass 'ElectricCar' that inherits from Vehicle, adds a 'battery_size' attribute, overrides describe() to include battery info, and adds a method 'charge()' that prints 'Charging battery to 100%'.",
+      "starter_code": "class Vehicle:\n    pass\n\nclass ElectricCar(Vehicle):\n    pass",
+      "solution_code": "class Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n\n    def describe(self):\n        print('This is a', self.brand, 'vehicle.')\n\nclass ElectricCar(Vehicle):\n    def __init__(self, brand, battery_size):\n        super().__init__(brand)\n        self.battery_size = battery_size\n\n    def describe(self):\n        print('This is an electric', self.brand, 'with', self.battery_size, 'kWh battery.')\n\n    def charge(self):\n        print('Charging battery to 100%')",
+      "test_cases": [
+        {
+          "input": "ec = ElectricCar('Tesla', 75)\nassert ec.brand",
+          "expected_output": "'Tesla'\nassert ec.battery_size == 75\nec.describe()\nec.charge()",
+          "description": "Verifies: ec = ElectricCar('Tesla', 75)\nassert ec.brand == 'Tesla'\nassert ec.battery_size == 75\nec.describe()\nec.charge()"
+        },
+        {
+          "input": "v = Vehicle('Ford')\nassert v.brand",
+          "expected_output": "'Ford'\nv.describe()",
+          "description": "Verifies: v = Vehicle('Ford')\nassert v.brand == 'Ford'\nv.describe()"
+        }
+      ],
+      "hint": "Use super().__init__() to initialize the parent class and override describe() in ElectricCar.",
+      "explanation": "This introduces inheritance and method overriding. super() delegates initialization to the parent, while overriding customize behavior for subclasses."
+    },
+    {
+      "id": "20.1_q28",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.1_q27"
+      ],
+      "prompt": "Given the class hierarchy below, identify what is printed when run and fix the code so that both 'describe' calls produce valid output without errors. A Car class inherits from Vehicle and overrides describe. An instance of Car is created with brand 'Honda'.",
+      "starter_code": "class Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n\n    def describe(self):\n        print('Generic vehicle:', self.brand)\n\nclass Car(Vehicle):\n    def describe(self):\n        print('Car:', self.brand)\n\nc = Car('Honda')\nc.describe()",
+      "solution_code": "class Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n\n    def describe(self):\n        print('Generic vehicle:', self.brand)\n\nclass Car(Vehicle):\n    def describe(self):\n        print('Car:', self.brand)\n\nc = Car('Honda')\nc.describe()\nc.describe()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "c = Car('Honda')\nc.describe()",
+          "description": "c = Car('Honda')\nc.describe()"
+        },
+        {
+          "input": "",
+          "expected_output": "v = Vehicle('Bus')\nv.describe()",
+          "description": "v = Vehicle('Bus')\nv.describe()"
+        }
+      ],
+      "hint": "The original code is valid Python; the challenge is to predict output and demonstrate polymorphic behavior by calling describe on both a Car and a Vehicle instance.",
+      "explanation": "Polymorphism allows different classes to respond to the same method name. Here, Car overrides describe(), so invoking it on a Car instance executes Car's version, while a Vehicle instance uses the parent's version."
+    },
+    {
+      "id": "20.1_q29",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.1_q28"
+      ],
+      "prompt": "Design a class 'BankAccount' to model a simple bank account. It should store owner_name, balance, and account_number. Include methods to deposit(amount), withdraw(amount) with validation (no negative amounts, no overdraft), and display_balance(). Use encapsulation: keep balance 'private' via name mangling and provide a getter. Create an instance, perform a deposit of 500, a withdrawal of 200, and print the final balance.",
+      "starter_code": "class BankAccount:\n    def __init__(self, owner_name, account_number, balance=0):\n        self.owner_name = owner_name\n        self.account_number = account_number\n        self.__balance = balance\n\n    def deposit(self, amount):\n        pass\n\n    def withdraw(self, amount):\n        pass\n\n    def get_balance(self):\n        pass\n\n    def display_balance(self):\n        pass",
+      "solution_code": "class BankAccount:\n    def __init__(self, owner_name, account_number, balance=0):\n        self.owner_name = owner_name\n        self.account_number = account_number\n        self.__balance = balance\n\n    def deposit(self, amount):\n        if amount > 0:\n            self.__balance += amount\n        else:\n            print('Deposit amount must be positive.')\n\n    def withdraw(self, amount):\n        if amount <= 0:\n            print('Withdrawal amount must be positive.')\n        elif amount > self.__balance:\n            print('Insufficient funds.')\n        else:\n            self.__balance -= amount\n\n    def get_balance(self):\n        return self.__balance\n\n    def display_balance(self):\n        print('Owner:', self.owner_name)\n        print('Account:', self.account_number)\n        print('Balance:', self.get_balance())\n\nacc = BankAccount('Alice', '123456', 0)\nacc.deposit(500)\nacc.withdraw(200)\nacc.display_balance()",
+      "test_cases": [
+        {
+          "input": "acc = BankAccount('Alice', '123456')\nassert acc.get_balance()",
+          "expected_output": "0\nacc.deposit(500)\nassert acc.get_balance() == 500\nacc.withdraw(200)\nassert acc.get_balance() == 300\nacc.display_balance()",
+          "description": "Verifies: acc = BankAccount('Alice', '123456')\nassert acc.get_balance() == 0\nacc.deposit(500)\nassert acc.get_balance() == 500\nacc.withdraw(200)\nassert acc.get_balance() == 300\nacc.display_balance()"
+        },
+        {
+          "input": "acc2 = BankAccount('Bob', '654321')\nacc2.deposit(-50)\nassert acc2.get_balance()",
+          "expected_output": "0",
+          "description": "Verifies: acc2 = BankAccount('Bob', '654321')\nacc2.deposit(-50)\nassert acc2.get_balance() == 0"
+        }
+      ],
+      "hint": "Use double underscores for name mangling on balance and validate inputs in deposit and withdraw.",
+      "explanation": "Real-world modeling requires encapsulation to protect internal state and validation to maintain invariants. Name mangling (__balance) discourages direct external mutation, while methods enforce business rules."
+    },
+    {
+      "id": "20.1_q30",
+      "type": "write_the_code",
+      "concept": "objects_and_classes_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.1_q29"
+      ],
+      "prompt": "Extend BankAccount so that adding two BankAccount instances with '+' creates a new BankAccount whose balance is the sum of both balances, and printing the object shows 'BankAccount(owner=<name>, balance=<amount>)'. Implement __add__ and __str__. Then test with acc1 = BankAccount('Alice', '001', 300) and acc2 = BankAccount('Bob', '002', 400); print(acc1 + acc2).",
+      "starter_code": "class BankAccount:\n    def __init__(self, owner_name, account_number, balance=0):\n        self.owner_name = owner_name\n        self.account_number = account_number\n        self.__balance = balance\n\n    def __add__(self, other):\n        pass\n\n    def __str__(self):\n        pass",
+      "solution_code": "class BankAccount:\n    def __init__(self, owner_name, account_number, balance=0):\n        self.owner_name = owner_name\n        self.account_number = account_number\n        self.__balance = balance\n\n    def __add__(self, other):\n        if isinstance(other, BankAccount):\n            new_balance = self.__balance + other.__balance\n            return BankAccount(self.owner_name + ' & ' + other.owner_name, 'COMBINED', new_balance)\n        return NotImplemented\n\n    def __str__(self):\n        return 'BankAccount(owner=' + self.owner_name + ', balance=' + str(self.__balance) + ')'\n\n    def get_balance(self):\n        return self.__balance\n\n    def display_balance(self):\n        print(self)\n\nacc1 = BankAccount('Alice', '001', 300)\nacc2 = BankAccount('Bob', '002', 400)\nresult = acc1 + acc2\nprint(result)\nprint('Combined balance:', result.get_balance())",
+      "test_cases": [
+        {
+          "input": "acc1 = BankAccount('Alice', '001', 300)\nacc2 = BankAccount('Bob', '002', 400)\nresult = acc1 + acc2\nassert result.get_balance()",
+          "expected_output": "700\nassert str(result) == 'BankAccount(owner=Alice & Bob, balance=700)'",
+          "description": "Verifies: acc1 = BankAccount('Alice', '001', 300)\nacc2 = BankAccount('Bob', '002', 400)\nresult = acc1 + acc2\nassert result.get_balance() == 700\nassert str(result) == 'BankAccount(owner=Alice & Bob, balance=700)'"
+        },
+        {
+          "input": "acc3 = BankAccount('Carol', '003')\nassert (acc3 + acc1).get_balance()",
+          "expected_output": "300",
+          "description": "Verifies: acc3 = BankAccount('Carol', '003')\nassert (acc3 + acc1).get_balance() == 300"
+        }
+      ],
+      "hint": "In __add__, check isinstance(other, BankAccount), access __balance via name mangling, and return a new instance. In __str__, construct the string representation manually.",
+      "explanation": "Operator overloading via magic methods like __add__ and __str__ enables intuitive syntax and clean output. Mastery here means combining encapsulation, validation, inheritance awareness, and protocol-based design into a cohesive, reusable class."
+    }
+  ],
+  "unit_num": 20,
+  "learning_objectives": [
+    "Design and instantiate Python classes demonstrating Objects and Classes",
+    "Manage instance state using the __init__ constructor and self",
+    "Implement object-oriented principles including encapsulation and inheritance",
+    "Structure modular programs using classes and composition"
+  ],
+  "prerequisites": [
+    "19.6"
+  ]
+}

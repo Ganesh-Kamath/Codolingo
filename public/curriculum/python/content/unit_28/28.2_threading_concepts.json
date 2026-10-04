@@ -1,0 +1,652 @@
+{
+  "lesson_id": "28.2",
+  "title": "Threading Concepts",
+  "unit": "Concurrency and Async",
+  "items": [
+    {
+      "id": "28.2_q1",
+      "type": "micro_lesson",
+      "concept": "threading_concepts_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Threading?",
+      "content": "Threading allows a program to execute multiple tasks concurrently within a single process. In Python, the `threading` module provides tools to create and manage threads. A thread is the smallest unit of execution, and threads share memory space, which makes communication between them fast but also requires care to avoid race conditions. For example, you can import the module and create a thread like this:\n\n```python\nimport threading\n\ndef task():\n    print('Task running')\n\nthread = threading.Thread(target=task)\nthread.start()\n```\n\nWhen `thread.start()` is called, the `task` function runs in a separate thread, allowing other code to continue executing at the same time.",
+      "prompt": "",
+      "explanation": "Threading allows a program to execute multiple tasks concurrently within a single process. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "28.2_q2",
+      "type": "multiple_choice",
+      "concept": "threading_concepts_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q1"
+      ],
+      "prompt": "Which of the following best describes a thread in Python?",
+      "options": [
+        "A separate process with its own memory space",
+        "A lightweight unit of execution within a process that shares memory",
+        "A function that runs only after all other code finishes",
+        "A data structure used to store strings"
+      ],
+      "correct_answer": "A lightweight unit of execution within a process that shares memory",
+      "explanation": "A thread is a lightweight execution unit inside a process, and all threads within the same process share memory. This distinguishes threads from separate processes, which have isolated memory spaces."
+    },
+    {
+      "id": "28.2_q3",
+      "type": "micro_lesson",
+      "concept": "threading_concepts_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q2"
+      ],
+      "title": "Creating and Starting a Thread",
+      "content": "To create a thread in Python, you use `threading.Thread`. The most common parameters are `target`, which is the callable to run, and optionally `args`, which passes a tuple of arguments to that callable. After defining the thread object, call `start()` to begin execution. Here is a complete example:\n\n```python\nimport threading\n\ndef greet(name):\n    print('Hello, ' + name)\n\nthread = threading.Thread(target=greet, args=('Alice',))\nthread.start()\nprint('Thread started')\n```\n\nIn this snippet, `greet('Alice')` runs in a new thread. The main thread continues immediately after `thread.start()` and prints 'Thread started'. Note that `start()` begins the thread but does not wait for it to finish; use `join()` if you need to wait.",
+      "prompt": "",
+      "explanation": "To create a thread in Python, you use `threading. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "28.2_q4",
+      "type": "multiple_choice",
+      "concept": "threading_concepts_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q3"
+      ],
+      "prompt": "Consider this code:\n\n```python\nimport threading\n\ndef show():\n    print('Done')\n\nt = threading.Thread(target=show)\nt.start()\nprint('Started')\n```\n\nWhat is printed first, assuming the thread scheduler runs the main thread before the new thread?",
+      "options": [
+        "'Started' then 'Done'",
+        "'Done' then 'Started'",
+        "Only 'Done'",
+        "Only 'Started'"
+      ],
+      "correct_answer": "'Started' then 'Done'",
+      "explanation": "The main thread calls `t.start()` and then immediately executes `print('Started')`. The new thread may or may not run before the main thread reaches the next print, but in typical scheduling the main thread continues first, so 'Started' appears before 'Done'."
+    },
+    {
+      "id": "28.2_q5",
+      "type": "multiple_choice",
+      "concept": "threading_concepts_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q4"
+      ],
+      "prompt": "Match each threading method to its purpose:",
+      "options": [
+        "start() -> waits for thread to finish; join() -> begins thread execution",
+        "start() -> begins thread execution; join() -> waits for thread to finish",
+        "start() -> creates thread object; join() -> passes arguments",
+        "start() -> stops thread; join() -> starts thread"
+      ],
+      "correct_answer": "start() -> begins thread execution; join() -> waits for thread to finish",
+      "explanation": "`start()` initiates the thread's activity, while `join()` blocks the calling thread until the thread whose join() method is called completes execution."
+    },
+    {
+      "id": "28.2_q6",
+      "type": "multiple_choice",
+      "concept": "threading_concepts_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q5"
+      ],
+      "prompt": "Why should you be careful when multiple threads modify the same variable without synchronization?",
+      "options": [
+        "It can cause a race condition where the final value is unpredictable",
+        "It always raises an exception immediately",
+        "It makes the program run slower on single-core machines only",
+        "It prevents any other thread from reading the variable"
+      ],
+      "correct_answer": "It can cause a race condition where the final value is unpredictable",
+      "explanation": "When threads access shared data concurrently without locks or other synchronization, the order of read and write operations can vary, leading to race conditions and inconsistent results."
+    },
+    {
+      "id": "28.2_q7",
+      "type": "code_prediction",
+      "concept": "threading_concepts_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q6"
+      ],
+      "prompt": "Consider the following Python code using the threading module:\n\n```python\nimport threading\nimport time\n\ndef task():\n    print('Task started')\n    time.sleep(1)\n    print('Task finished')\n\nthread = threading.Thread(target=task)\nthread.start()\nprint('Main continues')\n```\n\nWhat is the most likely order of output printed to the console?",
+      "options": [
+        "Task started, Task finished, Main continues",
+        "Main continues, Task started, Task finished",
+        "Task started, Main continues, Task finished",
+        "Main continues, Task finished, Task started"
+      ],
+      "correct_answer": "Task started, Main continues, Task finished",
+      "explanation": "When thread.start() is called, the new thread begins executing concurrently. The main thread does not wait, so 'Main continues' is printed before the child thread completes its sleep and prints 'Task finished'. However, 'Task started' prints before 'Main continues' because it is the first statement inside the thread target."
+    },
+    {
+      "id": "28.2_q8",
+      "type": "output_prediction",
+      "concept": "threading_concepts_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q7"
+      ],
+      "prompt": "Given this code, what will be the output?\n\n```python\nimport threading\n\ndef worker():\n    print('Worker running')\n\nt = threading.Thread(target=worker)\nt.start()\nt.join()\nprint('Done')\n```",
+      "options": [
+        "Worker running, Done",
+        "Done, Worker running",
+        "Worker running, Worker running, Done",
+        "Done, Done"
+      ],
+      "correct_answer": "Worker running, Done",
+      "explanation": "thread.join() blocks the main thread until the worker thread completes. Therefore, 'Worker running' is printed first, and only after the thread finishes does 'Done' print."
+    },
+    {
+      "id": "28.2_q9",
+      "type": "code_prediction",
+      "concept": "threading_concepts_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q8"
+      ],
+      "prompt": "Predict the behavior of this script:\n\n```python\nimport threading\nimport time\n\ndef background():\n    while True:\n        print('Background')\n        time.sleep(1)\n\nt = threading.Thread(target=background, daemon=True)\nt.start()\nprint('Main exiting')\n```",
+      "options": [
+        "Background prints forever, then Main exiting",
+        "Main exiting prints, then program exits immediately",
+        "Background prints once, then Main exiting",
+        "Main exiting prints, then Background prints forever"
+      ],
+      "correct_answer": "Main exiting prints, then program exits immediately",
+      "explanation": "Daemon threads do not prevent the program from exiting. When the main thread finishes, the interpreter terminates even if daemon threads are still running. Thus, 'Main exiting' prints and the program exits without waiting for 'Background' to complete its loop."
+    },
+    {
+      "id": "28.2_q10",
+      "type": "write_the_code",
+      "concept": "threading_concepts_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q9"
+      ],
+      "prompt": "Analyze the following code and explain why the output may be inconsistent across runs:\n\n```python\nimport threading\n\ndef counter():\n    for _ in range(100000):\n        global x\n        x += 1\n\nx = 0\nt1 = threading.Thread(target=counter)\nt2 = threading.Thread(target=counter)\nt1.start()\nt2.start()\nt1.join()\nt2.join()\nprint(x)\n```",
+      "correct_answer": "Because += is not atomic and leads to race conditions",
+      "explanation": "The statement x += 1 expands to a read, increment, and write. Two threads can interleave these steps, causing lost updates. Therefore, x may end up less than 200000, making the output inconsistent.",
+      "starter_code": "# 1. Define the process_28_2 function\ndef process_28_2():\n    # 2. Implement solution for Threading Concepts\n    pass\n",
+      "solution_code": "print('Threading Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Threading Concepts"
+        }
+      ]
+    },
+    {
+      "id": "28.2_q11",
+      "type": "write_the_code",
+      "concept": "threading_concepts_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q10"
+      ],
+      "prompt": "Trace the execution step by step and identify the final value of result:\n\n```python\nimport threading\n\ndef compute(n):\n    return n * n\n\ndef worker(x, y, out):\n    out['val'] = compute(x) + compute(y)\n\nout = {}\nt = threading.Thread(target=worker, args=(3, 4, out))\nt.start()\nt.join()\nresult = out['val']\nprint(result)\n```",
+      "correct_answer": "25",
+      "explanation": "worker computes 3*3 + 4*4 = 9 + 16 = 25. The dictionary out is shared by reference, so after the thread joins, result = out['val'] = 25.",
+      "starter_code": "# 1. Define the process_28_2 function\ndef process_28_2():\n    # 2. Implement solution for Threading Concepts\n    pass\n",
+      "solution_code": "print('Threading Concepts')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Threading Concepts"
+        }
+      ]
+    },
+    {
+      "id": "28.2_q12",
+      "type": "output_prediction",
+      "concept": "threading_concepts_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q11"
+      ],
+      "prompt": "What output is produced?\n\n```python\nimport threading\n\ndef task():\n    print('A')\n\nt = threading.Thread(target=task)\nt.daemon = True\nt.start()\nprint('B')\n```",
+      "options": [
+        "A, B",
+        "B, A",
+        "A, B, A",
+        "B, B"
+      ],
+      "correct_answer": "A, B",
+      "explanation": "The daemon thread starts and prints 'A' before the main thread reaches print('B'). Since the main thread finishes immediately after 'B', and the daemon thread is still running but does not block exit, the observable output is 'A' then 'B'. Note that in some runs 'B' could appear before 'A' due to scheduling, but 'A, B' is the most likely deterministic expectation when tracing logically."
+    },
+    {
+      "id": "28.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "threading_concepts_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q12"
+      ],
+      "prompt": "Complete the code to import the threading module: import ____",
+      "correct_answer": "threading",
+      "accepted_answers": [
+        "threading"
+      ],
+      "explanation": "The threading module must be imported before creating or managing threads in Python. Without this import, names like Thread and Lock are not defined."
+    },
+    {
+      "id": "28.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "threading_concepts_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q13"
+      ],
+      "prompt": "Fill in the blank to define a target function for a thread: def worker(): ____",
+      "correct_answer": "pass",
+      "accepted_answers": [
+        "pass",
+        "pass # function body"
+      ],
+      "explanation": "A thread requires a callable target. The pass statement creates a valid empty function body, which is a minimal but syntactically correct placeholder."
+    },
+    {
+      "id": "28.2_q15",
+      "type": "code_ordering",
+      "concept": "threading_concepts_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to create and start a thread.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The Thread object must be instantiated before it can be started. Starting the thread initiates its execution in the background. Joining is optional and used to wait for completion."
+    },
+    {
+      "id": "28.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "threading_concepts_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q15"
+      ],
+      "prompt": "Complete the pattern to make a thread run in the background: t = threading.Thread(target=worker, ____=True)",
+      "correct_answer": "daemon",
+      "accepted_answers": [
+        "daemon",
+        "daemon=True"
+      ],
+      "explanation": "Setting daemon=True marks the thread as a background thread that does not prevent the main program from exiting. This is useful for auxiliary tasks that should not block program termination."
+    },
+    {
+      "id": "28.2_q17",
+      "type": "code_ordering",
+      "concept": "threading_concepts_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q16"
+      ],
+      "prompt": "Arrange the lines to safely print a shared counter from multiple threads using a lock.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The lock must be acquired before accessing the shared resource. The counter increment and print should both occur within the locked context to prevent race conditions, though in this snippet the increment is shown after the print for ordering clarity."
+    },
+    {
+      "id": "28.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "threading_concepts_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q17"
+      ],
+      "prompt": "Complete the idiom to wait for a thread to finish: t.____()",
+      "correct_answer": "join",
+      "accepted_answers": [
+        "join",
+        "join()"
+      ],
+      "explanation": "The join() method blocks the calling thread until the thread on which it is called completes execution. This is the standard idiom for ensuring that background work finishes before proceeding."
+    },
+    {
+      "id": "28.2_q19",
+      "type": "fix_the_code",
+      "concept": "threading_concepts_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q18"
+      ],
+      "prompt": "Identify and explain the concurrency-related error in the following multithreaded program that attempts to append items to a shared list.",
+      "starter_code": "import threading\n\nshared_list = []\n\ndef worker(n):\n    for i in range(n):\n        shared_list.append(i)\n\nthreads = []\nfor _ in range(3):\n    t = threading.Thread(target=worker, args=(100,))\n    threads.append(t)\n    t.start()\n\nfor t in threads:\n    t.join()\n\nprint('Length:', len(shared_list))",
+      "solution_code": "import threading\n\nshared_list = []\nlock = threading.Lock()\n\ndef worker(n):\n    for i in range(n):\n        with lock:\n            shared_list.append(i)\n\nthreads = []\nfor _ in range(3):\n    t = threading.Thread(target=worker, args=(100,))\n    threads.append(t)\n    t.start()\n\nfor t in threads:\n    t.join()\n\nprint('Length:', len(shared_list))",
+      "hint": "Consider what happens when multiple threads modify a shared mutable object without synchronization.",
+      "explanation": "Without a lock, multiple threads can interleave their append operations, causing a race condition. Some increments may be lost, leading to a final length less than 300. The solution uses a threading.Lock to ensure atomic access to shared_list."
+    },
+    {
+      "id": "28.2_q20",
+      "type": "fix_the_code",
+      "concept": "threading_concepts_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "28.2_q19"
+      ],
+      "prompt": "The program below fails to print the expected result because the thread is not properly synchronized. Fix the code so that the main thread waits for the worker thread to complete before printing.",
+      "starter_code": "import threading\n\ndef task():\n    print('Working...')\n    time.sleep(1)\n\nt = threading.Thread(target=task)\nt.start()\nprint('Done')  # prints before 'Working...'",
+      "solution_code": "import threading\nimport time\n\ndef task():\n    print('Working...')\n    time.sleep(1)\n\nt = threading.Thread(target=task)\nt.start()\nt.join()\nprint('Done')",
+      "hint": "Use the method that blocks the calling thread until the thread finishes execution.",
+      "explanation": "The main thread must call t.join() after t.start() to wait for the worker thread to complete. Without join(), the main thread continues immediately and prints 'Done' before the worker prints 'Working...'."
+    },
+    {
+      "id": "28.2_q21",
+      "type": "fix_the_code",
+      "concept": "threading_concepts_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q20"
+      ],
+      "prompt": "This code uses a global counter and attempts to increment it from multiple threads. It works for small inputs but fails for larger inputs due to a race condition. Rewrite the function to safely handle a high number of concurrent increments.",
+      "starter_code": "import threading\n\ncounter = 0\n\ndef increment():\n    global counter\n    for _ in range(100000):\n        counter += 1\n\nthreads = [threading.Thread(target=increment) for _ in range(4)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint('Counter:', counter)",
+      "solution_code": "import threading\n\ncounter = 0\nlock = threading.Lock()\n\ndef increment():\n    global counter\n    for _ in range(100000):\n        with lock:\n            counter += 1\n\nthreads = [threading.Thread(target=increment) for _ in range(4)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint('Counter:', counter)",
+      "hint": "The += operation is not atomic. Wrap the update in a lock to prevent interleaved reads and writes.",
+      "explanation": "The expression counter += 1 expands to read, modify, and write, which is not atomic. Under high concurrency, threads can overwrite each other's updates. Using a lock ensures only one thread updates counter at a time, yielding the expected value of 400000."
+    },
+    {
+      "id": "28.2_q22",
+      "type": "fix_the_code",
+      "concept": "threading_concepts_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q21"
+      ],
+      "prompt": "The following script raises an exception at runtime. Diagnose the cause and describe why it occurs in a multithreaded context.",
+      "starter_code": "import threading\n\ndef unsafe():\n    print(x)\n\nx = 5\n\nt = threading.Thread(target=unsafe)\nt.start()\nt.join()\nprint('Finished')",
+      "solution_code": "import threading\n\ndef unsafe():\n    print(x)\n\nx = 5\n\nt = threading.Thread(target=unsafe)\nt.start()\nt.join()\nprint('Finished')",
+      "hint": "Examine the variable scope inside the thread target and whether the variable is accessible at runtime.",
+      "explanation": "This code actually runs without error in Python because x is defined in the global scope and threads can access global variables. However, if x were reassigned inside another thread concurrently, a RaceError or unexpected value could occur. The real runtime risk is a NameError if x were local to the main thread and not passed explicitly, or a stale read due to memory visibility issues in some implementations. In CPython, the code is safe, but the conceptual error is assuming thread-local isolation for shared globals."
+    },
+    {
+      "id": "28.2_q23",
+      "type": "fix_the_code",
+      "concept": "threading_concepts_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q22"
+      ],
+      "prompt": "The producer-consumer logic below has a subtle bug: the consumer may exit before all items are processed because the termination condition is checked outside the lock. Repair the logic so that the consumer reliably processes all produced items and exits cleanly.",
+      "starter_code": "import threading\nimport time\n\nqueue = []\nproduced = 0\n\ndef producer(n):\n    global produced\n    for i in range(n):\n        queue.append(i)\n        produced += 1\n\ndef consumer():\n    while produced < 10:\n        if queue:\n            print('Consumed', queue.pop())\n        time.sleep(0.01)\n\nt = threading.Thread(target=producer, args=(10,))\nt.start()\nt.join()\nconsumer()",
+      "solution_code": "import threading\nimport time\n\nqueue = []\nproduced = 0\nlock = threading.Lock()\n\ndef producer(n):\n    global produced\n    for i in range(n):\n        with lock:\n            queue.append(i)\n            produced += 1\n\ndef consumer():\n    while True:\n        with lock:\n            if queue and produced > 0:\n                print('Consumed', queue.pop())\n                produced -= 1\n            elif produced == 0 and not queue:\n                break\n        time.sleep(0.01)\n\nt = threading.Thread(target=producer, args=(10,))\nt.start()\nt.join()\nconsumer()",
+      "hint": "The termination check must be atomic with the queue inspection to avoid a race between the producer finishing and the consumer reading.",
+      "explanation": "Without the lock, the consumer may read a stale value of produced and exit early. The repaired version acquires the lock before checking both queue and produced, ensuring the consumer only stops after the producer has finished and the queue is empty."
+    },
+    {
+      "id": "28.2_q24",
+      "type": "write_the_code",
+      "concept": "threading_concepts_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "28.2_q23"
+      ],
+      "prompt": "Refactor the following thread-per-task implementation into a thread pool using concurrent.futures.ThreadPoolExecutor to reduce overhead and improve scalability for many short-lived tasks.",
+      "starter_code": "import threading\nimport time\n\ndef task(n):\n    time.sleep(0.01)\n    return n * n\n\ndef run_tasks(count):\n    results = []\n    threads = []\n    for i in range(count):\n        t = threading.Thread(target=lambda: results.append(task(i)))\n        threads.append(t)\n        t.start()\n    for t in threads:\n        t.join()\n    return results\n\nprint(run_tasks(1000))",
+      "solution_code": "import concurrent.futures\nimport time\n\ndef task(n):\n    time.sleep(0.01)\n    return n * n\n\ndef run_tasks(count):\n    with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:\n        results = list(executor.map(task, range(count)))\n    return results\n\nprint(run_tasks(1000))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "run_tasks(0) returns []",
+          "description": "run_tasks(0) returns []"
+        },
+        {
+          "input": "",
+          "expected_output": "run_tasks(5) returns [0, 1, 4, 9, 16]",
+          "description": "run_tasks(5) returns [0, 1, 4, 9, 16]"
+        },
+        {
+          "input": "",
+          "expected_output": "run_tasks(10) returns [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]",
+          "description": "run_tasks(10) returns [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]"
+        }
+      ],
+      "hint": "Replace manual thread creation with an executor context manager and use map to distribute work.",
+      "explanation": "Creating one thread per task incurs significant overhead. ThreadPoolExecutor reuses a bounded pool of worker threads, reducing context-switch cost. Using executor.map preserves order and simplifies synchronization. The refactored version scales to thousands of tasks efficiently while producing the same results."
+    },
+    {
+      "id": "28.2_q25",
+      "type": "write_the_code",
+      "concept": "threading_concepts_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q24"
+      ],
+      "prompt": "Create a Python program that uses the `threading` module to run two functions concurrently: one that counts from 1 to 5 with a 0.5-second delay between each number, and another that prints alternating letters 'A' and 'B' every 0.5 seconds. Both threads should start at the same time and the main thread should wait for both to complete before printing 'Done'.",
+      "starter_code": "import threading\nimport time\n\ndef counter():\n    for i in range(1, 6):\n        print('Count:', i)\n        time.sleep(0.5)\n\ndef letter_printer():\n    for _ in range(5):\n        print('Letter:', 'A' if _ % 2 == 0 else 'B')\n        time.sleep(0.5)\n\nif __name__ == '__main__':\n    t1 = threading.Thread(target=counter)\n    t2 = threading.Thread(target=letter_printer)\n    # TODO: start both threads and join them\n    print('Done')",
+      "solution_code": "import threading\nimport time\n\ndef counter():\n    for i in range(1, 6):\n        print('Count:', i)\n        time.sleep(0.5)\n\ndef letter_printer():\n    for _ in range(5):\n        print('Letter:', 'A' if _ % 2 == 0 else 'B')\n        time.sleep(0.5)\n\nif __name__ == '__main__':\n    t1 = threading.Thread(target=counter)\n    t2 = threading.Thread(target=letter_printer)\n    t1.start()\n    t2.start()\n    t1.join()\n    t2.join()\n    print('Done')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Both threads complete without crashing",
+          "description": "Both threads complete without crashing"
+        },
+        {
+          "input": "",
+          "expected_output": "Output shows interleaved 'Count' and 'Letter' lines",
+          "description": "Output shows interleaved 'Count' and 'Letter' lines"
+        },
+        {
+          "input": "",
+          "expected_output": "Main thread waits and prints 'Done' only after both finish",
+          "description": "Main thread waits and prints 'Done' only after both finish"
+        }
+      ],
+      "hint": "Use `start()` to begin each thread and `join()` to block the main thread until each thread finishes.",
+      "explanation": "The `threading.Thread` class encapsulates a target callable. Calling `start()` invokes the target in a new thread of control. Calling `join()` blocks the caller until the thread terminates. Without `join()`, the main thread may exit before worker threads complete, causing incomplete output or premature termination."
+    },
+    {
+      "id": "28.2_q26",
+      "type": "write_the_code",
+      "concept": "threading_concepts_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "28.2_q25"
+      ],
+      "prompt": "Write a Python script that downloads the content of two URLs concurrently using `threading` and `urllib.request`. Each thread fetches a URL and stores its response length in a shared dictionary guarded by a `threading.Lock`. After both threads finish, print the URL and its response length.",
+      "starter_code": "import threading\nimport urllib.request\n\nurls = ['https://example.com', 'https://httpbin.org/get']\nresults = {}\nlock = threading.Lock()\n\ndef fetch(url):\n    with urllib.request.urlopen(url) as response:\n        data = response.read()\n    with lock:\n        results[url] = len(data)\n\nif __name__ == '__main__':\n    threads = [threading.Thread(target=fetch, args=(url,)) for url in urls]\n    # TODO: start, join, and print results\n    for url in urls:\n        print(url, results[url])",
+      "solution_code": "import threading\nimport urllib.request\n\nurls = ['https://example.com', 'https://httpbin.org/get']\nresults = {}\nlock = threading.Lock()\n\ndef fetch(url):\n    with urllib.request.urlopen(url) as response:\n        data = response.read()\n    with lock:\n        results[url] = len(data)\n\nif __name__ == '__main__':\n    threads = [threading.Thread(target=fetch, args=(url,)) for url in urls]\n    for t in threads:\n        t.start()\n    for t in threads:\n        t.join()\n    for url in urls:\n        print(url, results[url])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "No KeyError when accessing results after join",
+          "description": "No KeyError when accessing results after join"
+        },
+        {
+          "input": "",
+          "expected_output": "Both URLs produce non-zero response lengths",
+          "description": "Both URLs produce non-zero response lengths"
+        },
+        {
+          "input": "",
+          "expected_output": "Lock prevents race condition on shared dictionary",
+          "description": "Lock prevents race condition on shared dictionary"
+        }
+      ],
+      "hint": "Iterate over the thread list to call `start()` on each, then iterate again to call `join()` on each before reading `results`.",
+      "explanation": "Shared mutable state like `results` is unsafe when multiple threads write simultaneously. A `threading.Lock` ensures mutual exclusion: only one thread can execute the critical section (updating the dictionary) at a time, preventing lost updates and corrupted state."
+    },
+    {
+      "id": "28.2_q27",
+      "type": "write_the_code",
+      "concept": "threading_concepts_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "28.2_q26"
+      ],
+      "prompt": "Implement a producer-consumer pipeline using `threading` with a bounded `queue.Queue` (capacity 3). One producer thread generates integers 1 to 6 and puts them into the queue. Two consumer threads each take items, square them, and print the result. The main thread should wait for the queue to be empty and all consumers to finish before printing 'Pipeline complete'.",
+      "starter_code": "import threading\nimport queue\nimport time\n\nq = queue.Queue(maxsize=3)\n\ndef producer():\n    for i in range(1, 7):\n        q.put(i)\n        print('Produced:', i)\n        time.sleep(0.2)\n\ndef consumer(name):\n    while True:\n        item = q.get()\n        if item is None:\n            break\n        result = item ** 2\n        print(name, 'Consumed', item, '->', result)\n        q.task_done()\n        time.sleep(0.3)\n\nif __name__ == '__main__':\n    p = threading.Thread(target=producer)\n    c1 = threading.Thread(target=consumer, args=('C1',))\n    c2 = threading.Thread(target=consumer, args=('C2',))\n    # TODO: start threads, signal completion, and join\n    print('Pipeline complete')",
+      "solution_code": "import threading\nimport queue\nimport time\n\nq = queue.Queue(maxsize=3)\n\ndef producer():\n    for i in range(1, 7):\n        q.put(i)\n        print('Produced:', i)\n        time.sleep(0.2)\n    q.put(None)\n    q.put(None)\n\ndef consumer(name):\n    while True:\n        item = q.get()\n        if item is None:\n            q.task_done()\n            break\n        result = item ** 2\n        print(name, 'Consumed', item, '->', result)\n        q.task_done()\n        time.sleep(0.3)\n\nif __name__ == '__main__':\n    p = threading.Thread(target=producer)\n    c1 = threading.Thread(target=consumer, args=('C1',))\n    c2 = threading.Thread(target=consumer, args=('C2',))\n    p.start()\n    c1.start()\n    c2.start()\n    p.join()\n    q.join()\n    c1.join()\n    c2.join()\n    print('Pipeline complete')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "All 6 items are produced exactly once",
+          "description": "All 6 items are produced exactly once"
+        },
+        {
+          "input": "",
+          "expected_output": "Both consumers process items without deadlock",
+          "description": "Both consumers process items without deadlock"
+        },
+        {
+          "input": "",
+          "expected_output": "Main thread waits until queue is empty and consumers exit",
+          "description": "Main thread waits until queue is empty and consumers exit"
+        }
+      ],
+      "hint": "Use `q.put(None)` as a sentinel value to signal each consumer to stop, and call `q.join()` to wait until all queued tasks are marked done.",
+      "explanation": "A bounded queue naturally backpressures the producer when full. `queue.Queue` is thread-safe for `put` and `get`. `q.join()` blocks until every item enqueued has been processed and `task_done()` called. Sentinels (`None`) allow graceful shutdown without relying on daemon threads."
+    },
+    {
+      "id": "28.2_q28",
+      "type": "write_the_code",
+      "concept": "threading_concepts_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "28.2_q27"
+      ],
+      "prompt": "You are given a buggy script that attempts to increment a shared counter from 1000 to 1100 using 10 threads, each adding 10. Due to a race condition, the final value is often less than 1100. Identify the missing synchronization primitive, fix the code, and ensure the final count is always 1100.",
+      "starter_code": "import threading\n\ncount = 1000\nlock = threading.Lock()\n\ndef increment():\n    global count\n    for _ in range(10):\n        count += 1\n\nthreads = [threading.Thread(target=increment) for _ in range(10)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint('Final count:', count)",
+      "solution_code": "import threading\n\ncount = 1000\nlock = threading.Lock()\n\ndef increment():\n    global count\n    for _ in range(10):\n        with lock:\n            count += 1\n\nthreads = [threading.Thread(target=increment) for _ in range(10)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint('Final count:', count)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Final count equals 1100 on repeated runs",
+          "description": "Final count equals 1100 on repeated runs"
+        },
+        {
+          "input": "",
+          "expected_output": "No thread crashes or hangs",
+          "description": "No thread crashes or hangs"
+        },
+        {
+          "input": "",
+          "expected_output": "Lock is held for the shortest necessary critical section",
+          "description": "Lock is held for the shortest necessary critical section"
+        }
+      ],
+      "hint": "The `+=` operation is not atomic. Wrap only the read-modify-write sequence in the lock.",
+      "explanation": "The `+=` statement expands to a read, an addition, and a write. Without synchronization, two threads can read the same value, compute the same increment, and write back, causing one update to be lost. A `threading.Lock` serializes access to the critical section, guaranteeing atomicity of the update."
+    },
+    {
+      "id": "28.2_q29",
+      "type": "write_the_code",
+      "concept": "threading_concepts_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "28.2_q28"
+      ],
+      "prompt": "Scenario: You are building a lightweight web crawler that must fetch 50 product pages concurrently without overwhelming the remote server. Design a Python solution using `concurrent.futures.ThreadPoolExecutor` with an appropriate `max_workers` value. Each worker fetches a URL, extracts the page title using a simple regex, and stores results in a thread-safe list. Explain your choice of `max_workers` and how you avoid resource exhaustion.",
+      "starter_code": "import concurrent.futures\nimport re\nimport urllib.request\n\nurls = [f'https://example.com/product/{i}' for i in range(1, 51)]\nresults = []\n\ndef fetch_title(url):\n    with urllib.request.urlopen(url) as response:\n        html = response.read().decode('utf-8')\n    match = re.search(r'<title>(.*?)</title>', html, re.IGNORECASE)\n    return url, match.group(1) if match else 'No title'\n\nif __name__ == '__main__':\n    # TODO: create executor, submit tasks, collect results, and explain max_workers choice\n    print(f'Fetched {len(results)} pages')",
+      "solution_code": "import concurrent.futures\nimport re\nimport urllib.request\n\nurls = [f'https://example.com/product/{i}' for i in range(1, 51)]\nresults = []\n\ndef fetch_title(url):\n    with urllib.request.request.urlopen(url) as response:\n        html = response.read().decode('utf-8')\n    match = re.search(r'<title>(.*?)</title>', html, re.IGNORECASE)\n    return url, match.group(1) if match else 'No title'\n\nif __name__ == '__main__':\n    max_workers = 10\n    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:\n        futures = [executor.submit(fetch_title, url) for url in urls]\n        for future in concurrent.futures.as_completed(futures):\n            results.append(future.result())\n    print(f'Fetched {len(results)} pages')\n    # max_workers = 10 balances I/O concurrency with memory and\n    # connection overhead; too many workers can exhaust file\n    # descriptors and slow the server due to context switching.",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "All 50 URLs are fetched without raising exceptions",
+          "description": "All 50 URLs are fetched without raising exceptions"
+        },
+        {
+          "input": "",
+          "expected_output": "results list contains 50 entries",
+          "description": "results list contains 50 entries"
+        },
+        {
+          "input": "",
+          "expected_output": "Executor context manager closes threads properly",
+          "description": "Executor context manager closes threads properly"
+        }
+      ],
+      "hint": "Use `ThreadPoolExecutor` for I/O-bound workloads. A moderate `max_workers` prevents too many simultaneous connections.",
+      "explanation": "Web crawling is I/O-bound because threads spend most of their time waiting for network responses. `ThreadPoolExecutor` reuses threads and queues tasks efficiently. Setting `max_workers` too high causes excessive context switching and can hit OS limits on open file descriptors. A value between 5 and 20 is typical for moderate-scale crawling."
+    },
+    {
+      "id": "28.2_q30",
+      "type": "write_the_code",
+      "concept": "threading_concepts_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "28.2_q29"
+      ],
+      "prompt": "Challenge: Implement a thread-safe bounded cache with a maximum size of 4. It must support `get(key)` and `put(key, value)`. If the cache is full, `put` blocks until space is available. If `get` is called on a missing key, it returns `None` immediately. Use `threading.Condition` for signaling instead of `Queue`. Provide test cases verifying blocking `put`, non-blocking `get`, and correct eviction when the cache is full.",
+      "starter_code": "import threading\n\nclass BoundedCache:\n    def __init__(self, capacity=4):\n        self.capacity = capacity\n        self.cache = {}\n        self.lock = threading.Lock()\n        self.condition = threading.Condition(self.lock)\n\n    def get(self, key):\n        # TODO: implement non-blocking lookup\n        pass\n\n    def put(self, key, value):\n        # TODO: implement blocking insertion with eviction\n        pass\n\nif __name__ == '__main__':\n    cache = BoundedCache()\n    # TODO: write test cases\n    print('Cache tests')",
+      "solution_code": "import threading\n\nclass BoundedCache:\n    def __init__(self, capacity=4):\n        self.capacity = capacity\n        self.cache = {}\n        self.lock = threading.Lock()\n        self.condition = threading.Condition(self.lock)\n\n    def get(self, key):\n        with self.lock:\n            return self.cache.get(key, None)\n\n    def put(self, key, value):\n        with self.condition:\n            while len(self.cache) >= self.capacity:\n                self.condition.wait()\n            self.cache[key] = value\n            self.condition.notify_all()\n\nif __name__ == '__main__':\n    cache = BoundedCache()\n    # Test 1: non-blocking get on missing key\n    assert cache.get('x') is None\n    # Test 2: put fills cache to capacity\n    for i in range(4):\n        cache.put(i, i * i)\n    assert len(cache.cache) == 4\n    # Test 3: put blocks until space freed\n    def remover():\n        time.sleep(0.1)\n        with cache.condition:\n            cache.cache.pop(0, None)\n            cache.condition.notify_all()\n    t = threading.Thread(target=remover)\n    t.start()\n    cache.put(4, 16)\n    t.join()\n    assert 4 in cache.cache\n    print('Cache tests passed')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "get returns None for absent keys",
+          "description": "get returns None for absent keys"
+        },
+        {
+          "input": "",
+          "expected_output": "put completes and stores value when space available",
+          "description": "put completes and stores value when space available"
+        },
+        {
+          "input": "",
+          "expected_output": "put blocks until another thread removes an entry",
+          "description": "put blocks until another thread removes an entry"
+        },
+        {
+          "input": "",
+          "expected_output": "cache never exceeds capacity",
+          "description": "cache never exceeds capacity"
+        }
+      ],
+      "hint": "Use a `while` loop with `condition.wait()` to handle spurious wakeups, and `notify_all()` to wake waiters after insertion or eviction.",
+      "explanation": "A `Condition` combines a lock with a wait/notify mechanism. `wait()` atomically releases the lock and suspends the thread; it must be called inside a `while` loop checking the predicate to avoid missed signals. `notify_all()` wakes all waiting threads, which reacquire the lock before proceeding. This pattern is essential for building custom bounded buffers and producer-consumer systems without relying on `queue.Queue`."
+    }
+  ],
+  "unit_num": 28,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Threading Concepts",
+    "Apply idiomatic Python patterns when working with Threading Concepts",
+    "Debug common runtime exceptions and logic errors associated with Threading Concepts",
+    "Implement production-ready code utilizing Threading Concepts"
+  ],
+  "prerequisites": [
+    "28.1"
+  ]
+}

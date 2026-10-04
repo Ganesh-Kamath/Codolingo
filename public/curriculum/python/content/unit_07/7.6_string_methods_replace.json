@@ -1,0 +1,637 @@
+{
+  "lesson_id": "7.6",
+  "title": "String Methods: replace()",
+  "unit": "String Manipulation",
+  "items": [
+    {
+      "id": "7.6_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "string_methods_replace_basics",
+      "title": "What is replace()?",
+      "content": "The replace() method in Python creates a new string by replacing all occurrences of a specified substring with another substring. It does not change the original string because strings are immutable in Python. For example, if you have the sentence 'I love Python' and you want to replace 'Python' with 'JavaScript', you can use: result = 'I love Python'.replace('Python', 'JavaScript'). The output will be 'I love JavaScript'. Note that replace() only replaces exact matches and is case-sensitive.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "The replace() method in Python creates a new string by replacing all occurrences of a specified substring with another substring. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "7.6_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "string_methods_replace_basics",
+      "prompt": "What does the replace() method return when called on a string?",
+      "options": [
+        "The original string with modifications applied in place",
+        "A new string with the specified replacements",
+        "A list of all replaced substrings",
+        "None"
+      ],
+      "correct_answer": "A new string with the specified replacements",
+      "explanation": "Strings in Python are immutable, so replace() always returns a new string rather than modifying the original.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q1"
+      ]
+    },
+    {
+      "id": "7.6_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "string_methods_replace_syntax",
+      "title": "Syntax of replace()",
+      "content": "The general syntax for the replace() method is: string.replace(old, new[, count]). The first argument, old, is the substring you want to replace. The second argument, new, is the substring that will replace it. The optional third argument, count, specifies how many occurrences to replace; if omitted, all occurrences are replaced. Here is a code example: message = 'The cat sat on the mat'.replace('cat', 'dog'). This produces 'The dog sat on the mat'. If you only want to replace the first occurrence, use count=1: 'banana'.replace('a', 'o', 1) results in 'bonana'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q2"
+      ],
+      "prompt": "",
+      "explanation": "The general syntax for the replace() method is: string. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "7.6_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "string_methods_replace_syntax",
+      "prompt": "Given the code: text = 'hello world'.replace('l', 'L', 2). What is the output?",
+      "options": [
+        "'heLLo world'",
+        "'heLLo world'",
+        "'hello World'",
+        "'heLLo World'"
+      ],
+      "correct_answer": "'heLLo world'",
+      "explanation": "The replace() method replaces at most 2 occurrences of 'l' with 'L'. The first two 'l' characters are replaced, but since there are only two 'l's in 'hello', both are replaced, yielding 'heLLo world'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q3"
+      ]
+    },
+    {
+      "id": "7.6_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "string_methods_replace_matching",
+      "prompt": "Which string will be produced by: 'Python is fun'.replace('is', 'was')?",
+      "options": [
+        "'Python was fun'",
+        "'Python is was fun'",
+        "'Python was was fun'",
+        "'Python was fun fun'"
+      ],
+      "correct_answer": "'Python was fun'",
+      "explanation": "The substring 'is' appears once in 'Python is fun', so it is replaced with 'was', resulting in 'Python was fun'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q4"
+      ]
+    },
+    {
+      "id": "7.6_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "string_methods_replace_pitfalls",
+      "prompt": "If the old substring is not found in the string, what happens when you call replace()?",
+      "options": [
+        "It raises a ValueError",
+        "It returns the original string unchanged",
+        "It returns an empty string",
+        "It returns None"
+      ],
+      "correct_answer": "It returns the original string unchanged",
+      "explanation": "When the substring to replace does not exist, replace() simply returns the original string without any modification, which is a safe behavior to avoid errors.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q5"
+      ]
+    },
+    {
+      "id": "7.6_q7",
+      "type": "code_prediction",
+      "concept": "string_methods_replace_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q6"
+      ],
+      "micro_lesson": {
+        "title": "How replace() Works",
+        "content": "The `replace()` method returns a new string where all occurrences of a substring are replaced by another substring. It does not modify the original string because strings are immutable in Python. Syntax: `string.replace(old, new, count)`. The optional `count` argument limits the number of replacements. For example, `'cat'.replace('a', 'o')` produces `'cot'`, and `'banana'.replace('a', 'o', 2)` produces `'bonana'`. Remember that `replace()` returns a value; you must assign it or print it to see the result."
+      },
+      "prompt": "What is the output of the following code?\n```python\ns = 'the quick brown fox'\nresult = s.replace('quick', 'slow')\nprint(result)\n```",
+      "options": [
+        "'the quick brown fox'",
+        "'the slow brown fox'",
+        "'the quick slow fox'",
+        "'the quick brown fox slow'"
+      ],
+      "correct_answer": "'the slow brown fox'",
+      "explanation": "The `replace()` method replaces every occurrence of 'quick' with 'slow', yielding 'the slow brown fox'. The original string `s` is unchanged, but `result` holds the new string."
+    },
+    {
+      "id": "7.6_q8",
+      "type": "output_prediction",
+      "concept": "string_methods_replace_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q7"
+      ],
+      "micro_lesson": {
+        "title": "Counting Replacements with the count Argument",
+        "content": "You can restrict how many replacements occur by passing a third argument to `replace()`. Only the first `count` matches are replaced. For example, `'mississippi'.replace('s', 'X', 2)` replaces only the first two 's' characters, giving `'miXXippi'`. If `count` exceeds the number of occurrences, all matches are replaced. This is useful when you want to change only part of a string."
+      },
+      "prompt": "What is the output of the following code?\n```python\ntext = 'ababab'\nnew_text = text.replace('a', 'X', 2)\nprint(new_text)\n```",
+      "options": [
+        "'XbXbab'",
+        "'XbXbXb'",
+        "'XbXbXbX'",
+        "'ababab'"
+      ],
+      "correct_answer": "'XbXbab'",
+      "explanation": "Only the first two occurrences of 'a' are replaced with 'X', so the result is 'XbXbab'. The remaining 'a' characters are untouched because the count limit was reached."
+    },
+    {
+      "id": "7.6_q9",
+      "type": "code_prediction",
+      "concept": "string_methods_replace_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q8"
+      ],
+      "micro_lesson": {
+        "title": "Chaining and Reassigning with replace()",
+        "content": "Because strings are immutable, `replace()` always returns a new string. You can chain replacements or reassign the variable to update it. For example:\n```python\nmsg = 'hello world'\nmsg = msg.replace('world', 'Python')\nmsg = msg.replace('o', '0')\nprint(msg)\n```\nThis prints `'hell0 Pyth0n'`. Each call operates on the current value of `msg`, not the original."
+      },
+      "prompt": "What is the output of the following code?\n```python\nmsg = 'hello world'\nmsg = msg.replace('world', 'Python')\nmsg = msg.replace('o', '0')\nprint(msg)\n```",
+      "options": [
+        "'hello world'",
+        "'hell0 Pyth0n'",
+        "'hello Python'",
+        "'hell0 Python'"
+      ],
+      "correct_answer": "'hell0 Pyth0n'",
+      "explanation": "First, 'world' becomes 'Python', giving 'hello Python'. Then all 'o' characters are replaced with '0', resulting in 'hell0 Pyth0n'."
+    },
+    {
+      "id": "7.6_q10",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing replace() Behavior",
+        "content": "When analyzing `replace()`, always check three things: the original string, the substring being replaced, and whether a `count` is provided. Since `replace()` returns a new string, verify that the variable was updated or the return value was used. Also note that `replace()` is case-sensitive: `'A'.replace('a', 'B')` does nothing. Understanding these details helps avoid bugs in text processing."
+      },
+      "prompt": "Explain why the following code prints '123' instead of modifying the original string.",
+      "correct_answer": "Strings are immutable, so `replace()` returns a new string that must be captured.",
+      "explanation": "`replace()` cannot change the original string because strings are immutable. It returns a new string, and only by assigning that return value (or printing it directly) do we see the change.",
+      "starter_code": "# TODO: Implement solution for String Methods: replace()\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('String Methods: replace()')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "String Methods: replace()"
+        }
+      ]
+    },
+    {
+      "id": "7.6_q11",
+      "type": "code_prediction",
+      "concept": "string_methods_replace_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q10"
+      ],
+      "micro_lesson": {
+        "title": "Step-by-Step Tracing replace()",
+        "content": "To trace `replace()`, write down the string value before and after each call. Track how many replacements happen when `count` is used. For example:\n```python\ns = 'aaa'\ns = s.replace('a', 'b', 1)\ns = s.replace('a', 'c')\nprint(s)\n```\nFirst step: 'aaa' → 'baa' (only first 'a' replaced). Second step: 'baa' → 'bca' (remaining 'a' replaced). Final output: 'bca'."
+      },
+      "prompt": "What is the output of the following code?\n```python\ns = 'aaa'\ns = s.replace('a', 'b', 1)\ns = s.replace('a', 'c')\nprint(s)\n```",
+      "options": [
+        "'aaa'",
+        "'aba'",
+        "'bcc'",
+        "'ccc'"
+      ],
+      "correct_answer": "'bcc'",
+      "explanation": "The first replacement replaces only 1 occurrence of 'a' with 'b', yielding 'baa'. The second replacement replaces all remaining occurrences of 'a' with 'c', yielding 'bcc'."
+    },
+    {
+      "id": "7.6_q12",
+      "type": "output_prediction",
+      "concept": "string_methods_replace_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q11"
+      ],
+      "micro_lesson": {
+        "title": "Applying replace() in Logic",
+        "content": "You can use `replace()` to clean or normalize text. A common pattern is to replace unwanted characters before further processing. For example, to remove spaces from a label:\n```python\nlabel = 'my label'\nclean = label.replace(' ', '')\nprint(clean)\n```\nThis outputs `'mylabel'`. Combining `replace()` with other string methods lets you build robust text-handling logic."
+      },
+      "prompt": "What is the output of the following code?\n```python\nlabel = 'my label'\nclean = label.replace(' ', '')\nprint(clean)\n```",
+      "options": [
+        "'my label'",
+        "'mylabel'",
+        "'my_label'",
+        "' label '"
+      ],
+      "correct_answer": "'mylabel'",
+      "explanation": "All space characters in 'my label' are replaced with an empty string, resulting in 'mylabel'."
+    },
+    {
+      "id": "7.6_q13",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_replace_syntax",
+      "skill": "syntax",
+      "diff": "easy",
+      "prerequisites": [
+        "7.6_q12"
+      ],
+      "micro_lesson": {
+        "title": "replace() Syntax",
+        "content": "The replace() method in Python is used to substitute occurrences of a substring with another substring. Its basic syntax is: `new_string = old_string.replace(old, new)`. The method returns a new string; it does not modify the original string because strings in Python are immutable. You can also specify a third optional argument, `count`, to limit how many replacements are made."
+      },
+      "prompt": "Complete the code by filling in the blank: `greeting = 'hello world'; new_greeting = greeting.replace('___', 'hi')`",
+      "correct_answer": "hello",
+      "accepted_answers": [
+        "hello"
+      ],
+      "explanation": "The replace() method searches for the first argument inside the string and replaces it with the second argument. In this case, 'hello' is replaced with 'hi', producing 'hi world'.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "7.6_q14",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_replace_keywords",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "7.6_q13"
+      ],
+      "micro_lesson": {
+        "title": "replace() Keywords and Arguments",
+        "content": "When using replace(), the first argument is the substring to find, the second argument is the replacement substring. If you want to replace only a specific number of occurrences, pass an integer as the third argument. Note that replace() is case-sensitive: 'Python' and 'python' are treated as different strings. Always assign the result to a new variable or the same variable to capture the updated string."
+      },
+      "prompt": "Complete the code by filling in the blank: `text = 'apple banana apple'; result = text.replace('apple', '___', 1)`",
+      "correct_answer": "orange",
+      "accepted_answers": [
+        "orange"
+      ],
+      "explanation": "The third argument limits replacement to 1 occurrence. Only the first 'apple' is replaced with 'orange', so the result is 'orange banana apple'.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.6_q15",
+      "type": "code_ordering",
+      "concept": "string_methods_replace_sequence",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "7.6_q14"
+      ],
+      "micro_lesson": {
+        "title": "Sequencing with replace()",
+        "content": "To transform text using replace(), you must first store the original string in a variable, then call replace() on that variable, and finally store or print the result. Because strings are immutable, each replace() call creates a new string object. You can chain multiple replace() calls on the same result if needed."
+      },
+      "prompt": "Arrange the following lines in the correct order to produce 'good morning' from 'hello world':\n1. `message = 'hello world'`\n2. `message = message.replace('hello', 'good')`\n3. `print(message)`\n4. `message = message.replace('world', 'morning')`",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First assign the original string to `message`, then replace 'world' with 'morning', then replace 'hello' with 'good', and finally print the result. Order 1, 4, 2, 3 yields 'good morning'.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.6_q16",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_replace_patterns",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "7.6_q15"
+      ],
+      "micro_lesson": {
+        "title": "Patterns and Case Sensitivity in replace()",
+        "content": "replace() performs exact substring matching, not pattern matching like regular expressions. It is case-sensitive, so 'Python' will not match 'python'. If you need case-insensitive replacement, you must either convert the string to lowercase first or use regular expressions with the re module. Always verify the exact casing of the substring you want to replace."
+      },
+      "prompt": "Complete the code by filling in the blank: `note = 'I love Python'; updated = note.replace('___', 'enjoy')`",
+      "correct_answer": "love",
+      "accepted_answers": [
+        "love"
+      ],
+      "explanation": "The substring 'love' is replaced with 'enjoy', resulting in 'I enjoy Python'. The replacement is case-sensitive and exact.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.6_q17",
+      "type": "code_ordering",
+      "concept": "string_methods_replace_algorithm",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "7.6_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithmic Use of replace()",
+        "content": "A common algorithm is to sanitize user input by replacing unwanted characters. The steps are: store the input, call replace() for each unwanted character or substring, and store the cleaned result. If no replacement is needed, the original string remains unchanged. You can use replace() inside larger workflows such as validation or formatting."
+      },
+      "prompt": "Arrange the following lines to remove all spaces from 'a b c' and store the result in `clean`:\n1. `raw = 'a b c'`\n2. `clean = raw.replace(' ', '')`\n3. `print(clean)`\n4. `clean = raw.replace('a', '')`",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Line 1 stores the original string. Line 2 removes all spaces by replacing ' ' with ''. Line 3 prints the cleaned string. Line 4 is incorrect for this task and would remove 'a' instead of spaces, so the correct sequence is 1, 2, 3, 4.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.6_q18",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_replace_idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "7.6_q17"
+      ],
+      "micro_lesson": {
+        "title": "Common Idioms with replace()",
+        "content": "A common idiom is to normalize text by stripping extra whitespace and replacing specific markers. For example, replacing a placeholder like 'XXX' with actual data is a frequent pattern. Another idiom is using replace() to remove punctuation by replacing each unwanted character with an empty string. Remember that replace() always returns a new string, so reassigning the variable is necessary to persist changes."
+      },
+      "prompt": "Complete the code by filling in the blank: `code = 'ERR___001'; fixed = code.replace('___', 'OK')`",
+      "correct_answer": "ERR",
+      "accepted_answers": [
+        "ERR"
+      ],
+      "explanation": "The placeholder '___' is replaced with 'OK', producing 'ERROK001'. This idiom is often used to convert error codes into human-readable status messages.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.6_q19",
+      "type": "fix_the_code",
+      "concept": "string_methods_replace_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q18"
+      ],
+      "prompt": "Analyze the following code. Identify why the output does not match the intended result.",
+      "starter_code": "text = 'The cat sat on the mat'\nnew_text = text.replace('cat', 'dog')\nprint(text)",
+      "solution_code": "text = 'The cat sat on the mat'\nnew_text = text.replace('cat', 'dog')\nprint(new_text)",
+      "hint": "Recall that Python strings are immutable. Methods like replace() return a new string rather than modifying the original in place.",
+      "explanation": "The code prints the original string 'text' instead of the modified string. The replace() method does not mutate the original string; it returns a new string. To see the change, the result must be assigned to a variable or printed directly."
+    },
+    {
+      "id": "7.6_q20",
+      "type": "fix_the_code",
+      "concept": "string_methods_replace_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.6_q19"
+      ],
+      "prompt": "Fix the code so that the sentence correctly replaces every occurrence of 'error' with 'issue'.",
+      "starter_code": "log = 'An error occurred. Another error found.'\nlog = log.replace('error', 'issue')\nprint(log)",
+      "solution_code": "log = 'An error occurred. Another error found.'\nlog = log.replace('error', 'issue')\nprint(log)",
+      "hint": "The starter code is already correct; ensure you understand why replace() handles both occurrences automatically.",
+      "explanation": "replace() replaces all non-overlapping occurrences of the old substring with the new substring by default. Therefore, both instances of 'error' are replaced with 'issue', producing 'An issue occurred. Another issue found.'"
+    },
+    {
+      "id": "7.6_q21",
+      "type": "fix_the_code",
+      "concept": "string_methods_replace_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q20"
+      ],
+      "prompt": "The user wants to replace 'Python' regardless of case, but the current code misses lowercase matches. Fix it.",
+      "starter_code": "text = 'I love Python and python.'\nresult = text.replace('Python', 'Java')\nprint(result)",
+      "solution_code": "text = 'I love Python and python.'\nresult = text.replace('Python', 'Java').replace('python', 'Java')\nprint(result)",
+      "hint": "replace() is case-sensitive. Consider chaining replace() calls or using a case-insensitive approach.",
+      "explanation": "Because replace() is case-sensitive, only the capitalized 'Python' is replaced. Chaining a second replace() for the lowercase variant ensures both forms are converted to 'Java', yielding 'I love Java and Java.'"
+    },
+    {
+      "id": "7.6_q22",
+      "type": "fix_the_code",
+      "concept": "string_methods_replace_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q21"
+      ],
+      "prompt": "Predict and explain the runtime behavior of this snippet.",
+      "starter_code": "s = 'hello'\ns = s.replace('x', 'y')\nprint(s)",
+      "solution_code": "s = 'hello'\ns = s.replace('x', 'y')\nprint(s)",
+      "hint": "Consider what happens when the old substring is absent from the original string.",
+      "explanation": "When the substring to replace does not exist, replace() returns the original string unchanged. The output is 'hello', and no exception is raised."
+    },
+    {
+      "id": "7.6_q23",
+      "type": "fix_the_code",
+      "concept": "string_methods_replace_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q22"
+      ],
+      "prompt": "The programmer forgot to reassign the result. Repair the logic so the updated message is stored and displayed.",
+      "starter_code": "msg = 'Welcome back!'\nmsg.replace('Welcome', 'Goodbye')\nprint(msg)",
+      "solution_code": "msg = 'Welcome back!'\nmsg = msg.replace('Welcome', 'Goodbye')\nprint(msg)",
+      "hint": "Methods that return a new string do not alter the original variable unless the return value is captured.",
+      "explanation": "The original code calls replace() but discards its return value, leaving msg unchanged. Reassigning msg to the return value updates it to 'Goodbye back!', which is then printed."
+    },
+    {
+      "id": "7.6_q24",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.6_q23"
+      ],
+      "prompt": "Refactor the repeated replace() calls into a more maintainable and efficient form.",
+      "starter_code": "data = 'apple, banana, apple, orange'\ncleaned = data.replace('apple', 'fruit').replace('banana', 'fruit').replace('orange', 'fruit')\nprint(cleaned)",
+      "solution_code": "replacements = {'apple': 'fruit', 'banana': 'fruit', 'orange': 'fruit'}\ncleaned = data\nfor old, new in replacements.items():\n    cleaned = cleaned.replace(old, new)\nprint(cleaned)",
+      "test_cases": [
+        {
+          "input": "apple, banana, apple, orange",
+          "expected": "fruit, fruit, fruit, fruit"
+        },
+        {
+          "input": "apple",
+          "expected": "fruit"
+        }
+      ],
+      "hint": "A dictionary-driven loop reduces duplication and makes future mappings easier to update.",
+      "explanation": "The original code hardcodes each replacement. The refactored version uses a dictionary and a loop, centralizing the mapping logic. This improves readability, reduces the risk of typos, and scales better when more substitutions are needed."
+    },
+    {
+      "id": "7.6_q25",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q24"
+      ],
+      "prompt": "Write a Python program that uses the replace() method to change all occurrences of the word 'cat' to 'dog' in the given sentence.",
+      "starter_code": "sentence = 'The cat sat on the mat and the cat ate fish.'\n# TODO: Replace 'cat' with 'dog'\nresult = ''\nprint(result)",
+      "solution_code": "sentence = 'The cat sat on the mat and the cat ate fish.'\nresult = sentence.replace('cat', 'dog')\nprint(result)",
+      "test_cases": [
+        {
+          "input": "sentence = 'The cat sat on the mat and the cat ate fish.'",
+          "expected_output": "The dog sat on the mat and the dog ate fish."
+        }
+      ],
+      "hint": "Use the replace() method with two arguments: the old substring and the new substring.",
+      "explanation": "The replace() method returns a new string where all occurrences of the old substring are replaced by the new substring. It does not modify the original string because strings are immutable in Python."
+    },
+    {
+      "id": "7.6_q26",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.6_q25"
+      ],
+      "prompt": "Write a Python program that replaces all occurrences of 'error' with 'warning' and all occurrences of 'fail' with 'pass' in the provided log message.",
+      "starter_code": "log_message = 'System error detected. Please check the fail status.'\n# TODO: Perform both replacements\ncleaned_log = ''\nprint(cleaned_log)",
+      "solution_code": "log_message = 'System error detected. Please check the fail status.'\ncleaned_log = log_message.replace('error', 'warning').replace('fail', 'pass')\nprint(cleaned_log)",
+      "test_cases": [
+        {
+          "input": "log_message = 'System error detected. Please check the fail status.'",
+          "expected_output": "System warning detected. Please check the pass status."
+        }
+      ],
+      "hint": "You can chain replace() calls together because each call returns a new string.",
+      "explanation": "Chaining replace() calls allows multiple substitutions in a single expression. The first replace() processes 'error' to 'warning', producing an intermediate string that the second replace() then processes for 'fail' to 'pass'."
+    },
+    {
+      "id": "7.6_q27",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.6_q26"
+      ],
+      "prompt": "Write a Python program that replaces only the first occurrence of 'Python' with 'Java' in the string, while leaving subsequent occurrences unchanged.",
+      "starter_code": "text = 'I love Python. Python is great, but Python is also complex.'\n# TODO: Replace only the first occurrence of 'Python' with 'Java'\nmodified_text = ''\nprint(modified_text)",
+      "solution_code": "text = 'I love Python. Python is great, but Python is also complex.'\nmodified_text = text.replace('Python', 'Java', 1)\nprint(modified_text)",
+      "test_cases": [
+        {
+          "input": "text = 'I love Python. Python is great, but Python is also complex.'",
+          "expected_output": "I love Java. Python is great, but Python is also complex."
+        }
+      ],
+      "hint": "The replace() method accepts an optional third argument that specifies the maximum number of replacements to perform.",
+      "explanation": "The third argument to replace() is the count parameter. Setting count=1 restricts the replacement to only the first match, leaving later occurrences intact."
+    },
+    {
+      "id": "7.6_q28",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.6_q27"
+      ],
+      "prompt": "Given a sentence, replace every occurrence of the letter 'e' with '3' only if it appears in the word 'the'. Leave all other 'e' characters unchanged.",
+      "starter_code": "sentence = 'the quick brown fox jumps over the lazy dog.'\n# TODO: Replace 'e' with '3' only in the word 'the'\nresult = ''\nprint(result)",
+      "solution_code": "sentence = 'the quick brown fox jumps over the lazy dog.'\nwords = sentence.split()\nfor i, word in enumerate(words):\n    if word == 'the':\n        words[i] = word.replace('e', '3')\nresult = ' '.join(words)\nprint(result)",
+      "test_cases": [
+        {
+          "input": "sentence = 'the quick brown fox jumps over the lazy dog.'",
+          "expected_output": "th3 quick brown fox jumps over th3 lazy dog."
+        },
+        {
+          "input": "sentence = 'the the the'",
+          "expected_output": "th3 th3 th3"
+        }
+      ],
+      "hint": "Split the sentence into words, check each word individually, and use replace() only when the word exactly matches 'the'.",
+      "explanation": "This challenge requires conditional logic combined with replace(). Since replace() operates on substrings, we must isolate the target word to avoid replacing 'e' in other words like 'over' or 'the' when it appears as part of another word."
+    },
+    {
+      "id": "7.6_q29",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.6_q28"
+      ],
+      "prompt": "You are processing customer feedback forms. The raw text contains placeholder markers like [NAME] and [DATE] that must be replaced with actual values before storage. Write a Python program that replaces [NAME] with 'Alex' and [DATE] with '2024-06-15' in the feedback string.",
+      "starter_code": "feedback = 'Dear [NAME], your order dated [DATE] has been shipped.'\n# TODO: Replace placeholders with real values\nprocessed_feedback = ''\nprint(processed_feedback)",
+      "solution_code": "feedback = 'Dear [NAME], your order dated [DATE] has been shipped.'\nprocessed_feedback = feedback.replace('[NAME]', 'Alex').replace('[DATE]', '2024-06-15')\nprint(processed_feedback)",
+      "test_cases": [
+        {
+          "input": "feedback = 'Dear [NAME], your order dated [DATE] has been shipped.'",
+          "expected_output": "Dear Alex, your order dated 2024-06-15 has been shipped."
+        }
+      ],
+      "hint": "Apply replace() sequentially for each placeholder, using the exact bracketed text as the search string.",
+      "explanation": "In real-world data cleaning, replace() is useful for templating and sanitizing text. By chaining replacements, we ensure all placeholders are substituted without affecting the rest of the message."
+    },
+    {
+      "id": "7.6_q30",
+      "type": "write_the_code",
+      "concept": "string_methods_replace_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.6_q29"
+      ],
+      "prompt": "Write a Python program that normalizes a list of product codes. Each code may contain hyphens that should be replaced with underscores, and any occurrence of 'OLD' should be replaced with 'NEW'. Do not modify codes that already contain underscores.",
+      "starter_code": "codes = ['ITEM-001', 'OLD-MODEL', 'ITEM-002-OLD', 'ITEM_003']\n# TODO: Process each code according to the rules\nnormalized = []\nfor code in codes:\n    # Apply replacements only if no underscore exists\n    if '_' not in code:\n        normalized.append(code.replace('-', '_').replace('OLD', 'NEW'))\n    else:\n        normalized.append(code)\nprint(normalized)",
+      "solution_code": "codes = ['ITEM-001', 'OLD-MODEL', 'ITEM-002-OLD', 'ITEM_003']\nnormalized = []\nfor code in codes:\n    if '_' not in code:\n        normalized.append(code.replace('-', '_').replace('OLD', 'NEW'))\n    else:\n        normalized.append(code)\nprint(normalized)",
+      "test_cases": [
+        {
+          "input": "codes = ['ITEM-001', 'OLD-MODEL', 'ITEM-002-OLD', 'ITEM_003']",
+          "expected_output": "['ITEM_001', 'NEW_MODEL', 'ITEM_002_NEW', 'ITEM_003']"
+        },
+        {
+          "input": "codes = ['A-B', 'OLD', 'C-OLD-D', 'E_F']",
+          "expected_output": "['A_B', 'NEW', 'C_OLD_D', 'E_F']"
+        }
+      ],
+      "hint": "Use a conditional check for underscores before applying replace(), and chain both replacements safely.",
+      "explanation": "This mastery task integrates conditional logic with multiple string transformations. The key insight is that replace() is applied only to codes lacking underscores, preserving existing formatting while standardizing others."
+    }
+  ],
+  "unit_num": 7,
+  "learning_objectives": [
+    "Manipulate textual data using String s: replace()",
+    "Apply zero-based indexing and slicing syntax correctly",
+    "Differentiate between in-place mutation and immutable string transformations",
+    "Format and clean user-provided text data safely"
+  ],
+  "prerequisites": [
+    "7.5"
+  ]
+}

@@ -1,0 +1,612 @@
+{
+  "lesson_id": "7.5",
+  "title": "String Methods: lower(), upper(), strip()",
+  "unit": "String Manipulation",
+  "items": [
+    {
+      "id": "7.5_q1",
+      "type": "micro_lesson",
+      "title": "Strings Are Immutable: Methods Return New Strings",
+      "content": "Unlike lists, Python strings are **immutable**—they can never be modified in-place once created.\n\nWhen you call a string method like `.lower()`, `.upper()`, or `.strip()`, Python does NOT modify the original string. Instead, it creates and returns a **brand-new string** with the modifications.\n\nTo preserve the changed string, you must rebind the variable: `text = text.strip()`.",
+      "difficulty": "easy",
+      "concept": "string_immutability",
+      "skill": "mental_model",
+      "prerequisites": []
+    },
+    {
+      "id": "7.5_q2",
+      "type": "multiple_choice",
+      "concept": "string_methods_lower_upper_strip_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q1"
+      ],
+      "prompt": "What does the strip() method do when applied to a string?",
+      "options": [
+        "Converts all characters to lowercase",
+        "Removes whitespace from the start and end of the string",
+        "Reverses the string",
+        "Removes all spaces anywhere in the string"
+      ],
+      "correct_answer": "Removes whitespace from the start and end of the string",
+      "explanation": "The strip() method only removes leading and trailing whitespace. It does not change case, reverse the string, or remove internal spaces."
+    },
+    {
+      "id": "7.5_q3",
+      "type": "micro_lesson",
+      "concept": "string_methods_lower_upper_strip_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q2"
+      ],
+      "title": "Syntax of lower(), upper(), and strip()",
+      "content": "All three methods follow the same calling pattern: you invoke them on a string object using dot notation. The syntax is:\n\n```python\nnew_string = original_string.method_name()\n```\n\nImportant syntax rules:\n- The method name is followed by empty parentheses.\n- No arguments are required for these three methods.\n- The result is always a new string; the original string remains unchanged.\n\nExamples:\n```python\ntext = 'Python'\nlower_text = text.lower()\nupper_text = text.upper()\nstripped_text = '  Python  '.strip()\nprint(lower_text)\nprint(upper_text)\nprint(stripped_text)\n```\nOutput:\n```\npython\nP Y T H O N\nPython\n```\nBecause strings are immutable in Python, these methods cannot modify the original string in place.",
+      "prompt": "",
+      "explanation": "All three methods follow the same calling pattern: you invoke them on a string object using dot notation. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "7.5_q4",
+      "type": "multiple_choice",
+      "concept": "string_methods_lower_upper_strip_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q3"
+      ],
+      "prompt": "Given the code below, what is printed by the last statement?\n```python\nmsg = '  CODOLINGO  '\nprint(msg.upper().strip())\n```",
+      "options": [
+        "'  CODOLINGO  '",
+        "'CODOLINGO'",
+        "'codolingo'",
+        "Error: method chaining is not allowed"
+      ],
+      "correct_answer": "'CODOLINGO'",
+      "explanation": "The upper() method first converts the string to uppercase, producing '  CODOLINGO  '. Then strip() removes the leading and trailing spaces, leaving 'CODOLINGO'."
+    },
+    {
+      "id": "7.5_q5",
+      "type": "multiple_choice",
+      "concept": "string_methods_lower_upper_strip_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q4"
+      ],
+      "prompt": "Match each method to its correct description.",
+      "options": [
+        "lower(): removes whitespace; upper(): converts to lowercase; strip(): converts to uppercase",
+        "lower(): converts to lowercase; upper(): converts to uppercase; strip(): removes leading and trailing whitespace",
+        "lower(): reverses string; upper(): removes vowels; strip(): trims middle whitespace",
+        "lower(): capitalizes first letter; upper(): makes all lowercase; strip(): deletes the string"
+      ],
+      "correct_answer": "lower(): converts to lowercase; upper(): converts to uppercase; strip(): removes leading and trailing whitespace",
+      "explanation": "These are the standard behaviors of lower(), upper(), and strip(). The other options describe incorrect or unrelated operations."
+    },
+    {
+      "id": "7.5_q6",
+      "type": "multiple_choice",
+      "concept": "string_methods_lower_upper_strip_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q5"
+      ],
+      "prompt": "What is a common mistake when using lower() and upper() on strings that contain numbers or symbols?",
+      "options": [
+        "They raise a TypeError because numbers are not strings",
+        "They leave numbers and symbols unchanged, which is expected behavior",
+        "They convert numbers to words and remove symbols",
+        "They automatically strip whitespace before changing case"
+      ],
+      "correct_answer": "They leave numbers and symbols unchanged, which is expected behavior",
+      "explanation": "lower() and upper() only affect alphabetic characters. Numbers, spaces, and punctuation remain exactly as they are. This is normal and should not be treated as an error."
+    },
+    {
+      "id": "7.5_q7",
+      "type": "code_prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q6"
+      ],
+      "micro_lesson": {
+        "title": "Understanding lower()",
+        "content": "The lower() method converts all uppercase characters in a string to lowercase. It returns a new string and does not modify the original string because strings in Python are immutable. For example, if you have the string 'Hello World', calling lower() on it will produce 'hello world'. This is useful when you want to perform case-insensitive comparisons. Note that only alphabetic characters are affected; numbers and symbols remain unchanged. Here is a simple demonstration:\n\n```python\ns = 'Hello World'\nresult = s.lower()\nprint(result)\n```\n\nWhen you run this code, the output will be 'hello world'."
+      },
+      "prompt": "What is the output of the following Python code?\n\n```python\ns = 'Python IS FUN'\nprint(s.lower())\n```",
+      "options": [
+        "'python is fun'",
+        "'Python is fun'",
+        "'python IS FUN'",
+        "'PYTHON IS FUN'"
+      ],
+      "correct_answer": "'python is fun'",
+      "explanation": "The lower() method converts every uppercase letter in the string to its lowercase equivalent. Since 'P', 'I', and 'F' are uppercase, they become 'p', 'i', and 'f', while the spaces and other characters remain unchanged.",
+      "concept": "string_methods_lower_upper_strip_execution",
+      "skill": "prediction"
+    },
+    {
+      "id": "7.5_q8",
+      "type": "output_prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q7"
+      ],
+      "micro_lesson": {
+        "title": "Combining upper() and strip()",
+        "content": "The upper() method converts all lowercase letters in a string to uppercase, returning a new string. The strip() method removes leading and trailing whitespace from a string, such as spaces, tabs, or newline characters. These methods can be chained together to clean and transform text. For instance, if you have a string with extra spaces and mixed case, you can first strip the whitespace and then convert the result to uppercase. Remember that strip() only affects whitespace at the beginning and end of the string, not spaces in the middle. Here is an example:\n\n```python\ntext = '  hello world  '\nupper_text = text.strip().upper()\nprint(upper_text)\n```\n\nIn this example, strip() removes the leading and trailing spaces, leaving 'hello world', and then upper() converts it to 'HELLO WORLD'."
+      },
+      "prompt": "What is the output of the following Python code?\n\n```python\nname = '  Alice  '\ncleaned = name.strip().upper()\nprint(cleaned)\n```",
+      "options": [
+        "'  ALICE  '",
+        "'ALICE'",
+        "'alice'",
+        "'alice  '"
+      ],
+      "correct_answer": "'ALICE'",
+      "explanation": "strip() removes the leading and trailing spaces from '  Alice  ', producing 'Alice'. Then upper() converts all letters to uppercase, resulting in 'ALICE'. The spaces are gone because strip() only affects whitespace at the boundaries.",
+      "concept": "string_methods_lower_upper_strip_execution",
+      "skill": "prediction"
+    },
+    {
+      "id": "7.5_q9",
+      "type": "code_prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q8"
+      ],
+      "micro_lesson": {
+        "title": "Using string methods in conditional logic",
+        "content": "String methods can be used inside conditional statements to make decisions based on text content. A common pattern is to normalize user input by converting it to lowercase and removing extra whitespace before comparing it to expected values. This ensures that comparisons are robust against variations in casing and spacing. For example, you might ask a user for their response and check if it matches 'yes' regardless of how they typed it. Here is a simple flow:\n\n```python\nresponse = '  YES  '\nif response.strip().lower() == 'yes':\n    print('Confirmed')\nelse:\n    print('Not confirmed')\n```\n\nIn this flow, strip() removes surrounding spaces, lower() makes the comparison case-insensitive, and the if statement evaluates the normalized string against 'yes'."
+      },
+      "prompt": "What is the output of the following Python code?\n\n```python\nuser_input = '  No  '\nif user_input.strip().lower() == 'yes':\n    print('Access granted')\nelse:\n    print('Access denied')\n```",
+      "options": [
+        "'Access granted'",
+        "'Access denied'",
+        "'No'",
+        "An error occurs"
+      ],
+      "correct_answer": "'Access denied'",
+      "explanation": "strip() removes the leading and trailing spaces from '  No  ', yielding 'No'. lower() then converts it to 'no'. Since 'no' does not equal 'yes', the else branch executes and prints 'Access denied'.",
+      "concept": "string_methods_lower_upper_strip_flow",
+      "skill": "prediction"
+    },
+    {
+      "id": "7.5_q10",
+      "type": "write_the_code",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing method behavior and side effects",
+        "content": "When working with string methods, it is important to understand that they do not change the original string; they return a new string instead. This means that if you assign the result of a method call to a variable, you must use that new variable to see the transformed value. If you forget to capture the return value, the original string remains unchanged. Additionally, chaining methods allows you to apply multiple transformations in a single expression. For analysis, always trace each method step by step: first identify the original string, then apply strip() if present, then lower() or upper(), and finally compare or print the result. Here is an analysis example:\n\n```python\noriginal = '  Mixed CASE  '\nstep1 = original.strip()\nstep2 = step1.upper()\nprint(step2)\n```\n\nstep1 becomes 'Mixed CASE' after stripping, and step2 becomes 'MIXED CASE' after upper()."
+      },
+      "prompt": "Explain why the following code prints 'MIXED CASE' and not the original string with spaces.",
+      "correct_answer": "Because strip() removes leading and trailing spaces, and upper() converts all letters to uppercase, and both operations return new strings that are stored in step1 and step2.",
+      "explanation": "Strings in Python are immutable, so strip() and upper() each return a new string rather than changing the original. step1 holds the space-free version, and step2 holds the uppercase version, which is then printed.",
+      "concept": "string_methods_lower_upper_strip_analysis",
+      "skill": "analysis",
+      "starter_code": "# TODO: Implement solution for String Methods: lower(), upper(), strip()\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('String Methods: lower(), upper(), strip()')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "String Methods: lower(), upper(), strip()"
+        }
+      ]
+    },
+    {
+      "id": "7.5_q11",
+      "type": "code_prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing variable changes through method calls",
+        "content": "Tracing helps you understand exactly how a variable's value changes after each operation. Start with the initial value, then apply each method in order, writing down the intermediate result after every step. This is especially helpful when methods are chained or when intermediate variables are used. For example, consider this sequence:\n\n```python\ntext = '  Data Science  '\na = text.strip()\nb = a.lower()\nc = b.upper()\nprint(c)\n```\n\nTracing step by step: text starts as '  Data Science  '. a becomes 'Data Science' after strip(). b becomes 'data science' after lower(). c becomes 'DATA SCIENCE' after upper(). The final print outputs 'DATA SCIENCE'. Keeping a clear trace prevents confusion about which transformation happened when."
+      },
+      "prompt": "What is the final value of c after executing the following code?\n\n```python\ntext = '  Hello Python  '\na = text.strip()\nb = a.lower()\nc = b.upper()\n```",
+      "options": [
+        "'hello python'",
+        "'HELLO PYTHON'",
+        "'  Hello Python  '",
+        "'Hello Python'"
+      ],
+      "correct_answer": "'HELLO PYTHON'",
+      "explanation": "text starts with leading and trailing spaces. strip() removes them, giving 'Hello Python'. lower() converts it to 'hello python'. upper() then converts that to 'HELLO PYTHON', which is stored in c.",
+      "concept": "string_methods_lower_upper_strip_tracing",
+      "skill": "tracing"
+    },
+    {
+      "id": "7.5_q12",
+      "type": "output_prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q11"
+      ],
+      "micro_lesson": {
+        "title": "Logical reasoning with combined string methods",
+        "content": "Sometimes you need to evaluate a condition that depends on multiple string transformations. The key is to determine the exact string that results from each method call before checking the condition. If the condition is false, the else branch runs. If the condition is true, the if branch runs. Always consider the order of operations: strip() affects whitespace, lower() and upper() affect case, and the comparison operator checks equality against the target string. Here is a logical example:\n\n```python\ninput_str = '  Confirm  '\nif input_str.strip().upper() == 'CONFIRM':\n    print('Match found')\nelse:\n    print('No match')\n```\n\nstrip() removes spaces to yield 'Confirm', upper() converts it to 'CONFIRM', and the comparison succeeds, so 'Match found' is printed."
+      },
+      "prompt": "What is the output of the following Python code?\n\n```python\nvalue = '  test  '\nif value.strip().lower() == 'test':\n    print('Valid')\nelse:\n    print('Invalid')\n```",
+      "options": [
+        "'Valid'",
+        "'Invalid'",
+        "'test'",
+        "'  test  '"
+      ],
+      "correct_answer": "'Valid'",
+      "explanation": "strip() removes the leading and trailing spaces from '  test  ', producing 'test'. lower() leaves it as 'test' because it is already lowercase. The comparison 'test' == 'test' is true, so the if branch executes and prints 'Valid'.",
+      "concept": "string_methods_lower_upper_strip_logic",
+      "skill": "prediction"
+    },
+    {
+      "id": "7.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_lower_upper_strip_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q12"
+      ],
+      "micro_lesson": {
+        "title": "Calling .lower() and .upper() on a String",
+        "content": "The methods `.lower()` and `.upper()` convert characters in a string to lowercase and uppercase respectively. They return a new string; the original is unchanged. For example:\n\n```python\ns = 'Hello World'\ns_lower = s.lower()\ns_upper = s.upper()\nprint(s_lower)  # 'hello world'\nprint(s_upper)  # 'HELLO WORLD'\n```\n\nThe `.strip()` method removes leading and trailing whitespace, such as spaces or newline characters. For example:\n\n```python\ns = '  Python  '\nclean = s.strip()\nprint(clean)  # 'Python'\n```\n\nRemember: these methods do not modify the original string because strings are immutable in Python."
+      },
+      "prompt": "Complete the code by filling in the blank: `result = s.___()` converts the string to lowercase.",
+      "correct_answer": "lower",
+      "accepted_answers": [
+        "lower"
+      ],
+      "explanation": "The `.lower()` method returns a copy of the string with all uppercase characters converted to lowercase."
+    },
+    {
+      "id": "7.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_lower_upper_strip_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "Recognizing .strip() and .upper() Keywords",
+        "content": "When working with string methods, it is important to recall the exact method names. `.strip()` removes whitespace from both ends of a string, while `.upper()` converts all alphabetic characters to uppercase. These are called keywords in Python. For example:\n\n```python\ntext = '  Data Science  '\nprint(text.strip())   # 'Data Science'\nprint(text.upper())   # '  DATA SCIENCE  '\n```\n\nNote that `.strip()` only affects the beginning and end of the string, not spaces inside it."
+      },
+      "prompt": "Complete the code by filling in the blank: `cleaned = text.___()` removes leading and trailing whitespace.",
+      "correct_answer": "strip",
+      "accepted_answers": [
+        "strip"
+      ],
+      "explanation": "The `.strip()` method is specifically designed to remove whitespace characters from the start and end of a string."
+    },
+    {
+      "id": "7.5_q15",
+      "type": "code_ordering",
+      "concept": "string_methods_lower_upper_strip_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Sequencing String Method Calls",
+        "content": "You can chain string methods or apply them in sequence to transform data step by step. The order matters because each method returns a new string that can be used as input for the next method. For example:\n\n```python\ns = '  Hello World  '\nstep1 = s.strip()\nstep2 = step1.lower()\nprint(step2)  # 'hello world'\n```\n\nIf you call `.lower()` before `.strip()`, the spaces remain at the ends because `.lower()` does not remove whitespace."
+      },
+      "prompt": "Arrange the following code lines in the correct order to produce a cleaned lowercase string.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First remove whitespace with `.strip()`, then convert to lowercase with `.lower()`. Doing `.lower()` first would leave leading and trailing spaces in the final output."
+    },
+    {
+      "id": "7.5_q16",
+      "type": "error_diagnosis",
+      "question": "A developer attempts to sanitize a user input string:\n\n```python\nemail = '  User@Example.COM  '\nemail.strip()\nemail.lower()\nprint(email)\n```\nWhy does the output remain `'  User@Example.COM  '`?",
+      "options": [
+        "Strings are immutable in Python; .strip() and .lower() return new strings without mutating the original, so email must be reassigned (e.g. email = email.strip().lower())",
+        "strip() only removes trailing spaces, not leading spaces",
+        "lower() requires an encoding parameter to convert uppercase letters",
+        "The print function restores the original variable value"
+      ],
+      "correct_answer": "Strings are immutable in Python; .strip() and .lower() return new strings without mutating the original, so email must be reassigned (e.g. email = email.strip().lower())",
+      "explanation": "Because strings cannot be modified in place, string methods always return a new string. Calling `email.strip()` in isolation creates a new string and immediately discards it. The variable must be reassigned.",
+      "difficulty": "medium",
+      "concept": "string_immutability_reassignment",
+      "skill": "debugging",
+      "prerequisites": []
+    },
+    {
+      "id": "7.5_q17",
+      "type": "code_ordering",
+      "concept": "string_methods_lower_upper_strip_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Building a Small Algorithm with String Methods",
+        "content": "A simple algorithm can use string methods to clean and standardize text. Steps include: receive input, strip whitespace, choose a case, and store or display the result. For example:\n\n```python\ndef process_text(text):\n    cleaned = text.strip()\n    result = cleaned.upper()\n    return result\n\nprint(process_text('  hello world  '))  # 'HELLO WORLD'\n```\n\nThe sequence is important: clean first, then transform case. This prevents leftover spaces from affecting formatting."
+      },
+      "prompt": "Arrange the following code lines into the correct algorithm to clean and uppercase a string.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must first strip whitespace and then convert to uppercase. Converting to uppercase before stripping would leave spaces at the ends of the returned string."
+    },
+    {
+      "id": "7.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "string_methods_lower_upper_strip_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Uses of .strip(), .lower(), and .upper()",
+        "content": "In Python, common idioms include chaining methods for concise code. For example, to normalize a username for comparison:\n\n```python\nusername = '  Alice  '\ncheck = username.strip().lower()\nif check == 'alice':\n    print('Access granted')\n```\n\nAnother idiom is to prepare a display title:\n\n```python\ntitle = '  my project  '\nprint(title.strip().upper())\n# 'MY PROJECT'\n```\n\nThese patterns are idiomatic because they are readable, efficient, and rely on the immutability of strings."
+      },
+      "prompt": "Complete the code by filling in the blank: `key = name.___().lower()` creates a normalized comparison key.",
+      "correct_answer": "strip",
+      "accepted_answers": [
+        "strip"
+      ],
+      "explanation": "The idiomatic pattern is to strip whitespace before lowering the case, ensuring that extra spaces do not interfere with string comparison."
+    },
+    {
+      "id": "7.5_q19",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower_upper_strip_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for String Methods Lower Upper Strip Errors:",
+      "starter_code": "Print('String s: lower(), upper(), strip() Item 19')",
+      "solution_code": "print('String s: lower(), upper(), strip() Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `string methods lower upper strip errors` in String Methods: lower(), upper(), strip(). When Python validates this code, it applies the standard rules of string methods lower upper strip errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.5_q20",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower_upper_strip_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.5_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for String Methods Lower Upper Strip Fix:",
+      "starter_code": "Print('String s: lower(), upper(), strip() Item 20')",
+      "solution_code": "print('String s: lower(), upper(), strip() Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `string methods lower upper strip fix` in String Methods: lower(), upper(), strip(). When Python validates this code, it applies the standard rules of string methods lower upper strip fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.5_q21",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower_upper_strip_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for String Methods Lower Upper Strip Edge Cases:",
+      "starter_code": "Print('String s: lower(), upper(), strip() Item 21')",
+      "solution_code": "print('String s: lower(), upper(), strip() Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `string methods lower upper strip edge cases` in String Methods: lower(), upper(), strip(). When Python validates this code, it applies the standard rules of string methods lower upper strip edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.5_q22",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower_upper_strip_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for String Methods Lower Upper Strip Runtime:",
+      "starter_code": "Print('String s: lower(), upper(), strip() Item 22')",
+      "solution_code": "print('String s: lower(), upper(), strip() Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `string methods lower upper strip runtime` in String Methods: lower(), upper(), strip(). When Python validates this code, it applies the standard rules of string methods lower upper strip runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.5_q23",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower_upper_strip_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for String Methods Lower Upper Strip Logic Repair:",
+      "starter_code": "Print('String s: lower(), upper(), strip() Item 23')",
+      "solution_code": "print('String s: lower(), upper(), strip() Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `string methods lower upper strip logic repair` in String Methods: lower(), upper(), strip(). When Python validates this code, it applies the standard rules of string methods lower upper strip logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.5_q24",
+      "type": "write_the_code",
+      "concept": "string_methods_lower,_upper,_strip_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.5_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for String Methods: lower(), upper(), strip() that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_7_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_7_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for String Methods: lower(), upper(), strip() must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "7.5_q25",
+      "type": "write_the_code",
+      "concept": "string_methods_lower,_upper,_strip_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of String Methods: lower(), upper(), strip().",
+      "starter_code": "def process_7_5_data(items):\n    # Process input according to String Methods: lower(), upper(), strip() rules\n    pass",
+      "solution_code": "def process_7_5_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using String Methods: lower(), upper(), strip() rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for String Methods: lower(), upper(), strip().",
+      "explanation": "Constructing pure, robust data transformers for String Methods: lower(), upper(), strip() avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "7.5_q26",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower,_upper,_strip_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.5_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for String Methods: lower(), upper(), strip() that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_7_5_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_7_5_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "7.5_q27",
+      "type": "code_prediction",
+      "concept": "string_methods_lower,_upper,_strip_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.5_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling String Methods: lower(), upper(), strip() encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with String Methods: lower(), upper(), strip().",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "7.5_q28",
+      "type": "write_the_code",
+      "concept": "string_methods_lower,_upper,_strip_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.5_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using String Methods: lower(), upper(), strip(). Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for String Methods: lower(), upper(), strip()\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for String Methods: lower(), upper(), strip() ensures testable domain operations."
+    },
+    {
+      "id": "7.5_q29",
+      "type": "fix_the_code",
+      "concept": "string_methods_lower,_upper,_strip_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.5_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for String Methods: lower(), upper(), strip() into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "String s: lower(), upper(), strip() Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "7.5_q30",
+      "type": "write_the_code",
+      "concept": "string_methods_lower,_upper,_strip_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.5_q29"
+      ],
+      "prompt": "Advanced String Transformation: Implement a robust slugify function `to_url_slug(text)` that lowercases text, strips surrounding punctuation, and replaces internal spaces with hyphens.",
+      "starter_code": "def to_url_slug(text):\n    # Return cleaned slug string\n    pass",
+      "solution_code": "def to_url_slug(text):\n    return '-'.join(text.strip().lower().split())",
+      "test_cases": [
+        {
+          "input": "'  Python Mastery Guide  '",
+          "expected_output": "'python-mastery-guide'",
+          "description": "slugifies text"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Combining .strip(), .lower(), and .split() with '-'.join() cleans and standardizes arbitrary text for URL slugs."
+    }
+  ],
+  "unit_num": 7,
+  "learning_objectives": [
+    "Manipulate textual data using String s: lower(), upper(), strip()",
+    "Apply zero-based indexing and slicing syntax correctly",
+    "Differentiate between in-place mutation and immutable string transformations",
+    "Format and clean user-provided text data safely"
+  ],
+  "prerequisites": [
+    "7.4"
+  ]
+}

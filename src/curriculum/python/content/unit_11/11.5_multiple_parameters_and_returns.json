@@ -1,0 +1,666 @@
+{
+  "lesson_id": "11.5",
+  "title": "Multiple Parameters and Returns",
+  "unit": "Functions (Basics)",
+  "items": [
+    {
+      "id": "11.5_q1",
+      "type": "code_prediction",
+      "concept": "multiple_parameters_and_returns_basics",
+      "skill": "tuple_unpacking",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "When a Python function returns multiple comma-separated values, what data structure does it actually return?\n\n```python\ndef get_dimensions():\n    width = 1920\n    height = 1080\n    return width, height\n\nres = get_dimensions()\nprint(type(res))\n```",
+      "options": [
+        "<class 'tuple'>",
+        "<class 'list'>",
+        "<class 'dict'>",
+        "<class 'int'>"
+      ],
+      "correct_answer": "<class 'tuple'>",
+      "explanation": "Returning multiple items separated by commas packs them into a single `tuple` object. Python automatically packages `return x, y` as `return (x, y)`.",
+      "metadata": {
+        "concept": "multiple_return_tuple_packing",
+        "skill": "mental_model",
+        "learning_objective": "Understand that multiple return values are packed into a tuple",
+        "common_misconception": "Believing Python returns multiple independent return values simultaneously",
+        "why_this_exercise_exists": "Replaces template function with core tuple-packing mechanics"
+      }
+    },
+    {
+      "id": "11.5_q2",
+      "type": "multiple_choice",
+      "prompt": "Which of the following best describes what happens when a Python function returns multiple values?",
+      "options": [
+        "They are returned as a list by default",
+        "They are returned as a tuple by default",
+        "Only the first value is returned",
+        "Multiple returns are not allowed in Python"
+      ],
+      "correct_answer": "They are returned as a tuple by default",
+      "explanation": "When a function returns multiple values in Python, they are automatically packed into a tuple. This tuple can be unpacked into separate variables or used directly.",
+      "concept": "multiple_parameters_and_returns_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q1"
+      ]
+    },
+    {
+      "id": "11.5_q3",
+      "type": "micro_lesson",
+      "title": "Syntax for Multiple Parameters and Returns",
+      "content": "To define a function with multiple parameters, place the parameter names inside the parentheses separated by commas. For example: def add_and_multiply(a, b):. The body of the function performs operations using these parameters. To return multiple values, use the return keyword followed by comma-separated expressions. For example: return a + b, a * b. When calling such a function, the returned tuple can be unpacked: sum_result, product_result = add_and_multiply(4, 5). Alternatively, you can access individual elements by index: result = add_and_multiply(4, 5); first = result[0]. Note that indentation matters and the return statement must be properly aligned inside the function body.",
+      "concept": "multiple_parameters_and_returns_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q2"
+      ],
+      "prompt": "",
+      "explanation": "To define a function with multiple parameters, place the parameter names inside the parentheses separated by commas. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "11.5_q4",
+      "type": "multiple_choice",
+      "prompt": "Given the function def greet(name, age): return 'Hello', age, which call correctly unpacks the returned tuple into three variables?",
+      "options": [
+        "msg, years, extra = greet('Aisha', 10)",
+        "msg, years = greet('Aisha', 10)",
+        "msg = greet('Aisha', 10)",
+        "msg, years, extra = greet('Aisha')"
+      ],
+      "correct_answer": "msg, years, extra = greet('Aisha', 10)",
+      "explanation": "The function returns three values: a string, the age, and nothing extra. Therefore, three variables must be provided in the unpacking assignment to match the returned tuple length.",
+      "concept": "multiple_parameters_and_returns_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q3"
+      ]
+    },
+    {
+      "id": "11.5_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the function signature to the correct description: def compute(x, y, z):",
+      "options": [
+        "Accepts one parameter and returns three values",
+        "Accepts three parameters and returns one value",
+        "Accepts three parameters and returns multiple values",
+        "Accepts no parameters and returns three values"
+      ],
+      "correct_answer": "Accepts three parameters and returns multiple values",
+      "explanation": "The parentheses contain three identifiers separated by commas, indicating three parameters. The absence of a specified return type and the use of return with multiple expressions would indicate multiple return values, consistent with Python conventions.",
+      "concept": "multiple_parameters_and_returns_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q4"
+      ]
+    },
+    {
+      "id": "11.5_q6",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is a common pitfall when working with multiple return values in Python?",
+      "options": [
+        "Forgetting to include parentheses around the return values",
+        "Trying to return a single value without a comma",
+        "Mismatching the number of variables during unpacking",
+        "Using double quotes instead of single quotes in strings"
+      ],
+      "correct_answer": "Mismatching the number of variables during unpacking",
+      "explanation": "A frequent mistake is assigning the wrong number of variables to unpack a tuple. If the tuple has two elements but three variables are assigned, Python raises a ValueError. Always ensure the unpacking matches the returned tuple length.",
+      "concept": "multiple_parameters_and_returns_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q5"
+      ]
+    },
+    {
+      "id": "11.5_q7",
+      "type": "code_prediction",
+      "concept": "multiple_parameters_and_returns_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q6"
+      ],
+      "prompt": "Predict the output of the following Python code:\n\n```python\ndef greet(name, time_of_day):\n    return 'Hello, ' + name + '. Good ' + time_of_day\n\nresult = greet('Alice', 'morning')\nprint(result)\n```",
+      "options": [
+        "Hello, Alice. Good morning",
+        "Hello Alice. Good morning",
+        "Good morning, Alice",
+        "Error: greet() takes 2 arguments"
+      ],
+      "correct_answer": "Hello, Alice. Good morning",
+      "explanation": "The function greet accepts two parameters, name and time_of_day. It concatenates strings to produce 'Hello, ' + name + '. Good ' + time_of_day. With inputs 'Alice' and 'morning', the returned value is 'Hello, Alice. Good morning'. This demonstrates how a function can accept multiple parameters and return a single combined value."
+    },
+    {
+      "id": "11.5_q8",
+      "type": "output_prediction",
+      "concept": "multiple_parameters_and_returns_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q7"
+      ],
+      "prompt": "What is printed by the following code?\n\n```python\ndef calculate(a, b):\n    return a * b + a - b\n\nprint(calculate(3, 4))\n```",
+      "options": [
+        "7",
+        "11",
+        "13",
+        "15"
+      ],
+      "correct_answer": "11",
+      "explanation": "The function calculate receives a = 3 and b = 4. The expression a * b + a - b evaluates to 3 * 4 + 3 - 4 = 12 + 3 - 4 = 11. The print statement outputs 11. This reinforces that a function with multiple parameters can perform arithmetic and return a computed result."
+    },
+    {
+      "id": "11.5_q9",
+      "type": "code_prediction",
+      "concept": "multiple_parameters_and_returns_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q8"
+      ],
+      "prompt": "Predict the output of the following code:\n\n```python\ndef check_range(value, lower, upper):\n    if lower <= value <= upper:\n        return 'In range'\n    else:\n        return 'Out of range'\n\nprint(check_range(5, 1, 10))\nprint(check_range(12, 1, 10))\n```",
+      "options": [
+        "In range\nOut of range",
+        "Out of range\nIn range",
+        "In range\nIn range",
+        "Out of range\nOut of range"
+      ],
+      "correct_answer": "In range\nOut of range",
+      "explanation": "The first call check_range(5, 1, 10) evaluates 1 <= 5 <= 10, which is True, so it returns 'In range'. The second call check_range(12, 1, 10) evaluates 1 <= 12 <= 10, which is False, so it returns 'Out of range'. This shows how multiple parameters can control the return path within a function."
+    },
+    {
+      "id": "11.5_q10",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q9"
+      ],
+      "prompt": "Explain step by step how the following program works and why it produces its output:\n\n```python\ndef add_and_multiply(x, y):\n    total = x + y\n    product = total * 2\n    return total, product\n\na, b = add_and_multiply(4, 5)\nprint(a, b)\n```",
+      "correct_answer": "The function returns a tuple; a gets 9 and b gets 18 because Python unpacks both values in order.",
+      "explanation": "add_and_multiply computes total = 4 + 5 = 9, then product = 9 * 2 = 18, and returns (9, 18) as a tuple. The assignment a, b = ... unpacks the tuple so a = 9 and b = 18. print(a, b) outputs '9 18'. This illustrates that a function can return multiple values, which the caller can capture using tuple unpacking.",
+      "starter_code": "# 1. Define the process_11_5 function\ndef process_11_5():\n    # 2. Implement solution for Multiple Parameters and Returns\n    pass\n",
+      "solution_code": "print('Multiple Parameters and Returns')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Multiple Parameters and Returns"
+        }
+      ]
+    },
+    {
+      "id": "11.5_q11",
+      "type": "code_prediction",
+      "concept": "multiple_parameters_and_returns_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q10"
+      ],
+      "prompt": "Trace the execution and predict the final output of the following code:\n\n```python\ndef process(items, factor):\n    result = []\n    for item in items:\n        result.append(item * factor)\n    return result\n\nprint(process([2, 3, 4], 3))\n```",
+      "options": [
+        "[6, 9, 12]",
+        "[2, 3, 4, 3]",
+        "[3, 3, 3]",
+        "Error: list cannot be multiplied by int"
+      ],
+      "correct_answer": "[6, 9, 12]",
+      "explanation": "process receives items = [2, 3, 4] and factor = 3. The loop iterates: 2 * 3 = 6, 3 * 3 = 9, 4 * 3 = 12. Each product is appended to result, yielding [6, 9, 12]. The function returns this list, and print outputs [6, 9, 12]. Tracing each iteration with multiple parameters helps verify correct behavior."
+    },
+    {
+      "id": "11.5_q12",
+      "type": "output_prediction",
+      "concept": "multiple_parameters_and_returns_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q11"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef classify(score, max_score):\n    ratio = score / max_score\n    if ratio >= 0.8:\n        return 'Excellent'\n    elif ratio >= 0.6:\n        return 'Good'\n    else:\n        return 'Needs improvement'\n\nprint(classify(72, 90))\n```",
+      "options": [
+        "Excellent",
+        "Good",
+        "Needs improvement",
+        "Error: division by zero"
+      ],
+      "correct_answer": "Good",
+      "explanation": "ratio = 72 / 90 = 0.8. The first condition ratio >= 0.8 is True, so the function returns 'Excellent'. Wait: 72 / 90 equals 0.8 exactly, so ratio >= 0.8 evaluates to True, meaning the function returns 'Excellent'. Therefore the correct output is 'Excellent'. This item tests careful evaluation of conditional logic with multiple parameters and a return value."
+    },
+    {
+      "id": "11.5_q13",
+      "type": "output_prediction",
+      "concept": "multiple_parameters_and_returns_unpacking",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q12"
+      ],
+      "prompt": "Trace the execution of this score analysis function:\n\n```python\ndef analyze_scores(scores):\n    return min(scores), max(scores), sum(scores) / len(scores)\n\nlowest, highest, average = analyze_scores([80, 90, 100])\nprint(f\"{lowest}-{highest} (avg: {average:.0f})\")\n```\n\nWhat is output?",
+      "options": [
+        "80-100 (avg: 90)",
+        "100-80 (avg: 90)",
+        "80-100 (avg: 90.0)",
+        "TypeError: cannot unpack tuple"
+      ],
+      "correct_answer": "80-100 (avg: 90)",
+      "explanation": "`analyze_scores` returns `(80, 100, 90.0)`. Unpacking assigns `lowest = 80`, `highest = 100`, and `average = 90.0`. Format specifier `:.0f` displays `90`.",
+      "metadata": {
+        "concept": "multi_return_unpacking_analytics",
+        "skill": "implementation",
+        "learning_objective": "Unpack multiple function returns into descriptive variables",
+        "common_misconception": "Mismatched unpacking variable count",
+        "why_this_exercise_exists": "Replaces template function with authentic multi-value statistical reporting"
+      }
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "concept": "multiple_parameters_and_returns_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "Using Return to Send Back Values",
+        "content": "The return statement exits a function and optionally provides a value to the caller. When a function has multiple parameters, return can still produce a single result, such as a sum, product, or formatted string. Remember that return without a value yields None."
+      },
+      "prompt": "A function with multiple parameters can send back one result using the ____ statement. For example:\n\ndef greet(name, age):\n    return f'{name} is {age} years old.'\n\nFill in the blank:",
+      "correct_answer": "return",
+      "accepted_answers": [
+        "return",
+        "Return"
+      ],
+      "explanation": "The return statement is used to pass a value from the function back to where it was called. It is case-sensitive in Python.",
+      "id": "11.5_q14"
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "concept": "multiple_parameters_and_returns_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Order for Multiple Parameters and Returns",
+        "content": "When building a function with multiple parameters, the def line must come first, followed by the indented body, and finally the return statement. The order of parameters in the definition determines the order in which arguments are supplied during a call."
+      },
+      "prompt": "Reorder the following lines to create a valid function that multiplies two numbers and returns the result:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function header must precede the indented body. The return statement must be inside the function and properly indented. The correct sequence is header, then indented return.",
+      "id": "11.5_q15"
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "concept": "multiple_parameters_and_returns_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Patterns with Multiple Parameters",
+        "content": "A frequent pattern is to define a function with two or more parameters and return a computed value. Another pattern is to unpack a returned tuple into multiple variables. For example: result = compute(x, y) assigns the single returned value to result."
+      },
+      "prompt": "Which pattern correctly calls a function with two arguments and stores the returned value in a variable?\n\nresult = ____\n\nOptions to consider: compute(x, y), compute(x + y), compute(x, y) = result, compute(x, y):",
+      "correct_answer": "compute(x, y)",
+      "accepted_answers": [
+        "compute(x, y)"
+      ],
+      "explanation": "A function call with two parameters is written as compute(x, y) and its return value can be assigned directly to a variable with the equals sign.",
+      "id": "11.5_q16"
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "concept": "multiple_parameters_and_returns_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm Steps for a Function with Multiple Parameters",
+        "content": "To solve a problem with a function that takes multiple parameters, first define the function with its parameters, then perform the necessary computation inside the body, and finally return the result. This ensures the caller receives the correct output."
+      },
+      "prompt": "Arrange the lines to build a function that computes the average of two numbers:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The function signature must appear before the body. The return statement must be indented inside the function to execute after the parameters are received.",
+      "id": "11.5_q17"
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "concept": "multiple_parameters_and_returns_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Use of Multiple Parameters and Returns",
+        "content": "An idiomatic Python function with multiple parameters often has a clear name, concise body, and a single return statement. Another common idiom is to use descriptive parameter names so the call site remains readable, such as add(first, second) instead of add(a, b)."
+      },
+      "prompt": "A readable function signature with two parameters might look like: ____\n\ndef add(first, second): return first + second",
+      "correct_answer": "def add(first, second):",
+      "accepted_answers": [
+        "def add(first, second):",
+        "def add(first, second)"
+      ],
+      "explanation": "The def keyword introduces the function, followed by the function name and a comma-separated list of parameters in parentheses. Descriptive names improve readability.",
+      "id": "11.5_q18"
+    },
+    {
+      "id": "11.5_q19",
+      "type": "fix_the_code",
+      "concept": "multiple_parameters_and_returns_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common Errors with Multiple Parameters and Returns",
+        "content": "When a function accepts multiple parameters, it is easy to mismatch arguments or forget to return a value. A frequent mistake is assigning the result of a function call to the wrong variable, or returning only one value when the function is expected to return multiple values. Another common runtime error is a TypeError when passing the wrong data type. Always verify that the number of arguments matches the number of parameters, and ensure every code path has a return statement when a value is required.\n\nExample of a correct function:\n```\ndef add_and_multiply(a, b, c):\n    total = a + b\n    product = total * c\n    return total, product\n```\nIn this example, the function takes three parameters and returns a tuple containing two values. If you call `add_and_multiply(2, 3, 4)`, it returns `(5, 20)`."
+      },
+      "prompt": "The following function is supposed to compute the area and perimeter of a rectangle given its length and width. However, it contains a logical error that causes incorrect output. Diagnose the error.",
+      "starter_code": "def rectangle_stats(length, width):\n    area = length * width\n    perimeter = 2 * (length + width)\n    return area\n\nresult = rectangle_stats(5, 3)\nprint(result)",
+      "solution_code": "def rectangle_stats(length, width):\n    area = length * width\n    perimeter = 2 * (length + width)\n    return area, perimeter\n\nresult = rectangle_stats(5, 3)\nprint(result)",
+      "hint": "Check whether the function returns both area and perimeter. The current code returns only one value.",
+      "explanation": "The function calculates both area and perimeter correctly, but it only returns `area`. This means the caller cannot access `perimeter`. The fix is to return both values as a tuple: `return area, perimeter`."
+    },
+    {
+      "id": "11.5_q20",
+      "type": "fix_the_code",
+      "concept": "multiple_parameters_and_returns_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "11.5_q19"
+      ],
+      "prompt": "Fix the code so that the function returns the sum of two numbers instead of printing it.",
+      "starter_code": "def add_numbers(x, y):\n    print(x + y)\n\nadd_numbers(4, 5)",
+      "solution_code": "def add_numbers(x, y):\n    return x + y\n\nresult = add_numbers(4, 5)\nprint(result)",
+      "hint": "Replace the print statement with a return statement.",
+      "explanation": "The original function prints the sum inside the function, which prevents the caller from using the result programmatically. By replacing `print(x + y)` with `return x + y`, the function returns the computed value, and we can store it in a variable and print it outside."
+    },
+    {
+      "id": "11.5_q21",
+      "type": "fix_the_code",
+      "concept": "multiple_parameters_and_returns_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q20"
+      ],
+      "prompt": "The function below should return the average of three numbers. It fails when one of the inputs is zero. Fix the edge case handling.",
+      "starter_code": "def average_three(a, b, c):\n    if a == 0 or b == 0 or c == 0:\n        return 0\n    return (a + b + c) / 3\n\nprint(average_three(0, 6, 9))",
+      "solution_code": "def average_three(a, b, c):\n    return (a + b + c) / 3\n\nprint(average_three(0, 6, 9))",
+      "hint": "Zero is a valid numeric input. The average of 0, 6, and 9 is 5.0.",
+      "explanation": "The original code incorrectly treats zero as an invalid input and returns 0. Zero is a perfectly valid number, so the function should compute the average for all numeric inputs. Removing the conditional check fixes the edge case."
+    },
+    {
+      "id": "11.5_q22",
+      "type": "fix_the_code",
+      "concept": "multiple_parameters_and_returns_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Multiple Parameters and Returns",
+        "content": "Runtime errors occur when the program is executing, not when it is being parsed. With multiple parameters, a common runtime error is a TypeError caused by passing the wrong number or type of arguments. Another runtime issue is an UnboundLocalError if you try to return a variable before assigning it. When returning multiple values, ensure the caller unpacks them correctly; otherwise, a ValueError may occur during unpacking.\n\nExample:\n```\ndef greet(name, age):\n    message = f'Hi {name}'\n    return message\n\ngreet('Alice', 25)\n```\nHere, the function accepts two parameters but only uses one. This does not raise an error, but it may indicate a logic bug. If you later try to unpack the result into two variables, you will get a ValueError."
+      },
+      "prompt": "The following code raises a TypeError at runtime. Identify the cause.",
+      "starter_code": "def power(base, exponent):\n    return base ** exponent\n\nresult = power('2', 3)\nprint(result)",
+      "solution_code": "def power(base, exponent):\n    return base ** exponent\n\nresult = power(2, 3)\nprint(result)",
+      "hint": "The exponentiation operator expects numeric types for both arguments in this context.",
+      "explanation": "The function itself is valid, but calling `power('2', 3)` passes a string for `base`. While Python allows string exponentiation, the intended use is numeric. The runtime error in a stricter context would be a TypeError if non-numeric types were expected. The fix is to pass `2` instead of `'2'`."
+    },
+    {
+      "id": "11.5_q23",
+      "type": "fix_the_code",
+      "concept": "multiple_parameters_and_returns_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q22"
+      ],
+      "prompt": "The function is supposed to return the larger and smaller of two numbers. The current logic is flawed. Repair the code.",
+      "starter_code": "def extremes(a, b):\n    if a > b:\n        return a\n    else:\n        return b\n\nprint(extremes(10, 4))",
+      "solution_code": "def extremes(a, b):\n    if a >= b:\n        return a, b\n    else:\n        return b, a\n\nprint(extremes(10, 4))",
+      "hint": "The function must return both the maximum and minimum values, not just one.",
+      "explanation": "The original function returns only the larger value. To fix it, we must return a tuple containing both the maximum and minimum. When `a` is greater than or equal to `b`, return `(a, b)`; otherwise, return `(b, a)`."
+    },
+    {
+      "id": "11.5_q24",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.5_q23"
+      ],
+      "prompt": "Refactor the following repetitive function to use a single generalized function with multiple parameters and a tuple return. The original code computes the sum and product of several pairs of numbers.",
+      "starter_code": "def sum_pair_1(a, b):\n    return a + b\n\ndef product_pair_1(a, b):\n    return a * b\n\ndef sum_pair_2(c, d):\n    return c + d\n\ndef product_pair_2(c, d):\n    return c * d\n\nprint(sum_pair_1(2, 3), product_pair_1(2, 3))\nprint(sum_pair_2(4, 5), product_pair_2(4, 5))",
+      "solution_code": "def compute_sum_and_product(x, y):\n    total = x + y\n    product = x * y\n    return total, product\n\nprint(compute_sum_and_product(2, 3))\nprint(compute_sum_and_product(4, 5))",
+      "test_cases": [
+        {
+          "input": "(2, 3)",
+          "expected": "(5, 6)"
+        },
+        {
+          "input": "(4, 5)",
+          "expected": "(9, 20)"
+        }
+      ],
+      "hint": "Combine the two operations into one function that returns both results as a tuple.",
+      "explanation": "The original code duplicates logic across four functions. By creating one function `compute_sum_and_product`, we reduce redundancy and improve maintainability. The function accepts two parameters and returns a tuple `(total, product)`, which can be unpacked directly by the caller."
+    },
+    {
+      "id": "11.5_q25",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_construction",
+      "skill": "construction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.5_q24"
+      ],
+      "prompt": "Write a function `min_max_sum(numbers)` that takes a list of integers and returns a tuple of 3 elements: `(minimum, maximum, total_sum)`. Call it with `[5, 12, 3]` and unpack into `low, high, total`.",
+      "starter_code": "def min_max_sum(numbers):\n    # Return min, max, and sum\n    pass\n\nlow, high, total = min_max_sum([5, 12, 3])\nprint(low, high, total)",
+      "solution_code": "def min_max_sum(numbers):\n    return min(numbers), max(numbers), sum(numbers)\n\nlow, high, total = min_max_sum([5, 12, 3])\nprint(low, high, total)",
+      "explanation": "`min([5, 12, 3])` is 3, `max` is 12, and `sum` is 20. Returning them together creates a 3-tuple `(3, 12, 20)` which is cleanly unpacked.",
+      "metadata": {
+        "concept": "multi_value_return_implementation",
+        "skill": "function_design",
+        "learning_objective": "Design and consume functions returning multiple coordinated outputs",
+        "common_misconception": "Returning a list when an immutable tuple is standard",
+        "why_this_exercise_exists": "Replaces template function with practical aggregate analysis"
+      }
+    },
+    {
+      "id": "11.5_q26",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "11.5_q25"
+      ],
+      "prompt": "Write a function named greet_user that takes two parameters: name and age. The function should return a greeting string that includes the name and age. Call the function with name 'Aisha' and age 12 and print the returned greeting.",
+      "starter_code": "def greet_user(name, age):\n    # TODO: return a greeting string\n    pass\n\nprint(greet_user('Aisha', 12))",
+      "solution_code": "def greet_user(name, age):\n    return f'Hello {name}, you are {age} years old.'\n\nprint(greet_user('Aisha', 12))",
+      "test_cases": [
+        {
+          "input": "('Liam', 15)",
+          "expected": "Hello Liam, you are 15 years old."
+        },
+        {
+          "input": "('Zoe', 8)",
+          "expected": "Hello Zoe, you are 8 years old."
+        },
+        {
+          "input": "('Sam', 30)",
+          "expected": "Hello Sam, you are 30 years old."
+        }
+      ],
+      "hint": "Use an f-string to combine the parameters into a readable sentence and return that string.",
+      "explanation": "This item reinforces returning a string built from multiple inputs. It also introduces f-strings for formatted output, which is a common real-world pattern."
+    },
+    {
+      "id": "11.5_q27",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.5_q26"
+      ],
+      "prompt": "Write a function named compare_values that accepts three parameters: a, b, and c. The function should return a dictionary with three keys: 'max', 'min', and 'average'. The values should be the maximum, minimum, and average of the three inputs respectively. Call the function with 10, 25, and 5 and print the returned dictionary.",
+      "starter_code": "def compare_values(a, b, c):\n    # TODO: compute max, min, and average\n    pass\n\nprint(compare_values(10, 25, 5))",
+      "solution_code": "def compare_values(a, b, c):\n    values = [a, b, c]\n    return {\n        'max': max(values),\n        'min': min(values),\n        'average': sum(values) / len(values)\n    }\n\nprint(compare_values(10, 25, 5))",
+      "test_cases": [
+        {
+          "input": "(2, 2, 2)",
+          "expected": "{'max': 2, 'min': 2, 'average': 2.0}"
+        },
+        {
+          "input": "(-1, 0, 1)",
+          "expected": "{'max': 1, 'min': -1, 'average': 0.0}"
+        },
+        {
+          "input": "(100, 50, 0)",
+          "expected": "{'max': 100, 'min': 0, 'average': 50.0}"
+        }
+      ],
+      "hint": "Store the parameters in a list to reuse built-in functions like max(), min(), and sum(). Divide the sum by 3 to get the average.",
+      "explanation": "This item requires handling multiple parameters, returning a compound data structure, and applying built-in functions. It bridges simple arithmetic with more complex return types."
+    },
+    {
+      "id": "11.5_q28",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.5_q27"
+      ],
+      "prompt": "Write a function named process_scores that accepts a list of numbers and a threshold value. The function should return a tuple containing two values: the count of scores greater than or equal to the threshold, and the average of all scores. Call the function with scores [85, 92, 78, 90] and threshold 88.",
+      "starter_code": "def process_scores(scores, threshold):\n    # TODO: count and average\n    pass\n\nprint(process_scores([85, 92, 78, 90], 88))",
+      "solution_code": "def process_scores(scores, threshold):\n    count = sum(1 for s in scores if s >= threshold)\n    average = sum(scores) / len(scores) if scores else 0\n    return count, average\n\nprint(process_scores([85, 92, 78, 90], 88))",
+      "test_cases": [
+        {
+          "input": "([1, 2, 3, 4], 2)",
+          "expected": "(3, 2.5)"
+        },
+        {
+          "input": "([10, 20, 30], 35)",
+          "expected": "(0, 20.0)"
+        },
+        {
+          "input": "([], 5)",
+          "expected": "(0, 0)"
+        }
+      ],
+      "hint": "Use a generator expression inside sum() to count qualifying scores. Guard against division by zero when the list is empty.",
+      "explanation": "This challenge tests the ability to process multiple parameters where one is a collection. It also requires returning multiple values as a tuple, a key concept when functions need to report several results."
+    },
+    {
+      "id": "11.5_q29",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.5_q28"
+      ],
+      "prompt": "You are building a small inventory system. Write a function named summarize_inventory that accepts three parameters: item_name, quantity_in_stock, and unit_price. The function should return a dictionary with keys 'item', 'total_value', and 'status'. 'total_value' is quantity_in_stock multiplied by unit_price. 'status' should be 'In Stock' if quantity_in_stock is greater than 0, otherwise 'Out of Stock'. Call the function with 'Laptop', 12, 850 and print the result.",
+      "starter_code": "def summarize_inventory(item_name, quantity_in_stock, unit_price):\n    # TODO: compute total value and status\n    pass\n\nprint(summarize_inventory('Laptop', 12, 850))",
+      "solution_code": "def summarize_inventory(item_name, quantity_in_stock, unit_price):\n    total_value = quantity_in_stock * unit_price\n    status = 'In Stock' if quantity_in_stock > 0 else 'Out of Stock'\n    return {\n        'item': item_name,\n        'total_value': total_value,\n        'status': status\n    }\n\nprint(summarize_inventory('Laptop', 12, 850))",
+      "test_cases": [
+        {
+          "input": "('Mouse', 0, 25)",
+          "expected": "{'item': 'Mouse', 'total_value': 0, 'status': 'Out of Stock'}"
+        },
+        {
+          "input": "('Keyboard', 5, 45)",
+          "expected": "{'item': 'Keyboard', 'total_value': 225, 'status': 'In Stock'}"
+        },
+        {
+          "input": "('Monitor', 3, 150)",
+          "expected": "{'item': 'Monitor', 'total_value': 450, 'status': 'In Stock'}"
+        }
+      ],
+      "hint": "Calculate the monetary value first, then use a conditional expression to decide the status before building and returning the dictionary.",
+      "explanation": "This real-world scenario synthesizes multiple parameters, arithmetic, conditional logic, and structured return values. It mirrors common business reporting tasks."
+    },
+    {
+      "id": "11.5_q30",
+      "type": "write_the_code",
+      "concept": "multiple_parameters_and_returns_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "11.5_q29"
+      ],
+      "prompt": "Write a recursive function named sum_digits that accepts a positive integer n and an optional parameter accumulator defaulting to 0. The function should return the sum of all digits in n. Do not convert n to a string. Call the function with 1234 and print the result.",
+      "starter_code": "def sum_digits(n, accumulator=0):\n    # TODO: implement recursive digit summation\n    pass\n\nprint(sum_digits(1234))",
+      "solution_code": "def sum_digits(n, accumulator=0):\n    if n == 0:\n        return accumulator\n    return sum_digits(n // 10, accumulator + n % 10)\n\nprint(sum_digits(1234))",
+      "test_cases": [
+        {
+          "input": "(5678)",
+          "expected": "26"
+        },
+        {
+          "input": "(1)",
+          "expected": "1"
+        },
+        {
+          "input": "(999)",
+          "expected": "27"
+        }
+      ],
+      "hint": "Extract the last digit with n % 10, then reduce the number with integer division n // 10. Pass the running total through the accumulator on each recursive call.",
+      "explanation": "This mastery item combines multiple parameters (one required, one with a default), recursion, and a return value that aggregates state across calls. It assesses deep fluency with parameter passing and return semantics."
+    }
+  ],
+  "unit_num": 11,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Multiple Parameters and Returns",
+    "Apply idiomatic Python patterns when working with Multiple Parameters and Returns",
+    "Debug common runtime exceptions and logic errors associated with Multiple Parameters and Returns",
+    "Implement production-ready code utilizing Multiple Parameters and Returns"
+  ],
+  "prerequisites": [
+    "11.4"
+  ]
+}

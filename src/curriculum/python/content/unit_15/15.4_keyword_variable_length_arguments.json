@@ -1,0 +1,642 @@
+{
+  "lesson_id": "15.4",
+  "title": "Keyword Variable-Length Arguments (**kwargs)",
+  "unit": "Advanced Functions",
+  "items": [
+    {
+      "id": "15.4_q1",
+      "type": "micro_lesson",
+      "title": "Introduction to **kwargs",
+      "content": "In Python, **kwargs allows a function to accept an arbitrary number of keyword arguments. The double asterisk ** before the parameter name collects these arguments into a dictionary. This is useful when you do not know in advance how many named parameters a function might receive. For example, you can call a function with any number of named arguments, and they will be stored in a dictionary where keys are argument names and values are the corresponding values. Here is a simple illustration:\n\n```python\ndef show_info(**kwargs):\n    print('Received arguments:', kwargs)\n\nshow_info(name='Alice', age=25, city='New York')\n```\n\nWhen executed, this prints: Received arguments: {'name': 'Alice', 'age': 25, 'city': 'New York'}. Notice that **kwargs must come after any regular positional or keyword parameters in the function definition.",
+      "concept": "keyword_variablelength_arguments_kwargs_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "In Python, **kwargs allows a function to accept an arbitrary number of keyword arguments. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.4_q2",
+      "type": "multiple_choice",
+      "prompt": "Which of the following best describes the purpose of **kwargs in a Python function?",
+      "options": [
+        "It forces all arguments to be passed positionally.",
+        "It collects an arbitrary number of keyword arguments into a dictionary.",
+        "It limits the function to accept exactly two arguments.",
+        "It converts all arguments into a list."
+      ],
+      "correct_answer": "It collects an arbitrary number of keyword arguments into a dictionary.",
+      "explanation": "**kwargs uses the double asterisk syntax to gather named arguments into a dictionary, enabling flexible function signatures.",
+      "match_code_to_concept": "keyword_variablelength_arguments_kwargs_basics",
+      "concept": "keyword_variablelength_arguments_kwargs_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.4_q1"
+      ]
+    },
+    {
+      "id": "15.4_q3",
+      "type": "micro_lesson",
+      "title": "**kwargs Syntax and Placement",
+      "content": "The syntax for **kwargs is straightforward: place ** followed by a valid identifier (commonly kwargs) as the last parameter in the function definition. This placement rule is important because Python evaluates parameters from left to right. If **kwargs appears before other parameters, a SyntaxError occurs. You can still have positional parameters and regular keyword parameters before **kwargs, but nothing may follow it. Consider this valid pattern:\n\n```python\ndef display(**kwargs):\n    for key, value in kwargs.items():\n        print(key + ': ' + str(value))\n\ndef greet(greeting, **kwargs):\n    print(greeting)\n    display(**kwargs)\n\ngreet('Hello', name='Bob', role='developer')\n```\n\nHere, greet accepts a required greeting and then any additional keyword arguments, which are forwarded to display using **kwargs. The output will be:\n\nHello\nname: Bob\nrole: developer",
+      "concept": "keyword_variablelength_arguments_kwargs_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.4_q2"
+      ],
+      "prompt": "",
+      "explanation": "The syntax for **kwargs is straightforward: place ** followed by a valid identifier (commonly kwargs) as the last parameter in the function definition. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "15.4_q4",
+      "type": "multiple_choice",
+      "prompt": "What happens if **kwargs is placed before a regular keyword parameter in a function definition?",
+      "options": [
+        "The function runs normally and ignores the order.",
+        "A SyntaxError is raised.",
+        "The regular keyword parameter becomes positional.",
+        "Python automatically reorders the parameters."
+      ],
+      "correct_answer": "A SyntaxError is raised.",
+      "explanation": "In Python, **kwargs must be the last parameter in the function signature; placing it before other parameters causes a SyntaxError.",
+      "match_code_to_concept": "keyword_variablelength_arguments_kwargs_syntax",
+      "concept": "keyword_variablelength_arguments_kwargs_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.4_q3"
+      ]
+    },
+    {
+      "id": "15.4_q5",
+      "type": "multiple_choice",
+      "prompt": "When calling a function with **kwargs, what does the following code print?\n\n```python\ndef report(**kwargs):\n    print(kwargs)\n\nreport(x=10, y=20)\n```",
+      "options": [
+        "{'x': 10, 'y': 20}",
+        "{'x': 10, 'y': 20, 'report': None}",
+        "x: 10, y: 20",
+        "SyntaxError"
+      ],
+      "correct_answer": "{'x': 10, 'y': 20}",
+      "explanation": "The function collects the named arguments x and y into a dictionary and prints it directly.",
+      "match_code_to_concept": "keyword_variablelength_arguments_kwargs_matching",
+      "concept": "keyword_variablelength_arguments_kwargs_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.4_q4"
+      ]
+    },
+    {
+      "id": "15.4_q6",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is a common pitfall when using **kwargs?",
+      "options": [
+        "Forgetting that **kwargs is a dictionary and trying to access a key that was not provided.",
+        "Using **kwargs to accept only positional arguments.",
+        "Calling a function without any arguments always raises an error when **kwargs is present.",
+        "**kwargs automatically converts all values to strings."
+      ],
+      "correct_answer": "Forgetting that **kwargs is a dictionary and trying to access a key that was not provided.",
+      "explanation": "**kwargs stores values in a dictionary, so accessing an undefined key will raise a KeyError unless you use methods like get() or check membership first.",
+      "match_code_to_concept": "keyword_variablelength_arguments_kwargs_pitfalls",
+      "concept": "keyword_variablelength_arguments_kwargs_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.4_q5"
+      ]
+    },
+    {
+      "id": "15.4_q7",
+      "type": "code_prediction",
+      "concept": "keyword_variablelength_arguments_kwargs_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "15.4_q6"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\ndef greet(**kwargs):\n    for key, value in kwargs.items():\n        print(f'{key} = {value}')\n\ngreet(name='Alice', age=25)\n```",
+      "options": [
+        "name = Alice\\nage = 25",
+        "name=Alice, age=25",
+        "Alice = name\\n25 = age",
+        "Error: invalid syntax"
+      ],
+      "correct_answer": "name = Alice\\nage = 25",
+      "explanation": "The **kwargs parameter collects keyword arguments into a dictionary. Inside the function, kwargs.items() yields key-value pairs. The f-string prints each pair as 'key = value' on its own line."
+    },
+    {
+      "id": "15.4_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "concept": "keyword_variablelength_arguments_kwargs_execution",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\ndef describe(**details):\n    result = ''\n    for k in details:\n        result += f'{k}: {details[k]}; '\n    return result.strip()\n\nprint(describe(city='Paris', country='France'))\n```",
+      "options": [
+        "city: Paris; country: France",
+        "city: Paris, country: France",
+        "country: France; city: Paris",
+        "Error: details is not iterable"
+      ],
+      "correct_answer": "city: Paris; country: France",
+      "explanation": "In Python 3, iterating over a dictionary yields its keys. The loop appends each key and its corresponding value to result. The .strip() removes the trailing whitespace and semicolon."
+    },
+    {
+      "id": "15.4_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "concept": "keyword_variablelength_arguments_kwargs_flow",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q8"
+      ],
+      "prompt": "What is the return value of the following Python code?\n```python\ndef build_profile(**info):\n    profile = {}\n    for k, v in info.items():\n        profile[k] = v\n    return profile\n\nresult = build_profile(name='Bob', role='Engineer')\nprint(result)\n```",
+      "options": [
+        "{'name': 'Bob', 'role': 'Engineer'}",
+        "('name', 'Bob', 'role', 'Engineer')",
+        "None",
+        "Error: profile is not defined"
+      ],
+      "correct_answer": "{'name': 'Bob', 'role': 'Engineer'}",
+      "explanation": "The function creates an empty dictionary, iterates over the kwargs items, and copies each key-value pair into profile. It returns the populated dictionary, which is then printed."
+    },
+    {
+      "id": "15.4_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "concept": "keyword_variablelength_arguments_kwargs_analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing **kwargs Behavior",
+        "content": "When you define a function with **kwargs, Python collects all named arguments that do not match a named parameter into a dictionary. This dictionary is passed by reference, so modifications inside the function affect the original mapping. You can iterate over keys with a for loop, access values with bracket notation, and even update the dictionary. Because **kwargs must be the last parameter in the signature, it cannot appear before positional or keyword-only arguments. Understanding this flow is essential for building flexible APIs and configuration handlers."
+      },
+      "prompt": "Write Python code to solve this challenge for Keyword Variable-Length Arguments (**kwargs):",
+      "starter_code": "# TODO: Implement solution for Keyword Variable-Length Arguments (**kwargs)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Keyword Variable-Length Arguments (**kwargs)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Keyword Variable-Length Arguments (**kwargs)"
+        }
+      ],
+      "explanation": "Python reserved keywords (such as `pass`, `def`, `class`, `if`, `while`) are part of Python's formal language grammar and cannot be used as variable identifiers. Attempting to assign to a keyword triggers a SyntaxError."
+    },
+    {
+      "id": "15.4_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "concept": "keyword_variablelength_arguments_kwargs_tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q10"
+      ],
+      "prompt": "Trace the execution of the following Python code and identify the final value of summary.\n```python\ndef summarize(**data):\n    summary = ''\n    for key in sorted(data):\n        summary += f'{key}=' + str(data[key]) + ', '\n    return summary.rstrip(', ')\n\nsummary = summarize(score=95, level='Advanced', attempts=3)\nprint(summary)\n```",
+      "options": [
+        "'attempts=3, level=Advanced, score=95'",
+        "'score=95, level=Advanced, attempts=3'",
+        "'level=Advanced, score=95, attempts=3'",
+        "'score=95, attempts=3, level=Advanced'"
+      ],
+      "correct_answer": "'attempts=3, level=Advanced, score=95'",
+      "explanation": "sorted(data) returns the keys in alphabetical order: 'attempts', 'level', 'score'. The loop concatenates each key, an equals sign, the string representation of the value, and a comma and space. rstrip(', ') removes the trailing comma and space."
+    },
+    {
+      "id": "15.4_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "concept": "keyword_variablelength_arguments_kwargs_logic",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q11"
+      ],
+      "prompt": "What is the output of the following Python code?\n```python\ndef check_config(**settings):\n    if 'debug' in settings and settings['debug']:\n        print('Debug mode enabled')\n    else:\n        print('Debug mode disabled')\n    if not settings.get('verbose', False):\n        print('Verbose output off')\n\ncheck_config(debug=True, verbose=False, port=8080)\n```",
+      "options": [
+        "'Debug mode enabled'\\n'Verbose output off'",
+        "'Debug mode disabled'\\n'Verbose output off'",
+        "'Debug mode enabled'\\n'Verbose output on'",
+        "'Debug mode disabled'\\n'Verbose output on'"
+      ],
+      "correct_answer": "'Debug mode enabled'\\n'Verbose output off'",
+      "explanation": "settings['debug'] is True, so the first branch prints 'Debug mode enabled'. settings.get('verbose', False) returns False because verbose is explicitly False, and the not operator makes the condition True, so the second branch prints 'Verbose output off'."
+    },
+    {
+      "id": "15.4_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "keyword_variablelength_arguments_kwargs_syntax",
+      "micro_lesson": {
+        "title": "Syntax of **kwargs",
+        "content": "In Python, **kwargs is used in a function definition to capture an arbitrary number of keyword arguments. The double asterisk (**) before the parameter name tells Python to collect all extra keyword arguments into a dictionary. For example: def my_func(**kwargs):. Inside the function, kwargs behaves like a regular dictionary where keys are the keyword names and values are the passed values. This is essential when you do not know in advance how many named arguments will be provided."
+      },
+      "prompt": "Complete the function definition: def log_data(___):",
+      "correct_answer": "**kwargs",
+      "accepted_answers": [
+        "**kwargs"
+      ],
+      "explanation": "The double asterisk (**) is required to indicate a variable-length keyword argument. Without it, Python would raise a SyntaxError.",
+      "prerequisites": [
+        "15.4_q12"
+      ]
+    },
+    {
+      "id": "15.4_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_keywords",
+      "micro_lesson": {
+        "title": "Using Keywords with **kwargs",
+        "content": "When calling a function that accepts **kwargs, you pass named arguments as you normally would. Inside the function, these names become dictionary keys. For example: def greet(**kwargs): print(kwargs). Calling greet(name='Alice', city='Paris') stores {'name': 'Alice', 'city': 'Paris'}. You can also combine **kwargs with regular parameters and *args, but the order matters: regular parameters, then *args, then **kwargs."
+      },
+      "prompt": "When calling greet(**kwargs), the values passed as named arguments become the ___ of the dictionary inside the function.",
+      "correct_answer": "keys",
+      "accepted_answers": [
+        "keys"
+      ],
+      "explanation": "In the **kwargs dictionary, each keyword argument's name serves as the key, and its corresponding value is stored as the value.",
+      "prerequisites": [
+        "15.4_q13"
+      ]
+    },
+    {
+      "id": "15.4_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_sequence",
+      "micro_lesson": {
+        "title": "Correct Sequence for **kwargs Usage",
+        "content": "To use **kwargs effectively, you must define the function with **kwargs, then access its items as a dictionary. Typical operations include checking length with len(kwargs), iterating with .items(), and accessing specific keys. Remember that **kwargs must appear after any *args and regular parameters in the signature."
+      },
+      "prompt": "Arrange the following steps to correctly process and display keyword arguments in a function.",
+      "options": [
+        "for key, value in kwargs.items(): print(key + ': ' + value)",
+        "def show(**kwargs):",
+        "print('Received arguments:', kwargs)"
+      ],
+      "correct_answer": [
+        "def show(**kwargs):",
+        "print('Received arguments:', kwargs)",
+        "for key, value in kwargs.items(): print(key + ': ' + value)"
+      ],
+      "explanation": "The function must first be defined with **kwargs, then you may print the dictionary, and finally iterate over its items to display each key-value pair.",
+      "prerequisites": [
+        "15.4_q14"
+      ]
+    },
+    {
+      "id": "15.4_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_patterns",
+      "micro_lesson": {
+        "title": "Common **kwargs Patterns",
+        "content": "A frequent pattern is to use **kwargs to forward arguments to another function. For example: def wrapper(**kwargs): target(**kwargs). Another pattern is extracting a known key with a default fallback: config = kwargs.get('mode', 'default'). This avoids KeyError when a key is missing. You can also merge dictionaries: all_data = {'x': 1, **kwargs}."
+      },
+      "prompt": "To safely retrieve a value from kwargs with a fallback, use: kwargs.___('timeout', 30)",
+      "correct_answer": "get",
+      "accepted_answers": [
+        "get"
+      ],
+      "explanation": "The dict.get() method retrieves a value by key and returns a default if the key is absent, which is a safe way to handle optional keyword arguments.",
+      "prerequisites": [
+        "15.4_q15"
+      ]
+    },
+    {
+      "id": "15.4_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_algorithm",
+      "micro_lesson": {
+        "title": "Algorithm for Filtering **kwargs",
+        "content": "When processing **kwargs, a useful algorithm is to filter out unwanted keys, transform values, and return a new dictionary. Steps: accept **kwargs, initialize an empty result dict, loop over kwargs.items(), apply a condition or transformation, assign to result, and return result. This pattern appears in configuration loaders and API wrappers."
+      },
+      "prompt": "Arrange the lines to build a function that returns only numeric values from **kwargs.",
+      "options": [
+        "return result",
+        "for k, v in kwargs.items():",
+        "def filter_numeric(**kwargs):",
+        "if isinstance(v, (int, float)):",
+        "result = {}",
+        "result[k] = v"
+      ],
+      "correct_answer": [
+        "def filter_numeric(**kwargs):",
+        "result = {}",
+        "for k, v in kwargs.items():",
+        "if isinstance(v, (int, float)):",
+        "result[k] = v",
+        "return result"
+      ],
+      "explanation": "The function definition comes first, then initialization, iteration, conditional assignment, and finally the return statement completes the algorithm.",
+      "prerequisites": [
+        "15.4_q16"
+      ]
+    },
+    {
+      "id": "15.4_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_idioms",
+      "micro_lesson": {
+        "title": "Idiomatic Uses of **kwargs",
+        "content": "A common idiom is to unpack a dictionary into keyword arguments when calling another function: def call(**kwargs): target(**kwargs). Another idiom is to merge dictionaries with the ** operator: merged = {'a': 1, **kwargs}. You can also use **kwargs to accept optional settings in a class __init__ method, making APIs flexible without hardcoding every parameter."
+      },
+      "prompt": "To pass a dictionary as keyword arguments to another function, use the ___ operator: target(___)",
+      "correct_answer": "**",
+      "accepted_answers": [
+        "**"
+      ],
+      "explanation": "The double-asterisk (**) unpacks a dictionary into named keyword arguments during a function call.",
+      "prerequisites": [
+        "15.4_q17"
+      ]
+    },
+    {
+      "id": "15.4_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_errors",
+      "prerequisites": [
+        "15.4_q18"
+      ],
+      "prompt": "Identify and explain all errors in the following function that attempts to collect keyword arguments into a dictionary.",
+      "starter_code": "def log_config(**kwargs):\n    print(kwargs)\n    for key, value in kwargs.items:\n        print(key + ' = ' + value)\n\nlog_config(host='server1', port=8080, debug=True)",
+      "solution_code": "def log_config(**kwargs):\n    print(kwargs)\n    for key, value in kwargs.items():\n        print(key + ' = ' + str(value))\n\nlog_config(host='server1', port=8080, debug=True)",
+      "hint": "Check the dictionary method call and the string concatenation of non-string values.",
+      "explanation": "The code fails because `kwargs.items` is missing parentheses, making it a bound method object rather than an iterator. Additionally, `value` may be an integer (e.g., `8080`), so concatenating it directly with a string raises a `TypeError`. Converting `value` to `str(value)` resolves this. The corrected code iterates properly and prints each key-value pair safely."
+    },
+    {
+      "id": "15.4_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "concept": "keyword_variablelength_arguments_kwargs_fix",
+      "prerequisites": [
+        "15.4_q19"
+      ],
+      "prompt": "The function below should return a dictionary of all keyword arguments passed to it. Fix the syntax error so it works correctly.",
+      "starter_code": "def capture(**kwargs\n    return kwargs",
+      "solution_code": "def capture(**kwargs):\n    return kwargs",
+      "hint": "Look for a missing closing parenthesis after `kwargs`.",
+      "explanation": "The original code is missing a closing parenthesis `)` after `**kwargs`, causing a `SyntaxError`. Adding it makes the function definition valid, and returning `kwargs` yields the expected dictionary of keyword arguments."
+    },
+    {
+      "id": "15.4_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_edge_cases",
+      "prerequisites": [
+        "15.4_q20"
+      ],
+      "prompt": "This function merges two dictionaries using `**kwargs`. It fails when both dictionaries contain the same key. Fix the code so the second dictionary overwrites the first for duplicate keys.",
+      "starter_code": "def merge(**kwargs):\n    result = {}\n    for d in kwargs:\n        result.update(d)\n    return result\n\nfirst = {'a': 1, 'b': 2}\nsecond = {'b': 3, 'c': 4}\nprint(merge(**first, **second))",
+      "solution_code": "def merge(**kwargs):\n    result = {}\n    for d in kwargs:\n        result.update(d)\n    return result\n\nfirst = {'a': 1, 'b': 2}\nsecond = {'b': 3, 'c': 4}\nprint(merge(**first, **second))",
+      "hint": "The function already handles duplicate keys correctly because `dict.update()` replaces existing keys. Verify the unpacking syntax.",
+      "explanation": "The starter code is actually correct in behavior, but if the intent was to merge multiple dictionaries passed as separate arguments, `**kwargs` collects each dictionary as a value, and `result.update(d)` properly overwrites duplicate keys with values from later arguments. The fix ensures clarity by confirming the unpacking and update logic. No functional change is needed, but the code is valid as written."
+    },
+    {
+      "id": "15.4_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_runtime",
+      "prerequisites": [
+        "15.4_q21"
+      ],
+      "prompt": "Explain why this code raises a `RuntimeError` at execution time when called with no arguments.",
+      "starter_code": "def require_config(**config):\n    if not config:\n        raise RuntimeError('Missing configuration')\n    print('Config loaded:', config)\n\nrequire_config()",
+      "solution_code": "def require_config(**config):\n    if len(config) == 0:\n        raise RuntimeError('Missing configuration')\n    print('Config loaded:', config)\n\nrequire_config()",
+      "hint": "Consider how an empty dictionary evaluates in a boolean context.",
+      "explanation": "In Python, an empty dictionary evaluates to `False` in a boolean context. The condition `if not config:` correctly detects an empty `kwargs` and raises the expected `RuntimeError`. The starter code is actually valid and will raise the error as intended. The 'fix' shown uses `len(config) == 0` for explicitness, but both approaches are equivalent. The runtime behavior is correct: calling with no arguments triggers the exception."
+    },
+    {
+      "id": "15.4_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "keyword_variablelength_arguments_kwargs_logic_repair",
+      "prerequisites": [
+        "15.4_q22"
+      ],
+      "prompt": "The function should return only the keyword arguments whose values are truthy. Fix the logic error so it filters correctly.",
+      "starter_code": "def filter_truthy(**kwargs):\n    result = {}\n    for key, value in kwargs.items():\n        if value:\n            result[key] = value\n    return result\n\nprint(filter_truthy(a=0, b='hello', c=None, d=False, e=42))",
+      "solution_code": "def filter_truthy(**kwargs):\n    result = {}\n    for key, value in kwargs.items():\n        if value is not None and bool(value):\n            result[key] = value\n    return result\n\nprint(filter_truthy(a=0, b='hello', c=None, d=False, e=42))",
+      "hint": "The current logic excludes `0` and `False`, which may or may not be intended. Clarify whether only `None` should be excluded.",
+      "explanation": "The original code excludes any falsy value, including `0` and `False`. If the goal is to exclude only `None`, the condition should be `value is not None`. The repaired version uses `value is not None and bool(value)` to keep `0` and `False` while removing `None`. The output becomes `{'b': 'hello', 'e': 42}` when excluding only `None`, or `{'b': 'hello', 'e': 42}` with the stricter condition if `0` and `False` are also filtered. Adjust based on specification; here we assume only `None` is undesired."
+    },
+    {
+      "id": "15.4_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "concept": "keyword_variablelength_arguments_kwargs_optimization",
+      "prerequisites": [
+        "15.4_q23"
+      ],
+      "prompt": "Refactor the function to use a dictionary comprehension, reduce redundant operations, and add type hints. Ensure it remains readable and efficient.",
+      "starter_code": "def process_settings(**kwargs):\n    output = {}\n    for key in kwargs:\n        val = kwargs[key]\n        if isinstance(val, str):\n            output[key] = val.upper()\n        elif isinstance(val, int):\n            output[key] = val * 2\n        else:\n            output[key] = str(val)\n    return output\n\nprint(process_settings(name='alice', age=30, active=True))",
+      "solution_code": "from typing import Any, Dict\n\ndef process_settings(**kwargs: Any) -> Dict[str, Any]:\n    return {\n        key: value.upper() if isinstance(value, str) else value * 2 if isinstance(value, int) else str(value)\n        for key, value in kwargs.items()\n    }\n\nprint(process_settings(name='alice', age=30, active=True))",
+      "test_cases": [
+        {
+          "input": "process_settings(name='alice', age=30, active=True)",
+          "expected": "{'name': 'ALICE', 'age': 60, 'active': 'True'}"
+        },
+        {
+          "input": "process_settings(empty='', flag=0, data=None)",
+          "expected": "{'empty': '', 'flag': 0, 'data': 'None'}"
+        }
+      ],
+      "hint": "Replace the explicit loop with a dictionary comprehension and chain conditional expressions for type-specific transformations.",
+      "explanation": "The original function uses a verbose `for` loop with multiple `if/elif/else` branches. The refactored version employs a dictionary comprehension for conciseness and O(n) efficiency. Type hints (`**kwargs: Any -> Dict[str, Any]`) improve maintainability. The conditional expression `value.upper() if isinstance(value, str) else value * 2 if isinstance(value, int) else str(value)` handles each type in a single expression, avoiding repeated dictionary lookups and temporary variables. This reduces cognitive load and improves performance for large argument sets."
+    },
+    {
+      "id": "15.4_q25",
+      "type": "write_the_code",
+      "concept": "keyword_variablelength_arguments_kwargs_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q24"
+      ],
+      "prompt": "Write a function named `display_user_info` that accepts a required `name` argument and any number of additional keyword arguments. Print the name and each key-value pair from the keyword arguments.",
+      "starter_code": "def display_user_info(name):\n    pass\n\n# Example usage\ndisplay_user_info('Alice', age=25, city='New York')",
+      "solution_code": "def display_user_info(name, **kwargs):\n    print(f'Name: {name}')\n    for key, value in kwargs.items():\n        print(f'{key}: {value}')\n\n# Example usage\ndisplay_user_info('Alice', age=25, city='New York')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "display_user_info('Bob', role='Engineer', dept='IT')",
+          "description": "display_user_info('Bob', role='Engineer', dept='IT')"
+        },
+        {
+          "input": "",
+          "expected_output": "display_user_info('Carol', age=30, hobby='Painting', active=True)",
+          "description": "display_user_info('Carol', age=30, hobby='Painting', active=True)"
+        }
+      ],
+      "hint": "Use `**kwargs` in the parameter list to capture extra keyword arguments as a dictionary.",
+      "explanation": "The `**kwargs` syntax collects all unmatched keyword arguments into a dictionary named `kwargs`. Inside the function, you can iterate over `.items()` to access each key and value. This allows flexible function signatures without predefined parameters."
+    },
+    {
+      "id": "15.4_q26",
+      "type": "write_the_code",
+      "concept": "keyword_variablelength_arguments_kwargs_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "15.4_q25"
+      ],
+      "prompt": "Create a function `build_config` that takes a `name` and any number of configuration settings as keyword arguments. Return a dictionary containing the name and all settings merged together.",
+      "starter_code": "def build_config(name):\n    pass\n\n# Example usage\ncfg = build_config('Server1', port=8080, debug=False, host='localhost')",
+      "solution_code": "def build_config(name, **settings):\n    config = {'name': name}\n    config.update(settings)\n    return config\n\n# Example usage\ncfg = build_config('Server1', port=8080, debug=False, host='localhost')\nprint(cfg)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "build_config('App1', version='1.0', env='prod')",
+          "description": "build_config('App1', version='1.0', env='prod')"
+        },
+        {
+          "input": "",
+          "expected_output": "build_config('DB1', engine='PostgreSQL', port=5432, user='admin')",
+          "description": "build_config('DB1', engine='PostgreSQL', port=5432, user='admin')"
+        }
+      ],
+      "hint": "Initialize a dictionary with the required field, then use `.update()` to merge the `**settings` dictionary.",
+      "explanation": "This pattern is common when building configuration objects dynamically. Starting with a base dictionary and updating it with `**kwargs` ensures all provided settings are preserved without hardcoding expected keys."
+    },
+    {
+      "id": "15.4_q27",
+      "type": "write_the_code",
+      "concept": "keyword_variablelength_arguments_kwargs_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.4_q26"
+      ],
+      "prompt": "Write a function `merge_records` that accepts a mandatory `record_id` and an arbitrary number of keyword arguments representing field-value pairs. Validate that each value is a string or integer; raise a `TypeError` otherwise. Return a dictionary with `record_id` and the validated fields.",
+      "starter_code": "def merge_records(record_id):\n    pass\n\n# Example usage\nresult = merge_records('REC001', status='active', count=5)\nprint(result)",
+      "solution_code": "def merge_records(record_id, **fields):\n    result = {'record_id': record_id}\n    for key, value in fields.items():\n        if not isinstance(value, (str, int)):\n            raise TypeError(f'Value for {key} must be str or int, got {type(value).__name__}')\n        result[key] = value\n    return result\n\n# Example usage\nresult = merge_records('REC001', status='active', count=5)\nprint(result)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "merge_records('REC002', name='Widget', qty=10)",
+          "description": "merge_records('REC002', name='Widget', qty=10)"
+        },
+        {
+          "input": "",
+          "expected_output": "merge_records('REC003', flag=True)  # should raise TypeError",
+          "description": "merge_records('REC003', flag=True)  # should raise TypeError"
+        }
+      ],
+      "hint": "Iterate through `**fields.items()`, check `isinstance(value, (str, int))`, and raise `TypeError` with a descriptive message if validation fails.",
+      "explanation": "Advanced `**kwargs` usage includes runtime validation and type enforcement. By checking each incoming value, you create safer, more predictable APIs. The `isinstance` check against a tuple of allowed types is efficient and explicit."
+    },
+    {
+      "id": "15.4_q28",
+      "type": "write_the_code",
+      "concept": "keyword_variablelength_arguments_kwargs_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.4_q27"
+      ],
+      "prompt": "A function `log_event` must accept a mandatory `event_name` and any number of keyword arguments. It should print a formatted log line and return `True` if all values are strings; otherwise return `False`. Do not use `isinstance` checks.",
+      "starter_code": "def log_event(event_name):\n    pass\n\n# Example usage\nlog_event('login', user='alice', status='success')",
+      "solution_code": "def log_event(event_name, **kwargs):\n    parts = [f'Event: {event_name}']\n    for key, value in kwargs.items():\n        parts.append(f'{key}={value}')\n    print(' | '.join(parts))\n    return all(isinstance(v, str) for v in kwargs.values())\n\n# Example usage\nlog_event('login', user='alice', status='success')\nprint(log_event('error', code=404, msg='Not Found'))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "log_event('signup', email='bob@example.com', verified=True)",
+          "description": "log_event('signup', email='bob@example.com', verified=True)"
+        },
+        {
+          "input": "",
+          "expected_output": "log_event('purchase', item='Book', price=19.99)",
+          "description": "log_event('purchase', item='Book', price=19.99)"
+        }
+      ],
+      "hint": "Use `all()` with a generator expression to verify every value is a string without explicit loops and conditional branches.",
+      "explanation": "This challenge tests conditional logic combined with `**kwargs`. The `all()` function short-circuits on the first non-string value, making it both readable and efficient. Returning a boolean based on validation demonstrates how `**kwargs` can drive decision-making in functions."
+    },
+    {
+      "id": "15.4_q29",
+      "type": "write_the_code",
+      "concept": "keyword_variablelength_arguments_kwargs_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.4_q28"
+      ],
+      "prompt": "You are building a generic API request builder. Design a function `create_request` that takes a mandatory `method` (e.g., 'GET', 'POST') and any number of headers or body parameters as keyword arguments. Return a dictionary with `method`, `headers` (if any), and `body` (if any). If a value is a dictionary, treat it as nested JSON; otherwise store it directly.",
+      "starter_code": "def create_request(method):\n    pass\n\n# Example usage\nreq = create_request('POST', auth='Bearer xyz', payload={'id': 123, 'name': 'Test'})",
+      "solution_code": "def create_request(method, **kwargs):\n    request = {'method': method}\n    headers = {}\n    body = {}\n    for key, value in kwargs.items():\n        if isinstance(value, dict):\n            body[key] = value\n        else:\n            headers[key] = value\n    if headers:\n        request['headers'] = headers\n    if body:\n        request['body'] = body\n    return request\n\n# Example usage\nreq = create_request('POST', auth='Bearer xyz', payload={'id': 123, 'name': 'Test'})\nprint(req)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "create_request('GET', accept='application/json', version=2)",
+          "description": "create_request('GET', accept='application/json', version=2)"
+        },
+        {
+          "input": "",
+          "expected_output": "create_request('PUT', token='abc123', data={'action': 'update', 'id': 42})",
+          "description": "create_request('PUT', token='abc123', data={'action': 'update', 'id': 42})"
+        }
+      ],
+      "hint": "Separate keyword arguments into headers and body by inspecting whether each value is a dictionary using `isinstance(value, dict)`.",
+      "explanation": "In real-world REST API design, flexible request builders use `**kwargs` to accept arbitrary configuration. Distinguishing headers from body parameters based on value type mirrors how HTTP clients parse payloads. This synthesis exercise connects dictionary manipulation, type inspection, and API modeling."
+    },
+    {
+      "id": "15.4_q30",
+      "type": "write_the_code",
+      "concept": "keyword_variablelength_arguments_kwargs_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "15.4_q29"
+      ],
+      "prompt": "Implement a higher-order function `apply_to_all` that takes a `func` and any number of keyword arguments. It should return a new function that, when called with a single positional argument, applies `func` to that argument alongside all stored keyword arguments. Demonstrate with a lambda that multiplies three values.",
+      "starter_code": "def apply_to_all(func):\n    pass\n\n# Example usage\nmultiplier = apply_to_all(lambda x, y=2, z=3: x * y * z)\nresult = multiplier(5)\nprint(result)  # Expected: 30",
+      "solution_code": "def apply_to_all(func, **kwargs):\n    def inner(value):\n        return func(value, **kwargs)\n    return inner\n\n# Example usage\nmultiplier = apply_to_all(lambda x, y=2, z=3: x * y * z)\nresult = multiplier(5)\nprint(result)  # 30",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "adder = apply_to_all(lambda a, b=1, c=1: a + b + c)\nprint(adder(10))  # 12",
+          "description": "adder = apply_to_all(lambda a, b=1, c=1: a + b + c)\nprint(adder(10))  # 12"
+        },
+        {
+          "input": "",
+          "expected_output": "power = apply_to_all(lambda base, exp=2: base ** exp)\nprint(power(3))  # 9",
+          "description": "power = apply_to_all(lambda base, exp=2: base ** exp)\nprint(power(3))  # 9"
+        }
+      ],
+      "hint": "The returned function must close over `**kwargs` and accept one positional argument, then invoke `func(value, **kwargs)`.",
+      "explanation": "This mastery item demonstrates closure and `**kwargs` interoperability. `apply_to_all` partially applies keyword arguments, creating specialized functions dynamically. This pattern underpins decorators and functional programming techniques in Python, showing how variable-length keyword arguments enable powerful abstraction."
+    }
+  ],
+  "unit_num": 15,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Keyword Variable-Length Arguments (**kwargs)",
+    "Apply idiomatic Python patterns when working with Keyword Variable-Length Arguments (**kwargs)",
+    "Debug common runtime exceptions and logic errors associated with Keyword Variable-Length Arguments (**kwargs)",
+    "Implement production-ready code utilizing Keyword Variable-Length Arguments (**kwargs)"
+  ],
+  "prerequisites": [
+    "15.3"
+  ]
+}

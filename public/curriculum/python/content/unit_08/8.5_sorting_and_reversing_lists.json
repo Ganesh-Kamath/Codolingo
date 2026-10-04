@@ -1,0 +1,632 @@
+{
+  "lesson_id": "8.5",
+  "title": "Sorting and Reversing Lists",
+  "unit": "Lists",
+  "items": [
+    {
+      "id": "8.5_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "sorting_and_reversing_lists_basics",
+      "title": "Introduction to Sorting and Reversing Lists",
+      "content": "In Python, lists are ordered collections that can be modified. Two common operations are sorting (arranging elements in a specific order) and reversing (flipping the order of elements). Sorting arranges items from smallest to largest (ascending) or largest to smallest (descending). Reversing changes the sequence so the last element becomes first. Python provides built-in methods like sort() and reverse() to perform these operations directly on the list. Note that sort() modifies the list in place and returns None, while reversed() returns an iterator. Understanding these basics helps you organize data efficiently.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "In Python, lists are ordered collections that can be modified. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "sorting_and_reversing_lists_basics",
+      "prompt": "Which method reverses a list in place?",
+      "options": [
+        "reversed()",
+        "reverse()",
+        "sort()",
+        "flip()"
+      ],
+      "correct_answer": "reverse()",
+      "explanation": "The reverse() method modifies the list in place to reverse its order. The reversed() function returns a new iterator and does not change the original list.",
+      "id": "8.5_q2",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q1"
+      ]
+    },
+    {
+      "idx": 3,
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "sorting_and_reversing_lists_syntax",
+      "title": "Syntax for Sorting and Reversing",
+      "content": "To sort a list in ascending order, use the sort() method: my_list.sort(). For descending order, pass reverse=True: my_list.sort(reverse=True). To reverse the order of elements without changing the sort order, use my_list.reverse(). Alternatively, you can use the sorted() function to return a new sorted list: sorted_list = sorted(my_list). For reversing, you can also use slicing: reversed_list = my_list[::-1]. Remember that sort() and reverse() modify the original list, whereas sorted() and slicing create new lists.",
+      "id": "8.5_q3",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q2"
+      ],
+      "prompt": "",
+      "explanation": "To sort a list in ascending order, use the sort() method: my_list. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "sorting_and_reversing_lists_syntax",
+      "prompt": "What is the result of the following code?\n```python\nlst = [3, 1, 2]\nlst.sort()\nprint(lst)\n```",
+      "options": [
+        "[1, 2, 3]",
+        "[3, 1, 2]",
+        "None",
+        "[3, 2, 1]"
+      ],
+      "correct_answer": "[1, 2, 3]",
+      "explanation": "The sort() method sorts the list in ascending order in place. After calling lst.sort(), the list becomes [1, 2, 3], which is then printed.",
+      "id": "8.5_q4",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q3"
+      ]
+    },
+    {
+      "idx": 5,
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "sorting_and_reversing_lists_matching",
+      "prompt": "Match the operation to its effect.",
+      "options": [
+        "sort() -> reverses order; reverse() -> sorts ascending",
+        "sort() -> sorts ascending; reverse() -> reverses order",
+        "sort() -> sorts descending; reverse() -> sorts ascending",
+        "sort() -> creates new list; reverse() -> modifies in place"
+      ],
+      "correct_answer": "sort() -> sorts ascending; reverse() -> reverses order",
+      "explanation": "By default, sort() arranges elements in ascending order. reverse() flips the existing order of the list without changing the sort direction.",
+      "id": "8.5_q5",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q4"
+      ]
+    },
+    {
+      "idx": 6,
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "sorting_and_reversing_lists_pitfalls",
+      "prompt": "What is a common pitfall when using sort()?",
+      "options": [
+        "It returns a new sorted list and leaves the original unchanged",
+        "It sorts the list in place and returns None, so assigning its result to a variable gives None",
+        "It only works on strings, not numbers",
+        "It automatically reverses the list after sorting"
+      ],
+      "correct_answer": "It sorts the list in place and returns None, so assigning its result to a variable gives None",
+      "explanation": "A frequent beginner mistake is writing new_list = my_list.sort(), which sets new_list to None because sort() returns None. To keep a sorted copy, use sorted(my_list) instead.",
+      "id": "8.5_q6",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q5"
+      ]
+    },
+    {
+      "id": "8.5_q7",
+      "type": "code_prediction",
+      "concept": "sorting_and_reversing_lists_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q6"
+      ],
+      "prompt": "What will be the output of the following Python code?\n```python\nlst = [3, 1, 4, 1, 5, 9]\nlst.sort()\nprint(lst)\n```",
+      "options": [
+        "The list is sorted in ascending order: [1, 1, 3, 4, 5, 9]",
+        "The list is sorted in descending order: [9, 5, 4, 3, 1, 1]",
+        "The list remains unchanged: [3, 1, 4, 1, 5, 9]",
+        "A SyntaxError is raised because sort() is not a valid method"
+      ],
+      "correct_answer": "The list is sorted in ascending order: [1, 1, 3, 4, 5, 9]",
+      "explanation": "The sort() method sorts the list in place in ascending order by default. It does not return a new list, so the original list lst is modified directly."
+    },
+    {
+      "id": "8.5_q8",
+      "type": "output_prediction",
+      "concept": "sorting_and_reversing_lists_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q7"
+      ],
+      "prompt": "What will be the output of the following Python code?\n```python\nnums = [7, 2, 8, 2, 9]\nnums.reverse()\nprint(nums)\n```",
+      "options": [
+        "[9, 2, 8, 2, 7]",
+        "[7, 2, 8, 2, 9]",
+        "[2, 8, 2, 7, 9]",
+        "None"
+      ],
+      "correct_answer": "[9, 2, 8, 2, 7]",
+      "explanation": "`nums.reverse()` reverses the elements in place. The reversed sequence is [9, 2, 8, 2, 7]."
+    },
+    {
+      "id": "8.5_q9",
+      "type": "code_prediction",
+      "concept": "sorting_and_reversing_lists_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q8"
+      ],
+      "prompt": "What will be the output of the following Python code?\n```python\nvalues = [10, 20, 30]\nif values.sort():\n    print('sorted')\nelse:\n    print('unsorted')\n```",
+      "options": [
+        "'unsorted'",
+        "'sorted'",
+        "A TypeError because sort() returns None",
+        "The program crashes with an IndentationError"
+      ],
+      "correct_answer": "'unsorted'",
+      "explanation": "The sort() method sorts the list in place and returns None. Since None evaluates to False in a boolean context, the else branch is executed, printing 'unsorted'."
+    },
+    {
+      "id": "8.5_q10",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q9"
+      ],
+      "title": "Analyzing In-Place vs. Non-In-Place Operations",
+      "content": "When working with lists in Python, it is important to distinguish between methods that modify the list in place and those that return a new list. The sort() and reverse() methods both mutate the original list and return None. This means that if you assign their result to a new variable, that variable will hold None rather than a sorted or reversed list. For example:\n```python\nlst = [3, 1, 2]\nnew_lst = lst.sort()\nprint(new_lst)  # Output: None\n```\nTo create a new sorted list without changing the original, use the built-in sorted() function instead:\n```python\nlst = [3, 1, 2]\nnew_lst = sorted(lst)\nprint(new_lst)  # Output: [1, 2, 3]\n```\nUnderstanding this distinction prevents common bugs where a programmer expects a new list but accidentally gets None.",
+      "prompt": "Write Python code to solve this challenge for Sorting and Reversing Lists:",
+      "starter_code": "# TODO: Implement solution for Sorting and Reversing Lists\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Sorting and Reversing Lists')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Sorting and Reversing Lists"
+        }
+      ],
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "8.5_q11",
+      "type": "code_prediction",
+      "concept": "sorting_and_reversing_lists_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q10"
+      ],
+      "prompt": "What is the final value of the variable result after executing the following code?\n```python\nitems = [5, 2, 8, 1]\nitems.sort()\nitems.reverse()\nresult = items[1] + items[2]\nprint(result)\n```",
+      "options": [
+        "7",
+        "9",
+        "11",
+        "3"
+      ],
+      "correct_answer": "7",
+      "explanation": "After `sort()`, `items` is `[1, 2, 5, 8]`. After `reverse()`, it is `[8, 5, 2, 1]`. `items[1]` is 5 and `items[2]` is 2. `5 + 2 = 7`."
+    },
+    {
+      "id": "8.5_q12",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.5_q11"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Sorting and Reversing Lists that processes batches and handles empty inputs cleanly.",
+      "correct_answer": "['Apple', 'banana', 'cherry']",
+      "explanation": "Production workflows for Sorting and Reversing Lists must validate inputs, maintain immutability, and return deterministic results.",
+      "starter_code": "def execute_8_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_8_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "hint": "Validate input first, then execute the transformation.",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ]
+    },
+    {
+      "id": "8.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_and_reversing_lists_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "micro_lesson": {
+        "title": "Sorting and Reversing Lists in Python",
+        "content": "In Python, lists can be sorted in ascending or descending order using built-in methods. The sort() method sorts the list in place, while sorted() returns a new sorted list. To reverse a list, use the reverse() method. These methods modify the original list unless you use sorted().\n\nExample:\n```python\nnumbers = [5, 2, 9, 1]\nnumbers.sort()\nprint(numbers)  # Output: [1, 2, 5, 9]\n\nnumbers.reverse()\nprint(numbers)  # Output: [9, 5, 2, 1]\n```"
+      },
+      "prompt": "Complete the code by filling in the blank: numbers.____()",
+      "correct_answer": "sort",
+      "accepted_answers": [
+        "sort",
+        "sorted"
+      ],
+      "explanation": "The sort() method sorts the list in place. sorted() is a built-in function that returns a new sorted list, but does not modify the original list in place.",
+      "prerequisites": [
+        "8.5_q12"
+      ]
+    },
+    {
+      "id": "8.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_and_reversing_lists_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Understanding sort() and reverse() Parameters",
+        "content": "The sort() method accepts optional parameters: reverse=True sorts in descending order, and key specifies a function for custom sorting. The reverse() method has no parameters and simply flips the list order.\n\nExample:\n```python\nscores = [85, 92, 78, 95]\nscores.sort(reverse=True)\nprint(scores)  # Output: [95, 92, 85, 78]\n\nscores.reverse()\nprint(scores)  # Output: [78, 85, 92, 95]\n```"
+      },
+      "prompt": "Fill in the blank: To sort in descending order, use reverse=____",
+      "correct_answer": "True",
+      "accepted_answers": [
+        "True",
+        "true",
+        "1"
+      ],
+      "explanation": "The reverse parameter expects a boolean value. True indicates descending order, while False (the default) indicates ascending order.",
+      "prerequisites": [
+        "8.5_q13"
+      ]
+    },
+    {
+      "id": "8.5_q15",
+      "type": "code_ordering",
+      "concept": "sorting_and_reversing_lists_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Sequencing List Operations",
+        "content": "When performing multiple list operations, the order matters. Sorting changes the order of elements, and reversing flips that order. If you reverse before sorting, you get a different result than sorting then reversing.\n\nExample:\n```python\nlst = [3, 1, 4]\nlst.sort()\nprint(lst)       # [1, 3, 4]\nlst.reverse()\nprint(lst)       # [4, 3, 1]\n```"
+      },
+      "prompt": "Arrange the following lines in the correct order to produce [9, 5, 3] from [3, 5, 9]:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Sorting first arranges the list in ascending order [3, 5, 9], then reversing flips it to [9, 5, 3]. Reversing before sorting would produce [9, 5, 3] only if the list was already descending, which is not the case here.",
+      "prerequisites": [
+        "8.5_q14"
+      ]
+    },
+    {
+      "id": "8.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_and_reversing_lists_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Common Patterns with sort() and reverse()",
+        "content": "A common pattern is to sort first, then reverse for descending order. Another pattern uses sorted() to preserve the original list while creating a sorted copy. The reverse() method is often used after sorting to achieve descending order without the reverse parameter.\n\nExample:\n```python\noriginal = [10, 5, 8]\nsorted_copy = sorted(original)  # [5, 8, 10]\noriginal.sort(reverse=True)      # [10, 8, 5]\noriginal.reverse()               # [5, 8, 10]\n```"
+      },
+      "prompt": "Complete the pattern: sorted_desc = sorted(numbers, ____=True)",
+      "correct_answer": "reverse",
+      "accepted_answers": [
+        "reverse",
+        "rev"
+      ],
+      "explanation": "The sorted() function accepts a reverse parameter to control sort direction. Setting reverse=True sorts in descending order.",
+      "prerequisites": [
+        "8.5_q15"
+      ]
+    },
+    {
+      "id": "8.5_q17",
+      "type": "code_ordering",
+      "concept": "sorting_and_reversing_lists_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Algorithm for Sorting and Reversing",
+        "content": "An algorithm to process a list in descending order involves: (1) create or obtain the list, (2) sort it in ascending order, (3) reverse it to get descending order, or (4) use sort(reverse=True). Understanding this sequence helps in writing efficient code.\n\nExample:\n```python\ntasks = ['clean', 'cook', 'read']\ntasks.sort()\ntasks.reverse()\n# tasks is now ['read', 'cook', 'clean']\n```"
+      },
+      "prompt": "Order these steps to produce a descending list from ['apple', 'banana', 'cherry']:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Sorting first ensures a consistent ascending order, then reversing produces descending order. Using sort(reverse=True) directly is also valid, but the two-step approach demonstrates the underlying algorithm clearly.",
+      "prerequisites": [
+        "8.5_q16"
+      ]
+    },
+    {
+      "id": "8.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "sorting_and_reversing_lists_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "micro_lesson": {
+        "title": "Idiomatic Python for List Manipulation",
+        "content": "Python idioms favor readability and efficiency. A common idiom is to sort in place with sort() when the original list can be modified, and to use sorted() when preserving the original is important. Another idiom combines sorting and reversing for descending order in a single call.\n\nExample:\n```python\ndata = [4, 2, 7]\ndata.sort(reverse=True)\n# data is now [7, 4, 2]\n```"
+      },
+      "prompt": "Complete the idiom: lst.____(reverse=True) to sort in descending order",
+      "correct_answer": "sort",
+      "accepted_answers": [
+        "sort",
+        "sorted"
+      ],
+      "explanation": "sort(reverse=True) is the idiomatic in-place method for descending order. sorted(reverse=True) creates a new list, which is less idiomatic when the intent is to modify the existing list.",
+      "prerequisites": [
+        "8.5_q17"
+      ]
+    },
+    {
+      "id": "8.5_q19",
+      "type": "fix_the_code",
+      "concept": "sorting_and_reversing_lists_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Errors When Sorting and Reversing Lists",
+        "content": "When working with lists in Python, beginners often confuse methods that modify the list in place versus those that return a new list. The `sort()` method sorts a list in place and returns `None`, while the `sorted()` function returns a new sorted list. Similarly, `reverse()` reverses the list in place and returns `None`, whereas `reversed()` returns an iterator. A frequent mistake is assigning the result of `sort()` or `reverse()` back to the same variable, which leads to `None` being stored. Another common error is trying to sort a list containing mixed types, such as integers and strings, which raises a `TypeError`. Always verify whether you need the original list preserved or modified. For example:\n\n```python\nnumbers = [3, 1, 4, 1, 5]\nnumbers = numbers.sort()  # Bug: numbers becomes None\n\nwords = ['banana', 'apple', 'cherry']\nsorted_words = sorted(words)  # Correct: sorted_words is a new list\n```\n\nRemember to call `list()` on `reversed()` if you need a list object."
+      },
+      "prompt": "Fix the bug in this code for sorting and reversing lists errors:",
+      "starter_code": "# Fix this code\nPrint('Sorting and Reversing Lists')",
+      "solution_code": "print('Sorting and Reversing Lists')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "8.5_q20",
+      "type": "fix_the_code",
+      "concept": "sorting_and_reversing_lists_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "8.5_q19"
+      ],
+      "prompt": "The following code is intended to print the numbers from smallest to largest, but it does not work as expected. Fix the code so that it correctly sorts and displays the list.",
+      "starter_code": "numbers = [64, 34, 25, 12, 22, 11, 90]\nresult = numbers.sort()\nprint(result)",
+      "solution_code": "numbers = [64, 34, 25, 12, 22, 11, 90]\nnumbers.sort()\nprint(numbers)",
+      "hint": "Recall that `sort()` modifies the list in place and returns `None`. You do not need to assign its result to a variable.",
+      "explanation": "The original code assigned `None` to `result` because `sort()` returns `None`. By calling `sort()` directly on `numbers` and then printing `numbers`, we see the sorted list. This is the correct in-place sorting approach."
+    },
+    {
+      "id": "8.5_q21",
+      "type": "fix_the_code",
+      "concept": "sorting_and_reversing_lists_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q20"
+      ],
+      "prompt": "This code is supposed to reverse a list and handle an empty list gracefully. However, it crashes when the input list is empty. Fix the code so it works for both non-empty and empty lists.",
+      "starter_code": "def safe_reverse(data):\n    data.reverse()\n    return data\n\nempty = []\nprint(safe_reverse(empty))",
+      "solution_code": "def safe_reverse(data):\n    if not data:\n        return []\n    data = data.copy()\n    data.reverse()\n    return data\n\nempty = []\nprint(safe_reverse(empty))",
+      "hint": "Consider copying the list before reversing to avoid mutating the original, and check for an empty list before calling `reverse()`.",
+      "explanation": "The original code mutates the original list and still works for empty lists, but a safer pattern is to copy the list first to avoid side effects. The fixed version returns a new reversed list and safely handles empty input by returning an empty list."
+    },
+    {
+      "id": "8.5_q22",
+      "type": "fix_the_code",
+      "concept": "sorting_and_reversing_lists_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Mixed-Type Lists",
+        "content": "Python cannot compare values of incompatible types directly when sorting. If a list contains both strings and integers, calling `sort()` or `sorted()` raises a `TypeError` at runtime. For example:\n\n```python\nmixed = [10, 'apple', 5, 'banana']\nmixed.sort()  # Raises TypeError: '<' not supported between instances of 'str' and 'int'\n```\n\nTo avoid this, ensure all elements are of comparable types, or provide a `key` function that normalizes the comparison. For instance, you could convert everything to strings, though this changes the sort order. Another approach is to separate the data by type before sorting. Always test your code with edge-case inputs to catch such runtime errors early."
+      },
+      "prompt": "Fix the bug in this code for sorting and reversing lists runtime:",
+      "starter_code": "# Fix this code\nPrint('Sorting and Reversing Lists')",
+      "solution_code": "print('Sorting and Reversing Lists')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "8.5_q23",
+      "type": "fix_the_code",
+      "concept": "sorting_and_reversing_lists_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q22"
+      ],
+      "prompt": "The goal is to return a new list that is sorted in descending order without modifying the original list. The current implementation has a logic error. Fix it.",
+      "starter_code": "def desc_sorted(values):\n    values.sort(reverse=True)\n    return values\n\noriginal = [4, 2, 8, 1]\nprint(desc_sorted(original))",
+      "solution_code": "def desc_sorted(values):\n    return sorted(values, reverse=True)\n\noriginal = [4, 2, 8, 1]\nprint(desc_sorted(original))",
+      "hint": "Use `sorted()` instead of `sort()` so the original list remains unchanged, and set `reverse=True` for descending order.",
+      "explanation": "The original code sorted the list in place, mutating `original`. The corrected version uses `sorted(values, reverse=True)` to create and return a new descending list, leaving `original` intact."
+    },
+    {
+      "id": "8.5_q24",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.5_q23"
+      ],
+      "prompt": "Refactor the following function to be more efficient and readable. It should remove duplicates, sort the unique items in ascending order, and return the result. Avoid unnecessary intermediate variables.",
+      "starter_code": "def process(items):\n    temp = []\n    for x in items:\n        if x not in temp:\n            temp.append(x)\n    temp.sort()\n    return temp",
+      "solution_code": "def process(items):\n    return sorted(set(items))",
+      "test_cases": [
+        {
+          "input": "[3, 1, 2, 3, 2, 1]",
+          "expected": "[1, 2, 3]"
+        },
+        {
+          "input": "['z', 'a', 'b', 'a']",
+          "expected": "['a', 'b', 'z']"
+        },
+        {
+          "input": "[]",
+          "expected": "[]"
+        }
+      ],
+      "hint": "Think about built-in types that automatically enforce uniqueness and ordering, and how they can replace loops and manual sorting.",
+      "explanation": "The original code used a list and a linear `in` check, which is O(n^2) in the worst case. By converting to a `set`, duplicates are removed in O(n) average time, and `sorted()` returns a new sorted list. The refactored version is both faster and more concise."
+    },
+    {
+      "id": "8.5_q25",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q24"
+      ],
+      "prompt": "Write a Python program that creates a list of 10 random integers between 1 and 100, then sorts the list in ascending order and prints the result. After that, reverse the sorted list and print the final reversed list.",
+      "starter_code": "import random\n\nnumbers = [random.randint(1, 100) for _ in range(10)]\n# Sort and reverse the list here\nprint(numbers)",
+      "solution_code": "import random\n\nnumbers = [random.randint(1, 100) for _ in range(10)]\nnumbers.sort()\nprint(numbers)\nnumbers.reverse()\nprint(numbers)",
+      "test_cases": [
+        {
+          "input": "N/A (randomized)",
+          "expected_output": "A sorted list of 10 integers followed by the same list in reverse order"
+        }
+      ],
+      "hint": "Use the list.sort() method to sort in place, then use list.reverse() to reverse in place.",
+      "explanation": "The sort() method arranges elements in ascending order. The reverse() method flips the list in place. Both modify the original list."
+    },
+    {
+      "id": "8.5_q26",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "8.5_q25"
+      ],
+      "prompt": "Write a program that asks the user to enter 5 names, stores them in a list, sorts the names alphabetically, and then displays the list in reverse order.",
+      "starter_code": "names = []\nfor _ in range(5):\n    name = input('Enter a name: ')\n    names.append(name)\n# Sort and reverse here\nprint(names)",
+      "solution_code": "names = []\nfor _ in range(5):\n    name = input('Enter a name: ')\n    names.append(name)\nnames.sort()\nprint(names)\nnames.reverse()\nprint(names)",
+      "test_cases": [
+        {
+          "input": "Alice\nBob\nCharlie\nDiana\nEve",
+          "expected_output": "Sorted: ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve']\nReversed: ['Eve', 'Diana', 'Charlie', 'Bob', 'Alice']"
+        }
+      ],
+      "hint": "Call sort() on the list, then call reverse() before printing the final list.",
+      "explanation": "Sorting arranges strings alphabetically by default. Reversing flips the order of the sorted list."
+    },
+    {
+      "id": "8.5_q27",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.5_q26"
+      ],
+      "prompt": "Write a program that defines a list of dictionaries where each dictionary represents a student with 'name' and 'score'. Sort the list by score in descending order, then reverse the list and print both versions.",
+      "starter_code": "students = [\n    {'name': 'Alice', 'score': 85},\n    {'name': 'Bob', 'score': 92},\n    {'name': 'Charlie', 'score': 78},\n    {'name': 'Diana', 'score': 95}\n]\n# Sort by score descending, then reverse\nprint(students)",
+      "solution_code": "students = [\n    {'name': 'Alice', 'score': 85},\n    {'name': 'Bob', 'score': 92},\n    {'name': 'Charlie', 'score': 78},\n    {'name': 'Diana', 'score': 95}\n]\nstudents.sort(key=lambda x: x['score'], reverse=True)\nprint(students)\nstudents.reverse()\nprint(students)",
+      "test_cases": [
+        {
+          "input": "N/A",
+          "expected_output": "Sorted by score descending, then reversed"
+        }
+      ],
+      "hint": "Use the key parameter with a lambda function to sort by the 'score' value. Set reverse=True for descending order, then call reverse().",
+      "explanation": "The sort() method accepts a key function for custom ordering. reverse=True sorts from highest to lowest. Calling reverse() afterward flips the already-sorted list."
+    },
+    {
+      "id": "8.5_q28",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.5_q27"
+      ],
+      "prompt": "Given a list of temperatures in Celsius, write code to sort them in ascending order and then return only the last 3 temperatures after reversing the sorted list.",
+      "starter_code": "temps = [23, 15, 30, 10, 20, 25, 18]\n# Sort, reverse, and extract the last 3 elements\nresult = []\nprint(result)",
+      "solution_code": "temps = [23, 15, 30, 10, 20, 25, 18]\ntemps.sort()\ntemps.reverse()\nresult = temps[:3]\nprint(result)",
+      "test_cases": [
+        {
+          "input": "temps = [23, 15, 30, 10, 20, 25, 18]",
+          "expected_output": "[30, 25, 23]"
+        },
+        {
+          "input": "temps = [5, 1, 9, 3]",
+          "expected_output": "[9, 5, 3]"
+        }
+      ],
+      "hint": "After sorting and reversing, use list slicing with [:3] to get the first 3 elements, which are the last 3 from the original sorted list.",
+      "explanation": "Sorting ascending gives the smallest first. Reversing puts the largest first. Slicing [:3] extracts the first 3 items from that reversed list."
+    },
+    {
+      "id": "8.5_q29",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.5_q28"
+      ],
+      "prompt": "You are building a leaderboard for a coding competition. Write a program that stores player scores in a list of tuples (player_name, score), sorts by score descending, reverses the list to show the lowest scores first, and then prints only the top 3 entries from the reversed list.",
+      "starter_code": "leaderboard = [\n    ('Alice', 88),\n    ('Bob', 95),\n    ('Charlie', 72),\n    ('Diana', 91),\n    ('Eve', 85)\n]\n# Sort by score descending, reverse, then print top 3 from reversed\nprint(leaderboard)",
+      "solution_code": "leaderboard = [\n    ('Alice', 88),\n    ('Bob', 95),\n    ('Charlie', 72),\n    ('Diana', 91),\n    ('Eve', 85)\n]\nleaderboard.sort(key=lambda x: x[1], reverse=True)\nleaderboard.reverse()\nprint(leaderboard[:3])",
+      "test_cases": [
+        {
+          "input": "leaderboard as above",
+          "expected_output": "[('Charlie', 72), ('Eve', 85), ('Alice', 88)]"
+        }
+      ],
+      "hint": "Sort with key=lambda x: x[1] and reverse=True for highest first. Then reverse() to get lowest first. Slice [:3] to get the first 3 after reversal.",
+      "explanation": "This scenario combines sorting with a custom key, reversing for a different display order, and slicing to limit output. It mirrors real leaderboard adjustments."
+    },
+    {
+      "id": "8.5_q30",
+      "type": "write_the_code",
+      "concept": "sorting_and_reversing_lists_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "8.5_q29"
+      ],
+      "prompt": "Create a function that accepts a list of integers. The function must sort the list in ascending order, reverse it, and return a new list containing only the middle 4 elements if the list length is at least 4; otherwise return an empty list.",
+      "starter_code": "def extract_middle_reversed(nums):\n    sorted_nums = sorted(nums)\n    reversed_nums = sorted_nums[::-1]\n    # Complete the function to return middle 4 elements or empty list\n    return []\n\n# Test with [10, 2, 8, 4, 6, 1, 9, 3, 7, 5]\nprint(extract_middle_reversed([10, 2, 8, 4, 6, 1, 9, 3, 7, 5]))",
+      "solution_code": "def extract_middle_reversed(nums):\n    sorted_nums = sorted(nums)\n    reversed_nums = sorted_nums[::-1]\n    if len(reversed_nums) < 4:\n        return []\n    return reversed_nums[2:6]\n\nprint(extract_middle_reversed([10, 2, 8, 4, 6, 1, 9, 3, 7, 5]))",
+      "test_cases": [
+        {
+          "input": "[10, 2, 8, 4, 6, 1, 9, 3, 7, 5]",
+          "expected_output": "[8, 6, 4, 2]"
+        },
+        {
+          "input": "[5, 3]",
+          "expected_output": "[]"
+        }
+      ],
+      "hint": "After reversing, use slicing with indices that capture the middle 4 elements. For a list of length 10, indices 2 through 5 (exclusive) yield 4 elements.",
+      "explanation": "sorted() returns a new sorted list. [::-1] creates a reversed copy. Slicing [2:6] extracts elements at indices 2, 3, 4, and 5, which are the middle 4 of a 10-element reversed list."
+    }
+  ],
+  "unit_num": 8,
+  "learning_objectives": [
+    "Initialize and manipulate Python Sorting and Reversing Lists collections",
+    "Access elements efficiently using keys, indices, or membership tests",
+    "Distinguish between mutable and immutable data behaviors",
+    "Select the optimal data structure to represent structured data"
+  ],
+  "prerequisites": [
+    "8.4"
+  ]
+}

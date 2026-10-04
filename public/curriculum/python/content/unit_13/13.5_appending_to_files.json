@@ -1,0 +1,632 @@
+{
+  "lesson_id": "13.5",
+  "title": "Appending to Files",
+  "unit": "File Handling",
+  "items": [
+    {
+      "id": "13.5_q1",
+      "type": "micro_lesson",
+      "concept": "appending_to_files_basics",
+      "skill": "recognition",
+      "diff": "easy",
+      "title": "What Is Appending to a File?",
+      "content": "Appending to a file means adding new data to the end of an existing file without deleting its current contents. When you open a file in append mode, Python positions the cursor at the end of the file, so any new write operations add information after what is already there. This is useful for logging events, saving user inputs over time, or building a record incrementally. The built-in open() function accepts a second argument that specifies the mode. For appending, you use 'a' as the mode. If the file does not exist, Python will create it. Here is a simple example:\n\n```python\n# Open 'log.txt' in append mode and write a new line\nwith open('log.txt', 'a') as file:\n    file.write('New entry added.\\n')\n```\n\nNotice the use of the with statement, which ensures the file is automatically closed even if an error occurs. The 'a' mode is the key difference from write mode ('w'), which would erase the file first.",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "Appending to a file means adding new data to the end of an existing file without deleting its current contents. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "13.5_q2",
+      "type": "multiple_choice",
+      "concept": "appending_to_files_basics",
+      "skill": "recall",
+      "diff": "easy",
+      "prompt": "Which mode string should you use with open() to append data to a file without removing existing content?",
+      "options": [
+        "'r'",
+        "'w'",
+        "'a'",
+        "'x'"
+      ],
+      "correct_answer": "'a'",
+      "explanation": "The mode 'a' stands for append. It opens the file for writing and places the cursor at the end, preserving all existing data. Mode 'r' is read-only, 'w' overwrites the file, and 'x' creates a new file but fails if the file already exists.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.5_q1"
+      ]
+    },
+    {
+      "id": "13.5_q3",
+      "type": "micro_lesson",
+      "concept": "appending_to_files_syntax",
+      "skill": "understanding",
+      "diff": "easy",
+      "title": "Syntax for Appending with open()",
+      "content": "The syntax for appending relies on two important parts: the file path and the mode string. You call open() with the path to your file and 'a' as the second argument. It is best practice to use a with block so the file handle is closed automatically. Inside the block, you can call write() to add strings. Remember that write() does not add a newline automatically, so you must include '\\n' if you want each entry on its own line. Here is the full pattern:\n\n```python\nwith open('filename.txt', 'a') as f:\n    f.write('Some text to append.\\n')\n```\n\nYou can also append multiple lines by calling write() repeatedly or by passing a longer string. The file remains open only for the duration of the with block, which prevents resource leaks.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.5_q2"
+      ],
+      "prompt": "",
+      "explanation": "The syntax for appending relies on two important parts: the file path and the mode string. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "13.5_q4",
+      "type": "multiple_choice",
+      "concept": "appending_to_files_syntax",
+      "skill": "reasoning",
+      "diff": "easy",
+      "prompt": "Given the code below, what will be written to 'notes.txt'?\n\n```python\nwith open('notes.txt', 'a') as f:\n    f.write('Meeting notes.\\n')\n    f.write('Action items.\\n')\n```",
+      "options": [
+        "Only 'Meeting notes.'",
+        "Only 'Action items.'",
+        "'Meeting notes.\\nAction items.\\n'",
+        "Nothing, because the file was not opened correctly"
+      ],
+      "correct_answer": "'Meeting notes.\\nAction items.\\n'",
+      "explanation": "Both write() calls execute inside the same with block in append mode. The first call writes 'Meeting notes.\\n' and moves the cursor to the end. The second call appends 'Action items.\\n' after it. The complete content becomes 'Meeting notes.\\nAction items.\\n'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.5_q3"
+      ]
+    },
+    {
+      "id": "13.5_q5",
+      "type": "multiple_choice",
+      "concept": "appending_to_files_matching",
+      "skill": "recognition",
+      "diff": "easy",
+      "prompt": "Match the scenario to the correct file mode.",
+      "options": [
+        "Append to a log file: open('log.txt', 'a')",
+        "Read-only access: open('data.txt', 'a')",
+        "Overwrite a settings file: open('config.txt', 'a')",
+        "Create and write a new file: open('new.txt', 'a')"
+      ],
+      "correct_answer": "Append to a log file: open('log.txt', 'a')",
+      "explanation": "The 'a' mode is specifically for appending, which matches the log-file scenario. Read-only should use 'r', overwrite should use 'w', and create-only should use 'x'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.5_q4"
+      ]
+    },
+    {
+      "id": "13.5_q6",
+      "type": "multiple_choice",
+      "concept": "appending_to_files_pitfalls",
+      "skill": "comprehension",
+      "diff": "easy",
+      "prompt": "Why might a programmer accidentally lose data when appending to a file?",
+      "options": [
+        "Using 'a' mode instead of 'w' mode",
+        "Forgetting to include a newline character",
+        "Using 'w' mode instead of 'a' mode",
+        "Using the with statement"
+      ],
+      "correct_answer": "Using 'w' mode instead of 'a' mode",
+      "explanation": "Mode 'w' truncates the file before writing, so any existing content is erased. If the goal was to keep old data and add new data, 'w' is the wrong choice. Always verify the mode string before opening a file for writing.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.5_q5"
+      ]
+    },
+    {
+      "id": "13.5_q7",
+      "type": "code_prediction",
+      "concept": "file_append_mode",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q6"
+      ],
+      "prompt": "In the context of Appending to Files, what is the primary behavior demonstrated here?\n```python\n# Appending to Files\nprint('file_append_mode')\n```",
+      "options": [
+        "file_append_mode",
+        "SyntaxError",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "file_append_mode",
+      "explanation": "This directly illustrates the standard behavior of file_append_mode: append mode ('a') adds bytes to the end without truncating existing content."
+    },
+    {
+      "id": "13.5_q8",
+      "type": "multiple_choice",
+      "concept": "file_append_mode_rules",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q7"
+      ],
+      "prompt": "What is a core design principle when working with Appending to Files in Python?",
+      "options": [
+        "Append mode ('a') adds bytes to the end without truncating existing content",
+        "It bypasses all memory management constraints",
+        "It causes the interpreter to compile to C++ automatically",
+        "It can only be executed in interactive REPL mode"
+      ],
+      "correct_answer": "Append mode ('a') adds bytes to the end without truncating existing content",
+      "explanation": "Understanding this rule is essential: append mode ('a') adds bytes to the end without truncating existing content."
+    },
+    {
+      "id": "13.5_q9",
+      "type": "fix_the_code",
+      "concept": "file_append_mode_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q8"
+      ],
+      "prompt": "Fix this code snippet implementing Appending to Files correctly:",
+      "correct_answer": "45",
+      "explanation": "Applying standard Python idioms ensures correct behavior: append mode ('a') adds bytes to the end without truncating existing content.",
+      "starter_code": "# Appending to Files implementation\n___",
+      "solution_code": "# Appending to Files implementation\nwith open('log.txt', 'a') as f:\n    f.write('event\\n')"
+    },
+    {
+      "id": "13.5_q10",
+      "type": "write_the_code",
+      "concept": "appending_to_files_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q9"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Appending to Files. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Appending to Files\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Appending to Files ensures testable domain operations."
+    },
+    {
+      "id": "13.5_q11",
+      "type": "multiple_choice",
+      "concept": "file_append_mode_tradeoffs",
+      "skill": "evaluation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q10"
+      ],
+      "prompt": "Which common pitfall must programmers avoid when using Appending to Files?",
+      "options": [
+        "Misunderstanding edge cases related to: append mode ('a') adds bytes to the end without truncating existing content",
+        "Forgetting that Python does not support functions",
+        "Assuming integers are capped at 32 bits",
+        "Using lowercase variable names"
+      ],
+      "correct_answer": "Misunderstanding edge cases related to: append mode ('a') adds bytes to the end without truncating existing content",
+      "explanation": "Careful attention to requirements avoids common traps: append mode ('a') adds bytes to the end without truncating existing content."
+    },
+    {
+      "id": "13.5_q12",
+      "type": "write_the_code",
+      "concept": "file_append_mode_application",
+      "skill": "implementation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q11"
+      ],
+      "prompt": "Write the canonical Python code statement for Appending to Files:",
+      "correct_answer": "60",
+      "explanation": "Canonical implementation: with open('log.txt', 'a') as f:\n    f.write('event\\n'). Append mode ('a') adds bytes to the end without truncating existing content.",
+      "starter_code": "# Complete the statement\n___",
+      "solution_code": "with open('log.txt', 'a') as f:\n    f.write('event\\n')"
+    },
+    {
+      "id": "13.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "appending_to_files_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.5_q12"
+      ],
+      "micro_lesson": {
+        "title": "Appending to Files: The Append Mode",
+        "content": "To add data to an existing file without deleting its contents, you open the file in append mode. In Python, this is done by passing 'a' as the second argument to the open() function. The file pointer is automatically placed at the end of the file, so any write operation adds new content after the last character. After writing, always close the file or use a with statement to ensure resources are released properly.\n\nExample:\nwith open('log.txt', 'a') as f:\n    f.write('New entry\\n')"
+      },
+      "prompt": "with open('notes.txt', '___') as f:\n    f.write('Python is fun!')",
+      "correct_answer": "with open('notes.txt', 'a') as f:\n    f.write('Python is fun\\n')",
+      "accepted_answers": [
+        "with open('notes.txt', 'a') as f:\n    f.write('Python is fun\\n')",
+        "f = open('notes.txt', 'a')\n    f.write('Python is fun\\n')\n    f.close()"
+      ],
+      "explanation": "Append mode is denoted by 'a'. Using 'with' ensures the file is closed automatically. The newline character '\\n' moves the cursor to the next line after writing."
+    },
+    {
+      "id": "13.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "appending_to_files_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q13"
+      ],
+      "micro_lesson": {
+        "title": "Key Keywords for Appending",
+        "content": "When appending to files, two keywords are essential: open and write. The open() function initializes the file connection, while write() inserts a string into the file. Unlike read(), write() does not return data; it returns the number of characters written. If the file does not exist, append mode creates it automatically. Remember that write() does not add newlines automatically, so you must include '\\n' explicitly when you want line breaks.\n\nExample:\nwith open('data.txt', 'a') as file:\n    file.write('Record: 42\\n')"
+      },
+      "prompt": "To append data, you must use the 'open' function with mode 'a' and then call the ____ method on the file object to insert text:",
+      "correct_answer": "write",
+      "accepted_answers": [
+        "write",
+        "writeln"
+      ],
+      "explanation": "The write() method is the standard way to add text to a file in append mode. 'writeln' is not a built-in Python file method."
+    },
+    {
+      "id": "13.5_q15",
+      "type": "code_ordering",
+      "concept": "appending_to_files_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Sequence for Appending",
+        "content": "Appending to a file follows a strict sequence: (1) open the file in append mode, (2) write the desired content, (3) close the file or exit the with block. Skipping the close step can lead to data loss because the buffer may not flush to disk. The with statement handles closing automatically, making it the preferred approach for reliable file operations.\n\nExample sequence:\nwith open('output.txt', 'a') as f:\n    f.write('Hello\\n')\n# file is closed automatically here"
+      },
+      "prompt": "Arrange the following steps in the correct order to append a sentence to a file:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The file must be opened before writing. The with statement ensures safe opening and automatic closing. Writing before opening causes a NameError, and closing before opening is invalid."
+    },
+    {
+      "id": "13.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "appending_to_files_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Appending Patterns",
+        "content": "A common pattern is appending multiple lines in a loop. Each iteration opens or reuses the file in append mode and writes a line. Another pattern is appending with a timestamp for logging. In both cases, the string passed to write() must include '\\n' if you want each entry on its own line. Forgetting the newline results in all data appearing on a single line, which makes logs hard to read.\n\nExample:\nwith open('events.txt', 'a') as log:\n    log.write(f'{time}: event occurred\\n')"
+      },
+      "prompt": "Fill in the blank to complete the pattern for appending a timestamped entry with a newline:",
+      "correct_answer": "log.write(f'{time}: event occurred\\n')",
+      "accepted_answers": [
+        "log.write(f'{time}: event occurred\\n')",
+        "log.write(f'{time}: event occurred + '\\n')'"
+      ],
+      "explanation": "The f-string formats the timestamp, and '\\n' ensures the next append starts on a new line. Omitting '\\n' would concatenate entries."
+    },
+    {
+      "id": "13.5_q17",
+      "type": "code_ordering",
+      "concept": "appending_to_files_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm for Appending User Input",
+        "content": "To build an append-based log, the algorithm is: (1) define the filename, (2) collect input from the user, (3) open the file in append mode, (4) write the input with a newline, (5) close the file. If the file does not exist, this algorithm creates it. Using with avoids manual closing. Repeating this process builds a persistent record across program runs.\n\nExample:\nfilename = 'diary.txt'\nentry = input('Add entry: ')\nwith open(filename, 'a') as f:\n    f.write(entry + '\\n')"
+      },
+      "prompt": "Order the steps to create a simple append-only diary program:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Input must be collected before the file is opened and written. Opening before input is valid but less logical; writing before input is impossible because entry is undefined."
+    },
+    {
+      "id": "13.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "appending_to_files_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Appending in Python",
+        "content": "The most Pythonic idiom for appending is the with statement combined with f.write(). Another useful idiom is appending inside a loop while keeping the file open across iterations, though this is less common because reopening is safer. A robust idiom includes checking that the write succeeded by inspecting the return value, which is the number of characters written. For simple scripts, the with block is sufficient and preferred.\n\nExample idiom:\nwith open('report.txt', 'a') as f:\n    chars = f.write('Summary: OK\\n')\n    print(f'Wrote {chars} characters')"
+      },
+      "prompt": "with open('log.txt', 'a') as f:\n    bytes_written = f.___('entry\\n')",
+      "correct_answer": "f.write('Summary: OK\\n')",
+      "accepted_answers": [
+        "f.write('Summary: OK\\n')",
+        "f.write('Summary: OK\\n', return=True)"
+      ],
+      "explanation": "f.write() returns the integer count of characters written. It does not accept a return argument. This return value is useful for confirming that data was persisted."
+    },
+    {
+      "id": "13.5_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "appending_to_files_errors",
+      "prerequisites": [
+        "13.5_q18"
+      ],
+      "prompt": "Identify the errors in the following code that attempts to append data to a file.",
+      "starter_code": "def log_message(msg):\n    f = open('log.txt', 'r')\n    f.write(msg + '\\n')\n    f.close()",
+      "solution_code": "def log_message(msg):\n    f = open('log.txt', 'a')\n    f.write(msg + '\\n')\n    f.close()",
+      "hint": "Check the file mode used and whether the file is properly closed after writing.",
+      "explanation": "The original code opens the file in read mode ('r') instead of append mode ('a'), which raises a ValueError when write() is called. Additionally, it does not handle potential exceptions if the file cannot be opened."
+    },
+    {
+      "id": "13.5_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "concept": "appending_to_files_fix",
+      "prerequisites": [
+        "13.5_q19"
+      ],
+      "prompt": "Fix the code so it correctly appends a name to 'names.txt' without overwriting existing content.",
+      "starter_code": "def add_name(name):\n    f = open('names.txt', 'w')\n    f.write(name + '\\n')",
+      "solution_code": "def add_name(name):\n    f = open('names.txt', 'a')\n    f.write(name + '\\n')\n    f.close()",
+      "hint": "Change the mode from 'w' to 'a' to preserve existing data.",
+      "explanation": "Using 'w' truncates the file, deleting prior entries. Switching to 'a' ensures the new name is added at the end while keeping existing content intact."
+    },
+    {
+      "id": "13.5_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "appending_to_files_edge_cases",
+      "prerequisites": [
+        "13.5_q20"
+      ],
+      "prompt": "Correct the code to safely append a list of scores, ensuring each entry is on its own line and the file handle is always closed.",
+      "starter_code": "def append_scores(scores):\n    f = open('scores.txt', 'a')\n    for s in scores:\n        f.write(str(s))\n",
+      "solution_code": "def append_scores(scores):\n    f = open('scores.txt', 'a')\n    try:\n        for s in scores:\n            f.write(str(s) + '\\n')\n    finally:\n        f.close()",
+      "hint": "Add a newline after each score and ensure the file is closed even if an error occurs.",
+      "explanation": "Without '\\n', all scores merge into one line. Using a try/finally block guarantees the file is closed, preventing resource leaks if an exception happens during iteration."
+    },
+    {
+      "id": "13.5_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "appending_to_files_runtime",
+      "prerequisites": [
+        "13.5_q21"
+      ],
+      "prompt": "Explain why the following runtime error occurs when the program is executed.",
+      "starter_code": "def save_data(data):\n    f = open('data.txt', 'a')\n    f.write(data)",
+      "solution_code": "def save_data(data):\n    try:\n        f = open('data.txt', 'a')\n        f.write(data)\n    except IOError as e:\n        print('Error:', e)\n    finally:\n        f.close()",
+      "hint": "Consider what happens if the script lacks write permissions in the target directory.",
+      "explanation": "If the operating system denies write access to 'data.txt' or its directory, open() raises an IOError at runtime. The original code lacks exception handling, causing an unhandled crash."
+    },
+    {
+      "id": "13.5_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "concept": "appending_to_files_logic_repair",
+      "prerequisites": [
+        "13.5_q22"
+      ],
+      "prompt": "Repair the logic so the function appends a formatted timestamp and message to 'events.log', avoiding duplicate entries when called rapidly.",
+      "starter_code": "def log_event(msg):\n    import datetime\n    t = datetime.datetime.now()\n    line = 'Timestamp: ' + t + ' - ' + msg\n    f = open('events.log', 'a')\n    f.write(line + '\\n')",
+      "solution_code": "def log_event(msg):\n    import datetime\n    t = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')\n    line = 'Timestamp: ' + t + ' - ' + msg\n    f = open('events.log', 'a')\n    f.write(line + '\\n')\n    f.close()",
+      "hint": "datetime.now() returns a datetime object, not a string. Convert it before concatenation.",
+      "explanation": "Concatenating a datetime object directly to strings raises a TypeError. Using strftime() produces a string representation. The file is also explicitly closed to release the handle."
+    },
+    {
+      "id": "13.5_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "concept": "appending_to_files_optimization",
+      "prerequisites": [
+        "13.5_q23"
+      ],
+      "prompt": "Refactor the repetitive file-handling pattern into a reusable, efficient utility that supports appending multiple lines and uses a context manager.",
+      "starter_code": "def append_line1(text):\n    f = open('output.txt', 'a')\n    f.write(text + '\\n')\n    f.close()\n\ndef append_line2(text):\n    f = open('output.txt', 'a')\n    f.write(text + '\\n')\n    f.close()\n\ndef append_line3(text):\n    f = open('output.txt', 'a')\n    f.write(text + '\\n')\n    f.close()",
+      "solution_code": "def append_to_file(filepath, lines):\n    with open(filepath, 'a') as f:\n        for line in lines:\n            f.write(line + '\\n')\n\n# Example usage:\n# append_to_file('output.txt', ['first', 'second', 'third'])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "append_to_file('test.txt', ['a', 'b'])",
+          "description": "append_to_file('test.txt', ['a', 'b'])"
+        },
+        {
+          "input": "",
+          "expected_output": "append_to_file('test.txt', ['x'])",
+          "description": "append_to_file('test.txt', ['x'])"
+        },
+        {
+          "input": "",
+          "expected_output": "append_to_file('test.txt', [])",
+          "description": "append_to_file('test.txt', [])"
+        }
+      ],
+      "hint": "Use 'with' to manage the file automatically and accept an iterable of lines to reduce code duplication.",
+      "explanation": "The original code duplicates file-open and close logic across three functions. The refactored version uses a context manager ('with') to guarantee closure, iterates over any iterable of lines, and writes each with a newline, making it scalable and memory-efficient."
+    },
+    {
+      "id": "13.5_q25",
+      "type": "write_the_code",
+      "concept": "appending_to_files_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q24"
+      ],
+      "prompt": "Write a Python program that opens a file named 'log.txt' in append mode and writes the string 'New entry appended.' to it.",
+      "starter_code": "file = open('log.txt', 'r')\nfile.write('New entry appended.')\nfile.close()",
+      "solution_code": "file = open('log.txt', 'a')\nfile.write('New entry appended.')\nfile.close()",
+      "test_cases": [
+        {
+          "input": "log.txt does not exist",
+          "expected_output": "File 'log.txt' created and 'New entry appended.' written to it."
+        },
+        {
+          "input": "log.txt already contains 'Old entry.'",
+          "expected_output": "File contains 'Old entry.\\nNew entry appended.'"
+        }
+      ],
+      "hint": "Append mode is represented by 'a'. Opening in 'r' mode will raise an error when writing.",
+      "explanation": "Append mode ('a') creates the file if it does not exist or positions the cursor at the end if it does, ensuring new data is added without overwriting existing content."
+    },
+    {
+      "idx": 26,
+      "id": "13.5_q26",
+      "type": "write_the_code",
+      "concept": "appending_to_files_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.5_q25"
+      ],
+      "prompt": "Create a Python script that appends a timestamped message to 'notes.txt' each time it runs.",
+      "starter_code": "import datetime\nfile = open('notes.txt', 'w')\nfile.write(f'{datetime.datetime.now()}: Note\\n')",
+      "solution_code": "import datetime\nfile = open('notes.txt', 'a')\nfile.write(f'{datetime.datetime.now()}: Note\\n')",
+      "test_cases": [
+        {
+          "input": "First run",
+          "expected_output": "File contains one line with current timestamp and 'Note'."
+        },
+        {
+          "input": "Second run immediately after",
+          "expected_output": "File contains two lines, each with a timestamp and 'Note'."
+        }
+      ],
+      "hint": "Use 'a' mode instead of 'w' mode so previous notes are preserved.",
+      "explanation": "Using 'a' mode preserves prior entries. The f-string formats the current timestamp, and a newline character ensures each entry appears on its own line."
+    },
+    {
+      "idx": 27,
+      "id": "13.5_q27",
+      "type": "write_the_code",
+      "concept": "appending_to_files_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q26"
+      ],
+      "prompt": "Write a robust Python function append_log(filename, message) that safely appends a message to a log file, creating it if necessary, and handles potential I/O errors gracefully.",
+      "starter_code": "def append_log(filename, message):\n    file = open(filename, 'a')\n    file.write(message)\n    file.close()",
+      "solution_code": "def append_log(filename, message):\n    try:\n        with open(filename, 'a') as file:\n            file.write(message + '\\n')\n    except IOError as e:\n        print(f'Error appending to {filename}: {e}')",
+      "test_cases": [
+        {
+          "input": "append_log('app.log', 'User login')",
+          "expected_output": "File 'app.log' created with 'User login\\n' or error message printed."
+        },
+        {
+          "input": "append_log('/root/protected.log', 'test')",
+          "expected_output": "PermissionError caught and printed; file unchanged."
+        }
+      ],
+      "hint": "Use a with statement for automatic resource cleanup and wrap the operation in a try-except block to catch IOError.",
+      "explanation": "The with statement ensures the file is closed even if an exception occurs. Catching IOError allows the program to continue running instead of crashing when permissions or disk space issues arise."
+    },
+    {
+      "idx": 28,
+      "id": "13.5_q28",
+      "type": "write_the_code",
+      "concept": "appending_to_files_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q27"
+      ],
+      "prompt": "Given a list of strings, write code that appends each string as a separate line to 'data.txt' without using a loop.",
+      "starter_code": "lines = ['apple', 'banana', 'cherry']\nfile = open('data.txt', 'a')\nfile.write(lines)",
+      "solution_code": "lines = ['apple', 'banana', 'cherry']\nwith open('data.txt', 'a') as file:\n    file.writelines(f'{line}\\n' for line in lines)",
+      "test_cases": [
+        {
+          "input": "lines = ['x', 'y', 'z']",
+          "expected_output": "File contains 'x\\ny\\nz\\n' appended."
+        },
+        {
+          "input": "lines = []",
+          "expected_output": "File unchanged; no error raised."
+        }
+      ],
+      "hint": "Use the writelines method with a generator expression to write each element on its own line.",
+      "explanation": "writelines expects an iterable of strings. By passing a generator expression that yields each line with a newline, we avoid an explicit for loop while ensuring each entry is on a separate line."
+    },
+    {
+      "idx": 29,
+      "id": "13.5_q29",
+      "type": "write_the_code",
+      "concept": "appending_to_files_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q28"
+      ],
+      "prompt": "Design a Python script for a small IoT sensor network that appends a JSON-formatted log entry (timestamp, sensor_id, reading) to 'sensor_log.jsonl' every minute. The script must handle file creation, append safely, and ensure each entry is on its own line.",
+      "starter_code": "import json\nimport datetime\nentry = {'time': datetime.datetime.now(), 'id': 'S1', 'value': 23.5}\nfile = open('sensor_log.jsonl', 'a')\nfile.write(json.dumps(entry))",
+      "solution_code": "import json\nimport datetime\n\ndef log_reading(sensor_id, value):\n    entry = {\n        'time': datetime.datetime.now().isoformat(),\n        'sensor_id': sensor_id,\n        'value': value\n    }\n    with open('sensor_log.jsonl', 'a') as file:\n        file.write(json.dumps(entry) + '\\n')",
+      "test_cases": [
+        {
+          "input": "log_reading('S1', 23.5); log_reading('S2', 45.0)",
+          "expected_output": "File contains two valid JSON objects, each on a separate line."
+        },
+        {
+          "input": "Simulate permission denied on 'sensor_log.jsonl'",
+          "expected_output": "IOError caught and logged; program continues."
+        }
+      ],
+      "hint": "Use json.dumps to serialize the dictionary and add a newline after each JSON object. Wrap in a with statement and include error handling.",
+      "explanation": "JSON Lines format (one JSON object per line) is ideal for streaming logs. Using isoformat() gives a standard timestamp, and the with statement plus try-except ensures reliability in production environments."
+    },
+    {
+      "idx": 30,
+      "id": "13.5_q30",
+      "type": "write_the_code",
+      "concept": "appending_to_files_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.5_q29"
+      ],
+      "prompt": "Write a complete Python program that appends user input to 'diary.txt' until the user types 'quit'. The program must validate that the file path is writable, handle all exceptions, and use a context manager for file operations.",
+      "starter_code": "file = open('diary.txt', 'a')\nwhile True:\n    text = input('Enter diary entry (quit to stop): ')\n    if text == 'quit':\n        break\n    file.write(text + '\\n')",
+      "solution_code": "import os\n\ndef append_diary(filepath):\n    if not os.path.exists(os.path.dirname(filepath)):\n        print(f'Directory does not exist: {os.path.dirname(filepath)}')\n        return\n    try:\n        with open(filepath, 'a') as file:\n            while True:\n                text = input('Enter diary entry (quit to stop): ')\n                if text == 'quit':\n                    break\n                file.write(text + '\\n')\n    except PermissionError:\n        print(f'Permission denied: cannot write to {filepath}')\n    except Exception as e:\n        print(f'Unexpected error: {e}')\n\nappend_diary('diary.txt')",
+      "test_cases": [
+        {
+          "input": "User enters 'Hello' then 'quit'",
+          "expected_output": "File 'diary.txt' contains 'Hello\\n' appended."
+        },
+        {
+          "input": "Directory '/tmp/diary_dir' does not exist and filepath is '/tmp/diary_dir/diary.txt'",
+          "expected_output": "Program prints directory error and exits without file operation."
+        }
+      ],
+      "hint": "Check directory existence with os.path.exists and os.path.dirname before opening. Use a with statement and catch PermissionError specifically.",
+      "explanation": "A production-grade file appender validates the environment before attempting I/O, uses context managers for guaranteed cleanup, and distinguishes between expected permission issues and unexpected runtime errors for better debugging and user experience."
+    }
+  ],
+  "unit_num": 13,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Appending to Files",
+    "Apply idiomatic Python patterns when working with Appending to Files",
+    "Debug common runtime exceptions and logic errors associated with Appending to Files",
+    "Implement production-ready code utilizing Appending to Files"
+  ],
+  "prerequisites": [
+    "13.4"
+  ]
+}

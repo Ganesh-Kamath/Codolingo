@@ -1,0 +1,657 @@
+{
+  "lesson_id": "23.1",
+  "title": "Iterables vs Iterators",
+  "unit": "Iterators and Generators",
+  "items": [
+    {
+      "id": "23.1_q1",
+      "type": "micro_lesson",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "iterables_vs_iterators_basics",
+      "title": "What Are Iterables and Iterators?",
+      "content": "An iterable is any object that can be looped over, such as a list, tuple, or string. It implements the `__iter__` method, which returns an iterator. An iterator is an object that keeps track of its position in a sequence and implements both `__iter__` and `__next__`. The `__next__` method returns the next item and raises `StopIteration` when exhausted. You can think of an iterable as a container and an iterator as a pointer moving through that container. For example:\n\n```python\nmy_list = [10, 20, 30]\nit = iter(my_list)\nprint(next(it))  # 10\nprint(next(it))  # 20\nprint(next(it))  # 30\n# print(next(it))  # raises StopIteration\n```\n\nKey takeaway: every iterator is an iterable, but not every iterable is an iterator (unless you call `iter()` on it).",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "An iterable is any object that can be looped over, such as a list, tuple, or string. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "23.1_q2",
+      "type": "multiple_choice",
+      "skill": "recall",
+      "diff": "easy",
+      "concept": "iterables_vs_iterators_basics",
+      "prompt": "Which statement correctly describes the relationship between iterables and iterators?",
+      "options": [
+        "Every iterable is an iterator, but not every iterator is an iterable.",
+        "Every iterator is an iterable, but not every iterable is an iterator.",
+        "Iterables and iterators are completely unrelated concepts.",
+        "Iterators can only be created from strings, not from lists."
+      ],
+      "correct_answer": "Every iterator is an iterable, but not every iterable is an iterator.",
+      "explanation": "An iterator implements `__iter__` and `__next__`, so it is itself iterable. However, a list is iterable but not an iterator until you call `iter()` on it.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.1_q1"
+      ]
+    },
+    {
+      "id": "23.1_q3",
+      "type": "micro_lesson",
+      "skill": "understanding",
+      "diff": "easy",
+      "concept": "iterables_vs_iterators_syntax",
+      "title": "Using `iter()` and `next()` in Code",
+      "content": "To convert an iterable into an iterator, use the built-in `iter()` function. Once you have an iterator, you retrieve values one at a time with `next()`. If the iterator is exhausted, `next()` raises `StopIteration`. This is useful when you need fine-grained control over traversal instead of a `for` loop. Consider this pattern:\n\n```python\ncolors = ['red', 'green', 'blue']\ncolor_iter = iter(colors)\nprint(next(color_iter))  # red\nprint(next(color_iter))  # green\nprint(next(color_iter))  # blue\n```\n\nNotice that calling `iter()` on the same list again produces a fresh iterator, so you can restart traversal without resetting the original iterable.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.1_q2"
+      ],
+      "prompt": "",
+      "explanation": "To convert an iterable into an iterator, use the built-in `iter()` function. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "23.1_q4",
+      "type": "multiple_choice",
+      "skill": "reasoning",
+      "diff": "easy",
+      "concept": "iterables_vs_iterators_syntax",
+      "prompt": "What does the following code print?\n\n```python\nnums = [1, 2, 3]\nit = iter(nums)\nprint(next(it))\nprint(next(it))\n```",
+      "options": [
+        "1 and 2",
+        "1 and 3",
+        "2 and 3",
+        "1, 2, and 3"
+      ],
+      "correct_answer": "1 and 2",
+      "explanation": "The first call to `next(it)` returns `1`, and the second call returns `2`. The iterator has not yet reached `3`, so it is not printed.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.1_q3"
+      ]
+    },
+    {
+      "id": "23.1_q5",
+      "type": "multiple_choice",
+      "skill": "recognition",
+      "diff": "easy",
+      "concept": "iterables_vs_iterators_matching",
+      "prompt": "Match each example to the correct category: iterable or iterator.",
+      "options": [
+        "List: iterator; `iter(list)`: iterable",
+        "List: iterable; `iter(list)`: iterator",
+        "List: iterator; `iter(list)`: iterator",
+        "List: iterable; `iter(list)`: iterable"
+      ],
+      "correct_answer": "List: iterable; `iter(list)`: iterator",
+      "explanation": "A list is an iterable because it can be looped over. Calling `iter(list)` returns an iterator object that yields items one by one.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.1_q4"
+      ]
+    },
+    {
+      "id": "23.1_q6",
+      "type": "multiple_choice",
+      "skill": "comprehension",
+      "diff": "easy",
+      "concept": "iterables_vs_iterators_pitfalls",
+      "prompt": "What happens if you call `next()` on an exhausted iterator without handling the exception?",
+      "options": [
+        "It returns `None` silently.",
+        "It raises `StopIteration`.",
+        "It resets the iterator to the beginning.",
+        "It creates a new iterator automatically."
+      ],
+      "correct_answer": "It raises `StopIteration`.",
+      "explanation": "Once an iterator is exhausted, any further call to `next()` raises `StopIteration`. This is the signal that the sequence is finished, and it must be caught or allowed to propagate.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.1_q5"
+      ]
+    },
+    {
+      "id": "23.1_q7",
+      "type": "code_prediction",
+      "concept": "iterables_vs_iterators_execution",
+      "skill": "prediction",
+      "diff": "easy",
+      "prerequisites": [
+        "23.1_q6"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nmy_list = [1, 2, 3]\nit = iter(my_list)\nprint(next(it))\nprint(next(it))\nprint(next(it))\n```",
+      "options": [
+        "1 2 3",
+        "1 2",
+        "Error: list is not iterable",
+        "None None None"
+      ],
+      "correct_answer": "1 2 3",
+      "explanation": "Calling iter() on a list returns an iterator object. Each call to next() retrieves the next item from the iterator until exhaustion. The output prints 1, then 2, then 3 on separate lines.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "23.1_q8",
+      "type": "output_prediction",
+      "concept": "iterables_vs_iterators_execution",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "23.1_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef my_gen():\n    yield 10\n    yield 20\n    yield 30\n\ngen = my_gen()\nprint(next(gen))\nprint(next(gen))\nprint(next(gen))\nprint(next(gen))\n```",
+      "options": [
+        "10 20 30 then StopIteration",
+        "10 20 30 40",
+        "Error: generator has no next",
+        "10 20 30 then None"
+      ],
+      "correct_answer": "10 20 30 then StopIteration",
+      "explanation": "A generator function returns a generator object when called. Each yield produces a value. After the last yield, the next call raises StopIteration. The print statements execute sequentially, so the output shows 10, 20, 30, then the exception propagates.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "23.1_q9",
+      "type": "code_prediction",
+      "concept": "iterables_vs_iterators_flow",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "23.1_q8"
+      ],
+      "prompt": "What is the final value of x after executing this code?\n\n```python\ndef make_iter():\n    data = [5, 6, 7]\n    it = iter(data)\n    x = next(it)\n    for item in it:\n        x = item + 1\n    return x\n\nprint(make_iter())\n```",
+      "options": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "correct_answer": "8",
+      "explanation": "The for loop iterates over the remaining items in the iterator after the first next(). The first item 5 is consumed before the loop, so the loop processes 6 and 7. When item is 6, x becomes 7. When item is 7, x becomes 8. The function returns 8.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "23.1_q10",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_analysis",
+      "skill": "analysis",
+      "diff": "medium",
+      "prerequisites": [
+        "23.1_q9"
+      ],
+      "prompt": "Explain why the following code raises an error on the second loop.\n\n```python\nnums = [1, 2, 3]\nfor n in nums:\n    print(n)\n\nfor n in nums:\n    print(n)\n```",
+      "correct_answer": "The list is iterable, and each for loop creates a fresh iterator, so both loops run successfully.",
+      "explanation": "Lists are iterables. The for statement internally calls iter() each time it starts a loop, producing a new iterator from the same iterable. Therefore, the second loop is independent and prints 1, 2, 3 again without error.",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for Iterables vs Iterators\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Iterables vs Iterators')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Iterables vs Iterators"
+        }
+      ]
+    },
+    {
+      "id": "23.1_q11",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_tracing",
+      "skill": "tracing",
+      "diff": "medium",
+      "prerequisites": [
+        "23.1_q10"
+      ],
+      "prompt": "Trace the execution and state changes in this code. Provide the value returned by each next() call and the final state of the iterator.\n\n```python\ndef countdown(n):\n    while n > 0:\n        yield n\n        n -= 1\n\nc = countdown(3)\nprint(next(c))\nprint(next(c))\nprint(next(c))\nprint(next(c))\n```",
+      "correct_answer": "3, 2, 1, then StopIteration",
+      "explanation": "countdown(3) creates a generator. next(c) returns 3 and decrements n to 2. next(c) returns 2 and decrements n to 1. next(c) returns 1 and decrements n to 0. The while condition n > 0 is now false, so the generator is exhausted. The fourth next(c) raises StopIteration.",
+      "difficulty": "medium",
+      "starter_code": "# 1. Define the process_23_1 function\ndef process_23_1():\n    # 2. Implement solution for Iterables vs Iterators\n    pass\n",
+      "solution_code": "print('Iterables vs Iterators')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Iterables vs Iterators"
+        }
+      ]
+    },
+    {
+      "id": "23.1_q12",
+      "type": "output_prediction",
+      "concept": "iterables_vs_iterators_logic",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "23.1_q11"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef gen():\n    yield from [100, 200]\n\ngen = gen()\nprint(next(gen))\nprint(next(gen))\nprint(next(gen))\n```",
+      "options": [
+        "100 200 then StopIteration",
+        "100 200 then None",
+        "100 then 200 then 300",
+        "Error: yield from is not supported"
+      ],
+      "correct_answer": "100 200 then StopIteration",
+      "explanation": "yield from delegates to the sub-iterable [100, 200]. The generator yields 100, then 200. After both values are exhausted, the fourth next() call raises StopIteration. The output prints 100, 200, and then the exception.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "23.1_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "iterables_vs_iterators_syntax",
+      "micro_lesson": {
+        "title": "Iterables and the iter() Function",
+        "content": "An iterable is any object that can be looped over, such as a list, tuple, or string. When you call the built-in iter() function on an iterable, Python returns an iterator. An iterator is an object that keeps track of its position and yields one item at a time when next() is called. For example, a list is an iterable, but the result of iter([1, 2, 3]) is an iterator."
+      },
+      "prompt": "Complete the statement: The built-in function used to obtain an iterator from an iterable is _____.",
+      "correct_answer": "iter",
+      "accepted_answers": [
+        "iter",
+        "iter()"
+      ],
+      "explanation": "The iter() function is the standard way to convert an iterable into an iterator in Python.",
+      "prerequisites": [
+        "23.1_q12"
+      ]
+    },
+    {
+      "id": "23.1_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "iterables_vs_iterators_keywords",
+      "micro_lesson": {
+        "title": "Key Keywords: iter() and next()",
+        "content": "To work with iterators, you need two important keywords. The iter() function creates an iterator from an iterable. The next() function retrieves the next value from the iterator and raises StopIteration when exhausted. A for loop hides this complexity by automatically calling iter() and next() behind the scenes."
+      },
+      "prompt": "Fill in the blank: To retrieve the next item from an iterator, use the _____ function.",
+      "correct_answer": "next",
+      "accepted_answers": [
+        "next",
+        "next()"
+      ],
+      "explanation": "The next() function advances the iterator and returns the next element, or raises StopIteration if there are no more items.",
+      "prerequisites": [
+        "23.1_q13"
+      ]
+    },
+    {
+      "id": "23.1_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "iterables_vs_iterators_sequence",
+      "micro_lesson": {
+        "title": "Sequence of Operations with Iterators",
+        "content": "When you manually manage an iterator, the correct sequence is: create the iterable, call iter() to get an iterator, call next() repeatedly to consume values, and handle StopIteration. This mirrors what a for loop does internally."
+      },
+      "prompt": "Arrange the following steps in the correct order to manually iterate over a list named data:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must first define the iterable, then create an iterator with iter(), then fetch values with next(), and finally use or print each value.",
+      "prerequisites": [
+        "23.1_q14"
+      ]
+    },
+    {
+      "id": "23.1_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "iterables_vs_iterators_patterns",
+      "micro_lesson": {
+        "title": "Common Patterns with Iterators",
+        "content": "A common pattern is using iter() together with the sentinel argument in next() to process lines until a stop condition. Another pattern is using iter() with a default value to avoid StopIteration. For example, next(iterator, None) safely returns None when the iterator is exhausted."
+      },
+      "prompt": "Complete the expression: To safely get the next value without raising an exception when exhausted, use next(iterator, _____).",
+      "correct_answer": "None",
+      "accepted_answers": [
+        "None",
+        "default_value",
+        "a_default"
+      ],
+      "explanation": "Providing a default value to next() prevents StopIteration and returns that default instead when the iterator is empty.",
+      "prerequisites": [
+        "23.1_q15"
+      ]
+    },
+    {
+      "id": "23.1_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "iterables_vs_iterators_algorithm",
+      "micro_lesson": {
+        "title": "Algorithm for Consuming an Iterator",
+        "content": "A robust algorithm for consuming an iterator uses a while loop with a try-except block to catch StopIteration. Alternatively, you can use a for loop, which is more Pythonic. When manually consuming, always initialize the iterator first, then loop until StopIteration is caught."
+      },
+      "prompt": "Order the code lines to correctly print all items from an iterator named it:",
+      "options": [
+        "while True:",
+        "try:",
+        "print(value)",
+        "value = next(it)"
+      ],
+      "correct_answer": [
+        "while True:",
+        "try:",
+        "value = next(it)",
+        "print(value)"
+      ],
+      "explanation": "The while loop runs indefinitely, the try block attempts to get the next value, and any StopIteration breaks the loop. Printing must happen after successfully retrieving the value.",
+      "prerequisites": [
+        "23.1_q16"
+      ]
+    },
+    {
+      "id": "23.1_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "iterables_vs_iterators_idioms",
+      "micro_lesson": {
+        "title": "Pythonic Idioms with Iterators and Generators",
+        "content": "A common idiom is to use iter() with a callable and a sentinel to read input until a marker. Another idiom is creating a generator with yield, which internally uses iter() and next() to produce values lazily. This avoids storing the entire sequence in memory."
+      },
+      "prompt": "Fill in the blank: A generator uses the _____ keyword to produce values lazily one at a time.",
+      "correct_answer": "yield",
+      "accepted_answers": [
+        "yield",
+        "yield()"
+      ],
+      "explanation": "The yield keyword turns a function into a generator, allowing it to return values lazily and maintain state between calls, which is closely related to how iterators work.",
+      "prerequisites": [
+        "23.1_q17"
+      ]
+    },
+    {
+      "id": "23.1_q19",
+      "type": "fix_the_code",
+      "concept": "iterables_vs_iterators_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.1_q18"
+      ],
+      "prompt": "Identify the bug in the following code that attempts to reuse an iterator.",
+      "starter_code": "numbers = [1, 2, 3, 4]\nit = iter(numbers)\nprint(next(it))\nprint(next(it))\nprint(next(it))\nprint(next(it))\nprint(next(it))",
+      "solution_code": "numbers = [1, 2, 3, 4]\nit = iter(numbers)\nprint(next(it))\nprint(next(it))\nprint(next(it))\nprint(next(it))\n# To reuse, create a new iterator or convert to a list\nnumbers = [1, 2, 3, 4]\nit = iter(numbers)\nfor value in it:\n    print(value)",
+      "hint": "Once an iterator is exhausted, it cannot be restarted. A new iterator must be created from the original iterable.",
+      "explanation": "An iterator is a one-time-use object. After calling next() until StopIteration, the iterator is exhausted. To iterate again, you must call iter() on the original iterable to obtain a fresh iterator. The original code raises StopIteration on the fifth next() call."
+    },
+    {
+      "id": "23.1_q20",
+      "type": "fix_the_code",
+      "concept": "iterables_vs_iterators_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "23.1_q19"
+      ],
+      "prompt": "Fix the code so it prints each element of the list exactly once without using a for-loop.",
+      "starter_code": "items = ['a', 'b', 'c']\nit = iter(items)\nprint(next(it))\nprint(next(it))\nprint(next(it))\nprint(next(it))",
+      "solution_code": "items = ['a', 'b', 'c']\nit = iter(items)\nfor item in it:\n    print(item)",
+      "hint": "Use a for-loop to consume the iterator safely, or use next() inside a try-except block.",
+      "explanation": "The starter_code calls next() four times on a three-element iterator, causing StopIteration. The fix replaces the explicit next() calls with a for-loop, which automatically handles exhaustion. Alternatively, a while-loop with try-except would also work."
+    },
+    {
+      "id": "23.1_q21",
+      "type": "fix_the_code",
+      "concept": "iterables_vs_iterators_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.1_q20"
+      ],
+      "prompt": "Correct the code that mistakenly treats a generator as a reusable iterable.",
+      "starter_code": "def gen():\n    yield 10\n    yield 20\n    yield 30\n\ng = gen()\nprint(next(g))\nprint(next(g))\nprint(next(g))\nprint(next(g))\n# Attempting to reuse g\nprint(next(g))",
+      "solution_code": "def gen():\n    yield 10\n    yield 20\n    yield 30\n\ng = gen()\nfor value in g:\n    print(value)\n\n# To reuse, recreate the generator\ng = gen()\nfor value in g:\n    print(value)",
+      "hint": "A generator function returns a new generator object each time it is called. The existing generator object cannot be reset.",
+      "explanation": "Generators are iterators, not iterables. Calling next() on g until exhaustion leaves it empty. To process the same values again, you must call gen() again to obtain a new generator. The fix demonstrates both consumption via a for-loop and recreation for reuse."
+    },
+    {
+      "id": "23.1_q22",
+      "type": "fix_the_code",
+      "concept": "iterables_vs_iterators_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.1_q21"
+      ],
+      "prompt": "Explain why this code fails at runtime when the input is an empty list.",
+      "starter_code": "data = []\nit = iter(data)\nvalue = next(it)\nprint('First item:', value)",
+      "solution_code": "data = []\nit = iter(data)\ntry:\n    value = next(it)\nexcept StopIteration:\n    print('List is empty, no first item.')",
+      "hint": "Calling next() on an exhausted iterator raises StopIteration. An empty iterable produces an exhausted iterator immediately.",
+      "explanation": "When data is an empty list, iter(data) returns an iterator that is already exhausted. The call to next(it) raises StopIteration because there are no items to yield. The fix wraps next() in a try-except block to handle this runtime condition gracefully."
+    },
+    {
+      "id": "23.1_q23",
+      "type": "fix_the_code",
+      "concept": "iterables_vs_iterators_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.1_q22"
+      ],
+      "prompt": "Repair the logic so the function returns a list of doubled values without exhausting the original iterator prematurely.",
+      "starter_code": "def double_values(values):\n    it = iter(values)\n    result = []\n    for v in it:\n        result.append(v * 2)\n        it = iter(values)  # Incorrectly resets inside the loop\n    return result\n\nprint(double_values([1, 2, 3]))",
+      "solution_code": "def double_values(values):\n    result = []\n    for v in values:\n        result.append(v * 2)\n    return result\n\nprint(double_values([1, 2, 3]))",
+      "hint": "Re-creating the iterator inside the loop causes redundant iterations and is unnecessary. Simply iterate over the original iterable directly.",
+      "explanation": "The starter_code reassigns it inside the loop, which is redundant and inefficient. Since values is an iterable, the for-loop handles iteration internally. The fix removes the manual iterator and the incorrect reset, yielding [2, 4, 6] correctly."
+    },
+    {
+      "id": "23.1_q24",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.1_q23"
+      ],
+      "prompt": "Refactor the function to process a large file lazily using a generator, avoiding loading all lines into memory at once.",
+      "starter_code": "def read_file(path):\n    with open(path, 'r') as f:\n        lines = f.readlines()\n        for line in lines:\n            yield line.strip()",
+      "solution_code": "def read_file(path):\n    with open(path, 'r') as f:\n        for line in f:\n            yield line.strip()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Create a temporary file with lines: 'apple\\n', 'banana\\n', 'cherry\\n'. Call list(read_file(temp_path)) and assert it equals ['apple', 'banana', 'cherry'].",
+          "description": "Create a temporary file with lines: 'apple\\n', 'banana\\n', 'cherry\\n'. Call list(read_file(temp_path)) and assert it equals ['apple', 'banana', 'cherry']."
+        },
+        {
+          "input": "",
+          "expected_output": "Ensure the generator yields one item at a time and does not store all lines in a list before yielding.",
+          "description": "Ensure the generator yields one item at a time and does not store all lines in a list before yielding."
+        }
+      ],
+      "hint": "Iterating directly over the file object yields one line at a time. Avoid readlines() which loads the entire file into memory.",
+      "explanation": "The original code uses readlines(), which reads the entire file into a list in memory before yielding. The refactored version iterates directly over the file object, which is memory-efficient because it yields lines lazily. This is critical for large files and demonstrates the power of iterators/generators for streaming data."
+    },
+    {
+      "id": "23.1_q25",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.1_q24"
+      ],
+      "prompt": "Write a Python function `custom_iterator(data)` that returns an iterator object for the given iterable `data`. The iterator must yield elements one at a time using the `__iter__` and `__next__` methods. Do not use `iter()` or `yield`.",
+      "starter_code": "class CustomIter:\n    def __init__(self, data):\n        self.data = data\n        self.index = 0\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.index < len(self.data):\n            value = self.data[self.index]\n            self.index += 1\n            return value\n        raise StopIteration\n\ndef custom_iterator(data):\n    return CustomIter(data)",
+      "solution_code": "class CustomIter:\n    def __init__(self, data):\n        self.data = data\n        self.index = 0\n\n    def __iter__(self):\n        return self\n\n    def __next__(self):\n        if self.index >= len(self.data):\n            raise StopIteration\n        value = self.data[self.index]\n        self.index += 1\n        return value\n\ndef custom_iterator(data):\n    return CustomIter(data)",
+      "test_cases": [
+        {
+          "input": "assert list(custom_iterator([10, 20, 30]))",
+          "expected_output": "[10, 20, 30]",
+          "description": "Verifies: assert list(custom_iterator([10, 20, 30])) == [10, 20, 30]"
+        },
+        {
+          "input": "assert list(custom_iterator('abc'))",
+          "expected_output": "['a', 'b', 'c']",
+          "description": "Verifies: assert list(custom_iterator('abc')) == ['a', 'b', 'c']"
+        },
+        {
+          "input": "assert list(custom_iterator([]))",
+          "expected_output": "[]",
+          "description": "Verifies: assert list(custom_iterator([])) == []"
+        }
+      ],
+      "hint": "Ensure `__iter__` returns `self` so the object is its own iterator. Check the boundary condition in `__next__` to avoid an IndexError.",
+      "explanation": "An iterator is an object that implements the iterator protocol with `__iter__` and `__next__`. By returning `self` from `__iter__`, the class becomes an iterator. The `__next__` method advances an internal index and raises `StopIteration` when exhausted."
+    },
+    {
+      "id": "23.1_q26",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "23.1_q25"
+      ],
+      "prompt": "Given a list of numbers, use an iterator to print only the even numbers. You must convert the list to an iterator first, then loop through it and check each element.",
+      "starter_code": "numbers = [1, 2, 3, 4, 5, 6]\nit = iter(numbers)\nfor num in it:\n    if num % 2 == 0:\n        print(num)",
+      "solution_code": "numbers = [1, 2, 3, 4, 5, 6]\nit = iter(numbers)\nfor num in it:\n    if num % 2 == 0:\n        print(num)",
+      "test_cases": [
+        {
+          "input": "assert [x for x in iter([1, 2, 3, 4, 5, 6]) if x % 2",
+          "expected_output": "0] == [2, 4, 6]",
+          "description": "Verifies: assert [x for x in iter([1, 2, 3, 4, 5, 6]) if x % 2 == 0] == [2, 4, 6]"
+        },
+        {
+          "input": "assert [x for x in iter([0, 1, 2, 3, 4, 5]) if x % 2",
+          "expected_output": "0] == [0, 2, 4]",
+          "description": "Verifies: assert [x for x in iter([0, 1, 2, 3, 4, 5]) if x % 2 == 0] == [0, 2, 4]"
+        }
+      ],
+      "hint": "Remember that `iter()` returns a new iterator object from the iterable. The iterator maintains state, so once consumed it cannot be reused without creating a new one.",
+      "explanation": "Lists are iterables, not iterators. Calling `iter()` on a list creates an independent iterator. Each call to `next()` advances the iterator, which is why the same iterator cannot be looped over twice without resetting."
+    },
+    {
+      "id": "23.1_q27",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.1_q26"
+      ],
+      "prompt": "Implement a generator function `countdown(n)` that yields numbers from `n` down to `1`, and a wrapper function `countdown_iter(n)` that returns an iterator from this generator. Then demonstrate that calling `next()` on the returned iterator twice consumes two values.",
+      "starter_code": "def countdown(n):\n    # TODO: implement generator\n    pass\n\ndef countdown_iter(n):\n    return countdown(n)\n\n# Test\nc = countdown_iter(5)\nprint(next(c))",
+      "solution_code": "def countdown(n):\n    while n > 0:\n        yield n\n        n -= 1\n\ndef countdown_iter(n):\n    return countdown(n)\n\nc = countdown_iter(5)\nprint(next(c))",
+      "test_cases": [
+        {
+          "input": "assert [next(countdown_iter(3)) for _ in range(3)]",
+          "expected_output": "[3, 2, 1]",
+          "description": "Verifies: assert [next(countdown_iter(3)) for _ in range(3)] == [3, 2, 1]"
+        },
+        {
+          "input": "assert list(countdown_iter(1))",
+          "expected_output": "[1]",
+          "description": "Verifies: assert list(countdown_iter(1)) == [1]"
+        }
+      ],
+      "hint": "A generator function uses `yield` to produce a sequence lazily. The wrapper simply returns the generator object, which is already an iterator.",
+      "explanation": "Generators are a concise way to create iterators. The `yield` statement pauses execution and returns a value, resuming from that point on the next call. This makes generators memory-efficient for large or infinite sequences."
+    },
+    {
+      "id": "23.1_q28",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.1_q27"
+      ],
+      "prompt": "Given the code below, explain what happens when the second loop runs and why. Then fix the code so both loops print all elements correctly.",
+      "starter_code": "data = [10, 20, 30]\nit = iter(data)\nfor x in it:\n    print(x)\n\nfor y in it:\n    print(y)",
+      "solution_code": "data = [10, 20, 30]\nit1 = iter(data)\nfor x in it1:\n    print(x)\n\nit2 = iter(data)\nfor y in it2:\n    print(y)",
+      "test_cases": [
+        {
+          "input": "assert [x for x in iter([1, 2, 3])]",
+          "expected_output": "[1, 2, 3]",
+          "description": "Verifies: assert [x for x in iter([1, 2, 3])] == [1, 2, 3]"
+        },
+        {
+          "input": "assert [y for y in iter([1, 2, 3])]",
+          "expected_output": "[1, 2, 3]",
+          "description": "Verifies: assert [y for y in iter([1, 2, 3])] == [1, 2, 3]"
+        }
+      ],
+      "hint": "An iterator is exhausted after one full traversal. To reuse the same iterable, create a new iterator with `iter()` each time.",
+      "explanation": "After the first `for` loop, the iterator `it` has reached the end and raises `StopIteration` immediately on the second loop. Creating a new iterator from the original iterable restores independent traversal."
+    },
+    {
+      "id": "23.1_q29",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.1_q28"
+      ],
+      "prompt": "A streaming service receives a massive log file with millions of lines. You need to process the file line by line without loading it entirely into memory. Write a generator-based solution that yields one line at a time, and explain why an iterator is preferable to a list here.",
+      "starter_code": "def process_logs(filepath):\n    # TODO: open file and yield lines one by one\n    pass\n\nfor line in process_logs('large_log.txt'):\n    # process line\n    pass",
+      "solution_code": "def process_logs(filepath):\n    with open(filepath, 'r') as f:\n        for line in f:\n            yield line.strip()\n\nfor line in process_logs('large_log.txt'):\n    # process line\n    pass",
+      "test_cases": [
+        {
+          "input": "assert list(process_logs('test.txt'))",
+          "expected_output": "['line1', 'line2']",
+          "description": "Verifies: assert list(process_logs('test.txt')) == ['line1', 'line2']"
+        },
+        {
+          "input": "assert process_logs('test.txt').__next__()",
+          "expected_output": "'line1'",
+          "description": "Verifies: assert process_logs('test.txt').__next__() == 'line1'"
+        }
+      ],
+      "hint": "Use a `with` statement to ensure the file is closed. The file object itself is an iterator, but wrapping it in a generator allows preprocessing such as stripping whitespace.",
+      "explanation": "Iterators enable lazy evaluation, which is critical for large datasets. By yielding one line at a time, memory usage stays constant regardless of file size. A list-based approach would load the entire file into RAM, risking memory errors."
+    },
+    {
+      "id": "23.1_q30",
+      "type": "write_the_code",
+      "concept": "iterables_vs_iterators_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "23.1_q29"
+      ],
+      "prompt": "Complete the `ReversibleIter` class so that it implements both the iterator and iterable protocols. The class should store a list, allow forward iteration, and also support a `reversed_iter()` method that returns a separate iterator yielding elements from last to first.",
+      "starter_code": "class ReversibleIter:\n    def __init__(self, data):\n        self.data = data\n\n    def __iter__(self):\n        # TODO: return forward iterator\n        pass\n\n    def reversed_iter(self):\n        # TODO: return reverse iterator\n        pass",
+      "solution_code": "class ReversibleIter:\n    def __init__(self, data):\n        self.data = data\n\n    def __iter__(self):\n        return iter(self.data)\n\n    def reversed_iter(self):\n        return reversed(self.data)",
+      "test_cases": [
+        {
+          "input": "assert [x for x in ReversibleIter([5, 4, 3, 2, 1])]",
+          "expected_output": "[5, 4, 3, 2, 1]",
+          "description": "Verifies: assert [x for x in ReversibleIter([5, 4, 3, 2, 1])] == [5, 4, 3, 2, 1]"
+        },
+        {
+          "input": "assert [x for x in ReversibleIter([5, 4, 3, 2, 1]).reversed_iter()]",
+          "expected_output": "[1, 2, 3, 4, 5]",
+          "description": "Verifies: assert [x for x in ReversibleIter([5, 4, 3, 2, 1]).reversed_iter()] == [1, 2, 3, 4, 5]"
+        }
+      ],
+      "hint": "The built-in `iter()` returns a fresh iterator over the list. For reversal, use the built-in `reversed()` function, which returns a reverse iterator.",
+      "explanation": "A class can be both an iterable and provide additional iterator methods. `__iter__` makes the instance iterable by returning an iterator. `reversed_iter` demonstrates that multiple independent iterators can coexist on the same underlying data, each with its own traversal state."
+    }
+  ],
+  "unit_num": 23,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Iterables vs Iterators",
+    "Apply idiomatic Python patterns when working with Iterables vs Iterators",
+    "Debug common runtime exceptions and logic errors associated with Iterables vs Iterators",
+    "Implement production-ready code utilizing Iterables vs Iterators"
+  ],
+  "prerequisites": [
+    "22.6"
+  ]
+}

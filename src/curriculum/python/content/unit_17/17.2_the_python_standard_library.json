@@ -1,0 +1,715 @@
+{
+  "lesson_id": "17.2",
+  "title": "The Python Standard Library (math, random, datetime)",
+  "unit": "Modules, Packages, and Environments",
+  "items": [
+    {
+      "id": "17.2_q1",
+      "type": "micro_lesson",
+      "title": "What Is the Python Standard Library?",
+      "content": "The Python Standard Library is a collection of modules and packages that are included with every Python installation. You do not need to install anything extra to use them. In this lesson, we focus on three useful modules: math, random, and datetime. The math module provides mathematical functions and constants. The random module helps generate pseudo-random numbers. The datetime module allows you to work with dates and times. To use a module, you import it with the import keyword. For example, import math enables functions like math.sqrt(16). Similarly, import random lets you call random.randint(1, 10), and import datetime lets you create objects like datetime.datetime.now(). These tools save you from writing common functionality from scratch.",
+      "difficulty": "easy",
+      "concept": "the_python_standard_library_math_random_datetime_basics",
+      "skill": "recognition",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "The Python Standard Library is a collection of modules and packages that are included with every Python installation. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "17.2_q2",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is true about the Python Standard Library?",
+      "options": [
+        "It must be installed separately using pip.",
+        "It comes pre-installed with Python.",
+        "It only works in Python 3.10 and later.",
+        "It replaces the need for any third-party packages."
+      ],
+      "correct_answer": "It comes pre-installed with Python.",
+      "explanation": "The Python Standard Library is included with every standard Python distribution, so no external installation is required. Third-party packages may still be useful for specialized tasks.",
+      "match_code_to_concept": false,
+      "concept": "the_python_standard_library_math_random_datetime_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.2_q1"
+      ]
+    },
+    {
+      "id": "17.2_q3",
+      "type": "micro_lesson",
+      "title": "Common Syntax for math, random, and datetime",
+      "content": "Once you import a module, you access its contents using dot notation. The math module includes functions such as math.sqrt(9) which returns 3.0, math.pi which is approximately 3.14159, and math.floor(4.7) which returns 4. The random module includes random.randint(1, 6) to generate an integer between 1 and 6, random.random() to produce a float between 0.0 and 1.0, and random.choice(['apple', 'banana', 'cherry']) to pick one item from a sequence. The datetime module uses datetime.datetime.now() to get the current local date and time, datetime.date(2024, 5, 17) to create a date object, and datetime.timedelta(days=1) to represent a duration. Always remember to import the module before calling its functions or constants.",
+      "difficulty": "easy",
+      "concept": "the_python_standard_library_math_random_datetime_syntax",
+      "skill": "understanding",
+      "prerequisites": [
+        "17.2_q2"
+      ],
+      "prompt": "",
+      "explanation": "Once you import a module, you access its contents using dot notation. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "17.2_q4",
+      "type": "multiple_choice",
+      "prompt": "Given the code below, what will random.randint(2, 5) return?",
+      "options": [
+        "A random integer between 2 and 5, inclusive.",
+        "A random float between 2.0 and 5.0.",
+        "Always the number 3.",
+        "An error because the arguments are invalid."
+      ],
+      "correct_answer": "A random integer between 2 and 5, inclusive.",
+      "explanation": "random.randint(a, b) returns a random integer N such that a <= N <= b. It does not return floats and it does not always return the same value.",
+      "match_code_to_concept": false,
+      "concept": "the_python_standard_library_math_random_datetime_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.2_q3"
+      ]
+    },
+    {
+      "id": "17.2_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the function to its module.",
+      "options": [
+        "math.sqrt() -> random, random.now() -> datetime, datetime.date() -> math",
+        "math.sqrt() -> math, random.randint() -> random, datetime.now() -> datetime",
+        "math.sqrt() -> datetime, random.randint() -> math, datetime.now() -> random",
+        "math.sqrt() -> random, random.randint() -> datetime, datetime.now() -> math"
+      ],
+      "correct_answer": "math.sqrt() -> math, random.randint() -> random, datetime.now() -> datetime",
+      "explanation": "Each function belongs to the module that provides it: sqrt is in math, randint is in random, and now is in datetime.",
+      "match_code_to_concept": true,
+      "concept": "the_python_standard_library_math_random_datetime_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.2_q4"
+      ]
+    },
+    {
+      "id": "17.2_q6",
+      "type": "multiple_choice",
+      "prompt": "Which statement correctly describes a common pitfall when using datetime?",
+      "options": [
+        "datetime.datetime.now() returns a string, so you must convert it to use in calculations.",
+        "datetime objects are timezone-aware by default, which can cause unexpected behavior.",
+        "datetime.date() requires year, month, and day arguments in that order.",
+        "You can subtract two strings directly to find the number of days between them."
+      ],
+      "correct_answer": "datetime.date() requires year, month, and day arguments in that order.",
+      "explanation": "A frequent beginner mistake is swapping the order of arguments or passing strings instead of integers. datetime.date(year, month, day) expects integers in that specific order. Also, datetime.datetime.now() returns a datetime object, not a string, and you cannot subtract strings to measure time.",
+      "match_code_to_concept": false,
+      "concept": "the_python_standard_library_math_random_datetime_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.2_q5"
+      ]
+    },
+    {
+      "id": "17.2_q7",
+      "type": "code_prediction",
+      "concept": "the_python_standard_library_math_random_datetime_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.2_q6"
+      ],
+      "prompt": "What is the output of the following Python code? Assume the random module has not been seeded.",
+      "code": "import math\nimport random\nimport datetime\n\nx = math.sqrt(16)\ny = random.randint(1, 10)\nz = datetime.datetime.now()\nprint(x, y, z.year)",
+      "options": [
+        "4 5 2024",
+        "4 7 2025",
+        "2 5 2024",
+        "16 5 2024"
+      ],
+      "correct_answer": "4 5 2024",
+      "explanation": "math.sqrt(16) returns 4.0, which prints as 4. random.randint(1, 10) returns an integer between 1 and 10 inclusive; 5 is a plausible value. datetime.datetime.now() returns the current local datetime, so the year is 2024 at the time of this writing."
+    },
+    {
+      "id": "17.2_q8",
+      "type": "output_prediction",
+      "concept": "the_python_standard_library_math_random_datetime_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q7"
+      ],
+      "prompt": "What is the output of the following Python code? Assume the current date is 2024-06-15.",
+      "code": "import math\nimport random\nimport datetime\n\na = math.pi\nb = random.random()\nc = datetime.date(2024, 6, 15)\nprint(round(a, 2), b, c.strftime('%Y-%m-%d'))",
+      "options": [
+        "3.14 0.12345 2024-06-15",
+        "3.14 0.98765 2024-06-15",
+        "3.14159 0.50000 2024-06-15",
+        "3.14159 0.99999 2024-06-15"
+      ],
+      "correct_answer": "3.14 0.12345 2024-06-15",
+      "explanation": "math.pi is approximately 3.141592653589793, so round(a, 2) yields 3.14. random.random() returns a float in [0.0, 1.0); 0.12345 is a valid possible value. datetime.date(2024, 6, 15).strftime('%Y-%m-%d') formats the date as '2024-06-15'."
+    },
+    {
+      "id": "17.2_q9",
+      "type": "code_prediction",
+      "concept": "the_python_standard_library_math_random_datetime_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q8"
+      ],
+      "prompt": "What is the output of the following Python code? Note the conditional logic.",
+      "code": "import math\nimport random\nimport datetime\n\nnow = datetime.datetime.now()\nif now.hour < 12:\n    result = math.floor(random.uniform(0, 5))\nelse:\n    result = math.ceil(random.uniform(5, 10))\nprint('Morning:', result if now.hour < 12 else 'Afternoon:', result)",
+      "options": [
+        "Morning: 3",
+        "Afternoon: 7",
+        "Morning: 2",
+        "Afternoon: 8"
+      ],
+      "correct_answer": "Afternoon: 7",
+      "explanation": "The code checks now.hour. If the hour is 12 or greater, the else branch executes. math.ceil(random.uniform(5, 10)) returns an integer from 5 to 10 inclusive; 7 is a valid outcome. The string printed is 'Afternoon: 7'. At the time of writing, the current hour is typically afternoon, so the else branch is active."
+    },
+    {
+      "id": "17.2_q10",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q9"
+      ],
+      "prompt": "Explain the behavior and output of the following Python code snippet.",
+      "code": "import math\nimport random\nimport datetime\n\nstart = datetime.datetime(2024, 1, 1)\nend = datetime.datetime(2024, 1, 31)\ndelta = (end - start).days\nrandom_day = start + datetime.timedelta(days=random.randint(0, delta))\nprint(random_day.strftime('%A, %B %d, %Y'))",
+      "correct_answer": "It prints a random day in January 2024 as a weekday name, month, and date.",
+      "explanation": "The code creates start and end as datetime objects. (end - start).days computes 30. random.randint(0, 30) picks an integer offset. datetime.timedelta(days=...) creates a duration, and adding it to start yields a random datetime within January 2024. strftime formats it as a readable string. No error occurs because datetime and timedelta are compatible.",
+      "starter_code": "# TODO: Implement solution for The Python Standard Library (math, random, datetime)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('The Python Standard Library (math, random, datetime)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The Python Standard Library (math, random, datetime)"
+        }
+      ]
+    },
+    {
+      "id": "17.2_q11",
+      "type": "code_prediction",
+      "concept": "the_python_standard_library_math_random_datetime_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q10"
+      ],
+      "prompt": "Trace the execution of the following code and determine the final value of result.",
+      "code": "import math\nimport random\nimport datetime\n\nrandom.seed(42)\nt = datetime.datetime(2024, 5, 20, 8, 0, 0)\nhour = t.hour\nrandom_val = random.random()\nresult = math.isqrt(hour + int(random_val * 20))\nprint(result)",
+      "options": [
+        "4",
+        "5",
+        "3",
+        "6"
+      ],
+      "correct_answer": "4",
+      "explanation": "random.seed(42) makes the sequence deterministic. t.hour is 8. random.random() returns 0.6394267984578837, so int(random_val * 20) is 12. hour + 12 equals 20. math.isqrt(20) returns the integer square root of 20, which is 4 because 4*4 <= 20 < 5*5. Therefore, result is 4."
+    },
+    {
+      "id": "17.2_q12",
+      "type": "output_prediction",
+      "concept": "the_python_standard_library_math_random_datetime_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q11"
+      ],
+      "prompt": "What is the output of the following Python code? Assume the current date is 2024-03-10.",
+      "code": "import math\nimport random\nimport datetime\n\nnow = datetime.datetime.now()\nif now.month == 3 and now.day <= 10:\n    score = math.floor(random.uniform(1, 100))\nelse:\n    score = math.ceil(random.uniform(50, 150))\nprint('Score:', score)",
+      "options": [
+        "Score: 42",
+        "Score: 105",
+        "Score: 3",
+        "Score: 150"
+      ],
+      "correct_answer": "Score: 42",
+      "explanation": "The condition checks whether the month is 3 and the day is 10 or earlier. Assuming the current date is 2024-03-10, the condition is true. math.floor(random.uniform(1, 100)) returns an integer from 1 to 99 inclusive; 42 is a valid possible value. Thus, the output is 'Score: 42'."
+    },
+    {
+      "id": "17.2_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "the_python_standard_library_math_random_datetime_syntax",
+      "micro_lesson": {
+        "title": "Importing Modules from the Standard Library",
+        "content": "The Python Standard Library provides built-in modules that extend your program's capabilities without external installation. To use functions from a module, you import it using the `import` statement. For example, to access mathematical operations, you use `import math`. To generate random numbers, you use `import random`. To work with dates and times, you use `import datetime`. After importing, you access module-specific functions with dot notation, such as `math.sqrt(16)` or `random.randint(1, 6)`.\n\nHere is a simple example demonstrating correct import syntax:\n\n```python\nimport math\nimport random\nimport datetime\n\n# Calculate square root\nresult = math.sqrt(25)\n\n# Generate a random integer between 1 and 10\nrand_num = random.randint(1, 10)\n\n# Get the current date\nnow = datetime.datetime.now()\nprint('Square root:', result)\nprint('Random number:', rand_num)\n```\n\nAlways place import statements at the top of your script for clarity and to avoid name conflicts."
+      },
+      "prompt": "Complete the import statement to access the math module: `___`",
+      "correct_answer": "import math",
+      "accepted_answers": [
+        "import math",
+        "from math import *",
+        "import math as m"
+      ],
+      "explanation": "The standard way to import an entire module is using `import module_name`. While `from math import *` and `import math as m` are valid, `import math` is the most conventional and recommended syntax for accessing functions via dot notation.",
+      "prerequisites": [
+        "17.2_q12"
+      ]
+    },
+    {
+      "idx": 14,
+      "id": "17.2_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_python_standard_library_math_random_datetime_keywords",
+      "micro_lesson": {
+        "title": "Key Functions in math, random, and datetime",
+        "content": "Each standard library module exposes specific keywords (functions) tailored to its domain. In `math`, you find constants like `math.pi` and functions like `math.sqrt()`, `math.floor()`, and `math.ceil()`. In `random`, common keywords include `random.random()` for a float in [0.0, 1.0), `random.randint(a, b)` for inclusive integers, `random.choice(seq)` to pick from a sequence, and `random.seed(n)` to control reproducibility. In `datetime`, essential keywords are `datetime.datetime.now()` to capture the current moment, `datetime.date(year, month, day)` to construct a date, `datetime.timedelta(days=1)` for duration arithmetic, and `datetime.strftime(format_string)` to format output.\n\nA combined example:\n\n```python\nimport math\nimport random\nimport datetime\n\n# Math keyword\narea = math.pi * (3 ** 2)\n\n# Random keyword\nroll = random.randint(1, 6)\n\n# Datetime keyword\nnow = datetime.datetime.now()\nprint('Area:', area, 'Roll:', roll, 'Time:', now)\n```\n\nMemorizing these keywords accelerates your ability to solve real-world tasks."
+      },
+      "prompt": "Fill in the blank with the correct keyword to get a random integer inclusive of both endpoints: `random.___([1, 10])`",
+      "correct_answer": "randint",
+      "accepted_answers": [
+        "randint",
+        "randrange",
+        "choice"
+      ],
+      "explanation": "`randint(a, b)` returns a random integer N such that a <= N <= b, making it inclusive of both endpoints. `randrange` excludes the stop value, and `choice` selects from an existing sequence rather than a range.",
+      "prerequisites": [
+        "17.2_q13"
+      ]
+    },
+    {
+      "idx": 15,
+      "id": "17.2_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "the_python_standard_library_math_random_datetime_sequence",
+      "micro_lesson": {
+        "title": "Logical Order of Operations with Standard Library Modules",
+        "content": "When combining modules, the order of operations matters for correctness and readability. Typically, you (1) import all required modules at the top, (2) define or read inputs, (3) perform calculations using module functions, (4) format or manipulate temporal data, and (5) output or return results. Mixing input, computation, and output haphazardly leads to NameError or logic bugs. Below is a correct sequence using `math`, `random`, and `datetime`:\n\n```python\nimport math\nimport random\nimport datetime\n\n# Step 1: Define parameters\nradius = 5\n\n# Step 2: Compute derived values\narea = math.pi * (radius ** 2)\nroll = random.randint(1, 6)\n\n# Step 3: Capture timestamp\nnow = datetime.datetime.now()\n\n# Step 4: Present results\nprint('Area:', area, '| Roll:', roll, '| Timestamp:', now)\n```\n\nNotice that imports precede all usage, and each operation depends on prior variable creation."
+      },
+      "prompt": "Reorder the following code lines into the correct execution sequence.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Imports must come first. Then calculations and data generation should occur before printing. Option 4 delays the random roll and area after the timestamp, which is logically fine but less conventional; however, Option 3 is the standard pedagogical sequence: imports, then math, then random, then datetime, then output.",
+      "prerequisites": [
+        "17.2_q14"
+      ]
+    },
+    {
+      "idx": 16,
+      "id": "17.2_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_python_standard_library_math_random_datetime_patterns",
+      "micro_lesson": {
+        "title": "Common Coding Patterns with Standard Library Modules",
+        "content": "Certain patterns recur when using `math`, `random`, and `datetime`. A frequent pattern is validating and transforming data: compute a value with `math`, perturb it with `random`, and timestamp the operation with `datetime`. Another pattern is using `datetime.timedelta` to add or subtract durations from a `datetime` object. A third pattern is seeding `random` for deterministic tests: `random.seed(42)` ensures the same sequence of \"random\" numbers across runs. Always store the result of `datetime.datetime.now()` in a variable before formatting.\n\nExample pattern:\n\n```python\nimport math\nimport random\nimport datetime\n\nrandom.seed(42)\nbase = math.sqrt(100)\noffset = random.uniform(-0.5, 0.5)\nadjusted = base + offset\nrecorded = datetime.datetime.now() + datetime.timedelta(minutes=5)\n\nprint('Adjusted value:', adjusted)\nprint('Recorded at:', recorded)\n```\n\nRecognizing these patterns helps you write modular, maintainable code."
+      },
+      "prompt": "Complete the pattern to add 3 days to the current date: `new_date = now + datetime.___(___)`",
+      "correct_answer": "timedelta(days=3)",
+      "accepted_answers": [
+        "timedelta(days=3)",
+        "timedelta(3)",
+        "timedelta(days=3, hours=0)"
+      ],
+      "explanation": "`datetime.timedelta` is the constructor for representing durations. `timedelta(days=3)` is the explicit and most readable way to add exactly three days. `timedelta(3)` is invalid because positional arguments are not supported in the same manner, and `timedelta(days=3, hours=0)` is equivalent but unnecessarily verbose.",
+      "prerequisites": [
+        "17.2_q15"
+      ]
+    },
+    {
+      "idx": 17,
+      "id": "17.2_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "the_python_standard_library_math_random_datetime_algorithm",
+      "micro_lesson": {
+        "title": "Algorithm: Simulate a Daily Task with Randomness and Timestamps",
+        "content": "A practical algorithm might involve: (1) recording when a task starts, (2) performing a mathematical calculation, (3) introducing variability with a random delay, and (4) logging when the task ends. Using the standard library, you can implement this cleanly. Start with `datetime.datetime.now()`, compute a deterministic value via `math.pow()`, wait a random number of seconds using `random.uniform()`, then capture the end time. Finally, compute elapsed time with `timedelta`.\n\nCorrect algorithmic flow:\n\n```python\nimport math\nimport random\nimport datetime\n\nstart = datetime.datetime.now()\nvalue = math.pow(2, 5)\nwait = random.uniform(0.1, 1.0)\n# In real code: time.sleep(wait)\nend = datetime.datetime.now()\nduration = end - start\nprint('Value:', value, 'Duration:', duration)\n```\n\nThis sequence ensures that every step has its inputs ready before execution."
+      },
+      "prompt": "Arrange the following algorithm steps into the correct order.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must first capture the start time, then perform deterministic computation, introduce random variability, capture the end time, compute the duration, and finally print. Option 3 follows this exact logical dependency chain.",
+      "prerequisites": [
+        "17.2_q16"
+      ]
+    },
+    {
+      "idx": 18,
+      "id": "17.2_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_python_standard_library_math_random_datetime_idioms",
+      "micro_lesson": {
+        "title": "Idiomatic Usage of Standard Library Modules",
+        "content": "Idioms are conventional, expressive ways to write code. With `math`, an idiom is using `math.isclose(a, b, rel_tol=1e-9)` for floating-point comparison instead of `a == b`. With `random`, an idiom is calling `random.choices(population, k=n)` to sample with replacement. With `datetime`, an idiom is formatting with `strftime` using the format string `'%Y-%m-%d %H:%M:%S'` to produce a sortable timestamp. Another useful idiom is aliasing a module for brevity, such as `import math as m`, though this is less common in introductory contexts. Combining idioms, you might write a single line that generates a timestamped random report:\n\n```python\nimport math\nimport random\nimport datetime\n\nreport = f'{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - Random metric: {random.uniform(0, 1):.4f}'\nprint(report)\n```\n\nAdopting these idioms makes your code more Pythonic and easier for others to read."
+      },
+      "prompt": "Complete the idiom for a sortable timestamp using strftime: `now.strftime('___')`",
+      "correct_answer": "%Y-%m-%d %H:%M:%S",
+      "accepted_answers": [
+        "%Y-%m-%d %H:%M:%S",
+        "%Y/%m/%d %I:%M %p",
+        "%d-%m-%Y %H:%M"
+      ],
+      "explanation": "The format `%Y-%m-%d %H:%M:%S` yields a lexicographically sortable string (e.g., '2024-01-15 09:30:00'). While the other options are valid strftime patterns, they are not the standard idiom for machine-readable timestamps.",
+      "prerequisites": [
+        "17.2_q17"
+      ]
+    },
+    {
+      "id": "17.2_q19",
+      "type": "fix_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing Errors in Standard Library Usage",
+        "content": "When working with Python's standard library modules such as `math`, `random`, and `datetime`, common errors arise from incorrect imports, misuse of functions, or misunderstanding return types. For example, calling `math.sqrt(-4)` raises a `ValueError` because square roots of negative numbers are undefined in real numbers. Similarly, using `random.randint(1, 10)` and expecting a float leads to logical errors, as it returns an integer. With `datetime`, forgetting to import the module or accessing attributes incorrectly (e.g., `datetime.now().year` without importing `datetime` from the `datetime` module) causes `AttributeError`. Always verify your imports: `import math`, `import random`, and `from datetime import datetime`. Check function signatures and expected return types. Below is an example of erroneous code and how to identify the issues:\n\n```python\nimport math\nimport random\nfrom datetime import datetime\n\n# Attempt to get current time and perform a random operation\nnow = datetime.now()\nradius = 9\narea = math.pi * radius ** 2\nroll = random.random() * 6 + 1\nprint(f'Current year: {now.year}')\nprint(f'Circle area: {area}')\nprint(f'Dice roll: {roll}')\n```\n\nIn this snippet, `math.pi` is valid, but if `radius` were negative, `math.sqrt(radius)` would fail. Also, `random.random() * 6 + 1` produces a float between 1.0 and 7.0, not an integer die roll. Understanding these pitfalls helps in debugging effectively."
+      },
+      "prompt": "Fix the bug in this code for the python standard library math random datetime errors:",
+      "starter_code": "# Fix this code\nPrint('The Python Standard Library (math, random, datetime)')",
+      "solution_code": "print('The Python Standard Library (math, random, datetime)')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "17.2_q20",
+      "type": "fix_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "17.2_q19"
+      ],
+      "prompt": "Fix the following code so it correctly calculates the area of a circle and prints it.",
+      "starter_code": "import math\n\nradius = 5\narea = math.pi * radius ** 2\nprint('Area is ' + area)",
+      "solution_code": "import math\n\nradius = 5\narea = math.pi * radius ** 2\nprint('Area is ' + str(area))",
+      "hint": "The `+` operator cannot concatenate a string with a float. Convert the float to a string using `str()`.",
+      "explanation": "The original code attempts to use the `+` operator to concatenate a string with a float value, which raises a `TypeError`. By wrapping `area` with `str()`, we ensure both operands are strings, allowing successful concatenation. This is a fundamental fix when mixing types in output statements."
+    },
+    {
+      "id": "17.2_q21",
+      "type": "fix_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q20"
+      ],
+      "prompt": "Fix the code to handle edge cases when generating a random age and computing a birthday-related value.",
+      "starter_code": "import random\nfrom datetime import datetime\n\ndef get_random_age():\n    return random.randint(0, 150)\n\ndef days_until_next_year(birth_date):\n    today = datetime.now()\n    next_year = birth_date.replace(year=today.year + 1)\n    return (next_year - today).days\n\nprint(get_random_age())\nprint(days_until_next_year(datetime(2000, 5, 15)))",
+      "solution_code": "import random\nfrom datetime import datetime\n\ndef get_random_age():\n    return random.randint(0, 120)\n\ndef days_until_next_year(birth_date):\n    today = datetime.now()\n    try:\n        next_year = birth_date.replace(year=today.year + 1)\n    except ValueError:\n        next_year = datetime(today.year + 1, birth_date.month, 1)\n    return (next_year - today).days\n\nprint(get_random_age())\nprint(days_until_next_year(datetime(2000, 5, 15)))",
+      "hint": "Consider the maximum realistic human age and handle the `ValueError` that occurs when replacing February 29 on a non-leap year.",
+      "explanation": "The edge case for `random.randint(0, 150)` is unrealistic for human age; limiting to 120 is more practical. Additionally, `datetime.replace(year=...)` fails for February 29 when the target year is not a leap year. The `try-except` block catches this and falls back to January 1 of the next year, ensuring robust date arithmetic."
+    },
+    {
+      "id": "17.2_q22",
+      "type": "fix_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Standard Library Functions",
+        "content": "Runtime errors occur during execution, not during parsing. With `math`, calling `math.log(0)` raises a `ValueError` because the logarithm of zero is undefined. With `random`, seeding with a non-integer or using `random.choice()` on an empty sequence raises `TypeError` or `IndexError`. With `datetime`, creating an invalid date like `datetime(2023, 2, 30)` raises `ValueError`. These errors are caught only when the problematic line runs. Always validate inputs before passing them to library functions. For instance, check that a number is positive before computing a logarithm, and ensure a list is non-empty before calling `random.choice()`. Below is a runtime error example:\n\n```python\nimport math\nimport random\nfrom datetime import datetime\n\n# Runtime error: log(0) is undefined\nprint(math.log(0))\n\n# Runtime error: choice on empty list\nprint(random.choice([]))\n\n# Runtime error: invalid date\nprint(datetime(2023, 2, 30))\n```\n\nEach of these lines crashes the program. Defensive programming—checking conditions before calling functions—prevents such runtime failures."
+      },
+      "prompt": "Fix the bug in this code for the python standard library math random datetime runtime:",
+      "starter_code": "# Fix this code\nPrint('The Python Standard Library (math, random, datetime)')",
+      "solution_code": "print('The Python Standard Library (math, random, datetime)')",
+      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+    },
+    {
+      "id": "17.2_q23",
+      "type": "fix_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q22"
+      ],
+      "prompt": "Repair the logic in this code so it correctly determines if a randomly generated timestamp falls within business hours (9 AM to 5 PM).",
+      "starter_code": "import random\nfrom datetime import datetime, time\n\ndef is_business_hours(dt):\n    start = time(9, 0)\n    end = time(17, 0)\n    return dt.time() > start and dt.time() < end\n\nrandom_time = datetime.now().replace(hour=random.randint(0, 23), minute=random.randint(0, 59))\nprint(is_business_hours(random_time))",
+      "solution_code": "import random\nfrom datetime import datetime, time\n\ndef is_business_hours(dt):\n    start = time(9, 0)\n    end = time(17, 0)\n    current = dt.time()\n    return start <= current < end\n\nrandom_time = datetime.now().replace(hour=random.randint(0, 23), minute=random.randint(0, 59))\nprint(is_business_hours(random_time))",
+      "hint": "The original condition excludes 9:00 AM and 5:00 PM. Adjust the comparison operators to include the start time and exclude the end time.",
+      "explanation": "The original code used strict greater-than and less-than operators, which excluded 9:00 AM and 5:00 PM. Business hours typically include 9:00 AM up to but not including 5:00 PM. Changing the condition to `start <= current < end` correctly includes 9:00 AM and excludes 5:00 PM, fixing the logical boundary error."
+    },
+    {
+      "id": "17.2_q24",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.2_q23"
+      ],
+      "prompt": "Refactor the following code to improve readability, reduce redundancy, and optimize performance while maintaining identical output.",
+      "starter_code": "import math\nimport random\nfrom datetime import datetime\n\ndef process_data(n):\n    results = []\n    for i in range(n):\n        x = random.uniform(0, 100)\n        y = math.sqrt(x)\n        z = datetime.now()\n        results.append((x, y, z.strftime('%Y-%m-%d %H:%M:%S')))\n    return results\n\noutput = process_data(1000)\nprint(output[0])",
+      "solution_code": "import math\nimport random\nfrom datetime import datetime\n\ndef process_data(n):\n    fmt = '%Y-%m-%d %H:%M:%S'\n    return [\n        (x, math.sqrt(x), datetime.now().strftime(fmt))\n        for x in (random.uniform(0, 100) for _ in range(n))\n    ]\n\noutput = process_data(1000)\nprint(output[0])",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "process_data(0) returns []",
+          "description": "process_data(0) returns []"
+        },
+        {
+          "input": "",
+          "expected_output": "process_data(1) returns a tuple of length 3",
+          "description": "process_data(1) returns a tuple of length 3"
+        },
+        {
+          "input": "",
+          "expected_output": "All timestamps in output match format '%Y-%m-%d %H:%M:%S'",
+          "description": "All timestamps in output match format '%Y-%m-%d %H:%M:%S'"
+        },
+        {
+          "input": "",
+          "expected_output": "All x values are in range [0, 100)",
+          "description": "All x values are in range [0, 100)"
+        }
+      ],
+      "hint": "Consider using a generator expression inside a list comprehension and pre-binding the format string to avoid repeated attribute lookups.",
+      "explanation": "The refactored version replaces the explicit `for` loop and repeated `datetime.now()` calls with a single list comprehension. The generator expression `(random.uniform(0, 100) for _ in range(n))` lazily produces values, and the format string is bound once to `fmt`. Although `datetime.now()` is called once per iteration, this matches the original behavior; further optimization would require passing a fixed timestamp if reproducibility is acceptable. The refactoring improves clarity and reduces redundant operations."
+    },
+    {
+      "id": "17.2_q25",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q24"
+      ],
+      "prompt": "Write a Python script that imports the math, random, and datetime modules. Generate a random integer between 1 and 10, compute its square root rounded to 2 decimal places using math.sqrt, and print the current date and time in YYYY-MM-DD HH:MM:SS format using datetime.now.",
+      "starter_code": "import math\nimport random\nfrom datetime import datetime\n\n# Generate a random integer between 1 and 10\nrand_int = random.randint(1, 10)\n\n# Compute the square root and round it\nsqrt_val = math.sqrt(rand_int)\n\n# Get current date and time\nnow = datetime.now()\n\n# Print all three results\nprint(rand_int)\nprint(sqrt_val)\nprint(now)",
+      "solution_code": "import math\nimport random\nfrom datetime import datetime\n\nrand_int = random.randint(1, 10)\nsqrt_val = round(math.sqrt(rand_int), 2)\nnow = datetime.now().strftime('%Y-%m-%d %H:%M:%S')\n\nprint(f'Random integer: {rand_int}')\nprint(f'Square root rounded: {sqrt_val}')\nprint(f'Current datetime: {now}')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "rand_int must be in range 1 to 10 inclusive",
+          "description": "rand_int must be in range 1 to 10 inclusive"
+        },
+        {
+          "input": "",
+          "expected_output": "sqrt_val must be a float rounded to 2 decimal places",
+          "description": "sqrt_val must be a float rounded to 2 decimal places"
+        },
+        {
+          "input": "",
+          "expected_output": "now must be a string in 'YYYY-MM-DD HH:MM:SS' format",
+          "description": "now must be a string in 'YYYY-MM-DD HH:MM:SS' format"
+        }
+      ],
+      "hint": "Use random.randint for the integer, math.sqrt for the square root, and datetime.now().strftime to format the output string.",
+      "explanation": "This item reinforces importing standard library modules and combining math, random, and datetime in a single workflow. It teaches students to format datetime output and round floating-point results."
+    },
+    {
+      "id": "17.2_q26",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "17.2_q25"
+      ],
+      "prompt": "Write a Python script that simulates a daily exercise log. Use random.choice to pick a workout from a list of 5 activities, use math.floor to calculate the number of full 15-minute intervals in a random exercise duration between 10 and 60 minutes, and use datetime.date to compute the date 7 days from today.",
+      "starter_code": "import random\nimport math\nfrom datetime import date, timedelta\n\nworkouts = ['Running', 'Swimming', 'Cycling', 'Yoga', 'Weightlifting']\n\nchosen = random.choice(workouts)\nduration = random.randint(10, 60)\n\nintervals = math.floor(duration / 15)\n\ntomorrow = date.today() + timedelta(days=7)\n\nprint(chosen)\nprint(intervals)\nprint(tomorrow)",
+      "solution_code": "import random\nimport math\nfrom datetime import date, timedelta\n\nworkouts = ['Running', 'Swimming', 'Cycling', 'Yoga', 'Weightlifting']\nchosen = random.choice(workouts)\nduration = random.randint(10, 60)\nintervals = math.floor(duration / 15)\nfuture = date.today() + timedelta(days=7)\n\nprint(f'Workout: {chosen}')\nprint(f'Full 15-minute intervals: {intervals}')\nprint(f'Date in 7 days: {future}')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "chosen must be one of the 5 workout strings",
+          "description": "chosen must be one of the 5 workout strings"
+        },
+        {
+          "input": "",
+          "expected_output": "intervals must be an integer between 0 and 4 inclusive",
+          "description": "intervals must be an integer between 0 and 4 inclusive"
+        },
+        {
+          "input": "",
+          "expected_output": "future must be exactly 7 days after today's date",
+          "description": "future must be exactly 7 days after today's date"
+        }
+      ],
+      "hint": "Remember that timedelta takes keyword arguments like days=7, and math.floor returns the largest integer less than or equal to the value.",
+      "explanation": "This practical task connects random selection, integer division via floor, and date arithmetic. It shows how standard library tools support real-life scheduling and activity tracking."
+    },
+    {
+      "id": "17.2_q27",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.2_q26"
+      ],
+      "prompt": "Write a Python script that generates a random timestamp within the next 24 hours from now. Use datetime.datetime.now(datetime.timezone.utc) to get the current UTC time, add a random number of seconds between 0 and 86400 using random.uniform, round that offset to the nearest integer with math.floor, and format the resulting future timestamp as 'UTC YYYY-MM-DD HH:MM:SS'. Also compute the angle in radians of a random point on the unit circle using math.atan2 with random x and y coordinates between -1 and 1.",
+      "starter_code": "import random\nimport math\nfrom datetime import datetime, timezone, timedelta\n\nnow_utc = datetime.now(timezone.utc)\noffset_sec = random.uniform(0, 86400)\noffset_int = math.floor(offset_sec)\nfuture = now_utc + timedelta(seconds=offset_int)\n\nx = random.uniform(-1, 1)\ny = random.uniform(-1, 1)\nangle = math.atan2(y, x)\n\nprint(future)\nprint(angle)",
+      "solution_code": "import random\nimport math\nfrom datetime import datetime, timezone, timedelta\n\nnow_utc = datetime.now(timezone.utc)\noffset_int = math.floor(random.uniform(0, 86400))\nfuture = now_utc + timedelta(seconds=offset_int)\nfuture_str = future.strftime('%Y-%m-%d %H:%M:%S %Z')\n\nx = random.uniform(-1, 1)\ny = random.uniform(-1, 1)\nangle = math.atan2(y, x)\n\nprint(f'Future UTC timestamp: {future_str}')\nprint(f'Random angle in radians: {angle}')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "future must be within 24 hours after now_utc",
+          "description": "future must be within 24 hours after now_utc"
+        },
+        {
+          "input": "",
+          "expected_output": "future_str must contain 'UTC' and match the required format",
+          "description": "future_str must contain 'UTC' and match the required format"
+        },
+        {
+          "input": "",
+          "expected_output": "angle must be a float in the range approximately -3.14159 to 3.14159",
+          "description": "angle must be a float in the range approximately -3.14159 to 3.14159"
+        }
+      ],
+      "hint": "Use datetime.strftime with '%Z' to include the timezone abbreviation, and ensure random.uniform generates a float before applying math.floor.",
+      "explanation": "This advanced item combines timezone-aware datetime manipulation, random offset generation, and trigonometric functions. It prepares students for timestamp-based applications and geometric computations."
+    },
+    {
+      "id": "17.2_q28",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.2_q27"
+      ],
+      "prompt": "You are given a broken script. Fix the code so that it generates 5 random future timestamps, each exactly 48 hours apart starting from now in UTC, rounds the total number of seconds elapsed after the 5th timestamp to the nearest integer using math.floor, and prints both the list of timestamps and the elapsed seconds. The starter code contains syntax and logic errors.",
+      "starter_code": "import random\nimport math\nfrom datetime import datetime, timezone, timedelta\n\nnow = datetime.now(timezone.utc)\ntimestamps = []\nfor i in range(5):\n    ts = now + timedelta(hours=48 * i)\n    timestamps.append(ts)\n\ntotal_seconds = sum(ts - now for ts in timestamps)\nprint(timestamps)\nprint(math.floor(total_seconds))",
+      "solution_code": "import random\nimport math\nfrom datetime import datetime, timezone, timedelta\n\nrandom.seed(42)\nnow = datetime.now(timezone.utc)\ntimestamps = []\nfor i in range(5):\n    ts = now + timedelta(hours=48 * i)\n    timestamps.append(ts)\n\ntotal_seconds = sum((ts - now).total_seconds() for ts in timestamps)\nprint(timestamps)\nprint(math.floor(total_seconds))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "timestamps must contain exactly 5 datetime objects",
+          "description": "timestamps must contain exactly 5 datetime objects"
+        },
+        {
+          "input": "",
+          "expected_output": "each timestamp must be 48 hours apart from the previous one",
+          "description": "each timestamp must be 48 hours apart from the previous one"
+        },
+        {
+          "input": "",
+          "expected_output": "the printed floor value must be a non-negative integer",
+          "description": "the printed floor value must be a non-negative integer"
+        }
+      ],
+      "hint": "Use .total_seconds() on a timedelta object to get the elapsed seconds, and set a fixed seed if reproducibility is required.",
+      "explanation": "This challenge requires debugging datetime arithmetic, understanding timedelta subtraction, and correctly extracting total seconds. It strengthens precision in time-series generation tasks."
+    },
+    {
+      "id": "17.2_q29",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.2_q28"
+      ],
+      "prompt": "You are building a mock shipment tracking system. Write a Python script that simulates 3 shipments. For each shipment, generate a random dispatch date within the next 14 days from today, compute the estimated delivery date by adding a random number of days between 2 and 7 using datetime.timedelta, calculate the number of full 24-hour delivery windows using math.ceil on the total hours, and write all shipment records to a CSV-style string where each line is 'ShipmentID,DispatchDate,DeliveryDate,DeliveryWindows'. Use idx 1, 2, and 3 for shipment IDs.",
+      "starter_code": "import random\nimport math\nfrom datetime import date, timedelta\n\nbase = date.today()\nrecords = []\nfor idx in range(1, 4):\n    dispatch = base + timedelta(days=random.randint(0, 14))\n    delivery = dispatch + timedelta(days=random.randint(2, 7))\n    hours = (delivery - dispatch).total_seconds() / 3600\n    windows = math.ceil(hours / 24)\n    line = f'{idx},{dispatch},{delivery},{windows}'\n    records.append(line)\n\noutput = '\\n'.join(records)\nprint(output)",
+      "solution_code": "import random\nimport math\nfrom datetime import date, timedelta\n\nbase = date.today()\nrecords = []\nfor idx in range(1, 4):\n    dispatch = base + timedelta(days=random.randint(0, 14))\n    delivery = dispatch + timedelta(timedelta(days=random.randint(2, 7)))\n    hours = (delivery - dispatch).total_seconds() / 3600\n    windows = math.ceil(hours / 24)\n    line = f'{idx},{dispatch},{delivery},{windows}'\n    records.append(line)\n\noutput = '\\n'.join(records)\nprint(output)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "there must be exactly 3 output lines",
+          "description": "there must be exactly 3 output lines"
+        },
+        {
+          "input": "",
+          "expected_output": "dispatch dates must be within 14 days of today",
+          "description": "dispatch dates must be within 14 days of today"
+        },
+        {
+          "input": "",
+          "expected_output": "delivery dates must be at least 2 days after dispatch and at most 7 days after dispatch",
+          "description": "delivery dates must be at least 2 days after dispatch and at most 7 days after dispatch"
+        },
+        {
+          "input": "",
+          "expected_output": "delivery windows must be an integer >= 1",
+          "description": "delivery windows must be an integer >= 1"
+        }
+      ],
+      "hint": "Remember that timedelta can be constructed with keyword arguments like days=..., and math.ceil rounds up to the nearest integer.",
+      "explanation": "This scenario synthesizes random date generation, timedelta arithmetic, ceiling division for windows, and formatted string output. It mirrors logistics pipelines where dispatch and delivery dates are computed programmatically."
+    },
+    {
+      "id": "17.2_q30",
+      "type": "write_the_code",
+      "concept": "the_python_standard_library_math_random_datetime_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "17.2_q29"
+      ],
+      "prompt": "You are given a starter script that attempts to model a sensor reading log. Complete and correct the code so that it records 4 readings. Each reading uses a random timestamp within the last 72 hours from now in UTC, a random sensor value drawn from a normal distribution with mean 50 and standard deviation 10 using random.gauss, and a derived magnitude computed with math.hypot from random x and y offsets. The final output must be a list of dictionaries with keys 'timestamp', 'value', and 'magnitude', printed as a single JSON-like string. Ensure all datetime objects are timezone-aware.",
+      "starter_code": "import random\nimport math\nfrom datetime import datetime, timezone, timedelta\n\nnow = datetime.now(timezone.utc)\nreadings = []\nfor _ in range(4):\n    ts = now - timedelta(hours=random.randint(0, 72))\n    val = random.gauss(50, 10)\n    x = random.uniform(-5, 5)\n    y = random.uniform(-5, 5)\n    mag = math.hypot(x, y)\n    readings.append({'timestamp': ts, 'value': val, 'magnitude': mag})\n\nprint(readings)",
+      "solution_code": "import random\nimport math\nfrom datetime import datetime, timezone, timedelta\n\nnow = datetime.now(timezone.utc)\nreadings = []\nfor _ in range(4):\n    ts = now - timedelta(hours=random.randint(0, 72))\n    val = round(random.gauss(50, 10), 2)\n    x = random.uniform(-5, 5)\n    y = random.uniform(-5, 5)\n    mag = round(math.hypot(x, y), 2)\n    readings.append({'timestamp': ts, 'value': val, 'magnitude': mag})\n\nimport json\nprint(json.dumps(readings, default=str))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "readings must contain exactly 4 dictionaries",
+          "description": "readings must contain exactly 4 dictionaries"
+        },
+        {
+          "input": "",
+          "expected_output": "each timestamp must be within the last 72 hours and timezone-aware",
+          "description": "each timestamp must be within the last 72 hours and timezone-aware"
+        },
+        {
+          "input": "",
+          "expected_output": "each value must be a float near 50",
+          "description": "each value must be a float near 50"
+        },
+        {
+          "input": "",
+          "expected_output": "each magnitude must be a non-negative float",
+          "description": "each magnitude must be a non-negative float"
+        },
+        {
+          "input": "",
+          "expected_output": "the printed string must be valid JSON-like output",
+          "description": "the printed string must be valid JSON-like output"
+        }
+      ],
+      "hint": "Use json.dumps with default=str to serialize datetime objects, and round floats to 2 decimal places for cleaner output.",
+      "explanation": "This mastery item integrates timezone-aware datetime generation, Gaussian random sampling, Euclidean magnitude calculation, and JSON serialization. It represents a complete data-logging pipeline using only the Python standard library."
+    }
+  ],
+  "unit_num": 17,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Python Standard Library (math, random, datetime)",
+    "Apply idiomatic Python patterns when working with Python Standard Library (math, random, datetime)",
+    "Debug common runtime exceptions and logic errors associated with Python Standard Library (math, random, datetime)",
+    "Implement production-ready code utilizing Python Standard Library (math, random, datetime)"
+  ],
+  "prerequisites": [
+    "17.1"
+  ]
+}

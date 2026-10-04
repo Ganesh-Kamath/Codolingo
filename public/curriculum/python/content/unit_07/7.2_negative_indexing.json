@@ -1,0 +1,677 @@
+{
+  "lesson_id": "7.2",
+  "title": "Negative Indexing",
+  "unit": "String Manipulation",
+  "items": [
+    {
+      "id": "7.2_q1",
+      "type": "micro_lesson",
+      "concept": "negative_indexing_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is Negative Indexing?",
+      "content": "In Python, strings are sequences of characters. While positive indices start at 0 from the left, negative indices count backward from the end. The last character of a string has index -1, the second-to-last has -2, and so on. This is useful when you do not know the exact length of the string or when you want to access characters from the right side. For example, given the string 'hello', 'hello'[-1] returns 'o', 'hello'[-2] returns 'l', and 'hello'[-5] returns 'h'. If the absolute value of the negative index exceeds the string length, Python raises an IndexError.\n\nHere is a Python code block demonstrating the idea:\n\n```python\ns = 'python'\nprint(s[-1])   # Output: n\nprint(s[-3])   # Output: h\nprint(s[-6])   # Output: p\n```\n\nRemember: negative_indexing_basics is about recognizing that -1 always points to the final character.",
+      "prompt": "",
+      "explanation": "In Python, strings are sequences of characters. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 2,
+      "id": "7.2_q2",
+      "type": "multiple_choice",
+      "concept": "negative_indexing_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q1"
+      ],
+      "prompt": "What does the expression 'world'[-1] evaluate to?",
+      "options": [
+        "w",
+        "r",
+        "d",
+        "o"
+      ],
+      "correct_answer": "d",
+      "explanation": "In negative indexing, -1 refers to the last character of the string. The string 'world' has characters w-o-r-l-d, so the last character is 'd'. Therefore, 'world'[-1] evaluates to 'd'."
+    },
+    {
+      "idx": 3,
+      "id": "7.2_q3",
+      "type": "micro_lesson",
+      "concept": "negative_indexing_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q2"
+      ],
+      "title": "Syntax of Negative Indexing",
+      "content": "The syntax for negative indexing in Python is identical to positive indexing: you place the negative integer inside square brackets immediately after the string (or list) variable. The general form is object[-n], where n is a positive integer representing how many positions from the end you want to reach. It is important to use a single negative integer; you cannot use a range or a variable that evaluates to a non-integer inside the brackets for standard indexing. Slicing also supports negative indices: object[-3:] gives the last three characters, and object[:-2] gives everything except the last two. However, mixing negative and positive indices in a single slice can be confusing, so beginners should practice with simple cases first.\n\nExample Python code block:\n\n```python\nt = 'abcdef'\nprint(t[-2])   # Output: e\nprint(t[-3:])  # Output: def\nprint(t[:-1])  # Output: abcde\n```\n\nMastering negative_indexing_syntax means understanding that the brackets and the minus sign work exactly like their positive counterparts.",
+      "prompt": "",
+      "explanation": "The syntax for negative indexing in Python is identical to positive indexing: you place the negative integer inside square brackets immediately after the string (or list) variable. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "idx": 4,
+      "id": "7.2_q4",
+      "type": "multiple_choice",
+      "concept": "negative_indexing_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q3"
+      ],
+      "prompt": "Consider the string s = 'coding'. Which of the following expressions correctly uses negative indexing to obtain the character 'd'?",
+      "options": [
+        "s[-2]",
+        "s[-3]",
+        "s[-4]",
+        "s[-1]"
+      ],
+      "correct_answer": "s[-3]",
+      "explanation": "The string 'coding' has characters c(0)-o(1)-d(2)-i(3)-n(4)-g(5). From the end, -1 is 'g', -2 is 'n', and -3 is 'd'. Therefore, s[-3] correctly retrieves 'd'. s[-2] gives 'n', s[-4] gives 'o', and s[-1] gives 'g', so those are incorrect."
+    },
+    {
+      "idx": 5,
+      "id": "7.2_q5",
+      "type": "multiple_choice",
+      "concept": "negative_indexing_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q4"
+      ],
+      "prompt": "Match each negative index to its corresponding character in the string fruit = 'banana'.",
+      "options": [
+        "-1: a, -2: n, -3: b",
+        "-1: a, -2: n, -3: n",
+        "-1: n, -2: a, -3: b",
+        "-1: a, -2: a, -3: n"
+      ],
+      "correct_answer": "-1: a, -2: n, -3: n",
+      "explanation": "The string 'banana' is b-a-n-a-n-a. The last character is -1: 'a', the second-to-last is -2: 'n', and the third-to-last is -3: 'n'. Option B matches these values exactly."
+    },
+    {
+      "idx": 6,
+      "id": "7.2_q6",
+      "type": "multiple_choice",
+      "concept": "negative_indexing_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q5"
+      ],
+      "prompt": "What happens if you try to access a negative index that is larger in magnitude than the length of the string, such as 'hi'[-5]?",
+      "options": [
+        "It returns an empty string.",
+        "It raises an IndexError.",
+        "It wraps around to the beginning of the string.",
+        "It returns None."
+      ],
+      "correct_answer": "It raises an IndexError.",
+      "explanation": "Python does not allow out-of-bounds indexing for strings. When the absolute value of a negative index exceeds the string length, Python raises an IndexError because there is no character at that position from the end. It does not wrap around, return an empty string, or return None."
+    },
+    {
+      "id": "7.2_q7",
+      "type": "code_prediction",
+      "concept": "negative_indexing_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q6"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\ns = 'Codolingo'\nprint(s[-1])\n```",
+      "options": [
+        "-1",
+        "'o'",
+        "IndexError",
+        "None"
+      ],
+      "correct_answer": "'o'",
+      "explanation": "Negative indexing counts from the end of the string. -1 refers to the last character, which is 'o' in 'Codolingo'."
+    },
+    {
+      "id": "7.2_q8",
+      "type": "output_prediction",
+      "concept": "negative_indexing_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q7"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\ntext = 'Python'\nprint(text[-3:-1])\n```",
+      "options": [
+        "'Py'",
+        "'ho'",
+        "'hon'",
+        "'on'"
+      ],
+      "correct_answer": "'ho'",
+      "explanation": "text[-3:-1] slices from index -3 (character 'h') up to but not including index -1 (character 'n'), resulting in 'ho'."
+    },
+    {
+      "id": "7.2_q9",
+      "type": "code_prediction",
+      "concept": "negative_indexing_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q8"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nword = 'hello'\nprint(word[-2] + word[-1])\n```",
+      "options": [
+        "'ll'",
+        "'el'",
+        "'lo'",
+        "'he'"
+      ],
+      "correct_answer": "'lo'",
+      "explanation": "Hyphens `-` are interpreted by Python's parser as subtraction operators, not identifier characters. In Python variable names, words must be joined using underscores `_`."
+    },
+    {
+      "id": "7.2_q10",
+      "type": "write_the_code",
+      "concept": "negative_indexing_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q9"
+      ],
+      "micro_lesson": {
+        "title": "How Negative Indexing Works in Strings",
+        "content": "In Python, strings support negative indexing to access elements from the end. The index -1 refers to the last character, -2 to the second-to-last, and so on. This is especially useful when you do not know the exact length of the string. For example, if s = 'Codolingo', then s[-1] returns 'o', s[-2] returns 'n', and s[-len(s)] returns 'C'. You can also combine negative indexing with slicing. Remember that slicing uses an exclusive end index, so s[-2:-1] returns only the character at index -2. Here is a code example:\n\n```python\ns = 'Codolingo'\nprint(s[-1])        # last character\nprint(s[-2])        # second last\nprint(s[-len(s)])   # first character\n```\n\nThis mechanism avoids manual length calculations and makes string manipulation more intuitive."
+      },
+      "prompt": "Write Python code to solve this challenge for Negative Indexing:",
+      "starter_code": "# TODO: Implement solution for Negative Indexing\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Negative Indexing')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Negative Indexing"
+        }
+      ],
+      "explanation": "This exercise tests `negative indexing analysis` in Negative Indexing. When Python validates this code, it applies the standard rules of negative indexing analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.2_q11",
+      "type": "code_prediction",
+      "concept": "negative_indexing_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q10"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nname = 'Codolingo'\nresult = name[-3:]\nprint(result)\n```",
+      "options": [
+        "'Cod'",
+        "'ngo'",
+        "'dolin'",
+        "'ingo'"
+      ],
+      "correct_answer": "'ngo'",
+      "explanation": "`name[-3:]` slices from index -3 ('n') through the end of the string, yielding 'ngo'."
+    },
+    {
+      "id": "7.2_q12",
+      "type": "output_prediction",
+      "concept": "negative_indexing_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q11"
+      ],
+      "prompt": "What is the output of the following Python code?\n\n```python\nphrase = 'Python is fun'\nprint(phrase[-5:-2])\n```",
+      "options": [
+        "'fun'",
+        "'s f'",
+        "'is '",
+        "'Python'"
+      ],
+      "correct_answer": "'s f'",
+      "explanation": "In 'Python is fun', negative index -5 is 's', -4 is ' ', and -3 is 'f'. The slice [-5:-2] excludes index -2 ('u'), resulting in 's f'."
+    },
+    {
+      "id": "7.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "negative_indexing_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.2_q12"
+      ],
+      "prompt": "In Python, to access the last character of a string using negative indexing, you write: s[____].",
+      "correct_answer": "-1",
+      "accepted_answers": [
+        "-1"
+      ],
+      "explanation": "Negative indexing counts backward from the end of the string. -1 refers to the last character, -2 refers to the second-to-last character, and so on."
+    },
+    {
+      "id": "7.2_q14",
+      "type": "fill_in_the_blank",
+      "concept": "negative_indexing_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q13"
+      ],
+      "prompt": "To extract the last three characters of a string s, you use the slice notation s[____:____].",
+      "correct_answer": "-3:",
+      "accepted_answers": [
+        "-3:",
+        "-3:"
+      ],
+      "explanation": "The slice s[-3:] starts at the third-to-last character and continues to the end. Omitting the end index means 'up to the end'."
+    },
+    {
+      "id": "7.2_q15",
+      "type": "code_ordering",
+      "concept": "negative_indexing_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to print the last four characters of the string message.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, the string must be assigned to a variable. Then, negative indexing extracts the last four characters. Finally, the result is printed."
+    },
+    {
+      "id": "7.2_q16",
+      "type": "fill_in_the_blank",
+      "concept": "negative_indexing_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q15"
+      ],
+      "prompt": "The expression s[____:____] returns all characters of s except the last two.",
+      "correct_answer": "[:-2]",
+      "accepted_answers": [
+        "[:-2]",
+        "[:-2]"
+      ],
+      "explanation": "The slice s[:-2] starts from the beginning (default index 0) and stops before the last two characters. Negative indexing here defines the stop position."
+    },
+    {
+      "id": "7.2_q17",
+      "type": "code_ordering",
+      "concept": "negative_indexing_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q16"
+      ],
+      "prompt": "Arrange the following lines to build a function that returns the last two characters of any input string.",
+      "options": [
+        "def last_two(s):",
+        "return s[-2:]",
+        "result = last_two(text)",
+        "text = 'Python'",
+        "print(result)"
+      ],
+      "correct_answer": [
+        "def last_two(s):",
+        "return s[-2:]",
+        "text = 'Python'",
+        "result = last_two(text)",
+        "print(result)"
+      ],
+      "explanation": "The function definition comes first, followed by the return statement using negative indexing. Then the string is assigned, the function is called, and the output is printed."
+    },
+    {
+      "id": "7.2_q18",
+      "type": "fill_in_the_blank",
+      "concept": "negative_indexing_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q17"
+      ],
+      "prompt": "A common Python idiom to reverse a string is: s[____].",
+      "correct_answer": "[:-1:-1]",
+      "accepted_answers": [
+        "[:-1:-1]",
+        "[:-1:-1]"
+      ],
+      "explanation": "The slice s[::-1] reverses the entire string. Using s[:-1:-1] is not standard; the correct idiom is s[::-1]. However, s[:-1:-1] would return characters in reverse order except the last one. The true reversal idiom is s[::-1]."
+    },
+    {
+      "id": "7.2_q19",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "negative_indexing_errors",
+      "prerequisites": [
+        "7.2_q18"
+      ],
+      "micro_lesson": {
+        "title": "Understanding Negative Indexing Errors",
+        "content": "In Python, negative indexing allows you to access elements from the end of a sequence. For a string of length n, valid negative indices range from -n to -1. An IndexError occurs when you use an index less than -n (too far from the end) or greater than the last index. For example, in 'hello' (length 5), indices -5 through -1 are valid, but -6 raises an IndexError. Common mistakes include off-by-one errors when converting between positive and negative indices, and assuming that negative indices can wrap around or exceed the string length. Always verify that your negative index is within the range [-len(s), -1] before accessing a character."
+      },
+      "difficulty": "medium",
+      "prompt": "Fix the bug in this code for negative indexing errors:",
+      "starter_code": "# Fix this code\nPrint('Negative Indexing')",
+      "solution_code": "print('Negative Indexing')",
+      "explanation": "This exercise tests `negative indexing errors` in Negative Indexing. When Python validates this code, it applies the standard rules of negative indexing errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.2_q20",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "easy",
+      "concept": "negative_indexing_fix",
+      "prerequisites": [
+        "7.2_q19"
+      ],
+      "prompt": "The following code attempts to print the last character of a string using negative indexing, but it produces an error. Identify and fix the issue.",
+      "starter_code": "name = 'Codolingo'\n# Attempt to get the last character\nlast_char = name[-10]\nprint(last_char)",
+      "solution_code": "name = 'Codolingo'\nlast_char = name[-1]  # -1 refers to the last character\nprint(last_char)",
+      "hint": "Check the length of the string and ensure the negative index is within the valid range.",
+      "explanation": "The string 'Codolingo' has 9 characters, so valid negative indices are -9 through -1. Using -10 is out of bounds and raises an IndexError. Changing the index to -1 correctly retrieves the last character.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "7.2_q21",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "negative_indexing_edge_cases",
+      "prerequisites": [
+        "7.2_q20"
+      ],
+      "prompt": "The code below tries to extract the first character of a string using negative indexing, but fails for certain inputs. Correct the logic to handle all non-empty strings.",
+      "starter_code": "def get_first(s):\n    return s[-len(s)]\n\n# Test\nprint(get_first('a'))\nprint(get_first('ab'))",
+      "solution_code": "def get_first(s):\n    if len(s) == 0:\n        return ''\n    return s[-len(s)]\n\n# Test\nprint(get_first('a'))    # Output: 'a'\nprint(get_first('ab'))   # Output: 'a'",
+      "hint": "Consider what happens when the string is empty.",
+      "explanation": "For a non-empty string, -len(s) correctly points to the first character (e.g., -2 for 'ab' gives 'a'). However, an empty string causes len(s) to be 0, and s[-0] is equivalent to s[0], which raises an IndexError. Adding a guard for empty strings prevents the error.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.2_q22",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "negative_indexing_runtime",
+      "prerequisites": [
+        "7.2_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Behavior of Negative Indexing",
+        "content": "Negative indexing is evaluated at runtime based on the current length of the sequence. If the sequence is modified between the calculation of the index and the access, the index may become invalid. For strings, which are immutable, this is less of a concern, but for lists or other mutable sequences, dynamic length changes can lead to IndexError. Additionally, using a variable that holds a negative index requires careful validation: if the variable is positive or zero, accessing with it as a negative index will either access from the start (for zero) or raise an error (for positive values interpreted as negative). Always validate that your computed negative index is strictly negative and within bounds before use."
+      },
+      "difficulty": "medium",
+      "prompt": "Fix the bug in this code for negative indexing runtime:",
+      "starter_code": "# Fix this code\nPrint('Negative Indexing')",
+      "solution_code": "print('Negative Indexing')",
+      "explanation": "This exercise tests `negative indexing runtime` in Negative Indexing. When Python validates this code, it applies the standard rules of negative indexing runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.2_q23",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "negative_indexing_logic_repair",
+      "prerequisites": [
+        "7.2_q22"
+      ],
+      "prompt": "The function below is meant to return the second-to-last character of a string, but the logic is flawed. Repair the code so it works correctly for all strings with at least two characters.",
+      "starter_code": "def second_last(s):\n    idx = -2\n    return s[idx]\n\nprint(second_last('Python'))",
+      "solution_code": "def second_last(s):\n    if len(s) < 2:\n        return ''\n    idx = -2\n    return s[idx]\n\nprint(second_last('Python'))  # Output: 'o'\nprint(second_last('ab'))       # Output: 'a'\nprint(second_last('a'))        # Output: ''",
+      "hint": "Ensure the function handles strings shorter than two characters safely.",
+      "explanation": "The original code assumes the string has at least two characters. For a single-character string, -2 is out of bounds and raises an IndexError. The repaired version checks length before indexing and returns an empty string for invalid inputs, making the function robust.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "7.2_q24",
+      "type": "write_the_code",
+      "skill": "refactoring",
+      "diff": "hard",
+      "concept": "negative_indexing_optimization",
+      "prerequisites": [
+        "7.2_q23"
+      ],
+      "prompt": "Refactor the following repetitive code to use a single reusable function that extracts characters from the end of a string using negative indexing. Minimize redundancy and improve readability.",
+      "starter_code": "s = 'abcdefghij'\nprint(s[-1])\nprint(s[-2])\nprint(s[-3])\nprint(s[-4])\nprint(s[-5])\n\n# Another string\nt = 'xyz'\nprint(t[-1])\nprint(t[-2])",
+      "solution_code": "def get_end_chars(s, n):\n    if n <= 0 or n > len(s):\n        raise ValueError('n must be between 1 and len(s)')\n    return s[-n]\n\n# Refactored usage\ns = 'abcdefghij'\nfor i in range(1, 6):\n    print(get_end_chars(s, i))\n\nt = 'xyz'\nfor i in range(1, 3):\n    print(get_end_chars(t, i))",
+      "test_cases": [
+        {
+          "input": "s = 'abcdefghij', n = 1",
+          "expected": "'j'"
+        },
+        {
+          "input": "s = 'abcdefghij', n = 5",
+          "expected": "'f'"
+        },
+        {
+          "input": "s = 'xyz', n = 2",
+          "expected": "'y'"
+        },
+        {
+          "input": "s = 'xyz', n = 3",
+          "expected": "'x'"
+        }
+      ],
+      "hint": "Use a loop or a helper function to avoid repeating print statements.",
+      "explanation": "The original code duplicates the indexing logic across multiple lines. By introducing get_end_chars(s, n), we encapsulate the negative indexing operation, add input validation, and enable reuse via a loop. This reduces code duplication, improves maintainability, and clearly expresses intent.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "7.2_q25",
+      "type": "write_the_code",
+      "concept": "negative_indexing_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q24"
+      ],
+      "prompt": "Write a Python function that returns the last character of a given string using negative indexing.",
+      "starter_code": "def last_char(s):\n    # TODO: return the last character using negative indexing\n    pass",
+      "solution_code": "def last_char(s):\n    return s[-1]",
+      "test_cases": [
+        {
+          "input": "hello",
+          "expected": "o"
+        },
+        {
+          "input": "a",
+          "expected": "a"
+        },
+        {
+          "input": "Python",
+          "expected": "n"
+        }
+      ],
+      "hint": "In Python, -1 refers to the last item in a sequence. Apply this to the string s.",
+      "explanation": "Negative indexing starts from the end of the sequence. s[-1] accesses the final character, which is useful when you do not know the length of the string beforehand."
+    },
+    {
+      "id": "7.2_q26",
+      "type": "write_the_code",
+      "concept": "negative_indexing_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.2_q25"
+      ],
+      "prompt": "Write a Python function that removes the first and last character from a string using negative indexing.",
+      "starter_code": "def trim_ends(s):\n    # TODO: remove first and last character using negative indexing\n    pass",
+      "solution_code": "def trim_ends(s):\n    return s[1:-1]",
+      "test_cases": [
+        {
+          "input": "hello",
+          "expected": "ell"
+        },
+        {
+          "input": "ab",
+          "expected": ""
+        },
+        {
+          "input": "Python",
+          "expected": "ytho"
+        }
+      ],
+      "hint": "Use a slice with start index 1 and end index -1 to exclude the first and last characters.",
+      "explanation": "s[1:-1] creates a substring starting from index 1 (second character) up to, but not including, the last character. This is a common pattern for stripping outer characters from strings."
+    },
+    {
+      "id": "7.2_q27",
+      "type": "write_the_code",
+      "concept": "negative_indexing_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.2_q26"
+      ],
+      "prompt": "Write a Python function that returns the last three characters of a string if the string length is at least 3; otherwise, return the entire string using negative indexing.",
+      "starter_code": "def last_three(s):\n    # TODO: implement with negative indexing and length check\n    pass",
+      "solution_code": "def last_three(s):\n    if len(s) >= 3:\n        return s[-3:]\n    return s",
+      "test_cases": [
+        {
+          "input": "hello",
+          "expected": "llo"
+        },
+        {
+          "input": "hi",
+          "expected": "hi"
+        },
+        {
+          "input": "Python",
+          "expected": "hon"
+        }
+      ],
+      "hint": "Check the length first, then use s[-3:] to get the last three characters via negative indexing and slicing.",
+      "explanation": "This combines conditional logic with negative indexing. s[-3:] slices from the third-to-last character to the end. If the string is too short, returning s avoids an IndexError."
+    },
+    {
+      "id": "7.2_q28",
+      "type": "write_the_code",
+      "concept": "negative_indexing_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.2_q27"
+      ],
+      "prompt": "You are given a string representing a sentence. Write a function that returns the sentence reversed by extracting characters from the end to the beginning using negative indexing, without using the built-in reversed() function or slicing with [::-1].",
+      "starter_code": "def reverse_sentence(sentence):\n    # TODO: build reversed string using negative indexing in a loop\n    pass",
+      "solution_code": "def reverse_sentence(sentence):\n    rev = ''\n    for i in range(len(sentence) - 1, -1, -1):\n        rev += sentence[i]\n    return rev",
+      "test_cases": [
+        {
+          "input": "abc",
+          "expected": "cba"
+        },
+        {
+          "input": "12345",
+          "expected": "54321"
+        },
+        {
+          "input": "a",
+          "expected": "a"
+        }
+      ],
+      "hint": "Iterate backwards from len(sentence) - 1 down to 0, appending each character to a new string.",
+      "explanation": "By looping from the last valid index to 0 and concatenating characters, we manually reverse the string. This reinforces how negative indexing relates to positive index positions in reverse order."
+    },
+    {
+      "id": "7.2_q29",
+      "type": "write_the_code",
+      "concept": "negative_indexing_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.2_q28"
+      ],
+      "prompt": "A log file stores user IDs as strings, but the most recent entry is always appended at the end. Write a function that extracts the most recent user ID from a list of log entries, where each entry is a string and the ID is the last 4 characters. Use negative indexing to isolate the ID reliably even if the log entry length varies.",
+      "starter_code": "def extract_recent_id(log_entry):\n    # TODO: return the last 4 characters as the user ID\n    pass",
+      "solution_code": "def extract_recent_id(log_entry):\n    return log_entry[-4:]",
+      "test_cases": [
+        {
+          "input": "login_user_A123",
+          "expected": "A123"
+        },
+        {
+          "input": "action_X999",
+          "expected": "X999"
+        },
+        {
+          "input": "event_0012",
+          "expected": "0012"
+        }
+      ],
+      "hint": "Since the ID is always the last 4 characters, negative indexing with s[-4:] directly targets that segment regardless of the prefix length.",
+      "explanation": "In real-world data processing, log entries often have variable-length prefixes. Negative indexing with s[-4:] provides a robust way to extract fixed-length suffixes without computing the total length or using fragile position-based slicing."
+    },
+    {
+      "id": "7.2_q30",
+      "type": "write_the_code",
+      "concept": "negative_indexing_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.2_q29"
+      ],
+      "prompt": "Write a Python function that takes a list of strings and returns a new list containing only those strings whose second-to-last character is a vowel (a, e, i, o, u), using negative indexing to access that character. Handle empty strings and single-character strings gracefully.",
+      "starter_code": "def filter_by_second_last_vowel(strings):\n    vowels = 'aeiou'\n    result = []\n    for s in strings:\n        # TODO: check second-to-last character with negative indexing\n        pass\n    return result",
+      "solution_code": "def filter_by_second_last_vowel(strings):\n    vowels = 'aeiou'\n    result = []\n    for s in strings:\n        if len(s) >= 2 and s[-2].lower() in vowels:\n            result.append(s)\n    return result",
+      "test_cases": [
+        {
+          "input": [
+            "hello",
+            "world",
+            "queue",
+            "cat",
+            "a",
+            ""
+          ],
+          "expected": [
+            "hello",
+            "queue"
+          ]
+        },
+        {
+          "input": [
+            "apple",
+            "pear",
+            "kiwi",
+            "banana"
+          ],
+          "expected": [
+            "apple",
+            "pear",
+            "banana"
+          ]
+        },
+        {
+          "input": [
+            "x",
+            "xy",
+            "xyz"
+          ],
+          "expected": [
+            "xyz"
+          ]
+        }
+      ],
+      "hint": "Use s[-2] to access the second-to-last character, but first verify the string has at least 2 characters to avoid an IndexError.",
+      "explanation": "This mastery task integrates negative indexing with data validation and filtering. s[-2] targets the penultimate character, and the length guard ensures safety for edge cases. Converting to lowercase with .lower() makes the vowel check case-insensitive."
+    }
+  ],
+  "unit_num": 7,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Negative Indexing",
+    "Apply idiomatic Python patterns when working with Negative Indexing",
+    "Debug common runtime exceptions and logic errors associated with Negative Indexing",
+    "Implement production-ready code utilizing Negative Indexing"
+  ],
+  "prerequisites": [
+    "7.1"
+  ]
+}

@@ -1,0 +1,712 @@
+{
+  "lesson_id": "7.8",
+  "title": "String Membership (in)",
+  "unit": "String Manipulation",
+  "items": [
+    {
+      "id": "7.8_q1",
+      "type": "micro_lesson",
+      "concept": "string_membership_in_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is the in Operator for Strings?",
+      "content": "The `in` operator checks whether a substring exists inside a string. It returns `True` if the substring is found, and `False` otherwise. This is a membership test, similar to checking if an item is in a list.\n\nExample:\n```python\ns = 'python'\nprint('p' in s)   # True\nprint('java' in s)  # False\n```\n\nKey points:\n- `in` only looks for exact matches of the substring.\n- It is case-sensitive, so `'P' in 'Python'` is `False`.\n- It works with any iterable, not just strings.",
+      "prompt": "",
+      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+    },
+    {
+      "id": "7.8_q2",
+      "type": "multiple_choice",
+      "concept": "string_membership_in_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q1"
+      ],
+      "prompt": "What does the expression `'cat' in 'caterpillar'` evaluate to?",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "explanation": "The substring `'cat'` appears at the beginning of `'caterpillar'`, so the `in` operator returns `True`."
+    },
+    {
+      "id": "7.8_q3",
+      "type": "micro_lesson",
+      "concept": "string_membership_in_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q2"
+      ],
+      "title": "Syntax of the in Operator",
+      "content": "The general syntax is:\n```python\nsubstring in target_string\n```\n\n- `substring`: the smaller string you are searching for.\n- `target_string`: the string you are searching inside.\n\nThe operator evaluates to a Boolean value: `True` if the substring is present, `False` if it is not.\n\nExamples:\n```python\nname = 'Alice'\nprint('lice' in name)   # True\nprint('bob' in name)    # False\n```\n\nNote: `in` is not the same as equality (`==`). Equality checks the entire string, while `in` checks for a part.",
+      "prompt": "",
+      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+    },
+    {
+      "id": "7.8_q4",
+      "type": "multiple_choice",
+      "concept": "string_membership_in_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q3"
+      ],
+      "prompt": "Which of the following is the correct syntax to check if 'x' is inside the string 'example'?",
+      "options": [
+        "example == 'x'",
+        "'x' in example",
+        "in 'x' example",
+        "example in 'x'"
+      ],
+      "correct_answer": "'x' in example",
+      "explanation": "The `in` operator places the substring on the left and the target string on the right. Option B follows this correct order."
+    },
+    {
+      "id": "7.8_q5",
+      "type": "multiple_choice",
+      "concept": "string_membership_in_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q4"
+      ],
+      "prompt": "Which of these strings contains the substring 'data'?",
+      "options": [
+        "'database'",
+        "'python'",
+        "'hello world'",
+        "'12345'"
+      ],
+      "correct_answer": "'database'",
+      "explanation": "The substring 'data' appears at the start of 'database', so `'data' in 'database'` is `True`. The other strings do not contain 'data'."
+    },
+    {
+      "id": "7.8_q6",
+      "type": "multiple_choice",
+      "concept": "string_membership_in_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q5"
+      ],
+      "prompt": "What happens when you use `in` with different cases, such as `'P' in 'Python'`?",
+      "options": [
+        "It returns True because the letter is present",
+        "It returns False because `in` is case-sensitive",
+        "It raises a TypeError",
+        "It converts both to lowercase automatically"
+      ],
+      "correct_answer": "It returns False because `in` is case-sensitive",
+      "explanation": "`in` performs an exact character match, including case. Since uppercase 'P' does not match lowercase 'p', the result is `False`."
+    },
+    {
+      "id": "7.8_q7",
+      "type": "code_prediction",
+      "concept": "string_membership_in_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q6"
+      ],
+      "micro_lesson": {
+        "title": "Checking if a Substring Exists",
+        "content": "The `in` operator checks whether a substring is present inside a string. It returns `True` if the substring is found, and `False` otherwise. This is useful for validating user input, searching for keywords, or controlling program flow based on text content. For example, `'cat' in 'concatenate'` evaluates to `True` because the characters 'c', 'a', and 't' appear consecutively within the larger string. Remember that `in` performs a literal search and is case-sensitive."
+      },
+      "prompt": "What is the output of this Python snippet?\n```python\nprint('String Membership (in)')\n```",
+      "options": [
+        "String Membership (in)",
+        "Error",
+        "None",
+        "String Membership (in) (repeated)"
+      ],
+      "correct_answer": "String Membership (in)",
+      "explanation": "This exercise tests `string membership in execution` in String Membership (in). When Python evaluates this code, it applies the standard rules of string membership in execution. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "7.8_q8",
+      "type": "output_prediction",
+      "concept": "string_membership_in_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q7"
+      ],
+      "prompt": "What is the output of the following code?\n```python\nphrase = 'Python is fun'\nresult = 'fun' in phrase\nprint(result)\n```",
+      "options": [
+        "True",
+        "False",
+        "'fun'",
+        "None"
+      ],
+      "correct_answer": "True",
+      "explanation": "The expression `'fun' in phrase` checks whether the substring `'fun'` appears anywhere inside the string `'Python is fun'`. Since it does, the expression evaluates to the boolean `True`, which is then printed."
+    },
+    {
+      "id": "7.8_q9",
+      "type": "code_prediction",
+      "concept": "string_membership_in_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q8"
+      ],
+      "prompt": "What does the following code print?\n```python\ntext = 'Hello World'\nif 'World' in text:\n    print('Found')\nelse:\n    print('Missing')\n```",
+      "options": [
+        "Found",
+        "Missing",
+        "World",
+        "Hello"
+      ],
+      "correct_answer": "Found",
+      "explanation": "The condition `'World' in text` evaluates to `True` because the substring `'World'` exists inside `'Hello World'`. Therefore, the first branch of the `if` statement executes and prints `'Found'`."
+    },
+    {
+      "id": "7.8_q10",
+      "type": "write_the_code",
+      "concept": "string_membership_in_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q9"
+      ],
+      "prompt": "Analyze the following code and explain why the final output is what it is:\n```python\nword = 'programming'\nif 'gram' in word:\n    print('Yes')\nelse:\n    print('No')\n```",
+      "correct_answer": "Prints 'Yes' because 'gram' appears consecutively inside 'programming'.",
+      "explanation": "The `in` operator performs a substring search anywhere in the string, not just at the beginning or as a whole word. The sequence 'g', 'r', 'a', 'm' appears starting at index 3 in 'programming', so the condition is `True` and `'Yes'` is printed.",
+      "starter_code": "# TODO: Implement solution for String Membership (in)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('String Membership (in)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "String Membership (in)"
+        }
+      ]
+    },
+    {
+      "id": "7.8_q11",
+      "type": "code_prediction",
+      "concept": "string_membership_in_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q10"
+      ],
+      "prompt": "Trace the execution of the code step by step and determine the final value printed:\n```python\nname = 'Alice'\nsecret = 'Alice123'\nif name in secret:\n    print('Access granted')\nelse:\n    print('Access denied')\n```",
+      "options": [
+        "'Access granted'",
+        "'Access denied'",
+        "'secret'",
+        "'name'"
+      ],
+      "correct_answer": "'Access granted'",
+      "explanation": "Step 1: `name` is assigned `'Alice'`. Step 2: `secret` is assigned `'Alice123'`. Step 3: The condition `'Alice' in 'Alice123'` is evaluated. Since `'Alice'` is found at the start of `secret`, the condition is `True`. Step 4: The `if` branch executes and prints `'Access granted'`."
+    },
+    {
+      "id": "7.8_q12",
+      "type": "output_prediction",
+      "concept": "string_membership_in_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q11"
+      ],
+      "prompt": "What is the output of the following code?\n```python\ncode = 'python'\nif 'java' in code and 'py' in code:\n    print('Match')\nelse:\n    print('No match')\n```",
+      "options": [
+        "'Match'",
+        "'No match'",
+        "'java'",
+        "SyntaxError"
+      ],
+      "correct_answer": "'No match'",
+      "explanation": "The first part of the condition, `'java' in code`, is `False` because `'java'` is not a substring of `'python'`. Due to short-circuit evaluation, the second part is not evaluated, and the entire `and` expression is `False`. Therefore, the `else` branch executes and prints `'No match'`."
+    },
+    {
+      "id": "7.8_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "string_membership_in_syntax",
+      "micro_lesson": {
+        "title": "The in Operator Syntax",
+        "content": "The `in` operator checks whether a substring exists inside a string. It returns `True` if the substring is found, and `False` otherwise. The general syntax is: `substring in string`. This is useful for validating user input or searching for specific characters within text. For example, to check if the letter 'a' appears in the word 'apple', you write `'a' in 'apple'`, which evaluates to `True`."
+      },
+      "prompt": "Complete the expression: `'x' ___ 'example string'`",
+      "correct_answer": "in",
+      "accepted_answers": [
+        "in"
+      ],
+      "explanation": "The `in` operator is used to test membership of a substring within a string. Without it, the expression is invalid syntax. Replacing the blank with `in` correctly checks whether 'x' is present in 'example string'.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q12"
+      ]
+    },
+    {
+      "id": "7.8_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "string_membership_in_keywords",
+      "micro_lesson": {
+        "title": "Using in with Conditional Statements",
+        "content": "You can combine `in` with control flow keywords like `if`, `elif`, and `else` to make decisions based on string content. When you write `if substring in string:`, Python evaluates the membership test first. If it is `True`, the indented block executes. This pattern is common when filtering text, validating passwords, or checking for required keywords in a sentence. Remember that `in` is case-sensitive."
+      },
+      "prompt": "Fill in the blank to make the condition valid: `if 'Python' ___ message:`",
+      "correct_answer": "in",
+      "accepted_answers": [
+        "in"
+      ],
+      "explanation": "The membership test requires the `in` keyword between the substring and the target string. Using `in` allows the `if` statement to evaluate whether 'Python' appears anywhere inside `message`.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q13"
+      ]
+    },
+    {
+      "id": "7.8_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "string_membership_in_sequence",
+      "micro_lesson": {
+        "title": "Sequencing Membership Checks",
+        "content": "When multiple membership tests are needed, you must sequence them correctly inside your program logic. A typical sequence is: define the string, define the substring, evaluate `in`, and then use the result in an `if` block or assign it to a variable. Reversing the order of operations, such as placing the `if` before the membership test, causes a syntax error. Proper sequencing ensures readability and correctness."
+      },
+      "prompt": "Arrange the following code lines into the correct order to check membership and print a result.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The variable `text` must be assigned before it is used in the membership test. The `if` statement must evaluate `'test' in text` before printing. Only the second option follows this logical and syntactically valid sequence.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q14"
+      ]
+    },
+    {
+      "id": "7.8_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "string_membership_in_patterns",
+      "micro_lesson": {
+        "title": "Membership with Patterns and Slices",
+        "content": "String membership is not limited to single characters or whole words. You can test whether a pattern, such as a prefix, suffix, or repeated sequence, exists inside a string. For example, `'ab' in 'cab'` is `True`, and `'xyz' in 'abcxyz'` is also `True`. This flexibility makes `in` a powerful tool for pattern detection without importing extra modules."
+      },
+      "prompt": "Complete the statement: `'ab' ___ 'cab'`",
+      "correct_answer": "in",
+      "accepted_answers": [
+        "in"
+      ],
+      "explanation": "The `in` operator correctly expresses that the substring 'ab' is present within the string 'cab'. Other operators like `==` or `+` would not test membership.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q15"
+      ]
+    },
+    {
+      "id": "7.8_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "string_membership_in_algorithm",
+      "micro_lesson": {
+        "title": "Algorithm: Search and Respond",
+        "content": "A common algorithm using string membership is: receive input, define a target keyword, check if the keyword is `in` the input, and then branch behavior based on the result. This algorithm appears in chatbots, search filters, and input validators. The correct order is always: prepare data, perform the test, then act on the Boolean outcome. Skipping the test or acting before it leads to incorrect logic."
+      },
+      "prompt": "Order the lines to implement a simple keyword search algorithm.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Variables must be initialized before they are referenced. The membership test must occur inside the `if` statement, and the print action must be nested within that block. Only the first option follows this correct algorithmic sequence.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q16"
+      ]
+    },
+    {
+      "id": "7.8_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "string_membership_in_idioms",
+      "micro_lesson": {
+        "title": "Idiomatic Uses of in",
+        "content": "Experienced Python programmers often use `in` inside list comprehensions, generator expressions, and conditional filters. A common idiom is `if key in mapping:` to safely access dictionary-like structures, or `' '.join(word for word in sentence if 'a' in word)` to filter words containing a specific letter. These idioms rely on the same membership principle but apply it across collections and expressions."
+      },
+      "prompt": "Complete the idiomatic filter: `[w for w in words ___ 'a' in w]`",
+      "correct_answer": "if",
+      "accepted_answers": [
+        "if"
+      ],
+      "explanation": "In a list comprehension, the `if` keyword separates the expression from the membership filter. The full idiom reads `[w for w in words if 'a' in w]`, which selects only those words containing the letter 'a'.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q17"
+      ]
+    },
+    {
+      "id": "7.8_q19",
+      "type": "fix_the_code",
+      "concept": "string_membership_in_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q18"
+      ],
+      "prompt": "Identify and explain the error(s) in the following code that attempts to check if a character is present in a string.",
+      "starter_code": "def has_char(text, char):\n    if char in text:\n        return True\n    else:\n        return 'Not found'\n\nresult = has_char('Codolingo', 'g')\nprint(result)",
+      "solution_code": "def has_char(text, char):\n    if char in text:\n        return True\n    else:\n        return False\n\nresult = has_char('Codolingo', 'g')\nprint(result)",
+      "hint": "The function mixes return types. A membership check should return a consistent boolean value.",
+      "explanation": "The expression 'char in text' already evaluates to True or False. Returning 'Not found' (a string) alongside True/False creates a type inconsistency. The corrected version returns False when the character is absent, keeping the return type strictly boolean."
+    },
+    {
+      "id": "7.8_q20",
+      "type": "fix_the_code",
+      "concept": "string_membership_in_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "7.8_q19"
+      ],
+      "prompt": "Fix the code so that it correctly reports whether the substring 'ing' exists in the provided sentence.",
+      "starter_code": "sentence = 'Learning Python is fun'\nif 'ing' not in sentence:\n    print('Missing')\nelse:\n    print('Present')",
+      "solution_code": "sentence = 'Learning Python is fun'\nif 'ing' in sentence:\n    print('Present')\nelse:\n    print('Missing')",
+      "hint": "The condition is inverted. Check the logical meaning of 'not in' versus 'in'.",
+      "explanation": "The original code uses 'not in', which evaluates to False because 'ing' is indeed in 'Learning Python is fun'. The corrected code uses 'in' to produce the intended output 'Present'."
+    },
+    {
+      "id": "7.8_q21",
+      "type": "fix_the_code",
+      "concept": "string_membership_in_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q20"
+      ],
+      "prompt": "Fix the code to correctly detect the substring 'python' in a case-insensitive manner and handle the empty string edge case.",
+      "starter_code": "def contains_python(user_input):\n    if 'python' in user_input:\n        return True\n    return False\n\nprint(contains_python(''))\nprint(contains_python('Python'))",
+      "solution_code": "def contains_python(user_input):\n    if user_input.lower() and 'python' in user_input.lower():\n        return True\n    return False\n\nprint(contains_python(''))\nprint(contains_python('Python'))",
+      "hint": "Convert both strings to the same case before checking membership. An empty string should not raise an error.",
+      "explanation": "Membership is case-sensitive, so 'Python' fails the check. By converting user_input to lower case, the comparison becomes reliable. The additional check 'user_input.lower()' ensures an empty string is handled gracefully without unnecessary processing."
+    },
+    {
+      "id": "7.8_q22",
+      "type": "fix_the_code",
+      "concept": "string_membership_in_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q21"
+      ],
+      "prompt": "A runtime error occurs when this script is executed. Diagnose the cause and describe the fix.",
+      "starter_code": "def check_vowel(word):\n    vowels = 'aeiou'\n    for letter in word:\n        if letter in vowels\n            print(f'{letter} is a vowel')\n\ncheck_vowel('apple')",
+      "solution_code": "def check_vowel(word):\n    vowels = 'aeiou'\n    for letter in word:\n        if letter in vowels:\n            print(f'{letter} is a vowel')\n\ncheck_vowel('apple')",
+      "hint": "Inspect the if statement for missing syntax elements.",
+      "explanation": "The line 'if letter in vowels' is missing a colon (':'). Python requires a colon to end an if statement. Adding the colon resolves the SyntaxError and allows the membership test to execute properly."
+    },
+    {
+      "id": "7.8_q23",
+      "type": "fix_the_code",
+      "concept": "string_membership_in_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q22"
+      ],
+      "prompt": "Repair the logic so that the function returns True only when both 'cat' and 'dog' appear in the input string, regardless of order.",
+      "starter_code": "def has_pets(text):\n    if 'cat' in text or 'dog' in text:\n        return True\n    return False\n\nprint(has_pets('The cat chased the dog'))",
+      "solution_code": "def has_pets(text):\n    if 'cat' in text and 'dog' in text:\n        return True\n    return False\n\nprint(has_pets('The cat chased the dog'))",
+      "hint": "The requirement is that both substrings must be present, not just one.",
+      "explanation": "The original code uses 'or', which returns True if either 'cat' or 'dog' is found. The corrected code uses 'and' to enforce that both substrings must be present in the string for the function to return True."
+    },
+    {
+      "id": "7.8_q24",
+      "type": "write_the_code",
+      "concept": "string_membership_in_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.8_q23"
+      ],
+      "prompt": "Refactor the following function to improve time complexity when checking multiple substrings against many candidate strings. Preserve the original behavior.",
+      "starter_code": "def find_matches(candidates, targets):\n    result = []\n    for candidate in candidates:\n        for target in targets:\n            if target in candidate:\n                result.append(candidate)\n                break\n    return result\n\ncandidates = ['alpha', 'beta', 'gamma', 'delta']\ntargets = ['a', 'e', 'i', 'o', 'u']",
+      "solution_code": "def find_matches(candidates, targets):\n    target_set = set(targets)\n    result = []\n    for candidate in candidates:\n        if any(char in target_set for char in candidate):\n            result.append(candidate)\n    return result\n\ncandidates = ['alpha', 'beta', 'gamma', 'delta']\ntargets = ['a', 'e', 'i', 'o', 'u']",
+      "test_cases": [
+        {
+          "input": {
+            "candidates": [
+              "apple",
+              "banana",
+              "cherry"
+            ],
+            "targets": [
+              "a",
+              "e"
+            ]
+          },
+          "expected": [
+            "apple",
+            "banana",
+            "cherry"
+          ]
+        },
+        {
+          "input": {
+            "candidates": [
+              "sky",
+              "fly",
+              "try"
+            ],
+            "targets": [
+              "a",
+              "e"
+            ]
+          },
+          "expected": []
+        }
+      ],
+      "hint": "Consider converting targets to a set for O(1) average-case membership checks, and iterate character-by-character instead of substring-by-substring.",
+      "explanation": "The original implementation performs O(m * n * k) work where m is the number of candidates, n is the number of targets, and k is the average string length. The refactored version converts targets to a set for O(1) average lookups and checks each character of every candidate against the set, reducing complexity to O(m * k). This is more efficient when the target collection is large."
+    },
+    {
+      "id": "7.8_q25",
+      "type": "write_the_code",
+      "concept": "string_membership_in_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q24"
+      ],
+      "prompt": "Write a Python function that checks whether a given character exists inside a string. The function should return True if the character is found, and False otherwise.",
+      "starter_code": "def char_exists(text, target):\n    # TODO: use the 'in' operator to check membership\n    pass\n\n# Example usage:\nprint(char_exists('python', 't'))",
+      "solution_code": "def char_exists(text, target):\n    return target in text\n\n# Example usage:\nprint(char_exists('python', 't'))  # True\nprint(char_exists('python', 'z'))  # False",
+      "test_cases": [
+        {
+          "input": [
+            "hello",
+            "l"
+          ],
+          "expected": true
+        },
+        {
+          "input": [
+            "hello",
+            "z"
+          ],
+          "expected": false
+        },
+        {
+          "input": [
+            "",
+            "a"
+          ],
+          "expected": false
+        }
+      ],
+      "hint": "Use the 'in' keyword to test whether target appears inside text. The expression evaluates to a boolean value.",
+      "explanation": "The 'in' operator checks for membership in a sequence. For strings, it returns True when the substring is present and False otherwise. This is an O(n) operation in the worst case."
+    },
+    {
+      "id": "7.8_q26",
+      "type": "write_the_code",
+      "concept": "string_membership_in_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "7.8_q25"
+      ],
+      "prompt": "Write a program that asks the user for a password and verifies that it contains at least one digit. Print a success message if it does, otherwise print a warning.",
+      "starter_code": "password = input('Enter your password: ')\n# TODO: check if any digit is present using 'in' and a suitable string\n# Print appropriate message",
+      "solution_code": "password = input('Enter your password: ')\n\ndigits = '0123456789'\nif any(ch in digits for ch in password):\n    print('Password is valid: it contains a digit.')\nelse:\n    print('Warning: password must contain at least one digit.')",
+      "test_cases": [
+        {
+          "input": "p@ssw0rd",
+          "expected": "Password is valid: it contains a digit."
+        },
+        {
+          "input": "password",
+          "expected": "Warning: password must contain at least one digit."
+        }
+      ],
+      "hint": "You can iterate over each character in the password and use 'in' to see if it belongs to the string '0123456789'.",
+      "explanation": "This practical example combines membership testing with iteration. The any() function short-circuits once a matching digit is found, making it efficient."
+    },
+    {
+      "id": "7.8_q27",
+      "type": "write_the_code",
+      "concept": "string_membership_in_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.8_q26"
+      ],
+      "prompt": "Write a function that checks whether a forbidden substring appears in a log message, ignoring case. Return True if the forbidden text is found, otherwise False.",
+      "starter_code": "def is_forbidden(log_msg, forbidden):\n    # TODO: perform a case-insensitive membership check\n    pass\n\n# Example:\nprint(is_forbidden('Error: disk failure', 'DISK'))",
+      "solution_code": "def is_forbidden(log_msg, forbidden):\n    return forbidden.lower() in log_msg.lower()\n\n# Example:\nprint(is_forbidden('Error: disk failure', 'DISK'))  # True\nprint(is_forbidden('All systems OK', 'DISK'))       # False",
+      "test_cases": [
+        {
+          "input": [
+            "System alert: network down",
+            "NETWORK"
+          ],
+          "expected": true
+        },
+        {
+          "input": [
+            "System alert: network down",
+            "network"
+          ],
+          "expected": true
+        },
+        {
+          "input": [
+            "No issues reported",
+            "ISSUE"
+          ],
+          "expected": false
+        }
+      ],
+      "hint": "Convert both strings to the same case using lower() before applying the 'in' operator.",
+      "explanation": "Case-insensitive membership requires normalizing both operands. lower() is commonly used because it preserves all alphabetic characters while mapping uppercase to lowercase."
+    },
+    {
+      "id": "7.8_q28",
+      "type": "write_the_code",
+      "concept": "string_membership_in_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.8_q27"
+      ],
+      "prompt": "Given a list of words, return a new list containing only those words that include the letter 'a' somewhere inside them. Do not use a for-loop; use a list comprehension with 'in'.",
+      "starter_code": "words = ['apple', 'banana', 'cherry', 'date', 'fig']\n# TODO: filter using a list comprehension and 'in'\nfiltered = []",
+      "solution_code": "words = ['apple', 'banana', 'cherry', 'date', 'fig']\nfiltered = [w for w in words if 'a' in w]\nprint(filtered)  # ['apple', 'banana', 'date']",
+      "test_cases": [
+        {
+          "input": [
+            "grape",
+            "kiwi",
+            "melon",
+            "pear"
+          ],
+          "expected": [
+            "grape",
+            "pear"
+          ]
+        },
+        {
+          "input": [
+            "xyz",
+            "abc",
+            "def"
+          ],
+          "expected": [
+            "abc"
+          ]
+        }
+      ],
+      "hint": "A list comprehension can embed an if condition. Place 'a' in w inside the if clause to keep only matching words.",
+      "explanation": "List comprehensions provide a concise way to filter sequences. The membership test 'a' in w is evaluated for each element, and only True results are included."
+    },
+    {
+      "id": "7.8_q29",
+      "type": "write_the_code",
+      "concept": "string_membership_in_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.8_q28"
+      ],
+      "prompt": "You are building a simple spam filter for email subjects. Read a list of subject lines from a simulated inbox and flag any subject that contains the word 'urgent' or 'free' (case-insensitive). Return a list of flagged subjects.",
+      "starter_code": "subjects = [\n    'Meeting notes',\n    'Urgent: action required',\n    'Free trial available',\n    'Project update',\n    'URGENT sale ends today'\n]\n# TODO: flag subjects containing 'urgent' or 'free' ignoring case\nflagged = []",
+      "solution_code": "subjects = [\n    'Meeting notes',\n    'Urgent: action required',\n    'Free trial available',\n    'Project update',\n    'URGENT sale ends today'\n]\n\nflagged = [s for s in subjects if 'urgent' in s.lower() or 'free' in s.lower()]\nprint(flagged)\n# ['Urgent: action required', 'Free trial available', 'URGENT sale ends today']",
+      "test_cases": [
+        {
+          "input": [
+            "Hello world",
+            "Free money now",
+            "No spam here"
+          ],
+          "expected": [
+            "Free money now"
+          ]
+        },
+        {
+          "input": [
+            "Urgent help",
+            "Free offer",
+            "Normal mail"
+          ],
+          "expected": [
+            "Urgent help",
+            "Free offer"
+          ]
+        }
+      ],
+      "hint": "Normalize each subject with lower() and test membership for both keywords separately, combining the results with 'or'.",
+      "explanation": "Real-world filters combine multiple membership checks. Using lower() ensures robust matching regardless of capitalization, and list comprehension keeps the implementation readable."
+    },
+    {
+      "id": "7.8_q30",
+      "type": "write_the_code",
+      "concept": "string_membership_in_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "7.8_q29"
+      ],
+      "prompt": "Write a function that validates a product code. The code is valid only if it contains every character from the set {'A', 'B', 'C'} at least once (case-insensitive). Return True if valid, False otherwise.",
+      "starter_code": "def validate_product_code(code):\n    # TODO: check that all required letters are present using 'in' and set logic\n    pass\n\n# Examples:\nprint(validate_product_code('aBc123'))   # True\nprint(validate_product_code('abc'))        # True\nprint(validate_product_code('ab'))         # False",
+      "solution_code": "def validate_product_code(code):\n    required = {'a', 'b', 'c'}\n    code_lower = code.lower()\n    return all(ch in code_lower for ch in required)\n\n# Examples:\nprint(validate_product_code('aBc123'))   # True\nprint(validate_product_code('abc'))        # True\nprint(validate_product_code('ab'))         # False",
+      "test_cases": [
+        {
+          "input": "aBc123",
+          "expected": true
+        },
+        {
+          "input": "ABC",
+          "expected": true
+        },
+        {
+          "input": "ab",
+          "expected": false
+        },
+        {
+          "input": "cbaXYZ",
+          "expected": true
+        }
+      ],
+      "hint": "Use a set for the required characters and apply all() with a generator expression that tests membership for each required character.",
+      "explanation": "Mastery-level problems require combining membership testing with aggregate functions. all() returns True only when every required character is found, making it ideal for universal validation rules."
+    }
+  ],
+  "unit_num": 7,
+  "learning_objectives": [
+    "Manipulate textual data using String Membership (in)",
+    "Apply zero-based indexing and slicing syntax correctly",
+    "Differentiate between in-place mutation and immutable string transformations",
+    "Format and clean user-provided text data safely"
+  ],
+  "prerequisites": [
+    "7.7"
+  ]
+}

@@ -1,0 +1,593 @@
+{
+  "lesson_id": "29.1",
+  "title": "Measuring Execution Time",
+  "unit": "Performance and Profiling",
+  "items": [
+    {
+      "id": "29.1_q1",
+      "type": "micro_lesson",
+      "concept": "measuring_execution_time_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Introduction to Execution Time Measurement",
+      "content": "Measuring how long a piece of code takes to run is essential for understanding performance. In Python, the built-in `time` module provides simple tools to capture elapsed time. The most common approach is to record the time just before a block of code executes, then record it again immediately after, and subtract the two values. This difference gives the duration in seconds. For example, you can use `time.time()` to get a floating-point timestamp, or `time.perf_counter()` for a high-resolution monotonic clock that is not affected by system time changes. Always import the module first. Here is a basic illustration:\n\n```python\nimport time\n\nstart = time.time()\n# some computation here\nend = time.time()\n\nduration = end - start\nprint('Elapsed time:', duration)\n```\n\nUsing `time.perf_counter()` is often preferred for benchmarking because it offers the highest available resolution on the platform.",
+      "prompt": "",
+      "explanation": "Measuring how long a piece of code takes to run is essential for understanding performance. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "29.1_q2",
+      "type": "multiple_choice",
+      "concept": "measuring_execution_time_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q1"
+      ],
+      "prompt": "Which built-in Python module is commonly used to measure execution time?",
+      "options": [
+        "time",
+        "datetime",
+        "os",
+        "math"
+      ],
+      "correct_answer": "time",
+      "explanation": "The `time` module is specifically designed for measuring elapsed time and provides functions like `time.time()` and `time.perf_counter()` for this purpose. `datetime` handles calendar dates and times, `os` interacts with the operating system, and `math` provides mathematical functions."
+    },
+    {
+      "id": "29.1_q3",
+      "type": "micro_lesson",
+      "concept": "measuring_execution_time_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q2"
+      ],
+      "title": "Recording Time Before and After Code",
+      "content": "The standard syntax for measuring execution time involves three steps: import the module, capture a start timestamp, run the code, capture an end timestamp, and compute the difference. You can store the timestamps in variables and subtract them to obtain a duration. Here is the correct pattern:\n\n```python\nimport time\n\nstart = time.perf_counter()\n\n# code to measure\nresult = sum(range(1000))\n\nend = time.perf_counter()\n\nelapsed = end - start\nprint('Result:', result)\nprint('Time taken:', elapsed)\n```\n\nNotice that `time.perf_counter()` returns a float representing seconds, and the subtraction yields the elapsed duration. You can wrap this pattern in a function to reuse it across different experiments.",
+      "prompt": "",
+      "explanation": "The standard syntax for measuring execution time involves three steps: import the module, capture a start timestamp, run the code, capture an end timestamp, and compute the difference. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "29.1_q4",
+      "type": "multiple_choice",
+      "concept": "measuring_execution_time_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q3"
+      ],
+      "prompt": "Given the code snippet below, what will the variable `elapsed` represent?\n\n```python\nimport time\nstart = time.perf_counter()\nend = time.perf_counter()\nelapsed = end - start\n```",
+      "options": [
+        "The total time the program has been running",
+        "The time between the two `time.perf_counter()` calls",
+        "The time since the system booted",
+        "The time taken by the `import` statement only"
+      ],
+      "correct_answer": "The time between the two `time.perf_counter()` calls",
+      "explanation": "`time.perf_counter()` returns the value of a high-resolution monotonic clock. By calling it twice and subtracting, you isolate the duration between those two moments. Because the calls happen back-to-back with no work in between, `elapsed` will be very close to zero."
+    },
+    {
+      "id": "29.1_q5",
+      "type": "multiple_choice",
+      "concept": "measuring_execution_time_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q4"
+      ],
+      "prompt": "Match the function to its typical use when measuring performance.",
+      "options": [
+        "time.time() -> best for short-duration benchmarking",
+        "time.perf_counter() -> best for short-duration benchmarking",
+        "time.time() -> best for measuring elapsed wall-clock time",
+        "time.perf_counter() -> best for measuring elapsed wall-clock time"
+      ],
+      "correct_answer": "time.perf_counter() -> best for short-duration benchmarking",
+      "explanation": "`time.perf_counter()` is designed for measuring short time intervals with the highest available resolution and is not affected by system time updates. `time.time()` reflects wall-clock time and can be adjusted by the system, making it less reliable for precise benchmarking."
+    },
+    {
+      "id": "29.1_q6",
+      "type": "multiple_choice",
+      "concept": "measuring_execution_time_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q5"
+      ],
+      "prompt": "What is a common pitfall when measuring execution time?",
+      "options": [
+        "Running the code only once and trusting the result",
+        "Using `print()` to display the result",
+        "Importing the `time` module at the top of the file",
+        "Storing the duration in a variable"
+      ],
+      "correct_answer": "Running the code only once and trusting the result",
+      "explanation": "System processes, caching, and CPU scheduling can cause variability. A single measurement may not reflect typical performance. It is better to run the code multiple times and average the results, or use a dedicated profiler for more reliable insights."
+    },
+    {
+      "id": "29.1_q7",
+      "type": "code_prediction",
+      "concept": "measuring_execution_time_execution",
+      "skill": "prediction",
+      "diff": "easy",
+      "prerequisites": [
+        "29.1_q6"
+      ],
+      "prompt": "```python\nimport time\n\ndef count_up(n):\n    for i in range(n):\n        pass\n    return n\n\nstart = time.time()\ncount_up(1000)\nend = time.time()\nprint(end - start)\n```\nWhat is the likely output of this program?",
+      "options": [
+        "The exact number of seconds elapsed",
+        "A small positive number representing elapsed seconds",
+        "0",
+        "An error because time.time() is not imported"
+      ],
+      "correct_answer": "A small positive number representing elapsed seconds",
+      "explanation": "time.time() returns the current time in seconds since the epoch. Subtracting the start time from the end time gives the elapsed wall-clock time. Since the loop runs 1000 iterations of a trivial pass statement, the elapsed time is small but positive, not exactly zero.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "29.1_q8",
+      "type": "output_prediction",
+      "concept": "measuring_execution_time_execution",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "29.1_q7"
+      ],
+      "prompt": "```python\nimport time\n\ndef slow_add(a, b):\n    time.sleep(0.1)\n    return a + b\n\nstart = time.perf_counter()\nslow_add(3, 5)\nelapsed = time.perf_counter() - start\nprint('Elapsed:', elapsed)\n```\nWhat is the most likely output printed by this program?",
+      "options": [
+        "Elapsed: 0.0",
+        "Elapsed: 0.1",
+        "Elapsed: a small value close to 0.1",
+        "Elapsed: 0.10000000000000009"
+      ],
+      "correct_answer": "Elapsed: a small value close to 0.1",
+      "explanation": "time.perf_counter() provides high-resolution timing. The function sleeps for 0.1 seconds, so the elapsed time should be approximately 0.1 seconds. Due to system scheduling and overhead, the actual value may be slightly above or below 0.1, but it will be close to 0.1, not exactly 0.1.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "29.1_q9",
+      "type": "code_prediction",
+      "concept": "measuring_execution_time_flow",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "29.1_q8"
+      ],
+      "prompt": "```python\nimport time\n\ndef measure_if(x):\n    if x > 0:\n        start = time.time()\n        for i in range(1000000):\n            pass\n        print('fast branch', time.time() - start)\n    else:\n        print('slow branch')\n        start = time.time()\n        for i in range(10000000):\n            pass\n        print('slow branch time', time.time() - start)\n\nmeasure_if(5)\n```\nWhich line executes the larger loop and therefore takes more time?",
+      "options": [
+        "The loop inside the if x > 0 block",
+        "The loop inside the else block",
+        "Both loops take the same time",
+        "Neither loop runs because the function returns early"
+      ],
+      "correct_answer": "The loop inside the else block",
+      "explanation": "When x is 5, the condition x > 0 is True, so the first branch executes. The larger loop with range(10000000) is inside the else block and is skipped. Therefore, the smaller loop inside the if block runs, not the larger one. The question asks which line executes the larger loop; in this specific call, the larger loop does not execute.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "29.1_q10",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_analysis",
+      "skill": "analysis",
+      "diff": "medium",
+      "prerequisites": [
+        "29.1_q9"
+      ],
+      "prompt": "Given the following code, explain why the function returns a float and what that value represents:\n\n```python\nimport time\n\ndef timed_sum(a, b):\n    start = time.perf_counter()\n    total = a + b\n    end = time.perf_counter()\n    return end - start\n\nresult = timed_sum(10, 20)\nprint(result)\n```",
+      "correct_answer": "It returns the elapsed wall-clock time as a float in seconds",
+      "explanation": "time.perf_counter() returns a float representing seconds. Subtracting start from end yields a float representing the elapsed time. The function ignores the actual sum and only returns the timing measurement.",
+      "difficulty": "medium",
+      "starter_code": "# 1. Define the process_29_1 function\ndef process_29_1():\n    # 2. Implement solution for Measuring Execution Time\n    pass\n",
+      "solution_code": "print('Measuring Execution Time')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Measuring Execution Time"
+        }
+      ]
+    },
+    {
+      "id": "29.1_q11",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_tracing",
+      "skill": "tracing",
+      "diff": "medium",
+      "prerequisites": [
+        "29.1_q10"
+      ],
+      "prompt": "Trace the execution of this program and list the order in which the print statements execute:\n\n```python\nimport time\n\ndef trace_demo(n):\n    t0 = time.time()\n    print('t0', t0)\n    for i in range(n):\n        t1 = time.time()\n        print('inside loop', t1)\n    t2 = time.time()\n    print('t2', t2)\n\ntrace_demo(1)\n```",
+      "correct_answer": "t0, inside loop, t2",
+      "explanation": "The function is called. t0 is assigned and printed first. The loop runs once, assigning t1 and printing inside the loop. After the loop, t2 is assigned and printed. Therefore the order is t0, inside loop, t2.",
+      "difficulty": "medium",
+      "starter_code": "# 1. Define the process_29_1 function\ndef process_29_1():\n    # 2. Implement solution for Measuring Execution Time\n    pass\n",
+      "solution_code": "print('Measuring Execution Time')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Measuring Execution Time"
+        }
+      ]
+    },
+    {
+      "id": "29.1_q12",
+      "type": "output_prediction",
+      "concept": "measuring_execution_time_logic",
+      "skill": "prediction",
+      "diff": "medium",
+      "prerequisites": [
+        "29.1_q11"
+      ],
+      "prompt": "```python\nimport time\n\ndef compare_timers(a, b):\n    t1 = time.time()\n    time.sleep(a)\n    t2 = time.time()\n    t3 = time.time()\n    time.sleep(b)\n    t4 = time.time()\n    print(t2 - t1)\n    print(t4 - t3)\n\ncompare_timers(0.05, 0.1)\n```\nWhat relationship holds between the two printed values?",
+      "options": [
+        "The first value is greater than the second",
+        "The second value is approximately twice the first",
+        "Both values are exactly 0.05 and 0.1",
+        "The values are equal"
+      ],
+      "correct_answer": "The second value is approximately twice the first",
+      "explanation": "The first sleep is 0.05 seconds and the second is 0.1 seconds. Because time.time() has limited resolution and system overhead, the printed differences are close to but not exactly the requested durations. The second elapsed time should be roughly double the first elapsed time.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "29.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "measuring_execution_time_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q12"
+      ],
+      "prompt": "To measure execution time in Python, you must first import the ____ module.",
+      "correct_answer": "time",
+      "accepted_answers": [
+        "time"
+      ],
+      "explanation": "The built-in time module provides functions such as time() and perf_counter() that are used to record timestamps before and after code execution, allowing you to compute elapsed duration."
+    },
+    {
+      "id": "29.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "measuring_execution_time_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q13"
+      ],
+      "prompt": "The function ____ returns a floating-point number representing seconds since the epoch, while perf_counter() provides higher resolution for short-duration measurements.",
+      "correct_answer": "time",
+      "accepted_answers": [
+        "time",
+        "time.time"
+      ],
+      "explanation": "time.time() gives wall-clock time useful for measuring elapsed real-world time, whereas perf_counter() is preferred for benchmarking because it excludes time spent sleeping and is not affected by system clock adjustments."
+    },
+    {
+      "id": "29.1_q15",
+      "type": "code_ordering",
+      "concept": "measuring_execution_time_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q14"
+      ],
+      "prompt": "Arrange the following lines into the correct order to measure how long a loop takes to run.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "You must import the module before using it, record the start timestamp before the code under test, execute the code, record the end timestamp, and then compute and display the difference."
+    },
+    {
+      "id": "29.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "measuring_execution_time_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q15"
+      ],
+      "prompt": "A common pattern for measuring execution time is to use a with statement and the ____ context manager from the timeit module.",
+      "correct_answer": "Timer",
+      "accepted_answers": [
+        "Timer",
+        "timeit.Timer"
+      ],
+      "explanation": "timeit.Timer provides a convenient context manager that automatically handles setup, execution, and timing, reducing boilerplate when running code multiple times."
+    },
+    {
+      "id": "29.1_q17",
+      "type": "code_ordering",
+      "concept": "measuring_execution_time_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q16"
+      ],
+      "prompt": "Arrange the following lines into the correct order to define and time a function that sums numbers from 1 to n.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The import must come first, followed by the function definition, then the start timestamp, the function call, the end timestamp, and finally the elapsed time calculation and output."
+    },
+    {
+      "id": "29.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "measuring_execution_time_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q17"
+      ],
+      "prompt": "A reusable idiom for timing any function is to write a ____ that wraps the function call with start and end timestamps.",
+      "correct_answer": "decorator",
+      "accepted_answers": [
+        "decorator",
+        "timing decorator",
+        "function decorator"
+      ],
+      "explanation": "A timing decorator encapsulates the measurement logic, allowing you to apply it to multiple functions without duplicating start and end timestamp code inside each function body."
+    },
+    {
+      "id": "29.1_q19",
+      "type": "fix_the_code",
+      "concept": "measuring_execution_time_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Errors When Measuring Execution Time",
+        "content": "When measuring execution time in Python, several mistakes can lead to misleading or incorrect results. A frequent error is forgetting to import the `time` module or `timeit` module before calling timing functions. Another common issue is measuring code that includes input/output operations, such as `input()` or `print()`, which can skew the timing because I/O is much slower than pure computation. Additionally, running very small code snippets can produce unreliable measurements due to system-level noise, such as process scheduling and garbage collection. Always ensure you time only the core logic, run multiple iterations, and use appropriate tools like `time.perf_counter()` for high-resolution timing. Below is an example of a problematic measurement:\n\n```python\nimport time\n\ndef slow_task():\n    total = 0\n    for i in range(1000000):\n        total += i\n    print('Done')\n    return total\n\nstart = time.time()\nslow_task()\nend = time.time()\nprint('Elapsed:', end - start)\n```\n\nIn this snippet, the `print` statement inside `slow_task` is included in the measurement, which is usually undesirable. To fix this, move the `print` outside the timed block or use a dedicated timing context."
+      },
+      "prompt": "Fix the bug in this code for measuring execution time errors:",
+      "starter_code": "# Fix this code\nPrint('Measuring Execution Time')",
+      "solution_code": "print('Measuring Execution Time')",
+      "explanation": "This exercise tests `measuring execution time errors` in Measuring Execution Time. When Python validates this code, it applies the standard rules of measuring execution time errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "29.1_q20",
+      "type": "fix_the_code",
+      "concept": "measuring_execution_time_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "29.1_q19"
+      ],
+      "prompt": "The following code attempts to measure how long a simple loop takes to run, but it contains a syntax error. Correct the code so it properly measures execution time using `time.perf_counter()`.",
+      "starter_code": "import time\n\ndef count_to_n(n):\n    total = 0\n    for i in range(n):\n        total += i\n    return total\n\nstart = time.perf_counter()\ncount_to_n(100000)\nend = time.perf_counter()\nprint('Time:', end - start)",
+      "solution_code": "import time\n\ndef count_to_n(n):\n    total = 0\n    for i in range(n):\n        total += i\n    return total\n\nstart = time.perf_counter()\ncount_to_n(100000)\nend = time.perf_counter()\nprint('Time:', end - start)",
+      "hint": "Check that `time.perf_counter()` is used correctly and that the function call is outside the timing block.",
+      "explanation": "The original starter code was already syntactically valid, but a common beginner mistake is to place the function call before `start` or to forget the import. The corrected version ensures `start` is recorded before the function executes and `end` is recorded immediately after, giving an accurate elapsed time."
+    },
+    {
+      "id": "29.1_q21",
+      "type": "fix_the_code",
+      "concept": "measuring_execution_time_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q20"
+      ],
+      "prompt": "This timing code fails when the input is zero or negative. Fix the code so it safely handles edge cases and still measures execution time correctly.",
+      "starter_code": "import time\n\ndef sum_range(n):\n    start = time.perf_counter()\n    total = 0\n    for i in range(n):\n        total += i\n    end = time.perf_counter()\n    print('Elapsed:', end - start)\n    return total\n\nsum_range(0)",
+      "solution_code": "import time\n\ndef sum_range(n):\n    if n <= 0:\n        start = time.perf_counter()\n        total = 0\n        end = time.perf_counter()\n        print('Elapsed:', end - start)\n        return total\n    start = time.perf_counter()\n    total = 0\n    for i in range(n):\n        total += i\n    end = time.perf_counter()\n    print('Elapsed:', end - start)\n    return total\n\nsum_range(0)",
+      "hint": "Consider what `range(0)` and `range(-5)` do, and ensure timing still occurs even when no iterations happen.",
+      "explanation": "When `n` is zero or negative, `range(n)` produces no iterations, which is valid but can confuse timing logic if not handled explicitly. The fixed version checks for non-positive inputs, performs minimal timing work, and returns `0` without entering the loop, preventing misleading zero-duration readings caused by skipped timing statements."
+    },
+    {
+      "id": "29.1_q22",
+      "type": "fix_the_code",
+      "concept": "measuring_execution_time_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Variability in Execution Time Measurements",
+        "content": "Execution time measurements can vary between runs due to factors outside your code. These include CPU load, background processes, thermal throttling, and Python's garbage collection. For example, measuring a loop that allocates many temporary objects may yield different results on successive runs. To obtain a more reliable estimate, it is good practice to run the measurement multiple times and compute an average or median. You can also use the `timeit` module, which automatically disables garbage collection during timing and repeats the code many times. Consider this unreliable pattern:\n\n```python\nimport time\n\ndef compute():\n    return [x * x for x in range(1000000)]\n\nstart = time.time()\ncompute()\nend = time.time()\nprint('Took', end - start, 'seconds')\n```\n\nThe problem here is that `time.time()` has lower resolution than `time.perf_counter()`, and a single run is easily affected by system noise. A better approach is to use `timeit.timeit()` with a `number` parameter."
+      },
+      "prompt": "Fix the bug in this code for measuring execution time runtime:",
+      "starter_code": "# Fix this code\nPrint('Measuring Execution Time')",
+      "solution_code": "print('Measuring Execution Time')",
+      "explanation": "This exercise tests `measuring execution time runtime` in Measuring Execution Time. When Python validates this code, it applies the standard rules of measuring execution time runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "29.1_q23",
+      "type": "fix_the_code",
+      "concept": "measuring_execution_time_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q22"
+      ],
+      "prompt": "The following code intends to compare two algorithms by measuring their execution times, but the logic for reporting which is faster is incorrect. Repair the code so it prints the correct winner.",
+      "starter_code": "import time\n\ndef algorithm_a(n):\n    total = 0\n    for i in range(n):\n        total += i\n    return total\n\ndef algorithm_b(n):\n    return sum(range(n))\n\nn = 100000\nstart = time.perf_counter()\nalgorithm_a(n)\nend_a = time.perf_counter()\nstart_b = time.perf_counter()\nalgorithm_b(n)\nend_b = time.perf_counter()\n\nif end_a - start < end_b - start_b:\n    print('A is faster')\nelse:\n    print('B is faster')\nprint('A time:', end_a - start)\nprint('B time:', end_b - start_b)",
+      "solution_code": "import time\n\ndef algorithm_a(n):\n    total = 0\n    for i in range(n):\n        total += i\n    return total\n\ndef algorithm_b(n):\n    return sum(range(n))\n\nn = 100000\nstart_a = time.perf_counter()\nalgorithm_a(n)\nend_a = time.perf_counter()\n\nstart_b = time.perf_counter()\nalgorithm_b(n)\nend_b = time.perf_counter()\n\nif end_a - start_a < end_b - start_b:\n    print('A is faster')\nelse:\n    print('B is faster')\nprint('A time:', end_a - start_a)\nprint('B time:', end_b - start_b)",
+      "hint": "Notice that `start` was reused for both measurements, causing a comparison against the wrong baseline.",
+      "explanation": "The original code used a single `start` variable for both algorithms, so `end_b - start` measured the combined time of both runs rather than algorithm B alone. The repaired version uses separate start and end variables for each algorithm, ensuring an accurate per-algorithm comparison and correct winner reporting."
+    },
+    {
+      "id": "29.1_q24",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.1_q23"
+      ],
+      "prompt": "Refactor the following code to use a generator expression and a context manager for timing, while preserving the same output. Ensure the solution is efficient and avoids building an intermediate list in memory.",
+      "starter_code": "import time\n\ndef process_data(data):\n    start = time.perf_counter()\n    result = []\n    for x in data:\n        if x > 0:\n            result.append(x * x)\n    end = time.perf_counter()\n    print('Elapsed:', end - start)\n    return result\n\ndata = [1, -2, 3, -4, 5]\nprint(process_data(data))",
+      "solution_code": "import time\nfrom contextlib import contextmanager\n\n@contextmanager\ndef timer(label):\n    start = time.perf_counter()\n    yield\n    end = time.perf_counter()\n    print(label + ':', end - start)\n\ndef process_data(data):\n    with timer('Elapsed'):\n        return (x * x for x in data if x > 0)\n\ndata = [1, -2, 3, -4, 5]\nprint(list(process_data(data)))",
+      "test_cases": [
+        {
+          "input": "data = [1, -2, 3, -4, 5]",
+          "expected_output": "Elapsed: <positive_float>\n[1, 9, 25]"
+        },
+        {
+          "input": "data = []",
+          "expected_output": "Elapsed: <positive_float>\n[]"
+        }
+      ],
+      "hint": "Use `@contextmanager` to encapsulate timing, and replace the list comprehension with a generator expression by using parentheses.",
+      "explanation": "The refactored solution introduces a reusable `timer` context manager to avoid manual start/end bookkeeping, and it returns a generator expression `(x * x for x in data if x > 0)` instead of a list, which reduces memory usage for large inputs. The `list()` call in the test harness materializes the generator only for printing, preserving lazy evaluation semantics inside `process_data`."
+    },
+    {
+      "id": "29.1_q25",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q24"
+      ],
+      "prompt": "Write a Python function that measures and prints the execution time of a given function using the time module.",
+      "starter_code": "import time\n\ndef measure_time(func, *args, **kwargs):\n    # TODO: record start time, call the function, record end time, and print the elapsed time\n    pass\n\ndef slow_function():\n    total = 0\n    for i in range(1000000):\n        total += i\n    return total\n\nif __name__ == '__main__':\n    measure_time(slow_function)",
+      "solution_code": "import time\n\ndef measure_time(func, *args, **kwargs):\n    start = time.time()\n    result = func(*args, **kwargs)\n    end = time.time()\n    print(f'Execution time: {end - start:.6f} seconds')\n    return result\n\ndef slow_function():\n    total = 0\n    for i in range(1000000):\n        total += i\n    return total\n\nif __name__ == '__main__':\n    measure_time(slow_function)",
+      "test_cases": [
+        {
+          "input": "slow_function()",
+          "expected_output": "Execution time: <some_float> seconds",
+          "description": "Should print execution time without crashing"
+        }
+      ],
+      "hint": "Use time.time() before and after the function call. Subtract to get elapsed seconds.",
+      "explanation": "time.time() returns the current wall-clock time in seconds since the epoch. Subtracting start from end gives the duration. This is the simplest way to measure execution time for a single call."
+    },
+    {
+      "id": "29.1_q26",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "29.1_q25"
+      ],
+      "prompt": "Write code that measures how long it takes to compute the sum of squares of numbers from 1 to 100000 using a loop and using a generator expression. Print both times.",
+      "starter_code": "import time\n\ndef sum_squares_loop(n):\n    total = 0\n    for i in range(1, n + 1):\n        total += i * i\n    return total\n\ndef sum_squares_generator(n):\n    return sum(i * i for i in range(1, n + 1))\n\nif __name__ == '__main__':\n    n = 100000\n    # TODO: measure and print times for both approaches",
+      "solution_code": "import time\n\ndef sum_squares_loop(n):\n    total = 0\n    for i in range(1, n + 1):\n        total += i * i\n    return total\n\ndef sum_squares_generator(n):\n    return sum(i * i for i in range(1, n + 1))\n\nif __name__ == '__main__':\n    n = 100000\n    start = time.time()\n    loop_result = sum_squares_loop(n)\n    loop_time = time.time() - start\n    print(f'Loop time: {loop_time:.6f} seconds')\n    \n    start = time.time()\n    gen_result = sum_squares_generator(n)\n    gen_time = time.time() - start\n    print(f'Generator time: {gen_time:.6f} seconds')\n    \n    assert loop_result == gen_result",
+      "test_cases": [
+        {
+          "input": "run script",
+          "expected_output": "Loop time: <float> seconds\nGenerator time: <float> seconds",
+          "description": "Both methods should produce identical results and print timing"
+        }
+      ],
+      "hint": "Wrap each call with time.time() before and after. Ensure both return the same numeric result.",
+      "explanation": "Comparing execution times of different algorithms or Pythonic styles helps identify performance bottlenecks. Even though both approaches compute the same mathematical result, their runtime may differ due to interpreter overhead and memory allocation."
+    },
+    {
+      "id": "29.1_q27",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.1_q26"
+      ],
+      "prompt": "Create a reusable decorator that measures and logs the execution time of any function. It should preserve the original function's metadata using functools.wraps.",
+      "starter_code": "import time\nimport functools\n\ndef timer_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        # TODO: implement timing logic and return the result\n        pass\n    return wrapper\n\n@timer_decorator\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 2)\n\nif __name__ == '__main__':\n    print(fibonacci(30))",
+      "solution_code": "import time\nimport functools\n\ndef timer_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f'[{func.__name__}] executed in {end - start:.6f} seconds')\n        return result\n    return wrapper\n\n@timer_decorator\ndef fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 2)\n\nif __name__ == '__main__':\n    print(fibonacci(30))",
+      "test_cases": [
+        {
+          "input": "fibonacci(30)",
+          "expected_output": "30\n[fibonacci] executed in <float> seconds",
+          "description": "Should return correct Fibonacci number and print elapsed time"
+        }
+      ],
+      "hint": "Call func(*args, **kwargs) inside the wrapper, record start and end with time.time(), and print the difference.",
+      "explanation": "A decorator encapsulates cross-cutting concerns like timing. Using functools.wraps ensures the wrapped function retains its name, docstring, and annotations, which is important for debugging and introspection."
+    },
+    {
+      "id": "29.1_q28",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.1_q27"
+      ],
+      "prompt": "You are given a list of strings. Write code that measures how long it takes to convert every string to uppercase using a list comprehension versus a for loop. Which approach is typically faster and why?",
+      "starter_code": "import time\n\ndef to_upper_list_comp(words):\n    return [word.upper() for word in words]\n\ndef to_upper_loop(words):\n    result = []\n    for word in words:\n        result.append(word.upper())\n    return result\n\nif __name__ == '__main__':\n    words = ['apple', 'banana', 'cherry'] * 10000\n    # TODO: measure both approaches, compare, and explain the result",
+      "solution_code": "import time\n\ndef to_upper_list_comp(words):\n    return [word.upper() for word in words]\n\ndef to_upper_loop(words):\n    result = []\n    for word in words:\n        result.append(word.upper())\n    return result\n\nif __name__ == '__main__':\n    words = ['apple', 'banana', 'cherry'] * 10000\n    \n    start = time.perf_counter()\n    comp_result = to_upper_list_comp(words)\n    comp_time = time.perf_counter() - start\n    print(f'List comprehension: {comp_time:.6f} seconds')\n    \n    start = time.perf_counter()\n    loop_result = to_upper_loop(words)\n    loop_time = time.perf_counter() - start\n    print(f'For loop: {loop_time:.6f} seconds')\n    \n    assert comp_result == loop_result\n    \n    if comp_time < loop_time:\n        print('List comprehension is faster due to optimized C-level iteration.')\n    else:\n        print('For loop is faster (rare; may vary by Python implementation).')",
+      "test_cases": [
+        {
+          "input": "run script",
+          "expected_output": "Both times printed and assertion passes",
+          "description": "Results must be equal and timing must be measured"
+        }
+      ],
+      "hint": "Use time.perf_counter() for higher-resolution timing than time.time(). Remember that list comprehensions are generally faster because the iteration happens in optimized C code.",
+      "explanation": "time.perf_counter() is preferred for benchmarking because it provides the highest available resolution and is monotonic, unaffected by system clock updates. List comprehensions often outperform explicit loops due to reduced Python-level overhead."
+    },
+    {
+      "id": "29.1_q29",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.1_q28"
+      ],
+      "prompt": "You are optimizing a data pipeline. Write code that reads a CSV file of 10000 rows, parses the 'price' column, and computes the average. Measure the total execution time. Then, refactor by using a generator expression to avoid building an intermediate list. Compare the two approaches and report which is faster.",
+      "starter_code": "import time\nimport csv\n\ndef process_csv_list(filename):\n    prices = []\n    with open(filename, 'r') as f:\n        reader = csv.DictReader(f)\n        for row in reader:\n            prices.append(float(row['price']))\n    return sum(prices) / len(prices)\n\ndef process_csv_generator(filename):\n    with open(filename, 'r') as f:\n        reader = csv.DictReader(f)\n        # TODO: use a generator expression to compute average without storing all prices\n        pass\n\nif __name__ == '__main__':\n    filename = 'data.csv'\n    # TODO: create dummy data, measure both, and print comparison",
+      "solution_code": "import time\nimport csv\nimport os\n\ndef process_csv_list(filename):\n    prices = []\n    with open(filename, 'r') as f:\n        reader = csv.DictReader(f)\n        for row in reader:\n            prices.append(float(row['price']))\n    return sum(prices) / len(prices)\n\ndef process_csv_generator(filename):\n    with open(filename, 'r') as f:\n        reader = csv.DictReader(f)\n        total = 0.0\n        count = 0\n        for row in reader:\n            total += float(row['price'])\n            count += 1\n        return total / count\n\nif __name__ == '__main__':\n    filename = 'data.csv'\n    with open(filename, 'w', newline='') as f:\n        writer = csv.writer(f)\n        writer.writerow(['price'])\n        for _ in range(10000):\n            writer.writerow([f'{10 + (hash(str(_)) % 90):.2f}'])\n    \n    start = time.time()\n    avg_list = process_csv_list(filename)\n    list_time = time.time() - start\n    print(f'List approach: {avg_list:.4f} in {list_time:.6f} seconds')\n    \n    start = time.time()\n    avg_gen = process_csv_generator(filename)\n    gen_time = time.time() - start\n    print(f'Generator approach: {avg_gen:.4f} in {gen_time:.6f} seconds')\n    \n    assert abs(avg_list - avg_gen) < 1e-9\n    \n    if gen_time < list_time:\n        print('Generator approach is faster and uses less memory.')\n    else:\n        print('List approach is faster here; memory trade-off depends on data size.')",
+      "test_cases": [
+        {
+          "input": "run script",
+          "expected_output": "Two averages printed with matching values and timing comparison",
+          "description": "Both methods must yield the same average and timing must be reported"
+        }
+      ],
+      "hint": "For the generator version, accumulate sum and count in a single pass without storing all prices. Use time.time() to benchmark each approach separately.",
+      "explanation": "In real-world data pipelines, memory usage and execution speed are both critical. A generator expression or manual accumulation avoids allocating a large list, which reduces memory pressure and can improve cache performance. time.time() helps quantify these trade-offs."
+    },
+    {
+      "id": "29.1_q30",
+      "type": "write_the_code",
+      "concept": "measuring_execution_time_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "29.1_q29"
+      ],
+      "prompt": "Mastery challenge: Write a script that measures how long it takes to download 10 URLs using ThreadPoolExecutor versus sequential requests. Use time.perf_counter() for high-resolution timing. Explain why threading may or may not improve total time for I/O-bound tasks.",
+      "starter_code": "import time\nimport concurrent.futures\n\ndef fetch(url):\n    # Simulate network delay\n    time.sleep(0.1)\n    return f'Fetched {url}'\n\nurls = [f'https://example.com/{i}' for i in range(10)]\n\nif __name__ == '__main__':\n    # TODO: sequential timing\n    # TODO: threaded timing with ThreadPoolExecutor(max_workers=5)\n    # TODO: compare and explain",
+      "solution_code": "import time\nimport concurrent.futures\n\ndef fetch(url):\n    time.sleep(0.1)\n    return f'Fetched {url}'\n\nurls = [f'https://example.com/{i}' for i in range(10)]\n\ndef run_sequential():\n    start = time.perf_counter()\n    results = [fetch(url) for url in urls]\n    elapsed = time.perf_counter() - start\n    print(f'Sequential: {elapsed:.4f} seconds')\n    return results\n\ndef run_threaded(max_workers=5):\n    start = time.perf_counter()\n    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:\n        results = list(executor.map(fetch, urls))\n    elapsed = time.perf_counter() - start\n    print(f'Threaded ({max_workers} workers): {elapsed:.4f} seconds')\n    return results\n\nif __name__ == '__main__':\n    seq_results = run_sequential()\n    thr_results = run_threaded()\n    \n    assert seq_results == thr_results\n    \n    if thr_results and seq_results:\n        print('Threading can reduce wall-clock time for I/O-bound tasks because threads wait concurrently.')\n        print('For CPU-bound tasks, multiprocessing would be more appropriate.')",
+      "test_cases": [
+        {
+          "input": "run script",
+          "expected_output": "Sequential and threaded times printed, results match",
+          "description": "Both approaches must complete and produce identical results"
+        }
+      ],
+      "hint": "Use time.perf_counter() around each block. ThreadPoolExecutor.map distributes work across threads. For I/O-bound delays, threads overlap waiting periods, reducing total elapsed time.",
+      "explanation": "time.perf_counter() is ideal for measuring short-duration, high-resolution intervals. Threading improves throughput for I/O-bound operations because the Global Interpreter Lock (GIL) is released during I/O waits. For CPU-bound workloads, multiprocessing avoids the GIL and can yield greater speedups."
+    }
+  ],
+  "unit_num": 29,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Measuring Execution Time",
+    "Apply idiomatic Python patterns when working with Measuring Execution Time",
+    "Debug common runtime exceptions and logic errors associated with Measuring Execution Time",
+    "Implement production-ready code utilizing Measuring Execution Time"
+  ],
+  "prerequisites": [
+    "28.6"
+  ]
+}

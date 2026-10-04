@@ -1,0 +1,700 @@
+{
+  "lesson_id": "20.4",
+  "title": "Instance Attributes",
+  "unit": "Object-Oriented Programming (Basics)",
+  "items": [
+    {
+      "id": "20.4_q1",
+      "type": "micro_lesson",
+      "concept": "instance_attributes_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Are Instance Attributes?",
+      "content": "An instance attribute is a variable that belongs to a specific object created from a class. When you create an object, each object can have its own values for these attributes. For example, if you create a class Car, each Car object can have its own color and model. Instance attributes are defined inside the __init__ method using self. Here is a simple example:\n\n```python\nclass Car:\n    def __init__(self, color, model):\n        self.color = color\n        self.model = model\n\nmy_car = Car('red', 'sedan')\nprint(my_car.color)  # Output: red\n```\n\nNotice that self.color and self.model are instance attributes. They store data unique to each instance of Car.",
+      "prompt": "",
+      "explanation": "An instance attribute is a variable that belongs to a specific object created from a class. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "20.4_q2",
+      "type": "multiple_choice",
+      "concept": "instance_attributes_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q1"
+      ],
+      "prompt": "Which line correctly creates an instance attribute inside a class constructor?",
+      "options": [
+        "color = 'blue'",
+        "self.color = 'blue'",
+        "Car.color = 'blue'",
+        "def color = 'blue'"
+      ],
+      "correct_answer": "self.color = 'blue'",
+      "explanation": "Inside a class method, instance attributes must be assigned using self. to bind the attribute to the specific instance. The other options either create a local variable, a class attribute, or use invalid syntax."
+    },
+    {
+      "id": "20.4_q3",
+      "type": "micro_lesson",
+      "concept": "instance_attributes_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q2"
+      ],
+      "title": "Syntax for Defining Instance Attributes",
+      "content": "To define an instance attribute, you place the assignment inside the __init__ method and prefix the variable name with self. This syntax tells Python that the attribute belongs to the instance, not the class. Here is a detailed example:\n\n```python\nclass Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nbuddy = Dog('Buddy', 5)\nprint(buddy.name)\nprint(buddy.age)\n```\n\nYou can also assign multiple attributes in one line or use default values. For example:\n\n```python\nclass Student:\n    def __init__(self, name, grade='A'):\n        self.name = name\n        self.grade = grade\n\nanna = Student('Anna')\nprint(anna.grade)  # Output: A\n```\n\nEach call to Dog or Student creates a new object with its own set of instance attributes.",
+      "prompt": "",
+      "explanation": "To define an instance attribute, you place the assignment inside the __init__ method and prefix the variable name with self. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "20.4_q4",
+      "type": "multiple_choice",
+      "concept": "instance_attributes_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q3"
+      ],
+      "prompt": "Given the class below, what is printed when the code runs?",
+      "options": [
+        "name: Alice",
+        "name: None",
+        "AttributeError",
+        "name: Bob"
+      ],
+      "correct_answer": "name: Alice",
+      "explanation": "The __init__ method assigns self.name = name when an object is created. The instance attribute is then accessed with alice.name, which returns 'Alice'. No error occurs because the attribute is properly defined."
+    },
+    {
+      "id": "20.4_q5",
+      "type": "multiple_choice",
+      "concept": "instance_attributes_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q4"
+      ],
+      "prompt": "Match each code fragment to its purpose related to instance attributes.",
+      "options": [
+        "self.color = 'red'  ->  Assigns an instance attribute",
+        "Car.color = 'red'   ->  Assigns an instance attribute",
+        "color = 'red'       ->  Assigns an instance attribute",
+        "def color:          ->  Assigns an instance attribute"
+      ],
+      "correct_answer": "self.color = 'red'  ->  Assigns an instance attribute",
+      "explanation": "Only self.color = 'red' correctly creates an instance attribute inside a method. Car.color creates a class attribute, color = 'red' is a local variable, and def color: is a method signature, not an assignment."
+    },
+    {
+      "id": "20.4_q6",
+      "type": "multiple_choice",
+      "concept": "instance_attributes_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q5"
+      ],
+      "prompt": "What mistake is made in the following code?",
+      "options": [
+        "The attribute is assigned before the object is created",
+        "The attribute is assigned outside __init__ and becomes shared",
+        "The attribute name conflicts with a method name",
+        "The attribute is assigned using a default value incorrectly"
+      ],
+      "correct_answer": "The attribute is assigned outside __init__ and becomes shared",
+      "explanation": "If you write x.value = 10 outside __init__ on one instance, that attribute is added only to that instance. However, a common pitfall is placing an assignment like value = 10 directly in the class body, which makes it a class attribute shared by all instances. The code shown assigns inside __init__ with self, so it is actually correct; the pitfall question tests awareness that missing self. causes shared state."
+    },
+    {
+      "id": "20.4_q7",
+      "type": "code_prediction",
+      "concept": "instance_attr_assignment",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q6"
+      ],
+      "prompt": "In the context of Instance Attributes, what is the primary behavior demonstrated here?\n```python\n# Instance Attributes\nprint('instance_attr_assignment')\n```",
+      "options": [
+        "instance_attr_assignment",
+        "SyntaxError",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "instance_attr_assignment",
+      "explanation": "This directly illustrates the standard behavior of instance_attr_assignment: instance attributes are bound to individual objects via self."
+    },
+    {
+      "id": "20.4_q8",
+      "type": "multiple_choice",
+      "concept": "instance_attr_assignment_rules",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q7"
+      ],
+      "prompt": "What is a core design principle when working with Instance Attributes in Python?",
+      "options": [
+        "Instance attributes are bound to individual objects via self",
+        "It bypasses all memory management constraints",
+        "It causes the interpreter to compile to C++ automatically",
+        "It can only be executed in interactive REPL mode"
+      ],
+      "correct_answer": "Instance attributes are bound to individual objects via self",
+      "explanation": "Understanding this rule is essential: instance attributes are bound to individual objects via self."
+    },
+    {
+      "id": "20.4_q9",
+      "type": "fix_the_code",
+      "concept": "instance_attr_assignment_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q8"
+      ],
+      "prompt": "Fix this code snippet implementing Instance Attributes correctly:",
+      "correct_answer": "45",
+      "explanation": "Applying standard Python idioms ensures correct behavior: instance attributes are bound to individual objects via self.",
+      "starter_code": "# Instance Attributes implementation\n___",
+      "solution_code": "# Instance Attributes implementation\nclass User:\n    def __init__(self, username):\n        self.username = username"
+    },
+    {
+      "id": "20.4_q10",
+      "type": "write_the_code",
+      "concept": "instance_attributes_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q9"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Instance Attributes. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Instance Attributes\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Instance Attributes ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "20.4_q11",
+      "type": "multiple_choice",
+      "concept": "instance_attr_assignment_tradeoffs",
+      "skill": "evaluation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q10"
+      ],
+      "prompt": "Which common pitfall must programmers avoid when using Instance Attributes?",
+      "options": [
+        "Misunderstanding edge cases related to: instance attributes are bound to individual objects via self",
+        "Forgetting that Python does not support functions",
+        "Assuming integers are capped at 32 bits",
+        "Using lowercase variable names"
+      ],
+      "correct_answer": "Misunderstanding edge cases related to: instance attributes are bound to individual objects via self",
+      "explanation": "Careful attention to requirements avoids common traps: instance attributes are bound to individual objects via self."
+    },
+    {
+      "id": "20.4_q12",
+      "type": "write_the_code",
+      "concept": "instance_attr_assignment_application",
+      "skill": "implementation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q11"
+      ],
+      "prompt": "Write the canonical Python code statement for Instance Attributes:",
+      "correct_answer": "60",
+      "explanation": "Canonical implementation: class User:\n    def __init__(self, username):\n        self.username = username. Instance attributes are bound to individual objects via self.",
+      "starter_code": "# Complete the statement\n___",
+      "solution_code": "class User:\n    def __init__(self, username):\n        self.username = username"
+    },
+    {
+      "id": "20.4_q13",
+      "type": "fill_in_the_blank",
+      "concept": "instance_attributes_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q12"
+      ],
+      "micro_lesson": {
+        "title": "Defining Instance Attributes in __init__",
+        "content": "In Python, instance attributes are variables that belong to an instance of a class. They are typically initialized inside the `__init__` method using the `self` keyword. The `self` parameter refers to the specific object being created. For example, to store a name for a `Person` object, you write `self.name = name` inside `__init__`. This binds the value passed as an argument to the instance so that every object of that class can access it via `object.name`."
+      },
+      "prompt": "Complete the `__init__` method by filling in the blank: `self.___ = name`",
+      "correct_answer": "name",
+      "accepted_answers": [
+        "name"
+      ],
+      "explanation": "The blank should be filled with `name` so that the parameter `name` is stored as an instance attribute attached to `self`. This allows each `Person` object to keep its own name value."
+    },
+    {
+      "id": "20.4_q14",
+      "type": "fill_in_the_blank",
+      "concept": "instance_attributes_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q13"
+      ],
+      "micro_lesson": {
+        "title": "Using self to Distinguish Instance Attributes",
+        "content": "When defining instance attributes, the `self` keyword is essential. It tells Python that the attribute belongs to the instance rather than the class itself. Without `self`, the assignment would create a local variable inside the method or a class attribute, depending on context. The standard pattern is `self.attribute_name = parameter_name`. This ensures that each object maintains its own independent state."
+      },
+      "prompt": "Fill in the blank to correctly assign the `age` parameter as an instance attribute: `self.___ = age`",
+      "correct_answer": "age",
+      "accepted_answers": [
+        "age"
+      ],
+      "explanation": "The blank must be `age` so that `self.age = age` stores the passed argument as an instance attribute. Using `self` prefixes the attribute to the instance, making it accessible via any object of that class."
+    },
+    {
+      "id": "20.4_q15",
+      "type": "code_ordering",
+      "concept": "instance_attributes_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Order for Initializing Instance Attributes",
+        "content": "The `__init__` method must follow a logical sequence: first, accept parameters, then assign them to `self` as instance attributes, and finally perform any additional setup. The order matters because attributes must exist on `self` before they are used elsewhere in the method. A typical sequence is: define `__init__(self, ...)` with parameters, then assign each parameter to `self.`, and then add any computed attributes."
+      },
+      "prompt": "Arrange the following lines in the correct order to initialize a `Book` instance with `title` and `author`.",
+      "options": [
+        "self.author = author",
+        "def __init__(self, title, author):",
+        "self.title = title"
+      ],
+      "correct_answer": [
+        "def __init__(self, title, author):",
+        "self.title = title",
+        "self.author = author"
+      ],
+      "explanation": "The method signature must come first, followed by assigning `title` to `self.title`, and then assigning `author` to `self.author`. This order ensures the instance attributes are created in a valid sequence inside `__init__`."
+    },
+    {
+      "id": "20.4_q16",
+      "type": "fill_in_the_blank",
+      "concept": "instance_attributes_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common Patterns for Multiple Instance Attributes",
+        "content": "When a class has more than one attribute, the pattern repeats: each parameter is assigned to `self` using the same name. For example, `self.x = x` and `self.y = y` are common in geometry or coordinate classes. This consistent naming keeps the code readable and avoids confusion between local parameters and stored state. You can also compute derived attributes, such as `self.full_name = f'{self.first} {self.last}'`, after the basic ones are set."
+      },
+      "prompt": "Complete the pattern for a `Rectangle` class: `self.___ = width` and `self.___ = height`",
+      "correct_answer": "width",
+      "accepted_answers": [
+        "width"
+      ],
+      "explanation": "The first blank is `width` and the second is `height`, following the parameter-to-attribute mapping pattern. This stores the incoming values as instance attributes on `self`."
+    },
+    {
+      "id": "20.4_q17",
+      "type": "code_ordering",
+      "concept": "instance_attributes_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q16"
+      ],
+      "micro_lesson": {
+        "title": "Sequencing Computed Instance Attributes",
+        "content": "Sometimes an instance attribute depends on other attributes already set on `self`. In such cases, you must first initialize the base attributes, then compute and assign the derived ones. For example, after setting `self.length` and `self.width`, you can calculate `self.area = self.length * self.width`. Attempting to use an attribute before it is defined will raise an `AttributeError`."
+      },
+      "prompt": "Order these lines to correctly build a `BankAccount` with `balance` and a `deposit_count` that starts at 0.",
+      "options": [
+        "self.deposit_count = 0",
+        "self.balance = balance",
+        "def __init__(self, balance):"
+      ],
+      "correct_answer": [
+        "def __init__(self, balance):",
+        "self.balance = balance",
+        "self.deposit_count = 0"
+      ],
+      "explanation": "The constructor must be defined first, then `balance` is stored as an instance attribute, and finally `deposit_count` is initialized to 0. This order ensures `self.balance` exists before any method that might use it is called."
+    },
+    {
+      "id": "20.4_q18",
+      "type": "fill_in_the_blank",
+      "concept": "instance_attributes_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic Use of Instance Attributes with Defaults",
+        "content": "A common idiom is to provide default values for instance attributes directly in the parameter list, then assign them to `self`. For example, `def __init__(self, name, role='guest')` allows callers to omit `role`. Inside `__init__`, you still write `self.role = role` so the instance stores the actual value used, whether it came from the argument or the default. This keeps the object state consistent while offering flexible construction."
+      },
+      "prompt": "Fill in the blank to store the `role` parameter as an instance attribute: `self.___ = role`",
+      "correct_answer": "role",
+      "accepted_answers": [
+        "role"
+      ],
+      "explanation": "The blank should be `role` so that `self.role = role` correctly captures the parameter value as an instance attribute. This is the standard idiom for making object state available to all methods of the class."
+    },
+    {
+      "id": "20.4_q19",
+      "type": "fix_the_code",
+      "concept": "instance_attributes_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Mistakes with Instance Attributes",
+        "content": "When working with instance attributes, beginners often confuse instance attributes with class attributes, or forget to use self. to bind a value to a specific object. Another frequent error is trying to access an instance attribute before it has been set inside __init__, or shadowing an instance attribute with a local variable inside a method. Always remember: instance attributes belong to a specific object and are created with self.name = value inside __init__. If you see an AttributeError, check whether the attribute was assigned with self. or if you accidentally used a class-level assignment instead.\n\nExample of a correct instance attribute:\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n\nExample of a common error (forgetting self):\nclass Dog:\n    def __init__(self, name):\n        name = name  # This creates a local variable, not an instance attribute!\n\nWhen debugging, print the object's __dict__ to inspect its current instance attributes."
+      },
+      "prompt": "Fix the bug in this code for instance attributes errors:",
+      "starter_code": "# Fix this code\nPrint('Instance Attributes')",
+      "solution_code": "print('Instance Attributes')",
+      "explanation": "This exercise tests `instance attributes errors` in Instance Attributes. When Python validates this code, it applies the standard rules of instance attributes errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "20.4_q20",
+      "type": "fix_the_code",
+      "concept": "instance_attributes_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.4_q19"
+      ],
+      "prompt": "The following code is supposed to store a student's name as an instance attribute, but it fails to do so. Fix the code so that the name is properly stored and accessible.",
+      "starter_code": "class Student:\n    def __init__(self, name):\n        name = name\n\ns = Student('Alice')\nprint(s.name)",
+      "solution_code": "class Student:\n    def __init__(self, name):\n        self.name = name\n\ns = Student('Alice')\nprint(s.name)",
+      "hint": "Remember to prefix the attribute with self. inside __init__ so it becomes an instance attribute.",
+      "explanation": "The original code assigned name to a local variable inside __init__, which is lost once the method finishes. By using self.name = name, the attribute is attached to the instance and remains accessible via s.name."
+    },
+    {
+      "id": "20.4_q21",
+      "type": "fix_the_code",
+      "concept": "instance_attributes_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q20"
+      ],
+      "prompt": "This class attempts to set an instance attribute, but it produces an unexpected result due to an edge case. Correct the code so the attribute is set properly.",
+      "starter_code": "class Counter:\n    def __init__(self, start):\n        self.value = start\n\n    def reset(self):\n        value = 0\n\nc = Counter(5)\nc.reset()\nprint(c.value)",
+      "solution_code": "class Counter:\n    def __init__(self, start):\n        self.value = start\n\n    def reset(self):\n        self.value = 0\n\nc = Counter(5)\nc.reset()\nprint(c.value)",
+      "hint": "In reset, the variable value is local. To modify the stored state, assign to self.value instead.",
+      "explanation": "Assigning to value inside reset only changes a local variable. To update the instance attribute, you must use self.value = 0. After the fix, c.value correctly becomes 0."
+    },
+    {
+      "id": "20.4_q22",
+      "type": "fix_the_code",
+      "concept": "instance_attributes_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors with Instance Attributes",
+        "content": "Runtime errors often occur when you try to access an instance attribute that was never initialized, or when you accidentally delete it during execution. A typical scenario is calling a method before __init__ has run, or using del self.attr inside a method and then accessing it later. Another runtime pitfall is mixing up instance attributes with parameters: if you forget self., the attribute exists only inside __init__ and is not part of the object.\n\nTo avoid runtime AttributeErrors, always ensure that every attribute you plan to read is assigned with self. inside __init__, or guard access with hasattr(self, 'attr').\n\nExample of safe runtime access:\nclass Safe:\n    def __init__(self):\n        self.x = 10\n\n    def show(self):\n        if hasattr(self, 'x'):\n            print(self.x)\n        else:\n            print('x is missing')"
+      },
+      "prompt": "Fix the bug in this code for instance attributes runtime:",
+      "starter_code": "# Fix this code\nPrint('Instance Attributes')",
+      "solution_code": "print('Instance Attributes')",
+      "explanation": "This exercise tests `instance attributes runtime` in Instance Attributes. When Python validates this code, it applies the standard rules of instance attributes runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "20.4_q23",
+      "type": "fix_the_code",
+      "concept": "instance_attributes_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q22"
+      ],
+      "prompt": "The update_score method is intended to modify the player's score, but the logic is flawed. Repair the code so the instance attribute is updated correctly.",
+      "starter_code": "class Player:\n    def __init__(self, score):\n        self.score = score\n\n    def update_score(self, points):\n        score += points\n\np = Player(10)\np.update_score(5)\nprint(p.score)",
+      "solution_code": "class Player:\n    def __init__(self, score):\n        self.score = score\n\n    def update_score(self, points):\n        self.score += points\n\np = Player(10)\np.update_score(5)\nprint(p.score)",
+      "hint": "Inside update_score, score refers to a local variable. You must update self.score to affect the stored instance attribute.",
+      "explanation": "Without self.score += points, the local score is incremented but never saved to the object. After the fix, p.score becomes 15 as intended."
+    },
+    {
+      "id": "20.4_q24",
+      "type": "write_the_code",
+      "concept": "instance_attributes_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q23"
+      ],
+      "prompt": "Refactor the following class to use proper instance attributes, eliminate redundant assignments, and improve readability. Ensure the refactored code passes the same test cases.",
+      "starter_code": "class Box:\n    def __init__(self, width, height):\n        w = width\n        h = height\n        self.width = w\n        self.height = h\n        self.area = w * h\n\n    def get_area(self):\n        return self.area",
+      "solution_code": "class Box:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n        self.area = width * height\n\n    def get_area(self):\n        return self.area",
+      "test_cases": [
+        {
+          "input": "b = Box(4, 5)\nassert b.width",
+          "expected_output": "4\nassert b.height == 5\nassert b.area == 20\nassert b.get_area() == 20",
+          "description": "Verifies: b = Box(4, 5)\nassert b.width == 4\nassert b.height == 5\nassert b.area == 20\nassert b.get_area() == 20"
+        },
+        {
+          "input": "b2 = Box(3, 7)\nassert b2.get_area()",
+          "expected_output": "21",
+          "description": "Verifies: b2 = Box(3, 7)\nassert b2.get_area() == 21"
+        }
+      ],
+      "hint": "Remove the intermediate variables w and h; assign width and height directly to self.width and self.height. Then compute area using the same values.",
+      "explanation": "The original code introduced unnecessary local variables w and h, which added clutter without benefit. Direct assignment to self.width and self.height simplifies the logic and makes the code easier to maintain while preserving identical behavior."
+    },
+    {
+      "id": "20.4_q25",
+      "type": "write_the_code",
+      "concept": "instance_attributes_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q24"
+      ],
+      "prompt": "Create a class named Book with an __init__ method that accepts title, author, and pages. Store these values as instance attributes and add a method display_info that prints all attributes.",
+      "starter_code": "class Book:\n    def __init__(self, title, author, pages):\n        # TODO: store instance attributes here\n        pass\n\n    def display_info(self):\n        # TODO: print the stored attributes\n        pass\n\n# Example usage\nmy_book = Book('The Python Guide', 'Alice Smith', 350)\nmy_book.display_info()",
+      "solution_code": "class Book:\n    def __init__(self, title, author, pages):\n        self.title = title\n        self.author = author\n        self.pages = pages\n\n    def display_info(self):\n        print('Title:', self.title)\n        print('Author:', self.author)\n        print('Pages:', self.pages)\n\n# Example usage\nmy_book = Book('The Python Guide', 'Alice Smith', 350)\nmy_book.display_info()",
+      "test_cases": [
+        {
+          "input": "assert my_book.title",
+          "expected_output": "'The Python Guide'",
+          "description": "Verifies: assert my_book.title == 'The Python Guide'"
+        },
+        {
+          "input": "assert my_book.author",
+          "expected_output": "'Alice Smith'",
+          "description": "Verifies: assert my_book.author == 'Alice Smith'"
+        },
+        {
+          "input": "assert my_book.pages",
+          "expected_output": "350",
+          "description": "Verifies: assert my_book.pages == 350"
+        },
+        {
+          "input": "",
+          "expected_output": "assert my_book.display_info() is None",
+          "description": "assert my_book.display_info() is None"
+        }
+      ],
+      "hint": "Use self.attribute_name = parameter_name inside __init__ to bind values to the instance.",
+      "explanation": "Instance attributes are variables defined inside __init__ and prefixed with self. They belong to a specific object and persist for the lifetime of that object."
+    },
+    {
+      "id": "20.4_q26",
+      "type": "write_the_code",
+      "concept": "instance_attributes_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.4_q25"
+      ],
+      "prompt": "Design a class Employee with instance attributes name, employee_id, and salary. Include a raise_salary method that increases salary by a given percentage and a method to_string that returns a formatted string with all details.",
+      "starter_code": "class Employee:\n    def __init__(self, name, employee_id, salary):\n        # TODO: initialize instance attributes\n        pass\n\n    def raise_salary(self, percent):\n        # TODO: increase salary by percent\n        pass\n\n    def to_string(self):\n        # TODO: return formatted string\n        pass\n\nemp = Employee('Bob Jones', 'E102', 60000)\nemp.raise_salary(10)\nprint(emp.to_string())",
+      "solution_code": "class Employee:\n    def __init__(self, name, employee_id, salary):\n        self.name = name\n        self.employee_id = employee_id\n        self.salary = salary\n\n    def raise_salary(self, percent):\n        self.salary = self.salary * (1 + percent / 100)\n\n    def to_string(self):\n        return 'Employee: ' + self.name + ', ID: ' + self.employee_id + ', Salary: $' + str(self.salary)\n\nemp = Employee('Bob Jones', 'E102', 60000)\nemp.raise_salary(10)\nprint(emp.to_string())",
+      "test_cases": [
+        {
+          "input": "assert emp.name",
+          "expected_output": "'Bob Jones'",
+          "description": "Verifies: assert emp.name == 'Bob Jones'"
+        },
+        {
+          "input": "assert emp.employee_id",
+          "expected_output": "'E102'",
+          "description": "Verifies: assert emp.employee_id == 'E102'"
+        },
+        {
+          "input": "assert emp.salary",
+          "expected_output": "66000.0",
+          "description": "Verifies: assert emp.salary == 66000.0"
+        },
+        {
+          "input": "assert emp.to_string()",
+          "expected_output": "'Employee: Bob Jones, ID: E102, Salary: $66000.0'",
+          "description": "Verifies: assert emp.to_string() == 'Employee: Bob Jones, ID: E102, Salary: $66000.0'"
+        }
+      ],
+      "hint": "Remember that instance attributes are accessed with self. and methods can modify them directly.",
+      "explanation": "Practical use of instance attributes includes storing mutable and immutable data per object, such as employee records, and updating them through methods."
+    },
+    {
+      "id": "20.4_q27",
+      "type": "write_the_code",
+      "concept": "instance_attributes_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q26"
+      ],
+      "prompt": "Create a base class Vehicle with attributes make, model, and year. Create a subclass ElectricCar that adds battery_size and overrides a method describe that prints all attributes including battery_size.",
+      "starter_code": "class Vehicle:\n    def __init__(self, make, model, year):\n        # TODO: initialize base attributes\n        pass\n\n    def describe(self):\n        # TODO: print base attributes\n        pass\n\nclass ElectricCar(Vehicle):\n    def __init__(self, make, model, year, battery_size):\n        # TODO: call super and initialize battery_size\n        pass\n\n    def describe(self):\n        # TODO: print all attributes\n        pass\n\ncar = ElectricCar('Tesla', 'Model S', 2023, 75)\ncar.describe()",
+      "solution_code": "class Vehicle:\n    def __init__(self, make, model, year):\n        self.make = make\n        self.model = model\n        self.year = year\n\n    def describe(self):\n        print('Vehicle: ' + self.make + ' ' + self.model + ' (' + str(self.year) + ')')\n\nclass ElectricCar(Vehicle):\n    def __init__(self, make, model, year, battery_size):\n        super().__init__(make, model, year)\n        self.battery_size = battery_size\n\n    def describe(self):\n        print('Electric Car: ' + self.make + ' ' + self.model + ' (' + str(self.year) + '), Battery: ' + str(self.battery_size) + ' kWh')\n\ncar = ElectricCar('Tesla', 'Model S', 2023, 75)\ncar.describe()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "assert isinstance(car, ElectricCar)",
+          "description": "assert isinstance(car, ElectricCar)"
+        },
+        {
+          "input": "assert car.make",
+          "expected_output": "'Tesla'",
+          "description": "Verifies: assert car.make == 'Tesla'"
+        },
+        {
+          "input": "assert car.battery_size",
+          "expected_output": "75",
+          "description": "Verifies: assert car.battery_size == 75"
+        },
+        {
+          "input": "",
+          "expected_output": "assert car.describe() is None",
+          "description": "assert car.describe() is None"
+        }
+      ],
+      "hint": "Use super().__init__(...) to initialize inherited attributes, then add the subclass-specific attribute with self.",
+      "explanation": "Instance attributes can be defined in both base and derived classes. Inheritance allows subclasses to extend objects with additional state while reusing existing attributes."
+    },
+    {
+      "id": "20.4_q28",
+      "type": "write_the_code",
+      "concept": "instance_attributes_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q27"
+      ],
+      "prompt": "A Rectangle class should store width and height as instance attributes. Implement __init__ and an area method that returns width * height. Then create two Rectangle objects and print the larger area.",
+      "starter_code": "class Rectangle:\n    def __init__(self, width, height):\n        # TODO: store width and height\n        pass\n\n    def area(self):\n        # TODO: compute and return area\n        pass\n\nr1 = Rectangle(5, 4)\nr2 = Rectangle(6, 3)\nprint(max(r1.area(), r2.area()))",
+      "solution_code": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):\n        return self.width * self.height\n\nr1 = Rectangle(5, 4)\nr2 = Rectangle(6, 3)\nprint(max(r1.area(), r2.area()))",
+      "test_cases": [
+        {
+          "input": "assert r1.area()",
+          "expected_output": "20",
+          "description": "Verifies: assert r1.area() == 20"
+        },
+        {
+          "input": "assert r2.area()",
+          "expected_output": "18",
+          "description": "Verifies: assert r2.area() == 18"
+        },
+        {
+          "input": "assert max(r1.area(), r2.area())",
+          "expected_output": "20",
+          "description": "Verifies: assert max(r1.area(), r2.area()) == 20"
+        }
+      ],
+      "hint": "Instance attributes must be assigned before they are used inside methods.",
+      "explanation": "This challenge reinforces that instance attributes hold object-specific data and methods operate on that data to produce results."
+    },
+    {
+      "id": "20.4_q29",
+      "type": "write_the_code",
+      "concept": "instance_attributes_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q28"
+      ],
+      "prompt": "You are modeling a Library system. Design a Book class with title, author, isbn, and available (boolean). Include a checkout method that sets available to False and a return_book method that sets it to True. Then simulate checking out and returning one book, printing its status before and after.",
+      "starter_code": "class Book:\n    def __init__(self, title, author, isbn, available):\n        # TODO: store instance attributes\n        pass\n\n    def checkout(self):\n        # TODO: mark as unavailable\n        pass\n\n    def return_book(self):\n        # TODO: mark as available\n        pass\n\nnovel = Book('1984', 'George Orwell', '9780451524935', True)\nprint(novel.available)\nnovel.checkout()\nprint(novel.available)\nnovel.return_book()\nprint(novel.available)",
+      "solution_code": "class Book:\n    def __init__(self, title, author, isbn, available):\n        self.title = title\n        self.author = author\n        self.isbn = isbn\n        self.available = available\n\n    def checkout(self):\n        self.available = False\n\n    def return_book(self):\n        self.available = True\n\nnovel = Book('1984', 'George Orwell', '9780451524935', True)\nprint(novel.available)\nnovel.checkout()\nprint(novel.available)\nnovel.return_book()\nprint(novel.available)",
+      "test_cases": [
+        {
+          "input": "assert novel.title",
+          "expected_output": "'1984'",
+          "description": "Verifies: assert novel.title == '1984'"
+        },
+        {
+          "input": "assert novel.available",
+          "expected_output": "True",
+          "description": "Verifies: assert novel.available == True"
+        },
+        {
+          "input": "",
+          "expected_output": "assert novel.checkout() is None",
+          "description": "assert novel.checkout() is None"
+        },
+        {
+          "input": "assert novel.available",
+          "expected_output": "False",
+          "description": "Verifies: assert novel.available == False"
+        },
+        {
+          "input": "",
+          "expected_output": "assert novel.return_book() is None",
+          "description": "assert novel.return_book() is None"
+        },
+        {
+          "input": "assert novel.available",
+          "expected_output": "True",
+          "description": "Verifies: assert novel.available == True"
+        }
+      ],
+      "hint": "Boolean state is a common instance attribute pattern for tracking object status over time.",
+      "explanation": "Real-world scenarios demonstrate how instance attributes represent dynamic state, such as whether a library book is currently checked out, enabling behavior changes through methods."
+    },
+    {
+      "id": "20.4_q30",
+      "type": "write_the_code",
+      "concept": "instance_attributes_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.4_q29"
+      ],
+      "prompt": "Build a BankAccount class with owner, balance, and account_number as instance attributes. Include deposit(amount) and withdraw(amount) methods that update balance only if the amount is positive. Create an account, deposit 1000, withdraw 300, then print the final balance.",
+      "starter_code": "class BankAccount:\n    def __init__(self, owner, account_number, balance):\n        # TODO: initialize instance attributes\n        pass\n\n    def deposit(self, amount):\n        # TODO: add amount if positive\n        pass\n\n    def withdraw(self, amount):\n        # TODO: subtract amount if positive\n        pass\n\nacc = BankAccount('Dana Lee', 'ACC001', 0)\nacc.deposit(1000)\nacc.withdraw(300)\nprint(acc.balance)",
+      "solution_code": "class BankAccount:\n    def __init__(self, owner, account_number, balance):\n        self.owner = owner\n        self.account_number = account_number\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount > 0:\n            self.balance = self.balance + amount\n\n    def withdraw(self, amount):\n        if amount > 0:\n            self.balance = self.balance - amount\n\nacc = BankAccount('Dana Lee', 'ACC001', 0)\nacc.deposit(1000)\nacc.withdraw(300)\nprint(acc.balance)",
+      "test_cases": [
+        {
+          "input": "assert acc.owner",
+          "expected_output": "'Dana Lee'",
+          "description": "Verifies: assert acc.owner == 'Dana Lee'"
+        },
+        {
+          "input": "assert acc.account_number",
+          "expected_output": "'ACC001'",
+          "description": "Verifies: assert acc.account_number == 'ACC001'"
+        },
+        {
+          "input": "assert acc.balance",
+          "expected_output": "700",
+          "description": "Verifies: assert acc.balance == 700"
+        },
+        {
+          "input": "",
+          "expected_output": "assert acc.deposit(-50) is None",
+          "description": "assert acc.deposit(-50) is None"
+        },
+        {
+          "input": "assert acc.balance",
+          "expected_output": "700",
+          "description": "Verifies: assert acc.balance == 700"
+        }
+      ],
+      "hint": "Guard clauses prevent invalid mutations of instance attributes; always validate inputs before assignment.",
+      "explanation": "Mastery of instance attributes involves controlling access and mutation through methods, ensuring object integrity and encapsulating internal state."
+    }
+  ],
+  "unit_num": 20,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Instance Attributes",
+    "Apply idiomatic Python patterns when working with Instance Attributes",
+    "Debug common runtime exceptions and logic errors associated with Instance Attributes",
+    "Implement production-ready code utilizing Instance Attributes"
+  ],
+  "prerequisites": [
+    "20.3"
+  ]
+}

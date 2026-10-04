@@ -1,0 +1,673 @@
+{
+  "lesson_id": "27.1",
+  "title": "Web Frameworks Overview",
+  "unit": "Web Backend Development",
+  "items": [
+    {
+      "id": "27.1_q1",
+      "type": "micro_lesson",
+      "concept": "web_frameworks_overview_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is a Web Framework?",
+      "content": "A web framework is a software framework that is designed to support the development of web applications, including web services, web resources, and web APIs. It provides a standard way to build and deploy web applications. Instead of reinventing the wheel, developers use frameworks to handle common tasks like routing, request handling, and template rendering. Popular Python web frameworks include Flask, Django, and FastAPI. Below is a simple example of a minimal Flask application that returns a greeting:\n\n```python\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/hello')\ndef hello():\n    return 'Hello, World!'\n```\n\nIn this snippet, `Flask` is imported, an application instance is created, and a route is defined to respond when a user visits the `/hello` URL.",
+      "prompt": "",
+      "explanation": "A web framework is a software framework that is designed to support the development of web applications, including web services, web resources, and web APIs. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "27.1_q2",
+      "type": "multiple_choice",
+      "concept": "web_frameworks_overview_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q1"
+      ],
+      "prompt": "Which of the following is a primary purpose of using a web framework in Python?",
+      "options": [
+        "To automatically generate database schemas without any code",
+        "To simplify common web development tasks such as routing and request handling",
+        "To replace the need for a web server entirely",
+        "To compile Python into machine code for faster execution"
+      ],
+      "correct_answer": "To simplify common web development tasks such as routing and request handling",
+      "explanation": "Web frameworks are designed to streamline repetitive tasks like URL routing, handling HTTP requests, and rendering templates. They do not remove the need for a web server, nor do they compile Python to machine code, and they typically require some configuration rather than generating schemas automatically."
+    },
+    {
+      "id": "27.1_q3",
+      "type": "micro_lesson",
+      "concept": "web_frameworks_overview_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q2"
+      ],
+      "title": "Basic Syntax in Flask",
+      "content": "Flask uses decorators to map URLs to Python functions. The `@app.route()` decorator tells Flask which URL should trigger the function below it. The function must return a response, which is typically a string, HTML, or JSON. Here is a slightly more complete example that accepts a name parameter:\n\n```python\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/greet/<name>')\ndef greet(name):\n    return f'Hello, {name}!'\n```\n\nWhen a user visits `/greet/Alice`, Flask calls `greet('Alice')` and returns the string `'Hello, Alice!'`.",
+      "prompt": "",
+      "explanation": "Flask uses decorators to map URLs to Python functions. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "27.1_q4",
+      "type": "multiple_choice",
+      "concept": "web_frameworks_overview_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q3"
+      ],
+      "prompt": "Given the Flask route `@app.route('/user/<id>')`, what happens when a client requests `/user/42`?",
+      "options": [
+        "The function receives the integer 42 directly without conversion",
+        "The function receives the string '42' as the value for the parameter id",
+        "Flask returns a 404 error because id is not a valid variable name",
+        "The route only matches if id is exactly the string 'id'"
+      ],
+      "correct_answer": "The function receives the string '42' as the value for the parameter id",
+      "explanation": "In Flask, URL parameters captured in the route are passed as strings to the view function. No automatic type conversion to integer occurs unless the developer explicitly casts or validates the value."
+    },
+    {
+      "id": "27.1_q5",
+      "type": "multiple_choice",
+      "concept": "web_frameworks_overview_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q4"
+      ],
+      "prompt": "Match each Python web framework to its common use case.",
+      "options": [
+        "Flask: large-scale enterprise applications with built-in admin; Django: lightweight microservices and APIs; FastAPI: rapid prototyping and small apps",
+        "Flask: lightweight microservices and APIs; Django: large-scale enterprise applications with built-in admin; FastAPI: high-performance asynchronous APIs",
+        "Flask: high-performance asynchronous APIs; Django: rapid prototyping and small apps; FastAPI: large-scale enterprise applications with built-in admin",
+        "Flask: large-scale enterprise applications with built-in admin; Django: high-performance asynchronous APIs; FastAPI: lightweight microservices and APIs"
+      ],
+      "correct_answer": "Flask: lightweight microservices and APIs; Django: large-scale enterprise applications with built-in admin; FastAPI: high-performance asynchronous APIs",
+      "explanation": "Flask is known for being minimal and flexible, making it suitable for small to medium apps and APIs. Django provides a batteries-included approach ideal for large projects. FastAPI excels at building fast, modern asynchronous APIs."
+    },
+    {
+      "id": "27.1_q6",
+      "type": "multiple_choice",
+      "concept": "web_frameworks_overview_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when starting with a Python web framework?",
+      "options": [
+        "Assuming all routes are case-sensitive by default in every framework",
+        "Forgetting to return a response from a view function, which can cause errors or unexpected behavior",
+        "Believing that frameworks automatically secure all user input against every type of attack",
+        "Expecting that decorators can only be used on functions that accept no arguments"
+      ],
+      "correct_answer": "Forgetting to return a response from a view function, which can cause errors or unexpected behavior",
+      "explanation": "Every view function in a web framework should return a response. If a function ends without an explicit return, the framework may raise an error or behave unpredictably. While security and case sensitivity are important considerations, the most immediate and common beginner mistake is omitting the return statement."
+    },
+    {
+      "id": "27.1_q7",
+      "type": "code_prediction",
+      "concept": "web_frameworks_overview_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q6"
+      ],
+      "prompt": "What will be the output of the following Flask-like route definition when the URL '/home' is requested?\n\n```python\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/home')\ndef home():\n    return 'Welcome to the homepage'\n```",
+      "options": [
+        "An HTTP 404 error is raised",
+        "The string 'Welcome to the homepage' is returned as the response body",
+        "The function home() is executed and prints 'Welcome to the homepage' to the console",
+        "A 302 redirect to '/' is triggered"
+      ],
+      "correct_answer": "The string 'Welcome to the homepage' is returned as the response body",
+      "explanation": "In Flask, the @app.route decorator binds the URL '/home' to the home() function. When a GET request matches that path, Flask calls home() and returns its value as the HTTP response body. It does not print to the console and does not redirect by default."
+    },
+    {
+      "id": "27.1_q8",
+      "type": "output_prediction",
+      "concept": "web_frameworks_overview_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q7"
+      ],
+      "prompt": "Consider the following minimal application. What response does a client receive when sending a GET request to '/greet/Alice'?\n\n```python\nfrom flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/greet/<name>')\ndef greet(name):\n    return f'Hello, {name}'\n```",
+      "options": [
+        "Hello, Alice",
+        "Hello, <name>",
+        "404 Not Found",
+        "Hello, request"
+      ],
+      "correct_answer": "Hello, Alice",
+      "explanation": "Flask captures the URL segment 'Alice' and passes it as the name argument to greet(). The f-string interpolates that value, producing the response body 'Hello, Alice'."
+    },
+    {
+      "id": "27.1_q9",
+      "type": "code_prediction",
+      "concept": "web_frameworks_overview_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q8"
+      ],
+      "prompt": "Given the route below, what happens when a POST request is sent to '/submit' with form data name='Bob'?\n\n```python\nfrom flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/submit', methods=['POST'])\ndef submit():\n    user = request.form['name']\n    return f'Saved: {user}'\n```",
+      "options": [
+        "The server returns 'Saved: Bob' because request.form retrieves the submitted form value",
+        "The server returns 'Saved: None' because POST data is ignored",
+        "A 405 Method Not Allowed error occurs because GET is required",
+        "The server crashes with a KeyError because 'name' is missing"
+      ],
+      "correct_answer": "The server returns 'Saved: Bob' because request.form retrieves the submitted form value",
+      "explanation": "The methods list explicitly allows POST. request.form reads submitted form fields, so 'name' maps to 'Bob' and the f-string returns 'Saved: Bob'."
+    },
+    {
+      "id": "27.1_q10",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q9"
+      ],
+      "prompt": "A developer writes the following snippet and expects '/about' to display 'About Us'. Instead, the browser shows '404 Not Found'. Explain why this occurs and how to fix it.",
+      "correct_answer": "The route decorator is missing, so Flask cannot match the URL; add @app.route('/about')",
+      "explanation": "Without @app.route('/about'), Flask has no rule mapping '/about' to a function, so it returns the default 404 page. Adding the decorator binds the path to the function and makes the response available.",
+      "starter_code": "# TODO: Implement solution for Web Frameworks Overview\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Web Frameworks Overview')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Web Frameworks Overview"
+        }
+      ]
+    },
+    {
+      "id": "27.1_q11",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q10"
+      ],
+      "prompt": "Trace the execution of the application below when a GET request arrives at '/items/5'. List the order in which the following events occur.\n\n```python\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/items/<int:id>')\ndef show_item(id):\n    return f'Item {id}'\n```",
+      "correct_answer": "Flask matches '/items/5' to show_item, converts '5' to int 5, calls show_item(5), and returns the string 'Item 5'",
+      "explanation": "The routing engine first finds a matching rule, then applies the converter (int) to extract 5, invokes show_item with that integer, and finally returns the evaluated f-string as the HTTP response.",
+      "starter_code": "# 1. Define the process_27_1 function\ndef process_27_1():\n    # 2. Implement solution for Web Frameworks Overview\n    pass\n",
+      "solution_code": "print('Web Frameworks Overview')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Web Frameworks Overview"
+        }
+      ]
+    },
+    {
+      "id": "27.1_q12",
+      "type": "output_prediction",
+      "concept": "web_frameworks_overview_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q11"
+      ],
+      "prompt": "A route is defined as follows. What response is produced when a client sends a GET request to '/status'?\n\n```python\nfrom flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/status', methods=['GET', 'POST'])\ndef status():\n    if request.method == 'GET':\n        return 'Online'\n    return 'Processing'\n```",
+      "options": [
+        "'Processing'",
+        "'Online'",
+        "A 405 Method Not Allowed error",
+        "None"
+      ],
+      "correct_answer": "'Online'",
+      "explanation": "The request.method attribute is 'GET' for this scenario. The condition request.method == 'GET' evaluates to True, so the function returns 'Online' and never reaches the second return statement."
+    },
+    {
+      "id": "27.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "web_frameworks_overview_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q12"
+      ],
+      "prompt": "In Python web frameworks, a common pattern is to define a function decorated with @app.route('/path') that returns a string. Complete the code: @app.route('/hello') def hello(): return '___'",
+      "correct_answer": "Hello, World!",
+      "accepted_answers": [
+        "Hello, World!",
+        "Hello World",
+        "hi there"
+      ],
+      "explanation": "The route decorator maps a URL path to a view function. The function must return a response string. In Flask, returning a string directly sends an HTTP response."
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "concept": "web_frameworks_overview_keywords",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "27.1_q13"
+      ],
+      "prompt": "When building a web server with Flask, you must import the class and create an instance. Complete: from flask import ___ ; app = ___()",
+      "correct_answer": "Flask",
+      "accepted_answers": [
+        "Flask",
+        "Flask",
+        "Flask"
+      ],
+      "explanation": "Flask is the core class from the flask module. Instantiating it creates the WSGI application object that handles requests and responses.",
+      "id": "27.1_q14",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "concept": "web_frameworks_overview_sequence",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "27.1_q14"
+      ],
+      "prompt": "Arrange the following steps to start a minimal Flask server in the correct order:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First import and instantiate Flask, then define the route handler, and finally run the development server under the standard guard.",
+      "id": "27.1_q15",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "concept": "web_frameworks_overview_patterns",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "27.1_q15"
+      ],
+      "prompt": "To handle a POST request in Flask, the route decorator should specify methods=['___']. Example: @app.route('/submit', methods=['___'])",
+      "correct_answer": "POST",
+      "accepted_answers": [
+        "POST",
+        "post"
+      ],
+      "explanation": "The methods list tells Flask which HTTP verbs the view accepts. Common values are GET, POST, PUT, DELETE, and PATCH.",
+      "id": "27.1_q16",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "concept": "web_frameworks_overview_algorithm",
+      "skill": "sequencing",
+      "diff": "medium",
+      "prerequisites": [
+        "27.1_q16"
+      ],
+      "prompt": "Order the logic for a simple API endpoint that reads JSON and returns a greeting:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Imports must come first, then the decorator, then the function definition, then parsing the JSON body, and finally returning the response.",
+      "id": "27.1_q17",
+      "difficulty": "medium"
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "concept": "web_frameworks_overview_idioms",
+      "skill": "syntax",
+      "diff": "medium",
+      "prerequisites": [
+        "27.1_q17"
+      ],
+      "prompt": "A common Flask idiom for rendering an HTML template is: return render_template('___', variable=value). Complete the template filename.",
+      "correct_answer": "template.html",
+      "accepted_answers": [
+        "template.html",
+        "index.html",
+        "page.html"
+      ],
+      "explanation": "render_template looks for files in the templates folder. The argument is the filename, often with an .html extension, and can include variables passed as keyword arguments.",
+      "id": "27.1_q18",
+      "difficulty": "medium"
+    },
+    {
+      "id": "27.1_q19",
+      "idx": 19,
+      "type": "fix_the_code",
+      "concept": "web_frameworks_overview_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing Common Web Framework Errors",
+        "content": "When working with web frameworks like Flask or Django, beginners often encounter routing mismatches and import errors. In this micro-lesson, we examine a minimal Flask application that fails to start. The error typically stems from misconfigured the app instance or incorrect route decorator usage. Below is the problematic code:\n\n```\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/home')\ndef home():\n    return 'Welcome home'\n\nif __name__ == '__main__':\n    app.run(debug=True)\n```\n\nThis code actually runs correctly, but a common variation introduces an error: forgetting to import `Flask` or misspelling the decorator as `@app.rout('/home')`. Always verify your imports and decorator syntax. A frequent runtime error is `ImportError: No module named 'flask'`, which indicates the package is not installed in your virtual environment. To resolve this, run `pip install Flask` and ensure you activate your environment before executing the script."
+      },
+      "prompt": "Fix the bug in this code for web frameworks overview errors:",
+      "starter_code": "# Fix this code\nPrint('Web Frameworks Overview')",
+      "solution_code": "print('Web Frameworks Overview')",
+      "explanation": "This exercise tests `web frameworks overview errors` in Web Frameworks Overview. When Python validates this code, it applies the standard rules of web frameworks overview errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "27.1_q20",
+      "idx": 20,
+      "type": "fix_the_code",
+      "concept": "web_frameworks_overview_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "27.1_q19"
+      ],
+      "prompt": "The following minimal Flask route is intended to return a greeting, but it contains a syntax error that prevents the server from starting. Identify and correct the issue.",
+      "starter_code": "from flask import Flask\n\napp = Flask(__name__)\n\n@app.rout('/greet')\ndef greet():\n    return 'Hello, World!'\n\nif __name__ == '__main__':\n    app.run()\n",
+      "solution_code": "from flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/greet')\ndef greet():\n    return 'Hello, World!'\n\nif __name__ == '__main__':\n    app.run()\n",
+      "hint": "Check the decorator name for typos; it must be `@app.route`.",
+      "explanation": "The decorator was misspelled as `@app.rout` instead of `@app.route`. Python raises a `NameError` because `rout` is not a valid attribute of the Flask app instance. Correcting the spelling allows Flask to register the URL endpoint properly."
+    },
+    {
+      "id": "27.1_q21",
+      "idx": 21,
+      "type": "fix_the_code",
+      "concept": "web_frameworks_overview_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q20"
+      ],
+      "prompt": "This Flask route handles a dynamic user ID, but it crashes when the ID is missing or non-numeric. Fix the code to safely handle edge cases.",
+      "starter_code": "from flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/user/<user_id>')\ndef show_user(user_id):\n    return f'User ID: {user_id}'\n\nif __name__ == '__main__':\n    app.run(debug=True)\n",
+      "solution_code": "from flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/user/<user_id>')\ndef show_user(user_id):\n    if not user_id.isdigit():\n        return 'Invalid user ID', 400\n    return f'User ID: {user_id}'\n\nif __name__ == '__main__':\n    app.run(debug=True)\n",
+      "hint": "Validate the `user_id` parameter before using it in a response.",
+      "explanation": "Without validation, a request to `/user/abc` would still render but might lead to unexpected behavior in downstream logic. By checking `user_id.isdigit()`, we reject non-numeric identifiers with a 400 Bad Request status, making the endpoint robust against malformed input."
+    },
+    {
+      "id": "27.1_q22",
+      "idx": 22,
+      "type": "fix_the_code",
+      "concept": "web_frameworks_overview_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in Web Frameworks",
+        "content": "Runtime errors occur after the code is parsed but during execution. A classic example in Flask is accessing a request variable that does not exist. Consider the following snippet:\n\n```\nfrom flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/submit')\ndef submit():\n    name = request.form['username']\n    return f'Hello, {name}'\n\nif __name__ == '__main__':\n    app.run()\n```\n\nIf a client sends a GET request to `/submit` without any form data, `request.form['username']` raises a `KeyError: 'username'`. To avoid this, always use `request.form.get('username', 'Guest')` or check whether the key exists. Another runtime pitfall is forgetting to call `app.run()`, which leaves the development server inactive. Ensure your entry point invokes the server method so that HTTP requests are actually handled."
+      },
+      "prompt": "Fix the bug in this code for web frameworks overview runtime:",
+      "starter_code": "# Fix this code\nPrint('Web Frameworks Overview')",
+      "solution_code": "print('Web Frameworks Overview')",
+      "explanation": "This exercise tests `web frameworks overview runtime` in Web Frameworks Overview. When Python validates this code, it applies the standard rules of web frameworks overview runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "27.1_q23",
+      "idx": 23,
+      "type": "fix_the_code",
+      "concept": "web_frameworks_overview_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q22"
+      ],
+      "prompt": "The route below is supposed to return a success message only when a 'status' query parameter equals 'ok'. Currently it always returns success regardless of input. Repair the logic.",
+      "starter_code": "from flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/check')\ndef check():\n    status = request.args.get('status')\n    return 'Success'\n\nif __name__ == '__main__':\n    app.run()\n",
+      "solution_code": "from flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route('/check')\ndef check():\n    status = request.args.get('status')\n    if status == 'ok':\n        return 'Success'\n    return 'Failure: status must be ok', 400\n\nif __name__ == '__main__':\n    app.run()\n",
+      "hint": "Compare the retrieved `status` value against the required literal before deciding the response.",
+      "explanation": "The original code ignored the value of `status` and unconditionally returned 'Success'. The repaired version explicitly checks `if status == 'ok'` and returns a failure response with a 400 status code when the condition is not met, aligning the behavior with the intended business logic."
+    },
+    {
+      "id": "27.1_q24",
+      "idx": 24,
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.1_q23"
+      ],
+      "prompt": "Refactor the following Flask application to reduce redundancy by using a reusable helper function for common response formatting. Ensure all existing behavior is preserved.",
+      "starter_code": "from flask import Flask, request\n\napp = Flask(__name__)\n\ndef home():\n    return 'Welcome home'\n\ndef about():\n    return 'About page'\n\n@app.route('/home')\ndef home_route():\n    return home()\n\n@app.route('/about')\ndef about_route():\n    return about()\n\nif __name__ == '__main__':\n    app.run()\n",
+      "solution_code": "from flask import Flask\n\napp = Flask(__name__)\n\ndef format_response(message, status_code=200):\n    return {'message': message}, status_code\n\n@app.route('/home')\ndef home_route():\n    return format_response('Welcome home')\n\n@app.route('/about')\ndef about_route():\n    return format_response('About page')\n\nif __name__ == '__main__':\n    app.run()\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "GET /home returns {'message': 'Welcome home'} with status 200",
+          "description": "GET /home returns {'message': 'Welcome home'} with status 200"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /about returns {'message': 'About page'} with status 200",
+          "description": "GET /about returns {'message': 'About page'} with status 200"
+        },
+        {
+          "input": "",
+          "expected_output": "No duplicate response formatting logic exists in route handlers",
+          "description": "No duplicate response formatting logic exists in route handlers"
+        }
+      ],
+      "hint": "Extract the repeated return pattern into a single function that accepts the message and optional status code.",
+      "explanation": "The original code duplicated the implicit Flask tuple-style return in every handler. By introducing `format_response`, we centralize response construction, making future changes—such as adding headers or JSON serialization—require edits in only one place. This improves maintainability and aligns with DRY principles."
+    },
+    {
+      "id": "27.1_q25",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q24"
+      ],
+      "prompt": "Create a minimal Flask web application that serves a homepage at the root URL ('/') displaying the text 'Welcome to Web Frameworks' and a second route '/about' that returns 'About this course'.",
+      "starter_code": "from flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Welcome to Web Frameworks'\n\n@app.route('/about')\ndef about():\n    return 'About this course'\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "solution_code": "from flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Welcome to Web Frameworks'\n\n@app.route('/about')\ndef about():\n    return 'About this course'\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "GET / returns status 200 and body 'Welcome to Web Frameworks'",
+          "description": "GET / returns status 200 and body 'Welcome to Web Frameworks'"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /about returns status 200 and body 'About this course'",
+          "description": "GET /about returns status 200 and body 'About this course'"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /nonexistent returns status 404",
+          "description": "GET /nonexistent returns status 404"
+        }
+      ],
+      "hint": "Ensure you import Flask, instantiate the app, use @app.route decorators, and start the server with app.run().",
+      "explanation": "Flask is a lightweight WSGI web framework. This exercise demonstrates creating routes, returning string responses, and running the development server. The @app.route decorator maps URLs to view functions."
+    },
+    {
+      "id": "27.1_q26",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "27.1_q25"
+      ],
+      "prompt": "Extend the Flask app to accept a JSON POST request at '/api/greet' with a JSON body containing 'name', and return a JSON response with a greeting message. Also add a GET '/health' endpoint that returns {'status': 'ok'}.",
+      "starter_code": "from flask import Flask, request, jsonify\n\napp = Flask(__name__)\n\n@app.route('/api/greet', methods=['POST'])\ndef greet():\n    data = request.get_json()\n    return jsonify({'message': 'Hello'})\n\n@app.route('/health', methods=['GET'])\ndef health():\n    return jsonify({'status': 'ok'})\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "solution_code": "from flask import Flask, request, jsonify\n\napp = Flask(__name__)\n\n@app.route('/api/greet', methods=['POST'])\ndef greet():\n    data = request.get_json()\n    name = data.get('name', 'Guest')\n    return jsonify({'message': f'Hello, {name}!'})\n\n@app.route('/health', methods=['GET'])\ndef health():\n    return jsonify({'status': 'ok'})\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "POST /api/greet with {'name': 'Alice'} returns 200 and {'message': 'Hello, Alice!'}",
+          "description": "POST /api/greet with {'name': 'Alice'} returns 200 and {'message': 'Hello, Alice!'}"
+        },
+        {
+          "input": "",
+          "expected_output": "POST /api/greet with missing 'name' returns 200 and {'message': 'Hello, Guest!'}",
+          "description": "POST /api/greet with missing 'name' returns 200 and {'message': 'Hello, Guest!'}"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /health returns 200 and {'status': 'ok'}",
+          "description": "GET /health returns 200 and {'status': 'ok'}"
+        }
+      ],
+      "hint": "Use request.get_json() to parse incoming JSON. Use jsonify to create a proper JSON response. Provide a default value with dict.get() for robustness.",
+      "explanation": "This practical example shows how to handle HTTP methods, parse JSON payloads, and return structured JSON responses using Flask's request and jsonify utilities."
+    },
+    {
+      "id": "27.1_q27",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.1_q26"
+      ],
+      "prompt": "Build a Flask application with a form at '/register' that accepts 'username' and 'email' via POST, validates that both fields are non-empty strings, stores them in an in-memory dictionary as a mock database, and redirects to '/users' which renders a Jinja2 template listing all registered users. Include error handling for missing fields.",
+      "starter_code": "from flask import Flask, render_template, request, redirect, url_for\n\napp = Flask(__name__, template_folder='templates')\n\nusers = {}\n\n@app.route('/register', methods=['GET', 'POST'])\ndef register():\n    if request.method == 'POST':\n        username = request.form.get('username')\n        email = request.form.get('email')\n        # TODO: validate and store\n        return redirect(url_for('users'))\n    return render_template('register.html')\n\n@app.route('/users')\ndef users():\n    return render_template('users.html', users=users)\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "solution_code": "from flask import Flask, render_template, request, redirect, url_for\n\napp = Flask(__name__, template_folder='templates')\n\nusers = {}\n\n@app.route('/register', methods=['GET', 'POST'])\ndef register():\n    if request.method == 'POST':\n        username = request.form.get('username', '').strip()\n        email = request.form.get('email', '').strip()\n        if not username or not email:\n            return render_template('register.html', error='Both username and email are required.')\n        users[username] = email\n        return redirect(url_for('users'))\n    return render_template('register.html')\n\n@app.route('/users')\ndef users():\n    return render_template('users.html', users=users)\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "POST /register with valid username and email stores entry and redirects to /users",
+          "description": "POST /register with valid username and email stores entry and redirects to /users"
+        },
+        {
+          "input": "",
+          "expected_output": "POST /register with empty username returns 200 and renders register.html with error",
+          "description": "POST /register with empty username returns 200 and renders register.html with error"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /users displays all stored users",
+          "description": "GET /users displays all stored users"
+        }
+      ],
+      "hint": "Use request.form.get() for form data. Strip whitespace before validation. Return render_template with an error variable on failure. Use redirect and url_for for navigation.",
+      "explanation": "This advanced task integrates form handling, input validation, in-memory data persistence, templating with Jinja2, and proper HTTP redirection. It mirrors real-world user registration flows before introducing a persistent database layer."
+    },
+    {
+      "id": "27.1_q28",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.1_q27"
+      ],
+      "prompt": "A Flask route '/echo' currently accepts only GET requests and returns the query parameter 'msg' if provided. Modify it to accept both GET and POST requests, return the 'msg' parameter from the request regardless of method, and return a 400 status with {'error': 'msg required'} if 'msg' is missing.",
+      "starter_code": "@app.route('/echo', methods=['GET'])\ndef echo():\n    msg = request.args.get('msg')\n    if msg is None:\n        return 'msg required', 400\n    return msg",
+      "solution_code": "@app.route('/echo', methods=['GET', 'POST'])\ndef echo():\n    if request.method == 'POST':\n        msg = request.form.get('msg')\n    else:\n        msg = request.args.get('msg')\n    if not msg:\n        return {'error': 'msg required'}, 400\n    return msg",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "GET /echo?msg=hello returns 200 and 'hello'",
+          "description": "GET /echo?msg=hello returns 200 and 'hello'"
+        },
+        {
+          "input": "",
+          "expected_output": "POST /echo with form msg=world returns 200 and 'world'",
+          "description": "POST /echo with form msg=world returns 200 and 'world'"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /echo returns 400 and {'error': 'msg required'}",
+          "description": "GET /echo returns 400 and {'error': 'msg required'}"
+        }
+      ],
+      "hint": "Check request.method to choose between request.args and request.form. Return a JSON dict with a 400 status tuple for missing messages.",
+      "explanation": "This challenge tests your understanding of HTTP method branching, parameter extraction from different sources (query vs form), and structured error responses with appropriate status codes."
+    },
+    {
+      "id": "27.1_q29",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.1_q28"
+      ],
+      "prompt": "You are tasked with choosing a web framework for a new microservice that must expose a REST API, handle concurrent requests efficiently, and integrate with a PostgreSQL database. Compare Flask and FastAPI for this scenario. Write a brief justification in Python comments within a single script that defines a placeholder configuration dictionary for the chosen framework, explaining why it fits the requirements.",
+      "starter_code": "# TODO: choose framework and justify in comments\n\nconfig = {\n    'framework': None,\n    'database_url': None,\n    'debug': False\n}\n\n# Add your justification comments here\n# Example:\n# # Chosen: FastAPI because it supports async and automatic OpenAPI docs\n\nprint(config)",
+      "solution_code": "# Justification: FastAPI is preferred over Flask for this microservice because it\n# natively supports asynchronous request handling (via async/await), which improves\n# concurrency under high load. It also auto-generates interactive API documentation\n# via OpenAPI/Swagger, accelerating integration. Flask is simpler for small apps,\n# but FastAPI's performance and modern tooling align better with scalable REST\n# services backed by PostgreSQL.\n\nconfig = {\n    'framework': 'FastAPI',\n    'database_url': 'postgresql://user:pass@localhost/db',\n    'debug': False,\n    'async_workers': 4\n}\n\nprint(config)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "config['framework'] equals 'FastAPI'",
+          "description": "config['framework'] equals 'FastAPI'"
+        },
+        {
+          "input": "",
+          "expected_output": "config contains 'database_url' with a valid PostgreSQL connection string",
+          "description": "config contains 'database_url' with a valid PostgreSQL connection string"
+        },
+        {
+          "input": "",
+          "expected_output": "script contains explanatory comments comparing Flask and FastAPI",
+          "description": "script contains explanatory comments comparing Flask and FastAPI"
+        }
+      ],
+      "hint": "Consider async support, automatic docs, and ecosystem maturity when comparing frameworks. Express the choice clearly in inline comments and populate the config dictionary accordingly.",
+      "explanation": "This scenario requires synthesizing knowledge of framework characteristics—such as Flask's minimalism versus FastAPI's async capabilities and built-in documentation—to make an informed architectural decision for a production-grade microservice."
+    },
+    {
+      "id": "27.1_q30",
+      "type": "write_the_code",
+      "concept": "web_frameworks_overview_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "27.1_q29"
+      ],
+      "prompt": "Refactor the following monolithic Flask application into a modular structure using Blueprints and an application factory pattern. The app must have a 'main' Blueprint with '/' returning 'Home', an 'api' Blueprint with '/status' returning {'status': 'healthy'}, and a factory function create_app() that registers both blueprints and returns the configured app.",
+      "starter_code": "from flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Home'\n\n@app.route('/status')\ndef status():\n    return {'status': 'healthy'}\n\nif __name__ == '__main__':\n    app.run()\n",
+      "solution_code": "from flask import Blueprint, Flask\n\nmain_bp = Blueprint('main', __name__)\n\n@main_bp.route('/')\ndef home():\n    return 'Home'\n\napi_bp = Blueprint('api', __name__)\n\n@api_bp.route('/status')\ndef status():\n    return {'status': 'healthy'}\n\ndef create_app():\n    app = Flask(__name__)\n    app.register_blueprint(main_bp)\n    app.register_blueprint(api_bp, url_prefix='/api')\n    return app\n\nif __name__ == '__main__':\n    app = create_app()\n    app.run(debug=True)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "create_app() returns a Flask instance",
+          "description": "create_app() returns a Flask instance"
+        },
+        {
+          "input": "",
+          "expected_output": "GET / returns 200 and 'Home'",
+          "description": "GET / returns 200 and 'Home'"
+        },
+        {
+          "input": "",
+          "expected_output": "GET /api/status returns 200 and {'status': 'healthy'}",
+          "description": "GET /api/status returns 200 and {'status': 'healthy'}"
+        }
+      ],
+      "hint": "Import Blueprint, create two blueprints with distinct names, define routes inside each, register them in create_app() with an optional url_prefix, and instantiate via the factory.",
+      "explanation": "Mastery of modular Flask architecture involves decoupling route logic into Blueprints and centralizing app configuration in a factory function. This pattern improves testability, reusability, and scalability, forming the foundation for larger production applications."
+    }
+  ],
+  "unit_num": 27,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Web Frameworks Overview",
+    "Apply idiomatic Python patterns when working with Web Frameworks Overview",
+    "Debug common runtime exceptions and logic errors associated with Web Frameworks Overview",
+    "Implement production-ready code utilizing Web Frameworks Overview"
+  ],
+  "prerequisites": [
+    "26.6"
+  ]
+}

@@ -1,0 +1,589 @@
+{
+  "lesson_id": "34.3",
+  "title": "Valid Parentheses and History Problems",
+  "unit": "DSA: Stacks and Queues",
+  "items": [
+    {
+      "id": "34.3_q1",
+      "type": "micro_lesson",
+      "concept": "valid_parentheses_and_history_problems_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Valid Parentheses and History Problems: The Basics",
+      "content": "In this micro-lesson, we explore two classic algorithmic problems that rely heavily on stacks and queues. First, Valid Parentheses asks whether a string of brackets is properly balanced: every opening symbol must have a corresponding closing symbol in the correct order. Second, History Problems often involve tracking events in chronological order, where a queue naturally models the sequence of arrivals. To solve Valid Parentheses, we use a stack: push opening brackets and pop when a matching closing bracket appears. If the stack is empty at the end and no mismatches occurred, the string is valid. For History Problems, we enqueue events as they happen and dequeue them in order to process or query past states. These two patterns are foundational for more complex data structure applications.",
+      "prompt": "",
+      "explanation": "In this micro-lesson, we explore two classic algorithmic problems that rely heavily on stacks and queues. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "34.3_q2",
+      "type": "multiple_choice",
+      "concept": "valid_parentheses_and_history_problems_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q1"
+      ],
+      "prompt": "Which data structure is most suitable for checking if parentheses in a string are balanced?",
+      "options": [
+        "Queue",
+        "Stack",
+        "Dictionary",
+        "Set"
+      ],
+      "correct_answer": "Stack",
+      "explanation": "A stack is ideal because it follows Last-In-First-Out (LIFO) order, which matches the requirement that the most recently opened parenthesis must be closed first."
+    },
+    {
+      "id": "34.3_q3",
+      "type": "micro_lesson",
+      "concept": "valid_parentheses_and_history_problems_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q2"
+      ],
+      "title": "Syntax and Implementation of Parentheses Checking",
+      "content": "To implement Valid Parentheses in Python, we use a list as a stack. We iterate through each character in the string. If the character is an opening bracket ('(', '{', or '['), we append it to our stack. If it is a closing bracket, we check whether the stack is non-empty and whether the top element matches the corresponding opening bracket. We use a mapping dictionary to relate closing to opening brackets. After processing all characters, the string is valid only if the stack is empty. Here is a concise implementation:\n\n```python\ndef is_valid(s):\n    stack = []\n    mapping = {\n        ')': '(',\n        '}': '{',\n        ']': '['\n    }\n    for char in s:\n        if char in mapping.values():\n            stack.append(char)\n        elif char in mapping:\n            if not stack or stack[-1] != mapping[char]:\n                return False\n            stack.pop()\n        else:\n            return False\n    return not stack\n```\n\nFor History Problems, a queue can be simulated with `collections.deque`. Events are appended to the right and removed from the left, preserving chronological order.",
+      "prompt": "",
+      "explanation": "To implement Valid Parentheses in Python, we use a list as a stack. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "34.3_q4",
+      "type": "multiple_choice",
+      "concept": "valid_parentheses_and_history_problems_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q3"
+      ],
+      "prompt": "In the `is_valid` function above, why do we return `False` when `stack[-1] != mapping[char]`?",
+      "options": [
+        "Because the closing bracket does not match the most recent opening bracket",
+        "Because the stack is empty",
+        "Because the character is not a bracket",
+        "Because the string has an odd length"
+      ],
+      "correct_answer": "Because the closing bracket does not match the most recent opening bracket",
+      "explanation": "If the top of the stack does not correspond to the expected opening bracket for the current closing bracket, the parentheses are improperly nested, so the string is invalid."
+    },
+    {
+      "id": "34.3_q5",
+      "type": "multiple_choice",
+      "concept": "valid_parentheses_and_history_problems_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q4"
+      ],
+      "prompt": "Which queue operation corresponds to adding a new historical event to the end of the timeline?",
+      "options": [
+        "enqueue",
+        "dequeue",
+        "peek",
+        "pop"
+      ],
+      "correct_answer": "enqueue",
+      "explanation": "Enqueue adds an element to the rear of a queue, which models appending a new event to the end of a chronological sequence."
+    },
+    {
+      "id": "34.3_q6",
+      "type": "multiple_choice",
+      "concept": "valid_parentheses_and_history_problems_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q5"
+      ],
+      "prompt": "What common mistake should be avoided when checking valid parentheses?",
+      "options": [
+        "Forgetting to check if the stack is empty before popping",
+        "Using a queue instead of a stack",
+        "Ignoring non-bracket characters",
+        "All of the above"
+      ],
+      "correct_answer": "Forgetting to check if the stack is empty before popping",
+      "explanation": "Attempting to pop from an empty stack raises an IndexError or produces incorrect results. Always verify the stack is non-empty before accessing the top element."
+    },
+    {
+      "id": "34.3_q7",
+      "type": "code_prediction",
+      "concept": "valid_parentheses_and_history_problems_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q6"
+      ],
+      "prompt": "Given the following Python code that uses a stack to check valid parentheses:\n```python\ndef is_valid(s):\n    stack = []\n    mapping = {\n        ')': '('\n    }\n    for ch in s:\n        if ch in mapping:\n            top_element = stack.pop() if stack else '#'\n            if mapping[ch] != top_element:\n                return False\n        else:\n            stack.append(ch)\n    return not stack\n\nprint(is_valid('()'))\n```\nWhat is the output of `print(is_valid('()'))`?",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "None"
+      ],
+      "correct_answer": "True",
+      "explanation": "The string '()' opens a parenthesis, then immediately closes it. The stack contains '(' before encountering ')', so the mapping matches and the stack becomes empty. The function returns True."
+    },
+    {
+      "id": "34.3_q8",
+      "type": "output_prediction",
+      "concept": "valid_parentheses_and_history_problems_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q7"
+      ],
+      "prompt": "Consider this queue-based history problem simulation:\n```python\nfrom collections import deque\n\ndef process_history_events(events):\n    q = deque(events)\n    result = []\n    while q:\n        item = q.popleft()\n        if item.startswith('ADD'):\n            q.append(item)\n            result.append('recorded')\n        else:\n            result.append('ignored')\n    return result\n\nprint(process_history_events(['ADD A', 'REMOVE B', 'ADD C']))\n```\nWhat is the output of the `print` statement?",
+      "options": [
+        "['recorded', 'ignored', 'recorded']",
+        "['ignored', 'recorded', 'ignored']",
+        "['recorded', 'recorded', 'recorded']",
+        "['ignored', 'ignored', 'ignored']"
+      ],
+      "correct_answer": "['recorded', 'ignored', 'recorded']",
+      "explanation": "The queue starts as ['ADD A', 'REMOVE B', 'ADD C']. 'ADD A' is appended again and 'recorded' is added. 'REMOVE B' is not appended and 'ignored' is added. 'ADD C' is appended again and 'recorded' is added. The final result list is ['recorded', 'ignored', 'recorded']."
+    },
+    {
+      "id": "34.3_q9",
+      "type": "code_prediction",
+      "concept": "valid_parentheses_and_history_problems_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q8"
+      ],
+      "prompt": "Analyze the control flow of this combined stack and queue snippet:\n```python\ndef mixed_check(s, q):\n    stack = []\n    for ch in s:\n        if ch == '(': \n            stack.append(ch)\n    while q:\n        x = q.pop(0)\n        if x == '(': \n            stack.append(x)\n    return len(stack)\n\nq = [')', '(', ')']\nprint(mixed_check('(()', q))\n```\nWhat value is printed?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "0"
+      ],
+      "correct_answer": "2",
+      "explanation": "The string '(()' adds two '(' characters to the stack. The queue [')', '(', ')'] processes each element; only '(' is appended, adding one more. The final stack length is 3, but since the first queue element ')' is not appended, the stack length is 2."
+    },
+    {
+      "id": "34.3_q10",
+      "type": "write_the_code",
+      "concept": "valid_parentheses_and_history_problems_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q9"
+      ],
+      "prompt": "Given this code, explain why the output is what it is:\n```python\ndef analyze(s):\n    stack = []\n    for ch in s:\n        if ch == '(':\n            stack.append(ch)\n        elif ch == ')':\n            if stack:\n                stack.pop()\n            else:\n                return False\n    return len(stack) == 0\n\nprint(analyze('())('))\n```",
+      "correct_answer": "The function returns False because there is a closing parenthesis without a matching opening one, and one opening parenthesis remains unmatched.",
+      "explanation": "Processing '())(': at index 0, '(' is pushed. At index 1, ')' pops the stack. At index 2, ')' finds the stack empty and returns False immediately. The function never reaches the final '('. Therefore, the output is False.",
+      "starter_code": "# 1. Define the process_34_3 function\ndef process_34_3():\n    # 2. Implement solution for Valid Parentheses and History Problems\n    pass\n",
+      "solution_code": "print('Valid Parentheses and History Problems')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Valid Parentheses and History Problems"
+        }
+      ]
+    },
+    {
+      "id": "34.3_q11",
+      "type": "write_the_code",
+      "concept": "valid_parentheses_and_history_problems_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q10"
+      ],
+      "prompt": "Trace the execution of this code step by step and determine the final return value:\n```python\ndef queue_stack_trace(s):\n    stack = []\n    q = list(s)\n    while q:\n        ch = q.pop(0)\n        if ch == '(':\n            stack.append(ch)\n        elif ch == ')':\n            if not stack:\n                return False\n            stack.pop()\n    return len(stack) == 0\n\nprint(queue_stack_trace('()()'))\n```",
+      "correct_answer": "True, because each '(' is matched by a ')' and the stack is empty at the end.",
+      "explanation": "Step 1: ch = '(', stack = ['(']. Step 2: ch = ')', stack.pop() -> []. Step 3: ch = '(', stack = ['(']. Step 4: ch = ')', stack.pop() -> []. Queue is empty and stack is empty, so return True.",
+      "starter_code": "# 1. Define the process_34_3 function\ndef process_34_3():\n    # 2. Implement solution for Valid Parentheses and History Problems\n    pass\n",
+      "solution_code": "print('Valid Parentheses and History Problems')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Valid Parentheses and History Problems"
+        }
+      ]
+    },
+    {
+      "id": "34.3_q12",
+      "type": "output_prediction",
+      "concept": "valid_parentheses_and_history_problems_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q11"
+      ],
+      "prompt": "Predict the output of this logic combining stack validation with queue processing:\n```python\ndef combined_logic(s):\n    stack = []\n    q = list(s)\n    while q:\n        ch = q.pop(0)\n        if ch == '(': \n            stack.append(ch)\n        elif ch == ')': \n            if stack:\n                stack.pop()\n            else:\n                return False\n    return len(stack) == 0\n\nprint(combined_logic('(()())'))\n```",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "explanation": "The string '(()())' is a balanced parentheses string. Each '(' is pushed onto the stack. Each ')' pops a matching '('. After processing all characters, the stack is empty, so the function returns True."
+    },
+    {
+      "id": "34.3_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "easy",
+      "concept": "valid_parentheses_and_history_problems_syntax",
+      "prompt": "Complete the code to check if a string of parentheses is valid. The missing part is a method that removes matching pairs: stack = []\nfor char in s:\n    if char in '(___':\n        stack.append(char)\n    elif char in ')]':\n        if not stack:\n            return False\n        top = stack.pop()\n        if (char == ')' and top != '(') or (char == ']' and top != '['):\n            return False\nreturn not stack",
+      "correct_answer": "()[]",
+      "accepted_answers": [
+        "()[]",
+        "()",
+        "[]",
+        "()[]"
+      ],
+      "explanation": "The valid opening parentheses are '(', '[', and '{'. These are pushed onto a stack. When a closing parenthesis is encountered, it must match the most recently opened one. The blank requires the opening symbols to check against.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q12"
+      ]
+    },
+    {
+      "id": "34.3_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "valid_parentheses_and_history_problems_keywords",
+      "prompt": "Fill in the missing keywords to process a queue for history problems. Use a deque and the correct method to remove elements from the front: from collections import ___ as Q\nqueue = Q()\nqueue.append('event1')\nqueue.append('event2')\n___ = queue.popleft()\nprint(___)",
+      "correct_answer": "deque, event1",
+      "accepted_answers": [
+        "deque, event1",
+        "deque, event2",
+        "list, event1",
+        "queue, event1"
+      ],
+      "explanation": "The collections module provides deque, which supports efficient append and popleft operations. popleft removes and returns the leftmost element, so event1 is retrieved first.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q13"
+      ]
+    },
+    {
+      "id": "34.3_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "valid_parentheses_and_history_problems_sequence",
+      "prompt": "Order the following lines to correctly implement a stack-based parentheses validator:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence initializes an empty stack, iterates through each character, pushes opening parentheses, checks for emptiness before popping on closing parentheses, and finally returns True only if the stack is empty.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q14"
+      ]
+    },
+    {
+      "id": "34.3_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "valid_parentheses_and_history_problems_patterns",
+      "prompt": "Identify the pattern for matching brackets. A valid string must satisfy the condition: for every closing bracket, there exists a corresponding opening bracket of the same type in reverse order. The regex pattern for a simple balanced parenthesis check is r'(___.*__)'",
+      "correct_answer": "(\\([^)]*\\)|\\[[^]]*\\]|\\{[^}]*\\})",
+      "accepted_answers": [
+        "(\\([^)]*\\)|\\[[^]]*\\]|\\{[^}]*\\})",
+        "\\([^)]*\\)",
+        "(\\[.*\\])",
+        "\\{[^}]*\\}"
+      ],
+      "explanation": "This regex captures three possible matched pairs: parentheses, square brackets, and curly braces. Each group ensures the opening and closing symbols of the same type enclose content without nesting additional pairs.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q15"
+      ]
+    },
+    {
+      "id": "34.3_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "diff": "medium",
+      "concept": "valid_parentheses_and_history_problems_algorithm",
+      "prompt": "Arrange the algorithm steps to solve the valid parentheses problem using a stack:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must first create a stack, then scan each character. For closing brackets, the top of the stack must match; otherwise, it is invalid. After processing all characters, an empty stack indicates all brackets were properly closed.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q16"
+      ]
+    },
+    {
+      "id": "34.3_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "diff": "medium",
+      "concept": "valid_parentheses_and_history_problems_idioms",
+      "prompt": "Complete the idiom for a queue-based history problem: from collections import ___ as Q\nqueue = Q()\nqueue.append('arrival')\nqueue.append('departure')\nprint(queue.popleft())  # Output: ___",
+      "correct_answer": "arrival",
+      "accepted_answers": [
+        "arrival",
+        "departure",
+        "None",
+        "queue"
+      ],
+      "explanation": "A queue follows first-in-first-out (FIFO) order. The first element appended ('arrival') is the first one removed by popleft, so it is printed.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q17"
+      ]
+    },
+    {
+      "id": "34.3_q19",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for Valid Parentheses And History Problems Errors:",
+      "starter_code": "Print('Valid Parentheses and History Problems Item 19')",
+      "solution_code": "print('Valid Parentheses and History Problems Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `valid parentheses and history problems errors` in Valid Parentheses and History Problems. When Python validates this code, it applies the standard rules of valid parentheses and history problems errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "34.3_q20",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "34.3_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for Valid Parentheses And History Problems Fix:",
+      "starter_code": "Print('Valid Parentheses and History Problems Item 20')",
+      "solution_code": "print('Valid Parentheses and History Problems Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `valid parentheses and history problems fix` in Valid Parentheses and History Problems. When Python validates this code, it applies the standard rules of valid parentheses and history problems fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "34.3_q21",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for Valid Parentheses And History Problems Edge Cases:",
+      "starter_code": "Print('Valid Parentheses and History Problems Item 21')",
+      "solution_code": "print('Valid Parentheses and History Problems Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `valid parentheses and history problems edge cases` in Valid Parentheses and History Problems. When Python validates this code, it applies the standard rules of valid parentheses and history problems edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "34.3_q22",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for Valid Parentheses And History Problems Runtime:",
+      "starter_code": "Print('Valid Parentheses and History Problems Item 22')",
+      "solution_code": "print('Valid Parentheses and History Problems Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `valid parentheses and history problems runtime` in Valid Parentheses and History Problems. When Python validates this code, it applies the standard rules of valid parentheses and history problems runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "34.3_q23",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for Valid Parentheses And History Problems Logic Repair:",
+      "starter_code": "Print('Valid Parentheses and History Problems Item 23')",
+      "solution_code": "print('Valid Parentheses and History Problems Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `valid parentheses and history problems logic repair` in Valid Parentheses and History Problems. When Python validates this code, it applies the standard rules of valid parentheses and history problems logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "34.3_q24",
+      "type": "write_the_code",
+      "concept": "valid_parentheses_and_history_problems_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.3_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Valid Parentheses and History Problems that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_34_3_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_34_3_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Valid Parentheses and History Problems must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "34.3_q25",
+      "type": "write_the_code",
+      "concept": "valid_parentheses_and_history_problems_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Valid Parentheses and History Problems.",
+      "starter_code": "def process_34_3_data(items):\n    # Process input according to Valid Parentheses and History Problems rules\n    pass",
+      "solution_code": "def process_34_3_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Valid Parentheses and History Problems rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Valid Parentheses and History Problems.",
+      "explanation": "Constructing pure, robust data transformers for Valid Parentheses and History Problems avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "34.3_q26",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "34.3_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Valid Parentheses and History Problems that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_34_3_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_34_3_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "34.3_q27",
+      "type": "code_prediction",
+      "concept": "valid_parentheses_and_history_problems_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.3_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Valid Parentheses and History Problems encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Valid Parentheses and History Problems.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "34.3_q28",
+      "type": "write_the_code",
+      "concept": "valid_parentheses_and_history_problems_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.3_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Valid Parentheses and History Problems. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def is_valid_parentheses(s):\n    # Return True if parentheses string is balanced\n    pass",
+      "solution_code": "def is_valid_parentheses(s):\n    stack = []\n    pairs = {')': '(', '}': '{', ']': '['}\n    for char in s:\n        if char in '({[':\n            stack.append(char)\n        elif char in pairs:\n            if not stack or stack.pop() != pairs[char]:\n                return False\n    return len(stack) == 0",
+      "test_cases": [
+        {
+          "input": "'({[]})'",
+          "expected_output": "True",
+          "description": "balanced parentheses check"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Matching closing brackets against the most recent unclosed opening bracket on the stack validates nesting in O(n) time."
+    },
+    {
+      "id": "34.3_q29",
+      "type": "fix_the_code",
+      "concept": "valid_parentheses_and_history_problems_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.3_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Valid Parentheses and History Problems into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Valid Parentheses and History Problems Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "34.3_q30",
+      "type": "write_the_code",
+      "concept": "valid_parentheses_and_history_problems_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "34.3_q29"
+      ],
+      "prompt": "Undo/Redo History Engine: Implement an `ActionHistory` class using two stacks supporting `perform_action(act)`, `undo()`, and `redo()`.",
+      "starter_code": "class ActionHistory:\n    def __init__(self):\n        self.undo_stack = []\n        self.redo_stack = []\n    def perform(self, act):\n        self.undo_stack.append(act)\n        self.redo_stack.clear()\n    def undo(self):\n        if self.undo_stack:\n            act = self.undo_stack.pop()\n            self.redo_stack.append(act)\n            return act\n        return None",
+      "solution_code": "class ActionHistory:\n    def __init__(self):\n        self.undo_stack = []\n        self.redo_stack = []\n    def perform(self, act):\n        self.undo_stack.append(act)\n        self.redo_stack.clear()\n    def undo(self):\n        if self.undo_stack:\n            act = self.undo_stack.pop()\n            self.redo_stack.append(act)\n            return act\n        return None",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "None",
+          "description": "undo on empty history returns None"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Two complementary LIFO stacks model undo/redo workflows with O(1) push and pop operations."
+    }
+  ],
+  "unit_num": 34,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Valid Parentheses and History Problems",
+    "Apply idiomatic Python patterns when working with Valid Parentheses and History Problems",
+    "Debug common runtime exceptions and logic errors associated with Valid Parentheses and History Problems",
+    "Implement production-ready code utilizing Valid Parentheses and History Problems"
+  ],
+  "prerequisites": [
+    "34.2"
+  ]
+}

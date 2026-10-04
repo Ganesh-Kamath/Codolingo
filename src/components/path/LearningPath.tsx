@@ -27,14 +27,14 @@ export const LearningPath: React.FC = () => {
   }
 
   if (!currentSkill) {
-    currentSkill = course.units[0].skills[1]; // fallback to Variables
+    currentSkill = course.units[0]?.skills[0];
   }
 
-  const nextLesson = currentSkill.lessons[0] || {
-    id: 'les_var_1',
-    title: 'What is a Variable?',
+  const nextLesson = currentSkill?.lessons[0] || {
+    id: '1.1',
+    title: 'What Is Programming?',
     estimatedMinutes: 4,
-    xpReward: 20
+    xpReward: 25
   };
 
 

@@ -1,0 +1,676 @@
+{
+  "lesson_id": "30.4",
+  "title": "The Brute Force Approach",
+  "unit": "Problem-Solving Methodology",
+  "items": [
+    {
+      "id": "30.4_q1",
+      "type": "micro_lesson",
+      "concept": "the_brute_force_approach_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is the Brute Force Approach?",
+      "content": "The brute force approach is a problem-solving methodology where you try every possible solution until you find one that works. Instead of looking for a clever shortcut, you systematically test all candidates. This method is simple to understand and implement, but it can be slow for large inputs. For example, if you need to find a pair of numbers that sum to a target, you might check every possible pair in a list. Here is a Python example:\n\n```python\ndef has_pair_with_sum(numbers, target):\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if numbers[i] + numbers[j] == target:\n                return True\n    return False\n\nprint(has_pair_with_sum([1, 4, 6, 8], 10))\n```\n\nIn this code, the nested loops examine every distinct pair. If any pair sums to `target`, the function returns `True`; otherwise, it returns `False` after checking all pairs.",
+      "prompt": "",
+      "explanation": "The brute force approach is a problem-solving methodology where you try every possible solution until you find one that works. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "30.4_q2",
+      "type": "multiple_choice",
+      "concept": "the_brute_force_approach_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q1"
+      ],
+      "prompt": "Which of the following best describes the brute force approach?",
+      "options": [
+        "Trying every possible candidate until a correct one is found",
+        "Using a mathematical formula to skip all testing",
+        "Guessing randomly until the answer appears",
+        "Asking another programmer for the solution"
+      ],
+      "correct_answer": "Trying every possible candidate until a correct one is found",
+      "explanation": "The brute force approach relies on exhaustive enumeration of all possibilities rather than optimization or guessing."
+    },
+    {
+      "id": "30.4_q3",
+      "type": "micro_lesson",
+      "concept": "the_brute_force_approach_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q2"
+      ],
+      "title": "Writing Brute Force Code in Python",
+      "content": "To implement a brute force solution in Python, you typically use loops to generate candidates and conditional checks to validate them. A common pattern is the nested loop: the outer loop picks one element, and the inner loop picks another. You compare the candidate against the required condition. If it matches, you may return early; otherwise, you continue. Here is a complete example that finds whether a list contains duplicate values:\n\n```python\ndef has_duplicates(values):\n    n = len(values)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if values[i] == values[j]:\n                return True\n    return False\n\nprint(has_duplicates([3, 7, 2, 3]))\n```\n\nThe function compares each element with every later element. Because it checks all pairs, it is a brute force method. Note that early termination with `return True` stops the search as soon as a duplicate is found, but the overall strategy remains exhaustive in the worst case.",
+      "prompt": "",
+      "explanation": "To implement a brute force solution in Python, you typically use loops to generate candidates and conditional checks to validate them. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "30.4_q4",
+      "type": "multiple_choice",
+      "concept": "the_brute_force_approach_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q3"
+      ],
+      "prompt": "In the following snippet, what does the inner loop ensure?",
+      "options": [
+        "It compares each element with every later element exactly once",
+        "It sorts the list before comparison",
+        "It skips duplicate values automatically",
+        "It reduces time complexity to O(1)"
+      ],
+      "correct_answer": "It compares each element with every later element exactly once",
+      "explanation": "The inner loop starts at `i + 1`, so each pair is examined once and no element is compared with itself."
+    },
+    {
+      "id": "30.4_q5",
+      "type": "multiple_choice",
+      "concept": "the_brute_force_approach_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q4"
+      ],
+      "prompt": "Which scenario is most appropriately solved using a brute force approach?",
+      "options": [
+        "Checking every combination of two dice rolls to see if the sum is 7",
+        "Using a precomputed lookup table for instant answers",
+        "Applying a binary search on a sorted array",
+        "Solving a problem with a known closed-form equation"
+      ],
+      "correct_answer": "Checking every combination of two dice rolls to see if the sum is 7",
+      "explanation": "Enumerating all dice roll pairs is small and straightforward, making brute force practical and easy to implement."
+    },
+    {
+      "id": "30.4_q6",
+      "type": "multiple_choice",
+      "concept": "the_brute_force_approach_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q5"
+      ],
+      "prompt": "What is a common drawback of relying solely on the brute force approach?",
+      "options": [
+        "It can become too slow when the input size grows large",
+        "It always produces incorrect results",
+        "It requires no loops at all",
+        "It only works with strings"
+      ],
+      "correct_answer": "It can become too slow when the input size grows large",
+      "explanation": "Because brute force examines many candidates, its time complexity often scales poorly with larger inputs, leading to performance issues."
+    },
+    {
+      "id": "30.4_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "the_brute_force_approach_execution",
+      "title": "Predict the Output",
+      "prompt": "Consider the following brute force approach to find the maximum value in a list:\n\n```python\ndef find_max(numbers):\n    max_val = numbers[0]\n    for num in numbers:\n        if num > max_val:\n            max_val = num\n    return max_val\n\nvalues = [4, 2, 9, 1, 7]\nprint(find_max(values))\n```",
+      "options": [
+        "7",
+        "9",
+        "4",
+        "1"
+      ],
+      "correct_answer": "9",
+      "explanation": "The function iterates through each number and updates max_val whenever a larger value is found. Starting with 4, it updates to 9 when encountered, and 9 remains the largest value in the list.",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q6"
+      ]
+    },
+    {
+      "id": "30.4_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "the_brute_force_approach_execution",
+      "title": "Determine the Result",
+      "prompt": "Given this brute force code that counts how many numbers in a list are greater than 5:\n\n```python\ndef count_greater_than_five(nums):\n    count = 0\n    for n in nums:\n        if n > 5:\n            count += 1\n    return count\n\ndata = [3, 6, 2, 8, 5, 9]\nprint(count_greater_than_five(data))\n```",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "correct_answer": "3",
+      "explanation": "The numbers greater than 5 in the list are 6, 8, and 9. The loop increments count three times, so the output is 3.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q7"
+      ]
+    },
+    {
+      "id": "30.4_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "the_brute_force_approach_flow",
+      "title": "Trace the Logic",
+      "prompt": "Examine this brute force approach to check if a number is prime by testing all possible divisors:\n\n```python\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\nprint(is_prime(13))\n```",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "explanation": "The function first checks if n is less than 2, which 13 is not. The loop tests divisors from 2 up to 12. Since 13 has no divisors other than 1 and itself, the condition n % i == 0 never triggers, and the function returns True.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q8"
+      ]
+    },
+    {
+      "id": "30.4_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "the_brute_force_approach_analysis",
+      "title": "Analyze the Behavior",
+      "prompt": "The following brute force function searches for a target value by checking every element in a list:\n\n```python\ndef linear_search(arr, target):\n    for idx in range(len(arr)):\n        if arr[idx] == target:\n            return idx\n    return -1\n\nitems = [10, 20, 30, 40, 50]\nresult = linear_search(items, 30)\nprint(f'Found at index: {result}')\n```\n\nExplain why this approach is called a brute force method and what its time complexity implies for large inputs.",
+      "correct_answer": "It tries every possible candidate without optimization, resulting in O(n) time complexity.",
+      "explanation": "A brute force approach exhaustively checks all possibilities. In linear search, each element is inspected sequentially until the target is found or the list ends. This guarantees correctness but scales linearly with input size, making it O(n).",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q9"
+      ],
+      "starter_code": "# 1. Define the process_30_4 function\ndef process_30_4():\n    # 2. Implement solution for The Brute Force Approach\n    pass\n",
+      "solution_code": "print('The Brute Force Approach')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The Brute Force Approach"
+        }
+      ]
+    },
+    {
+      "id": "30.4_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "the_brute_force_approach_tracing",
+      "title": "Step Through Execution",
+      "prompt": "Trace the execution of this brute force function that computes the sum of all even numbers in a list:\n\n```python\ndef sum_even_numbers(numbers):\n    total = 0\n    for x in numbers:\n        if x % 2 == 0:\n            total = total + x\n    return total\n\nnums = [1, 2, 3, 4, 5, 6]\nprint(sum_even_numbers(nums))\n```\n\nProvide the value of total after each iteration of the loop.",
+      "correct_answer": "Iteration 1: 0, Iteration 2: 2, Iteration 3: 2, Iteration 4: 6, Iteration 5: 6, Iteration 6: 12",
+      "explanation": "Initially total is 0. x=1 is odd, so total stays 0. x=2 is even, total becomes 2. x=3 is odd, total stays 2. x=4 is even, total becomes 6. x=5 is odd, total stays 6. x=6 is even, total becomes 12. The final returned value is 12.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q10"
+      ],
+      "starter_code": "# 1. Define the process_30_4 function\ndef process_30_4():\n    # 2. Implement solution for The Brute Force Approach\n    pass\n",
+      "solution_code": "print('The Brute Force Approach')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The Brute Force Approach"
+        }
+      ]
+    },
+    {
+      "id": "30.4_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "the_brute_force_approach_logic",
+      "title": "Determine the Final Output",
+      "prompt": "Consider this brute force approach that finds the first repeated character in a string by comparing every character with every other character:\n\n```python\ndef first_repeated(s):\n    for i in range(len(s)):\n        for j in range(i + 1, len(s)):\n            if s[i] == s[j]:\n                return s[i]\n    return None\n\nprint(first_repeated('abca'))\n```",
+      "options": [
+        "'a'",
+        "'b'",
+        "'c'",
+        "None"
+      ],
+      "correct_answer": "'a'",
+      "explanation": "The outer loop starts with i=0 (character 'a'). The inner loop checks j=1 ('b'), j=2 ('c'), and j=3 ('a'). At j=3, s[0] == s[3] is True, so the function immediately returns 'a', which is the first repeated character encountered in this brute force scan.",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q11"
+      ]
+    },
+    {
+      "id": "30.4_q13",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "concept": "the_brute_force_approach_syntax",
+      "prompt": "Complete the sentence: A common way to implement a brute force search is to use a ____ loop to check every possible candidate.",
+      "correct_answer": "for",
+      "accepted_answers": [
+        "for",
+        "while"
+      ],
+      "explanation": "In Python, a brute force approach typically iterates through all candidates using a for loop. While a while loop can also be used, the for loop is the most common and readable choice when iterating over a known collection.",
+      "prerequisites": [
+        "30.4_q12"
+      ]
+    },
+    {
+      "id": "30.4_q14",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_brute_force_approach_keywords",
+      "prompt": "When checking every element in a list during a brute force search, you must use the ____ keyword to access each item one by one.",
+      "correct_answer": "in",
+      "accepted_answers": [
+        "in",
+        "for"
+      ],
+      "explanation": "The in keyword is essential in a for loop declaration (e.g., for x in items) to iterate over a sequence. It tells Python to assign each element to the loop variable in turn, which is the foundation of brute force enumeration.",
+      "prerequisites": [
+        "30.4_q13"
+      ]
+    },
+    {
+      "id": "30.4_q15",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "the_brute_force_approach_sequence",
+      "prompt": "Arrange the following lines into the correct order for a basic brute force search that finds a target value in a list.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "A correct brute force search must first iterate over all candidates, then compare each candidate to the target, and finally return the match immediately. If no match is found, a return None or similar fallback should come after the loop.",
+      "prerequisites": [
+        "30.4_q14"
+      ]
+    },
+    {
+      "id": "30.4_q16",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_brute_force_approach_patterns",
+      "prompt": "A brute force pattern that checks every pair of elements uses two nested loops; the outer loop uses variable ____ and the inner loop uses variable ____.",
+      "correct_answer": "i, j",
+      "accepted_answers": [
+        "i, j",
+        "x, y"
+      ],
+      "explanation": "When comparing every pair, two indices are needed to avoid redundant checks and self-comparison. Using i for the outer loop and j for the inner loop is a standard convention that clearly separates the two levels of iteration.",
+      "prerequisites": [
+        "30.4_q15"
+      ]
+    },
+    {
+      "id": "30.4_q17",
+      "type": "code_ordering",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "concept": "the_brute_force_approach_algorithm",
+      "prompt": "Order the steps of a brute force algorithm that searches for the maximum value in a list of numbers.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm initializes max_val with the first element, then scans every element, updating max_val whenever a larger value is found, and finally returns the result. This exhaustive check is the essence of the brute force approach.",
+      "prerequisites": [
+        "30.4_q16"
+      ]
+    },
+    {
+      "id": "30.4_q18",
+      "type": "fill_in_the_blank",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "concept": "the_brute_force_approach_idioms",
+      "prompt": "A Pythonic brute force idiom to check if any element satisfies a condition is: any(____ for item in items).",
+      "correct_answer": "condition(item)",
+      "accepted_answers": [
+        "condition(item)",
+        "item > threshold"
+      ],
+      "explanation": "The any() function combined with a generator expression is a concise brute force idiom. It evaluates the condition for every item and returns True as soon as one match is found, avoiding the need for an explicit loop and break statement.",
+      "prerequisites": [
+        "30.4_q17"
+      ]
+    },
+    {
+      "id": "30.4_q19",
+      "type": "fix_the_code",
+      "concept": "the_brute_force_approach_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common Brute Force Mistakes",
+        "content": "When applying the brute force approach, learners often introduce subtle bugs. A frequent error is using the wrong loop bounds, such as iterating up to n instead of n-1 when searching pairs. Another issue is failing to reset state inside nested loops, causing carry-over values across iterations. Below is an example with an off-by-one error and an uninitialized accumulator.\n\n```python\ndef find_max_sum_pair(arr):\n    max_sum = 0\n    for i in range(len(arr)):\n        for j in range(len(arr)):\n            if i == j:\n                continue\n            current_sum = arr[i] + arr[j]\n            if current_sum > max_sum:\n                max_sum = current_sum\n    return max_sum\n\narr = [1, 2, 3]\nprint(find_max_sum_pair(arr))\n```\n\nIn this snippet, the outer loop runs from 0 to len(arr)-1 inclusive because range(len(arr)) excludes only len(arr), which is correct, but the real bug is that max_sum starts at 0. If all numbers are negative, the function incorrectly returns 0 instead of the true maximum pair sum."
+      },
+      "prompt": "Fix the bug in this code for the brute force approach errors:",
+      "starter_code": "# Fix this code\nPrint('The Brute Force Approach')",
+      "solution_code": "print('The Brute Force Approach')",
+      "explanation": "This exercise tests `the brute force approach errors` in The Brute Force Approach. When Python validates this code, it applies the standard rules of the brute force approach errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "30.4_q20",
+      "type": "fix_the_code",
+      "concept": "the_brute_force_approach_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "30.4_q19"
+      ],
+      "prompt": "The following brute force function is supposed to return True if any two distinct elements in the list sum to the target value. It currently fails on simple inputs.",
+      "starter_code": "def has_pair_with_sum(nums, target):\n    for i in range(len(nums)):\n        for j in range(len(nums)):\n            if i == j:\n                continue\n            if nums[i] + nums[j] == target:\n                return True\n    return False\n\nprint(has_pair_with_sum([1, 4, 2], 5))",
+      "solution_code": "def has_pair_with_sum(nums, target):\n    for i in range(len(nums)):\n        for j in range(len(nums)):\n            if i != j and nums[i] + nums[j] == target:\n                return True\n    return False\n\nprint(has_pair_with_sum([1, 4, 2], 5))",
+      "hint": "Check whether the condition inside the inner loop correctly excludes the same index and whether the comparison operator is appropriate.",
+      "explanation": "The original code used i == j to skip the same index, which works logically, but the more readable and equivalent fix is to use i != j in the combined condition. This ensures clarity and avoids unnecessary branching. The function now correctly returns True for [1, 4, 2] and target 5 because 1 + 4 equals 5."
+    },
+    {
+      "id": "30.4_q21",
+      "type": "fix_the_code",
+      "concept": "the_brute_force_approach_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q20"
+      ],
+      "prompt": "This brute force routine aims to find the first duplicate element in a list. It crashes on edge cases such as an empty list or a list with no duplicates.",
+      "starter_code": "def first_duplicate(items):\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if items[i] == items[j]:\n                return items[i]\n    return None\n\nprint(first_duplicate([]))\nprint(first_duplicate([7, 8, 9]))",
+      "solution_code": "def first_duplicate(items):\n    if not items:\n        return None\n    for i in range(len(items)):\n        for j in range(i + 1, len(items)):\n            if items[i] == items[j]:\n                return items[i]\n    return None\n\nprint(first_duplicate([]))\nprint(first_duplicate([7, 8, 9]))",
+      "hint": "Consider what happens when the input list has zero length before the nested loops execute.",
+      "explanation": "The original code did not guard against an empty list, but Python slicing and range behavior actually prevent an index error; however, explicit validation improves clarity and future-proofs the function. The corrected version returns None for [] and None for [7, 8, 9], handling both the empty list and the no-duplicate edge case gracefully."
+    },
+    {
+      "id": "30.4_q22",
+      "type": "fix_the_code",
+      "concept": "the_brute_force_approach_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Analysis of Brute Force Solutions",
+        "content": "Brute force algorithms often exhibit quadratic or worse time complexity because they examine every possible combination. When a learner writes nested loops over n elements, the expected runtime is O(n^2). If a third nested loop is added, the complexity becomes O(n^3), which quickly becomes infeasible. Below is a brute force subset-sum check with an unnecessary third loop that inflates runtime.\n\n```python\ndef brute_subset_sum(nums, target):\n    n = len(nums)\n    for mask in range(1 << n):\n        subset_sum = 0\n        for i in range(n):\n            if mask & (1 << i):\n                subset_sum += nums[i]\n        for k in range(1000):\n            if subset_sum == target:\n                return True\n            k += 1\n    return False\n\nprint(brute_subset_sum([2, 3, 5], 5))\n```\n\nThe inner loop over k is redundant: checking subset_sum == target once per mask is sufficient. Removing it reduces the runtime from O(n * 2^n) effectively back to O(n * 2^n) with a much smaller constant factor, but the conceptual takeaway is that every unnecessary loop compounds the brute force cost."
+      },
+      "prompt": "Fix the bug in this code for the brute force approach runtime:",
+      "starter_code": "# Fix this code\nPrint('The Brute Force Approach')",
+      "solution_code": "print('The Brute Force Approach')",
+      "explanation": "This exercise tests `the brute force approach runtime` in The Brute Force Approach. When Python validates this code, it applies the standard rules of the brute force approach runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "30.4_q23",
+      "type": "fix_the_code",
+      "concept": "the_brute_force_approach_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q22"
+      ],
+      "prompt": "The brute force palindrome checker below returns incorrect results because of a logic flaw in how it compares characters.",
+      "starter_code": "def is_palindrome(s):\n    n = len(s)\n    for i in range(n):\n        if s[i] != s[n - i]:\n            return False\n    return True\n\nprint(is_palindrome('racecar'))\nprint(is_palindrome('hello'))",
+      "solution_code": "def is_palindrome(s):\n    n = len(s)\n    for i in range(n // 2):\n        if s[i] != s[n - 1 - i]:\n            return False\n    return True\n\nprint(is_palindrome('racecar'))\nprint(is_palindrome('hello'))",
+      "hint": "Examine the index used for the right-side comparison and consider how many iterations are truly needed.",
+      "explanation": "The original code compared s[i] with s[n - i], which for i = 0 yields s[0] vs s[n], an out-of-bounds index. The corrected logic uses s[n - 1 - i] and limits the loop to n // 2 iterations, ensuring every character is checked exactly once against its mirror without redundant or invalid access."
+    },
+    {
+      "id": "30.4_q24",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.4_q23"
+      ],
+      "prompt": "Refactor the brute force two-sum finder below to reduce time complexity from O(n^2) to O(n) while preserving the brute force spirit of checking every candidate pair, but using a hash set for constant-time lookups.",
+      "starter_code": "def two_sum_brute(nums, target):\n    n = len(nums)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if nums[i] + nums[j] == target:\n                return [i, j]\n    return []\n\nprint(two_sum_brute([1, 2, 3, 4, 5], 9))",
+      "solution_code": "def two_sum_optimized(nums, target):\n    seen = set()\n    for i, num in enumerate(nums):\n        complement = target - num\n        if complement in seen:\n            return [nums.index(complement), i]\n        seen.add(num)\n    return []\n\nprint(two_sum_optimized([1, 2, 3, 4, 5], 9))",
+      "test_cases": [
+        {
+          "input": {
+            "nums": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "target": 9
+          },
+          "expected": [
+            4,
+            3
+          ]
+        },
+        {
+          "input": {
+            "nums": [
+              10,
+              5,
+              2,
+              3,
+              8
+            ],
+            "target": 10
+          },
+          "expected": [
+            0,
+            4
+          ]
+        },
+        {
+          "input": {
+            "nums": [],
+            "target": 5
+          },
+          "expected": []
+        }
+      ],
+      "hint": "Maintain a record of previously visited values and ask whether the complement of the current value has already been encountered.",
+      "explanation": "The original nested-loop version checks all pairs, yielding O(n^2) time. The refactored version records each element in a set and checks for its complement in O(1) average time per element, achieving O(n) overall. This preserves the brute force goal of finding a valid pair while dramatically improving scalability."
+    },
+    {
+      "id": "30.4_q25",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q24"
+      ],
+      "prompt": "Write a Python function `is_prime(n)` that uses a brute force approach to determine whether a given integer `n` is prime. Check every integer from 2 up to `n - 1` and return `True` if no divisor is found, otherwise `False`.",
+      "starter_code": "def is_prime(n):\n    # TODO: implement brute force prime check\n    pass\n\n# Example usage\nprint(is_prime(7))\nprint(is_prime(10))",
+      "solution_code": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True\n\n# Example usage\nprint(is_prime(7))\nprint(is_prime(10))",
+      "test_cases": [
+        {
+          "input": "2",
+          "expected": "True"
+        },
+        {
+          "input": "4",
+          "expected": "False"
+        },
+        {
+          "input": "13",
+          "expected": "True"
+        }
+      ],
+      "hint": "Iterate through every possible divisor from 2 to n - 1 and test divisibility using the modulo operator.",
+      "explanation": "The brute force approach exhaustively checks every candidate divisor. While not the most efficient method for large numbers, it guarantees correctness by verifying all possibilities."
+    },
+    {
+      "id": "30.4_q26",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "30.4_q25"
+      ],
+      "prompt": "Write a Python function `count_vowels(s)` that counts the total number of vowels in a string using a brute force approach. Examine every character individually and increment a counter when a vowel is encountered.",
+      "starter_code": "def count_vowels(s):\n    # TODO: count vowels by checking each character\n    pass\n\n# Example usage\nprint(count_vowels('hello'))\nprint(count_vowels('Python'))",
+      "solution_code": "def count_vowels(s):\n    count = 0\n    for char in s:\n        if char in 'aeiouAEIOU':\n            count += 1\n    return count\n\n# Example usage\nprint(count_vowels('hello'))\nprint(count_vowels('Python'))",
+      "test_cases": [
+        {
+          "input": "'aeiou'",
+          "expected": "5"
+        },
+        {
+          "input": "'xyz'",
+          "expected": "0"
+        },
+        {
+          "input": "'BruteForce'",
+          "expected": "4"
+        }
+      ],
+      "hint": "Loop over the string and compare each character against a collection of vowels.",
+      "explanation": "A brute force scan of the input string ensures that no character is missed. This method is straightforward and easy to understand, making it ideal for small to moderate inputs."
+    },
+    {
+      "id": "30.4_q27",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.4_q26"
+      ],
+      "prompt": "Write a Python function `find_pair_sum(arr, target)` that returns a tuple `(i, j)` representing the indices of two distinct elements in `arr` whose sum equals `target`. Use a brute force approach with nested loops to examine every possible pair.",
+      "starter_code": "def find_pair_sum(arr, target):\n    # TODO: brute force search for a pair summing to target\n    pass\n\n# Example usage\nprint(find_pair_sum([3, 5, 2, -4, 8], 10))\nprint(find_pair_sum([1, 2, 3], 7))",
+      "solution_code": "def find_pair_sum(arr, target):\n    n = len(arr)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if arr[i] + arr[j] == target:\n                return (i, j)\n    return None\n\n# Example usage\nprint(find_pair_sum([3, 5, 2, -4, 8], 10))\nprint(find_pair_sum([1, 2, 3], 7))",
+      "test_cases": [
+        {
+          "input": "[3, 5, 2, -4, 8], 10",
+          "expected": "(1, 4)"
+        },
+        {
+          "input": "[1, 2, 3], 7",
+          "expected": "None"
+        },
+        {
+          "input": "[-1, -2, -3, -4], -5",
+          "expected": "(1, 2)"
+        }
+      ],
+      "hint": "Use two nested loops: the outer loop picks the first element and the inner loop picks the second, checking whether their sum matches the target.",
+      "explanation": "By evaluating every unordered pair of indices, the brute force method guarantees that a valid solution is found if one exists. This comes at the cost of O(n^2) time complexity."
+    },
+    {
+      "id": "30.4_q28",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.4_q27"
+      ],
+      "prompt": "Given a string `text` and a pattern `pat`, write a Python function `contains_substring(text, pat)` that returns `True` if `pat` appears anywhere inside `text` using only a brute force sliding-window comparison. Do not use the `in` operator or built-in search methods.",
+      "starter_code": "def contains_substring(text, pat):\n    # TODO: brute force check if pat is a substring of text\n    pass\n\n# Example usage\nprint(contains_substring('abracadabra', 'cad'))\nprint(contains_substring('abracadabra', 'xyz'))",
+      "solution_code": "def contains_substring(text, pat):\n    n = len(text)\n    m = len(pat)\n    if m == 0:\n        return True\n    if m > n:\n        return False\n    for i in range(n - m + 1):\n        match = True\n        for j in range(m):\n            if text[i + j] != pat[j]:\n                match = False\n                break\n        if match:\n            return True\n    return False\n\n# Example usage\nprint(contains_substring('abracadabra', 'cad'))\nprint(contains_substring('abracadabra', 'xyz'))",
+      "test_cases": [
+        {
+          "input": "'abracadabra', 'cad'",
+          "expected": "True"
+        },
+        {
+          "input": "'abracadabra', 'xyz'",
+          "expected": "False"
+        },
+        {
+          "input": "'a', 'a'",
+          "expected": "True"
+        },
+        {
+          "input": "'abc', ''",
+          "expected": "True"
+        }
+      ],
+      "hint": "Slide a window of length len(pat) across text and compare each character of the window with the corresponding character in pat.",
+      "explanation": "This brute force substring search compares every possible alignment of the pattern against the text. It is simple to implement but can be slow for large inputs, motivating more advanced algorithms like KMP."
+    },
+    {
+      "id": "30.4_q29",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.4_q28"
+      ],
+      "prompt": "A small logistics company needs to verify that every package ID in a daily shipment list is unique. They have a text file `shipment.txt` where each line contains one package ID. Write a Python script that reads the file and uses a brute force approach to detect duplicate IDs by comparing every pair of IDs. Print the first duplicate found, or 'No duplicates' if all IDs are unique.",
+      "starter_code": "def find_first_duplicate(filename):\n    # TODO: read file and brute force check for duplicate package IDs\n    pass\n\n# Example usage\n# find_first_duplicate('shipment.txt')",
+      "solution_code": "def find_first_duplicate(filename):\n    with open(filename, 'r') as f:\n        ids = [line.strip() for line in f if line.strip()]\n    n = len(ids)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if ids[i] == ids[j]:\n                print('Duplicate found:', ids[i])\n                return\n    print('No duplicates')\n\n# Example usage\n# find_first_duplicate('shipment.txt')",
+      "test_cases": [
+        {
+          "input": "shipment.txt with lines ['PKG1', 'PKG2', 'PKG1', 'PKG3']",
+          "expected": "Duplicate found: PKG1"
+        },
+        {
+          "input": "shipment.txt with lines ['A', 'B', 'C']",
+          "expected": "No duplicates"
+        }
+      ],
+      "hint": "Load all IDs into a list, then use nested loops to compare every pair of entries for equality.",
+      "explanation": "In real-world data validation, a brute force pairwise comparison is often acceptable when the dataset is small. It avoids extra memory overhead from hash-based structures and is easy to audit for correctness."
+    },
+    {
+      "id": "30.4_q30",
+      "type": "write_the_code",
+      "concept": "the_brute_force_approach_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "30.4_q29"
+      ],
+      "prompt": "You are given a list of integers `nums`. Write a Python function `max_product_brute(nums)` that returns the maximum product of any two distinct elements using a brute force approach. If the list has fewer than two elements, return `None`.",
+      "starter_code": "def max_product_brute(nums):\n    # TODO: brute force maximum product of two distinct elements\n    pass\n\n# Example usage\nprint(max_product_brute([3, 6, -2, -5, 7]))\nprint(max_product_brute([1]))",
+      "solution_code": "def max_product_brute(nums):\n    if len(nums) < 2:\n        return None\n    max_prod = None\n    n = len(nums)\n    for i in range(n):\n        for j in range(i + 1, n):\n            prod = nums[i] * nums[j]\n            if max_prod is None or prod > max_prod:\n                max_prod = prod\n    return max_prod\n\n# Example usage\nprint(max_product_brute([3, 6, -2, -5, 7]))\nprint(max_product_brute([1]))",
+      "test_cases": [
+        {
+          "input": "[3, 6, -2, -5, 7]",
+          "expected": "35"
+        },
+        {
+          "input": "[1]",
+          "expected": "None"
+        },
+        {
+          "input": "[-4, -3, -2, -1]",
+          "expected": "12"
+        },
+        {
+          "input": "[0, 5, 10]",
+          "expected": "50"
+        }
+      ],
+      "hint": "Initialize a variable to track the best product seen so far, then update it whenever a larger product is found during the nested comparison.",
+      "explanation": "This mastery challenge requires synthesizing brute force iteration with state tracking. Although an O(n) solution exists by sorting or scanning for extremes, the brute force method validates correctness through exhaustive enumeration and serves as a baseline for optimization."
+    }
+  ],
+  "unit_num": 30,
+  "learning_objectives": [
+    "Construct iterative loops using Brute Force Approach with proper loop bounds",
+    "Trace variable mutation across loop iterations",
+    "Prevent and debug infinite loop execution bugs",
+    "Apply loop control statements (break and continue) to control execution flow"
+  ],
+  "prerequisites": [
+    "30.3"
+  ]
+}

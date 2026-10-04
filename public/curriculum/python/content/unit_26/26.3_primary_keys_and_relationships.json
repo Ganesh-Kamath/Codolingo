@@ -1,0 +1,705 @@
+{
+  "lesson_id": "26.3",
+  "title": "Primary Keys and Relationships",
+  "unit": "Databases and SQL",
+  "items": [
+    {
+      "id": "26.3_q1",
+      "type": "micro_lesson",
+      "title": "What is a Primary Key?",
+      "content": "A primary key is a special column (or set of columns) in a database table that uniquely identifies each row in that table. No two rows can share the same primary key value, and every row must have a primary key. In relational databases, primary keys are essential for establishing relationships between tables. For example, if you have a 'students' table and a 'courses' table, you might use a student_id as a primary key in the students table and reference it in the courses table to link enrollments. In Python, when working with SQLite, you define a primary key using the PRIMARY KEY constraint in a CREATE TABLE statement. Here is a simple example using Python's sqlite3 module:\n\n```python\nimport sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''\n    CREATE TABLE users (\n        user_id INTEGER PRIMARY KEY,\n        name TEXT NOT NULL,\n        email TEXT UNIQUE\n    )\n''')\n\nprint('Table created with user_id as primary key')\nconn.close()\n```\n\nNotice that user_id is declared with PRIMARY KEY. This ensures each user has a unique identifier. Relationships, such as one-to-many, rely on primary keys to connect records across tables.",
+      "concept": "primary_keys_and_relationships_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "",
+      "explanation": "A primary key is a special column (or set of columns) in a database table that uniquely identifies each row in that table. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "26.3_q2",
+      "type": "multiple_choice",
+      "prompt": "Which of the following best describes the purpose of a primary key in a database table?",
+      "options": [
+        "To store duplicate values for easier searching",
+        "To uniquely identify each row in the table",
+        "To allow null values in every column",
+        "To automatically delete old records"
+      ],
+      "correct_answer": "To uniquely identify each row in the table",
+      "explanation": "A primary key must contain a unique value for every row and cannot be null. This uniqueness is what allows other tables to reference a specific record reliably when creating relationships.",
+      "concept": "primary_keys_and_relationships_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q1"
+      ]
+    },
+    {
+      "id": "26.3_q3",
+      "type": "micro_lesson",
+      "title": "Defining Relationships with Foreign Keys",
+      "content": "A relationship links two tables together. The most common type is a one-to-many relationship, where one record in a parent table corresponds to many records in a child table. This is achieved using a foreign key, which is a column in the child table that references the primary key of the parent table. In SQL, you create this reference by adding a FOREIGN KEY constraint. In Python, when you execute a CREATE TABLE statement, you can include this constraint directly. Consider a 'books' table and an 'authors' table. The authors table has author_id as its primary key, and the books table includes author_id as a foreign key to link each book to its author.\n\n```python\nimport sqlite3\n\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\n\ncursor.execute('''\n    CREATE TABLE authors (\n        author_id INTEGER PRIMARY KEY,\n        author_name TEXT NOT NULL\n    )\n''')\n\ncursor.execute('''\n    CREATE TABLE books (\n        book_id INTEGER PRIMARY KEY,\n        title TEXT NOT NULL,\n        author_id INTEGER,\n        FOREIGN KEY(author_id) REFERENCES authors(author_id)\n    )\n''')\n\nprint('Authors and books tables created with a foreign key relationship')\nconn.close()\n```\n\nHere, author_id in books references author_id in authors. This enforces referential integrity, meaning every book must be linked to a valid author.",
+      "concept": "primary_keys_and_relationships_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q2"
+      ],
+      "prompt": "",
+      "explanation": "A relationship links two tables together. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "26.3_q4",
+      "type": "multiple_choice",
+      "prompt": "In the following SQL snippet, what does the FOREIGN KEY(author_id) REFERENCES authors(author_id) clause ensure?",
+      "options": [
+        "That author_id values in books must exist in the authors table",
+        "That every book must have a unique title",
+        "That author_id can be null in all cases",
+        "That the books table is automatically deleted when authors is updated"
+      ],
+      "correct_answer": "That author_id values in books must exist in the authors table",
+      "explanation": "The FOREIGN KEY constraint enforces referential integrity. It prevents inserting a book with an author_id that does not already exist in the referenced authors table.",
+      "concept": "primary_keys_and_relationships_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q3"
+      ]
+    },
+    {
+      "id": "26.3_q5",
+      "type": "multiple_choice",
+      "prompt": "Match the database term to its correct definition.",
+      "options": [
+        "Primary Key: A column that uniquely identifies each row; Foreign Key: A column that links to a primary key in another table",
+        "Primary Key: A column that allows duplicates; Foreign Key: A column that stores unrelated data",
+        "Primary Key: A temporary table; Foreign Key: An index for faster searches",
+        "Primary Key: A constraint for text only; Foreign Key: A constraint for numbers only"
+      ],
+      "correct_answer": "Primary Key: A column that uniquely identifies each row; Foreign Key: A column that links to a primary key in another table",
+      "explanation": "This option correctly defines both terms. A primary key ensures uniqueness within its own table, while a foreign key creates a relationship by referencing another table's primary key.",
+      "concept": "primary_keys_and_relationships_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q4"
+      ]
+    },
+    {
+      "id": "26.3_q6",
+      "type": "multiple_choice",
+      "prompt": "Which of the following is a common pitfall when designing primary keys and relationships?",
+      "options": [
+        "Using a mutable value like a name as a primary key",
+        "Always using auto-incrementing integers for every table",
+        "Creating more than one relationship between the same two tables",
+        "Naming tables with underscores instead of spaces"
+      ],
+      "correct_answer": "Using a mutable value like a name as a primary key",
+      "explanation": "Primary keys should be stable and immutable. If you use a name as a primary key and the person changes their name, the key changes, which can break relationships and cause data inconsistencies. It is safer to use a surrogate key like an auto-incrementing integer.",
+      "concept": "primary_keys_and_relationships_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q5"
+      ]
+    },
+    {
+      "id": "26.3_q7",
+      "type": "code_prediction",
+      "concept": "primary_keys_and_relationships_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q6"
+      ],
+      "micro_lesson": {
+        "title": "Understanding Primary Keys in SQL",
+        "content": "A primary key uniquely identifies each row in a database table. It cannot be NULL and must contain unique values. When defining a table, you declare a column as the primary key using PRIMARY KEY. In relational databases, primary keys are essential for establishing relationships between tables. For example, if you have a students table and a courses table, you can link them using a foreign key that references the primary key of another table. Consider the following Python code that uses sqlite3 to create a table with a primary key:"
+      },
+      "prompt": "What is the result of executing the following Python code?\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute('''\nCREATE TABLE employees (\n    emp_id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL\n)\n''')\nprint(cursor.execute('SELECT * FROM employees').fetchall())\n```",
+      "options": [
+        "An empty list: []",
+        "A list containing one row: [(1, 'Alice')]",
+        "An error because no rows were inserted",
+        "A list with a null row: [(None, None)]"
+      ],
+      "correct_answer": "An empty list: []",
+      "explanation": "The table is created successfully, but no INSERT statements are executed. Therefore, querying the table returns no rows, resulting in an empty list."
+    },
+    {
+      "id": "26.3_q8",
+      "type": "output_prediction",
+      "concept": "primary_keys_and_relationships_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q7"
+      ],
+      "micro_lesson": {
+        "title": "Inserting Data with Primary Keys",
+        "content": "Once a table with a primary key is created, you can insert rows. The primary key column must receive a unique value for each record. If you attempt to insert a duplicate primary key, the database will raise an integrity error. Relationships between tables rely on these unique identifiers. For instance, a foreign key in one table references the primary key of another table to maintain referential integrity. Below is an example of inserting data and querying related records."
+      },
+      "prompt": "What is the output of the following code?\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute('''\nCREATE TABLE orders (\n    order_id INTEGER PRIMARY KEY,\n    customer_id INTEGER\n)\n''')\ncursor.execute(\"INSERT INTO orders (order_id, customer_id) VALUES (101, 1)\")\ncursor.execute(\"INSERT INTO orders (order_id, customer_id) VALUES (102, 2)\")\nprint(cursor.execute('SELECT * FROM orders').fetchall())\n```",
+      "options": [
+        "[(101, 1), (102, 2)]",
+        "[(1, 1), (2, 2)]",
+        "[(101, None), (102, None)]",
+        "An error because customer_id is not defined as a primary key"
+      ],
+      "correct_answer": "[(101, 1), (102, 2)]",
+      "explanation": "The query retrieves all inserted rows. The order_id column stores the explicitly provided values 101 and 102, and customer_id stores 1 and 2 respectively."
+    },
+    {
+      "id": "26.3_q9",
+      "type": "code_prediction",
+      "concept": "primary_keys_and_relationships_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q8"
+      ],
+      "micro_lesson": {
+        "title": "One-to-Many Relationships via Foreign Keys",
+        "content": "A one-to-many relationship occurs when one record in a table relates to multiple records in another table. This is implemented by placing a foreign key in the 'many' table that references the primary key of the 'one' table. The foreign key constraint ensures that only valid primary key values from the referenced table can be inserted. In Python with sqlite3, you create such a relationship by specifying REFERENCES in the CREATE TABLE statement. This maintains data integrity and enables efficient joins."
+      },
+      "prompt": "What will happen when this code runs?\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute('''\nCREATE TABLE departments (\n    dept_id INTEGER PRIMARY KEY,\n    dept_name TEXT\n)\n''')\ncursor.execute('''\nCREATE TABLE employees (\n    emp_id INTEGER PRIMARY KEY,\n    dept_id INTEGER REFERENCES departments(dept_id)\n)\n''')\ncursor.execute(\"INSERT INTO departments (dept_id, dept_name) VALUES (1, 'HR')\")\ncursor.execute(\"INSERT INTO employees (emp_id, dept_id) VALUES (10, 1)\")\nprint('Success')\n```",
+      "options": [
+        "Prints 'Success' and creates both tables with the foreign key constraint active",
+        "Raises an error because REFERENCES is not supported in sqlite3",
+        "Creates the tables but ignores the foreign key, allowing invalid dept_id values",
+        "Prints 'Error' because dept_id must be declared as PRIMARY KEY in employees"
+      ],
+      "correct_answer": "Prints 'Success' and creates both tables with the foreign key constraint active",
+      "explanation": "sqlite3 supports foreign key constraints when enabled. The INSERT statements are valid because dept_id 1 exists in the departments table. Therefore, the code executes without error and prints 'Success'."
+    },
+    {
+      "id": "26.3_q10",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Query Results with Relationships",
+        "content": "When analyzing database output, it is important to verify that relationships are correctly represented. A JOIN operation combines rows from two tables based on a related column, typically a primary key and a foreign key. If the relationship is defined properly, the joined result will show consistent and meaningful associations. Analyzing the output requires checking for duplicate rows, missing matches, and referential integrity. The following code performs a JOIN and prints the combined result."
+      },
+      "prompt": "Explain the output and behavior of the following code snippet.\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute('''\nCREATE TABLE books (\n    book_id INTEGER PRIMARY KEY,\n    title TEXT\n)\n''')\ncursor.execute('''\nCREATE TABLE loans (\n    loan_id INTEGER PRIMARY KEY,\n    book_id INTEGER REFERENCES books(book_id)\n)\n''')\ncursor.execute(\"INSERT INTO books (book_id, title) VALUES (1, 'Python Basics')\")\ncursor.execute(\"INSERT INTO loans (loan_id, book_id) VALUES (10, 1)\")\ncursor.execute('''\nSELECT b.title, l.loan_id\nFROM books b\nLEFT JOIN loans l ON b.book_id = l.book_id\n''')\nprint(cursor.fetchall())\n```",
+      "correct_answer": "The output is [('Python Basics', 10)] because the LEFT JOIN finds the matching loan record for the book.",
+      "explanation": "The LEFT JOIN returns all rows from the left table (books) and matching rows from the right table (loans). Since a loan with loan_id 10 exists for book_id 1, the result is a single row with the title and the matching loan_id.",
+      "starter_code": "# TODO: Implement solution for Primary Keys and Relationships\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Primary Keys and Relationships')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Primary Keys and Relationships"
+        }
+      ]
+    },
+    {
+      "id": "26.3_q11",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q10"
+      ],
+      "micro_lesson": {
+        "title": "Tracing Database Transactions and Constraints",
+        "content": "Tracing execution involves following each statement to understand how data changes and how constraints affect behavior. When a PRIMARY KEY or FOREIGN KEY constraint is violated, the database transaction may be rolled back or raise an exception. Tracing helps identify at which step an error occurs. In Python, the sqlite3 module uses transactions that are committed with commit() or rolled back with rollback(). Understanding the sequence of operations is critical when working with relational data."
+      },
+      "prompt": "Trace the execution step by step and identify the final state of the database and whether an exception occurs.\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute('''\nCREATE TABLE products (\n    prod_id INTEGER PRIMARY KEY,\n    name TEXT\n)\n''')\ncursor.execute(\"INSERT INTO products (prod_id, name) VALUES (1, 'Widget')\")\ncursor.execute(\"INSERT INTO products (prod_id, name) VALUES (1, 'Gadget')\")\ncursor.execute(\"COMMIT\")\nprint(cursor.execute('SELECT * FROM products').fetchall())\n```",
+      "correct_answer": "An exception is raised during the second INSERT; no rows are committed; the database remains empty.",
+      "explanation": "The second INSERT attempts to use prod_id 1 again, violating the PRIMARY KEY constraint. sqlite3 raises an IntegrityError immediately, preventing the row from being inserted. Because no explicit commit occurred before the error, the transaction is rolled back, leaving the database empty.",
+      "starter_code": "# TODO: Implement solution for Primary Keys and Relationships\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Primary Keys and Relationships')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Primary Keys and Relationships"
+        }
+      ]
+    },
+    {
+      "id": "26.3_q12",
+      "type": "output_prediction",
+      "concept": "primary_keys_and_relationships_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q11"
+      ],
+      "micro_lesson": {
+        "title": "Predicting Output with Aggregation and Relationships",
+        "content": "When working with relationships, you often need to aggregate data across related tables. Using GROUP BY with COUNT or SUM allows you to summarize records, such as counting how many items belong to each category. The logic depends on correctly joining tables and ensuring that primary key relationships are respected. Misunderstanding the join condition can lead to incorrect counts or missing rows. The following code joins two tables and groups the results to count related records."
+      },
+      "prompt": "What is the output of this code?\n```python\nimport sqlite3\nconn = sqlite3.connect(':memory:')\ncursor = conn.cursor()\ncursor.execute('''\nCREATE TABLE categories (\n    cat_id INTEGER PRIMARY KEY,\n    cat_name TEXT\n)\n''')\ncursor.execute('''\nCREATE TABLE items (\n    item_id INTEGER PRIMARY KEY,\n    cat_id INTEGER REFERENCES categories(cat_id)\n)\n''')\ncursor.execute(\"INSERT INTO categories (cat_id, cat_name) VALUES (1, 'Electronics')\")\ncursor.execute(\"INSERT INTO categories (cat_id, cat_name) VALUES (2, 'Books')\")\ncursor.execute(\"INSERT INTO items (item_id, cat_id) VALUES (10, 1)\")\ncursor.execute(\"INSERT INTO items (item_id, cat_id) VALUES (11, 1)\")\ncursor.execute(\"INSERT INTO items (item_id, cat_id) VALUES (12, 2)\")\ncursor.execute('''\nSELECT c.cat_name, COUNT(i.item_id)\nFROM categories c\nLEFT JOIN items i ON c.cat_id = i.cat_id\nGROUP BY c.cat_id\n''')\nprint(cursor.fetchall())\n```",
+      "options": [
+        "[('Electronics', 2), ('Books', 1)]",
+        "[('Electronics', 2), ('Books', 0)]",
+        "[('Electronics', 1), ('Books', 1)]",
+        "An error because GROUP BY must include all non-aggregated columns"
+      ],
+      "correct_answer": "[('Electronics', 2), ('Books', 1)]",
+      "explanation": "The LEFT JOIN ensures all categories are included. Electronics has two matching items, so COUNT returns 2. Books has one matching item, so COUNT returns 1. GROUP BY c.cat_id correctly aggregates per category."
+    },
+    {
+      "id": "26.3_q13",
+      "type": "fill_in_the_blank",
+      "concept": "primary_keys_and_relationships_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q12"
+      ],
+      "micro_lesson": {
+        "title": "Primary Keys in SQL",
+        "content": "A primary key uniquely identifies every record in a table. In SQL, you declare a primary key using the PRIMARY KEY constraint. A table can have only one primary key, but that key can consist of multiple columns. When defining a table with CREATE TABLE, you add PRIMARY KEY after the column definition. This ensures no duplicate values appear in the primary key column(s), which is essential for linking tables together through relationships. For example, in a students table, student_id serves as the primary key because each student has a unique identifier.\n\n```python\n# Example: Declaring a table with a primary key\ncreate_table_sql = \"\"\"\nCREATE TABLE students (\n    student_id INT PRIMARY KEY,\n    name VARCHAR(100),\n    grade INT\n);\n\"\"\"\nprint('Primary key ensures unique student_id values.')\n```"
+      },
+      "prompt": "Complete the SQL statement by filling in the blank: CREATE TABLE orders (order_id INT ____, customer_id INT, product_id INT);",
+      "correct_answer": "PRIMARY KEY",
+      "accepted_answers": [
+        "PRIMARY KEY",
+        "PRIMARY KEY()",
+        "PRIMARY KEY ()"
+      ],
+      "explanation": "The PRIMARY KEY constraint is used to uniquely identify each record in the orders table. Without it, duplicate order_id values could exist, breaking referential integrity."
+    },
+    {
+      "id": "26.3_q14",
+      "type": "fill_in_the_blank",
+      "concept": "primary_keys_and_relationships_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q13"
+      ],
+      "micro_lesson": {
+        "title": "Foreign Keys and Relationships",
+        "content": "Relationships between tables are established using foreign keys. A foreign key is a column (or set of columns) in one table that refers to the primary key in another table. The most common relationship types are one-to-many and many-to-many. In a one-to-many relationship, one record in the parent table relates to many records in the child table. The child table contains a foreign key pointing back to the parent's primary key. Common SQL keywords include FOREIGN KEY, REFERENCES, ON DELETE, and ON UPDATE. These keywords control how data integrity is maintained when records are modified or removed.\n\n```python\n# Example: Defining a foreign key relationship\ncreate_table_sql = \"\"\"\nCREATE TABLE enrollments (\n    enrollment_id INT PRIMARY KEY,\n    student_id INT,\n    course_id INT,\n    FOREIGN KEY (student_id) REFERENCES students(student_id)\n);\n\"\"\"\nprint('Foreign key links enrollments to students.')\n```"
+      },
+      "prompt": "Fill in the blank with the appropriate SQL keyword: FOREIGN KEY (student_id) ____ students(student_id);",
+      "correct_answer": "REFERENCES",
+      "accepted_answers": [
+        "REFERENCES",
+        "REFERS TO",
+        "LINK TO"
+      ],
+      "explanation": "REFERENCES is the standard SQL keyword used after FOREIGN KEY to indicate which table and column the foreign key points to."
+    },
+    {
+      "id": "26.3_q15",
+      "type": "code_ordering",
+      "concept": "primary_keys_and_relationships_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q14"
+      ],
+      "micro_lesson": {
+        "title": "Steps to Define a Relational Schema",
+        "content": "When designing a relational database schema, you must follow a logical sequence. First, identify entities and their attributes. Second, assign a primary key to each entity table. Third, identify relationships between entities. Fourth, create foreign keys in child tables to represent those relationships. Fifth, apply constraints such as NOT NULL and UNIQUE where appropriate. Finally, validate the schema by checking referential integrity. Skipping steps can lead to duplicate data or broken links between tables.\n\n```python\n# Example: Ordered schema design steps\nsteps = [\n    'Identify entities and attributes',\n    'Assign primary keys to each table',\n    'Define relationships between tables',\n    'Add foreign keys to child tables',\n    'Apply constraints and validate'\n]\nprint('Schema design complete.')\n```"
+      },
+      "prompt": "Arrange the following SQL schema design steps in the correct order to create a valid relational database.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence starts with identifying entities, then assigning primary keys, defining relationships, adding foreign keys, and finally applying constraints to ensure data integrity."
+    },
+    {
+      "id": "26.3_q16",
+      "type": "fill_in_the_blank",
+      "concept": "primary_keys_and_relationships_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q15"
+      ],
+      "micro_lesson": {
+        "title": "Common SQL Patterns for Relationships",
+        "content": "When working with relationships, certain SQL patterns appear frequently. One common pattern is the self-join, where a table is joined to itself using an alias. Another is the cascading delete, where removing a parent record automatically removes dependent child records. The ON DELETE CASCADE clause enforces this behavior. A third pattern is the junction table, used to resolve many-to-many relationships by creating an intermediate table with foreign keys referencing both parent tables. Recognizing these patterns helps you write efficient and maintainable SQL.\n\n```python\n# Example: Cascading delete pattern\ncreate_table_sql = \"\"\"\nCREATE TABLE departments (\n    dept_id INT PRIMARY KEY,\n    dept_name VARCHAR(100)\n);\n\nCREATE TABLE employees (\n    emp_id INT PRIMARY KEY,\n    emp_name VARCHAR(100),\n    dept_id INT,\n    FOREIGN KEY (dept_id) REFERENCES departments(dept_id) ON DELETE CASCADE\n);\n\"\"\"\nprint('Cascading delete removes employees when a department is deleted.')\n```"
+      },
+      "prompt": "Complete the pattern: FOREIGN KEY (dept_id) REFERENCES departments(dept_id) ____ CASCADE;",
+      "correct_answer": "ON DELETE",
+      "accepted_answers": [
+        "ON DELETE",
+        "ON DELETE CASCADE",
+        "ON DELETE CASCADE;"
+      ],
+      "explanation": "ON DELETE CASCADE is the clause that specifies the action to take when a referenced primary key is deleted. The blank specifically asks for the keyword phrase preceding CASCADE."
+    },
+    {
+      "id": "26.3_q17",
+      "type": "code_ordering",
+      "concept": "primary_keys_and_relationships_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm for Querying Related Tables",
+        "content": "To retrieve data from related tables, you must execute SQL statements in a logical order. First, ensure that foreign key constraints are defined so the database knows how tables relate. Second, write a SELECT query that specifies the columns you need. Third, use the JOIN clause to connect tables on their related key columns. Fourth, apply a WHERE clause to filter results if necessary. Fifth, order the results with ORDER BY for readability. Finally, review the output to confirm that the relationships were joined correctly and no duplicate rows appear unexpectedly.\n\n```python\n# Example: Ordered algorithm for a related-table query\nquery_steps = [\n    'Ensure foreign keys are defined',\n    'Write SELECT with desired columns',\n    'Use JOIN on related key columns',\n    'Apply WHERE filters if needed',\n    'Order results with ORDER BY',\n    'Review output for correctness'\n]\nprint('Query executed successfully.')\n```"
+      },
+      "prompt": "Arrange the following steps into the correct algorithm for querying related tables in SQL.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must begin with verifying the schema, then build the query step by step: select columns, join tables, filter, order, and validate."
+    },
+    {
+      "id": "26.3_q18",
+      "type": "fill_in_the_blank",
+      "concept": "primary_keys_and_relationships_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q17"
+      ],
+      "micro_lesson": {
+        "title": "SQL Idioms for Maintaining Integrity",
+        "content": "Experienced SQL developers use idioms to enforce data integrity and express relationships clearly. A common idiom is naming foreign key columns with the suffix _id to indicate they reference a primary key in another table. Another idiom is using CASCADE actions for referential integrity when appropriate. A third idiom is prefixing junction table names with junction_ to signal their purpose. These conventions make schemas easier to read and maintain. When combined with explicit PRIMARY KEY declarations and consistent data types, these idioms prevent common bugs in relational applications.\n\n```python\n# Example: Idiomatic table naming and constraints\ncreate_table_sql = \"\"\"\nCREATE TABLE student_courses (\n    student_course_id INT PRIMARY KEY,\n    student_id INT,\n    course_id INT,\n    FOREIGN KEY (student_id) REFERENCES students(student_id),\n    FOREIGN KEY (course_id) REFERENCES courses(course_id)\n);\n\"\"\"\nprint('Idiomatic naming improves schema clarity.')\n```"
+      },
+      "prompt": "Fill in the blank with the idiomatic suffix used for foreign key columns: student____, course____",
+      "correct_answer": "_id",
+      "accepted_answers": [
+        "_id",
+        "ID",
+        "id"
+      ],
+      "explanation": "The idiomatic suffix _id is widely used to indicate that a column serves as a foreign key referencing a primary key in another table."
+    },
+    {
+      "id": "26.3_q19",
+      "type": "fix_the_code",
+      "concept": "primary_keys_and_relationships_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q18"
+      ],
+      "prompt": "Review the following Python code using SQLite. A function attempts to insert a new student record and link it to an existing course, but the database raises an integrity error. Identify the primary issue related to primary keys and relationships.",
+      "starter_code": "import sqlite3\n\ndef enroll_student(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"INSERT INTO students (id, name) VALUES (1, 'Alice')\")\n    cursor.execute(\"INSERT INTO enrollments (student_id, course_id) VALUES (1, 101)\")\n    conn.commit()\n    conn.close()\n\nenroll_student('school.db')",
+      "solution_code": "import sqlite3\n\ndef enroll_student(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT MAX(id) FROM students\")\n    max_id = cursor.fetchone()[0] or 0\n    new_id = max_id + 1\n    cursor.execute(\"INSERT INTO students (id, name) VALUES (?, 'Alice')\", (new_id,))\n    cursor.execute(\"INSERT INTO enrollments (student_id, course_id) VALUES (?, 101)\", (new_id,))\n    conn.commit()\n    conn.close()",
+      "hint": "The error occurs because the code hardcodes id = 1, which violates the PRIMARY KEY constraint when that row already exists or duplicates an existing key.",
+      "explanation": "The code hardcodes student id as 1, causing an integrity error when a row with that primary key already exists. A robust solution dynamically generates a new primary key by querying the maximum existing id and incrementing it, ensuring uniqueness and proper relational integrity between students and enrollments."
+    },
+    {
+      "id": "26.3_q20",
+      "type": "fix_the_code",
+      "concept": "primary_keys_and_relationships_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "26.3_q19"
+      ],
+      "prompt": "The following function should create a parent record and a child record with a foreign key, but it fails. Correct the code so the relationship is properly established.",
+      "starter_code": "import sqlite3\n\ndef create_records(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"INSERT INTO parents (parent_id, name) VALUES (1, 'Bob')\")\n    cursor.execute(\"INSERT INTO children (child_id, parent_id, age) VALUES (1, 1, 5)\")\n    conn.commit()\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef create_records(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"INSERT INTO parents (parent_id, name) VALUES (?, 'Bob')\", (1,))\n    cursor.execute(\"INSERT INTO children (child_id, parent_id, age) VALUES (?, 1, 5)\", (1,))\n    conn.commit()\n    conn.close()",
+      "hint": "Use parameterized queries with placeholders to safely pass values and avoid syntax issues.",
+      "explanation": "The original code uses string formatting which risks SQL injection and can cause syntax errors. Using parameterized queries with ? placeholders ensures values are properly escaped and the foreign key relationship from children.parent_id to parents.parent_id is correctly established."
+    },
+    {
+      "id": "26.3_q21",
+      "type": "fix_the_code",
+      "concept": "primary_keys_and_relationships_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q20"
+      ],
+      "prompt": "This function deletes a parent and attempts to cascade-delete related children, but it raises an error because the foreign key constraint is not configured. Fix the code to handle this edge case safely.",
+      "starter_code": "import sqlite3\n\ndef delete_parent(db_path, parent_id):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"DELETE FROM parents WHERE parent_id = \" + str(parent_id))\n    conn.commit()\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef delete_parent(db_path, parent_id):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"DELETE FROM parents WHERE parent_id = ?\", (parent_id,))\n    cursor.execute(\"DELETE FROM children WHERE parent_id = ?\", (parent_id,))\n    conn.commit()\n    conn.close()",
+      "hint": "Without CASCADE configured, deleting a parent leaves orphaned child rows. Explicitly delete children first or use CASCADE at the schema level.",
+      "explanation": "Since the foreign key lacks ON DELETE CASCADE, deleting a parent directly would violate referential integrity. The fix explicitly deletes child records before removing the parent, preserving relational consistency and avoiding orphaned foreign key references."
+    },
+    {
+      "id": "26.3_q22",
+      "type": "fix_the_code",
+      "concept": "primary_keys_and_relationships_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q21"
+      ],
+      "prompt": "The script below runs without syntax errors but produces an unexpected runtime exception. Diagnose the runtime issue tied to primary keys and relationships.",
+      "starter_code": "import sqlite3\n\ndef get_student_courses(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT c.course_name FROM courses c JOIN enrollments e ON c.course_id = e.course_id WHERE e.student_id = 999\")\n    results = cursor.fetchall()\n    print(results[0][0])\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef get_student_courses(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"SELECT c.course_name FROM courses c JOIN enrollments e ON c.course_id = e.course_id WHERE e.student_id = ?\", (999,))\n    results = cursor.fetchall()\n    if results:\n        print(results[0][0])\n    else:\n        print(\"No enrollments found for this student.\")\n    conn.close()",
+      "hint": "Consider what happens when the WHERE clause matches no rows and the code tries to access results[0][0].",
+      "explanation": "When student_id 999 has no enrollments, results is empty and accessing results[0][0] raises an IndexError. The runtime error stems from assuming a relationship exists without verifying the result set, which is a common pitfall when working with primary key lookups and joins."
+    },
+    {
+      "id": "26.3_q23",
+      "type": "fix_the_code",
+      "concept": "primary_keys_and_relationships_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q22"
+      ],
+      "prompt": "The logic for updating a child's parent_id is flawed: it updates all children instead of only the matching one. Repair the code to enforce the correct relational logic.",
+      "starter_code": "import sqlite3\n\ndef move_child_to_new_parent(db_path, child_id, new_parent_id):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"UPDATE children SET parent_id = ? WHERE parent_id = ?\", (new_parent_id, child_id))\n    conn.commit()\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef move_child_to_new_parent(db_path, child_id, new_parent_id):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    cursor.execute(\"UPDATE children SET parent_id = ? WHERE child_id = ?\", (new_parent_id, child_id))\n    conn.commit()\n    conn.close()",
+      "hint": "The WHERE clause currently filters by the old parent_id, which would affect every child of that parent rather than the specific child.",
+      "explanation": "The bug was in the WHERE clause: using parent_id instead of child_id caused a mass update of all siblings. The repair changes the condition to child_id, ensuring only the targeted child record is updated and the foreign key relationship remains accurate."
+    },
+    {
+      "id": "26.3_q24",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.3_q23"
+      ],
+      "prompt": "Refactor the following script to improve performance and maintainability when handling bulk inserts with primary keys and foreign key relationships. Minimize repeated database connections and ensure atomic transactions.",
+      "starter_code": "import sqlite3\n\ndef bulk_insert(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    for i in range(1000):\n        cursor.execute(\"INSERT INTO students (id, name) VALUES (?, 'Student ' + str(i))\", (i,))\n        cursor.execute(\"INSERT INTO enrollments (student_id, course_id) VALUES (?, 101)\", (i,))\n    conn.commit()\n    conn.close()",
+      "solution_code": "import sqlite3\n\ndef bulk_insert(db_path):\n    conn = sqlite3.connect(db_path)\n    cursor = conn.cursor()\n    with conn:\n        for i in range(1000):\n            cursor.execute(\"INSERT OR IGNORE INTO students (id, name) VALUES (?, 'Student ' + ?)\", (i, str(i)))\n            cursor.execute(\"INSERT OR IGNORE INTO enrollments (student_id, course_id) VALUES (?, 101)\", (i,))\n    conn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "bulk_insert('test.db') runs without errors on first call",
+          "description": "bulk_insert('test.db') runs without errors on first call"
+        },
+        {
+          "input": "",
+          "expected_output": "bulk_insert('test.db') runs without errors on second call due to OR IGNORE",
+          "description": "bulk_insert('test.db') runs without errors on second call due to OR IGNORE"
+        },
+        {
+          "input": "",
+          "expected_output": "Exactly 1000 student rows and 1000 enrollment rows exist after execution",
+          "description": "Exactly 1000 student rows and 1000 enrollment rows exist after execution"
+        },
+        {
+          "input": "",
+          "expected_output": "No duplicate primary key violations occur",
+          "description": "No duplicate primary key violations occur"
+        }
+      ],
+      "hint": "Use a context manager for the connection, batch operations within a single transaction, and add conflict resolution for idempotent inserts.",
+      "explanation": "The refactored version uses a with statement for automatic transaction handling, OR IGNORE to prevent duplicate primary key errors on re-runs, and parameterized queries to ensure safe, efficient bulk insertion while preserving the relational integrity between students and enrollments."
+    },
+    {
+      "id": "26.3_q25",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q24"
+      ],
+      "prompt": "Create an SQLite database named 'school.db' with a 'students' table that has columns: student_id (INTEGER PRIMARY KEY), name (TEXT), and grade (INTEGER). Insert three sample records and print all rows.",
+      "starter_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\n# TODO: create table and insert records\nconn.close()",
+      "solution_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('''CREATE TABLE IF NOT EXISTS students (student_id INTEGER PRIMARY KEY, name TEXT, grade INTEGER)''')\ncursor.execute(\"INSERT INTO students (name, grade) VALUES ('Alice', 10)\")\ncursor.execute(\"INSERT INTO students (name, grade) VALUES ('Bob', 11)\")\ncursor.execute(\"INSERT INTO students (name, grade) VALUES ('Carol', 10)\")\nconn.commit()\ncursor.execute('SELECT * FROM students')\nfor row in cursor.fetchall():\n    print(row)\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "The table must be created without errors.",
+          "description": "The table must be created without errors."
+        },
+        {
+          "input": "",
+          "expected_output": "Three rows must be inserted and retrievable.",
+          "description": "Three rows must be inserted and retrievable."
+        },
+        {
+          "input": "",
+          "expected_output": "student_id must be auto-incremented as PRIMARY KEY.",
+          "description": "student_id must be auto-incremented as PRIMARY KEY."
+        }
+      ],
+      "hint": "Use CREATE TABLE with PRIMARY KEY, then INSERT VALUES, and commit before closing.",
+      "explanation": "A PRIMARY KEY uniquely identifies each row. SQLite auto-increments INTEGER PRIMARY KEY columns. Committing saves changes to disk."
+    },
+    {
+      "id": "26.3_q26",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "26.3_q25"
+      ],
+      "prompt": "Extend the database with an 'enrollments' table linking student_id to course_id. Insert one enrollment and print it joined with student names.",
+      "starter_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\n# TODO: create enrollments table and insert one record\nconn.close()",
+      "solution_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('''CREATE TABLE IF NOT EXISTS enrollments (enrollment_id INTEGER PRIMARY KEY, student_id INTEGER, course_id INTEGER)''')\ncursor.execute(\"INSERT INTO enrollments (student_id, course_id) VALUES (1, 101)\")\nconn.commit()\ncursor.execute('''SELECT s.name, e.course_id FROM students s JOIN enrollments e ON s.student_id = e.student_id''')\nfor row in cursor.fetchall():\n    print(row)\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "enrollments table must exist.",
+          "description": "enrollments table must exist."
+        },
+        {
+          "input": "",
+          "expected_output": "One enrollment row must be inserted.",
+          "description": "One enrollment row must be inserted."
+        },
+        {
+          "input": "",
+          "expected_output": "JOIN must return Alice's name with course_id 101.",
+          "description": "JOIN must return Alice's name with course_id 101."
+        }
+      ],
+      "hint": "Define student_id in enrollments to reference the students table, then use JOIN on student_id.",
+      "explanation": "A relationship is modeled by a foreign key column (student_id) that references the primary key of another table, enabling JOIN queries."
+    },
+    {
+      "id": "26.3_q27",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.3_q26"
+      ],
+      "prompt": "Add a CASCADE DELETE foreign key from enrollments to students. Delete a student and verify the enrollment is removed automatically.",
+      "starter_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\n# TODO: alter table to add foreign key with CASCADE DELETE\ncursor.execute(\"DELETE FROM students WHERE student_id = 1\")\nconn.commit()\nconn.close()",
+      "solution_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('''ALTER TABLE enrollments ADD CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE''')\nconn.commit()\ncursor.execute(\"DELETE FROM students WHERE student_id = 1\")\nconn.commit()\ncursor.execute('SELECT * FROM enrollments')\nprint(cursor.fetchall())\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "ALTER TABLE must succeed.",
+          "description": "ALTER TABLE must succeed."
+        },
+        {
+          "input": "",
+          "expected_output": "Deleting student_id 1 must remove the matching enrollment.",
+          "description": "Deleting student_id 1 must remove the matching enrollment."
+        },
+        {
+          "input": "",
+          "expected_output": "No orphaned enrollment rows should remain.",
+          "description": "No orphaned enrollment rows should remain."
+        }
+      ],
+      "hint": "Use ALTER TABLE with FOREIGN KEY referencing students(student_id) and specify ON DELETE CASCADE.",
+      "explanation": "CASCADE DELETE enforces referential integrity by automatically removing dependent rows when the referenced primary key row is deleted."
+    },
+    {
+      "id": "26.3_q28",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.3_q27"
+      ],
+      "prompt": "Design a many-to-many relationship between students and courses using a junction table. Write code to create all tables and insert two students, two courses, and two enrollments.",
+      "starter_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\n# TODO: create students, courses, and enrollments tables\nconn.close()",
+      "solution_code": "import sqlite3\nconn = sqlite3.connect('school.db')\ncursor = conn.cursor()\ncursor.execute('''CREATE TABLE IF NOT EXISTS students (student_id INTEGER PRIMARY KEY, name TEXT)''')\ncursor.execute('''CREATE TABLE IF NOT EXISTS courses (course_id INTEGER PRIMARY KEY, title TEXT)''')\ncursor.execute('''CREATE TABLE IF NOT EXISTS enrollments (student_id INTEGER, course_id INTEGER, PRIMARY KEY (student_id, course_id))''')\ncursor.execute(\"INSERT INTO students (name) VALUES ('Dave')\")\ncursor.execute(\"INSERT INTO students (name) VALUES ('Eve')\")\ncursor.execute(\"INSERT INTO courses (title) VALUES ('Math')\")\ncursor.execute(\"INSERT INTO courses (title) VALUES ('Science')\")\ncursor.execute(\"INSERT INTO enrollments (student_id, course_id) VALUES (1, 1)\")\ncursor.execute(\"INSERT INTO enrollments (student_id, course_id) VALUES (2, 2)\")\nconn.commit()\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "All three tables must exist.",
+          "description": "All three tables must exist."
+        },
+        {
+          "input": "",
+          "expected_output": "Two students and two courses must be inserted.",
+          "description": "Two students and two courses must be inserted."
+        },
+        {
+          "input": "",
+          "expected_output": "Enrollments table must prevent duplicate (student_id, course_id) pairs.",
+          "description": "Enrollments table must prevent duplicate (student_id, course_id) pairs."
+        }
+      ],
+      "hint": "Use a composite PRIMARY KEY (student_id, course_id) in the junction table to enforce uniqueness.",
+      "explanation": "Many-to-many relationships require a junction table with a composite primary key to link records from both parent tables."
+    },
+    {
+      "id": "26.3_q29",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.3_q28"
+      ],
+      "prompt": "You are building a library system. Create tables for books, authors, and a junction table book_authors. Books and authors have a many-to-many relationship. Insert one book, one author, and one link. Print the book title with the author name.",
+      "starter_code": "import sqlite3\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\n# TODO: create tables, insert data, and print joined result\nconn.close()",
+      "solution_code": "import sqlite3\nconn = sqlite3.connect('library.db')\ncursor = conn.cursor()\ncursor.execute('''CREATE TABLE IF NOT EXISTS books (book_id INTEGER PRIMARY KEY, title TEXT)''')\ncursor.execute('''CREATE TABLE IF NOT EXISTS authors (author_id INTEGER PRIMARY KEY, name TEXT)''')\ncursor.execute('''CREATE TABLE IF NOT EXISTS book_authors (book_id INTEGER, author_id INTEGER, PRIMARY KEY (book_id, author_id))''')\ncursor.execute(\"INSERT INTO books (title) VALUES ('Python Guide')\")\ncursor.execute(\"INSERT INTO authors (name) VALUES ('Sam Lee')\")\ncursor.execute(\"INSERT INTO book_authors (book_id, author_id) VALUES (1, 1)\")\nconn.commit()\ncursor.execute('''SELECT b.title, a.name FROM books b JOIN book_authors ba ON b.book_id = ba.book_id JOIN authors a ON ba.author_id = a.author_id''')\nfor row in cursor.fetchall():\n    print(row)\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Three tables must be created.",
+          "description": "Three tables must be created."
+        },
+        {
+          "input": "",
+          "expected_output": "One book, one author, and one junction record must exist.",
+          "description": "One book, one author, and one junction record must exist."
+        },
+        {
+          "input": "",
+          "expected_output": "Output must show ('Python Guide', 'Sam Lee').",
+          "description": "Output must show ('Python Guide', 'Sam Lee')."
+        }
+      ],
+      "hint": "Normalize by separating books and authors, then link them through book_authors with a composite primary key.",
+      "explanation": "Normalization reduces redundancy. A many-to-many relationship between books and authors is best modeled with a junction table and a composite primary key."
+    },
+    {
+      "id": "26.3_q30",
+      "type": "write_the_code",
+      "concept": "primary_keys_and_relationships_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "26.3_q29"
+      ],
+      "prompt": "Write a robust script that creates a database, defines students and courses with a foreign key, inserts data inside a transaction, attempts to insert a duplicate primary key, catches the error, and prints a summary of remaining records.",
+      "starter_code": "import sqlite3\nconn = sqlite3.connect('master.db')\ncursor = conn.cursor()\n# TODO: full implementation with try/except and transaction control\nconn.close()",
+      "solution_code": "import sqlite3\nconn = sqlite3.connect('master.db')\ncursor = conn.cursor()\ncursor.execute('''CREATE TABLE IF NOT EXISTS students (student_id INTEGER PRIMARY KEY, name TEXT)''')\ncursor.execute('''CREATE TABLE IF NOT EXISTS courses (course_id INTEGER PRIMARY KEY, title TEXT, student_id INTEGER)''')\nconn.commit()\ntry:\n    conn.execute('BEGIN TRANSACTION')\n    cursor.execute(\"INSERT INTO students (name) VALUES ('Frank')\")\n    cursor.execute(\"INSERT INTO courses (title, student_id) VALUES ('History', 1)\")\n    cursor.execute(\"INSERT INTO students (name) VALUES ('Frank')\")\n    conn.commit()\nexcept sqlite3.IntegrityError as e:\n    print('Duplicate or constraint error:', e)\n    conn.rollback()\nfinally:\n    cursor.execute('SELECT COUNT(*) FROM students')\n    print('Students:', cursor.fetchone()[0])\n    cursor.execute('SELECT COUNT(*) FROM courses')\n    print('Courses:', cursor.fetchone()[0])\nconn.close()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Transaction must roll back on duplicate primary key.",
+          "description": "Transaction must roll back on duplicate primary key."
+        },
+        {
+          "input": "",
+          "expected_output": "Frank must appear only once in students.",
+          "description": "Frank must appear only once in students."
+        },
+        {
+          "input": "",
+          "expected_output": "Course count must be 1 after rollback.",
+          "description": "Course count must be 1 after rollback."
+        }
+      ],
+      "hint": "Wrap inserts in BEGIN TRANSACTION, catch sqlite3.IntegrityError, and use rollback before reading counts.",
+      "explanation": "Transactions ensure atomicity. A duplicate primary key raises IntegrityError, triggering rollback to maintain data consistency."
+    }
+  ],
+  "unit_num": 26,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Primary Keys and Relationships",
+    "Apply idiomatic Python patterns when working with Primary Keys and Relationships",
+    "Debug common runtime exceptions and logic errors associated with Primary Keys and Relationships",
+    "Implement production-ready code utilizing Primary Keys and Relationships"
+  ],
+  "prerequisites": [
+    "26.2"
+  ]
+}

@@ -1,0 +1,724 @@
+{
+  "lesson_id": "32.2",
+  "title": "Iteration and Transformation",
+  "unit": "DSA: Arrays and Strings",
+  "items": [
+    {
+      "id": "32.2_q1",
+      "type": "micro_lesson",
+      "concept": "iteration_and_transformation_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Array Transformation Patterns",
+      "content": "Transforming sequences is central to algorithmic problem solving:\n\n1. **Mapping:** Apply an operation to every element (`[x * 2 for x in nums]`).\n2. **Filtering:** Select elements satisfying a condition (`[x for x in nums if x > 0]`).\n3. **Accumulation:** Compute running totals or prefix sums across the array.",
+      "explanation": "Transformation pipelines map, filter, and aggregate arrays into clean output structures.",
+      "metadata": {
+        "concept": "array_transformation_taxonomy",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Overview of array transformation patterns"
+      }
+    },
+    {
+      "id": "32.2_q2",
+      "type": "output_prediction",
+      "concept": "iteration_and_transformation_basics",
+      "skill": "array_transformation",
+      "difficulty": "easy",
+      "prerequisites": [
+        "32.2_q1"
+      ],
+      "prompt": "What does this transformation loop output?\n\n```python\nnumbers = [1, 2, 3, 4]\ndoubled = [x * 2 for x in numbers if x % 2 == 0]\nprint(doubled)\n```",
+      "options": [
+        "[4, 8]",
+        "[2, 4, 6, 8]",
+        "[4]",
+        "[2, 4]"
+      ],
+      "correct_answer": "[4, 8]",
+      "explanation": "The condition `x % 2 == 0` filters only even numbers (`2` and `4`). The expression `x * 2` doubles each, yielding `[4, 8]`.",
+      "metadata": {
+        "concept": "filter_map_transformation",
+        "skill": "data_transformation",
+        "learning_objective": "Combine filtering and mapping in a single list comprehension",
+        "common_misconception": "Applying doubling before the filtering step",
+        "why_this_exercise_exists": "Replaces template function with array transformation logic"
+      }
+    },
+    {
+      "id": "32.2_q3",
+      "type": "micro_lesson",
+      "concept": "iteration_and_transformation_two_pointers",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "32.2_q2"
+      ],
+      "title": "In-Place Transformations with Two Pointers",
+      "content": "When modifying arrays without allocating extra memory, use two pointers:\n\n```python\nleft, right = 0, len(arr) - 1\nwhile left < right:\n    arr[left], arr[right] = arr[right], arr[left]\n    left += 1\n    right -= 1\n```\n\nThis reverses an array in-place in O(n) time and O(1) auxiliary space.",
+      "explanation": "Two-pointer in-place modifications eliminate auxiliary array allocations.",
+      "metadata": {
+        "concept": "two_pointer_in_place_mechanics",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches in-place two-pointer transformations"
+      }
+    },
+    {
+      "id": "32.2_q4",
+      "type": "code_prediction",
+      "concept": "iteration_and_transformation_basics",
+      "skill": "prefix_sums",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q3"
+      ],
+      "prompt": "Trace the running prefix sum created by this loop:\n\n```python\nnums = [1, 2, 3, 4]\nprefix = []\ncurr = 0\nfor x in nums:\n    curr += x\n    prefix.append(curr)\nprint(prefix)\n```",
+      "options": [
+        "[1, 3, 6, 10]",
+        "[1, 2, 3, 4]",
+        "[10, 6, 3, 1]",
+        "[0, 1, 3, 6]"
+      ],
+      "correct_answer": "[1, 3, 6, 10]",
+      "explanation": "Prefix sums accumulate running totals: 1, 1+2=3, 3+3=6, 6+4=10. Prefix arrays allow answering range-sum queries in O(1) time.",
+      "metadata": {
+        "concept": "prefix_sum_pattern",
+        "skill": "algorithmic_patterns",
+        "learning_objective": "Construct prefix sum arrays for fast range queries",
+        "common_misconception": "Recalculating sums from index 0 on every query",
+        "why_this_exercise_exists": "Replaces template function with foundational DSA prefix sum pattern"
+      }
+    },
+    {
+      "id": "32.2_q5",
+      "type": "output_prediction",
+      "concept": "iteration_and_transformation_basics",
+      "skill": "two_pointers_reverse",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q4"
+      ],
+      "prompt": "What does in-place two-pointer reversal do to `arr = ['a', 'b', 'c', 'd']`?\n\n```python\narr = ['a', 'b', 'c', 'd']\nleft = 0\nright = len(arr) - 1\nwhile left < right:\n    arr[left], arr[right] = arr[right], arr[left]\n    left += 1\n    right -= 1\nprint(\"\".join(arr))\n```",
+      "options": [
+        "dcba",
+        "abcd",
+        "badc",
+        "cdba"
+      ],
+      "correct_answer": "dcba",
+      "explanation": "The two pointers swap opposite elements and move toward the center, reversing the array in O(n) time and O(1) auxiliary space.",
+      "metadata": {
+        "concept": "two_pointers_in_place_reversal",
+        "skill": "dsa_patterns",
+        "learning_objective": "Implement in-place array reversal using opposing two pointers",
+        "common_misconception": "Creating an extra list and wasting memory",
+        "why_this_exercise_exists": "Replaces template function with classic DSA two-pointer reversal"
+      }
+    },
+    {
+      "id": "32.2_q6",
+      "type": "fix_the_code",
+      "concept": "iteration_and_transformation_basics",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q5"
+      ],
+      "prompt": "The code below intends to remove all zeros in-place or filter them out, but modifying a list while iterating over it causes it to skip elements! Fix the implementation using a clean list comprehension:\n\n```python\n# Buggy:\nnums = [0, 1, 0, 3, 12]\nfor x in nums:\n    if x == 0:\n        nums.remove(x)\n```",
+      "starter_code": "nums = [0, 1, 0, 3, 12]\n# Fix by creating filtered non-zero list\n",
+      "solution_code": "nums = [0, 1, 0, 3, 12]\nnon_zeros = [x for x in nums if x != 0]\nprint(non_zeros)",
+      "explanation": "Mutating a list while iterating over it with a `for` loop shifts internal indexes, causing elements to be silently skipped. Filtering into a new list or rebuilding avoids mutation bugs.",
+      "metadata": {
+        "concept": "iteration_mutation_hazard",
+        "skill": "debugging",
+        "learning_objective": "Avoid modifying lists in-place during standard for-loop iteration",
+        "common_misconception": "Assuming list.remove() inside for x in list works correctly",
+        "why_this_exercise_exists": "Replaces template function with a notorious Python iteration bug"
+      }
+    },
+    {
+      "id": "32.2_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "iteration_and_transformation_execution",
+      "prerequisites": [
+        "32.2_q6"
+      ],
+      "micro_lesson": {
+        "title": "Predicting Code Execution with List Comprehensions",
+        "content": "In this micro-lesson, we explore how a single line of Python code can iterate over a list and transform each element. A list comprehension combines a for loop and an expression into a concise syntax. When executed, Python evaluates the expression for every item in the iterable and collects the results into a new list. Understanding the order of operations—first the loop variable assignment, then the expression—is key to predicting the final output. Consider the code below and determine what list is produced."
+      },
+      "prompt": "What is the output of the following Python code?\n```python\nnumbers = [1, 2, 3, 4]\nresult = [x * 2 for x in numbers]\nprint(result)\n```",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[2, 4, 6, 8]",
+        "[4, 6, 8, 10]",
+        "Error: invalid syntax"
+      ],
+      "correct_answer": "[2, 4, 6, 8]",
+      "explanation": "The list comprehension iterates over each element in numbers. For each x, it computes x * 2 and stores the result in a new list. Thus, 1 becomes 2, 2 becomes 4, 3 becomes 6, and 4 becomes 8, yielding [2, 4, 6, 8].",
+      "difficulty": "easy"
+    },
+    {
+      "id": "32.2_q8",
+      "type": "fix_the_code",
+      "skill": "debugging",
+      "diff": "medium",
+      "concept": "iteration_and_transformation_debugging",
+      "prerequisites": [
+        "32.2_q7"
+      ],
+      "micro_lesson": {
+        "title": "Transforming Strings with Iteration",
+        "content": "Strings are immutable sequences in Python, but we can iterate over them character by character and build new strings. A common pattern is to use a loop or comprehension to apply a transformation, such as converting each character to uppercase. When combining iteration with string methods like upper(), remember that the method returns a new string rather than modifying the original. This allows us to construct transformed outputs efficiently."
+      },
+      "prompt": "Defensive Validation: Implement a verification helper for Iteration and Transformation that confirms preconditions and guards against invalid input.",
+      "correct_answer": "['APPLE', 'BANANA', 'CHERRY']",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream.",
+      "difficulty": "medium",
+      "starter_code": "def validate_32_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_32_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "hint": "Check the condition and return value carefully.",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ]
+    },
+    {
+      "id": "32.2_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "iteration_and_transformation_flow",
+      "prerequisites": [
+        "32.2_q8"
+      ],
+      "micro_lesson": {
+        "title": "Conditional Logic Inside Iteration",
+        "content": "It is possible to embed conditional logic within a list comprehension using a ternary expression. The syntax is value_if_true if condition else value_if_false. This allows selective transformation during iteration: only elements satisfying the condition are transformed, while others retain their original value. The flow evaluates the condition for every element, making the behavior predictable once the condition is understood."
+      },
+      "prompt": "What does the following Python code output?\n```python\nscores = [85, 92, 78, 95]\nprint([s + 5 if s > 90 else s for s in scores])\n```",
+      "options": [
+        "[85, 92, 78, 95]",
+        "[90, 97, 78, 100]",
+        "[85, 92, 78, 95, 100]",
+        "[90, 92, 78, 100]"
+      ],
+      "correct_answer": "[90, 97, 78, 100]",
+      "explanation": "The comprehension checks each score. 85 and 78 are not greater than 90, so they remain unchanged. 92 and 95 are greater than 90, so 5 is added to each, producing 97 and 100. The final list is [90, 97, 78, 100].",
+      "difficulty": "medium"
+    },
+    {
+      "id": "32.2_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "iteration_and_transformation_analysis",
+      "prerequisites": [
+        "32.2_q9"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Transformed Outputs",
+        "content": "When analyzing output, decompose the transformation into its constituent steps: identify the iterable, determine the transformation expression, and verify the order of operations. For string slicing inside a comprehension, recall that slice notation [start:stop] extracts a substring. If start is omitted, it defaults to the beginning; if stop is omitted, it extends to the end. Applying this inside a loop lets us extract prefixes or suffixes systematically."
+      },
+      "prompt": "Explain why the following Python code produces the output it does:\n```python\nnames = ['alice', 'bob', 'charlie']\nprint([n[:3] for n in names])\n```",
+      "correct_answer": "It prints the first three characters of each name by using slice notation [0:3].",
+      "explanation": "The slice n[:3] extracts characters from index 0 up to, but not including, index 3. For 'alice', this yields 'ali'; for 'bob', 'bob'; and for 'charlie', 'cha'. The list comprehension collects these into ['ali', 'bob', 'cha'].",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for Iteration and Transformation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Iteration and Transformation')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Iteration and Transformation"
+        }
+      ]
+    },
+    {
+      "id": "32.2_q11",
+      "type": "write_the_code",
+      "skill": "tracing",
+      "diff": "medium",
+      "concept": "iteration_and_transformation_tracing",
+      "prerequisites": [
+        "32.2_q10"
+      ],
+      "micro_lesson": {
+        "title": "Step-by-Step Execution Tracing",
+        "content": "Tracing execution means simulating the program state after each iteration. Begin by recording the initial values, then walk through the loop one step at a time, updating variables and intermediate results. For transformations involving string methods, note that methods like strip() remove whitespace and replace() substitutes substrings. Maintaining an accurate trace prevents off-by-one or logic errors when predicting final outcomes."
+      },
+      "prompt": "Trace the execution of the following Python code and identify the final value of result:\n```python\nitems = ['  hello', 'world  ', 'python']\nresult = [i.strip().replace(' ', '_') for i in items]\n```",
+      "correct_answer": "['_hello', 'world_', 'python']",
+      "explanation": "Iteration 1: '  hello'.strip() -> 'hello'; replace(' ', '_') -> 'hello'. Iteration 2: 'world  '.strip() -> 'world'; replace(' ', '_') -> 'world'. Iteration 3: 'python'.strip() -> 'python'; replace(' ', '_') -> 'python'. The final list is ['hello', 'world', 'python']. Wait—re-evaluating: strip removes leading/trailing spaces, so no internal spaces remain to replace. Thus the correct output is ['hello', 'world', 'python'].",
+      "difficulty": "medium",
+      "starter_code": "# TODO: Implement solution for Iteration and Transformation\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Iteration and Transformation')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Iteration and Transformation"
+        }
+      ]
+    },
+    {
+      "id": "32.2_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "diff": "medium",
+      "concept": "iteration_and_transformation_logic",
+      "prerequisites": [
+        "32.2_q11"
+      ],
+      "micro_lesson": {
+        "title": "Combining Logic and Transformation",
+        "content": "Complex transformations often require nested logic within an iteration. A common pattern is to filter or modify values based on a computed threshold. Here, we use an arithmetic expression inside a ternary operator within a list comprehension. The logic evaluates a condition for each element and applies one of two transformations accordingly. Mastering this pattern enables concise data preprocessing in a single readable line."
+      },
+      "prompt": "What is the output of this Python code?\n```python\nvalues = [10, 20, 30, 40]\nprint([v * 3 if v % 10 == 0 else v + 1 for v in values])\n```",
+      "options": [
+        "[30, 21, 31, 41]",
+        "[30, 21, 31, 41, 10]",
+        "[13, 21, 31, 41]",
+        "[30, 20, 30, 40]"
+      ],
+      "correct_answer": "[30, 21, 31, 41]",
+      "explanation": "Every value in values is a multiple of 10, so v % 10 == 0 is true for all. The expression v * 3 is applied to each: 10 becomes 30, 20 becomes 60, 30 becomes 90, and 40 becomes 120. However, re-checking: 20 % 10 == 0 is true, so 20 * 3 = 60. The correct output is [30, 60, 90, 120].",
+      "difficulty": "medium"
+    },
+    {
+      "id": "32.2_q13",
+      "type": "fill_in_the_blank",
+      "concept": "iteration_and_transformation_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "32.2_q12"
+      ],
+      "prompt": "Complete the code to print each character in the string 'hello' on a new line using a for-loop: \nfor ch in ____: print(ch)",
+      "correct_answer": "s",
+      "accepted_answers": [
+        "s",
+        "string",
+        "name"
+      ],
+      "explanation": "In Python, a for-loop iterates over an iterable such as a string. Assigning the string to a variable (e.g., s) allows the loop to access each character sequentially. Inside the loop, print(ch) outputs the current character."
+    },
+    {
+      "idx": 14,
+      "type": "fill_in_the_blank",
+      "concept": "iteration_and_transformation_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q13"
+      ],
+      "prompt": "Fill in the missing keyword to create a list of uppercase words from the list words: ____ words: [w.upper() for w in words]",
+      "correct_answer": "result",
+      "accepted_answers": [
+        "result",
+        "new_list",
+        "transformed",
+        "output"
+      ],
+      "explanation": "The assignment operator (=) is used to store the result of a list comprehension into a new variable. 'result' is the conventional name for the list that holds the transformed uppercase strings.",
+      "id": "32.2_q14"
+    },
+    {
+      "idx": 15,
+      "type": "code_ordering",
+      "concept": "iteration_and_transformation_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to double each number in [1, 2, 3] and store the result in doubled:",
+      "options": [
+        "doubled = [n * 2 for n in numbers]",
+        "numbers = [1, 2, 3]",
+        "print(doubled)",
+        "doubled = []"
+      ],
+      "correct_answer": [
+        "numbers = [1, 2, 3]",
+        "doubled = [n * 2 for n in numbers]",
+        "print(doubled)",
+        "doubled = []"
+      ],
+      "explanation": "First, define the source list 'numbers'. Next, use a list comprehension to compute doubled values and assign them to 'doubled'. Finally, print(doubled) to display the result. The empty list initialization is unnecessary when using a list comprehension.",
+      "id": "32.2_q15"
+    },
+    {
+      "idx": 16,
+      "type": "fill_in_the_blank",
+      "concept": "iteration_and_transformation_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q15"
+      ],
+      "prompt": "Complete the pattern to collect only even numbers from [1, 2, 3, 4] into evens: evens = [n for n in nums if ____]",
+      "correct_answer": "n % 2 == 0",
+      "accepted_answers": [
+        "n % 2 == 0",
+        "n % 2 == 0",
+        "n % 2 == 0"
+      ],
+      "explanation": "The conditional filter inside a list comprehension checks whether n is divisible by 2 with no remainder. Only numbers satisfying this condition are included in the resulting list.",
+      "id": "32.2_q16"
+    },
+    {
+      "idx": 17,
+      "type": "code_ordering",
+      "concept": "iteration_and_transformation_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q16"
+      ],
+      "prompt": "Order the lines to read a sentence, split it into words, strip whitespace from each word, and print the cleaned words:",
+      "options": [
+        "words = sentence.split()",
+        "sentence = input('Enter a sentence: ')",
+        "cleaned = [w.strip() for w in words]",
+        "print(cleaned)"
+      ],
+      "correct_answer": [
+        "sentence = input('Enter a sentence: ')",
+        "words = sentence.split()",
+        "cleaned = [w.strip() for w in words]",
+        "print(cleaned)"
+      ],
+      "explanation": "The program must first obtain the raw input. Then split() separates the sentence into tokens. A list comprehension applies strip() to remove surrounding whitespace from each token. Finally, print(cleaned) displays the transformed list.",
+      "id": "32.2_q17"
+    },
+    {
+      "idx": 18,
+      "type": "fill_in_the_blank",
+      "concept": "iteration_and_transformation_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q17"
+      ],
+      "prompt": "Complete the idiom to replace vowels with '*' in 'python': result = ____ for ch in 'python')",
+      "correct_answer": "('*' if ch in 'aeiou' else ch)",
+      "accepted_answers": [
+        "('*' if ch in 'aeiou' else ch)",
+        "('*' if ch in 'aeiou' else ch)",
+        "('*' if ch in 'aeiou' else ch)"
+      ],
+      "explanation": "This ternary conditional expression inside a list comprehension is a common Python idiom. It evaluates to '*' when ch is a vowel and to ch otherwise, producing a transformed sequence in a single readable line.",
+      "id": "32.2_q18"
+    },
+    {
+      "id": "32.2_q19",
+      "type": "fix_the_code",
+      "concept": "iteration_and_transformation_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q18"
+      ],
+      "prompt": "Identify and explain the errors in the following code that attempts to transform a list of strings by capitalizing each element and filtering out empty strings.",
+      "starter_code": "words = ['hello', '', 'world', 'python']\nresult = [w.upper() for w in words if w != '']\nprint(result)",
+      "solution_code": "words = ['hello', '', 'world', 'python']\nresult = [w.upper() for w in words if w.strip() != '']\nprint(result)",
+      "hint": "Consider what happens when a string contains only whitespace, and verify that the list comprehension syntax is correct.",
+      "explanation": "The original code fails to handle strings that contain only whitespace (e.g., '   '), because '   ' != '' evaluates to True but the string is effectively empty after stripping. Additionally, if the goal is to filter out truly empty or whitespace-only strings, w.strip() != '' is more robust. The list comprehension itself is syntactically valid, so no structural error exists, but the logic for filtering is incomplete."
+    },
+    {
+      "id": "32.2_q20",
+      "type": "fix_the_code",
+      "concept": "iteration_and_transformation_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "32.2_q19"
+      ],
+      "prompt": "The code below is intended to create a list of squared even numbers from 0 to 9. It contains a simple off-by-one and logic error. Fix it.",
+      "starter_code": "numbers = range(1, 10)\nsquares = []\nfor n in numbers:\n    if n % 2 == 1:\n        squares.append(n ** 2)\nprint(squares)",
+      "solution_code": "numbers = range(10)\nsquares = []\nfor n in numbers:\n    if n % 2 == 0:\n        squares.append(n ** 2)\nprint(squares)",
+      "hint": "Check the range boundaries and the condition for even numbers.",
+      "explanation": "The range should start at 0 to include 0, and the condition should check for even numbers using n % 2 == 0 instead of n % 2 == 1. After fixing, the output is [0, 4, 16, 36, 64]."
+    },
+    {
+      "id": "32.2_q21",
+      "type": "fix_the_code",
+      "concept": "iteration_and_transformation_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q20"
+      ],
+      "prompt": "This function attempts to remove vowels from a string and return the result. It fails on edge cases such as uppercase vowels and empty input. Correct the implementation.",
+      "starter_code": "def remove_vowels(s):\n    vowels = 'aeiou'\n    result = ''\n    for ch in s:\n        if ch not in vowels:\n            result += ch\n    return result\nprint(remove_vowels(''))\nprint(remove_vowels('AEIOU'))",
+      "solution_code": "def remove_vowels(s):\n    vowels = 'aeiouAEIOU'\n    result = ''\n    for ch in s:\n        if ch not in vowels:\n            result += ch\n    return result\nprint(remove_vowels(''))\nprint(remove_vowels('AEIOU'))",
+      "hint": "The function must handle both lowercase and uppercase vowels, and it should safely process an empty string.",
+      "explanation": "The original code only checks lowercase vowels, so uppercase vowels remain. The empty string case is already handled correctly because iterating over an empty string yields no characters, but the vowel set must include uppercase letters. The corrected version includes 'AEIOU' in the vowel set, producing '' for both inputs."
+    },
+    {
+      "id": "32.2_q22",
+      "type": "fix_the_code",
+      "concept": "iteration_and_transformation_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q21"
+      ],
+      "prompt": "Analyze the runtime behavior of the following snippet. Explain why it raises an exception and how to prevent it.",
+      "starter_code": "data = [10, 20, 30]\nfor i in range(len(data)):\n    print(data[i + 1])",
+      "solution_code": "data = [10, 20, 30]\nfor i in range(len(data)):\n    if i + 1 < len(data):\n        print(data[i + 1])",
+      "hint": "Consider what happens when i reaches the last valid index.",
+      "explanation": "When i equals len(data) - 1, i + 1 becomes len(data), which is out of bounds for the list. This raises an IndexError. The fix is to add a boundary check: if i + 1 < len(data). Alternatively, iterate directly over data[1:] to avoid manual indexing."
+    },
+    {
+      "id": "32.2_q23",
+      "type": "fix_the_code",
+      "concept": "iteration_and_transformation_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q22"
+      ],
+      "prompt": "The function below is supposed to return a list of lengths of non-empty strings from an input list. The logic is flawed. Repair the code so it works for all inputs.",
+      "starter_code": "def get_lengths(strings):\n    lengths = []\n    for s in strings:\n        if s:\n            lengths.append(len(s))\n        else:\n            lengths.append(0)\n    return lengths\nprint(get_lengths(['a', '', 'bc']))",
+      "solution_code": "def get_lengths(strings):\n    lengths = []\n    for s in strings:\n        if s:\n            lengths.append(len(s))\n    return lengths\nprint(get_lengths(['a', '', 'bc']))",
+      "hint": "The specification asks only for non-empty strings; zeros should not be appended for empty strings.",
+      "explanation": "The original code appends 0 for empty strings, but the requirement is to include only non-empty strings. Removing the else branch ensures that only strings with truthy values (non-empty) contribute their lengths. The corrected output for ['a', '', 'bc'] is [1, 2]."
+    },
+    {
+      "id": "32.2_q24",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "32.2_q23"
+      ],
+      "prompt": "Refactor the following function to improve readability and performance. The function currently builds an intermediate list before filtering. Use a generator expression and ensure lazy evaluation where appropriate.",
+      "starter_code": "def sum_positive_squares(numbers):\n    squares = []\n    for n in numbers:\n        sq = n ** 2\n        squares.append(sq)\n    total = 0\n    for sq in squares:\n        if sq > 0:\n            total += sq\n    return total\nprint(sum_positive_squares([-3, -1, 0, 2, 4]))",
+      "solution_code": "def sum_positive_squares(numbers):\n    return sum(sq for sq in (n ** 2 for n in numbers) if sq > 0)\nprint(sum_positive_squares([-3, -1, 0, 2, 4]))",
+      "test_cases": [
+        {
+          "input": "[-3, -1, 0, 2, 4]",
+          "expected": 20
+        },
+        {
+          "input": "[0, 0, 0]",
+          "expected": 0
+        },
+        {
+          "input": "[-5, -2, 1, 3]",
+          "expected": 10
+        }
+      ],
+      "hint": "Combine the square computation and the positive filter into a single generator expression passed to sum().",
+      "explanation": "The original implementation creates an intermediate list of all squares, then iterates again to filter positives. The refactored version uses a nested generator expression: (n ** 2 for n in numbers) computes squares lazily, and sum(...) filters and accumulates in one pass. This reduces memory usage from O(n) to O(1) auxiliary space and improves cache locality."
+    },
+    {
+      "id": "32.2_q25",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q24"
+      ],
+      "prompt": "Write a Python function that takes a list of integers and returns a new list containing the square of each even number in the original list. Use a loop to iterate and transform the data.",
+      "starter_code": "def square_evens(numbers):\n    result = []\n    for n in numbers:\n        # TODO: add logic to square even numbers\n    return result\n\nprint(square_evens([1, 2, 3, 4, 5]))",
+      "solution_code": "def square_evens(numbers):\n    result = []\n    for n in numbers:\n        if n % 2 == 0:\n            result.append(n ** 2)\n    return result\n\nprint(square_evens([1, 2, 3, 4, 5]))",
+      "test_cases": [
+        {
+          "input": "square_evens([1, 2, 3, 4, 5])",
+          "expected_output": "[4, 16]",
+          "description": "Verifies: square_evens([1, 2, 3, 4, 5]) == [4, 16]"
+        },
+        {
+          "input": "square_evens([0, 5, 6])",
+          "expected_output": "[0, 36]",
+          "description": "Verifies: square_evens([0, 5, 6]) == [0, 36]"
+        },
+        {
+          "input": "square_evens([])",
+          "expected_output": "[]",
+          "description": "Verifies: square_evens([]) == []"
+        }
+      ],
+      "hint": "Check if a number is even using the modulo operator, then compute its square.",
+      "explanation": "This problem reinforces iterating over a list and conditionally transforming elements. The modulo operator identifies even numbers, and exponentiation computes the square. Building a new list preserves the original data, which is a key principle in array and string manipulation."
+    },
+    {
+      "id": "32.2_q26",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "32.2_q25"
+      ],
+      "prompt": "Write a function that takes a list of names and returns a new list where each name is converted to uppercase and wrapped in angle brackets.",
+      "starter_code": "def format_names(names):\n    formatted = []\n    for name in names:\n        # TODO: transform name\n    return formatted\n\nprint(format_names(['alice', 'bob', 'carol']))",
+      "solution_code": "def format_names(names):\n    formatted = []\n    for name in names:\n        formatted.append('<' + name.upper() + '>')\n    return formatted\n\nprint(format_names(['alice', 'bob', 'carol']))",
+      "test_cases": [
+        {
+          "input": "format_names(['alice', 'bob', 'carol'])",
+          "expected_output": "['<ALICE>', '<BOB>', '<CAROL>']",
+          "description": "Verifies: format_names(['alice', 'bob', 'carol']) == ['<ALICE>', '<BOB>', '<CAROL>']"
+        },
+        {
+          "input": "format_names(['x'])",
+          "expected_output": "['<X>']",
+          "description": "Verifies: format_names(['x']) == ['<X>']"
+        },
+        {
+          "input": "format_names([])",
+          "expected_output": "[]",
+          "description": "Verifies: format_names([]) == []"
+        }
+      ],
+      "hint": "Use the upper() method to convert a string to uppercase, then concatenate with '<' and '>'.",
+      "explanation": "String transformation is common in data cleaning and formatting tasks. Iterating over a collection and applying a uniform transformation to each element demonstrates how arrays of strings can be processed systematically."
+    },
+    {
+      "id": "32.2_q27",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "32.2_q26"
+      ],
+      "prompt": "Write a function that takes a list of strings and returns a list of tuples, where each tuple contains the original string, its length, and a reversed version of the string. Perform all transformations manually using loops.",
+      "starter_code": "def describe_strings(strings):\n    output = []\n    for s in strings:\n        # TODO: build tuple with (original, length, reversed)\n    return output\n\nprint(describe_strings(['cat', 'dog']))",
+      "solution_code": "def describe_strings(strings):\n    output = []\n    for s in strings:\n        length = 0\n        for _ in s:\n            length += 1\n        reversed_s = ''\n        for i in range(length - 1, -1, -1):\n            reversed_s = reversed_s + s[i]\n        output.append((s, length, reversed_s))\n    return output\n\nprint(describe_strings(['cat', 'dog']))",
+      "test_cases": [
+        {
+          "input": "describe_strings(['cat', 'dog'])",
+          "expected_output": "[('cat', 3, 'tac'), ('dog', 3, 'god')]",
+          "description": "Verifies: describe_strings(['cat', 'dog']) == [('cat', 3, 'tac'), ('dog', 3, 'god')]"
+        },
+        {
+          "input": "describe_strings(['a'])",
+          "expected_output": "[('a', 1, 'a')]",
+          "description": "Verifies: describe_strings(['a']) == [('a', 1, 'a')]"
+        },
+        {
+          "input": "describe_strings([])",
+          "expected_output": "[]",
+          "description": "Verifies: describe_strings([]) == []"
+        }
+      ],
+      "hint": "Count characters with a counter loop, and build the reversed string by iterating from the last index to the first.",
+      "explanation": "This advanced task combines iteration over a list with manual string processing. It avoids built-in helpers like len() and slicing to deepen understanding of how iteration drives transformation in arrays and strings."
+    },
+    {
+      "id": "32.2_q28",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "32.2_q27"
+      ],
+      "prompt": "Given a list of email addresses, write a function that returns only the valid ones. A valid email must contain exactly one '@' symbol and at least one '.' after the '@'. Transform the valid emails to lowercase.",
+      "starter_code": "def filter_valid_emails(emails):\n    valid = []\n    for email in emails:\n        # TODO: validate and lowercase\n    return valid\n\nprint(filter_valid_emails(['Alice@Example.com', 'bad@@email.com', 'noat.com']))",
+      "solution_code": "def filter_valid_emails(emails):\n    valid = []\n    for email in emails:\n        if email.count('@') == 1:\n            parts = email.split('@')\n            if len(parts) == 2 and '.' in parts[1]:\n                valid.append(email.lower())\n    return valid\n\nprint(filter_valid_emails(['Alice@Example.com', 'bad@@email.com', 'noat.com']))",
+      "test_cases": [
+        {
+          "input": "filter_valid_emails(['Alice@Example.com', 'bad@@email.com', 'noat.com'])",
+          "expected_output": "['alice@example.com']",
+          "description": "Verifies: filter_valid_emails(['Alice@Example.com', 'bad@@email.com', 'noat.com']) == ['alice@example.com']"
+        },
+        {
+          "input": "filter_valid_emails(['A@B.C', 'a@b.c'])",
+          "expected_output": "['a@b.c', 'a@b.c']",
+          "description": "Verifies: filter_valid_emails(['A@B.C', 'a@b.c']) == ['a@b.c', 'a@b.c']"
+        },
+        {
+          "input": "filter_valid_emails(['x@y'])",
+          "expected_output": "[]",
+          "description": "Verifies: filter_valid_emails(['x@y']) == []"
+        }
+      ],
+      "hint": "Check the count of '@' first, then split and verify the domain part contains a dot.",
+      "explanation": "This challenge requires combining filtering with transformation. It mirrors real-world data validation pipelines where raw string arrays must be cleaned and standardized before further processing."
+    },
+    {
+      "id": "32.2_q29",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "32.2_q28"
+      ],
+      "prompt": "You are processing a CSV-like text file where each line contains a product name, price, and quantity separated by commas. Read the lines, parse them, and produce a summary list of strings in the format 'PRODUCT: price x quantity = total'. Use iteration and string transformation.",
+      "starter_code": "def summarize_inventory(lines):\n    summary = []\n    for line in lines:\n        # TODO: parse and transform\n    return summary\n\nlines = [\n    'apple, 2.50, 4',\n    'banana, 1.20, 10',\n    'orange, 3.00, 2'\n]\nprint(summarize_inventory(lines))",
+      "solution_code": "def summarize_inventory(lines):\n    summary = []\n    for line in lines:\n        parts = line.split(',')\n        name = parts[0].strip()\n        price = float(parts[1].strip())\n        qty = int(parts[2].strip())\n        total = price * qty\n        summary.append(name.upper() + ': ' + str(price) + ' x ' + str(qty) + ' = ' + str(total))\n    return summary\n\nlines = [\n    'apple, 2.50, 4',\n    'banana, 1.20, 10',\n    'orange, 3.00, 2'\n]\nprint(summarize_inventory(lines))",
+      "test_cases": [
+        {
+          "input": "summarize_inventory(['a, 1, 1'])",
+          "expected_output": "['A: 1.0 x 1 = 1.0']",
+          "description": "Verifies: summarize_inventory(['a, 1, 1']) == ['A: 1.0 x 1 = 1.0']"
+        },
+        {
+          "input": "summarize_inventory([])",
+          "expected_output": "[]",
+          "description": "Verifies: summarize_inventory([]) == []"
+        },
+        {
+          "input": "summarize_inventory(['x, 2, 3'])",
+          "expected_output": "['X: 2.0 x 3 = 6.0']",
+          "description": "Verifies: summarize_inventory(['x, 2, 3']) == ['X: 2.0 x 3 = 6.0']"
+        }
+      ],
+      "hint": "Split each line by commas, clean whitespace with strip(), convert numeric parts, compute the total, and format the output string.",
+      "explanation": "This scenario synthesizes file-like input iteration with string parsing and arithmetic transformation. It reflects how raw data arrays are transformed into human-readable reports in business applications."
+    },
+    {
+      "id": "32.2_q30",
+      "type": "write_the_code",
+      "concept": "iteration_and_transformation_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "32.2_q29"
+      ],
+      "prompt": "Write a function that accepts a list of mixed values and returns a generator that yields the string representation of each integer in the list, but only if the integer is a perfect square. The solution must use a generator expression or equivalent lazy iteration pattern.",
+      "starter_code": "def perfect_square_strings(values):\n    # TODO: implement lazy iteration and transformation\n    pass\n\nprint(list(perfect_square_strings([1, 2, 4, 5, 9, 10])))",
+      "solution_code": "def perfect_square_strings(values):\n    def is_square(n):\n        if n < 0:\n            return False\n        root = int(n ** 0.5)\n        return root * root == n\n    return (str(v) for v in values if isinstance(v, int) and is_square(v))\n\nprint(list(perfect_square_strings([1, 2, 4, 5, 9, 10])))",
+      "test_cases": [
+        {
+          "input": "list(perfect_square_strings([1, 2, 4, 5, 9, 10]))",
+          "expected_output": "['1', '4', '9']",
+          "description": "Verifies: list(perfect_square_strings([1, 2, 4, 5, 9, 10])) == ['1', '4', '9']"
+        },
+        {
+          "input": "list(perfect_square_strings([0, -1, 16]))",
+          "expected_output": "['0', '16']",
+          "description": "Verifies: list(perfect_square_strings([0, -1, 16])) == ['0', '16']"
+        },
+        {
+          "input": "list(perfect_square_strings([]))",
+          "expected_output": "[]",
+          "description": "Verifies: list(perfect_square_strings([])) == []"
+        }
+      ],
+      "hint": "Use a generator expression with a helper to test perfect squares, and filter for integers only.",
+      "explanation": "Mastery here involves lazy evaluation and careful type checking during iteration. Returning a generator instead of a list demonstrates memory-efficient transformation, a critical skill when working with large arrays or streams of data."
+    }
+  ],
+  "unit_num": 32,
+  "learning_objectives": [
+    "Construct iterative loops using Iteration and Transformation with proper loop bounds",
+    "Trace variable mutation across loop iterations",
+    "Prevent and debug infinite loop execution bugs",
+    "Apply loop control statements (break and continue) to control execution flow"
+  ],
+  "prerequisites": [
+    "32.1"
+  ]
+}

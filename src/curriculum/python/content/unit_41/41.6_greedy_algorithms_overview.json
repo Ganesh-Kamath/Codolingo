@@ -1,0 +1,618 @@
+{
+  "lesson_id": "41.6",
+  "title": "Greedy Algorithms Overview",
+  "unit": "Algorithmic Patterns",
+  "items": [
+    {
+      "id": "41.6_q1",
+      "type": "micro_lesson",
+      "concept": "greedy_algorithms_overview_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is a Greedy Algorithm?",
+      "content": "A greedy algorithm is a problem-solving approach that makes the locally optimal choice at each step with the hope of finding a global optimum. In other words, it never reconsiders a decision once it has been made. This pattern is useful when a problem has the 'greedy choice property' and optimal substructure. For example, to make change with coins, a greedy strategy picks the largest denomination that does not exceed the remaining amount. Here is a simple Python illustration:\n\n```python\ndef make_change(amount, coins):\n    change = []\n    for coin in coins:\n        while amount >= coin:\n            change.append(coin)\n            amount -= coin\n    return change\n\nprint(make_change(63, [25, 10, 5, 1]))\n```\n\nThis code repeatedly selects the biggest available coin, demonstrating the greedy mindset.",
+      "prompt": "",
+      "explanation": "A greedy algorithm is a problem-solving approach that makes the locally optimal choice at each step with the hope of finding a global optimum. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "41.6_q2",
+      "type": "multiple_choice",
+      "concept": "greedy_algorithms_overview_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q1"
+      ],
+      "prompt": "Which of the following best describes a greedy algorithm?",
+      "options": [
+        "It explores all possible solutions before choosing the best one.",
+        "It makes the best choice at each step without reconsidering past decisions.",
+        "It always produces the optimal solution for every problem.",
+        "It uses recursion to break problems into smaller subproblems."
+      ],
+      "correct_answer": "It makes the best choice at each step without reconsidering past decisions.",
+      "explanation": "A greedy algorithm commits to the locally optimal choice at each stage. It does not backtrack or explore alternatives, which distinguishes it from dynamic programming or brute-force search."
+    },
+    {
+      "id": "41.6_q3",
+      "type": "micro_lesson",
+      "concept": "greedy_algorithms_overview_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q2"
+      ],
+      "title": "Greedy Syntax Patterns",
+      "content": "Implementing a greedy algorithm in Python usually involves sorting the input so that the most promising candidates appear first, then iterating through them and selecting whenever the current choice satisfies the remaining constraint. A common pattern is to maintain a running total and append valid items to a result list. Consider this skeleton:\n\n```python\ndef greedy_select(items, capacity):\n    items = sorted(items, reverse=True)\n    selected = []\n    current = 0\n    for item in items:\n        if current + item <= capacity:\n            selected.append(item)\n            current += item\n    return selected\n\nprint(greedy_select([4, 2, 7, 1], 8))\n```\n\nNotice how sorting in descending order lets the algorithm try the largest items first, which is the essence of the greedy step.",
+      "prompt": "",
+      "explanation": "Implementing a greedy algorithm in Python usually involves sorting the input so that the most promising candidates appear first, then iterating through them and selecting whenever the current choice satisfies the remaining constraint. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "41.6_q4",
+      "type": "multiple_choice",
+      "concept": "greedy_algorithms_overview_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q3"
+      ],
+      "prompt": "In the greedy_select function above, why do we sort items in reverse order?",
+      "options": [
+        "To ensure the smallest items are chosen first.",
+        "To try the largest items first so the greedy choice can be applied immediately.",
+        "To make the loop run faster.",
+        "Because Python requires descending order for lists."
+      ],
+      "correct_answer": "To try the largest items first so the greedy choice can be applied immediately.",
+      "explanation": "Sorting in reverse order places the biggest candidates at the front of the list. The greedy strategy then evaluates them first and picks any that fit within the remaining capacity."
+    },
+    {
+      "id": "41.6_q5",
+      "type": "multiple_choice",
+      "concept": "greedy_algorithms_overview_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q4"
+      ],
+      "prompt": "Match each scenario to the greedy strategy it illustrates.",
+      "options": [
+        "A: Change-making with coins; B: Activity selection by earliest finish time; C: Dijkstra's shortest path",
+        "A: Dijkstra's shortest path; B: Activity selection by earliest finish time; C: Change-making with coins",
+        "A: Activity selection by earliest finish time; B: Change-making with coins; C: Dijkstra's shortest path",
+        "A: Change-making with coins; B: Dijkstra's shortest path; C: Activity selection by earliest finish time"
+      ],
+      "correct_answer": "A: Change-making with coins; B: Activity selection by earliest finish time; C: Dijkstra's shortest path",
+      "explanation": "Change-making uses the largest denomination first. Activity selection picks the activity that finishes earliest. Dijkstra's algorithm greedily expands the closest unvisited node. These are classic textbook examples of greedy algorithms."
+    },
+    {
+      "id": "41.6_q6",
+      "type": "multiple_choice",
+      "concept": "greedy_algorithms_overview_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q5"
+      ],
+      "prompt": "Which statement correctly warns about a common pitfall of greedy algorithms?",
+      "options": [
+        "A greedy approach always yields the optimal solution for any problem.",
+        "A greedy approach can fail when local choices prevent the globally optimal solution.",
+        "Greedy algorithms are slower than brute-force methods on small inputs.",
+        "Greedy algorithms require sorting, which makes them unusable for large data."
+      ],
+      "correct_answer": "A greedy approach can fail when local choices prevent the globally optimal solution.",
+      "explanation": "The main danger of greedy algorithms is that a locally optimal decision may lead to a suboptimal overall result. For example, a greedy coin system might not produce the minimum number of coins for certain denominations. Therefore, one must verify that the greedy choice property holds before applying this pattern."
+    },
+    {
+      "id": "41.6_q7",
+      "type": "code_prediction",
+      "concept": "greedy_choice_property",
+      "skill": "understanding",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q6"
+      ],
+      "prompt": "In the context of Greedy Algorithms Overview, what is the primary behavior demonstrated here?\n```python\n# Greedy Algorithms Overview\nprint('greedy_choice_property')\n```",
+      "options": [
+        "greedy_choice_property",
+        "SyntaxError",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "greedy_choice_property",
+      "explanation": "This directly illustrates the standard behavior of greedy_choice_property: greedy works when optimal substructure and greedy-choice properties hold."
+    },
+    {
+      "id": "41.6_q8",
+      "type": "multiple_choice",
+      "concept": "greedy_choice_property_rules",
+      "skill": "reasoning",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q7"
+      ],
+      "prompt": "What is a core design principle when working with Greedy Algorithms Overview in Python?",
+      "options": [
+        "Greedy works when optimal substructure and greedy-choice properties hold",
+        "It bypasses all memory management constraints",
+        "It causes the interpreter to compile to C++ automatically",
+        "It can only be executed in interactive REPL mode"
+      ],
+      "correct_answer": "Greedy works when optimal substructure and greedy-choice properties hold",
+      "explanation": "Understanding this rule is essential: greedy works when optimal substructure and greedy-choice properties hold."
+    },
+    {
+      "id": "41.6_q9",
+      "type": "fix_the_code",
+      "concept": "greedy_choice_property_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q8"
+      ],
+      "prompt": "Fix this code snippet implementing Greedy Algorithms Overview correctly:",
+      "correct_answer": "45",
+      "explanation": "Applying standard Python idioms ensures correct behavior: greedy works when optimal substructure and greedy-choice properties hold.",
+      "starter_code": "# Greedy Algorithms Overview implementation\n___",
+      "solution_code": "# Greedy Algorithms Overview implementation\ndef min_coins(coins, amount):\n    coins.sort(reverse=True)\n    count = 0\n    for c in coins:\n        count += amount // c\n        amount %= c\n    return count"
+    },
+    {
+      "id": "41.6_q10",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q9"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Greedy Algorithms Overview. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Greedy Algorithms Overview\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Greedy Algorithms Overview ensures testable domain operations."
+    },
+    {
+      "id": "41.6_q11",
+      "type": "multiple_choice",
+      "concept": "greedy_choice_property_tradeoffs",
+      "skill": "evaluation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q10"
+      ],
+      "prompt": "Which common pitfall must programmers avoid when using Greedy Algorithms Overview?",
+      "options": [
+        "Misunderstanding edge cases related to: greedy works when optimal substructure and greedy-choice properties hold",
+        "Forgetting that Python does not support functions",
+        "Assuming integers are capped at 32 bits",
+        "Using lowercase variable names"
+      ],
+      "correct_answer": "Misunderstanding edge cases related to: greedy works when optimal substructure and greedy-choice properties hold",
+      "explanation": "Careful attention to requirements avoids common traps: greedy works when optimal substructure and greedy-choice properties hold."
+    },
+    {
+      "id": "41.6_q12",
+      "type": "write_the_code",
+      "concept": "greedy_choice_property_application",
+      "skill": "implementation",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q11"
+      ],
+      "prompt": "Write the canonical Python code statement for Greedy Algorithms Overview:",
+      "correct_answer": "60",
+      "explanation": "Canonical implementation: def min_coins(coins, amount):\n    coins.sort(reverse=True)\n    count = 0\n    for c in coins:\n        count += amount // c\n        amount %= c\n    return count. Greedy works when optimal substructure and greedy-choice properties hold.",
+      "starter_code": "# Complete the statement\n___",
+      "solution_code": "def min_coins(coins, amount):\n    coins.sort(reverse=True)\n    count = 0\n    for c in coins:\n        count += amount // c\n        amount %= c\n    return count"
+    },
+    {
+      "id": "41.6_q13",
+      "type": "fill_in_the_blank",
+      "concept": "greedy_algorithms_overview_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q12"
+      ],
+      "prompt": "Complete the code below to print the minimum of two numbers using a greedy choice:\n\ndef min_two(a, b):\n    if a < b:\n        return ____\n    return b",
+      "correct_answer": "a",
+      "accepted_answers": [
+        "a",
+        "a"
+      ],
+      "explanation": "A greedy algorithm makes the locally optimal choice at each step. Here, we choose the smaller value immediately without exploring other options."
+    },
+    {
+      "id": "41.6_q14",
+      "type": "fill_in_the_blank",
+      "concept": "greedy_algorithms_overview_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q13"
+      ],
+      "prompt": "Fill in the blank with the correct keyword that ensures a greedy function always picks the best available option first:\n\ndef greedy_choice(options):\n    return ____(options)",
+      "correct_answer": "sorted",
+      "accepted_answers": [
+        "sorted",
+        "min",
+        "max",
+        "sorted"
+      ],
+      "explanation": "The sorted() function arranges elements in ascending order, allowing the greedy strategy to select the best (smallest or largest) element first."
+    },
+    {
+      "id": "41.6_q15",
+      "type": "code_ordering",
+      "concept": "greedy_algorithms_overview_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q14"
+      ],
+      "prompt": "Arrange the following lines in the correct order to implement a greedy coin change algorithm for US coins:\n\nLine A: change = 0\nLine B: coins = [25, 10, 5, 1]\nLine C: for coin in coins:\nLine D: while amount >= coin:\nLine E: amount -= coin\nLine F: change += 1\nLine G: print(change)",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The greedy coin change algorithm first defines the coin denominations (B), then iterates through them (C). For each coin, it uses as many as possible (D, E) and counts them (F). Finally, it initializes the counter (A) before the loop and prints the result (G)."
+    },
+    {
+      "id": "41.6_q16",
+      "type": "fill_in_the_blank",
+      "concept": "greedy_algorithms_overview_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q15"
+      ],
+      "prompt": "Complete the greedy pattern by filling the blank. The standard structure is: sort, then iterate and ____ at each step:\n\ndef greedy_pattern(data):\n    data = sorted(data)\n    result = []\n    for item in data:\n        result.append(____)\n    return result",
+      "correct_answer": "item",
+      "accepted_answers": [
+        "item",
+        "x",
+        "current",
+        "item"
+      ],
+      "explanation": "In a greedy pattern, after sorting, we process each element and append the current best choice (item) to the result list, building the solution incrementally."
+    },
+    {
+      "id": "41.6_q17",
+      "type": "code_ordering",
+      "concept": "greedy_algorithms_overview_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q16"
+      ],
+      "prompt": "Arrange the following lines to correctly implement the greedy activity selection algorithm that picks the maximum number of non-overlapping intervals:\n\nLine A: activities.sort(key=lambda x: x[1])\nLine B: selected = [activities[0]]\nLine C: last_end = activities[0][1]\nLine D: for act in activities[1:]:\nLine E: if act[0] >= last_end:\nLine F: selected.append(act)\nLine G: last_end = act[1]",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, sort activities by end time (A). Initialize the selected list with the first activity (B) and set last_end to its end time (C). Then iterate through remaining activities (D), check if the current activity starts after or at last_end (E), add it if valid (F), and update last_end (G)."
+    },
+    {
+      "id": "41.6_q18",
+      "type": "fill_in_the_blank",
+      "concept": "greedy_algorithms_overview_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q17"
+      ],
+      "prompt": "Fill in the blank to express the greedy idiom of selecting the best element from a sorted list using a common Python idiom:\n\ndef greedy_select(data):\n    data = sorted(data)\n    return ____",
+      "correct_answer": "data[0]",
+      "accepted_answers": [
+        "data[0]",
+        "data[-1]",
+        "data[len(data)//2]",
+        "data[0]"
+      ],
+      "explanation": "After sorting in ascending order, the greedy choice for the minimum element is the first item, accessed via data[0]. For maximum, one would use data[-1]."
+    },
+    {
+      "id": "41.6_q19",
+      "type": "fix_the_code",
+      "concept": "greedy_algorithms_overview_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q18"
+      ],
+      "micro_lesson": {
+        "title": "Identifying Common Greedy Algorithm Mistakes",
+        "content": "Greedy algorithms make locally optimal choices at each step with the hope of finding a global optimum. A frequent error is assuming that a locally optimal choice always leads to the best overall solution. Another common mistake is failing to verify that the problem has the greedy-choice property and optimal substructure. When debugging greedy code, always check whether your selection strategy actually satisfies the problem constraints. For example, consider a knapsack problem where you might incorrectly sort items by weight instead of value-to-weight ratio. Below is a buggy implementation that attempts to maximize total value by greedily selecting the item with the highest value, ignoring capacity limits.\n\n```python\ndef greedy_knapsack(items, capacity):\n    items.sort(key=lambda x: x['value'], reverse=True)\n    total_value = 0\n    selected = []\n    for item in items:\n        if item['weight'] <= capacity:\n            selected.append(item)\n            total_value += item['value']\n            capacity -= item['weight']\n    return selected\n```\nThe bug here is that the algorithm does not check whether adding an item leaves enough capacity for future items; it only checks if the current item fits. In some cases, picking a high-value item early can prevent selecting two slightly smaller items that together yield a higher total value. Always trace through edge cases where greedy selection fails."
+      },
+      "prompt": "Fix the bug in this code for greedy algorithms overview errors:",
+      "starter_code": "# Fix this code\nPrint('Greedy Algorithms Overview')",
+      "solution_code": "print('Greedy Algorithms Overview')",
+      "explanation": "This exercise tests `greedy algorithms overview errors` in Greedy Algorithms Overview. When Python validates this code, it applies the standard rules of greedy algorithms overview errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "41.6_q20",
+      "type": "fix_the_code",
+      "concept": "greedy_algorithms_overview_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "41.6_q19"
+      ],
+      "prompt": "The following function attempts to find the minimum number of coins needed to make a given amount using US coin denominations. It contains a simple logical error that causes incorrect results for certain inputs.",
+      "starter_code": "def min_coins(amount):\n    coins = [25, 10, 5, 1]\n    count = 0\n    for coin in coins:\n        while amount >= coin:\n            amount = amount - coin\n            count = count + 1\n    return count",
+      "solution_code": "def min_coins(amount):\n    coins = [25, 10, 5, 1]\n    count = 0\n    for coin in coins:\n        while amount >= coin:\n            amount -= coin\n            count += 1\n    return count",
+      "hint": "The loop variable is being modified in place during iteration, which can lead to unexpected behavior if the list were mutated. Ensure the loop iterates over a fixed copy of the denominations.",
+      "explanation": "The original code correctly computes the greedy coin change for standard US denominations, but modifying the loop variable 'amount' while iterating over 'coins' is safe here because 'coins' is not mutated. However, if the intent was to preserve the original amount for debugging or reuse, one should iterate over a copy or use a separate variable. The fixed version uses compound assignment operators for clarity and avoids any risk of accidental mutation. For this specific problem, the logic is already correct, but the style improvement makes it more robust."
+    },
+    {
+      "id": "41.6_q21",
+      "type": "fix_the_code",
+      "concept": "greedy_algorithms_overview_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q20"
+      ],
+      "prompt": "This greedy algorithm is meant to select the maximum number of non-overlapping intervals. It fails on certain edge cases involving intervals with equal start or end times.",
+      "starter_code": "def max_non_overlapping(intervals):\n    if not intervals:\n        return 0\n    intervals.sort(key=lambda x: x[1])\n    count = 1\n    last_end = intervals[0][1]\n    for start, end in intervals[1:]:\n        if start > last_end:\n            count += 1\n            last_end = end\n    return count",
+      "solution_code": "def max_non_overlapping(intervals):\n    if not intervals:\n        return 0\n    intervals.sort(key=lambda x: x[1])\n    count = 1\n    last_end = intervals[0][1]\n    for start, end in intervals[1:]:\n        if start >= last_end:\n            count += 1\n            last_end = end\n    return count",
+      "hint": "Consider what happens when one interval ends exactly when another begins. Should those intervals be counted as non-overlapping?",
+      "explanation": "The original code uses a strict greater-than check (start > last_end), which excludes intervals that start exactly at the previous interval's end. Depending on the problem definition, intervals that touch at endpoints may or may not be considered overlapping. The corrected version uses a greater-than-or-equal check (start >= last_end) to include such cases, which is the standard interpretation for non-overlapping intervals in many greedy scheduling problems. This fix ensures correctness for edge cases like intervals [(1, 3), (3, 5)]."
+    },
+    {
+      "id": "41.6_q22",
+      "type": "fix_the_code",
+      "concept": "greedy_algorithms_overview_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q21"
+      ],
+      "micro_lesson": {
+        "title": "Analyzing Greedy Algorithm Runtime",
+        "content": "When evaluating a greedy algorithm, runtime complexity is critical. A common pitfall is implementing a greedy strategy with an inefficient nested loop, turning an otherwise linear or logarithmic solution into a quadratic one. For instance, repeatedly scanning the entire remaining list to find the minimum element instead of sorting once or using a priority queue leads to poor performance. Always ask: can I preprocess the data so that each greedy choice is made in constant or logarithmic time? If your algorithm sorts the input, the dominant cost is typically O(n log n). If you then iterate once, the total remains O(n log n). However, if you sort inside a loop over n elements, you inadvertently create O(n^2 log n) behavior. Below is a flawed runtime example.\n\n```python\ndef greedy_max_subarray_sum(arr):\n    n = len(arr)\n    max_sum = float('-inf')\n    for i in range(n):\n        current_sum = 0\n        for j in range(i, n):\n            current_sum += arr[j]\n            if current_sum > max_sum:\n                max_sum = current_sum\n    return max_sum\n```\nThis is not a greedy algorithm but rather brute force; a true greedy approach for maximum subarray sum (Kadane's algorithm) runs in O(n). The nested loops cause O(n^2) time. When debugging greedy code, verify that your choice at each step does not require rescanning already-processed elements."
+      },
+      "prompt": "Fix the bug in this code for greedy algorithms overview runtime:",
+      "starter_code": "# Fix this code\nPrint('Greedy Algorithms Overview')",
+      "solution_code": "print('Greedy Algorithms Overview')",
+      "explanation": "This exercise tests `greedy algorithms overview runtime` in Greedy Algorithms Overview. When Python validates this code, it applies the standard rules of greedy algorithms overview runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "41.6_q23",
+      "type": "fix_the_code",
+      "concept": "greedy_algorithms_overview_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q22"
+      ],
+      "prompt": "The following greedy algorithm attempts to construct the minimum spanning tree using a simplified approach. The logic for selecting edges is flawed and may produce a disconnected graph.",
+      "starter_code": "def greedy_mst(edges, num_vertices):\n    edges.sort(key=lambda x: x[2])\n    parent = list(range(num_vertices))\n    def find(u):\n        while parent[u] != u:\n            u = parent[u]\n        return u\n    mst_weight = 0\n    for u, v, w in edges:\n        root_u = find(u)\n        root_v = find(v)\n        if root_u != root_v:\n            parent[root_u] = root_v\n            mst_weight += w\n    return mst_weight",
+      "solution_code": "def greedy_mst(edges, num_vertices):\n    edges.sort(key=lambda x: x[2])\n    parent = list(range(num_vertices))\n    def find(u):\n        while parent[u] != u:\n            u = parent[u]\n        return u\n    mst_weight = 0\n    edge_count = 0\n    for u, v, w in edges:\n        root_u = find(u)\n        root_v = find(v)\n        if root_u != root_v:\n            parent[root_u] = root_v\n            mst_weight += w\n            edge_count += 1\n            if edge_count == num_vertices - 1:\n                break\n    return mst_weight",
+      "hint": "How many edges must a minimum spanning tree contain for a connected graph with n vertices? What happens if the graph is not fully connected?",
+      "explanation": "The original code iterates through all sorted edges without a termination condition. In a connected graph with n vertices, a minimum spanning tree contains exactly n - 1 edges. Without early termination, the algorithm continues unnecessarily and may include extra edges if the input is not a tree. The fixed version introduces edge_count and breaks when n - 1 edges have been added. This ensures efficiency and correctness for connected graphs. For disconnected graphs, additional checks would be needed to detect failure, but the primary fix is enforcing the correct number of edges."
+    },
+    {
+      "id": "41.6_q24",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q23"
+      ],
+      "prompt": "Refactor the following greedy activity selection implementation to improve both readability and performance. The current version uses a list and linear search, which is inefficient for large inputs. Replace it with a more scalable approach using appropriate data structures.",
+      "starter_code": "def select_activities(activities):\n    if not activities:\n        return []\n    activities.sort(key=lambda x: x[1])\n    selected = [activities[0]]\n    for act in activities[1:]:\n        if act[0] >= selected[-1][1]:\n            selected.append(act)\n    return selected",
+      "solution_code": "from bisect import bisect_right\n\ndef select_activities(activities):\n    if not activities:\n        return []\n    sorted_acts = sorted(activities, key=lambda x: x[1])\n    ends = [act[1] for act in sorted_acts]\n    selected = [sorted_acts[0]]\n    for start, end in sorted_acts[1:]:\n        idx = bisect_right(ends, start)\n        if idx < len(ends) and ends[idx] == end:\n            selected.append((start, end))\n            ends.insert(idx + 1, end)\n    return selected",
+      "test_cases": [
+        {
+          "input": "[(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)]",
+          "expected": "[(1, 4), (5, 7), (8, 11), (12, 16)]"
+        },
+        {
+          "input": "[(6, 7), (1, 4), (3, 5), (0, 6)]",
+          "expected": "[(1, 4), (3, 5), (6, 7)]"
+        },
+        {
+          "input": "[]",
+          "expected": "[]"
+        }
+      ],
+      "hint": "Consider maintaining a sorted list of end times to enable binary search for the next compatible activity. Think about how insertion affects the sorted order.",
+      "explanation": "The original implementation is already O(n log n) due to sorting, but the linear scan for each activity is O(n), yielding O(n^2) total in the worst case if activities are processed repeatedly. The refactored solution maintains a sorted list of end times and uses bisect_right to locate the rightmost compatible activity in O(log n) search time. Insertion keeps the list sorted, though this introduces O(n) cost per insertion; for very large n, a balanced binary search tree or segment tree would be preferable. This refactoring demonstrates how greedy algorithms can be optimized by combining sorting with efficient search structures, improving practical performance even if asymptotic bounds remain similar for certain data sizes."
+    },
+    {
+      "id": "41.6_q25",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q24"
+      ],
+      "prompt": "Implement a greedy algorithm to find the minimum number of coins needed to make a given amount using denominations [1, 5, 10, 25]. Use a greedy approach that always selects the largest denomination not exceeding the remaining amount.",
+      "starter_code": "def greedy_coin_change(amount):\n    denominations = [1, 5, 10, 25]\n    # TODO: implement greedy selection\n    return 0\n\nprint(greedy_coin_change(63))",
+      "solution_code": "def greedy_coin_change(amount):\n    denominations = [1, 5, 10, 25]\n    count = 0\n    for coin in sorted(denominations, reverse=True):\n        count += amount // coin\n        amount %= coin\n    return count\n\nprint(greedy_coin_change(63))",
+      "test_cases": [
+        {
+          "input": "63",
+          "expected": "6"
+        },
+        {
+          "input": "41",
+          "expected": "4"
+        },
+        {
+          "input": "0",
+          "expected": "0"
+        }
+      ],
+      "hint": "Iterate through denominations from largest to smallest, using integer division to count coins and modulo to update the remaining amount.",
+      "explanation": "The greedy strategy works here because each denomination is a multiple of smaller ones, ensuring optimal substructure. At each step, we take as many of the largest coin as possible, minimizing the total count."
+    },
+    {
+      "id": "41.6_q26",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "41.6_q25"
+      ],
+      "prompt": "Write a greedy function to schedule the maximum number of non-overlapping activities given start and end times. Return the count of activities that can be performed.",
+      "starter_code": "def max_activities(start, end):\n    # TODO: sort by end time and greedily select\n    return 0\n\nprint(max_activities([1, 3, 0, 5, 8, 5], [2, 4, 6, 7, 9, 9]))",
+      "solution_code": "def max_activities(start, end):\n    activities = sorted(zip(start, end), key=lambda x: x[1])\n    count = 0\n    last_end = -1\n    for s, e in activities:\n        if s >= last_end:\n            count += 1\n            last_end = e\n    return count\n\nprint(max_activities([1, 3, 0, 5, 8, 5], [2, 4, 6, 7, 9, 9]))",
+      "test_cases": [
+        {
+          "input": "([1, 3, 0, 5, 8, 5], [2, 4, 6, 7, 9, 9])",
+          "expected": "4"
+        },
+        {
+          "input": "([10, 12, 20], [20, 25, 30])",
+          "expected": "1"
+        },
+        {
+          "input": "([], [])",
+          "expected": "0"
+        }
+      ],
+      "hint": "Sort activities by their end times. Always pick the activity that finishes earliest among remaining compatible activities.",
+      "explanation": "Sorting by end times ensures we leave the maximum remaining time for future activities. This greedy choice is optimal for interval scheduling."
+    },
+    {
+      "id": "41.6_q27",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q26"
+      ],
+      "prompt": "Implement Dijkstra's shortest path algorithm using a greedy approach. Given a graph as an adjacency list with weighted edges, compute the shortest distance from a source node to all other nodes.",
+      "starter_code": "import heapq\n\ndef dijkstra(graph, source):\n    # TODO: greedy relaxation with min-heap\n    return {}\n\ngraph = {'A': [('B', 4), ('C', 2)], 'B': [('C', 1), ('D', 5)], 'C': [('D', 8), ('E', 10)], 'D': [('E', 2)], 'E': []}\nprint(dijkstra(graph, 'A'))",
+      "solution_code": "import heapq\n\ndef dijkstra(graph, source):\n    distances = {node: float('inf') for node in graph}\n    distances[source] = 0\n    pq = [(0, source)]\n    while pq:\n        dist, node = heapq.heappop(pq)\n        if dist > distances[node]:\n            continue\n        for neighbor, weight in graph.get(node, []):\n            new_dist = dist + weight\n            if new_dist < distances[neighbor]:\n                distances[neighbor] = new_dist\n                heapq.heappush(pq, (new_dist, neighbor))\n    return distances\n\ngraph = {'A': [('B', 4), ('C', 2)], 'B': [('C', 1), ('D', 5)], 'C': [('D', 8), ('E', 10)], 'D': [('E', 2)], 'E': []}\nprint(dijkstra(graph, 'A'))",
+      "test_cases": [
+        {
+          "input": "graph={'A': [('B', 4), ('C', 2)], 'B': [('C', 1), ('D', 5)], 'C': [('D', 8), ('E', 10)], 'D': [('E', 2)], 'E': []}, source='A'",
+          "expected": "{'A': 0, 'B': 4, 'C': 2, 'D': 7, 'E': 9}"
+        },
+        {
+          "input": "graph={'S': [('A', 5), ('B', 3)], 'A': [('C', 2)], 'B': [('C', 7), ('D', 4)], 'C': [], 'D': []}, source='S'",
+          "expected": "{'S': 0, 'A': 5, 'B': 3, 'C': 7, 'D': 7}"
+        }
+      ],
+      "hint": "Maintain a priority queue of (distance, node). Always expand the node with the smallest tentative distance, updating neighbors if a shorter path is found.",
+      "explanation": "Dijkstra's algorithm is greedy because it permanently finalizes the shortest distance to the node with the minimum current distance. This is optimal for graphs with non-negative edge weights."
+    },
+    {
+      "id": "41.6_q28",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q27"
+      ],
+      "prompt": "You are given a set of intervals. A greedy algorithm sorts by end time and selects compatible intervals. Prove or disprove: this greedy approach always yields the maximum number of non-overlapping intervals.",
+      "starter_code": "# Write a proof or counterexample as a Python string\n# and a function that validates the greedy choice\n\ndef validate_greedy_interval_scheduling(intervals):\n    # TODO: implement validation logic\n    pass\n\n# Example intervals\nintervals = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)]\nprint(validate_greedy_interval_scheduling(intervals))",
+      "solution_code": "def validate_greedy_interval_scheduling(intervals):\n    # Greedy selects by earliest finish time\n    sorted_intervals = sorted(intervals, key=lambda x: x[1])\n    selected = []\n    last_end = float('-inf')\n    for start, end in sorted_intervals:\n        if start >= last_end:\n            selected.append((start, end))\n            last_end = end\n    return len(selected), selected\n\nintervals = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)]\nprint(validate_greedy_interval_scheduling(intervals))",
+      "test_cases": [
+        {
+          "input": "[(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)]",
+          "expected": "(4, [(1, 4), (5, 7), (8, 11), (12, 16)])"
+        },
+        {
+          "input": "[(1, 2), (2, 3), (3, 4), (4, 5)]",
+          "expected": "(4, [(1, 2), (2, 3), (3, 4), (4, 5)])"
+        }
+      ],
+      "hint": "Use exchange argument: show that any optimal solution can be transformed to include the earliest-finishing interval without reducing size.",
+      "explanation": "The greedy algorithm is optimal for maximum non-overlapping intervals. By always choosing the interval that finishes first, we maximize remaining time. An exchange argument proves no better solution exists."
+    },
+    {
+      "id": "41.6_q29",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q28"
+      ],
+      "prompt": "A delivery company needs to minimize fuel costs by selecting routes that cover the maximum number of stops with the fewest trips. Given a list of delivery windows with start and end times, design a greedy strategy to schedule drivers. Write a function that returns the maximum number of stops that can be covered by one driver using a greedy approach.",
+      "starter_code": "def schedule_delivery_stops(windows):\n    # windows: list of (start, end) tuples\n    # TODO: implement greedy scheduling for one driver\n    return 0\n\nwindows = [(9, 12), (10, 11), (13, 15), (12, 14), (14, 16)]\nprint(schedule_delivery_stops(windows))",
+      "solution_code": "def schedule_delivery_stops(windows):\n    sorted_windows = sorted(windows, key=lambda x: x[1])\n    count = 0\n    last_end = float('-inf')\n    for start, end in sorted_windows:\n        if start >= last_end:\n            count += 1\n            last_end = end\n    return count\n\nwindows = [(9, 12), (10, 11), (13, 15), (12, 14), (14, 16)]\nprint(schedule_delivery_stops(windows))",
+      "test_cases": [
+        {
+          "input": "[(9, 12), (10, 11), (13, 15), (12, 14), (14, 16)]",
+          "expected": "3"
+        },
+        {
+          "input": "[(1, 4), (3, 5), (0, 6), (5, 7), (8, 9), (5, 9)]",
+          "expected": "3"
+        },
+        {
+          "input": "[(1, 3), (2, 4), (3, 5)]",
+          "expected": "2"
+        }
+      ],
+      "hint": "Sort delivery windows by end time. A driver can complete a stop only if it starts after or when the previous stop ends.",
+      "explanation": "This scenario maps directly to interval scheduling. The greedy choice of earliest completion maximizes the number of stops per driver, minimizing the need for additional drivers and thus fuel costs."
+    },
+    {
+      "id": "41.6_q30",
+      "type": "write_the_code",
+      "concept": "greedy_algorithms_overview_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "41.6_q29"
+      ],
+      "prompt": "Given a weighted undirected graph with non-negative edges, determine whether a greedy algorithm that always picks the minimum edge not forming a cycle (Kruskal's approach) always produces a minimum spanning tree (MST). Implement Kruskal's algorithm and verify it on a sample graph.",
+      "starter_code": "def kruskal_mst(edges, n):\n    # edges: list of (u, v, weight)\n    # TODO: implement union-find based greedy MST\n    return []\n\nedges = [(0, 1, 4), (0, 2, 3), (1, 2, 1), (1, 3, 2), (2, 3, 4)]\nprint(kruskal_mst(edges, 4))",
+      "solution_code": "def find(parent, i):\n    if parent[i] != i:\n        parent[i] = find(parent, parent[i])\n    return parent[i]\n\ndef union(parent, rank, x, y):\n    xroot = find(parent, x)\n    yroot = find(parent, y)\n    if xroot == yroot:\n        return False\n    if rank[xroot] < rank[yroot]:\n        parent[xroot] = yroot\n    elif rank[xroot] > rank[yroot]:\n        parent[yroot] = xroot\n    else:\n        parent[yroot] = xroot\n        rank[xroot] += 1\n    return True\n\ndef kruskal_mst(edges, n):\n    edges = sorted(edges, key=lambda x: x[2])\n    parent = list(range(n))\n    rank = [0] * n\n    mst = []\n    for u, v, w in edges:\n        if union(parent, rank, u, v):\n            mst.append((u, v, w))\n    return mst\n\nedges = [(0, 1, 4), (0, 2, 3), (1, 2, 1), (1, 3, 2), (2, 3, 4)]\nprint(kruskal_mst(edges, 4))",
+      "test_cases": [
+        {
+          "input": "edges=[(0, 1, 4), (0, 2, 3), (1, 2, 1), (1, 3, 2), (2, 3, 4)], n=4",
+          "expected": "[(1, 2, 1), (1, 3, 2), (0, 2, 3)]"
+        },
+        {
+          "input": "edges=[(0, 1, 1), (1, 2, 2), (0, 2, 3), (2, 3, 4)], n=4",
+          "expected": "[(0, 1, 1), (1, 2, 2), (2, 3, 4)]"
+        }
+      ],
+      "hint": "Sort edges by weight. Use union-find to detect cycles. Add an edge only if it connects two different components.",
+      "explanation": "Kruskal's algorithm is greedy because it considers edges in increasing weight order and adds the cheapest edge that doesn't create a cycle. The cut property guarantees optimality, making this a correct MST algorithm for any graph with non-negative weights."
+    }
+  ],
+  "unit_num": 41,
+  "learning_objectives": [
+    "Implement the fundamental Greedy Algorithms Overview algorithm in idiomatic Python",
+    "Calculate time and space complexity using Big O notation",
+    "Trace edge-case performance and termination conditions",
+    "Apply the algorithmic pattern to solve practical data structure problems"
+  ],
+  "prerequisites": [
+    "41.5"
+  ]
+}

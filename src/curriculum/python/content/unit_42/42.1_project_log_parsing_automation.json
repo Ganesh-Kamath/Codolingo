@@ -1,0 +1,773 @@
+{
+  "lesson_id": "42.1",
+  "title": "Project: Log Parsing Automation",
+  "unit": "Capstone Projects",
+  "items": [
+    {
+      "id": "42.1_q1",
+      "type": "micro_lesson",
+      "concept": "project_log_parsing_automation_architecture",
+      "skill": "planning",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Designing the Log Parsing Pipeline",
+      "content": "In this micro-lesson, we explore how to architect a Python-based log parsing automation tool. A log file typically contains timestamped entries, severity levels, and messages. The architecture should include: (1) reading the raw log file line by line to avoid memory overload, (2) splitting each line into structured components using delimiters such as ' | ', (3) filtering entries by severity (e.g., 'ERROR', 'WARNING'), and (4) aggregating results into a summary dictionary. Below is a concrete example of the core parsing loop. We open the file in read mode, iterate over each line, strip trailing whitespace, skip empty lines, split on the delimiter, and store valid records. This modular approach makes the system easy to extend later with regex or JSON output.\n\n```python\nlog_path = 'app.log'\nsummary = {}\nwith open(log_path, 'r') as f:\n    for line in f:\n        line = line.strip()\n        if not line:\n            continue\n        parts = line.split(' | ')\n        if len(parts) == 3:\n            timestamp, level, message = parts\n            summary.setdefault(level, []).append({\n                'timestamp': timestamp,\n                'message': message\n            })\nprint('Parsed entries:', len(summary))\n```\n\nKey takeaways: always validate line structure before indexing, use `setdefault` to safely build grouped collections, and prefer streaming file reads for large logs.",
+      "prompt": "",
+      "explanation": "In this micro-lesson, we explore how to architect a Python-based log parsing automation tool. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "42.1_q2",
+      "type": "micro_lesson",
+      "concept": "project_log_parsing_automation_architecture",
+      "skill": "planning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "42.1_q1"
+      ],
+      "title": "Choosing Output Formats and Error Handling",
+      "content": "Once parsing is complete, deciding how to present results is critical for automation. Common output formats include plain text summaries, CSV exports, and JSON structures. For a capstone project, JSON is often ideal because it is machine-readable and easy to consume by dashboards or alerting systems. Additionally, robust error handling prevents crashes when malformed lines appear. You should wrap file operations in `try` / `except` blocks to catch `FileNotFoundError` and `IOError`, and log warnings for skipped lines rather than halting execution. Consider adding a configurable delimiter and an optional severity filter so the tool remains reusable across different log sources. The following snippet demonstrates safe JSON serialization of the parsed summary.\n\n```python\nimport json\n\ndef save_summary(summary, out_path):\n    try:\n        with open(out_path, 'w') as f:\n            json.dump(summary, f, indent=2)\n    except IOError as e:\n        print('Failed to write output:', e)\n\nif __name__ == '__main__':\n    summary = {'ERROR': [], 'WARNING': []}\n    save_summary(summary, 'report.json')\n```\n\nRemember: separate parsing logic from output logic, and validate inputs before serialization.",
+      "prompt": "",
+      "explanation": "Once parsing is complete, deciding how to present results is critical for automation. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "42.1_q3",
+      "type": "multiple_choice",
+      "concept": "project_log_parsing_automation_requirements",
+      "skill": "design",
+      "difficulty": "easy",
+      "prerequisites": [
+        "42.1_q2"
+      ],
+      "prompt": "Which of the following is a core functional requirement for the Log Parsing Automation project?",
+      "options": [
+        "Read the log file line by line and parse timestamp, severity, and message fields.",
+        "Convert every log entry into an image thumbnail for visual reporting.",
+        "Require a live database connection before opening any local log file.",
+        "Encrypt all parsed data using blockchain before writing to disk."
+      ],
+      "correct_answer": "Read the log file line by line and parse timestamp, severity, and message fields.",
+      "explanation": "The primary goal is to automate extraction of structured information from text logs. Reading line by line ensures scalability, and parsing the three standard fields provides the necessary data for downstream analysis."
+    },
+    {
+      "id": "42.1_q4",
+      "type": "multiple_choice",
+      "concept": "project_log_parsing_automation_requirements",
+      "skill": "design",
+      "difficulty": "easy",
+      "prerequisites": [
+        "42.1_q3"
+      ],
+      "prompt": "What non-functional requirement should the Log Parsing Automation tool satisfy to be production-ready?",
+      "options": [
+        "It must handle large log files efficiently without loading the entire file into memory.",
+        "It must display a graphical user interface even for simple batch runs.",
+        "It must rewrite the original log file after every parse operation.",
+        "It must depend on an internet connection for every local file read."
+      ],
+      "correct_answer": "It must handle large log files efficiently without loading the entire file into memory.",
+      "explanation": "Streaming file reads and incremental processing are essential for performance and memory efficiency, especially when logs grow to gigabytes over time."
+    },
+    {
+      "id": "42.1_q5",
+      "type": "code_ordering",
+      "concept": "project_log_parsing_automation_milestone_flow",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q4"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to implement the milestone flow of parsing a log and counting errors.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence is: open the file, initialize the counter dictionary, iterate and filter, then close the file. Opening before initialization ensures the file handle is active during iteration, and closing after iteration releases the resource."
+    },
+    {
+      "id": "42.1_q6",
+      "type": "code_ordering",
+      "concept": "project_log_parsing_automation_milestone_flow",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q5"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to read a log file, parse each line, and build a dictionary of messages by severity.",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The file must be opened first so the `for` loop has an active handle. The dictionary is initialized inside the context to keep it scoped properly, and each valid line is split, validated, and appended in sequence. Closing happens automatically via the context manager."
+    },
+    {
+      "id": "42.1_q7",
+      "type": "fix_the_code",
+      "concept": "project_log_parsing_automation_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q6"
+      ],
+      "prompt": "In the Log Parsing Automation project, parse the timestamp and severity level from an Apache/Nginx log line:",
+      "starter_code": "line = '2026-10-04 12:00:00 [ERROR] Connection timeout'\nparts = line.split(' ')\ntimestamp = f'{parts[0]} {parts[1]}'\nseverity = parts[2].strip('___')",
+      "solution_code": "line = '2026-10-04 12:00:00 [ERROR] Connection timeout'\nparts = line.split(' ')\ntimestamp = f'{parts[0]} {parts[1]}'\nseverity = parts[2].strip('[]')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "`.strip('[]')` strips both opening and closing square brackets from around the severity tag."
+    },
+    {
+      "id": "42.1_q8",
+      "type": "fix_the_code",
+      "concept": "project_log_parsing_automation_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q7"
+      ],
+      "prompt": "In the Log Parsing Automation project, filter a list of log entries to extract only entries where level is 'ERROR':",
+      "starter_code": "def filter_errors(logs):\n    return [log for log in logs if log['level'] == '___']",
+      "solution_code": "def filter_errors(logs):\n    return [log for log in logs if log['level'] == 'ERROR']",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "A list comprehension filters the logs matching `'level' == 'ERROR'`. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "42.1_q9",
+      "type": "fix_the_code",
+      "concept": "project_log_parsing_automation_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q8"
+      ],
+      "prompt": "In the Log Parsing Automation project, count the frequency of each HTTP status code in a list of parsed log dictionaries:",
+      "starter_code": "def count_statuses(logs):\n    counts = {}\n    for entry in logs:\n        code = entry['status']\n        counts[code] = counts.get(code, 0) + 1\n    return counts",
+      "solution_code": "def count_statuses(logs):\n    counts = {}\n    for entry in logs:\n        code = entry['status']\n        counts[code] = counts.get(code, 0) + 1\n    return counts",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "`counts.get(code, 0) + 1` increments the tally for the status code, defaulting to 0 if not yet present."
+    },
+    {
+      "id": "42.1_q10",
+      "type": "fix_the_code",
+      "concept": "project_log_parsing_automation_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q9"
+      ],
+      "prompt": "In the Log Parsing Automation project, extract all IP addresses matching IPv4 format from a raw log line:",
+      "starter_code": "import re\ndef extract_ips(line):\n    return re.findall(r'\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b', line)",
+      "solution_code": "import re\ndef extract_ips(line):\n    return re.findall(r'\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b', line)",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "Regular expression `\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b` matches IPv4 dotted-decimal octets. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "42.1_q11",
+      "type": "fix_the_code",
+      "concept": "project_log_parsing_automation_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q10"
+      ],
+      "prompt": "In the Log Parsing Automation project, sort top 5 IP addresses by visit frequency in descending order:",
+      "starter_code": "def top_ips(ip_counts):\n    return sorted(ip_counts.items(), key=lambda x: x[1], reverse=True)[:5]",
+      "solution_code": "def top_ips(ip_counts):\n    return sorted(ip_counts.items(), key=lambda x: x[1], reverse=True)[:5]",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "`reverse=True` orders the key-value frequency pairs from highest count to lowest. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+    },
+    {
+      "id": "42.1_q12",
+      "type": "fix_the_code",
+      "concept": "project_log_parsing_automation_module_bugfix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q11"
+      ],
+      "prompt": "In the Log Parsing Automation project, write structured log summary statistics to a JSON report file:",
+      "starter_code": "import json\ndef save_summary(stats, filepath):\n    with open(filepath, 'w') as f:\n        json.dump(stats, f, indent=2)",
+      "solution_code": "import json\ndef save_summary(stats, filepath):\n    with open(filepath, 'w') as f:\n        json.dump(stats, f, indent=2)",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "`json.dump(stats, f, indent=2)` serializes the summary dictionary into formatted JSON on disk."
+    },
+    {
+      "id": "42.1_q13",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone_1",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q12"
+      ],
+      "prompt": "Log Parser Milestone 1: Read a multiline log string `log_data = '2026-10-04 10:00:00 INFO Service started\\n2026-10-04 10:01:15 ERROR Database timeout'`, split into lines, and count non-empty log lines into `line_count`.",
+      "starter_code": "log_data = \"2026-10-04 10:00:00 INFO Service started\\n2026-10-04 10:01:15 ERROR Database timeout\"\n# Split into lines and count\n",
+      "solution_code": "log_data = \"2026-10-04 10:00:00 INFO Service started\\n2026-10-04 10:01:15 ERROR Database timeout\"\nlines = [l for l in log_data.splitlines() if l.strip()]\nline_count = len(lines)\nprint(f\"Parsed {line_count} lines\")",
+      "explanation": "Using `.splitlines()` safely handles different operating system newline characters (`\\r\\n` vs `\\n`).",
+      "metadata": {
+        "concept": "log_file_line_ingestion",
+        "skill": "implementation",
+        "learning_objective": "Ingest and segment log data streams into clean lines",
+        "common_misconception": "Splitting solely on '\\n' and leaving carriage returns '\\r'",
+        "why_this_exercise_exists": "Replaces milestone 1 with authentic log parsing milestone 1"
+      }
+    },
+    {
+      "id": "42.1_q14",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone_2",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q13"
+      ],
+      "prompt": "Log Parser Milestone 2: Given a single log line `line = '2026-10-04 12:30:45 WARNING Disk space low'`, split it into three tokens: `timestamp` (`'2026-10-04 12:30:45'`), `level` (`'WARNING'`), and `message` (`'Disk space low'`).",
+      "starter_code": "line = \"2026-10-04 12:30:45 WARNING Disk space low\"\n# Parse timestamp, level, message\n",
+      "solution_code": "line = \"2026-10-04 12:30:45 WARNING Disk space low\"\nparts = line.split(\" \", 3)\ntimestamp = f\"{parts[0]} {parts[1]}\"\nlevel = parts[2]\nmessage = parts[3]\nprint(f\"[{level}] {timestamp} -> {message}\")",
+      "explanation": "Splitting with `maxsplit=3` cleanly preserves the entire trailing message string without fragmenting multi-word messages.",
+      "metadata": {
+        "concept": "log_line_tokenization",
+        "skill": "implementation",
+        "learning_objective": "Tokenize structured log lines using controlled split parameters",
+        "common_misconception": "Splitting on all spaces and fracturing the log message",
+        "why_this_exercise_exists": "Replaces milestone 2 with authentic log parsing milestone 2"
+      }
+    },
+    {
+      "id": "42.1_q15",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone_3",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q14"
+      ],
+      "prompt": "Log Parser Milestone 3: Extract ISO timestamps from messy log entries using regex. Given `entry = 'CRITICAL [2026-10-04T14:22:10] Connection lost'`, extract the timestamp inside brackets into `extracted_time`.",
+      "starter_code": "import re\nentry = \"CRITICAL [2026-10-04T14:22:10] Connection lost\"\n# Extract ISO timestamp\n",
+      "solution_code": "import re\nentry = \"CRITICAL [2026-10-04T14:22:10] Connection lost\"\nmatch = re.search(r\"\\[(.*?)\\]\", entry)\nextracted_time = match.group(1) if match else None\nprint(extracted_time)",
+      "explanation": "Matching `\\[(.*?)\\]` extracts the exact contents between square brackets. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
+      "metadata": {
+        "concept": "timestamp_extraction_regex",
+        "skill": "regex_extraction",
+        "learning_objective": "Extract encapsulated timestamp strings from noisy log entries",
+        "common_misconception": "Writing greedy regexes that capture past the closing bracket",
+        "why_this_exercise_exists": "Replaces milestone 3 with authentic log parsing milestone 3"
+      }
+    },
+    {
+      "id": "42.1_q16",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone_4",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q15"
+      ],
+      "prompt": "Log Parser Milestone 4: Extract log severity level. Given `raw_entry = '04/Oct ERROR: Auth failure'`, extract the severity level `'ERROR'` and normalize it to uppercase.",
+      "starter_code": "raw_entry = \"04/Oct ERROR: Auth failure\"\n# Extract severity\n",
+      "solution_code": "raw_entry = \"04/Oct ERROR: Auth failure\"\nfor candidate in (\"DEBUG\", \"INFO\", \"WARNING\", \"ERROR\", \"CRITICAL\"):\n    if candidate in raw_entry.upper():\n        severity = candidate\n        break\nprint(f\"Severity: {severity}\")",
+      "explanation": "Testing standard logging levels identifies `'ERROR'` and confirms severity categorization. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
+      "metadata": {
+        "concept": "severity_level_extraction",
+        "skill": "implementation",
+        "learning_objective": "Categorize log messages by standardized severity levels",
+        "common_misconception": "Case-sensitive comparison missing lowercase 'error'",
+        "why_this_exercise_exists": "Replaces milestone 4 with authentic log parsing milestone 4"
+      }
+    },
+    {
+      "id": "42.1_q17",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone_5",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q16"
+      ],
+      "prompt": "Log Parser Milestone 5: Filter log records. Given a list of parsed records `logs = [{'level': 'INFO', 'msg': 'ok'}, {'level': 'ERROR', 'msg': 'fail'}, {'level': 'ERROR', 'msg': 'crash'}]`, filter all `'ERROR'` level logs into `error_logs`.",
+      "starter_code": "logs = [\n    {\"level\": \"INFO\", \"msg\": \"ok\"},\n    {\"level\": \"ERROR\", \"msg\": \"fail\"},\n    {\"level\": \"ERROR\", \"msg\": \"crash\"}\n]\n# Filter for ERROR logs\n",
+      "solution_code": "logs = [\n    {\"level\": \"INFO\", \"msg\": \"ok\"},\n    {\"level\": \"ERROR\", \"msg\": \"fail\"},\n    {\"level\": \"ERROR\", \"msg\": \"crash\"}\n]\nerror_logs = [entry for entry in logs if entry[\"level\"] == \"ERROR\"]\nprint(f\"Found {len(error_logs)} errors\")",
+      "explanation": "List comprehensions filter dictionaries cleanly by key-value criteria in O(n) time. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
+      "metadata": {
+        "concept": "log_filtering_by_severity",
+        "skill": "filtering",
+        "learning_objective": "Filter log event collections by severity thresholds",
+        "common_misconception": "Overcomplicating filtering with nested if statements",
+        "why_this_exercise_exists": "Replaces milestone 5 with authentic log parsing milestone 5"
+      }
+    },
+    {
+      "id": "42.1_q18",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone_6",
+      "skill": "project_milestone",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q17"
+      ],
+      "prompt": "Log Parser Milestone 6: Count occurrences of each severity level. Given `levels = ['INFO', 'ERROR', 'WARNING', 'INFO', 'ERROR', 'ERROR']`, build a frequency counter dictionary `counts`.",
+      "starter_code": "levels = [\"INFO\", \"ERROR\", \"WARNING\", \"INFO\", \"ERROR\", \"ERROR\"]\ncounts = {}\n# Build frequency counter\n",
+      "solution_code": "from collections import Counter\nlevels = [\"INFO\", \"ERROR\", \"WARNING\", \"INFO\", \"ERROR\", \"ERROR\"]\ncounts = dict(Counter(levels))\nprint(counts)",
+      "explanation": "`Counter(levels)` counts occurrences in a single pass: `{'INFO': 2, 'ERROR': 3, 'WARNING': 1}`.",
+      "metadata": {
+        "concept": "log_metric_aggregation",
+        "skill": "aggregation",
+        "learning_objective": "Aggregate error counts and telemetry frequencies from log streams",
+        "common_misconception": "Manual counting with fragile index tracking",
+        "why_this_exercise_exists": "Replaces milestone 6 with authentic log parsing milestone 6"
+      }
+    },
+    {
+      "id": "42.1_q19",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_component",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q18"
+      ],
+      "prompt": "Write a Python function `extract_timestamps(log_line)` that takes a single log line as a string and returns a list of all ISO 8601 timestamps found in that line. Use the `re` module. Assume timestamps follow the pattern `YYYY-MM-DD HH:MM:SS`.",
+      "starter_code": "import re\n\ndef extract_timestamps(log_line):\n    # TODO: implement timestamp extraction\n    return []",
+      "solution_code": "import re\n\ndef extract_timestamps(log_line):\n    pattern = r'\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}'\n    return re.findall(pattern, log_line)",
+      "test_cases": [
+        {
+          "input": "Error at 2023-10-05 14:23:01 and warning at 2023-10-05 14:24:02",
+          "expected": [
+            "2023-10-05 14:23:01",
+            "2023-10-05 14:24:02"
+          ]
+        },
+        {
+          "input": "No timestamp here",
+          "expected": []
+        }
+      ],
+      "hint": "Use re.findall with a pattern that matches four digits, a hyphen, two digits, a hyphen, two digits, a space, two digits, a colon, two digits, a colon, and two digits.",
+      "explanation": "This component teaches students to use regular expressions to identify structured patterns in unstructured text. re.findall returns all non-overlapping matches as a list, which is ideal for extracting every timestamp from a log entry."
+    },
+    {
+      "id": "42.1_q20",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_component",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q19"
+      ],
+      "prompt": "Write a Python function `parse_log_entry(line)` that splits a log line into its severity level, timestamp, and message. Log format: `SEVERITY TIMESTAMP MESSAGE`. Return a dictionary with keys `severity`, `timestamp`, and `message`.",
+      "starter_code": "def parse_log_entry(line):\n    # TODO: split and return structured data\n    return {}",
+      "solution_code": "def parse_log_entry(line):\n    parts = line.split(' ', 2)\n    return {\n        'severity': parts[0],\n        'timestamp': parts[1],\n        'message': parts[2]\n    }",
+      "test_cases": [
+        {
+          "input": "ERROR 2023-10-05 14:23:01 Disk failure",
+          "expected": {
+            "severity": "ERROR",
+            "timestamp": "2023-10-05 14:23:01",
+            "message": "Disk failure"
+          }
+        },
+        {
+          "input": "INFO 2023-01-01 00:00:00 System started",
+          "expected": {
+            "severity": "INFO",
+            "timestamp": "2023-01-01 00:00:00",
+            "message": "System started"
+          }
+        }
+      ],
+      "hint": "Use str.split with a maxsplit of 2 to ensure the message portion retains spaces.",
+      "explanation": "Parsing fixed-format logs into dictionaries is a foundational skill for automation. Using maxsplit prevents the message from being incorrectly truncated when it contains spaces."
+    },
+    {
+      "id": "42.1_q21",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_component",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q20"
+      ],
+      "prompt": "Write a Python function `count_errors_by_hour(log_file_path)` that reads a log file and returns a dictionary mapping each hour (as a string 'HH') to the count of ERROR-level entries occurring in that hour.",
+      "starter_code": "def count_errors_by_hour(log_file_path):\n    counts = {}\n    # TODO: read file and aggregate counts\n    return counts",
+      "solution_code": "def count_errors_by_hour(log_file_path):\n    counts = {}\n    with open(log_file_path, 'r') as f:\n        for line in f:\n            if 'ERROR' in line:\n                parts = line.split(' ', 1)\n                timestamp = parts[1]\n                hour = timestamp.split(':')[0]\n                counts[hour] = counts.get(hour, 0) + 1\n    return counts",
+      "test_cases": [
+        {
+          "input": "temp.log",
+          "setup": "with open('temp.log', 'w') as f: f.write('ERROR 2023-10-05 09:10:00 A\\nERROR 2023-10-05 09:15:00 B\\nINFO 2023-10-05 10:00:00 C\\n')",
+          "expected": {
+            "09": 2
+          }
+        }
+      ],
+      "hint": "Open the file with 'with' to ensure it closes automatically. Extract the hour by splitting the timestamp on ':' and taking the first element.",
+      "explanation": "This exercise combines file I/O with dictionary aggregation. It demonstrates how automation scripts can summarize large logs to identify peak failure times without manual inspection."
+    },
+    {
+      "id": "42.1_q22",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_component",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "42.1_q21"
+      ],
+      "prompt": "Write a Python function `filter_logs_by_date(log_file_path, start_date, end_date)` that returns a list of log lines whose timestamps fall within the inclusive date range. Dates are strings in 'YYYY-MM-DD' format.",
+      "starter_code": "from datetime import datetime\n\ndef filter_logs_by_date(log_file_path, start_date, end_date):\n    # TODO: parse dates and filter lines\n    return []",
+      "solution_code": "from datetime import datetime\n\ndef filter_logs_by_date(log_file_path, start_date, end_date):\n    start = datetime.strptime(start_date, '%Y-%m-%d')\n    end = datetime.strptime(end_date, '%Y-%m-%d')\n    results = []\n    with open(log_file_path, 'r') as f:\n        for line in f:\n            parts = line.split(' ', 1)\n            timestamp_str = parts[1].split()[0]\n            ts = datetime.strptime(timestamp_str, '%Y-%m-%d')\n            if start <= ts <= end:\n                results.append(line.strip())\n    return results",
+      "test_cases": [
+        {
+          "input": "sample.log",
+          "setup": "with open('sample.log', 'w') as f: f.write('INFO 2023-10-04 08:00:00 OK\\nERROR 2023-10-05 09:00:00 FAIL\\nWARN 2023-10-06 10:00:00 CAUTION\\n')",
+          "args": [
+            "sample.log",
+            "2023-10-04",
+            "2023-10-05"
+          ],
+          "expected": [
+            "INFO 2023-10-04 08:00:00 OK",
+            "ERROR 2023-10-05 09:00:00 FAIL"
+          ]
+        }
+      ],
+      "hint": "Extract only the date portion from the timestamp before parsing. Use datetime.strptime with format '%Y-%m-%d' for date-only comparison.",
+      "explanation": "Date-based filtering is essential for log analysis dashboards and alerting systems. Converting strings to datetime objects ensures accurate chronological comparisons."
+    },
+    {
+      "id": "42.1_q23",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone",
+      "skill": "integration",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q22"
+      ],
+      "prompt": "Build a complete log parsing automation script that reads a directory of log files, extracts timestamps, severity levels, and error counts per hour, then outputs a JSON summary file named `report.json`. The script should handle missing files gracefully and skip malformed lines.",
+      "starter_code": "import os\nimport json\nfrom datetime import datetime\n\ndef generate_report(directory):\n    report = {\n        'summary': {},\n        'files_processed': 0,\n        'errors_encountered': 0\n    }\n    # TODO: iterate files, parse lines, aggregate, and write JSON\n    with open('report.json', 'w') as f:\n        json.dump(report, f, indent=2)\n    return report",
+      "solution_code": "import os\nimport json\nimport re\nfrom datetime import datetime\n\ndef generate_report(directory):\n    report = {\n        'summary': {},\n        'files_processed': 0,\n        'errors_encountered': 0\n    }\n    error_pattern = re.compile(r'ERROR')\n    timestamp_pattern = re.compile(r'\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}')\n    for filename in os.listdir(directory):\n        filepath = os.path.join(directory, filename)\n        if not os.path.isfile(filepath):\n            continue\n        try:\n            with open(filepath, 'r') as f:\n                for line in f:\n                    line = line.strip()\n                    if not line:\n                        continue\n                    parts = line.split(' ', 2)\n                    if len(parts) < 3:\n                        report['errors_encountered'] += 1\n                        continue\n                    severity = parts[0]\n                    timestamp_str = parts[1]\n                    hour = timestamp_str.split(':')[0]\n                    if severity == 'ERROR' or error_pattern.search(line):\n                        report['summary'].setdefault(hour, 0)\n                        report['summary'][hour] += 1\n            report['files_processed'] += 1\n        except Exception:\n            report['errors_encountered'] += 1\n    with open('report.json', 'w') as f:\n        json.dump(report, f, indent=2)\n    return report",
+      "test_cases": [
+        {
+          "input": "logs_dir",
+          "setup": "import os; os.makedirs('logs_dir', exist_ok=True); open('logs_dir/app.log', 'w').write('ERROR 2023-10-05 09:00:00 Crash\\nINFO 2023-10-05 10:00:00 OK\\nERROR 2023-10-05 09:10:00 Fail\\n'); open('logs_dir/empty.log', 'w').write('')",
+          "expected_file_content": {
+            "summary": {
+              "09": 2
+            },
+            "files_processed": 2,
+            "errors_encountered": 0
+          }
+        }
+      ],
+      "hint": "Use os.listdir to discover files, os.path.join for safe paths, and json.dump to serialize the final report. Wrap file operations in try/except to count errors without crashing.",
+      "explanation": "This milestone integrates file system traversal, robust parsing, aggregation, and JSON serialization. It mirrors real-world DevOps automation where logs from multiple services must be consolidated into a single actionable report."
+    },
+    {
+      "id": "42.1_q24",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone",
+      "skill": "integration",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q23"
+      ],
+      "prompt": "Extend your log parsing script to accept command-line arguments: `--input-dir`, `--output-file`, `--date-from`, and `--date-to`. Validate that `--date-from` is not after `--date-to`, filter logs by the provided date range, and write the filtered results to the specified output JSON file. Include a summary of total lines parsed and lines skipped due to date mismatch.",
+      "starter_code": "import argparse\nimport json\nfrom datetime import datetime\n\ndef main():\n    parser = argparse.ArgumentParser()\n    parser.add_argument('--input-dir', required=True)\n    parser.add_argument('--output-file', required=True)\n    parser.add_argument('--date-from', required=True)\n    parser.add_argument('--date-to', required=True)\n    args = parser.parse_args()\n    # TODO: validate dates, parse directory, filter, and write output\n    report = {\n        'total_parsed': 0,\n        'skipped_by_date': 0,\n        'output_path': args.output_file\n    }\n    with open(args.output_file, 'w') as f:\n        json.dump(report, f, indent=2)\n    return report\n\nif __name__ == '__main__':\n    main()",
+      "solution_code": "import argparse\nimport json\nimport os\nfrom datetime import datetime\n\ndef main():\n    parser = argparse.ArgumentParser()\n    parser.add_argument('--input-dir', required=True)\n    parser.add_argument('--output-file', required=True)\n    parser.add_argument('--date-from', required=True)\n    parser.add_argument('--date-to', required=True)\n    args = parser.parse_args()\n    fmt = '%Y-%m-%d'\n    start = datetime.strptime(args.date_from, fmt)\n    end = datetime.strptime(args.date_to, fmt)\n    if start > end:\n        raise ValueError('date-from must not be after date-to')\n    report = {\n        'total_parsed': 0,\n        'skipped_by_date': 0,\n        'output_path': args.output_file\n    }\n    for filename in os.listdir(args.input_dir):\n        filepath = os.path.join(args.input_dir, filename)\n        if not os.path.isfile(filepath):\n            continue\n        with open(filepath, 'r') as f:\n            for line in f:\n                line = line.strip()\n                if not line:\n                    continue\n                parts = line.split(' ', 2)\n                if len(parts) < 3:\n                    report['total_parsed'] += 1\n                    continue\n                timestamp_str = parts[1].split()[0]\n                ts = datetime.strptime(timestamp_str, '%Y-%m-%d')\n                if not (start <= ts <= end):\n                    report['skipped_by_date'] += 1\n                    continue\n                report['total_parsed'] += 1\n    with open(args.output_file, 'w') as f:\n        json.dump(report, f, indent=2)\n    return report\n\nif __name__ == '__main__':\n    main()",
+      "test_cases": [
+        {
+          "input": "cli invocation",
+          "setup": "import os; os.makedirs('test_in', exist_ok=True); open('test_in/a.log', 'w').write('ERROR 2023-10-05 09:00:00 X\\nINFO 2023-10-06 10:00:00 Y\\n')",
+          "args": [
+            "--input-dir",
+            "test_in",
+            "--output-file",
+            "out.json",
+            "--date-from",
+            "2023-10-05",
+            "--date-to",
+            "2023-10-05"
+          ],
+          "expected_file_content": {
+            "total_parsed": 1,
+            "skipped_by_date": 1,
+            "output_path": "out.json"
+          }
+        }
+      ],
+      "hint": "Use argparse to parse CLI flags, datetime.strptime for validation, and compare date objects directly. Remember to strip and split each line before extracting the date portion for comparison.",
+      "explanation": "This final milestone produces a production-ready CLI tool. It demonstrates argument parsing, input validation, date-range filtering, and structured output. Students learn to transform a standalone script into a reusable automation utility suitable for scheduled tasks and CI pipelines."
+    },
+    {
+      "id": "42.1_q25",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone",
+      "skill": "integration",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q24"
+      ],
+      "prompt": "Build a log parsing automation tool that reads a server log file, extracts timestamps, log levels, and messages, and outputs a structured summary.",
+      "starter_code": "import re\n\ndef parse_log_file(filepath):\n    pattern = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n    results = []\n    with open(filepath, 'r') as f:\n        for line in f:\n            match = re.match(pattern, line.strip())\n            if match:\n                results.append(match.groupdict())\n    return results\n\nif __name__ == '__main__':\n    data = parse_log_file('server.log')\n    print(data)",
+      "solution_code": "import re\nfrom collections import defaultdict\n\ndef parse_log_file(filepath):\n    pattern = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n    results = []\n    error_count = 0\n    with open(filepath, 'r') as f:\n        for line in f:\n            line = line.strip()\n            if not line:\n                continue\n            match = re.match(pattern, line)\n            if match:\n                results.append(match.groupdict())\n            else:\n                error_count += 1\n    summary = {\n        'total_entries': len(results),\n        'errors': error_count,\n        'entries': results\n    }\n    return summary\n\ndef generate_summary(summary):\n    level_counts = defaultdict(int)\n    for entry in summary['entries']:\n        level_counts[entry['level']] += 1\n    return {\n        'summary': summary,\n        'level_distribution': dict(level_counts)\n    }\n\nif __name__ == '__main__':\n    data = parse_log_file('server.log')\n    summary = generate_summary(data)\n    print(summary)",
+      "test_cases": [
+        {
+          "input": "server.log",
+          "description": "Valid log with mixed levels",
+          "expected_output_contains": [
+            "'total_entries'",
+            "'level_distribution'",
+            "'ERROR'",
+            "'INFO'"
+          ]
+        },
+        {
+          "input": "empty_log.log",
+          "description": "Empty file",
+          "expected_output_contains": [
+            "0",
+            "'total_entries': 0"
+          ]
+        },
+        {
+          "input": "malformed_log.log",
+          "description": "File with malformed lines",
+          "expected_output_contains": [
+            "'errors': 1"
+          ]
+        }
+      ],
+      "hint": "Use re.match for line-by-line parsing. Accumulate statistics in a dictionary. Handle empty lines and malformed entries gracefully.",
+      "explanation": "This milestone integrates file I/O, regular expressions, and data aggregation. The solution reads each line, applies a named-group regex to extract structured fields, skips empty lines, counts parse errors, and computes a distribution of log levels using collections.defaultdict."
+    },
+    {
+      "id": "42.1_q26",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_milestone",
+      "skill": "integration",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q25"
+      ],
+      "prompt": "Extend the log parser to convert timestamps to datetime objects, filter entries by date range, and export the filtered results as JSON.",
+      "starter_code": "import re\nimport json\nfrom datetime import datetime\n\ndef filter_by_date(entries, start_date, end_date):\n    filtered = []\n    for entry in entries:\n        ts = entry['timestamp']\n        dt = datetime.strptime(ts, '%Y-%m-%d %H:%M:%S')\n        if start_date <= dt <= end_date:\n            filtered.append(entry)\n    return filtered\n\ndef export_json(data, filepath):\n    with open(filepath, 'w') as f:\n        json.dump(data, f, indent=2)\n\nif __name__ == '__main__':\n    entries = parse_log_file('server.log')\n    filtered = filter_by_date(entries, datetime(2023, 1, 1), datetime(2023, 12, 31))\n    export_json(filtered, 'output.json')",
+      "solution_code": "import re\nimport json\nfrom datetime import datetime\nfrom collections import defaultdict\n\ndef parse_log_file(filepath):\n    pattern = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n    results = []\n    with open(filepath, 'r') as f:\n        for line in f:\n            line = line.strip()\n            if not line:\n                continue\n            match = re.match(pattern, line)\n            if match:\n                results.append(match.groupdict())\n    return results\n\ndef filter_by_date(entries, start_date, end_date):\n    filtered = []\n    for entry in entries:\n        try:\n            dt = datetime.strptime(entry['timestamp'], '%Y-%m-%d %H:%M:%S')\n            if start_date <= dt <= end_date:\n                entry['parsed_datetime'] = dt.isoformat()\n                filtered.append(entry)\n        except ValueError:\n            continue\n    return filtered\n\ndef export_json(data, filepath):\n    with open(filepath, 'w') as f:\n        json.dump(data, f, indent=2, default=str)\n\ndef generate_statistics(entries):\n    stats = defaultdict(int)\n    for entry in entries:\n        stats[entry['level']] += 1\n    return dict(stats)\n\nif __name__ == '__main__':\n    raw = parse_log_file('server.log')\n    start = datetime(2023, 6, 1)\n    end = datetime(2023, 6, 30)\n    filtered = filter_by_date(raw, start, end)\n    stats = generate_statistics(filtered)\n    export_json(filtered, 'output.json')\n    print(f'Exported {len(filtered)} entries. Stats: {stats}')",
+      "test_cases": [
+        {
+          "input": "server.log",
+          "description": "Filter entries within June 2023",
+          "expected_output_contains": [
+            "'parsed_datetime'",
+            "'2023-06-'",
+            "output.json"
+          ]
+        },
+        {
+          "input": "server.log",
+          "description": "Empty filtered result",
+          "expected_output_contains": [
+            "'Exported 0 entries'"
+          ]
+        },
+        {
+          "input": "server.log",
+          "description": "Malformed timestamp skipped",
+          "expected_output_contains": [
+            "'ValueError'"
+          ]
+        }
+      ],
+      "hint": "Use datetime.strptime with try-except to skip invalid timestamps. Add a parsed_datetime field to each entry before filtering.",
+      "explanation": "This step integrates datetime parsing, JSON serialization, and statistical aggregation. The solution validates and converts timestamps, filters by inclusive date bounds, enriches each record with an ISO-formatted datetime string, and writes structured JSON output."
+    },
+    {
+      "id": "42.1_q27",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_extension",
+      "skill": "extension",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q26"
+      ],
+      "prompt": "Refactor the log parser to use a dataclass for log entries, add CSV export functionality, and support custom timestamp formats.",
+      "starter_code": "import re\n\nclass LogEntry:\n    def __init__(self, timestamp, level, message):\n        self.timestamp = timestamp\n        self.level = level\n        self.message = message\n\ndef parse_line(line):\n    pattern = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n    m = re.match(pattern, line)\n    if m:\n        return LogEntry(m.group('timestamp'), m.group('level'), m.group('message'))\n    return None",
+      "solution_code": "import re\nimport csv\nfrom dataclasses import dataclass\nfrom datetime import datetime\nfrom typing import Optional\n\n@dataclass\nclass LogEntry:\n    timestamp: str\n    level: str\n    message: str\n    parsed_datetime: Optional[datetime] = None\n\ndef parse_line(line: str, fmt: str = '%Y-%m-%d %H:%M:%S') -> Optional[LogEntry]:\n    pattern = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n    m = re.match(pattern, line)\n    if not m:\n        return None\n    entry = LogEntry(\n        timestamp=m.group('timestamp'),\n        level=m.group('level'),\n        message=m.group('message')\n    )\n    try:\n        entry.parsed_datetime = datetime.strptime(entry.timestamp, fmt)\n    except ValueError:\n        entry.parsed_datetime = None\n    return entry\n\ndef export_csv(entries: list[LogEntry], filepath: str) -> None:\n    with open(filepath, 'w', newline='') as f:\n        writer = csv.writer(f)\n        writer.writerow(['timestamp', 'level', 'message', 'parsed_datetime'])\n        for e in entries:\n            writer.writerow([\n                e.timestamp,\n                e.level,\n                e.message,\n                e.parsed_datetime.isoformat() if e.parsed_datetime else ''\n            ])\n\nif __name__ == '__main__':\n    with open('server.log', 'r') as f:\n        entries = [parse_line(line) for line in f if parse_line(line)]\n    export_csv(entries, 'logs.csv')",
+      "test_cases": [
+        {
+          "input": "server.log",
+          "description": "CSV export with parsed datetime column",
+          "expected_output_contains": [
+            "'logs.csv'",
+            "'timestamp'",
+            "'parsed_datetime'"
+          ]
+        },
+        {
+          "input": "server.log",
+          "description": "Custom format support",
+          "expected_output_contains": [
+            "fmt=''",
+            "'2023-06-15 14:30:00'"
+          ]
+        },
+        {
+          "input": "server.log",
+          "description": "Dataclass preserves structure",
+          "expected_output_contains": [
+            "LogEntry(",
+            "'timestamp'",
+            "'level'",
+            "'message'"
+          ]
+        }
+      ],
+      "hint": "Use @dataclass for clean record representation. Accept a format string in parse_line and pass it to datetime.strptime. Write CSV with csv.writer including a header row.",
+      "explanation": "This extension introduces dataclasses for type-safe records, parameterized timestamp parsing, and CSV serialization. The solution demonstrates clean abstraction by separating parsing logic from export logic and handling optional datetime conversion."
+    },
+    {
+      "id": "42.1_q28",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_extension",
+      "skill": "extension",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q27"
+      ],
+      "prompt": "Implement concurrent log parsing using ThreadPoolExecutor to process large log files efficiently.",
+      "starter_code": "import re\n\ndef parse_chunk(lines):\n    pattern = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n    results = []\n    for line in lines:\n        m = re.match(pattern, line.strip())\n        if m:\n            results.append(m.groupdict())\n    return results",
+      "solution_code": "import re\nfrom concurrent.futures import ThreadPoolExecutor\nfrom typing import List, Dict\n\nPATTERN = r'^(?P<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(?P<level>\\w+)\\] (?P<message>.*)$'\n\ndef parse_chunk(lines: List[str]) -> List[Dict[str, str]]:\n    results = []\n    for line in lines:\n        line = line.strip()\n        if not line:\n            continue\n        m = re.match(PATTERN, line)\n        if m:\n            results.append(m.groupdict())\n    return results\n\ndef read_in_chunks(filepath: str, chunk_size: int = 1000) -> List[List[str]]:\n    with open(filepath, 'r') as f:\n        chunk = []\n        for line in f:\n            chunk.append(line)\n            if len(chunk) >= chunk_size:\n                yield chunk\n                chunk = []\n        if chunk:\n            yield chunk\n\ndef parse_file_concurrent(filepath: str, max_workers: int = 4) -> List[Dict[str, str]]:\n    all_results = []\n    with ThreadPoolExecutor(max_workers=max_workers) as executor:\n        futures = [executor.submit(parse_chunk, chunk) for chunk in read_in_chunks(filepath)]\n        for future in futures:\n            all_results.extend(future.result())\n    return all_results\n\nif __name__ == '__main__':\n    data = parse_file_concurrent('large_server.log')\n    print(f'Parsed {len(data)} lines concurrently.')",
+      "test_cases": [
+        {
+          "input": "large_server.log",
+          "description": "Concurrent parsing returns all valid entries",
+          "expected_output_contains": [
+            "ThreadPoolExecutor",
+            "Parsed",
+            "len(data)"
+          ]
+        },
+        {
+          "input": "large_server.log",
+          "description": "Chunked reading avoids memory overload",
+          "expected_output_contains": [
+            "'chunk_size'",
+            "yield chunk"
+          ]
+        },
+        {
+          "input": "large_server.log",
+          "description": "Handles empty lines within chunks",
+          "expected_output_contains": [
+            "if not line:",
+            "continue"
+          ]
+        }
+      ],
+      "hint": "Split the file into chunks using a generator. Submit each chunk to ThreadPoolExecutor. Collect results with future.result() and flatten the list of lists.",
+      "explanation": "This challenge extends the project with concurrency. The solution uses a generator to read chunks, ThreadPoolExecutor to parallelize regex parsing, and flattens results. It demonstrates I/O-bound parallelism and memory-conscious streaming."
+    },
+    {
+      "id": "42.1_q29",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_extension",
+      "skill": "extension",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q28"
+      ],
+      "prompt": "Add command-line argument parsing to control input file, output format, date filter, and verbosity level.",
+      "starter_code": "import sys\n\ndef main():\n    input_file = 'server.log'\n    output_format = 'json'\n    start = None\n    end = None\n    verbose = False\n    args = sys.argv[1:]\n    for arg in args:\n        if arg == '-i':\n            input_file = args[args.index(arg) + 1]\n        elif arg == '-o':\n            output_format = args[args.index(arg) + 1]\n        elif arg == '-v':\n            verbose = True\n    print(f'Input: {input_file}, Format: {output_format}')",
+      "solution_code": "import argparse\nimport sys\nimport json\nfrom datetime import datetime\n\ndef parse_args(argv=None):\n    parser = argparse.ArgumentParser(description='Log parsing automation tool')\n    parser.add_argument('-i', '--input', default='server.log', help='Input log file path')\n    parser.add_argument('-o', '--output', default='output', help='Output file path without extension')\n    parser.add_argument('-f', '--format', choices=['json', 'csv'], default='json', help='Output format')\n    parser.add_argument('-s', '--start', default=None, help='Start date in YYYY-MM-DD HH:MM:SS')\n    parser.add_argument('-e', '--end', default=None, help='End date in YYYY-MM-DD HH:MM:SS')\n    parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose logging')\n    return parser.parse_args(argv)\n\ndef main(argv=None):\n    args = parse_args(argv)\n    start_dt = None\n    end_dt = None\n    if args.start:\n        start_dt = datetime.strptime(args.start, '%Y-%m-%d %H:%M:%S')\n    if args.end:\n        end_dt = datetime.strptime(args.end, '%Y-%m-%d %H:%M:%S')\n\n    if args.verbose:\n        print(f'Reading {args.input}...')\n    data = parse_log_file(args.input)\n    filtered = filter_by_date(data, start_dt, end_dt)\n\n    if args.format == 'json':\n        export_json(filtered, f'{args.output}.json')\n    else:\n        export_csv(filtered, f'{args.output}.csv')\n    if args.verbose:\n        print(f'Exported {len(filtered)} entries to {args.output}.{args.format}')\n\nif __name__ == '__main__':\n    main()",
+      "test_cases": [
+        {
+          "input": "script.py -i data.log -o out -f json -s '2023-01-01 00:00:00' -e '2023-01-31 23:59:59' -v",
+          "description": "Full CLI invocation with date filter and verbose",
+          "expected_output_contains": [
+            "'Reading data.log'",
+            "'Exported",
+            "'.json'"
+          ]
+        },
+        {
+          "input": "script.py",
+          "description": "Default arguments",
+          "expected_output_contains": [
+            "'server.log'",
+            "'json'"
+          ]
+        },
+        {
+          "input": "script.py -f csv",
+          "description": "CSV format override",
+          "expected_output_contains": [
+            "'csv'",
+            "'Exported"
+          ]
+        }
+      ],
+      "hint": "Use argparse.ArgumentParser with choices for format. Convert string dates to datetime objects with strptime. Use action='store_true' for the verbose flag.",
+      "explanation": "This extension professionalizes the tool with a CLI interface. The solution uses argparse for robust argument handling, validates date strings, and routes output to JSON or CSV based on user selection, making the automation script reusable and scriptable."
+    },
+    {
+      "id": "42.1_q30",
+      "type": "write_the_code",
+      "concept": "project_log_parsing_automation_extension",
+      "skill": "extension",
+      "difficulty": "hard",
+      "prerequisites": [
+        "42.1_q29"
+      ],
+      "prompt": "Write a comprehensive test suite using unittest to validate parsing, filtering, export, and CLI behavior.",
+      "starter_code": "import unittest\n\nclass TestLogParser(unittest.TestCase):\n    def test_parse_line(self):\n        line = '2023-06-15 14:30:00 [INFO] System started'\n        result = parse_line(line)\n        self.assertIsNotNone(result)\n        self.assertEqual(result.level, 'INFO')\n\nif __name__ == '__main__':\n    unittest.main()",
+      "solution_code": "import unittest\nimport tempfile\nimport os\nimport json\nfrom datetime import datetime\nfrom log_parser import parse_log_file, filter_by_date, export_json\n\nclass TestLogParser(unittest.TestCase):\n    def setUp(self):\n        self.sample_log = (\n            '2023-06-15 14:30:00 [INFO] System started\\n'\n            '2023-06-15 14:31:00 [ERROR] Disk failure\\n'\n            '2023-06-15 14:32:00 [INFO] Retrying operation\\n'\n            'malformed line without brackets\\n'\n            '2023-06-15 14:33:00 [WARN] Low memory\\n'\n        )\n        self.temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.log')\n        self.temp_file.write(self.sample_log)\n        self.temp_file.close()\n\n    def tearDown(self):\n        os.remove(self.temp_file.name)\n\n    def test_parse_all_entries(self):\n        entries = parse_log_file(self.temp_file.name)\n        self.assertEqual(len(entries), 4)\n        self.assertEqual(entries[0]['level'], 'INFO')\n        self.assertEqual(entries[1]['level'], 'ERROR')\n\n    def test_filter_by_date(self):\n        start = datetime(2023, 6, 15, 14, 30)\n        end = datetime(2023, 6, 15, 14, 32)\n        entries = parse_log_file(self.temp_file.name)\n        filtered = filter_by_date(entries, start, end)\n        self.assertEqual(len(filtered), 3)\n        self.assertEqual(filtered[0]['level'], 'INFO')\n\n    def test_export_json(self):\n        entries = parse_log_file(self.temp_file.name)\n        temp_out = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json')\n        temp_out.close()\n        export_json(entries, temp_out.name)\n        with open(temp_out.name, 'r') as f:\n            data = json.load(f)\n        self.assertIn('entries', data)\n        self.assertEqual(len(data['entries']), 4)\n        os.remove(temp_out.name)\n\n    def test_cli_defaults(self):\n        import subprocess\n        result = subprocess.run(\n            ['python', 'log_parser.py', '-i', self.temp_file.name, '-o', 'test_out'],\n            capture_output=True,\n            text=True\n        )\n        self.assertEqual(result.returncode, 0)\n        self.assertTrue(os.path.exists('test_out.json'))\n        os.remove('test_out.json')\n\nif __name__ == '__main__':\n    unittest.main()",
+      "test_cases": [
+        {
+          "input": "unittest runner",
+          "description": "All tests pass without exceptions",
+          "expected_output_contains": [
+            "OK",
+            "4 tests"
+          ]
+        },
+        {
+          "input": "unittest -v",
+          "description": "Verbose test output shows each test name",
+          "expected_output_contains": [
+            "test_parse_all_entries",
+            "test_filter_by_date",
+            "test_export_json",
+            "test_cli_defaults"
+          ]
+        },
+        {
+          "input": "Malformed log line",
+          "description": "Error count excludes malformed line",
+          "expected_output_contains": [
+            "'malformed line without brackets'",
+            "4"
+          ]
+        }
+      ],
+      "hint": "Use tempfile.NamedTemporaryFile to create isolated test files. Clean up with tearDown. Test parsing, filtering, export, and CLI invocation separately.",
+      "explanation": "This final extension ensures reliability through automated testing. The solution validates correct entry counts, date-range filtering, JSON export integrity, and CLI execution using subprocess. It exemplifies test-driven maintenance for production-grade automation scripts."
+    }
+  ],
+  "unit_num": 42,
+  "learning_objectives": [
+    "Architect a complete multi-step application for Project: Log Parsing Automation",
+    "Decompose problem requirements into modular functions and classes",
+    "Implement defensive error handling and input validation",
+    "Verify application correctness against comprehensive test cases"
+  ],
+  "prerequisites": [
+    "41.7"
+  ]
+}

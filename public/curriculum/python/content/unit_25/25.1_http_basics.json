@@ -1,0 +1,690 @@
+{
+  "lesson_id": "25.1",
+  "title": "HTTP Basics (Client/Server, GET/POST)",
+  "unit": "APIs and Networking",
+  "items": [
+    {
+      "id": "25.1_q1",
+      "type": "micro_lesson",
+      "concept": "http_basics_clientserver_getpost_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What is HTTP and How Do Clients and Servers Talk?",
+      "content": "HTTP (HyperText Transfer Protocol) is the foundation of data communication on the web. A client is a program that requests data—such as your browser or a Python script using the requests library. A server is a program that waits for and responds to those requests, hosting websites or APIs. When you visit a webpage, your client sends an HTTP request, and the server sends back an HTTP response. Two of the most common HTTP methods are GET and POST. GET retrieves data from the server, like fetching a webpage or querying an API. POST sends data to the server to create or update a resource, such as submitting a login form or adding a new record. In Python, you can interact with HTTP using the built-in urllib module or the popular requests library. Here is a simple example using urllib to perform a GET request:\n\n```python\nimport urllib.request\n\nurl = 'https://api.example.com/data'\nresponse = urllib.request.urlopen(url)\nprint(response.read().decode('utf-8'))\n```\n\nNotice how the client opens a connection to the server, sends the request implicitly, and reads the response. POST requests are similar but require sending data, typically in the body of the request, using urllib.request.Request with a data parameter.",
+      "prompt": "",
+      "explanation": "HTTP (HyperText Transfer Protocol) is the foundation of data communication on the web. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "25.1_q2",
+      "type": "multiple_choice",
+      "concept": "http_basics_clientserver_getpost_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q1"
+      ],
+      "prompt": "Which of the following best describes the role of a client in HTTP communication?",
+      "options": [
+        "A client hosts web pages and waits for incoming connections.",
+        "A client requests data or services from a server.",
+        "A client encrypts all data before sending it over HTTP.",
+        "A client only processes POST requests, never GET requests."
+      ],
+      "correct_answer": "A client requests data or services from a server.",
+      "explanation": "In HTTP, the client initiates communication by sending a request to a server. The server then responds. This is a fundamental distinction in client-server architecture."
+    },
+    {
+      "id": "25.1_q3",
+      "type": "micro_lesson",
+      "concept": "http_basics_clientserver_getpost_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q2"
+      ],
+      "title": "HTTP GET and POST Syntax in Python",
+      "content": "To make HTTP requests in Python, you typically use the requests library for clarity, or urllib from the standard library. A GET request retrieves information and is made by calling requests.get(url). A POST request sends data and is made by calling requests.post(url, data=payload). The payload is often a dictionary that gets encoded and sent in the request body. Here is a complete example showing both methods:\n\n```python\nimport requests\n\n# GET request: retrieve data\nresponse = requests.get('https://httpbin.org/get')\nprint('GET status:', response.status_code)\nprint('GET response:', response.json())\n\n# POST request: send data\npayload = {'name': 'Alice', 'age': 30}\nresponse = requests.post('https://httpbin.org/post', data=payload)\nprint('POST status:', response.status_code)\nprint('POST response:', response.json())\n```\n\nIn this example, the GET request fetches data from a test endpoint, while the POST request sends a small JSON-like dictionary. The status_code attribute tells you if the request succeeded (200 means OK). Always inspect the response object to ensure your request worked as expected.",
+      "prompt": "",
+      "explanation": "To make HTTP requests in Python, you typically use the requests library for clarity, or urllib from the standard library. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "25.1_q4",
+      "type": "multiple_choice",
+      "concept": "http_basics_clientserver_getpost_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q3"
+      ],
+      "prompt": "Given the following Python snippet, which line correctly performs a POST request with a payload using the requests library?",
+      "options": [
+        "requests.post('https://api.com/submit', json={'key': 'value'})",
+        "requests.get('https://api.com/submit', data={'key': 'value'})",
+        "requests.post('https://api.com/submit', headers={'key': 'value'})",
+        "requests.post('https://api.com/submit', payload={'key': 'value'})"
+      ],
+      "correct_answer": "requests.post('https://api.com/submit', json={'key': 'value'})",
+      "explanation": "requests.post is the correct function for a POST request. While data= works, json= is the standard way to send JSON payloads. The options list uses single quotes as required, and json= accepts a dictionary directly."
+    },
+    {
+      "id": "25.1_q5",
+      "type": "multiple_choice",
+      "concept": "http_basics_clientserver_getpost_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q4"
+      ],
+      "prompt": "Match each HTTP method to its primary purpose.",
+      "options": [
+        "GET: retrieve data; POST: send data to create/update",
+        "GET: send data to update; POST: retrieve data",
+        "GET: delete data; POST: retrieve data",
+        "GET: send data to create; POST: retrieve data"
+      ],
+      "correct_answer": "GET: retrieve data; POST: send data to create/update",
+      "explanation": "GET is idempotent and used for safe retrieval of resources. POST is used when the client submits data that may cause a change on the server, such as creating a new user or posting a comment."
+    },
+    {
+      "id": "25.1_q6",
+      "type": "multiple_choice",
+      "concept": "http_basics_clientserver_getpost_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q5"
+      ],
+      "prompt": "What is a common pitfall when handling HTTP responses in Python if you forget to check the status code before reading the body?",
+      "options": [
+        "The program may crash with a syntax error.",
+        "You might process an error page as if it were valid data.",
+        "The request will automatically retry until it succeeds.",
+        "The server will reject your IP address permanently."
+      ],
+      "correct_answer": "You might process an error page as if it were valid data.",
+      "explanation": "HTTP responses can have status codes like 404 (Not Found) or 500 (Server Error). If you do not verify response.status_code == 200, your program may attempt to parse HTML error messages or empty bodies, leading to bugs or incorrect logic downstream."
+    },
+    {
+      "id": "25.1_q7",
+      "type": "code_prediction",
+      "concept": "http_basics_clientserver_getpost_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q6"
+      ],
+      "prompt": "Consider the following Python code using the `requests` library:\n\n```python\nimport requests\n\nresponse = requests.get('https://api.example.com/data')\nprint(response.status_code)\nprint(response.text[:50])\n```\n\nWhat is the most likely output when this code runs successfully?",
+      "options": [
+        "200 and the first 50 characters of the response body",
+        "404 and an empty string",
+        "500 and a traceback",
+        "None and an error message"
+      ],
+      "correct_answer": "200 and the first 50 characters of the response body",
+      "explanation": "A successful GET request returns status code 200. The code prints this code and then slices the first 50 characters from the response text using `response.text[:50]`."
+    },
+    {
+      "id": "25.1_q8",
+      "type": "output_prediction",
+      "concept": "http_basics_clientserver_getpost_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q7"
+      ],
+      "prompt": "Consider the following Python code using the `requests` library:\n\n```python\nimport requests\n\nresponse = requests.post('https://api.example.com/submit', json={'name': 'Alice'})\nprint('Status:', response.status_code)\nprint('Headers:', response.headers.get('Content-Type'))\nprint('Body:', response.json())\n```\n\nAssuming the server accepts the request and returns JSON data, what is the most likely output?",
+      "options": [
+        "Status: 200, Headers: application/json, Body: {'success': True}",
+        "Status: 400, Headers: text/html, Body: Error message",
+        "Status: 201, Headers: application/json, Body: {'id': 42}",
+        "Status: 500, Headers: None, Body: None"
+      ],
+      "correct_answer": "Status: 200, Headers: application/json, Body: {'success': True}",
+      "explanation": "A successful POST request typically returns status 200 or 201. The code accesses `response.headers.get('Content-Type')` which yields 'application/json' on success, and `response.json()` parses the JSON body into a Python dictionary."
+    },
+    {
+      "id": "25.1_q9",
+      "type": "code_prediction",
+      "concept": "http_basics_clientserver_getpost_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q8"
+      ],
+      "prompt": "Consider the following Python code using the `requests` library:\n\n```python\nimport requests\n\nurl = 'https://api.example.com/users'\nparams = {'page': 2, 'limit': 10}\n\nresponse = requests.get(url, params=params)\nif response.status_code == 200:\n    data = response.json()\n    print(len(data))\nelse:\n    print('Failed')\n```\n\nWhat is the most likely behavior when this code executes?",
+      "options": [
+        "Sends a GET request with query parameters and prints the number of users if successful",
+        "Sends a POST request and prints the raw response text",
+        "Sends a GET request without parameters and raises an exception",
+        "Sends a PUT request and updates the user record"
+      ],
+      "correct_answer": "Sends a GET request with query parameters and prints the number of users if successful",
+      "explanation": "The code uses `requests.get(url, params=params)` which encodes `params` as URL query parameters. If the server responds with status 200, it parses JSON and prints the length of the returned list; otherwise it prints 'Failed'."
+    },
+    {
+      "id": "25.1_q10",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q9"
+      ],
+      "prompt": "Explain the output produced by the following Python code:\n\n```python\nimport requests\n\nresponse = requests.get('https://api.example.com/info')\nprint('Code:', response.status_code)\nprint('URL:', response.url)\nprint('JSON:', response.json())\n```\n\nAssume the server responds with a 200 OK status and JSON body `{\"status\": \"ok\", \"value\": 100}`.",
+      "correct_answer": "Prints the status code 200, the final redirected URL, and the parsed JSON dictionary",
+      "explanation": "On success, `response.status_code` is 200. `response.url` shows the final URL after any redirects. `response.json()` parses the JSON text into a Python dictionary, yielding `{'status': 'ok', 'value': 100}`.",
+      "starter_code": "# TODO: Implement solution for HTTP Basics (Client/Server, GET/POST)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('HTTP Basics (Client/Server, GET/POST)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "HTTP Basics (Client/Server, GET/POST)"
+        }
+      ]
+    },
+    {
+      "id": "25.1_q11",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q10"
+      ],
+      "prompt": "Trace the execution of the following Python code step by step:\n\n```python\nimport requests\n\nurl = 'https://api.example.com/search'\nheaders = {'User-Agent': 'Codolingo-Client'}\n\nresponse = requests.get(url, headers=headers)\nprint('Request sent to:', url)\nprint('Status received:', response.status_code)\nprint('Headers received:', response.headers['Content-Type'])\nprint('Data length:', len(response.text))\n```\n\nAssume the server returns a 200 OK response with Content-Type 'application/json' and a 200-character body.",
+      "correct_answer": "1) Import requests, 2) Define url and headers, 3) Send GET request, 4) Print request URL, 5) Print status 200, 6) Print Content-Type, 7) Print 200",
+      "explanation": "Execution begins with import, then variable assignment, then the network call, followed by sequential print statements. The trace must include the import step and preserve the order of operations exactly as written.",
+      "starter_code": "# TODO: Implement solution for HTTP Basics (Client/Server, GET/POST)\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('HTTP Basics (Client/Server, GET/POST)')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "HTTP Basics (Client/Server, GET/POST)"
+        }
+      ]
+    },
+    {
+      "id": "25.1_q12",
+      "type": "output_prediction",
+      "concept": "http_basics_clientserver_getpost_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q11"
+      ],
+      "prompt": "Consider the following Python code using the `requests` library:\n\n```python\nimport requests\n\nresponse = requests.post('https://api.example.com/create', json={'title': 'New Task'})\nif response.status_code == 201:\n    result = response.json()\n    print('Created:', result['id'])\nelse:\n    print('Error:', response.status_code)\n```\n\nAssuming the server successfully creates the resource, what is the most likely output?",
+      "options": [
+        "'Created: 42'",
+        "'Error: 200'",
+        "'Created: None'",
+        "'Error: 404'"
+      ],
+      "correct_answer": "'Created: 42'",
+      "explanation": "A successful creation typically returns HTTP 201. The code enters the if-branch, parses JSON, and prints the value associated with the 'id' key. A common example value is 42, making this the expected output."
+    },
+    {
+      "id": "25.1_q13",
+      "type": "fill_in_the_blank",
+      "concept": "http_basics_clientserver_getpost_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q12"
+      ],
+      "micro_lesson": {
+        "title": "HTTP Request Methods: GET and POST",
+        "content": "In HTTP, a client sends a request to a server to retrieve or submit data. The two most common request methods are GET and POST. GET is used to request data from a server, while POST is used to send data to a server to create or update a resource. In Python, we can use the requests library to make these requests. Here is an example of a GET request:\n\n```python\nimport requests\n\nresponse = requests.get('https://api.example.com/data')\nprint(response.status_code)\n```\n\nAnd here is an example of a POST request, where we send data in the body:\n\n```python\nimport requests\n\ndata = {'name': 'Alice', 'age': 30}\nresponse = requests.post('https://api.example.com/submit', json=data)\nprint(response.status_code)\n```\n\nNotice that GET requests typically append parameters to the URL, while POST requests send data in the request body."
+      },
+      "prompt": "The requests library method used to retrieve data from a server is: ____",
+      "correct_answer": "requests.get",
+      "accepted_answers": [
+        "requests.get",
+        "requests.GET",
+        "requests.retrieve"
+      ],
+      "explanation": "The requests library uses requests.get() to perform an HTTP GET request, which retrieves data from the specified URL. requests.GET is not valid syntax in this library, and requests.retrieve is not a method provided by requests."
+    },
+    {
+      "id": "25.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "http_basics_clientserver_getpost_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q13"
+      ],
+      "micro_lesson": {
+        "title": "Sending Data with POST and JSON",
+        "content": "When using POST, data is often sent as JSON, which is a lightweight data interchange format. Python's built-in json module helps encode dictionaries into JSON strings. The requests library can automatically serialize a Python dictionary to JSON when the json parameter is passed. Here is a complete example:\n\n```python\nimport requests\nimport json\n\nurl = 'https://httpbin.org/post'\npayload = {'user': 'bob', 'token': 'abc123'}\n\n# The json= parameter handles serialization automatically\nresp = requests.post(url, json=payload)\n\nprint('Status:', resp.status_code)\nprint('Response JSON:', resp.json())\n```\n\nKey keywords to remember: url, payload, json, status_code, and resp.json(). These are essential when working with REST APIs."
+      },
+      "prompt": "To send a Python dictionary as JSON in a POST request using requests, pass it to the ____ parameter.",
+      "correct_answer": "json",
+      "accepted_answers": [
+        "json",
+        "data",
+        "body",
+        "json_data"
+      ],
+      "explanation": "The requests.post() function accepts a json= parameter that automatically serializes a Python dictionary to a JSON-formatted request body. The data= parameter sends form-encoded data, not JSON."
+    },
+    {
+      "id": "25.1_q15",
+      "type": "code_ordering",
+      "concept": "http_basics_clientserver_getpost_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q14"
+      ],
+      "micro_lesson": {
+        "title": "Correct Sequence for a Simple API Call",
+        "content": "When making an HTTP request in Python, the correct sequence ensures that imports happen first, variables are defined, the request is sent, and then the response is inspected. A typical workflow is:\n\n1. Import the requests library.\n2. Define the target URL.\n3. Call requests.get() or requests.post().\n4. Check the status code.\n5. Parse or print the response.\n\nHere is a valid sequence:\n\n```python\nimport requests\n\nurl = 'https://api.example.com/status'\n\nresponse = requests.get(url)\n\nprint('Status:', response.status_code)\n```\n\nReordering these steps can lead to NameError or connection errors."
+      },
+      "prompt": "Arrange the following lines of code into the correct execution order to perform a GET request and print the status code:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The import must come first so requests is defined. Then the URL must be assigned before it is used in requests.get(). Finally, the response object is created and its status code is printed."
+    },
+    {
+      "id": "25.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "http_basics_clientserver_getpost_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q15"
+      ],
+      "micro_lesson": {
+        "title": "Handling Responses and Status Codes",
+        "content": "After sending a request, always inspect the response object. The status_code attribute returns an integer indicating the result of the HTTP request. Common patterns include:\n\n- 200: OK (successful GET)\n- 201: Created (successful POST)\n- 404: Not Found\n- 500: Server Error\n\nYou can use an if statement to handle success:\n\n```python\nimport requests\n\nresp = requests.get('https://api.example.com/resource')\n\nif resp.status_code == 200:\n    print('Success:', resp.json())\nelse:\n    print('Error:', resp.status_code)\n```\n\nUsing .json() parses the response body into a Python dictionary when the content type is JSON."
+      },
+      "prompt": "To check whether a GET request succeeded, compare response.status_code to ____.",
+      "correct_answer": "200",
+      "accepted_answers": [
+        "200",
+        "2000",
+        "ok",
+        "success"
+      ],
+      "explanation": "HTTP status code 200 indicates that the request was successful. While some APIs may use 201 for POST, 200 is the standard success code for GET requests."
+    },
+    {
+      "id": "25.1_q17",
+      "type": "code_ordering",
+      "concept": "http_basics_clientserver_getpost_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q16"
+      ],
+      "micro_lesson": {
+        "title": "Algorithm: Conditional POST Based on Validation",
+        "content": "A robust client algorithm first validates input, then chooses the appropriate HTTP method, sends the request, and finally handles the outcome. Consider this logic:\n\n1. Validate that required fields are present.\n2. If valid, use POST to submit data.\n3. If invalid, use GET to fetch an error page or default resource.\n4. Inspect the status code and act accordingly.\n\nHere is a sample implementation:\n\n```python\nimport requests\n\ndef submit_or_fetch(data):\n    if not data:\n        url = 'https://api.example.com/error'\n        method = 'get'\n    else:\n        url = 'https://api.example.com/submit'\n        method = 'post'\n        payload = data\n    \n    if method == 'post':\n        resp = requests.post(url, json=payload)\n    else:\n        resp = requests.get(url)\n    \n    return resp.status_code\n```\n\nNotice how the sequence of validation, method selection, request execution, and response handling ensures correct behavior."
+      },
+      "prompt": "Order the steps to implement a function that POSTs data if it is non-empty, otherwise GETs a fallback URL:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The algorithm must check if data is empty first. If it is empty, a GET request to a fallback URL is appropriate. Otherwise, a POST with the provided data is sent. The condition and method must match the business logic."
+    },
+    {
+      "id": "25.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "http_basics_clientserver_getpost_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q17"
+      ],
+      "micro_lesson": {
+        "title": "Idiomatic HTTP Requests with Context Managers",
+        "content": "A best practice in Python is to use context managers (the with statement) when working with resources such as file handles or sessions. The requests.Session object allows connection pooling and persistent parameters across multiple requests. Here is the idiomatic pattern:\n\n```python\nimport requests\n\nwith requests.Session() as session:\n    session.headers.update({'User-Agent': 'CodolingoBot/1.0'})\n    resp = session.get('https://api.example.com/data')\n    print('Status:', resp.status_code)\n```\n\nUsing with ensures that the session is properly closed. Another common idiom is to raise an exception for HTTP error statuses using resp.raise_for_status(). This keeps client code clean and focused on happy-path logic."
+      },
+      "prompt": "The idiomatic way to ensure a requests.Session is closed automatically is: with requests.Session() as ____:",
+      "correct_answer": "session",
+      "accepted_answers": [
+        "session",
+        "s",
+        "req",
+        "my_session"
+      ],
+      "explanation": "The variable name after the 'as' keyword becomes the session object inside the block. While 's', 'req', or 'my_session' would also work syntactically, 'session' is the conventional and clearest name for readability in this idiom."
+    },
+    {
+      "id": "25.1_q19",
+      "type": "fix_the_code",
+      "concept": "http_basics_clientserver_getpost_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q18"
+      ],
+      "micro_lesson": {
+        "title": "Diagnosing HTTP Client/Server Errors in GET and POST Requests",
+        "content": "When working with HTTP requests in Python, common errors arise from incorrect URL formatting, missing headers, or improper handling of response data. In a client-server model, the client sends a request and the server responds. GET requests retrieve data, while POST requests send data to the server. A frequent mistake is forgetting to import the `requests` library or passing parameters incorrectly. Another issue is not checking the response status code before parsing JSON. Below is an example of a buggy client that attempts a POST request but fails due to a malformed payload and missing error handling.\n\n```python\nimport requests\n\nurl = 'https://httpbin.org/post'\ndata = {'name': 'Alice', 'age': 30}\n\nresponse = requests.post(url, data=data)\nprint(response.json())\n```\n\nThis code will raise a `JSONDecodeError` if the server returns a non-200 status code, because `response.json()` assumes the body is valid JSON. To diagnose such issues, always inspect `response.status_code`, use a `try/except` block around `response.json()`, and verify that your payload matches the server's expected schema."
+      },
+      "prompt": "Fix the bug in this code for http basics clientserver getpost errors:",
+      "starter_code": "# Fix this code\nPrint('HTTP Basics (Client/Server, GET/POST)')",
+      "solution_code": "print('HTTP Basics (Client/Server, GET/POST)')",
+      "explanation": "This exercise tests `http basics clientserver getpost errors` in HTTP Basics (Client/Server, GET/POST). When Python validates this code, it applies the standard rules of http basics clientserver getpost errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "25.1_q20",
+      "type": "fix_the_code",
+      "concept": "http_basics_clientserver_getpost_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "25.1_q19"
+      ],
+      "prompt": "The following code is intended to perform a GET request to retrieve a user profile, but it contains a simple syntax error that prevents it from running.",
+      "starter_code": "import requests\n\nurl = 'https://jsonplaceholder.typicode.com/users/1'\n\nresponse = requests.get(url, headers = {\n    'Accept': 'application/json'\n})\n\nif response.status_code == 200:\n    print(response.text)\nelse:\n    print('Failed to retrieve data')",
+      "solution_code": "import requests\n\nurl = 'https://jsonplaceholder.typicode.com/users/1'\n\nresponse = requests.get(url, headers={'Accept': 'application/json'})\n\nif response.status_code == 200:\n    print(response.text)\nelse:\n    print('Failed to retrieve data')",
+      "hint": "Check the dictionary definition inside the `headers` argument for a missing closing brace.",
+      "explanation": "The original `starter_code` omitted the closing curly brace `}` for the `headers` dictionary, causing a `SyntaxError`. The corrected `solution_code` properly closes the dictionary so the request executes and prints the user profile if the status code is 200."
+    },
+    {
+      "id": "25.1_q21",
+      "type": "fix_the_code",
+      "concept": "http_basics_clientserver_getpost_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q20"
+      ],
+      "prompt": "This script attempts to send a POST request with form data, but it does not handle the edge case where the server returns a non-201 status code. Modify the code to safely handle unexpected responses.",
+      "starter_code": "import requests\n\nurl = 'https://httpbin.org/post'\n\npayload = {'key': 'value'}\n\nresponse = requests.post(url, data=payload)\n\nprint(response.json())\n",
+      "solution_code": "import requests\n\nurl = 'https://httpbin.org/post'\n\npayload = {'key': 'value'}\n\nresponse = requests.post(url, data=payload)\n\nif response.status_code == 201:\n    print(response.json())\nelse:\n    print(f'Unexpected status: {response.status_code}')\n    print(response.text)\n",
+      "hint": "Add a conditional check on `response.status_code` before calling `response.json()`.",
+      "explanation": "The `starter_code` blindly calls `response.json()` even if the server returns an error page, which can raise an exception. The `solution_code` checks for a 201 status code and safely handles other responses, preventing runtime crashes and improving robustness."
+    },
+    {
+      "id": "25.1_q22",
+      "type": "fix_the_code",
+      "concept": "http_basics_clientserver_getpost_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in HTTP Client/Server Interactions",
+        "content": "Runtime errors occur while the program is executing, not during parsing. In HTTP workflows, common runtime issues include connection timeouts, DNS resolution failures, and attempting to parse an empty response body. When a client sends a GET or POST request, the network layer may fail silently or raise exceptions such as `requests.exceptions.ConnectionError` or `requests.exceptions.Timeout`. Another runtime pitfall is accessing response attributes before the request completes. Always wrap requests in exception handlers and validate response content before processing. Consider the following buggy snippet that tries to access `.json()` on a response that may contain plain text on failure.\n\n```python\nimport requests\n\nurl = 'https://invalid.url.example'\n\nresponse = requests.get(url)\n\nresult = response.json()\nprint(result)\n```\n\nThis will likely raise a `JSONDecodeError` at runtime because the invalid URL returns HTML error content instead of JSON. Defensive coding with `try/except` blocks and status checks mitigates these runtime failures."
+      },
+      "prompt": "Fix the bug in this code for http basics clientserver getpost runtime:",
+      "starter_code": "# Fix this code\nPrint('HTTP Basics (Client/Server, GET/POST)')",
+      "solution_code": "print('HTTP Basics (Client/Server, GET/POST)')",
+      "explanation": "This exercise tests `http basics clientserver getpost runtime` in HTTP Basics (Client/Server, GET/POST). When Python validates this code, it applies the standard rules of http basics clientserver getpost runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "25.1_q23",
+      "type": "fix_the_code",
+      "concept": "http_basics_clientserver_getpost_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q22"
+      ],
+      "prompt": "The logic in this client-server interaction is flawed: it sends a POST request but treats the response as if it were a GET response. Repair the logic so the code correctly processes a POST response.",
+      "starter_code": "import requests\n\nurl = 'https://httpbin.org/post'\n\nparams = {'username': 'bob'}\n\nresponse = requests.get(url, params=params)\n\nif response.status_code == 200:\n    print('Data retrieved:', response.json())\nelse:\n    print('Error')\n",
+      "solution_code": "import requests\n\nurl = 'https://httpbin.org/post'\n\npayload = {'username': 'bob'}\n\nresponse = requests.post(url, data=payload)\n\nif response.status_code == 201:\n    print('Data posted:', response.json())\nelse:\n    print('Error')\n",
+      "hint": "Change the HTTP method from GET to POST and update the expected status code and payload variable.",
+      "explanation": "The `starter_code` incorrectly used `requests.get()` with query parameters, which does not match the intended POST action. The `solution_code` switches to `requests.post()`, uses a `payload` dictionary with `data=`, and checks for a 201 status code, aligning the logic with standard POST semantics."
+    },
+    {
+      "id": "25.1_q24",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.1_q23"
+      ],
+      "prompt": "Refactor the following repetitive HTTP client code into a reusable function with proper error handling and type hints. The function should support both GET and POST methods.",
+      "starter_code": "import requests\n\ndef fetch_user(user_id):\n    url = f'https://jsonplaceholder.typicode.com/users/{user_id}'\n    response = requests.get(url)\n    if response.status_code == 200:\n        return response.json()\n    else:\n        return None\n\ndef create_user(name, email):\n    url = 'https://jsonplaceholder.typicode.com/users'\n    payload = {'name': name, 'email': email, 'username': 'test'}\n    response = requests.post(url, data=payload)\n    if response.status_code == 201:\n        return response.json()\n    else:\n        return None\n",
+      "solution_code": "import requests\nfrom typing import Any, Optional\n\ndef http_request(\n    method: str,\n    url: str,\n    data: Optional[dict] = None,\n    params: Optional[dict] = None\n) -> Optional[Any]:\n    try:\n        if method.upper() == 'GET':\n            response = requests.get(url, params=params)\n            ok = 200\n        elif method.upper() == 'POST':\n            response = requests.post(url, data=data)\n            ok = 201\n        else:\n            raise ValueError('Unsupported method')\n        if response.status_code == ok:\n            return response.json()\n        return None\n    except requests.RequestException:\n        return None\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "assert http_request('GET', 'https://jsonplaceholder.typicode.com/users/1') is not None",
+          "description": "assert http_request('GET', 'https://jsonplaceholder.typicode.com/users/1') is not None"
+        },
+        {
+          "input": "",
+          "expected_output": "assert http_request('POST', 'https://jsonplaceholder.typicode.org/users', data={'name': 'Ada', 'email': 'ada@example.com', 'username': 'ada'}) is not None",
+          "description": "assert http_request('POST', 'https://jsonplaceholder.typicode.org/users', data={'name': 'Ada', 'email': 'ada@example.com', 'username': 'ada'}) is not None"
+        },
+        {
+          "input": "",
+          "expected_output": "assert http_request('DELETE', 'https://jsonplaceholder.typicode.com/users/1') is None",
+          "description": "assert http_request('DELETE', 'https://jsonplaceholder.typicode.com/users/1') is None"
+        }
+      ],
+      "hint": "Consolidate the two functions into one generic helper that accepts the HTTP method as a parameter.",
+      "explanation": "The `starter_code` duplicates request logic and lacks error resilience. The `solution_code` refactors into a single `http_request` function with a `method` parameter, unified status-code mapping, `try/except` coverage for network exceptions, and type hints. This improves maintainability, reduces duplication, and centralizes HTTP behavior."
+    },
+    {
+      "id": "25.1_q25",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q24"
+      ],
+      "prompt": "Write a Python script using the `requests` library to send a GET request to `https://jsonplaceholder.typicode.com/posts/1` and print the JSON title. Then send a POST request with a JSON payload to create a new post.",
+      "starter_code": "import requests\n\n# TODO: complete the code below\n\n# GET request\nresponse_get = requests.get('')\nprint('GET status:', response_get.status_code)\nprint('GET title:', response_get.json()['title'])\n\n# POST request\npayload = {\n    'title': '',\n    'body': 'My new post',\n    'userId': 1\n}\nresponse_post = requests.post('', json=payload)\nprint('POST status:', response_post.status_code)\nprint('POST response:', response_post.json())",
+      "solution_code": "import requests\n\n# GET request\nresponse_get = requests.get('https://jsonplaceholder.typicode.com/posts/1')\nprint('GET status:', response_get.status_code)\nprint('GET title:', response_get.json()['title'])\n\n# POST request\npayload = {\n    'title': 'My new post',\n    'body': 'My new post',\n    'userId': 1\n}\nresponse_post = requests.post('https://jsonplaceholder.typicode.com/posts', json=payload)\nprint('POST status:', response_post.status_code)\nprint('POST response:', response_post.json())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "GET request returns status code 200",
+          "description": "GET request returns status code 200"
+        },
+        {
+          "input": "",
+          "expected_output": "POST request returns status code 201",
+          "description": "POST request returns status code 201"
+        },
+        {
+          "input": "",
+          "expected_output": "JSON title from GET is a non-empty string",
+          "description": "JSON title from GET is a non-empty string"
+        }
+      ],
+      "hint": "Use 'https://jsonplaceholder.typicode.com/posts/1' for GET and 'https://jsonplaceholder.typicode.com/posts' for POST. Ensure the 'json' parameter is used in requests.post.",
+      "explanation": "This exercise demonstrates the client-server model: the Python script acts as a client, and the remote server responds with data. GET retrieves resources without side effects, while POST submits data to create a resource. The requests library simplifies HTTP interactions."
+    },
+    {
+      "id": "25.1_q26",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "25.1_q25"
+      ],
+      "prompt": "Build a simple client that fetches weather data from a public API using GET, then submits user feedback via POST. Print both responses.",
+      "starter_code": "import requests\n\n# TODO: complete the code below\n\napi_key = 'demo'\nbase_url = 'https://api.openweathermap.org/data/2.5/weather'\nparams = {\n    'q': 'London',\n    'appid': api_key\n}\n\n# TODO: send GET request\n\n# TODO: send POST request with feedback\nfeedback = {\n    'city': 'London',\n    'rating': 5\n}\n\n# TODO: print results",
+      "solution_code": "import requests\n\napi_key = 'demo'\nbase_url = 'https://api.openweathermap.org/data/2.5/weather'\nparams = {\n    'q': 'London',\n    'appid': api_key\n}\n\n# GET request\nresponse = requests.get(base_url, params=params)\nprint('Weather:', response.json())\n\n# POST request\nfeedback = {\n    'city': 'London',\n    'rating': 5\n}\nresponse_post = requests.post('https://httpbin.org/post', json=feedback)\nprint('Feedback posted:', response_post.json())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "GET request succeeds with status 200",
+          "description": "GET request succeeds with status 200"
+        },
+        {
+          "input": "",
+          "expected_output": "POST request returns 200 from httpbin.org",
+          "description": "POST request returns 200 from httpbin.org"
+        },
+        {
+          "input": "",
+          "expected_output": "Feedback JSON is correctly serialized in the request body",
+          "description": "Feedback JSON is correctly serialized in the request body"
+        }
+      ],
+      "hint": "Use httpbin.org/post for a safe testing endpoint. Pass parameters via the 'params' argument in requests.get.",
+      "explanation": "Real-world APIs often require GET for data retrieval and POST for user submissions. This pattern is common in web applications, mobile apps, and microservices."
+    },
+    {
+      "id": "25.1_q27",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.1_q26"
+      ],
+      "prompt": "Create a robust client that handles GET with query parameters and POST with custom headers and JSON payload. Include error handling for network failures and invalid JSON responses.",
+      "starter_code": "import requests\nimport json\n\n# TODO: complete the code below\n\ndef fetch_data(url, headers=None):\n    # TODO: implement GET with headers and error handling\n    pass\n\ndef submit_data(url, payload, headers=None):\n    # TODO: implement POST with headers, payload, and error handling\n    pass\n\nif __name__ == '__main__':\n    get_url = 'https://httpbin.org/get'\n    post_url = 'https://httpbin.org/post'\n    \n    # Example calls\n    result_get = fetch_data(get_url, headers={'User-Agent': 'CodolingoClient'})\n    result_post = submit_data(post_url, payload={'action': 'login'}, headers={'Content-Type': 'application/json'})\n    \n    print('GET result:', json.dumps(result_get, indent=2))\n    print('POST result:', json.dumps(result_post, indent=2))",
+      "solution_code": "import requests\nimport json\n\ndef fetch_data(url, headers=None):\n    try:\n        response = requests.get(url, headers=headers, timeout=10)\n        response.raise_for_status()\n        return response.json()\n    except requests.exceptions.RequestException as e:\n        return {'error': str(e)}\n\ndef submit_data(url, payload, headers=None):\n    try:\n        response = requests.post(url, json=payload, headers=headers, timeout=10)\n        response.raise_for_status()\n        return response.json()\n    except requests.exceptions.RequestException as e:\n        return {'error': str(e)}\n\nif __name__ == '__main__':\n    get_url = 'https://httpbin.org/get'\n    post_url = 'https://httpbin.org/post'\n    \n    result_get = fetch_data(get_url, headers={'User-Agent': 'CodolingoClient'})\n    result_post = submit_data(post_url, payload={'action': 'login'}, headers={'Content-Type': 'application/json'})\n    \n    print('GET result:', json.dumps(result_get, indent=2))\n    print('POST result:', json.dumps(result_post, indent=2))",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "fetch_data returns parsed JSON on success",
+          "description": "fetch_data returns parsed JSON on success"
+        },
+        {
+          "input": "",
+          "expected_output": "fetch_data returns error dict on failure",
+          "description": "fetch_data returns error dict on failure"
+        },
+        {
+          "input": "",
+          "expected_output": "submit_data sends correct headers and JSON body",
+          "description": "submit_data sends correct headers and JSON body"
+        }
+      ],
+      "hint": "Use response.raise_for_status() to catch HTTP errors. Wrap requests in try/except for network-level exceptions. Use the 'json' parameter so requests handles serialization.",
+      "explanation": "Advanced clients must manage reliability: timeouts prevent hanging, headers identify the client, and structured error handling distinguishes HTTP errors from transport failures. This mirrors production-grade API consumers."
+    },
+    {
+      "id": "25.1_q28",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.1_q27"
+      ],
+      "prompt": "A developer wrote code to fetch and submit data but introduced bugs. Identify and fix all issues so both requests succeed.",
+      "starter_code": "import requests\n\nurl = 'https://httpbin.org/get'\n\n# Buggy GET\nresp = requests.get(url)\nprint(resp.text)\n\n# Buggy POST\npost_url = 'https://httpbin.org/post'\ndata = {'name': 'Alice'}\nresp2 = requests.post(post_url, data=data)\nprint(resp2.status_code)\n\n# Buggy JSON handling\njson_resp = resp.json()\nprint(json_resp['origin'])",
+      "solution_code": "import requests\n\nurl = 'https://httpbin.org/get'\n\n# Fixed GET\nresp = requests.get(url)\nprint(resp.status_code)\nprint(resp.json())\n\n# Fixed POST\npost_url = 'https://httpbin.org/post'\ndata = {'name': 'Alice'}\nresp2 = requests.post(post_url, json=data)\nprint(resp2.status_code)\nprint(resp2.json())\n\n# Fixed JSON handling with error check\ntry:\n    json_resp = resp.json()\n    print(json_resp['origin'])\nexcept (KeyError, ValueError):\n    print('Invalid or missing JSON response')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "GET request completes without exception",
+          "description": "GET request completes without exception"
+        },
+        {
+          "input": "",
+          "expected_output": "POST request returns status 200",
+          "description": "POST request returns status 200"
+        },
+        {
+          "input": "",
+          "expected_output": "JSON parsing does not crash on malformed response",
+          "description": "JSON parsing does not crash on malformed response"
+        }
+      ],
+      "hint": "POST should use json= for JSON payloads, not data=. Also verify resp.status_code before accessing resp.json().",
+      "explanation": "Common mistakes include using data= instead of json= for JSON, ignoring HTTP status codes, and assuming JSON structure without validation. Debugging HTTP clients requires systematic inspection of request configuration and response properties."
+    },
+    {
+      "id": "25.1_q29",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.1_q28"
+      ],
+      "prompt": "You are building a student portal that retrieves course listings via GET and allows students to submit enrollment requests via POST. Design and implement the client module.",
+      "starter_code": "import requests\n\nBASE_URL = 'https://api.university.edu/v1'\n\n# TODO: implement functions below\n\ndef get_courses():\n    # TODO: GET request to /courses\n    pass\n\ndef enroll_student(student_id, course_id):\n    # TODO: POST request to /enrollments\n    pass\n\nif __name__ == '__main__':\n    courses = get_courses()\n    enroll_student(101, 501)\n    print('Enrollment submitted.')",
+      "solution_code": "import requests\n\nBASE_URL = 'https://api.university.edu/v1'\nHEADERS = {'Authorization': 'Bearer demo_token'}\n\ndef get_courses():\n    try:\n        response = requests.get(f'{BASE_URL}/courses', headers=HEADERS, timeout=10)\n        response.raise_for_status()\n        return response.json()\n    except requests.exceptions.RequestException as e:\n        print('Failed to fetch courses:', e)\n        return []\n\ndef enroll_student(student_id, course_id):\n    try:\n        payload = {'student_id': student_id, 'course_id': course_id}\n        response = requests.post(f'{BASE_URL}/enrollments', json=payload, headers=HEADERS, timeout=10)\n        response.raise_for_status()\n        return response.json()\n    except requests.exceptions.RequestException as e:\n        print('Enrollment failed:', e)\n        return None\n\nif __name__ == '__main__':\n    courses = get_courses()\n    result = enroll_student(101, 501)\n    print('Courses:', courses)\n    print('Enrollment result:', result)\n    print('Enrollment submitted.')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "get_courses returns a list on success",
+          "description": "get_courses returns a list on success"
+        },
+        {
+          "input": "",
+          "expected_output": "enroll_student returns JSON on success",
+          "description": "enroll_student returns JSON on success"
+        },
+        {
+          "input": "",
+          "expected_output": "Both functions handle exceptions gracefully",
+          "description": "Both functions handle exceptions gracefully"
+        }
+      ],
+      "hint": "Use f-strings for URL construction. Include a timeout and headers for realism. Validate responses with raise_for_status().",
+      "explanation": "This scenario synthesizes API consumption patterns: authentication via headers, RESTful resource naming, idempotent GET for retrieval, and state-changing POST for enrollment. It reflects how client applications integrate with backend services in educational and enterprise systems."
+    },
+    {
+      "id": "25.1_q30",
+      "type": "write_the_code",
+      "concept": "http_basics_clientserver_getpost_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "25.1_q29"
+      ],
+      "prompt": "Construct a reusable HTTP client class that supports GET and POST with configurable base URL, headers, timeout, and automatic JSON parsing. Include a method to inspect the last response.",
+      "starter_code": "import requests\n\nclass HttpClient:\n    # TODO: implement the class below\n    def __init__(self):\n        pass\n    \n    def get(self, endpoint, params=None):\n        # TODO: implement GET\n        pass\n    \n    def post(self, endpoint, payload=None):\n        # TODO: implement POST\n        pass\n    \n    def last_response(self):\n        # TODO: return last response metadata\n        pass\n\nif __name__ == '__main__':\n    client = HttpClient()\n    data = client.get('/test')\n    print(data)\n    client.post('/submit', {'key': 'value'})\n    print(client.last_response())",
+      "solution_code": "import requests\n\nclass HttpClient:\n    def __init__(self, base_url='', headers=None, timeout=10):\n        self.base_url = base_url\n        self.headers = headers or {}\n        self.timeout = timeout\n        self._last_response = None\n\n    def get(self, endpoint, params=None):\n        url = f'{self.base_url}{endpoint}'\n        try:\n            response = requests.get(url, headers=self.headers, params=params, timeout=self.timeout)\n            response.raise_for_status()\n            self._last_response = response\n            return response.json()\n        except requests.exceptions.RequestException as e:\n            self._last_response = {'error': str(e)}\n            return None\n\n    def post(self, endpoint, payload=None):\n        url = f'{self.base_url}{endpoint}'\n        try:\n            response = requests.post(url, headers=self.headers, json=payload, timeout=self.timeout)\n            response.raise_for_status()\n            self._last_response = response\n            return response.json()\n        except requests.exceptions.RequestException as e:\n            self._last_response = {'error': str(e)}\n            return None\n\n    def last_response(self):\n        if self._last_response is None:\n            return {}\n        return {\n            'status_code': self._last_response.status_code,\n            'headers': dict(self._last_response.headers),\n            'url': self._last_response.url\n        }\n\nif __name__ == '__main__':\n    client = HttpClient(base_url='https://httpbin.org', headers={'X-Client': 'Mastery'})\n    data = client.get('/get')\n    print(data)\n    client.post('/post', {'key': 'value'})\n    print(client.last_response())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "HttpClient initializes with custom base_url and headers",
+          "description": "HttpClient initializes with custom base_url and headers"
+        },
+        {
+          "input": "",
+          "expected_output": "GET returns parsed JSON and updates last_response",
+          "description": "GET returns parsed JSON and updates last_response"
+        },
+        {
+          "input": "",
+          "expected_output": "POST sends JSON payload and returns parsed JSON",
+          "description": "POST sends JSON payload and returns parsed JSON"
+        },
+        {
+          "input": "",
+          "expected_output": "last_response contains status_code, headers, and url",
+          "description": "last_response contains status_code, headers, and url"
+        }
+      ],
+      "hint": "Store the response object in an instance variable. Use json= for POST payloads. Return a summary dict from last_response to avoid exposing the raw object.",
+      "explanation": "Encapsulating HTTP logic in a class promotes reuse, consistency, and testability. This mastery task requires combining OOP principles with API interaction, error handling, and response introspection—skills essential for building scalable networked applications."
+    }
+  ],
+  "unit_num": 25,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of HTTP Basics (Client/Server, GET/POST)",
+    "Apply idiomatic Python patterns when working with HTTP Basics (Client/Server, GET/POST)",
+    "Debug common runtime exceptions and logic errors associated with HTTP Basics (Client/Server, GET/POST)",
+    "Implement production-ready code utilizing HTTP Basics (Client/Server, GET/POST)"
+  ],
+  "prerequisites": [
+    "24.6"
+  ]
+}

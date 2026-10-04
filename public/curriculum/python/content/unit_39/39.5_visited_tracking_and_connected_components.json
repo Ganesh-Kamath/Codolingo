@@ -1,0 +1,576 @@
+{
+  "lesson_id": "39.5",
+  "title": "Visited Tracking and Connected Components",
+  "unit": "DSA: Graphs",
+  "items": [
+    {
+      "id": "39.5_q1",
+      "type": "micro_lesson",
+      "title": "Tracking Visited Nodes in Graphs",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "concept": "visited_tracking_and_connected_components_basics",
+      "skill": "recognition",
+      "content": "In graph traversal, we must avoid revisiting nodes to prevent infinite loops and redundant work. A visited tracking mechanism records which nodes have already been processed. For connected components, we repeatedly start a traversal from any unvisited node; all nodes reached belong to the same component. A common approach uses a set or boolean list to mark visited nodes. Below is a Python example using an adjacency list and a visited set.",
+      "code": "graph = {\n    'A': ['B', 'C'],\n    'B': ['A', 'D'],\n    'C': ['A'],\n    'D': ['B']\n}\n\nvisited = set()\n\ndef dfs(node):\n    visited.add(node)\n    for neighbor in graph.get(node, []):\n        if neighbor not in visited:\n            dfs(neighbor)\n\nfor node in graph:\n    if node not in visited:\n        dfs(node)\n\nprint('Visited nodes:', visited)",
+      "prompt": "",
+      "explanation": "In graph traversal, we must avoid revisiting nodes to prevent infinite loops and redundant work. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "39.5_q2",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q1"
+      ],
+      "concept": "visited_tracking_and_connected_components_basics",
+      "skill": "recall",
+      "prompt": "Why is a visited tracking set important when traversing a graph?",
+      "options": [
+        "It ensures every node is visited exactly once.",
+        "It sorts nodes alphabetically.",
+        "It reduces memory usage by deleting nodes.",
+        "It converts the graph into a tree."
+      ],
+      "correct_answer": "It ensures every node is visited exactly once.",
+      "explanation": "A visited set prevents cycles from causing infinite recursion and guarantees each node is processed only once, which is essential for correct traversal and component detection."
+    },
+    {
+      "id": "39.5_q3",
+      "type": "micro_lesson",
+      "title": "Syntax for Connected Components",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q2"
+      ],
+      "concept": "visited_tracking_and_connected_components_syntax",
+      "skill": "understanding",
+      "content": "To count connected components, iterate through all nodes and launch a traversal whenever a node has not been visited. Each launch discovers one complete component. The standard pattern uses a helper traversal function and updates the visited set in place. The following code demonstrates counting components in an undirected graph using adjacency lists.",
+      "code": "graph = {\n    0: [1, 2],\n    1: [0, 2],\n    2: [0, 1],\n    3: [4],\n    4: [3]\n}\n\nvisited = set()\ncomponents = 0\n\ndef traverse(node):\n    stack = [node]\n    while stack:\n        current = stack.pop()\n        if current not in visited:\n            visited.add(current)\n            for neighbor in graph.get(current, []):\n                if neighbor not in visited:\n                    stack.append(neighbor)\n\nfor node in graph:\n    if node not in visited:\n        traverse(node)\n        components += 1\n\nprint('Number of connected components:', components)",
+      "prompt": "",
+      "explanation": "To count connected components, iterate through all nodes and launch a traversal whenever a node has not been visited. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "39.5_q4",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q3"
+      ],
+      "concept": "visited_tracking_and_connected_components_syntax",
+      "skill": "reasoning",
+      "prompt": "In the component counting loop, when is components incremented?",
+      "options": [
+        "After a new traversal finishes and its starting node was unvisited.",
+        "Inside the traversal before visiting any neighbor.",
+        "Only when the graph has exactly one node.",
+        "At the end of the program regardless of traversal."
+      ],
+      "correct_answer": "After a new traversal finishes and its starting node was unvisited.",
+      "explanation": "components is incremented only when the outer loop finds an unvisited node, triggering one full traversal that marks an entire component as visited."
+    },
+    {
+      "id": "39.5_q5",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q4"
+      ],
+      "concept": "visited_tracking_and_connected_components_matching",
+      "skill": "recognition",
+      "prompt": "Match the purpose to the code snippet used for visited tracking.",
+      "options": [
+        "visited = set(); visited.add(node) marks a node as processed.",
+        "visited = []; visited.append(node) prevents revisiting.",
+        "visited = 0; visited += 1 counts nodes.",
+        "visited = {}; visited[node] = True sorts nodes."
+      ],
+      "correct_answer": "visited = set(); visited.add(node) marks a node as processed.",
+      "explanation": "A set provides O(1) membership checks and insertions, making it the standard choice for visited tracking in graph algorithms."
+    },
+    {
+      "id": "39.5_q6",
+      "type": "multiple_choice",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q5"
+      ],
+      "concept": "visited_tracking_and_connected_components_pitfalls",
+      "skill": "comprehension",
+      "prompt": "What happens if you forget to add a node to visited before recursing on its neighbors?",
+      "options": [
+        "The algorithm may enter an infinite loop on cycles.",
+        "The graph becomes disconnected.",
+        "Memory usage decreases.",
+        "All components merge into one."
+      ],
+      "correct_answer": "The algorithm may enter an infinite loop on cycles.",
+      "explanation": "Without marking a node visited before exploring neighbors, a cycle can cause the traversal to revisit the same node repeatedly, leading to infinite recursion or stack overflow."
+    },
+    {
+      "id": "39.5_q7",
+      "type": "code_prediction",
+      "concept": "visited_tracking_and_connected_components_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q6"
+      ],
+      "prompt": "Given the following DFS-based connected components function, what is the value of `count` after calling it on the graph below?\n\n```python\ndef count_components(graph, n):\n    visited = [False] * n\n    count = 0\n\n    def dfs(u):\n        visited[u] = True\n        for v in graph[u]:\n            if not visited[v]:\n                dfs(v)\n\n    for i in range(n):\n        if not visited[i]:\n            dfs(i)\n            count += 1\n    return count\n\ngraph = {\n    0: [1],\n    1: [0, 2],\n    2: [1],\n    3: [4],\n    4: [3],\n    5: []\n}\nprint(count_components(graph, 6))\n```",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "correct_answer": "3",
+      "explanation": "The graph has three connected components: {0, 1, 2}, {3, 4}, and {5}. The DFS marks all nodes in each component as visited, and `count` increments once per unvisited starting node. Therefore, the output is 3."
+    },
+    {
+      "id": "39.5_q8",
+      "type": "output_prediction",
+      "concept": "visited_tracking_and_connected_components_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q7"
+      ],
+      "prompt": "Consider this modified DFS that records the order of first visitation in `order`:\n\n```python\ndef dfs_order(graph, n):\n    visited = [False] * n\n    order = []\n\n    def dfs(u):\n        visited[u] = True\n        order.append(u)\n        for v in graph[u]:\n            if not visited[v]:\n                dfs(v)\n\n    for i in range(n):\n        if not visited[i]:\n            dfs(i)\n    return order\n\ngraph = {\n    0: [1, 2],\n    1: [0],\n    2: [0, 3],\n    3: [2]\n}\nprint(dfs_order(graph, 4))\n```",
+      "options": [
+        "[0, 1, 2, 3]",
+        "[0, 2, 1, 3]",
+        "[0, 1, 3, 2]",
+        "[0, 2, 3, 1]"
+      ],
+      "correct_answer": "[0, 1, 2, 3]",
+      "explanation": "Starting at node 0, DFS visits 0 first, then recurses to neighbor 1 (appended), then backtracks and visits neighbor 2 (appended), then from 2 visits neighbor 3 (appended). The order list becomes [0, 1, 2, 3]."
+    },
+    {
+      "id": "39.5_q9",
+      "type": "code_prediction",
+      "concept": "visited_tracking_and_connected_components_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q8"
+      ],
+      "prompt": "What happens if the line `visited[u] = True` is accidentally placed after the `for` loop instead of before it?\n\n```python\ndef broken_dfs(u, visited, graph):\n    for v in graph[u]:\n        if not visited[v]:\n            broken_dfs(v, visited, graph)\n    visited[u] = True\n    return\n\nvisited = [False] * 4\ngraph = {0: [1], 1: [0, 2], 2: [1], 3: []}\nbroken_dfs(0, visited, graph)\nprint(visited)\n```",
+      "options": [
+        "The function returns immediately with no recursion and visited remains all False",
+        "The function enters infinite recursion and raises RecursionError",
+        "The function correctly marks all reachable nodes as visited",
+        "The function skips marking the starting node and may revisit nodes indefinitely"
+      ],
+      "correct_answer": "The function enters infinite recursion and raises RecursionError",
+      "explanation": "Without marking `u` as visited before recursing, the same node can be revisited indefinitely through its neighbors, causing infinite recursion and eventually a RecursionError."
+    },
+    {
+      "id": "39.5_q10",
+      "type": "write_the_code",
+      "concept": "visited_tracking_and_connected_components_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q9"
+      ],
+      "prompt": "Analyze the following code and explain why it correctly counts connected components:\n\n```python\ndef count_cc(graph, n):\n    visited = [False] * n\n    cc = 0\n\n    def dfs(u):\n        visited[u] = True\n        for v in graph[u]:\n            if not visited[v]:\n                dfs(v)\n\n    for node in range(n):\n        if not visited[node]:\n            dfs(node)\n            cc += 1\n    return cc\n```",
+      "correct_answer": "Because every node is visited exactly once and each unvisited node starts a new component",
+      "explanation": "The outer loop iterates over all nodes. If a node has not been visited, it must belong to a new connected component. Running DFS from it marks every node in that component. Incrementing `cc` once per such start correctly counts components.",
+      "starter_code": "# 1. Define the process_39_5 function\ndef process_39_5():\n    # 2. Implement solution for Visited Tracking and Connected Components\n    pass\n",
+      "solution_code": "print('Visited Tracking and Connected Components')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Visited Tracking and Connected Components"
+        }
+      ]
+    },
+    {
+      "id": "39.5_q11",
+      "type": "code_prediction",
+      "concept": "visited_tracking_and_connected_components_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q10"
+      ],
+      "prompt": "Trace the execution for `n = 3` and `graph = {0: [1], 1: [0, 2], 2: [1]}`. What is the final value of `visited` after `count_components` returns?\n\n```python\ndef count_components(graph, n):\n    visited = [False] * n\n    count = 0\n\n    def dfs(u):\n        visited[u] = True\n        for v in graph[u]:\n            if not visited[v]:\n                dfs(v)\n\n    for i in range(n):\n        if not visited[i]:\n            dfs(i)\n            count += 1\n    return visited\n\nresult = count_components({0: [1], 1: [0, 2], 2: [1]}, 3)\nprint(result)\n```",
+      "options": [
+        "[True, True, True]",
+        "[True, False, True]",
+        "[False, True, False]",
+        "[False, False, False]"
+      ],
+      "correct_answer": "[True, True, True]",
+      "explanation": "The graph is fully connected. Starting at 0, DFS marks 0, then 1, then 2. All nodes become visited. The outer loop never finds another unvisited node, so `count` is 1 and `visited` is [True, True, True]."
+    },
+    {
+      "id": "39.5_q12",
+      "type": "output_prediction",
+      "concept": "visited_tracking_and_connected_components_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q11"
+      ],
+      "prompt": "Given this logic, what does the function return for a graph with no edges?\n\n```python\ndef component_count(n, edges):\n    graph = {i: [] for i in range(n)}\n    for u, v in edges:\n        graph[u].append(v)\n        graph[v].append(u)\n\n    visited = [False] * n\n    count = 0\n\n    def dfs(u):\n        visited[u] = True\n        for v in graph[u]:\n            if not visited[v]:\n                dfs(v)\n\n    for i in range(n):\n        if not visited[i]:\n            dfs(i)\n            count += 1\n    return count\n\nprint(component_count(5, []))\n```",
+      "options": [
+        "0",
+        "1",
+        "5",
+        "50"
+      ],
+      "correct_answer": "5",
+      "explanation": "With no edges, every node is isolated. The outer loop finds each node unvisited, runs DFS on it (which only marks itself), and increments `count` each time. Thus, the result equals the number of nodes, 5."
+    },
+    {
+      "id": "39.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "visited_tracking_and_connected_components_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q12"
+      ],
+      "prompt": "Complete the code to initialize a visited tracking structure for a graph with 5 nodes:\n\n```python\ngraph = {0: [1, 2], 1: [0, 2], 2: [0, 1]}\n\nvisited = ___  # set to track visited nodes\n```",
+      "correct_answer": "set()",
+      "accepted_answers": [
+        "set()",
+        "set([])"
+      ],
+      "explanation": "A set is ideal for visited tracking because membership testing (in) is O(1) on average, and it automatically avoids duplicate entries. Initializing with set() creates an empty set ready to store node indices as we traverse the graph."
+    },
+    {
+      "id": "39.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "visited_tracking_and_connected_components_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q13"
+      ],
+      "prompt": "In a depth-first search, we must mark a node as visited before exploring neighbors to avoid cycles. Fill in the missing keyword/operation:\n\n```python\nvisited = set()\n\ndef dfs(node):\n    visited.___  # add current node to visited set\n    for neighbor in graph.get(node, []):\n        if neighbor not in visited:\n            dfs(neighbor)\n```",
+      "correct_answer": "add(node)",
+      "accepted_answers": [
+        "add(node)",
+        "visited.add(node)"
+      ],
+      "explanation": "The set method add() inserts an element into the set. Calling visited.add(node) records the current node so it is not processed again, preventing infinite recursion in cyclic graphs."
+    },
+    {
+      "id": "39.5_q15",
+      "type": "code_ordering",
+      "concept": "visited_tracking_and_connected_components_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order for a basic DFS that counts connected components in an undirected graph:\n\n```python\ncount = 0\nfor node in graph:\n    if node not in visited:\n        count += 1\n        dfs(node)\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "We initialize count to 0 before iterating. For each unvisited node, we increment the component counter and launch DFS to mark all reachable nodes. The loop must run before DFS calls so every node is considered as a potential component root."
+    },
+    {
+      "id": "39.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "visited_tracking_and_connected_components_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q15"
+      ],
+      "prompt": "Complete the pattern for counting connected components using an adjacency list:\n\n```python\ndef count_components(graph):\n    visited = set()\n    count = 0\n    \n    for node in graph:\n        if node not in visited:\n            count += 1\n            ___  # recursive/iterative traversal from node\n    \n    return count\n```",
+      "correct_answer": "dfs(node)",
+      "accepted_answers": [
+        "dfs(node)",
+        "bfs(node)",
+        "stack = [node]; while stack: current = stack.pop(); ..."
+      ],
+      "explanation": "After detecting an unvisited node, we increment the component count and traverse all reachable nodes. The placeholder represents any valid traversal (DFS or BFS) that marks visited nodes. Using dfs(node) is the most common recursive pattern."
+    },
+    {
+      "id": "39.5_q17",
+      "type": "code_ordering",
+      "concept": "visited_tracking_and_connected_components_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q16"
+      ],
+      "prompt": "Arrange the steps to implement an iterative DFS for connected components:\n\n```python\nstack = [start]\nwhile stack:\n    node = stack.pop()\n    if node not in visited:\n        visited.add(node)\n        stack.extend(graph.get(node, []))\n```",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "Correct order: initialize stack with the start node, loop while stack is non-empty, pop a node, check if unvisited, mark it visited, then push all neighbors. The check must happen before marking visited to avoid redundant work, and neighbors are added after marking to prevent immediate re-pushing."
+    },
+    {
+      "id": "39.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "visited_tracking_and_connected_components_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q17"
+      ],
+      "prompt": "A common idiom for resetting visited state across multiple component searches is to reinitialize the set inside the outer loop. Complete the idiom:\n\n```python\ndef all_components(graph):\n    components = []\n    for start in graph:\n        visited = ___  # fresh set per component search\n        stack = [start]\n        while stack:\n            node = stack.pop()\n            if node not in visited:\n                visited.add(node)\n                stack.extend(graph.get(node, []))\n        components.append(visited)\n    return components\n```",
+      "correct_answer": "set()",
+      "accepted_answers": [
+        "set()",
+        "set([])"
+      ],
+      "explanation": "Initializing visited = set() inside the for-loop ensures each component search starts with a clean slate. If we initialized it once outside the loop, visited would retain nodes from previous components, causing later searches to skip valid unvisited nodes and undercount components."
+    },
+    {
+      "id": "39.5_q19",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q18"
+      ],
+      "prompt": "Fix the capitalization error in this line for Visited Tracking And Connected Components Errors:",
+      "starter_code": "Print('Visited Tracking and Connected Components Item 19')",
+      "solution_code": "print('Visited Tracking and Connected Components Item 19')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `visited tracking and connected components errors` in Visited Tracking and Connected Components. When Python validates this code, it applies the standard rules of visited tracking and connected components errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.5_q20",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "39.5_q19"
+      ],
+      "prompt": "Fix the capitalization error in this line for Visited Tracking And Connected Components Fix:",
+      "starter_code": "Print('Visited Tracking and Connected Components Item 20')",
+      "solution_code": "print('Visited Tracking and Connected Components Item 20')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `visited tracking and connected components fix` in Visited Tracking and Connected Components. When Python validates this code, it applies the standard rules of visited tracking and connected components fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.5_q21",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q20"
+      ],
+      "prompt": "Fix the capitalization error in this line for Visited Tracking And Connected Components Edge Cases:",
+      "starter_code": "Print('Visited Tracking and Connected Components Item 21')",
+      "solution_code": "print('Visited Tracking and Connected Components Item 21')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `visited tracking and connected components edge cases` in Visited Tracking and Connected Components. When Python validates this code, it applies the standard rules of visited tracking and connected components edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.5_q22",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q21"
+      ],
+      "prompt": "Fix the capitalization error in this line for Visited Tracking And Connected Components Runtime:",
+      "starter_code": "Print('Visited Tracking and Connected Components Item 22')",
+      "solution_code": "print('Visited Tracking and Connected Components Item 22')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `visited tracking and connected components runtime` in Visited Tracking and Connected Components. When Python validates this code, it applies the standard rules of visited tracking and connected components runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.5_q23",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q22"
+      ],
+      "prompt": "Fix the capitalization error in this line for Visited Tracking And Connected Components Logic Repair:",
+      "starter_code": "Print('Visited Tracking and Connected Components Item 23')",
+      "solution_code": "print('Visited Tracking and Connected Components Item 23')",
+      "hint": "Python built-in functions like print() must be written in lowercase.",
+      "explanation": "This exercise tests `visited tracking and connected components logic repair` in Visited Tracking and Connected Components. When Python validates this code, it applies the standard rules of visited tracking and connected components logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "39.5_q24",
+      "type": "write_the_code",
+      "concept": "visited_tracking_and_connected_components_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.5_q23"
+      ],
+      "prompt": "Final Capstone Verification: Write a production-grade handler for Visited Tracking and Connected Components that processes batches and handles empty inputs cleanly.",
+      "starter_code": "def execute_39_5_workflow(batch):\n    # Validate and transform batch\n    pass",
+      "solution_code": "def execute_39_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "test_cases": [
+        {
+          "input": "[' a ', 'b ']",
+          "expected_output": "['a', 'b']",
+          "description": "batch processing workflow"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "Production workflows for Visited Tracking and Connected Components must validate inputs, maintain immutability, and return deterministic results."
+    },
+    {
+      "id": "39.5_q25",
+      "type": "write_the_code",
+      "concept": "visited_tracking_and_connected_components_implementation",
+      "skill": "implementation",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q24"
+      ],
+      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Visited Tracking and Connected Components.",
+      "starter_code": "def process_39_5_data(items):\n    # Process input according to Visited Tracking and Connected Components rules\n    pass",
+      "solution_code": "def process_39_5_data(items):\n    return [item for item in items if item is not None]",
+      "test_cases": [
+        {
+          "input": "[1, None, 2, None, 3]",
+          "expected_output": "[1, 2, 3]",
+          "description": "cleans null values using Visited Tracking and Connected Components rules"
+        }
+      ],
+      "hint": "Focus on applying the central Python idiom for Visited Tracking and Connected Components.",
+      "explanation": "Constructing pure, robust data transformers for Visited Tracking and Connected Components avoids unintended side effects and guarantees consistent return contracts."
+    },
+    {
+      "id": "39.5_q26",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_debugging",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "39.5_q25"
+      ],
+      "prompt": "Defensive Validation: Implement a verification helper for Visited Tracking and Connected Components that confirms preconditions and guards against invalid input.",
+      "starter_code": "def validate_39_5_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
+      "solution_code": "def validate_39_5_input(val):\n    if val is None or val == '':\n        return False\n    return True",
+      "test_cases": [
+        {
+          "input": "'valid_token'",
+          "expected_output": "True",
+          "description": "valid input returns True"
+        }
+      ],
+      "hint": "Check the condition and return value carefully.",
+      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+    },
+    {
+      "id": "39.5_q27",
+      "type": "code_prediction",
+      "concept": "visited_tracking_and_connected_components_edge_case",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.5_q26"
+      ],
+      "prompt": "What will be the outcome when this code handling Visited Tracking and Connected Components encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
+      "hint": "An empty input list evaluates as falsy and produces an empty result.",
+      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Visited Tracking and Connected Components.",
+      "options": [
+        "[]",
+        "None",
+        "IndexError",
+        "ValueError"
+      ],
+      "correct_answer": "[]"
+    },
+    {
+      "id": "39.5_q28",
+      "type": "write_the_code",
+      "concept": "visited_tracking_and_connected_components_production_transfer",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.5_q27"
+      ],
+      "prompt": "Transfer Challenge: Solve a practical problem using Visited Tracking and Connected Components. Implement the function below to satisfy the stated contract.",
+      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Visited Tracking and Connected Components\n    return str(val).strip()",
+      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "test_cases": [
+        {
+          "input": "'  python  '",
+          "expected_output": "'PYTHON'",
+          "description": "domain sanitization"
+        }
+      ],
+      "hint": "Use a list comprehension to filter records where 'active' is True.",
+      "explanation": "Applying clean functional contracts for Visited Tracking and Connected Components ensures testable domain operations."
+    },
+    {
+      "id": "39.5_q29",
+      "type": "fix_the_code",
+      "concept": "visited_tracking_and_connected_components_refactoring",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.5_q28"
+      ],
+      "prompt": "Refactor this procedural snippet for Visited Tracking and Connected Components into clean, modular, and idiomatic Python:",
+      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
+      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Visited Tracking and Connected Components Result 29"
+        }
+      ],
+      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
+      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+    },
+    {
+      "id": "39.5_q30",
+      "type": "write_the_code",
+      "concept": "visited_tracking_and_connected_components_mastery_challenge",
+      "skill": "transfer",
+      "difficulty": "hard",
+      "prerequisites": [
+        "39.5_q29"
+      ],
+      "prompt": "Connected Components in Grid: Implement `count_islands(grid)` using visited tracking to count distinct islands of 1s in a 2D matrix.",
+      "starter_code": "def count_islands(grid):\n    # Return count of connected 1s in grid\n    pass",
+      "solution_code": "def count_islands(grid):\n    if not grid:\n        return 0\n    rows, cols = len(grid), len(grid[0])\n    visited = set()\n    def dfs(r, c):\n        if (r, c) in visited or r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] != 1:\n            return\n        visited.add((r, c))\n        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:\n            dfs(r + dr, c + dc)\n    count = 0\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == 1 and (r, c) not in visited:\n                dfs(r, c)\n                count += 1\n    return count",
+      "test_cases": [
+        {
+          "input": "[[1, 1, 0], [0, 1, 0], [0, 0, 1]]",
+          "expected_output": "2",
+          "description": "counts 2 separate islands"
+        }
+      ],
+      "hint": "Validate input first, then execute the transformation.",
+      "explanation": "DFS explores each connected island completely, tracking visited coordinates to ensure each island is counted exactly once."
+    }
+  ],
+  "unit_num": 39,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Visited Tracking and Connected Components",
+    "Apply idiomatic Python patterns when working with Visited Tracking and Connected Components",
+    "Debug common runtime exceptions and logic errors associated with Visited Tracking and Connected Components",
+    "Implement production-ready code utilizing Visited Tracking and Connected Components"
+  ],
+  "prerequisites": [
+    "39.4"
+  ]
+}

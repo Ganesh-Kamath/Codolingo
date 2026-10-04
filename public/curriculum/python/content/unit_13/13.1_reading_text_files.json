@@ -1,0 +1,680 @@
+{
+  "lesson_id": "13.1",
+  "title": "Reading Text Files",
+  "unit": "File Handling",
+  "items": [
+    {
+      "id": "13.1_q1",
+      "type": "micro_lesson",
+      "concept": "reading_text_files_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "Safe File I/O with with open()",
+      "content": "Always open files using the `with` statement (a context manager):\n\n```python\nwith open(\"data.txt\", \"r\") as file:\n    content = file.read()\n```\n\nThe context manager guarantees that Python automatically closes the file descriptor when the block exits, even if an exception is raised inside.",
+      "explanation": "with open() ensures automatic file closure, preventing operating system resource leaks.",
+      "metadata": {
+        "concept": "context_manager_file_io",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Safe file handling fundamentals"
+      }
+    },
+    {
+      "id": "13.1_q2",
+      "type": "output_prediction",
+      "concept": "reading_text_files_basics",
+      "skill": "file_io",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.1_q1"
+      ],
+      "prompt": "What does `.read()` return when executed on an open text file object?\n\n```python\n# Simulated file containing 'Hello\\nWorld'\nwith open(\"sample.txt\", \"r\") as f:\n    content = f.read()\nprint(type(content))\n```",
+      "options": [
+        "<class 'str'>",
+        "<class 'list'>",
+        "<class 'bytes'>",
+        "<class 'dict'>"
+      ],
+      "correct_answer": "<class 'str'>",
+      "explanation": "Calling `file.read()` reads the entire contents of a text file from the current pointer to the end of the file as a single string (`str`). To get a list of lines, you would use `.readlines()`.",
+      "metadata": {
+        "concept": "file_read_return_type",
+        "skill": "mental_model",
+        "learning_objective": "Recognize that f.read() returns the entire file as a single string",
+        "common_misconception": "Expecting read() to return a list of lines",
+        "why_this_exercise_exists": "Replaces template function with foundational file I/O types"
+      }
+    },
+    {
+      "id": "13.1_q3",
+      "type": "micro_lesson",
+      "concept": "reading_text_files_line_by_line",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.1_q2"
+      ],
+      "title": "Memory-Efficient Line Iteration",
+      "content": "For large files, avoid `file.read()` which loads the entire file into memory at once. Instead, iterate over the open file object line by line:\n\n```python\nwith open(\"large_log.txt\") as f:\n    for line in f:\n        print(line.strip())\n```\n\nThis streams lines lazily, consuming O(1) constant memory regardless of file size.",
+      "explanation": "Iterating over file handles reads one line at a time, avoiding memory exhaustion on large files.",
+      "metadata": {
+        "concept": "lazy_file_streaming",
+        "skill": "recognition",
+        "why_this_exercise_exists": "Teaches memory-efficient file iteration"
+      }
+    },
+    {
+      "id": "13.1_q4",
+      "type": "code_prediction",
+      "concept": "reading_text_files_basics",
+      "skill": "newline_stripping",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q3"
+      ],
+      "prompt": "When iterating over a file line by line, why does `print(line)` often produce double blank lines in the terminal?\n\n```python\nwith open(\"data.txt\") as f:\n    for line in f:\n        print(line)\n```",
+      "options": [
+        "Each line in the file ends with '\\n', and print() automatically adds its own '\\n'.",
+        "The file pointer skips every other line.",
+        "open() doubles all whitespace automatically.",
+        "print() only prints on even lines."
+      ],
+      "correct_answer": "Each line in the file ends with '\\n', and print() automatically adds its own '\\n'.",
+      "explanation": "File lines keep their trailing newline character `'\\n'`. Because `print()` appends an additional newline by default, consecutive lines appear with blank lines between them. To fix this, use `line.strip()` or `print(line, end=\"\")`.",
+      "metadata": {
+        "concept": "file_line_trailing_newlines",
+        "skill": "file_io",
+        "learning_objective": "Understand and handle trailing newline characters when reading files",
+        "common_misconception": "Assuming iterating over a file automatically strips newline characters",
+        "why_this_exercise_exists": "Replaces template function with an essential CLI text processing concept"
+      }
+    },
+    {
+      "id": "13.1_q5",
+      "type": "error_diagnosis",
+      "concept": "reading_text_files_basics",
+      "skill": "exception_handling",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q4"
+      ],
+      "prompt": "What happens if you call `open(\"non_existent.txt\", \"r\")` for a file that does not exist on disk?",
+      "options": [
+        "FileNotFoundError: [Errno 2] No such file or directory",
+        "Python creates an empty file automatically in 'r' mode",
+        "Returns None without raising an exception",
+        "ZeroDivisionError"
+      ],
+      "correct_answer": "FileNotFoundError: [Errno 2] No such file or directory",
+      "explanation": "Opening a non-existent file in read mode (`'r'`) immediately raises a `FileNotFoundError`. Only write modes like `'w'` or `'a'` create the file if it does not already exist.",
+      "metadata": {
+        "concept": "filenotfound_exception",
+        "skill": "error_recognition",
+        "learning_objective": "Recognize FileNotFoundError when opening missing files for reading",
+        "common_misconception": "Assuming read mode creates missing files automatically",
+        "why_this_exercise_exists": "Replaces template function with defensive file system practices"
+      }
+    },
+    {
+      "id": "13.1_q6",
+      "type": "fix_the_code",
+      "concept": "reading_text_files_basics",
+      "skill": "resource_management",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q5"
+      ],
+      "prompt": "Refactor this legacy file reading code to use the modern, safe context manager (`with open(...)`) so the file is guaranteed to close even if an error occurs:\n\n```python\nf = open(\"config.txt\", \"r\")\ncontent = f.read()\nf.close()\n```",
+      "starter_code": "f = open(\"config.txt\", \"r\")\ncontent = f.read()\nf.close()",
+      "solution_code": "with open(\"config.txt\", \"r\") as f:\n    content = f.read()",
+      "explanation": "Using `with open(...) as f:` creates a context manager that automatically guarantees the file descriptor is cleanly closed upon exiting the block, even if an exception is raised.",
+      "metadata": {
+        "concept": "context_manager_file_handling",
+        "skill": "best_practices",
+        "learning_objective": "Refactor manual close() calls to idiomatic with open() context managers",
+        "common_misconception": "Relying on manual f.close() which leaks descriptors on exceptions",
+        "why_this_exercise_exists": "Replaces template function with standard production file handling"
+      }
+    },
+    {
+      "id": "13.1_q7",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "diff": "easy",
+      "concept": "reading_text_files_execution",
+      "micro_lesson": {
+        "title": "Opening and Reading a Text File",
+        "content": "To read a text file in Python, you first open it using the `open()` function. The first argument is the file path, and the second argument `'r'` specifies read mode. You can then use the `.read()` method to read the entire contents of the file into a string. It is important to close the file afterward using `.close()`, or better yet, use a `with` statement to handle closing automatically. Here is an example:\n\n```python\nwith open('sample.txt', 'r') as file:\n    content = file.read()\nprint(content)\n```\n\nIn this pattern, the `with` statement ensures the file is closed even if an error occurs."
+      },
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.1_q6"
+      ],
+      "prompt": "What is the output of this Python snippet?\n```python\nprint('Reading Text Files')\n```",
+      "options": [
+        "Reading Text Files",
+        "Error",
+        "None",
+        "Reading Text Files (repeated)"
+      ],
+      "correct_answer": "Reading Text Files",
+      "explanation": "This exercise tests `reading text files execution` in Reading Text Files. When Python evaluates this code, it applies the standard rules of reading text files execution. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "13.1_q8",
+      "type": "output_prediction",
+      "concept": "reading_text_files_word_count",
+      "skill": "file_analytics",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q7"
+      ],
+      "prompt": "How do you count total words in a text file after calling `content = f.read()`?\n\n```python\ntext = \"Python makes coding fun and productive\"\nwords = text.split()\nprint(len(words))\n```",
+      "options": [
+        "6",
+        "7",
+        "39",
+        "1"
+      ],
+      "correct_answer": "6",
+      "explanation": "Splitting the text by whitespace with `.split()` generates a list of words; `len()` counts them.",
+      "metadata": {
+        "concept": "word_counting_from_file",
+        "skill": "file_analytics",
+        "why_this_exercise_exists": "Replaces variation with word counting"
+      }
+    },
+    {
+      "id": "13.1_q9",
+      "type": "output_prediction",
+      "concept": "reading_text_files_line_count",
+      "skill": "file_analytics",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q8"
+      ],
+      "prompt": "What does `len(lines)` return when reading three lines from a file?\n\n```python\ntext = \"Line 1\\nLine 2\\nLine 3\"\nlines = text.splitlines()\nprint(len(lines))\n```",
+      "options": [
+        "3",
+        "1",
+        "18",
+        "TypeError"
+      ],
+      "correct_answer": "3",
+      "explanation": "`splitlines()` splits on newline boundaries, returning a list of 3 line elements.",
+      "metadata": {
+        "concept": "line_counting_from_file",
+        "skill": "file_analytics",
+        "why_this_exercise_exists": "Replaces variation with line counting"
+      }
+    },
+    {
+      "id": "13.1_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "diff": "medium",
+      "concept": "reading_text_files_analysis",
+      "micro_lesson": {
+        "title": "Analyzing File Content and Behavior",
+        "content": "When analyzing code that reads text files, pay attention to the file mode, whether the file is closed, and how the content is stored. Using `with open(...)` is preferred because it guarantees the file is closed. If you forget to close a file opened without `with`, resources may leak. Also, `.read()` returns a single string, while `.readlines()` returns a list of strings. If you iterate directly over a file object, you get lines one by one without storing them all in memory. Here is an example to analyze:\n\n```python\nwith open('log.txt', 'r') as f:\n    for line in f:\n        print(line, end='')\n```\n\nBecause `line` already includes the newline, `end=''` prevents adding an extra newline from `print`."
+      },
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q9"
+      ],
+      "prompt": "Write Python code to solve this challenge for Reading Text Files:",
+      "starter_code": "# TODO: Implement solution for Reading Text Files\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Reading Text Files')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Reading Text Files"
+        }
+      ],
+      "explanation": "This exercise tests `reading text files analysis` in Reading Text Files. When Python validates this code, it applies the standard rules of reading text files analysis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "13.1_q11",
+      "type": "code_prediction",
+      "concept": "reading_text_files_chunking",
+      "skill": "chunk_reading",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q10"
+      ],
+      "prompt": "What does passing an integer size to `f.read(10)` do?",
+      "options": [
+        "Reads at most 10 characters (or bytes in binary mode) from the current file position.",
+        "Reads the 10th line of the file.",
+        "Skips the first 10 bytes.",
+        "Reads 10 whole files."
+      ],
+      "correct_answer": "Reads at most 10 characters (or bytes in binary mode) from the current file position.",
+      "explanation": "Passing an argument `N` to `f.read(N)` reads at most `N` characters, enabling memory-efficient buffered chunk reading.",
+      "metadata": {
+        "concept": "chunked_buffer_read",
+        "skill": "chunk_reading",
+        "why_this_exercise_exists": "Replaces variation with chunk reading"
+      }
+    },
+    {
+      "id": "13.1_q12",
+      "type": "code_prediction",
+      "concept": "reading_text_files_seek_reset",
+      "skill": "file_pointers",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q11"
+      ],
+      "prompt": "How do you reset the file pointer back to the beginning of the file after reading it?",
+      "options": [
+        "f.seek(0)",
+        "f.reset()",
+        "f.rewind()",
+        "f.read(0)"
+      ],
+      "correct_answer": "f.seek(0)",
+      "explanation": "`f.seek(0)` positions the internal file read/write offset back to index 0 (the beginning of the file).",
+      "metadata": {
+        "concept": "file_seek_pointer",
+        "skill": "file_pointers",
+        "why_this_exercise_exists": "Replaces variation with seek mechanics"
+      }
+    },
+    {
+      "id": "13.1_q13",
+      "idx": 13,
+      "type": "fill_in_the_blank",
+      "concept": "reading_text_files_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.1_q12"
+      ],
+      "prompt": "To read a text file in Python, you use the built-in ___ function with the mode 'r'.",
+      "correct_answer": "open",
+      "accepted_answers": [
+        "open"
+      ],
+      "explanation": "The open() function is the standard way to access files in Python. The first argument is the file path, and the second argument 'r' specifies read mode."
+    },
+    {
+      "idx": 14,
+      "id": "13.1_q14",
+      "type": "fill_in_the_blank",
+      "concept": "reading_text_files_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q13"
+      ],
+      "prompt": "The ___ statement ensures that a file is automatically closed after reading, even if an error occurs.",
+      "correct_answer": "with",
+      "accepted_answers": [
+        "with",
+        "context manager"
+      ],
+      "explanation": "Using 'with open(...)' creates a context manager that handles closing the file automatically, preventing resource leaks."
+    },
+    {
+      "idx": 15,
+      "id": "13.1_q15",
+      "type": "code_ordering",
+      "concept": "reading_text_files_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q14"
+      ],
+      "prompt": "Arrange the following steps to read all lines from a file and print them one by one:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "First, open the file. Then iterate over the file object to read each line. Finally, close the file to release the resource. Using 'with' is preferred, but explicit close is valid."
+    },
+    {
+      "idx": 16,
+      "id": "13.1_q16",
+      "type": "fill_in_the_blank",
+      "concept": "reading_text_files_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q15"
+      ],
+      "prompt": "To remove the trailing newline character from each line read from a file, use the ___ method on the line variable.",
+      "correct_answer": "strip",
+      "accepted_answers": [
+        "strip",
+        "rstrip"
+      ],
+      "explanation": "The strip() method removes whitespace including newlines from both ends of a string. rstrip() only removes from the right end and is also commonly used for this purpose."
+    },
+    {
+      "idx": 17,
+      "id": "13.1_q17",
+      "type": "code_ordering",
+      "concept": "reading_text_files_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q16"
+      ],
+      "prompt": "Order the algorithm steps to safely read a file, count non-empty lines, and handle potential errors:",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The correct sequence uses a try-except block to catch FileNotFoundError, opens the file, initializes a counter, iterates through lines checking for non-empty content with strip(), increments the counter, and prints the result."
+    },
+    {
+      "idx": 18,
+      "id": "13.1_q18",
+      "type": "fill_in_the_blank",
+      "concept": "reading_text_files_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q17"
+      ],
+      "prompt": "A Pythonic idiom for reading a file line by line and collecting results is: lines = [line.strip() for line in ___ if line.strip()].",
+      "correct_answer": "open('data.txt')",
+      "accepted_answers": [
+        "open('data.txt')",
+        "open('data.txt', 'r')",
+        "with open('data.txt') as f: f"
+      ],
+      "explanation": "The list comprehension reads each line from the file object. The 'with' statement is preferred for resource management, but in a comprehension the file object itself is iterated directly."
+    },
+    {
+      "id": "13.1_q19",
+      "idx": 19,
+      "type": "fix_the_code",
+      "concept": "reading_text_files_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q18"
+      ],
+      "prompt": "Below is a Python snippet intended to read a text file and print each line. Identify the bug(s) that prevent it from running correctly.",
+      "starter_code": "def read_and_print(filename):\n    f = open(filename)\n    for line in f\n        print(line)\n    f.close()\n\nread_and_print('data.txt')",
+      "solution_code": "def read_and_print(filename):\n    with open(filename, 'r') as f:\n        for line in f:\n            print(line.strip())\n\nread_and_print('data.txt')",
+      "hint": "Check indentation, missing colon, and whether the file is properly closed.",
+      "explanation": "The original code has three issues: (1) the for-loop line lacks a colon, (2) the print statement is not indented under the loop, and (3) using open() without a with-statement risks leaving the file open. The corrected version uses a with-block for automatic resource management, adds the colon, and indents the print statement. Additionally, strip() removes trailing newlines for cleaner output."
+    },
+    {
+      "id": "13.1_q20",
+      "idx": 20,
+      "type": "fix_the_code",
+      "concept": "reading_text_files_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "13.1_q19"
+      ],
+      "prompt": "Fix the code so it safely reads 'notes.txt' and prints its contents line by line.",
+      "starter_code": "f = open('notes.txt')\nprint(f.read())\nf.close()",
+      "solution_code": "with open('notes.txt', 'r') as f:\n    for line in f:\n        print(line.strip())",
+      "hint": "Use a context manager to handle the file automatically.",
+      "explanation": "The starter code opens the file but never closes it in a guaranteed way if an error occurs. The fixed version uses a with-statement, which ensures the file is closed even if an exception is raised. It also iterates line-by-line instead of reading the entire file at once, which is more memory-efficient."
+    },
+    {
+      "id": "13.1_q21",
+      "idx": 21,
+      "type": "fix_the_code",
+      "concept": "reading_text_files_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q20"
+      ],
+      "prompt": "The following function crashes when the file does not exist. Repair it to handle missing files gracefully.",
+      "starter_code": "def load_config(path):\n    with open(path) as f:\n        return f.readlines()",
+      "solution_code": "def load_config(path):\n    try:\n        with open(path, 'r') as f:\n            return f.readlines()\n    except FileNotFoundError:\n        return []",
+      "hint": "Wrap the file operation in a try-except block and return an empty list on failure.",
+      "explanation": "If path points to a nonexistent file, open() raises FileNotFoundError. By catching this exception, the function returns an empty list instead of crashing. This makes the caller's code safer because it can check the list length or iterate without additional guards."
+    },
+    {
+      "id": "13.1_q22",
+      "idx": 22,
+      "type": "fix_the_code",
+      "concept": "reading_text_files_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q21"
+      ],
+      "prompt": "A script reads 'log.txt' and attempts to convert each line to an integer. It raises a ValueError at runtime. Diagnose why and how to avoid it.",
+      "starter_code": "with open('log.txt') as f:\n    for line in f:\n        value = int(line)\n        print(value)",
+      "solution_code": "with open('log.txt') as f:\n    for line in f:\n        stripped = line.strip()\n        if stripped:\n            try:\n                value = int(stripped)\n                print(value)\n            except ValueError:\n                print('Skipping non-numeric line:', stripped)",
+      "hint": "Empty lines and whitespace can cause int() to fail; strip the line and catch the exception.",
+      "explanation": "The runtime error occurs because int() cannot parse blank lines or lines containing whitespace. The fix strips whitespace, skips empty strings, and wraps the conversion in a try-except block. This prevents the program from crashing and allows it to report or ignore malformed entries."
+    },
+    {
+      "id": "13.1_q23",
+      "idx": 23,
+      "type": "fix_the_code",
+      "concept": "reading_text_files_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q22"
+      ],
+      "prompt": "The logic below is supposed to count how many lines in 'scores.txt' contain a valid score between 0 and 100. Repair the code so it works correctly.",
+      "starter_code": "with open('scores.txt') as f:\n    count = 0\n    for line in f:\n        score = int(line)\n        if 0 <= score <= 100:\n            count += 1\nprint('Valid scores:', count)",
+      "solution_code": "with open('scores.txt', 'r') as f:\n    count = 0\n    for line in f:\n        stripped = line.strip()\n        if not stripped:\n            continue\n        try:\n            score = int(stripped)\n        except ValueError:\n            continue\n        if 0 <= score <= 100:\n            count += 1\nprint('Valid scores:', count)",
+      "hint": "Guard against blank lines and non-numeric text before comparing the score.",
+      "explanation": "The original code assumes every line is a valid integer, so it crashes on blank lines or text. The repaired version strips whitespace, skips empty lines, attempts int() conversion inside a try-except block, and only increments the counter when the score falls within the valid range. This produces an accurate count without runtime exceptions."
+    },
+    {
+      "id": "13.1_q24",
+      "idx": 24,
+      "type": "write_the_code",
+      "concept": "reading_text_files_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.1_q23"
+      ],
+      "prompt": "Refactor the following utility to improve readability, reduce memory usage, and support optional encoding specification. Write a reusable function that yields lines lazily instead of loading the entire file into memory.",
+      "starter_code": "def read_all(filename):\n    f = open(filename)\n    data = f.readlines()\n    f.close()\n    return data",
+      "solution_code": "def read_lines(filename, encoding='utf-8'):\n    with open(filename, 'r', encoding=encoding) as f:\n        for line in f:\n            yield line.rstrip('\\n')",
+      "test_cases": [
+        {
+          "input": "assert list(read_lines('small.txt'))",
+          "expected_output": "['alpha', 'beta', 'gamma']",
+          "description": "Verifies: assert list(read_lines('small.txt')) == ['alpha', 'beta', 'gamma']"
+        },
+        {
+          "input": "assert list(read_lines('unicode.txt', encoding='utf-8'))",
+          "expected_output": "['café', 'naïve']",
+          "description": "Verifies: assert list(read_lines('unicode.txt', encoding='utf-8')) == ['café', 'naïve']"
+        },
+        {
+          "input": "assert list(read_lines('empty.txt'))",
+          "expected_output": "[]",
+          "description": "Verifies: assert list(read_lines('empty.txt')) == []"
+        }
+      ],
+      "hint": "Replace readlines() with a generator using yield, and add encoding as a parameter.",
+      "explanation": "The original function reads the entire file into memory via readlines(), which is inefficient for large files. The refactored version is a generator that yields one line at a time, minimizing memory footprint. Adding an encoding parameter makes it portable across systems. Using rstrip('\\n') cleans the newline without affecting other whitespace, and the with-statement guarantees proper resource cleanup."
+    },
+    {
+      "id": "13.1_q25",
+      "type": "write_the_code",
+      "concept": "reading_text_files_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q24"
+      ],
+      "prompt": "Write a Python program that reads the contents of a text file named 'data.txt' and prints each line to the console. If the file does not exist, print an appropriate message.",
+      "starter_code": "filename = 'data.txt'\n\n# Your code here\n",
+      "solution_code": "filename = 'data.txt'\n\ntry:\n    with open(filename, 'r') as file:\n        for line in file:\n            print(line, end='')\nexcept FileNotFoundError:\n    print('Error: The file was not found.')",
+      "test_cases": [
+        {
+          "input": "data.txt exists with lines: 'apple\\nbanana\\ncherry'",
+          "expected_output": "apple\nbanana\ncherry"
+        },
+        {
+          "input": "data.txt does not exist",
+          "expected_output": "Error: The file was not found."
+        }
+      ],
+      "hint": "Use a try-except block to handle FileNotFoundError. Use 'with open' to ensure the file closes automatically, and iterate over the file object to read line by line.",
+      "explanation": "The 'with open' statement safely opens the file in read mode ('r'). Iterating over the file object yields each line, including the newline character. The try-except block gracefully handles cases where the file is missing, preventing the program from crashing."
+    },
+    {
+      "id": "13.1_q26",
+      "type": "write_the_code",
+      "concept": "reading_text_files_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "13.1_q25"
+      ],
+      "prompt": "Write a Python program that reads a file named 'names.txt', strips whitespace from each line, and stores the cleaned names in a list. Print the list and the total number of names.",
+      "starter_code": "filename = 'names.txt'\n\n# Your code here\n",
+      "solution_code": "filename = 'names.txt'\n\nnames = []\nwith open(filename, 'r') as file:\n    for line in file:\n        cleaned = line.strip()\n        if cleaned:\n            names.append(cleaned)\n\nprint(names)\nprint('Total names:', len(names))",
+      "test_cases": [
+        {
+          "input": "names.txt contains: ' Alice \\nBob\\n\\nCharlie '",
+          "expected_output": "['Alice', 'Bob', 'Charlie']\nTotal names: 3"
+        },
+        {
+          "input": "names.txt contains only blank lines",
+          "expected_output": "[]\nTotal names: 0"
+        }
+      ],
+      "hint": "Use the .strip() method to remove leading and trailing whitespace. Add a conditional check to skip empty lines after stripping.",
+      "explanation": "The .strip() method removes whitespace from both ends of a string. By checking if the stripped string is non-empty, we avoid adding blank entries to our list. This is a common preprocessing step when reading user-generated or exported data."
+    },
+    {
+      "id": "13.1_q27",
+      "type": "write_the_code",
+      "concept": "reading_text_files_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.1_q26"
+      ],
+      "prompt": "Write a Python program that reads a file named 'config.txt' and parses lines of the format 'key=value'. Store the results in a dictionary and print it. Handle cases where a line does not contain '='.",
+      "starter_code": "filename = 'config.txt'\n\n# Your code here\n",
+      "solution_code": "filename = 'config.txt'\n\nconfig = {}\nwith open(filename, 'r') as file:\n    for line in file:\n        line = line.strip()\n        if not line or '=' not in line:\n            continue\n        key, value = line.split('=', 1)\n        config[key.strip()] = value.strip()\n\nprint(config)",
+      "test_cases": [
+        {
+          "input": "config.txt contains: ' host = localhost \\n port=8080 \\ninvalid_line \\n debug=true '",
+          "expected_output": "{'host': 'localhost', 'port': '8080', 'debug': 'true'}"
+        },
+        {
+          "input": "config.txt contains only invalid lines",
+          "expected_output": "{}"
+        }
+      ],
+      "hint": "Use str.split('=', 1) to split only on the first '=' so values containing '=' are preserved. Skip empty or malformed lines.",
+      "explanation": "Using split('=', 1) ensures that values with embedded equals signs are not broken into extra parts. The continue statement skips malformed lines, keeping the dictionary clean. This pattern is useful for reading simple configuration files."
+    },
+    {
+      "id": "13.1_q28",
+      "type": "write_the_code",
+      "concept": "reading_text_files_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.1_q27"
+      ],
+      "prompt": "A file named 'log.txt' contains multiple lines. Write code to read it, count how many lines start with '[ERROR]', and print that count. If the file cannot be read, print 'Access denied'.",
+      "starter_code": "filename = 'log.txt'\n\n# Your code here\n",
+      "solution_code": "filename = 'log.txt'\n\nerror_count = 0\ntry:\n    with open(filename, 'r') as file:\n        for line in file:\n            if line.lstrip().startswith('[ERROR]'):\n                error_count += 1\n    print(error_count)\nexcept PermissionError:\n    print('Access denied')",
+      "test_cases": [
+        {
+          "input": "log.txt contains: '[INFO] start\\n[ERROR] failed\\n[ERROR] failed again\\n end'",
+          "expected_output": "2"
+        },
+        {
+          "input": "log.txt is unreadable due to permissions",
+          "expected_output": "Access denied"
+        }
+      ],
+      "hint": "Use .lstrip() to ignore leading whitespace before checking the prefix. Catch PermissionError specifically to distinguish it from FileNotFoundError.",
+      "explanation": "The .lstrip() method removes leading whitespace, ensuring that indented lines are still evaluated correctly. Catching PermissionError allows the program to respond specifically to access issues, which is important in multi-user or restricted environments."
+    },
+    {
+      "id": "13.1_q29",
+      "type": "write_the_code",
+      "concept": "reading_text_files_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.1_q28"
+      ],
+      "prompt": "Scenario: You are building a simple inventory tracker. A file named 'inventory.csv' stores product data as comma-separated values: 'product_id,product_name,quantity'. Write a Python program that reads this file and builds a dictionary mapping product_id to a tuple of (product_name, quantity). Print the dictionary and handle missing or malformed lines gracefully.",
+      "starter_code": "filename = 'inventory.csv'\n\n# Your code here\n",
+      "solution_code": "filename = 'inventory.csv'\n\ninventory = {}\nwith open(filename, 'r') as file:\n    for line in file:\n        parts = line.strip().split(',')\n        if len(parts) != 3:\n            continue\n        pid, name, qty = parts\n        try:\n            qty = int(qty)\n        except ValueError:\n            continue\n        inventory[pid.strip()] = (name.strip(), qty)\n\nprint(inventory)",
+      "test_cases": [
+        {
+          "input": "inventory.csv contains: 'P001,Widget,10\\nP002,Gadget,5\\nP003,Widget,abc'",
+          "expected_output": "{'P001': ('Widget', 10), 'P002': ('Gadget', 5)}"
+        },
+        {
+          "input": "inventory.csv contains a header line 'product_id,product_name,quantity'",
+          "expected_output": "{}"
+        }
+      ],
+      "hint": "Split each line by commas and verify exactly 3 parts. Convert quantity to int inside a try-except block to skip rows with invalid numbers.",
+      "explanation": "This solution demonstrates real-world data ingestion: validating structure, type-converting fields, and skipping bad records without crashing. The resulting dictionary provides fast lookups by product ID, which is essential for inventory management systems."
+    },
+    {
+      "id": "13.1_q30",
+      "type": "write_the_code",
+      "concept": "reading_text_files_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "13.1_q29"
+      ],
+      "prompt": "Write a Python function read_and_validate(filename) that reads a text file, returns its contents as a list of non-empty, stripped lines, and raises a custom ValueError if the file is empty or contains only whitespace. Include proper exception handling for file-not-found and permission errors.",
+      "starter_code": "def read_and_validate(filename):\n    # Your code here\n    pass\n\n# Example usage:\n# lines = read_and_validate('notes.txt')\n# print(lines)",
+      "solution_code": "def read_and_validate(filename):\n    try:\n        with open(filename, 'r') as file:\n            lines = [line.strip() for line in file if line.strip()]\n    except FileNotFoundError:\n        raise FileNotFoundError(f'The file {filename} does not exist.')\n    except PermissionError:\n        raise PermissionError(f'Permission denied for {filename}.')\n    \n    if not lines:\n        raise ValueError('The file is empty or contains only whitespace.')\n    \n    return lines",
+      "test_cases": [
+        {
+          "input": "notes.txt contains: '  line one  \\n\\nline two\\n'",
+          "expected_output": "['line one', 'line two']"
+        },
+        {
+          "input": "notes.txt is empty",
+          "expected_output": "ValueError raised"
+        },
+        {
+          "input": "notes.txt does not exist",
+          "expected_output": "FileNotFoundError raised"
+        }
+      ],
+      "hint": "Use a list comprehension to filter and strip lines. After reading, check if the resulting list is empty to raise ValueError. Re-raise or wrap file exceptions with informative messages.",
+      "explanation": "This function encapsulates robust file reading: it filters blank lines, validates content, and communicates errors clearly through exceptions. Raising specific exceptions allows calling code to handle different failure modes appropriately, which is critical for building reliable applications."
+    }
+  ],
+  "unit_num": 13,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Reading Text Files",
+    "Apply idiomatic Python patterns when working with Reading Text Files",
+    "Debug common runtime exceptions and logic errors associated with Reading Text Files",
+    "Implement production-ready code utilizing Reading Text Files"
+  ],
+  "prerequisites": [
+    "12.5"
+  ]
+}

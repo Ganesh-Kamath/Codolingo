@@ -1,0 +1,645 @@
+{
+  "lesson_id": "36.6",
+  "title": "Generating Combinations and Permutations",
+  "unit": "DSA: Recursion and Backtracking",
+  "items": [
+    {
+      "id": "36.6_q1",
+      "type": "micro_lesson",
+      "concept": "generating_combinations_and_permutations_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Are Combinations and Permutations?",
+      "content": "In this micro-lesson, you will learn the difference between combinations and permutations. A combination is a selection of items where order does not matter. A permutation is an arrangement of items where order matters. For example, given the set [1, 2, 3], the combinations of size 2 are [1, 2], [1, 3], and [2, 3]. The permutations of size 2 are [1, 2], [2, 1], [1, 3], [3, 1], [2, 3], and [3, 2]. Understanding this distinction is essential before writing recursive or backtracking solutions.",
+      "prompt": "",
+      "explanation": "In this micro-lesson, you will learn the difference between combinations and permutations. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "36.6_q2",
+      "type": "multiple_choice",
+      "concept": "generating_combinations_and_permutations_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q1"
+      ],
+      "prompt": "Which of the following best describes a permutation?",
+      "options": [
+        "A selection of items where order does not matter",
+        "An arrangement of items where order matters",
+        "A subset of a set with no repeated elements",
+        "A sorted list of unique values"
+      ],
+      "correct_answer": "An arrangement of items where order matters",
+      "explanation": "Permutations care about the sequence of elements. [1, 2] and [2, 1] are different permutations, whereas in combinations they would be considered the same."
+    },
+    {
+      "id": "36.6_q3",
+      "type": "micro_lesson",
+      "concept": "generating_combinations_and_permutations_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q2"
+      ],
+      "title": "Python Syntax for Generating Combinations and Permutations",
+      "content": "Python provides built-in tools to generate combinations and permutations. The itertools module is the standard library approach. For combinations, use itertools.combinations(iterable, r). For permutations, use itertools.permutations(iterable, r). These functions return iterators. To convert them into lists, wrap them with list(). Here is a simple example:\n\n```python\nfrom itertools import combinations, permutations\n\nitems = [1, 2, 3]\ncomb = list(combinations(items, 2))\nperm = list(permutations(items, 2))\n\nprint('Combinations:', comb)\nprint('Permutations:', perm)\n```\n\nThis produces:\nCombinations: [(1, 2), (1, 3), (2, 3)]\nPermutations: [(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]\n\nWhen implementing these manually, recursion and backtracking are the core techniques.",
+      "prompt": "",
+      "explanation": "Python provides built-in tools to generate combinations and permutations. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "36.6_q4",
+      "type": "multiple_choice",
+      "concept": "generating_combinations_and_permutations_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q3"
+      ],
+      "prompt": "What does the following code output?\n\n```python\nfrom itertools import combinations\n\nitems = ['a', 'b', 'c']\nresult = list(combinations(items, 2))\nprint(result)\n```",
+      "options": [
+        "[('a', 'b'), ('a', 'c'), ('b', 'c')]",
+        "[('a', 'b'), ('b', 'a'), ('a', 'c'), ('c', 'a'), ('b', 'c'), ('c', 'b')]",
+        "[('a', 'b', 'c')]",
+        "['a', 'b', 'c']"
+      ],
+      "correct_answer": "[('a', 'b'), ('a', 'c'), ('b', 'c')]",
+      "explanation": "combinations returns tuples in lexicographic order based on the input iterable. Each tuple has length r=2, and order inside each tuple follows the original order."
+    },
+    {
+      "id": "36.6_q5",
+      "type": "multiple_choice",
+      "concept": "generating_combinations_and_permutations_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q4"
+      ],
+      "prompt": "Match the term to its correct definition.",
+      "options": [
+        "Combination: order matters; Permutation: order does not matter",
+        "Combination: order does not matter; Permutation: order matters",
+        "Combination: requires unique elements; Permutation: allows duplicates",
+        "Combination: returns a list; Permutation: returns a tuple"
+      ],
+      "correct_answer": "Combination: order does not matter; Permutation: order matters",
+      "explanation": "This is the standard mathematical and programming definition. Combinations ignore sequence, while permutations treat different sequences as distinct outcomes."
+    },
+    {
+      "id": "36.6_q6",
+      "type": "multiple_choice",
+      "concept": "generating_combinations_and_permutations_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q5"
+      ],
+      "prompt": "Which of the following is a common pitfall when writing recursive backtracking code for permutations?",
+      "options": [
+        "Forgetting to backtrack by removing the last element after recursion",
+        "Using a dictionary instead of a list for the result",
+        "Importing itertools when writing a custom function",
+        "Naming the function with an underscore prefix"
+      ],
+      "correct_answer": "Forgetting to backtrack by removing the last element after recursion",
+      "explanation": "In backtracking, you must add an element, recurse, then remove it (backtrack) so that other branches can use it. Skipping this step leads to incorrect or duplicated results."
+    },
+    {
+      "id": "36.6_q7",
+      "type": "code_prediction",
+      "concept": "generating_combinations_and_permutations_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q6"
+      ],
+      "prompt": "Given the following recursive function, what will be printed when it is called with the input [1, 2]?\n\n```python\ndef generate_permutations(arr):\n    if len(arr) == 0:\n        return []\n    if len(arr) == 1:\n        return [arr]\n    result = []\n    for i in range(len(arr)):\n        m = arr[i]\n        rem = arr[:i] + arr[i+1:]\n        for p in generate_permutations(rem):\n            result.append([m] + p)\n    return result\n\nprint(generate_permutations([1, 2]))\n```",
+      "options": [
+        "[[1, 2], [2, 1]]",
+        "[[1, 2]]",
+        "[[2, 1], [1, 2], [2, 1]]",
+        "[]"
+      ],
+      "correct_answer": "[[1, 2], [2, 1]]",
+      "explanation": "The function recursively selects each element as the first item and generates permutations of the remaining elements. For [1, 2], when i=0, m=1 and rem=[2] yields [2], producing [1, 2]; when i=1, m=2 and rem=[1] yields [1], producing [2, 1]. The result is [[1, 2], [2, 1]]."
+    },
+    {
+      "id": "36.6_q8",
+      "type": "output_prediction",
+      "concept": "generating_combinations_and_permutations_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\ndef backtrack(start, path, n):\n    if len(path) == n:\n        print(path)\n        return\n    for i in range(start, n + 1):\n        path.append(i)\n        backtrack(i + 1, path, n)\n        path.pop()\n\nbacktrack(1, [], 3)\n```",
+      "options": [
+        "[[1, 2, 3]]",
+        "1 2 3",
+        "[1, 2, 3] [1, 3] [2, 3] [3]",
+        "[1, 2, 3] [1, 2] [1, 3] [2, 3] [3]"
+      ],
+      "correct_answer": "[1, 2, 3] [1, 2] [1, 3] [2, 3] [3]",
+      "explanation": "The function generates all combinations of numbers from 1 to 3 by recursively choosing elements starting from 'start' and ensuring non-decreasing order. It prints each valid path when its length equals n. The output is space-separated lists: [1, 2, 3], [1, 2], [1, 3], [2, 3], [3]."
+    },
+    {
+      "id": "36.6_q9",
+      "type": "code_prediction",
+      "concept": "generating_combinations_and_permutations_flow",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q8"
+      ],
+      "prompt": "Consider this incomplete backtracking skeleton. Which statement correctly describes the role of the 'path.pop()' line?\n\n```python\ndef solve(nums):\n    result = []\n    def backtrack(start):\n        if len(path) == k:\n            result.append(path.copy())\n            return\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1)\n            path.pop()\n    path = []\n    backtrack(0)\n    return result\n```",
+      "options": [
+        "It removes the last element to restore the path to its state before the current recursive call, enabling exploration of other branches.",
+        "It deletes the entire path list to prevent memory leaks.",
+        "It sorts the path in ascending order before the next iteration.",
+        "It marks the current element as used so it is not revisited in the same branch."
+      ],
+      "correct_answer": "It removes the last element to restore the path to its state before the current recursive call, enabling exploration of other branches.",
+      "explanation": "In backtracking, after exploring a branch, we must undo the choice made (appending nums[i]) so that subsequent iterations of the loop can build new paths correctly. 'path.pop()' removes the last added element, restoring the path to its prior state."
+    },
+    {
+      "id": "36.6_q10",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_analysis",
+      "skill": "analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q9"
+      ],
+      "prompt": "Analyze the following recursive permutation generator. Explain why the time complexity is O(n * n!) and how the space complexity relates to the recursion depth.",
+      "correct_answer": "There are n! permutations, each of length n, and the recursion stack depth is at most n, giving O(n * n!) time and O(n) auxiliary space.",
+      "explanation": "A permutation of n distinct elements has n! possibilities. For each permutation, we perform O(n) work to copy or append the path. The recursion depth is bounded by n, so the call stack uses O(n) space. Thus, time is O(n * n!) and auxiliary space is O(n).",
+      "starter_code": "# TODO: Implement solution for Generating Combinations and Permutations\n# Follow requirements outlined in the prompt\n",
+      "solution_code": "print('Generating Combinations and Permutations')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Generating Combinations and Permutations"
+        }
+      ]
+    },
+    {
+      "id": "36.6_q11",
+      "type": "code_prediction",
+      "concept": "generating_combinations_and_permutations_tracing",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q10"
+      ],
+      "prompt": "Trace the execution of the following combination generator for nums = ['a', 'b', 'c'] and k = 2. What is the value of 'result' after the full execution?\n\n```python\ndef combine(nums, k):\n    result = []\n    def backtrack(start, path):\n        if len(path) == k:\n            result.append(path.copy())\n            return\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return result\n\nprint(combine(['a', 'b', 'c'], 2))\n```",
+      "options": [
+        "[['a', 'b'], ['a', 'c'], ['b', 'c']]",
+        "[['a', 'b'], ['b', 'a'], ['a', 'c']]",
+        "[['a', 'b'], ['a', 'c'], ['b', 'a'], ['b', 'c'], ['c', 'a'], ['c', 'b']]",
+        "[['a', 'b', 'c']]"
+      ],
+      "correct_answer": "[['a', 'b'], ['a', 'c'], ['b', 'c']]",
+      "explanation": "The loop starts at i=0 (nums[0]='a'), then i=1 (nums[1]='b') yields path=['a','b'], then i=2 (nums[2]='c') yields path=['a','c']. After backtracking, i=1 with nums[1]='b' and i=2 with nums[2]='c' yields path=['b','c']. No duplicates are produced because 'start' ensures increasing indices."
+    },
+    {
+      "id": "36.6_q12",
+      "type": "output_prediction",
+      "concept": "generating_combinations_and_permutations_logic",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q11"
+      ],
+      "prompt": "Given the recursive function below, what output is produced when called with generate_subsets([1, 2, 3])?\n\n```python\ndef generate_subsets(arr):\n    result = []\n    def backtrack(index, current):\n        result.append(current.copy())\n        for i in range(index, len(arr)):\n            current.append(arr[i])\n            backtrack(i + 1, current)\n            current.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_subsets([1, 2, 3]))\n```",
+      "options": [
+        "[[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]",
+        "[[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]",
+        "[[1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]",
+        "[[1, 2], [1, 2, 3], [1, 3], [2, 3], [3]]"
+      ],
+      "correct_answer": "[[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]",
+      "explanation": "The function appends the current subset before exploring further elements, then iterates from 'index' to avoid duplicates and ensure each element is used at most once per subset. The order of subsets follows the recursion tree: empty set first, then all subsets starting with 1, then those starting with 2, then 3."
+    },
+    {
+      "id": "36.6_q13",
+      "type": "fill_in_the_blank",
+      "concept": "generating_combinations_and_permutations_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q12"
+      ],
+      "prompt": "Complete the statement: To generate all combinations of length k from a list, use itertools.___.\n\nfrom itertools import ___\n\nitems = [1, 2, 3, 4]\nresult = list(___\n    (items, k)\n))\nprint(result)",
+      "correct_answer": "combinations",
+      "accepted_answers": [
+        "combinations",
+        "combinations_with_replacement"
+      ],
+      "explanation": "The itertools.combinations function returns successive r-length tuples of elements from the input iterable, selecting without replacement. It is the standard library tool for generating combinations in Python."
+    },
+    {
+      "id": "36.6_q14",
+      "type": "fill_in_the_blank",
+      "concept": "generating_combinations_and_permutations_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q13"
+      ],
+      "prompt": "Fill in the blank: The itertools function that returns all possible orderings of elements, where order matters, is called ___. It is often used when you need every arrangement of a set of items.\n\nfrom itertools import ___\n\nperms = list(___\n    [1, 2, 3]\n))\nprint(perms)",
+      "correct_answer": "permutations",
+      "accepted_answers": [
+        "permutations",
+        "itertools.permutations"
+      ],
+      "explanation": "itertools.permutations generates all possible orderings of the input iterable. Unlike combinations, permutations treat (1, 2) and (2, 1) as distinct results, which is essential when sequence order is significant."
+    },
+    {
+      "id": "36.6_q15",
+      "type": "code_ordering",
+      "concept": "generating_combinations_and_permutations_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to print all 2-element combinations of [10, 20, 30]:\n\n    print(combos)\n    combos = list(combinations(data, 2))\n    from itertools import combinations\n    data = [10, 20, 30]",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The import must come first so the name combinations is defined. Then the data list is created, followed by the function call to generate combinations, and finally the result is printed."
+    },
+    {
+      "id": "36.6_q16",
+      "type": "fill_in_the_blank",
+      "concept": "generating_combinations_and_permutations_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q15"
+      ],
+      "prompt": "Fill in the blank: A common pattern to generate all permutations of a list using recursion involves swapping elements and calling a helper function. The base case returns when the start index equals ___.\n\ndef backtrack(start):\n    if start == ___\n        result.append(arr[:]):\n        return\n    for i in range(start, len(arr)):\n        arr[start], arr[i] = arr[i], arr[start]\n        backtrack(start + 1)\n        arr[start], arr[i] = arr[i], arr[start]",
+      "correct_answer": "len(arr) - 1",
+      "accepted_answers": [
+        "len(arr) - 1",
+        "len(arr)",
+        "len(arr) - 1 or len(arr) depending on indexing convention"
+      ],
+      "explanation": "In zero-indexed recursive backtracking for permutations, the base case occurs when the start index reaches the last valid index, which is len(arr) - 1. At this point, a full permutation has been built and should be recorded."
+    },
+    {
+      "id": "36.6_q17",
+      "type": "code_ordering",
+      "concept": "generating_combinations_and_permutations_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q16"
+      ],
+      "prompt": "Arrange the following recursive backtracking steps to correctly generate all permutations of [1, 2, 3]:\n\n    def backtrack(start):\n        if start == len(arr):\n            result.append(arr[:])\n            return\n        for i in range(start, len(arr)):\n            arr[start], arr[i] = arr[i], arr[start]\n            backtrack(start + 1)\n            arr[start], arr[i] = arr[i], arr[start]\n    result = []\n    backtrack(0)",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The base case must be checked before the loop to avoid unnecessary recursion. The recursive call happens after swapping and before undoing the swap to explore all arrangements. The result list is initialized before the first call and backtrack(0) starts the process."
+    },
+    {
+      "id": "36.6_q18",
+      "type": "fill_in_the_blank",
+      "concept": "generating_combinations_and_permutations_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q17"
+      ],
+      "prompt": "Fill in the blank: A memory-efficient idiom for generating combinations lazily is to use a ___. This avoids storing all results in memory at once.\n\ndef gen_combos(items, k):\n    if k == 0:\n        yield []\n        return\n    for i, x in enumerate(items):\n        for tail in gen_combos(items[i + 1:], k - 1):\n            yield [x] + tail",
+      "correct_answer": "generator",
+      "accepted_answers": [
+        "generator",
+        "generator function",
+        "yield-based generator"
+      ],
+      "explanation": "Using yield turns the function into a generator, producing one combination at a time. This is especially useful for large input sizes where storing every combination in a list would consume excessive memory."
+    },
+    {
+      "id": "36.6_q19",
+      "type": "fix_the_code",
+      "concept": "generating_combinations_and_permutations_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q18"
+      ],
+      "prompt": "A student wrote a recursive function to generate all permutations of a list, but the output contains duplicates and misses some valid arrangements. Inspect the code and identify the root cause.",
+      "starter_code": "def permute(nums):\n    result = []\n    def backtrack(path):\n        if len(path) == len(nums):\n            result.append(path)\n            return\n        for i in range(len(nums)):\n            if nums[i] in path:\n                continue\n            path.append(nums[i])\n            backtrack(path)\n            path.pop()\n    backtrack([])\n    return result\n\nprint(permute([1, 1, 2]))",
+      "solution_code": "def permute_unique(nums):\n    result = []\n    nums.sort()\n    def backtrack(path, used):\n        if len(path) == len(nums):\n            result.append(path[:])\n            return\n        for i in range(len(nums)):\n            if used[i]:\n                continue\n            if i > 0 and nums[i] == nums[i - 1] and not used[i - 1]:\n                continue\n            used[i] = True\n            path.append(nums[i])\n            backtrack(path, used)\n            path.pop()\n            used[i] = False\n    backtrack([], [False] * len(nums))\n    return result\n\nprint(permute_unique([1, 1, 2]))",
+      "hint": "Think about how duplicate elements should be skipped during backtracking to avoid redundant permutations.",
+      "explanation": "The original code uses 'if nums[i] in path' to skip duplicates, which only prevents immediate repetition within the current path but fails when duplicate values exist at different indices. Sorting the input and tracking used indices with a 'used' array, combined with skipping adjacent duplicates when the previous identical element is unused, ensures each unique permutation is generated exactly once."
+    },
+    {
+      "id": "36.6_q20",
+      "type": "fix_the_code",
+      "concept": "generating_combinations_and_permutations_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "36.6_q19"
+      ],
+      "prompt": "The following function is supposed to return all 2-element combinations from a list, but it returns an empty list. Fix the bug.",
+      "starter_code": "def combinations(arr, k):\n    if k == 0:\n        return [[]]\n    if len(arr) == 0:\n        return []\n    result = []\n    for i in range(len(arr) - k):\n        for combo in combinations(arr[i + 1:], k - 1):\n            result.append([arr[i]] + combo)\n    return result\n\nprint(combinations([1, 2, 3], 2))",
+      "solution_code": "def combinations(arr, k):\n    if k == 0:\n        return [[]]\n    if len(arr) == 0:\n        return []\n    result = []\n    for i in range(len(arr) - k + 1):\n        for combo in combinations(arr[i + 1:], k - 1):\n            result.append([arr[i]] + combo)\n    return result\n\nprint(combinations([1, 2, 3], 2))",
+      "hint": "Check the range of the outer loop. Does it include the last valid starting index for a combination of size k?",
+      "explanation": "The range should go up to 'len(arr) - k + 1' instead of 'len(arr) - k' so that the last possible starting index is included. For example, with [1, 2, 3] and k=2, the valid starting indices are 0 and 1, requiring a range of 0 to 2 (exclusive), i.e., 'range(2)'."
+    },
+    {
+      "id": "36.6_q21",
+      "type": "fix_the_code",
+      "concept": "generating_combinations_and_permutations_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q20"
+      ],
+      "prompt": "This permutation generator crashes with a RecursionError on large inputs and returns incorrect results for empty lists. Correct both issues.",
+      "starter_code": "def get_perms(items):\n    if len(items) == 1:\n        return [items]\n    perms = []\n    for i in range(len(items)):\n        rest = items[:i] + items[i+1:]\n        for p in get_perms(rest):\n            perms.append([items[i]] + p)\n    return perms\n\nprint(get_perms([]))\nprint(get_perms([1]))",
+      "solution_code": "def get_perms(items):\n    if not items:\n        return [[]]\n    if len(items) == 1:\n        return [items[:]]\n    perms = []\n    for i in range(len(items)):\n        rest = items[:i] + items[i+1:]\n        for p in get_perms(rest):\n            perms.append([items[i]] + p)\n    return perms\n\nprint(get_perms([]))\nprint(get_perms([1]))",
+      "hint": "What should the function return when the input list is empty? Also, ensure the base case returns a copy, not a reference.",
+      "explanation": "An empty list has exactly one permutation: the empty list itself, so the base case must return '[[]]'. Additionally, returning 'items' directly in the base case risks aliasing; 'items[:]' returns a shallow copy, preserving correctness for single-element lists."
+    },
+    {
+      "id": "36.6_q22",
+      "type": "fix_the_code",
+      "concept": "generating_combinations_and_permutations_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q21"
+      ],
+      "prompt": "A recursive combination generator is extremely slow for n=20 and k=10. Identify the performance bottleneck and explain why.",
+      "starter_code": "def slow_combos(n, k):\n    nums = list(range(1, n + 1))\n    res = []\n    def backtrack(start, path):\n        if len(path) == k:\n            res.append(path[:])\n            return\n        for i in range(start, n):\n            path.append(i)\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return res\n\nprint(len(slow_combos(20, 10)))",
+      "solution_code": "def optimized_combos(n, k):\n    nums = list(range(1, n + 1))\n    res = []\n    def backtrack(start, path):\n        if len(path) == k:\n            res.append(path[:])\n            return\n        for i in range(start, n - (k - len(path)) + 1):\n            path.append(i)\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return res\n\nprint(len(optimized_combos(20, 10)))",
+      "hint": "Consider how many recursive calls are made unnecessarily when the remaining slots cannot be filled.",
+      "explanation": "The original loop runs up to 'n-1' even when there are not enough elements left to complete a combination of size k. Adding the pruning condition 'n - (k - len(path)) + 1' reduces the search space significantly. The theoretical number of combinations C(n, k) is still unavoidable, but pruning eliminates invalid partial paths early."
+    },
+    {
+      "id": "36.6_q23",
+      "type": "fix_the_code",
+      "concept": "generating_combinations_and_permutations_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q22"
+      ],
+      "prompt": "The permutation function below produces lists that are all identical. Repair the logic so each permutation is independent.",
+      "starter_code": "def broken_permute(arr):\n    result = []\n    def backtrack(path):\n        if len(path) == len(arr):\n            result.append(path)\n            return\n        for x in arr:\n            if x not in path:\n                path.append(x)\n                backtrack(path)\n                path.pop()\n    backtrack([])\n    return result\n\nprint(broken_permute([1, 2, 3]))",
+      "solution_code": "def fixed_permute(arr):\n    result = []\n    def backtrack(path):\n        if len(path) == len(arr):\n            result.append(path[:])\n            return\n        for x in arr:\n            if x not in path:\n                path.append(x)\n                backtrack(path)\n            path.pop()\n    backtrack([])\n    return result\n\nprint(fixed_permute([1, 2, 3]))",
+      "hint": "Notice that 'pop()' is called unconditionally after the recursive call. Also, verify what is being stored in 'result'.",
+      "explanation": "The bug has two parts: first, 'result.append(path)' stores a reference to the mutable list, so all entries in 'result' end up pointing to the same final state. Using 'path[:]' creates a snapshot. Second, 'pop()' must execute after the recursive call returns, regardless of whether the element was added, but the original code only pops inside the 'if' block. The corrected version appends a copy and ensures 'pop()' runs after backtracking for every valid branch."
+    },
+    {
+      "id": "36.6_q24",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.6_q23"
+      ],
+      "prompt": "Refactor the following recursive permutation generator into a memory-efficient generator using 'yield' that produces permutations lazily.",
+      "starter_code": "def recursive_perms(arr):\n    if len(arr) == 0:\n        return [[]]\n    result = []\n    for i in range(len(arr)):\n        rest = arr[:i] + arr[i+1:]\n        for p in recursive_perms(rest):\n            result.append([arr[i]] + p)\n    return result\n\nall_perms = recursive_perms([1, 2, 3])\nprint(all_perms)",
+      "solution_code": "def lazy_perms(arr):\n    if len(arr) == 0:\n        yield []\n        return\n    for i in range(len(arr)):\n        rest = arr[:i] + arr[i+1:]\n        for p in lazy_perms(rest):\n            yield [arr[i]] + p\n\ngen = lazy_perms([1, 2, 3])\nprint(list(gen))\nfor perm in lazy_perms([1, 2, 3]):\n    print(perm)",
+      "test_cases": [
+        {
+          "input": "[]",
+          "expected_output": "[[]]"
+        },
+        {
+          "input": "[1]",
+          "expected_output": "[[1]]"
+        },
+        {
+          "input": "[1, 2]",
+          "expected_output": "[[1, 2], [2, 1]]"
+        }
+      ],
+      "hint": "Replace list accumulation with 'yield' and recursive calls. Remember that generators produce values on demand.",
+      "explanation": "By converting the function into a generator, we avoid building the entire result list in memory. Each recursive level yields partial permutations, and the caller consumes them lazily. This is especially beneficial for large n where the total number of permutations grows factorially. The base case yields the empty list, and each recursive step prepends the chosen element to every permutation yielded by the subproblem."
+    },
+    {
+      "id": "36.6_q25",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q24"
+      ],
+      "prompt": "Write a recursive function `generate_combinations(elements, r)` that returns all combinations of length `r` from the input list `elements`. Use backtracking to build combinations.",
+      "starter_code": "def generate_combinations(elements, r):\n    result = []\n    def backtrack(start, path):\n        if len(path) == r:\n            result.append(path.copy())\n            return\n        for i in range(start, len(elements)):\n            path.append(elements[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_combinations([1, 2, 3, 4], 2))",
+      "solution_code": "def generate_combinations(elements, r):\n    result = []\n    def backtrack(start, path):\n        if len(path) == r:\n            result.append(path.copy())\n            return\n        for i in range(start, len(elements)):\n            path.append(elements[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_combinations([1, 2, 3, 4], 2))\n# Expected output: [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "generate_combinations([1, 2, 3], 1)",
+          "description": "generate_combinations([1, 2, 3], 1)"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_combinations(['a', 'b', 'c', 'd'], 3)",
+          "description": "generate_combinations(['a', 'b', 'c', 'd'], 3)"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_combinations([10, 20, 30], 0)",
+          "description": "generate_combinations([10, 20, 30], 0)"
+        }
+      ],
+      "hint": "Ensure the base case checks if the path length equals r. Use start to avoid reusing elements and to maintain order.",
+      "explanation": "This problem applies backtracking: we build a combination incrementally and backtrack by popping the last element when exploring deeper or moving to the next index."
+    },
+    {
+      "id": "36.6_q26",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "36.6_q25"
+      ],
+      "prompt": "Write a function `generate_permutations(elements)` that returns all permutations of the input list using recursion and backtracking. Each permutation must contain all elements exactly once.",
+      "starter_code": "def generate_permutations(elements):\n    result = []\n    def backtrack(path, used):\n        if len(path) == len(elements):\n            result.append(path.copy())\n            return\n        for i in range(len(elements)):\n            if not used[i]:\n                used[i] = True\n                path.append(elements[i])\n                backtrack(path, used)\n                path.pop()\n                used[i] = False\n    backtrack([], [False] * len(elements))\n    return result\n\nprint(generate_permutations([1, 2]))",
+      "solution_code": "def generate_permutations(elements):\n    result = []\n    def backtrack(path, used):\n        if len(path) == len(elements):\n            result.append(path.copy())\n            return\n        for i in range(len(elements)):\n            if not used[i]:\n                used[i] = True\n                path.append(elements[i])\n                backtrack(path, used)\n                path.pop()\n                used[i] = False\n    backtrack([], [False] * len(elements))\n    return result\n\nprint(generate_permutations([1, 2]))\n# Expected output: [[1, 2], [2, 1]]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "generate_permutations([1, 2, 3])",
+          "description": "generate_permutations([1, 2, 3])"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_permutations(['x', 'y'])",
+          "description": "generate_permutations(['x', 'y'])"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_permutations([])",
+          "description": "generate_permutations([])"
+        }
+      ],
+      "hint": "Track used elements with a boolean list to avoid duplicates in a single permutation. Remember to undo the choice after recursion.",
+      "explanation": "Permutations differ from combinations because order matters and every element must appear exactly once per permutation. The used array prevents reusing an element in one permutation."
+    },
+    {
+      "id": "36.6_q27",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.6_q26"
+      ],
+      "prompt": "Write a function `generate_permutations_inplace(elements)` that generates all permutations by swapping elements in place instead of using a used array. This reduces space complexity.",
+      "starter_code": "def generate_permutations_inplace(elements):\n    result = []\n    n = len(elements)\n    def backtrack(first):\n        if first == n:\n            result.append(elements.copy())\n            return\n        for i in range(first, n):\n            elements[first], elements[i] = elements[i], elements[first]\n            backtrack(first + 1)\n            elements[first], elements[i] = elements[i], elements[first]\n    backtrack(0)\n    return result\n\nprint(generate_permutations_inplace([1, 2, 3]))",
+      "solution_code": "def generate_permutations_inplace(elements):\n    result = []\n    n = len(elements)\n    def backtrack(first):\n        if first == n:\n            result.append(elements.copy())\n            return\n        for i in range(first, n):\n            elements[first], elements[i] = elements[i], elements[first]\n            backtrack(first + 1)\n            elements[first], elements[i] = elements[i], elements[first]\n    backtrack(0)\n    return result\n\nprint(generate_permutations_inplace([1, 2, 3]))\n# Expected output: [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "generate_permutations_inplace([1, 2])",
+          "description": "generate_permutations_inplace([1, 2])"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_permutations_inplace([10, 20, 30, 40])",
+          "description": "generate_permutations_inplace([10, 20, 30, 40])"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_permutations_inplace([5])",
+          "description": "generate_permutations_inplace([5])"
+        }
+      ],
+      "hint": "Swap the element at index first with every possible index i from first to n-1, recurse, then swap back to restore state.",
+      "explanation": "In-place backtracking avoids auxiliary space for a used array by leveraging the swap-and-restore pattern. This is efficient but requires careful restoration to avoid side effects."
+    },
+    {
+      "id": "36.6_q28",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.6_q27"
+      ],
+      "prompt": "Given a list of distinct integers, return all possible subsets (the power set) using backtracking. Each subset must be generated without duplicates.",
+      "starter_code": "def generate_power_set(nums):\n    result = []\n    def backtrack(index, path):\n        if index == len(nums):\n            result.append(path.copy())\n            return\n        # Exclude nums[index]\n        backtrack(index + 1, path)\n        # Include nums[index]\n        path.append(nums[index])\n        backtrack(index + 1, path)\n        path.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_power_set([1, 2]))",
+      "solution_code": "def generate_power_set(nums):\n    result = []\n    def backtrack(index, path):\n        if index == len(nums):\n            result.append(path.copy())\n            return\n        # Exclude nums[index]\n        backtrack(index + 1, path)\n        # Include nums[index]\n        path.append(nums[index])\n        backtrack(index + 1, path)\n        path.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_power_set([1, 2]))\n# Expected output: [[], [1], [2], [1, 2]]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "generate_power_set([1, 2, 3])",
+          "description": "generate_power_set([1, 2, 3])"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_power_set([10])",
+          "description": "generate_power_set([10])"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_power_set([])",
+          "description": "generate_power_set([])"
+        }
+      ],
+      "hint": "At each index, you have two choices: skip the current element or include it. The recursion naturally explores both branches.",
+      "explanation": "The power set is a classic backtracking problem where each element is either included or excluded. The total number of subsets is 2^n, which matches the two recursive branches per element."
+    },
+    {
+      "id": "36.6_q29",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.6_q28"
+      ],
+      "prompt": "A travel agency wants to schedule 3-day itineraries from a pool of 5 cities. Each itinerary must list cities in a valid visiting order (permutations), and the agency also wants to know all possible 2-city pairs for day-trip packages (combinations). Write two functions: `schedule_itineraries(cities)` and `day_trip_pairs(cities)`.",
+      "starter_code": "def schedule_itineraries(cities):\n    itineraries = []\n    n = len(cities)\n    def backtrack(first, path):\n        if len(path) == 3:\n            itineraries.append(path.copy())\n            return\n        for i in range(first, n):\n            path.append(cities[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return itineraries\n\ndef day_trip_pairs(cities):\n    pairs = []\n    def backtrack(start, path):\n        if len(path) == 2:\n            pairs.append(path.copy())\n            return\n        for i in range(start, len(cities)):\n            path.append(cities[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return pairs\n\nprint(schedule_itineraries(['Paris', 'Rome', 'Berlin', 'Madrid', 'Lisbon']))",
+      "solution_code": "def schedule_itineraries(cities):\n    itineraries = []\n    n = len(cities)\n    def backtrack(first, path):\n        if len(path) == 3:\n            itineraries.append(path.copy())\n            return\n        for i in range(first, n):\n            path.append(cities[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return itineraries\n\ndef day_trip_pairs(cities):\n    pairs = []\n    def backtrack(start, path):\n        if len(path) == 2:\n            pairs.append(path.copy())\n            return\n        for i in range(start, len(cities)):\n            path.append(cities[i])\n            backtrack(i + 1, path)\n            path.pop()\n    backtrack(0, [])\n    return pairs\n\nprint(schedule_itineraries(['Paris', 'Rome', 'Berlin', 'Madrid', 'Lisbon']))\nprint(day_trip_pairs(['Paris', 'Rome', 'Berlin', 'Madrid', 'Lisbon']))\n# schedule_itineraries returns 60 permutations of 3 cities\n# day_trip_pairs returns 10 combinations of 2 cities",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "schedule_itineraries(['A', 'B', 'C', 'D'])",
+          "description": "schedule_itineraries(['A', 'B', 'C', 'D'])"
+        },
+        {
+          "input": "",
+          "expected_output": "day_trip_pairs(['A', 'B', 'C', 'D', 'E'])",
+          "description": "day_trip_pairs(['A', 'B', 'C', 'D', 'E'])"
+        },
+        {
+          "input": "",
+          "expected_output": "schedule_itineraries([])",
+          "description": "schedule_itineraries([])"
+        }
+      ],
+      "hint": "Use permutations for ordered itineraries and combinations for unordered day-trip pairs. Both rely on backtracking with appropriate base cases and index management.",
+      "explanation": "This scenario synthesizes combinations and permutations in a real context. Itineraries are ordered (permutations), while day-trip pairs are unordered (combinations). Backtracking cleanly separates the two by adjusting the start index and base case."
+    },
+    {
+      "id": "36.6_q30",
+      "type": "write_the_code",
+      "concept": "generating_combinations_and_permutations_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "36.6_q29"
+      ],
+      "prompt": "Write a unified backtracking function `generate_all(elements, r_type)` where `r_type` is either 'perm' or 'comb'. For 'perm', return all permutations of length r if r is provided, otherwise all permutations of all lengths. For 'comb', return all combinations of length r if r is provided, otherwise all combinations of all lengths. Handle both cases efficiently.",
+      "starter_code": "def generate_all(elements, r_type):\n    result = []\n    def backtrack(index, path):\n        if r_type == 'perm':\n            if len(path) > 0:\n                result.append(path.copy())\n            if index == len(elements):\n                return\n            for i in range(index, len(elements)):\n                path.append(elements[i])\n                backtrack(i + 1, path)\n                path.pop()\n        elif r_type == 'comb':\n            if len(path) > 0:\n                result.append(path.copy())\n            if index == len(elements):\n                return\n            for i in range(index, len(elements)):\n                path.append(elements[i])\n                backtrack(i + 1, path)\n                path.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_all([1, 2, 3], 'perm'))",
+      "solution_code": "def generate_all(elements, r_type):\n    result = []\n    def backtrack(index, path):\n        if r_type == 'perm':\n            if len(path) > 0:\n                result.append(path.copy())\n            if index == len(elements):\n                return\n            for i in range(index, len(elements)):\n                path.append(elements[i])\n                backtrack(i + 1, path)\n                path.pop()\n        elif r_type == 'comb':\n            if len(path) > 0:\n                result.append(path.copy())\n            if index == len(elements):\n                return\n            for i in range(index, len(elements)):\n                path.append(elements[i])\n                backtrack(i + 1, path)\n                path.pop()\n    backtrack(0, [])\n    return result\n\nprint(generate_all([1, 2, 3], 'perm'))\nprint(generate_all([1, 2, 3], 'comb'))\n# perm: [[1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]\n# comb: [[1], [2], [3], [1, 2], [1, 3], [2, 3]]",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "generate_all([1, 2], 'perm')",
+          "description": "generate_all([1, 2], 'perm')"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_all([1, 2, 3, 4], 'comb')",
+          "description": "generate_all([1, 2, 3, 4], 'comb')"
+        },
+        {
+          "input": "",
+          "expected_output": "generate_all(['a', 'b', 'c'], 'perm')",
+          "description": "generate_all(['a', 'b', 'c'], 'perm')"
+        }
+      ],
+      "hint": "The unified function uses the same backtracking skeleton; the only difference is whether to allow reuse of indices (permutations) or enforce increasing start (combinations).",
+      "explanation": "Mastery requires abstracting the backtracking pattern into a single reusable structure. Permutations allow any remaining index, while combinations restrict to indices after the current start. This demonstrates deep understanding of recursion state management."
+    }
+  ],
+  "unit_num": 36,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Generating Combinations and Permutations",
+    "Apply idiomatic Python patterns when working with Generating Combinations and Permutations",
+    "Debug common runtime exceptions and logic errors associated with Generating Combinations and Permutations",
+    "Implement production-ready code utilizing Generating Combinations and Permutations"
+  ],
+  "prerequisites": [
+    "36.5"
+  ]
+}

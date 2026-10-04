@@ -5,6 +5,7 @@ import { MultiStepLessonView } from './views/MultiStepLessonView';
 import { PracticeView } from './views/PracticeView';
 import { MistakeReviewView } from './views/MistakeReviewView';
 import { ProfileView } from './views/ProfileView';
+import { OnboardingView } from './views/OnboardingView';
 import { Icon } from './components/ui/Icon';
 
 export const AppContent: React.FC = () => {
@@ -22,6 +23,11 @@ export const AppContent: React.FC = () => {
   if (currentRoute.startsWith('/app/lesson/')) {
     const lessonId = currentRoute.replace('/app/lesson/', '');
     return <MultiStepLessonView lessonId={lessonId} />;
+  }
+
+  // 1b. If onboarding route
+  if (currentRoute === '/onboarding') {
+    return <OnboardingView />;
   }
 
   // 2. Navigation items

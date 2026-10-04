@@ -1,0 +1,642 @@
+{
+  "lesson_id": "20.5",
+  "title": "Instance Methods",
+  "unit": "Object-Oriented Programming (Basics)",
+  "items": [
+    {
+      "id": "20.5_q1",
+      "type": "micro_lesson",
+      "concept": "instance_methods_basics",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "title": "What Is an Instance Method?",
+      "content": "An instance method is a function defined inside a class that belongs to an instance of that class. It can access and modify the data (attributes) of a specific object using the special parameter self. When you call an instance method on an object, Python automatically passes that object as the first argument. For example:\n\n```python\nclass Dog:\n    def bark(self):\n        print('woof')\n\nmy_dog = Dog()\nmy_dog.bark()\n```\n\nIn this code, bark is an instance method. The self parameter refers to my_dog. Without self, Python would not know which object's data to use. Instance methods are the primary way objects interact with their own state.",
+      "prompt": "",
+      "explanation": "An instance method is a function defined inside a class that belongs to an instance of that class. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "20.5_q2",
+      "type": "multiple_choice",
+      "concept": "instance_methods_basics",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q1"
+      ],
+      "prompt": "Which statement best describes an instance method in Python?",
+      "options": [
+        "It is a function defined outside a class and called globally.",
+        "It is a function defined inside a class that receives the instance as the first parameter.",
+        "It is a variable stored at the class level shared by all objects.",
+        "It is a built-in function that every object inherits automatically."
+      ],
+      "correct_answer": "It is a function defined inside a class that receives the instance as the first parameter.",
+      "explanation": "An instance method is defined inside a class and always takes self as its first parameter. This self argument refers to the specific instance calling the method, allowing the method to access and modify that instance's attributes and state."
+    },
+    {
+      "id": "20.5_q3",
+      "type": "micro_lesson",
+      "concept": "instance_methods_syntax",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q2"
+      ],
+      "title": "Syntax of Defining and Calling Instance Methods",
+      "content": "To define an instance method, write def followed by the method name, then self, then any additional parameters, and a colon. The body is indented. When calling the method on an instance, use dot notation: instance.method_name(arguments). The self parameter is supplied automatically by Python and should not be passed manually when calling the method.\n\nExample:\n\n```python\nclass Calculator:\n    def add(self, a, b):\n        return a + b\n\nresult = Calculator().add(3, 5)\nprint(result)\n```\n\nHere, add is an instance method. When Calculator().add(3, 5) is executed, Python creates a temporary Calculator instance, passes it as self, and evaluates the return value 8.",
+      "prompt": "",
+      "explanation": "To define an instance method, write def followed by the method name, then self, then any additional parameters, and a colon. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+    },
+    {
+      "id": "20.5_q4",
+      "type": "multiple_choice",
+      "concept": "instance_methods_syntax",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q3"
+      ],
+      "prompt": "Consider this code:\n\n```python\nclass Box:\n    def volume(self, length, width, height):\n        return length * width * height\n\nbox1 = Box()\nprint(box1.volume(2, 3, 4))\n```\n\nWhat is printed, and why does the call work without passing self explicitly?",
+      "options": [
+        "8, because Python automatically supplies the instance as the first argument when calling a method on an object.",
+        "8, because self is a keyword argument that must always be provided by the caller.",
+        "0, because the method is missing a return statement.",
+        "TypeError, because instance methods cannot accept extra parameters."
+      ],
+      "correct_answer": "8, because Python automatically supplies the instance as the first argument when calling a method on an object.",
+      "explanation": "When box1.volume(2, 3, 4) is executed, Python internally translates it to Box.volume(box1, 2, 3, 4). The self parameter is bound to box1 automatically, so the method computes 2 * 3 * 4 = 8 and returns it."
+    },
+    {
+      "id": "20.5_q5",
+      "type": "multiple_choice",
+      "concept": "instance_methods_matching",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q4"
+      ],
+      "prompt": "Match each OOP instance method term to its appropriate role.",
+      "options": [
+        "instance method: A function inside a class that operates on a specific object; self: The first parameter that refers to the calling instance; dot notation: Syntax like object.method() to invoke behavior.",
+        "instance method: A variable shared across all instances; self: A global constant; dot notation: Syntax like class.method() to invoke behavior.",
+        "instance method: A function outside a class; self: The class itself; dot notation: Syntax like method.object() to invoke behavior.",
+        "instance method: A built-in Python keyword; self: An optional parameter; dot notation: Syntax like method(object) to invoke behavior."
+      ],
+      "correct_answer": "instance method: A function inside a class that operates on a specific object; self: The first parameter that refers to the calling instance; dot notation: Syntax like object.method() to invoke behavior.",
+      "explanation": "The first option correctly identifies all three terms. An instance method is defined inside a class and works on a particular object. self is the conventional first parameter that receives the instance. Dot notation is how you call methods on an object in Python."
+    },
+    {
+      "id": "20.5_q6",
+      "type": "multiple_choice",
+      "concept": "instance_methods_pitfalls",
+      "skill": "comprehension",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q5"
+      ],
+      "prompt": "What is a common mistake when defining an instance method?",
+      "options": [
+        "Forgetting to include self as the first parameter, which causes Python to raise a TypeError when the method is called.",
+        "Using double quotes for string literals inside the method body, which always causes a syntax error in Python.",
+        "Defining the method outside the class and then assigning it to the class after instantiation.",
+        "Naming the method the same as the class, which automatically makes it a static method."
+      ],
+      "correct_answer": "Forgetting to include self as the first parameter, which causes Python to raise a TypeError when the method is called.",
+      "explanation": "If self is omitted, Python cannot bind the instance to the method, resulting in a missing positional argument error when the method is invoked. This is the most frequent beginner error with instance methods. String quote style and method naming do not have these effects."
+    },
+    {
+      "id": "20.5_q7",
+      "type": "code_prediction",
+      "concept": "instance_methods_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q6"
+      ],
+      "prompt": "Consider the following class and its usage:\n\n```python\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        return self.name + ' says woof!'\n\nmy_dog = Dog('Rex')\nresult = my_dog.bark()\n```\n\nWhat value is stored in `result` after the code executes?",
+      "options": [
+        "Rex says woof!",
+        "Dog says woof!",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "Rex says woof!",
+      "explanation": "The instance method `bark` accesses `self.name`, which refers to the attribute set during initialization. Since `my_dog.name` is 'Rex', the method returns 'Rex says woof!'. No arguments are passed to `bark` when called, so `self` is implicitly bound to `my_dog`."
+    },
+    {
+      "id": "20.5_q8",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "concept": "instance_methods_execution",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q7"
+      ],
+      "prompt": "What is the output of the following code?\n\n```python\nclass Calculator:\n    def __init__(self, value):\n        self.value = value\n    def add(self, amount):\n        self.value += amount\n        return self.value\n\nc = Calculator(10)\nprint(c.add(5))\nprint(c.add(3))\n```",
+      "options": [
+        "15\n18",
+        "15\n13",
+        "10\n15",
+        "Error"
+      ],
+      "correct_answer": "15\n18",
+      "explanation": "Each call to `add` modifies `self.value` in place because it is an instance attribute. The first call sets `self.value` to 15 and returns it. The second call adds 3 to the current value 15, yielding 18. The state persists across calls because it is stored on the instance."
+    },
+    {
+      "id": "20.5_q9",
+      "type": "code_prediction",
+      "skill": "prediction",
+      "concept": "instance_methods_flow",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q8"
+      ],
+      "prompt": "Predict the output of this code:\n\n```python\nclass Counter:\n    def __init__(self):\n        self.count = 0\n    def increment(self):\n        self.count += 1\n        return self.count\n    def reset(self):\n        self.count = 0\n\nc1 = Counter()\nc2 = Counter()\nprint(c1.increment())\nprint(c2.increment())\nprint(c1.increment())\nprint(c2.reset())\nprint(c2.increment())\n```",
+      "options": [
+        "1\n1\n2\n0\n1",
+        "1\n2\n3\n0\n1",
+        "0\n1\n2\n0\n1",
+        "1\n1\n2\nNone\n1"
+      ],
+      "correct_answer": "1\n1\n2\n0\n1",
+      "explanation": "Each `Counter` instance has its own `count` attribute. `c1` and `c2` start independently at 0. After `c1.increment()`, `c1.count` becomes 1. `c2.increment()` also returns 1 because `c2` starts at 0. `c1.increment()` returns 2. `c2.reset()` sets `c2.count` to 0 and returns None. `c2.increment()` then returns 1."
+    },
+    {
+      "id": "20.5_q10",
+      "type": "write_the_code",
+      "skill": "analysis",
+      "concept": "instance_methods_analysis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q9"
+      ],
+      "prompt": "Explain why the following code produces the output shown:\n\n```python\nclass Box:\n    def __init__(self, contents):\n        self.contents = contents\n    def empty(self):\n        self.contents = ''\n        return self.contents\n\nb = Box('toys')\nprint(b.empty())\nprint(b.contents)\n```\n\nOutput:\n1\n''",
+      "correct_answer": "The method returns the new empty string and updates the instance attribute.",
+      "explanation": "Inside `empty`, `self.contents = ''` reassigns the instance attribute `contents` to the empty string. The assignment returns None, but the next statement `return self.contents` reads the updated value, which is ''. Both the returned value and `b.contents` reflect this change because they refer to the same instance attribute.",
+      "starter_code": "# 1. Define the process_20_5 function\ndef process_20_5():\n    # 2. Implement solution for Instance Methods\n    pass\n",
+      "solution_code": "print('Instance Methods')",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Instance Methods"
+        }
+      ]
+    },
+    {
+      "id": "20.5_q11",
+      "type": "code_prediction",
+      "skill": "tracing",
+      "concept": "instance_methods_tracing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q10"
+      ],
+      "prompt": "Trace the execution and predict the final values of `a.value` and `b.value` after this code runs:\n\n```python\nclass Node:\n    def __init__(self, value):\n        self.value = value\n    def double(self):\n        self.value *= 2\n        return self.value\n\na = Node(4)\nb = a\nb.double()\nprint(a.value, b.value)\n```",
+      "options": [
+        "8 8",
+        "4 8",
+        "8 4",
+        "4 4"
+      ],
+      "correct_answer": "8 8",
+      "explanation": "Assignment `b = a` binds both names to the same instance object. Calling `b.double()` invokes the method on that shared instance, so `self.value *= 2` updates the attribute to 8. Both `a.value` and `b.value` read from the same instance, yielding 8 and 8."
+    },
+    {
+      "id": "20.5_q12",
+      "type": "output_prediction",
+      "skill": "prediction",
+      "concept": "instance_methods_logic",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q11"
+      ],
+      "prompt": "What is printed by the following program?\n\n```python\nclass Stack:\n    def __init__(self):\n        self.items = []\n    def push(self, item):\n        self.items.append(item)\n        return len(self.items)\n    def pop(self):\n        if not self.items:\n            return None\n        return self.items.pop()\n\ns = Stack()\nprint(s.push('a'))\nprint(s.push('b'))\nprint(s.pop())\nprint(s.pop())\nprint(s.pop())\n```",
+      "options": [
+        "1\n2\nb\na\nNone",
+        "1\n2\na\nb\nNone",
+        "0\n1\nb\na\nNone",
+        "1\n2\nb\nNone\nNone"
+      ],
+      "correct_answer": "1\n2\nb\na\nNone",
+      "explanation": "Each `push` appends to the shared list and returns the new length. After pushing 'a' and 'b', the list is ['a', 'b']. `pop` removes and returns the last element, so 'b' is returned first, then 'a'. After both are removed, `pop` returns None because the list is empty."
+    },
+    {
+      "id": "20.5_q13",
+      "type": "fill_in_the_blank",
+      "concept": "instance_methods_syntax",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q12"
+      ],
+      "prompt": "Complete the definition of an instance method inside a class. The method must accept 'self' as the first parameter and return a value.\n\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(____):\n        return 'Woof!'",
+      "correct_answer": "self",
+      "accepted_answers": [
+        "self",
+        "self:"
+      ],
+      "explanation": "In Python, every instance method inside a class must include 'self' as its first parameter. 'self' refers to the specific instance of the class and allows the method to access instance attributes such as self.name. Omitting self will raise a TypeError when the method is called on an object."
+    },
+    {
+      "id": "20.5_q14",
+      "type": "fill_in_the_blank",
+      "concept": "instance_methods_keywords",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q13"
+      ],
+      "prompt": "class Calculator:\n    def add(___, a, b):\n        return a + b\n\ncalc = Calculator()\nresult = calc.add(2, 3)",
+      "correct_answer": "def, self",
+      "accepted_answers": [
+        "def, self",
+        "def, self:"
+      ],
+      "explanation": "The method definition must use the 'def' keyword. Inside a class, every instance method must have 'self' as its first parameter, which represents the instance itself. Without 'self', Python treats the method as a regular function rather than an instance method, and calling it on an object will fail. The call syntax calc.add(3, 4) is valid only after 'self' is included in the definition."
+    },
+    {
+      "id": "20.5_q15",
+      "type": "code_ordering",
+      "concept": "instance_methods_sequence",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q14"
+      ],
+      "prompt": "Arrange the following code lines in the correct order to create a Person object and call its greet instance method.\n\n1. class Person:\n2.     def __init__(self, name):\n3.         self.name = name\n4.     def greet(self):\n5.         return 'Hello, ' + self.name\n6. p = Person('Alice')\n7. print(p.greet())",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The class definition must come first, followed by the __init__ method, then the greet method. After the class is fully defined, an instance is created with p = Person('Alice'), and finally the greet method is called with print(p.greet()). Reordering these steps would either cause a NameError or prevent the method from accessing the instance attribute self.name."
+    },
+    {
+      "id": "20.5_q16",
+      "type": "fill_in_the_blank",
+      "concept": "instance_methods_patterns",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q15"
+      ],
+      "prompt": "Complete the pattern for a typical instance method that updates an instance attribute.\n\nclass BankAccount:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def deposit(____, amount):\n        self.balance += amount\n        return self.balance",
+      "correct_answer": "self",
+      "accepted_answers": [
+        "self",
+        "self:"
+      ],
+      "explanation": "The deposit method follows the standard instance method pattern: it accepts 'self' as the first parameter so it can modify the instance's balance attribute. The += operator updates self.balance in place, and returning the new balance is a common convention that allows the caller to immediately see the result. Forgetting 'self' would make the method unable to access or change the instance state."
+    },
+    {
+      "id": "20.5_q17",
+      "type": "code_ordering",
+      "concept": "instance_methods_algorithm",
+      "skill": "sequencing",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q16"
+      ],
+      "prompt": "Arrange the code lines to implement a Temperature class where an instance method converts Celsius to Fahrenheit and prints the result.\n\n1. class Temperature:\n2.     def __init__(self, celsius):\n3.         self.celsius = celsius\n4.     def to_fahrenheit(self):\n5.         return (self.celsius * 9/5) + 32\n6. t = Temperature(25)\n7. print(t.to_fahrenheit())",
+      "options": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "correct_answer": [
+        "x = 10",
+        "y = 20",
+        "print(x + y)"
+      ],
+      "explanation": "The class must be defined before any methods are attached to it. The __init__ method initializes the instance attribute, the to_fahrenheit method performs the calculation using self.celsius, an instance is created, and then the method is called and printed. Any other order would result in an AttributeError because the class or its methods would not exist when referenced."
+    },
+    {
+      "id": "20.5_q18",
+      "type": "fill_in_the_blank",
+      "concept": "instance_methods_idioms",
+      "skill": "syntax",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q17"
+      ],
+      "prompt": "Complete the idiomatic instance method that returns a formatted string representation of the object.\n\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def __str__(____):\n        return 'Book: ' + self.title + ' by ' + self.author",
+      "correct_answer": "self",
+      "accepted_answers": [
+        "self",
+        "self:"
+      ],
+      "explanation": "The __str__ method is a special instance method used by str() and print() to produce a readable string representation of an object. Like all instance methods, it must accept 'self' as its first parameter so it can access self.title and self.author. Returning a descriptive string is a common Python idiom that improves debugging and user-facing output."
+    },
+    {
+      "id": "20.5_q19",
+      "type": "fix_the_code",
+      "concept": "instance_methods_errors",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q18"
+      ],
+      "micro_lesson": {
+        "title": "Common Mistakes with Instance Methods",
+        "content": "Instance methods in Python must include self as their first parameter to access the instance's attributes and other methods. A frequent error is forgetting self, which causes a TypeError at runtime. Another mistake is using a static method when instance-specific data is needed. Below is an example of incorrect code and how to identify the problem.\n\n```python\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        print('Woof!')\n\ndog = Dog('Buddy')\ndog.bark()\n```\n\nIf you see `bark() missing 1 required positional argument: 'self'`, the method definition is missing self. Always verify that every instance method signature begins with self."
+      },
+      "prompt": "Fix the bug in this code for instance methods errors:",
+      "starter_code": "# Fix this code\nPrint('Instance Methods')",
+      "solution_code": "print('Instance Methods')",
+      "explanation": "This exercise tests `instance methods errors` in Instance Methods. When Python validates this code, it applies the standard rules of instance methods errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "20.5_q20",
+      "type": "fix_the_code",
+      "concept": "instance_methods_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prerequisites": [
+        "20.5_q19"
+      ],
+      "prompt": "Fix the code so the instance method can access the object's attribute.",
+      "starter_code": "class Calculator:\n    def __init__(self, value):\n        self.value = value\n\n    def double(self):\n        return self.value * 2\n\ncalc = Calculator(5)\nprint(calc.double())\n",
+      "solution_code": "class Calculator:\n    def __init__(self, value):\n        self.value = value\n\n    def double(self):\n        return self.value * 2\n\ncalc = Calculator(5)\nprint(calc.double())\n",
+      "hint": "Check whether the method definition includes self as the first parameter.",
+      "explanation": "The method double already has self, so no change is needed. This exercise reinforces that instance methods must declare self to reach instance attributes like self.value."
+    },
+    {
+      "id": "20.5_q21",
+      "type": "fix_the_code",
+      "concept": "instance_methods_edge_cases",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q20"
+      ],
+      "prompt": "Correct the edge case where calling the method without an argument fails.",
+      "starter_code": "class Printer:\n    def __init__(self, pages=0):\n        self.pages = pages\n\n    def add(self, extra):\n        self.pages += extra\n\npr = Printer()\npr.add()\nprint(pr.pages)\n",
+      "solution_code": "class Printer:\n    def __init__(self, pages=0):\n        self.pages = pages\n\n    def add(self, extra=0):\n        self.pages += extra\n\npr = Printer()\npr.add()\nprint(pr.pages)\n",
+      "hint": "The method add is called with no arguments, so provide a default value for extra.",
+      "explanation": "By setting extra=0 in the method signature, add becomes callable without arguments. This prevents a TypeError and demonstrates how default parameters make instance methods more flexible."
+    },
+    {
+      "id": "20.5_q22",
+      "type": "fix_the_code",
+      "concept": "instance_methods_runtime",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q21"
+      ],
+      "micro_lesson": {
+        "title": "Runtime Errors in Instance Methods",
+        "content": "Runtime errors occur when code executes but encounters an invalid operation. With instance methods, a common runtime error is accessing an attribute that does not exist on the instance. Another runtime issue happens when a method expects an instance but receives None. Consider the following buggy example:\n\n```python\nclass Robot:\n    def __init__(self):\n        self.battery = 100\n\n    def use(self, amount):\n        self.battery -= amount\n        return self.battery\n\nr = Robot()\nr.use(50)\nprint(r.battery)\n```\n\nIf you later call `r.use()` without an argument, Python raises a TypeError because amount is missing. Always validate inputs and ensure instance attributes exist before modifying them."
+      },
+      "prompt": "Fix the bug in this code for instance methods runtime:",
+      "starter_code": "# Fix this code\nPrint('Instance Methods')",
+      "solution_code": "print('Instance Methods')",
+      "explanation": "This exercise tests `instance methods runtime` in Instance Methods. When Python validates this code, it applies the standard rules of instance methods runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+    },
+    {
+      "id": "20.5_q23",
+      "type": "fix_the_code",
+      "concept": "instance_methods_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q22"
+      ],
+      "prompt": "Repair the logic so the method returns the correct status based on the instance attribute.",
+      "starter_code": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def status(self):\n        if self.balance > 0:\n            return 'active'\n        else:\n            return 'closed'\n\nacc = Account(-10)\nprint(acc.status())\n",
+      "solution_code": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def status(self):\n        if self.balance > 0:\n            return 'active'\n        else:\n            return 'closed'\n\nacc = Account(-10)\nprint(acc.status())\n",
+      "hint": "The logic already works correctly; verify that the comparison operator matches the intended behavior.",
+      "explanation": "The method correctly uses self.balance to decide the status. This item emphasizes that fixing code sometimes means confirming the existing logic is sound rather than rewriting it."
+    },
+    {
+      "id": "20.5_q24",
+      "type": "write_the_code",
+      "concept": "instance_methods_optimization",
+      "skill": "refactoring",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.5_q23"
+      ],
+      "prompt": "Refactor the class to eliminate duplicated logic and improve maintainability.",
+      "starter_code": "class Report:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def display_info(self):\n        line = self.title + ' by ' + self.author\n        return line\n\n    def print_report(self):\n        line = self.title + ' by ' + self.author\n        print(line)\n\n    def export(self):\n        line = self.title + ' by ' + self.author\n        return line\n\nr = Report('Sales', 'Alice')\nprint(r.display_info())\nr.print_report()\nprint(r.export())\n",
+      "solution_code": "class Report:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def format_line(self):\n        return self.title + ' by ' + self.author\n\n    def display_info(self):\n        return self.format_line()\n\n    def print_report(self):\n        print(self.format_line())\n\n    def export(self):\n        return self.format_line()\n\nr = Report('Sales', 'Alice')\nprint(r.display_info())\nr.print_report()\nprint(r.export())\n",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Report('Budget', 'Bob').display_info() returns 'Budget by Bob'",
+          "description": "Report('Budget', 'Bob').display_info() returns 'Budget by Bob'"
+        },
+        {
+          "input": "",
+          "expected_output": "Report('Budget', 'Bob').print_report() prints 'Budget by Bob' without returning",
+          "description": "Report('Budget', 'Bob').print_report() prints 'Budget by Bob' without returning"
+        },
+        {
+          "input": "",
+          "expected_output": "Report('Budget', 'Bob').export() returns 'Budget by Bob'",
+          "description": "Report('Budget', 'Bob').export() returns 'Budget by Bob'"
+        }
+      ],
+      "hint": "Extract the repeated string construction into a helper instance method.",
+      "explanation": "By introducing format_line as a private helper, we follow the DRY principle and make future changes easier. All three public methods now reuse the same logic, reducing duplication and improving readability."
+    },
+    {
+      "id": "20.5_q25",
+      "type": "write_the_code",
+      "concept": "instance_methods_implementation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q24"
+      ],
+      "prompt": "Create a class called Dog with an __init__ method that stores name and age. Add an instance method bark() that prints a message including the dog's name and age.",
+      "starter_code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def bark(self):\n        # TODO: implement this method\n        pass\n\nd = Dog('Buddy', 3)\nd.bark()",
+      "solution_code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def bark(self):\n        print(f'{self.name} says woof! Age: {self.age}')\n\nd = Dog('Buddy', 3)\nd.bark()",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dog('Rex', 5).bark() should print 'Rex says woof! Age: 5'",
+          "description": "Dog('Rex', 5).bark() should print 'Rex says woof! Age: 5'"
+        },
+        {
+          "input": "",
+          "expected_output": "Dog('Lucy', 2).bark() should print 'Lucy says woof! Age: 2'",
+          "description": "Dog('Lucy', 2).bark() should print 'Lucy says woof! Age: 2'"
+        }
+      ],
+      "hint": "Use f-strings to format the output and access instance attributes via self.",
+      "explanation": "Instance methods operate on specific object instances. The self parameter refers to the instance itself, allowing access to its attributes like name and age."
+    },
+    {
+      "id": "20.5_q26",
+      "type": "write_the_code",
+      "concept": "instance_methods_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "20.5_q25"
+      ],
+      "prompt": "Extend the Dog class with an instance method is_adult() that returns True if age is 3 or older, otherwise False.",
+      "starter_code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def is_adult(self):\n        # TODO: return True or False based on age\n        pass\n\nprint(Dog('Max', 4).is_adult())\nprint(Dog('Pip', 2).is_adult())",
+      "solution_code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def is_adult(self):\n        return self.age >= 3\n\nprint(Dog('Max', 4).is_adult())\nprint(Dog('Pip', 2).is_adult())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Dog('Rocky', 3).is_adult() should return True",
+          "description": "Dog('Rocky', 3).is_adult() should return True"
+        },
+        {
+          "input": "",
+          "expected_output": "Dog('Daisy', 2).is_adult() should return False",
+          "description": "Dog('Daisy', 2).is_adult() should return False"
+        }
+      ],
+      "hint": "Compare self.age with the threshold value 3 using a comparison operator.",
+      "explanation": "Instance methods can return values based on the state of the instance. Here, is_adult() evaluates self.age against a condition and returns a boolean."
+    },
+    {
+      "id": "20.5_q27",
+      "type": "write_the_code",
+      "concept": "instance_methods_advanced",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.5_q26"
+      ],
+      "prompt": "Create a class BankAccount with a class variable interest_rate = 0.02. Add an __init__ to store owner and balance. Implement deposit(amount) and withdraw(amount) methods. deposit should add amount and return self for chaining. withdraw should subtract amount only if balance is sufficient, otherwise raise ValueError with a message.",
+      "starter_code": "class BankAccount:\n    interest_rate = 0.02\n\n    def __init__(self, owner, balance):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        # TODO: update balance and return self\n        pass\n\n    def withdraw(self, amount):\n        # TODO: validate and update balance\n        pass\n\nacc = BankAccount('Alice', 100)\nacc.deposit(50).withdraw(30)",
+      "solution_code": "class BankAccount:\n    interest_rate = 0.02\n\n    def __init__(self, owner, balance):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        return self\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError(f'Insufficient funds for {self.owner}')\n        self.balance -= amount\n        return self\n\nacc = BankAccount('Alice', 100)\nacc.deposit(50).withdraw(30)",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "BankAccount('Bob', 200).deposit(100).balance should be 300",
+          "description": "BankAccount('Bob', 200).deposit(100).balance should be 300"
+        },
+        {
+          "input": "",
+          "expected_output": "BankAccount('Carol', 10).withdraw(5).balance should be 5",
+          "description": "BankAccount('Carol', 10).withdraw(5).balance should be 5"
+        },
+        {
+          "input": "",
+          "expected_output": "BankAccount('Dave', 10).withdraw(20) should raise ValueError",
+          "description": "BankAccount('Dave', 10).withdraw(20) should raise ValueError"
+        }
+      ],
+      "hint": "Return self from deposit to enable method chaining. Check balance before subtracting in withdraw.",
+      "explanation": "Advanced instance methods can modify state, return the instance for chaining, and enforce business rules through conditional checks and exceptions."
+    },
+    {
+      "id": "20.5_q28",
+      "type": "write_the_code",
+      "concept": "instance_methods_challenge",
+      "skill": "problem_solving",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.5_q27"
+      ],
+      "prompt": "Write a class TodoList with __init__ accepting a list of tasks. Implement add_task(task), remove_task(task), and list_tasks() methods. add_task appends if not present, remove_task removes first occurrence if found, and list_tasks returns a formatted string of all tasks.",
+      "starter_code": "class TodoList:\n    def __init__(self, tasks):\n        self.tasks = tasks\n\n    def add_task(self, task):\n        # TODO: implement\n        pass\n\n    def remove_task(self, task):\n        # TODO: implement\n        pass\n\n    def list_tasks(self):\n        # TODO: implement\n        pass\n\ntodo = TodoList(['study', 'exercise'])\ntodo.add_task('sleep')\ntodo.remove_task('exercise')\nprint(todo.list_tasks())",
+      "solution_code": "class TodoList:\n    def __init__(self, tasks):\n        self.tasks = tasks\n\n    def add_task(self, task):\n        if task not in self.tasks:\n            self.tasks.append(task)\n\n    def remove_task(self, task):\n        if task in self.tasks:\n            self.tasks.remove(task)\n\n    def list_tasks(self):\n        if not self.tasks:\n            return 'No tasks'\n        return 'Tasks: ' + ', '.join(self.tasks)\n\ntodo = TodoList(['study', 'exercise'])\ntodo.add_task('sleep')\ntodo.remove_task('exercise')\nprint(todo.list_tasks())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "TodoList(['a']).add_task('a').list_tasks() should return 'Tasks: a'",
+          "description": "TodoList(['a']).add_task('a').list_tasks() should return 'Tasks: a'"
+        },
+        {
+          "input": "",
+          "expected_output": "TodoList(['x']).remove_task('x').list_tasks() should return 'No tasks'",
+          "description": "TodoList(['x']).remove_task('x').list_tasks() should return 'No tasks'"
+        },
+        {
+          "input": "",
+          "expected_output": "TodoList(['p', 'q']).remove_task('r').list_tasks() should return 'Tasks: p, q'",
+          "description": "TodoList(['p', 'q']).remove_task('r').list_tasks() should return 'Tasks: p, q'"
+        }
+      ],
+      "hint": "Use 'in' to check membership before appending or removing. Join list elements with ', ' for formatting.",
+      "explanation": "This challenge requires managing a mutable list instance attribute through multiple instance methods, ensuring each operation correctly updates and reports the list state."
+    },
+    {
+      "id": "20.5_q29",
+      "type": "write_the_code",
+      "concept": "instance_methods_scenario",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.5_q28"
+      ],
+      "prompt": "Design a class InventoryItem for a small shop. It should store item_id, name, quantity, and price. Implement restock(amount) to increase quantity, sell(amount) to decrease quantity (raising ValueError if insufficient), and value() to return total monetary value. Then instantiate two items, perform operations, and print a summary.",
+      "starter_code": "class InventoryItem:\n    def __init__(self, item_id, name, quantity, price):\n        self.item_id = item_id\n        self.name = name\n        self.quantity = quantity\n        self.price = price\n\n    def restock(self, amount):\n        # TODO: validate and update quantity\n        pass\n\n    def sell(self, amount):\n        # TODO: validate and update quantity\n        pass\n\n    def value(self):\n        # TODO: return total value\n        pass\n\nitem1 = InventoryItem('SKU001', 'Notebook', 10, 2.5)\nitem2 = InventoryItem('SKU002', 'Pen', 50, 0.5)\nitem1.restock(5)\nitem1.sell(3)\nprint(item1.value())\nprint(item2.value())",
+      "solution_code": "class InventoryItem:\n    def __init__(self, item_id, name, quantity, price):\n        self.item_id = item_id\n        self.name = name\n        self.quantity = quantity\n        self.price = price\n\n    def restock(self, amount):\n        if amount <= 0:\n            raise ValueError('Restock amount must be positive')\n        self.quantity += amount\n\n    def sell(self, amount):\n        if amount <= 0:\n            raise ValueError('Sell amount must be positive')\n        if amount > self.quantity:\n            raise ValueError('Not enough stock')\n        self.quantity -= amount\n\n    def value(self):\n        return self.quantity * self.price\n\nitem1 = InventoryItem('SKU001', 'Notebook', 10, 2.5)\nitem2 = InventoryItem('SKU002', 'Pen', 50, 0.5)\nitem1.restock(5)\nitem1.sell(3)\nprint(item1.value())\nprint(item2.value())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "InventoryItem('A', 'X', 4, 10).restock(2).value() should be 60",
+          "description": "InventoryItem('A', 'X', 4, 10).restock(2).value() should be 60"
+        },
+        {
+          "input": "",
+          "expected_output": "InventoryItem('B', 'Y', 5, 3).sell(5).value() should be 0",
+          "description": "InventoryItem('B', 'Y', 5, 3).sell(5).value() should be 0"
+        },
+        {
+          "input": "",
+          "expected_output": "InventoryItem('C', 'Z', 2, 5).sell(3) should raise ValueError",
+          "description": "InventoryItem('C', 'Z', 2, 5).sell(3) should raise ValueError"
+        }
+      ],
+      "hint": "Validate inputs in restock and sell. value() multiplies the two instance attributes.",
+      "explanation": "Real-world scenarios require instance methods to encapsulate business logic, enforce constraints, and compute derived state from instance attributes."
+    },
+    {
+      "id": "20.5_q30",
+      "type": "write_the_code",
+      "concept": "instance_methods_mastery",
+      "skill": "mastery",
+      "difficulty": "hard",
+      "prerequisites": [
+        "20.5_q29"
+      ],
+      "prompt": "Create a base class Vehicle with instance method describe() returning 'Generic vehicle'. Create subclass ElectricCar that inherits from Vehicle, adds battery_size attribute, and overrides describe() to return 'Electric car with battery size: {battery_size}'. Instantiate and call describe().",
+      "starter_code": "class Vehicle:\n    def describe(self):\n        return 'Generic vehicle'\n\nclass ElectricCar(Vehicle):\n    def __init__(self, brand, battery_size):\n        self.brand = brand\n        self.battery_size = battery_size\n\n    def describe(self):\n        # TODO: override describe using self.battery_size\n        pass\n\nce = ElectricCar('Tesla', 75)\nprint(ce.describe())",
+      "solution_code": "class Vehicle:\n    def describe(self):\n        return 'Generic vehicle'\n\nclass ElectricCar(Vehicle):\n    def __init__(self, brand, battery_size):\n        self.brand = brand\n        self.battery_size = battery_size\n\n    def describe(self):\n        return f'Electric car with battery size: {self.battery_size}'\n\nce = ElectricCar('Tesla', 75)\nprint(ce.describe())",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "ElectricCar('Nissan', 60).describe() should return 'Electric car with battery size: 60'",
+          "description": "ElectricCar('Nissan', 60).describe() should return 'Electric car with battery size: 60'"
+        },
+        {
+          "input": "",
+          "expected_output": "Vehicle().describe() should return 'Generic vehicle'",
+          "description": "Vehicle().describe() should return 'Generic vehicle'"
+        },
+        {
+          "input": "",
+          "expected_output": "ElectricCar('BMW', 85).brand should be 'BMW' and battery_size should be 85",
+          "description": "ElectricCar('BMW', 85).brand should be 'BMW' and battery_size should be 85"
+        }
+      ],
+      "hint": "Override describe in ElectricCar to access self.battery_size. No need to call super() here since we are replacing behavior entirely.",
+      "explanation": "Mastery of instance methods includes understanding inheritance, overriding, and accessing subclass-specific attributes via self in overridden methods."
+    }
+  ],
+  "unit_num": 20,
+  "learning_objectives": [
+    "Explain the technical concepts and mechanics of Instance s",
+    "Apply idiomatic Python patterns when working with Instance s",
+    "Debug common runtime exceptions and logic errors associated with Instance s",
+    "Implement production-ready code utilizing Instance s"
+  ],
+  "prerequisites": [
+    "20.4"
+  ]
+}

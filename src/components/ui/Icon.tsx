@@ -2,10 +2,10 @@ import React from 'react';
 import * as TablerIcons from '@tabler/icons-react';
 import { cn } from '../../lib/utils';
 
-interface IconProps extends React.ComponentPropsWithoutRef<'svg'> {
+interface IconProps extends Omit<React.ComponentPropsWithoutRef<'svg'>, 'stroke'> {
   name: string;
-  size?: number;
-  stroke?: number;
+  size?: number | string;
+  stroke?: number | string;
   className?: string;
 }
 
