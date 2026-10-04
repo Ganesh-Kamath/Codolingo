@@ -535,10 +535,56 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   // Loading Screen
   if (loading) {
     return (
-      <div className="flex-center" style={{ minHeight: '100vh', flexDirection: 'column', gap: '16px', backgroundColor: '#FFFFFF' }}>
-        <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '4px solid #E5E7EB', borderTopColor: '#10B981', animation: 'spin 1s linear infinite' }} />
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>Preparing micro-lesson...</h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Selecting the top 15 interactions for {lessonMeta?.title}</p>
+      <div className="flex-center" style={{ minHeight: '100vh', flexDirection: 'column', gap: '20px', backgroundColor: '#FDFBF7' }}>
+        <div
+          style={{
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            border: '4px solid #E2D9CC',
+            borderTopColor: 'var(--brand-primary, #4338CA)',
+            animation: 'spin 0.9s cubic-bezier(0.5, 0, 0.5, 1) infinite',
+            boxShadow: '0 4px 12px rgba(67, 56, 202, 0.15)'
+          }}
+        />
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+          Forging Micro-Lesson...
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
+          Synthesizing 15 interactions for {lessonMeta?.title || 'this challenge'}
+        </p>
+      </div>
+    );
+  }
+
+  // Lesson Not Found / Empty Error State
+  if (blocks.length === 0) {
+    return (
+      <div className="flex-center" style={{ minHeight: '100vh', flexDirection: 'column', gap: '20px', backgroundColor: '#FDFBF7', padding: '32px 20px', textAlign: 'center' }}>
+        <div
+          style={{
+            width: '76px',
+            height: '76px',
+            borderRadius: '50%',
+            backgroundColor: '#FEF2F2',
+            border: '2px solid #FCA5A5',
+            boxShadow: '0 4px 0 #F87171',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Icon name="alert-circle" size={40} style={{ color: '#EF4444' }} />
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+          Challenge Uncharted
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '440px', fontSize: '0.95rem', lineHeight: 1.6 }}>
+          We could not load curriculum items for lesson &ldquo;{lessonId}&rdquo;. You may need to complete prerequisite milestones first.
+        </p>
+        <Button variant="primary" size="lg" onClick={exitLesson}>
+          Return to Pathway
+        </Button>
       </div>
     );
   }

@@ -23,7 +23,7 @@ export class ClientCodeExecutionService implements ICodeExecutionService {
         }
         try {
           this.pyodide = await loadPyodide({
-            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'
+            indexURL: '/pyodide/'
           });
         } catch (err) {
           console.warn("Pyodide CDN load failed or offline, using fallback code validator:", err);

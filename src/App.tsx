@@ -7,6 +7,7 @@ import { MistakeReviewView } from './views/MistakeReviewView';
 import { ProfileView } from './views/ProfileView';
 import { OnboardingView } from './views/OnboardingView';
 import { Icon } from './components/ui/Icon';
+import { sound } from './utils/audio';
 
 export const AppContent: React.FC = () => {
   const { 
@@ -43,10 +44,20 @@ export const AppContent: React.FC = () => {
     { id: '/app/profile', label: 'Profile', iconName: 'user' }
   ];
 
-  const currentTab = currentRoute === '/' ? '/app' : currentRoute;
+  const rawTab = currentRoute === '/' ? '/app' : currentRoute;
+  const currentTab = 
+    (rawTab === '/app' || rawTab === '/app/learn')
+      ? '/app'
+      : rawTab.startsWith('/app/practice') || rawTab.startsWith('/app/projects')
+      ? '/app/practice'
+      : rawTab.startsWith('/app/review')
+      ? '/app/review'
+      : rawTab.startsWith('/app/profile')
+      ? '/app/profile'
+      : '/app';
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F8F9FA', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-app, #FDFBF7)', display: 'flex', flexDirection: 'column' }}>
       {/* Top Application Header / Stitch DevRealm Odyssey HUD */}
       <header
         style={{
@@ -115,6 +126,7 @@ export const AppContent: React.FC = () => {
 
             {/* Course Selector Dropdown Pill */}
             <div
+              className="desktop-only"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -345,20 +357,64 @@ export const AppContent: React.FC = () => {
           return (
             <button
               key={tab.id}
-              onClick={() => navigateTo(tab.id)}
+              onClick={() => {
+                sound.playClick();
+                navigateTo(tab.id);
+              }}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '4px',
+                justifyContent: 'center',
+                gap: '3px',
                 flex: 1,
-                color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)'
+                height: '100%',
+                background: 'none',
+                border: 'none',
+                position: 'relative',
+                color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                cursor: 'pointer'
               }}
             >
-              <Icon name={tab.iconName} size={18} />
-              <span style={{ fontSize: '0.6875rem', fontWeight: isActive ? 700 : 500 }}>
+              <div style={{ position: 'relative' }}>
+                <Icon name={tab.iconName} size={20} stroke={isActive ? 2.5 : 2} />
+                {tab.badge ? (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '-4px',
+                      right: '-8px',
+                      backgroundColor: '#EF4444',
+                      color: '#FFFFFF',
+                      fontSize: '0.6rem',
+                      fontWeight: 900,
+                      padding: '0 4px',
+                      borderRadius: 'var(--radius-full)',
+                      border: '1.5px solid #FFFFFF',
+                      lineHeight: '13px'
+                    }}
+                  >
+                    {tab.badge}
+                  </span>
+                ) : null}
+              </div>
+              <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-display)', fontWeight: isActive ? 800 : 600 }}>
                 {tab.label}
               </span>
+              {isActive && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '32px',
+                    height: '3px',
+                    borderRadius: '0 0 3px 3px',
+                    backgroundColor: 'var(--brand-primary)'
+                  }}
+                />
+              )}
             </button>
           );
         })}
