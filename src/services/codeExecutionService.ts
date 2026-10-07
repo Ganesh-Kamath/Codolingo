@@ -192,122 +192,150 @@ _out + ("\\n" + _err if _err else "")
     // 2. Pyodide Real Python Runtime
     if (this.pyodide) {
       try {
+        const tests = challenge.tests || [];
+        const testPayloadJson = JSON.stringify(tests.map(t => ({
+          id: t.id,
+          description: t.description,
+          expectedOutput: t.expectedOutput || '',
+          input: t.input || '',
+          assertionPython: (t as any).assertionPython || ''
+        })));
+
         const runnerCode = `
 import sys
 import io
-sys.stdout = io.StringIO()
+import json
+
+_user_code = ${JSON.stringify(trimmedCode)}
+_tests_json = ${JSON.stringify(testPayloadJson)}
+_tests = json.loads(_tests_json)
+
+_stdout_capture = io.StringIO()
+_stderr_capture = io.StringIO()
+_orig_stdout = sys.stdout
+_orig_stderr = sys.stderr
+
+sys.stdout = _stdout_capture
+sys.stderr = _stderr_capture
+
+_exec_error = None
+_user_namespace = {}
 
 try:
-    exec(${JSON.stringify(trimmedCode)}, globals())
+    exec(_user_code, _user_namespace)
 except Exception as e:
-    print(f"Error: {e}")
+    import traceback
+    _exec_error = f"{type(e).__name__}: {e}"
 
-_output = sys.stdout.getvalue()
-sys.stdout = sys.__stdout__
-_output
+sys.stdout = _orig_stdout
+sys.stderr = _orig_stderr
+
+_raw_stdout = _stdout_capture.getvalue()
+_raw_stderr = _stderr_capture.getvalue()
+
+_test_results = []
+_all_passed = True
+
+if _exec_error is not None:
+    _all_passed = False
+    for t in _tests:
+        _test_results.append({
+            "testId": t["id"],
+            "description": t["description"],
+            "passed": False,
+            "actualOutput": _raw_stdout,
+            "expectedOutput": t.get("expectedOutput", ""),
+            "error": _exec_error
+        })
+else:
+    for t in _tests:
+        _assertion = t.get("assertionPython", "")
+        _exp_out = str(t.get("expectedOutput", "")).strip()
+        _test_passed = False
+        _test_err = None
+
+        if _assertion:
+            try:
+                exec(_assertion, _user_namespace)
+                _test_passed = True
+            except AssertionError as ae:
+                _test_passed = False
+                _test_err = str(ae) or "Assertion failed"
+            except Exception as ex:
+                _test_passed = False
+                _test_err = f"{type(ex).__name__}: {ex}"
+        elif _exp_out:
+            _norm_actual = _raw_stdout.strip()
+            _strip_q = lambda s: s.strip("'\\"")
+            _test_passed = (
+                _norm_actual == _exp_out or
+                _strip_q(_norm_actual) == _strip_q(_exp_out) or
+                _norm_actual.lower() == _exp_out.lower() or
+                (_exp_out in _norm_actual)
+            )
+            if not _test_passed:
+                _test_err = f"Expected '{_exp_out}', but printed '{_norm_actual}'"
+        else:
+            _test_passed = True
+
+        if not _test_passed:
+            _all_passed = False
+
+        _test_results.append({
+            "testId": t["id"],
+            "description": t["description"],
+            "passed": _test_passed,
+            "actualOutput": _raw_stdout.strip(),
+            "expectedOutput": _exp_out,
+            "error": _test_err
+        })
+
+if len(_tests) == 0:
+    _all_passed = (_exec_error is None)
+
+json.dumps({
+    "stdout": _raw_stdout + ("\\n" + _raw_stderr if _raw_stderr else ""),
+    "error": _exec_error,
+    "allPassed": _all_passed,
+    "testResults": _test_results
+})
 `;
-        const stdout = await this.pyodide.runPythonAsync(runnerCode);
-        const outputStr = String(stdout);
+        const rawJsonResult = await this.pyodide.runPythonAsync(runnerCode);
+        const parsed = JSON.parse(String(rawJsonResult));
 
-        if (outputStr.startsWith('Error: ')) {
-          const errMsg = outputStr.replace('Error: ', '').trim();
-          return {
-            success: false,
-            stdout: outputStr,
-            error: errMsg,
-            diagnostic: {
-              mistakeType: 'runtime_error',
-              message: errMsg,
-              fixSuggestion: 'Review the error traceback above and correct your logic.'
-            },
-            testResults: (challenge.tests || []).map(t => ({
-              testId: t.id,
-              description: t.description,
-              passed: false,
-              actualOutput: outputStr,
-              expectedOutput: t.expectedOutput,
-              error: errMsg
-            })),
-            executionTimeMs: Math.round(performance.now() - startTime)
-          };
-        }
+        let diagnosticTag: string | undefined = undefined;
+        let fixSuggestion = challenge.hint || 'Review your code logic.';
 
-        // Test Evaluation
-        const normalizedActual = outputStr.trim();
-        let testResults: TestResult[] = [];
-        let allPassed = false;
-
-        if (challenge.tests && challenge.tests.length > 0) {
-          testResults = challenge.tests.map(test => {
-            const normalizedExpected = test.expectedOutput.trim();
-            // Handle quotes in expected output e.g. "'Hello'" vs "Hello"
-            const stripQuotes = (s: string) => s.replace(/^['"]|['"]$/g, '');
-            const passed =
-              normalizedActual === normalizedExpected ||
-              stripQuotes(normalizedActual) === stripQuotes(normalizedExpected) ||
-              normalizedActual.toLowerCase() === normalizedExpected.toLowerCase() ||
-              (normalizedExpected.length > 0 && normalizedActual.includes(stripQuotes(normalizedExpected)));
-
-            return {
-              testId: test.id,
-              description: test.description,
-              passed,
-              actualOutput: normalizedActual,
-              expectedOutput: normalizedExpected,
-              error: passed ? undefined : `Expected "${normalizedExpected}", but got "${normalizedActual}"`
-            };
-          });
-          allPassed = testResults.every(t => t.passed);
-        } else if (challenge.solutionCode) {
-          // Compare with solution code execution or normalized AST
-          let solutionOutput = '';
-          try {
-            const solRunner = `
-import sys, io
-sys.stdout = io.StringIO()
-try:
-    exec(${JSON.stringify(challenge.solutionCode.trim())}, globals())
-except:
-    pass
-_s_out = sys.stdout.getvalue()
-sys.stdout = sys.__stdout__
-_s_out
-`;
-            solutionOutput = String(await this.pyodide.runPythonAsync(solRunner)).trim();
-          } catch {}
-
-          const codeMatches = this.normalizeCode(trimmedCode) === this.normalizeCode(challenge.solutionCode);
-          const outputMatches = solutionOutput ? normalizedActual === solutionOutput : false;
-
-          allPassed = outputMatches || codeMatches;
-          testResults = [{
-            testId: 't_main',
-            description: 'Solution validation',
-            passed: allPassed,
-            actualOutput: normalizedActual,
-            expectedOutput: solutionOutput || 'Valid solution code',
-            error: allPassed ? undefined : 'Your code output did not match expected solution.'
-          }];
-        } else {
-          allPassed = true;
-          testResults = [{
-            testId: 't_run',
-            description: 'Code executed cleanly',
-            passed: true,
-            actualOutput: normalizedActual,
-            expectedOutput: normalizedActual
-          }];
+        if (parsed.error) {
+          if (parsed.error.includes('SyntaxError')) {
+            diagnosticTag = trimmedCode.includes('if ') && !trimmedCode.includes('==') && trimmedCode.includes('=')
+              ? 'ASSIGNMENT_VS_COMPARISON'
+              : 'SYNTAX_ERROR';
+            fixSuggestion = diagnosticTag === 'ASSIGNMENT_VS_COMPARISON'
+              ? 'Did you use = instead of == in your condition? Remember = assigns, while == compares.'
+              : 'Check for missing parentheses, quotes, or colons (:).';
+          } else if (parsed.error.includes('IndentationError')) {
+            diagnosticTag = 'INDENTATION_ERROR';
+            fixSuggestion = 'Python uses 4 spaces to define code blocks under statements like if or def.';
+          } else if (parsed.error.includes('TypeError') && (parsed.error.includes('can only concatenate str') || parsed.error.includes('unsupported operand'))) {
+            diagnosticTag = 'STRING_VS_NUMBER';
+            fixSuggestion = 'Cannot directly join a string and a number with +. Convert the number first with str(num).';
+          } else if (parsed.error.includes('NameError')) {
+            diagnosticTag = 'VARIABLE_VALUE_CONFUSION';
+            fixSuggestion = 'Variable referenced before assignment or misspelled. Check your spelling and case.';
+          }
         }
 
         return {
-          success: allPassed,
-          stdout: outputStr,
-          diagnostic: !allPassed ? {
-            mistakeType: 'output_mismatch',
-            message: 'Your code executed, but the output did not match requirements.',
-            fixSuggestion: challenge.hint || 'Check your print formatting, variable names, or spacing.'
+          success: parsed.allPassed,
+          stdout: parsed.stdout || '(Executed cleanly)',
+          error: parsed.error,
+          diagnostic: !parsed.allPassed ? {
+            mistakeType: diagnosticTag || 'test_failure',
+            message: parsed.error || 'One or more verification tests failed.',
+            fixSuggestion
           } : undefined,
-          testResults,
+          testResults: parsed.testResults,
           executionTimeMs: Math.max(15, Math.round(performance.now() - startTime))
         };
       } catch (err: unknown) {
@@ -350,40 +378,91 @@ _s_out
     const normalizedUser = this.normalizeCode(code);
     const normalizedSol = this.normalizeCode(challenge.solutionCode || '');
 
-    // Check direct or structural match
-    let isMatch = normalizedUser === normalizedSol;
+    // Extract basic variable assignments from user code
+    const varMap: Record<string, string> = {};
+    const lines = code.split('\n');
+    const printedValues: string[] = [];
 
-    // Check if test cases match expected outputs
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      const assignMatch = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/);
+      if (assignMatch && !line.startsWith('if') && !line.startsWith('while')) {
+        varMap[assignMatch[1].trim()] = assignMatch[2].trim().replace(/^['"]|['"]$/g, '');
+      }
+      const printMatch = line.match(/^print\s*\((.*)\)$/);
+      if (printMatch) {
+        let inside = printMatch[1].trim().replace(/^['"]|['"]$/g, '');
+        if (varMap[inside] !== undefined) {
+          printedValues.push(varMap[inside]);
+        } else {
+          printedValues.push(inside);
+        }
+      }
+    }
+
+    // Check direct or structural match
+    const isDirectMatch = normalizedUser === normalizedSol;
+
+    // Check test cases
     const testResults: TestResult[] = (challenge.tests || []).map((t, idx) => {
-      const exp = (t.expectedOutput || '').replace(/^['"]|['"]$/g, '');
-      const codeContainsExp = exp ? normalizedUser.includes(this.normalizeCode(exp)) : false;
-      const passed = isMatch || codeContainsExp;
+      const exp = (t.expectedOutput || '').replace(/^['"]|['"]$/g, '').trim();
+      const assertion = (t as any).assertionPython || '';
+      let passed = isDirectMatch;
+
+      if (!passed && assertion) {
+        // e.g. assert 'age' in ...
+        const varExistsMatch = assertion.match(/['"]([a-zA-Z_][a-zA-Z0-9_]*)['"]\s+in/);
+        if (varExistsMatch) {
+          passed = varMap[varExistsMatch[1]] !== undefined || normalizedUser.includes(varExistsMatch[1]);
+        }
+        // e.g. assert age == 18 or assert age == '18'
+        const valMatch = assertion.match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*==\s*(.+)/);
+        if (valMatch) {
+          const vName = valMatch[1].trim();
+          const targetVal = valMatch[2].replace(/^['"]|['"]$/g, '').trim();
+          if (varMap[vName] !== undefined) {
+            passed = varMap[vName] === targetVal || varMap[vName].toLowerCase() === targetVal.toLowerCase();
+          } else {
+            passed = normalizedUser.includes(`${vName}=${targetVal}`) || normalizedUser.includes(`${vName} = ${targetVal}`);
+          }
+        }
+      }
+
+      if (!passed && exp) {
+        const matchesPrint = printedValues.some(p => p === exp || p.includes(exp));
+        const codeContainsExp = normalizedUser.includes(this.normalizeCode(exp));
+        passed = matchesPrint || codeContainsExp;
+      }
+
+      if (!assertion && !exp) {
+        passed = isDirectMatch || normalizedUser.length > 0;
+      }
 
       return {
         testId: t.id || `t_${idx}`,
         description: t.description || `Test Case ${idx + 1}`,
         passed,
-        actualOutput: passed ? (t.expectedOutput || 'Passed') : 'Output mismatch',
-        expectedOutput: t.expectedOutput || '',
-        error: passed ? undefined : `Expected "${t.expectedOutput}"`
+        actualOutput: passed ? (t.expectedOutput || 'Passed') : 'Did not match',
+        expectedOutput: t.expectedOutput || (assertion ? 'Assertion passed' : ''),
+        error: passed ? undefined : (t.description ? `Failed: ${t.description}` : `Expected "${t.expectedOutput}"`)
       };
     });
 
-    const allPassed = testResults.length > 0 ? testResults.every(t => t.passed) : (isMatch || normalizedUser.length > 0);
+    const allPassed = testResults.length > 0 ? testResults.every(t => t.passed) : (isDirectMatch || normalizedUser.length > 0);
 
     return {
       success: allPassed,
-      stdout: allPassed ? 'Code verified successfully.' : 'Output did not match solution.',
+      stdout: printedValues.length > 0 ? printedValues.join('\n') : (allPassed ? 'Verification passed.' : 'Verification failed.'),
       diagnostic: allPassed ? undefined : {
-        mistakeType: 'code_mismatch',
-        message: 'Your code does not yet meet the exercise requirements.',
-        fixSuggestion: challenge.hint || 'Review the instructions and required structure.'
+        mistakeType: 'verification_failure',
+        message: 'Your code does not satisfy all verification requirements.',
+        fixSuggestion: challenge.hint || 'Review the instructions and test cases.'
       },
       testResults: testResults.length > 0 ? testResults : [{
         testId: 't_fallback',
         description: 'Code structure check',
         passed: allPassed,
-        actualOutput: allPassed ? 'Correct' : 'Incorrect',
+        actualOutput: allPassed ? 'Passed' : 'Incorrect',
         expectedOutput: 'Matching solution'
       }],
       executionTimeMs: Math.round(performance.now() - startTime)

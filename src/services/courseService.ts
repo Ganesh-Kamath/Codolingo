@@ -1,5 +1,6 @@
 import { LearningCourse, LessonBlock } from '../types';
-import { PYTHON_COURSE } from '../curriculum/python/pythonCourse';
+import { PYTHON_COURSE } from '../data/pathCurriculum';
+import { getFoundationsLessonBlocks } from '../curriculum/python/foundations';
 import { selectLessonQuestions, mapItemToBlock, RawCurriculumLesson } from './curriculumSelector';
 import selectedLessonsMap from '../curriculum/python/selectedLessons.json';
 
@@ -44,7 +45,13 @@ class PythonCourseProvider implements ICourseProvider {
   }
 
   async getLessonBlocks(lessonId: string): Promise<LessonBlock[]> {
-    // 1. First check pre-indexed selected lessons for instant response
+    // 0. Primary: Check structured Foundations curriculum first
+    const foundationsBlocks = getFoundationsLessonBlocks(lessonId);
+    if (foundationsBlocks && foundationsBlocks.length > 0) {
+      return foundationsBlocks;
+    }
+
+    // 1. Check pre-indexed selected lessons for instant response
     const preselected = (selectedLessonsMap as Record<string, any>)[lessonId];
     if (preselected && preselected.blocks && preselected.blocks.length > 0) {
       return preselected.blocks as LessonBlock[];

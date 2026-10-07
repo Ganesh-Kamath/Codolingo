@@ -8,6 +8,7 @@ import { ProfileView } from './views/ProfileView';
 import { OnboardingView } from './views/OnboardingView';
 import { Icon } from './components/ui/Icon';
 import { sound } from './utils/audio';
+import { BottomNav } from './components/layout/BottomNav';
 
 export const AppContent: React.FC = () => {
   const { 
@@ -336,89 +337,7 @@ export const AppContent: React.FC = () => {
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '60px',
-          backgroundColor: '#FFFFFF',
-          borderTop: '1px solid var(--border-default)',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          zIndex: 40
-        }}
-        className="mobile-only flex-between"
-      >
-        {navTabs.map((tab) => {
-          const isActive = currentTab === tab.id;
-
-          return (
-            <button
-              key={tab.id}
-              onClick={() => {
-                sound.playClick();
-                navigateTo(tab.id);
-              }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '3px',
-                flex: 1,
-                height: '100%',
-                background: 'none',
-                border: 'none',
-                position: 'relative',
-                color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                cursor: 'pointer'
-              }}
-            >
-              <div style={{ position: 'relative' }}>
-                <Icon name={tab.iconName} size={20} stroke={isActive ? 2.5 : 2} />
-                {tab.badge ? (
-                  <span
-                    style={{
-                      position: 'absolute',
-                      top: '-4px',
-                      right: '-8px',
-                      backgroundColor: '#EF4444',
-                      color: '#FFFFFF',
-                      fontSize: '0.6rem',
-                      fontWeight: 900,
-                      padding: '0 4px',
-                      borderRadius: 'var(--radius-full)',
-                      border: '1.5px solid #FFFFFF',
-                      lineHeight: '13px'
-                    }}
-                  >
-                    {tab.badge}
-                  </span>
-                ) : null}
-              </div>
-              <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-display)', fontWeight: isActive ? 800 : 600 }}>
-                {tab.label}
-              </span>
-              {isActive && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '32px',
-                    height: '3px',
-                    borderRadius: '0 0 3px 3px',
-                    backgroundColor: 'var(--brand-primary)'
-                  }}
-                />
-              )}
-            </button>
-          );
-        })}
-      </nav>
+      <BottomNav />
     </div>
   );
 };

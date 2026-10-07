@@ -16,6 +16,8 @@ export const LearningPath: React.FC = () => {
     navigateTo 
   } = useApp();
 
+  const [showUnitCapstoneModal, setShowUnitCapstoneModal] = useState<boolean>(false);
+
   // Find the current skill and active lesson to recommend in "Continue Learning"
   let currentSkill: SkillNode | null = null;
   for (const unit of course.units) {
@@ -286,7 +288,8 @@ export const LearningPath: React.FC = () => {
               alignItems: 'center'
             }}
           >
-            <div
+            <button
+              onClick={() => setShowUnitCapstoneModal(true)}
               style={{
                 width: '68px',
                 height: '68px',
@@ -298,12 +301,15 @@ export const LearningPath: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#D97706',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
               }}
+              className="hover-elevate"
               title={`${unitCheckpoint.title}: ${unitCheckpoint.description}`}
+              aria-label={`Capstone Challenge: ${unitCheckpoint.title}`}
             >
               <Icon name="award" size={32} stroke={2.5} />
-            </div>
+            </button>
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)', marginTop: '8px' }}>
               {unitCheckpoint.title}
             </span>
@@ -316,7 +322,7 @@ export const LearningPath: React.FC = () => {
   return (
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
       
-      {/* 1. HERO QUEST SUMMARY BAR */}
+      {/* 1. HERO MODULE & CONTINUE LEARNING BAR */}
       <div
         className="card-plate animate-slide-up"
         style={{
@@ -333,8 +339,8 @@ export const LearningPath: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div
             style={{
-              width: '54px',
-              height: '54px',
+              width: '52px',
+              height: '52px',
               borderRadius: '16px',
               backgroundColor: 'var(--brand-light)',
               border: '1.5px solid var(--brand-border)',
@@ -349,16 +355,16 @@ export const LearningPath: React.FC = () => {
           </div>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
               <span style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--brand-primary)' }}>
-                Active Quest • Unit 1 Foundations
+                CURRENT MODULE • UNIT 1 FOUNDATIONS
               </span>
               <Badge variant="brand" size="sm">Mastery {userProgress.skillMastery[currentSkill.id] || 0}/5</Badge>
             </div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
               {currentSkill.title}: {nextLesson.title}
             </h2>
-            <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+            <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '3px' }}>
               ~{nextLesson.estimatedMinutes} min micro-session • 15 interactive coding challenges
             </div>
           </div>
@@ -371,7 +377,7 @@ export const LearningPath: React.FC = () => {
           icon={<Icon name="player-play" size={18} fill="#fff" />}
           iconPosition="left"
         >
-          Resume Quest (+{nextLesson.xpReward} XP)
+          Continue Lesson (+{nextLesson.xpReward} XP)
         </Button>
       </div>
 
@@ -446,139 +452,151 @@ export const LearningPath: React.FC = () => {
           })}
         </div>
 
-        {/* RIGHT COLUMN: STITCH DEVREALM COMPANION DOCK */}
+        {/* RIGHT COLUMN: DEVELOPER COMPANION & PROGRESS DOCK */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', position: 'sticky', top: '88px' }} className="desktop-only">
           
-          {/* 1. Merlyn the Arch-Mage (AI Familiar Advisor) */}
+          {/* 1. Skill Mastery & Mistake Retention Card */}
           <div
             className="card-plate"
             style={{
               padding: '20px',
-              backgroundColor: '#FAF5FF',
-              borderColor: '#DDD6FE',
-              boxShadow: '0 4px 0 #C4B5FD'
+              backgroundColor: '#FFFFFF',
+              borderColor: 'var(--border-default)',
+              boxShadow: 'var(--tactile-card)'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-              <div
-                style={{
-                  width: '42px',
-                  height: '42px',
-                  borderRadius: '12px',
-                  backgroundColor: '#8B5CF6',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 3px 0 #6D28D9'
-                }}
-              >
-                <Icon name="sparkles" size={22} fill="#EDE9FE" />
-              </div>
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#5B21B6' }}>
-                  Merlyn the Arch-Mage
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '10px',
+                    backgroundColor: 'var(--brand-light)',
+                    color: 'var(--brand-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid var(--brand-border)'
+                  }}
+                >
+                  <Icon name="brain" size={20} stroke={2.2} />
                 </div>
-                <div style={{ fontSize: '0.72rem', color: '#7C3AED', fontWeight: 600 }}>
-                  AI Coding Companion
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+                    Skill Mastery
+                  </div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                    Active Knowledge Retention
+                  </div>
                 </div>
               </div>
+              {userProgress.mistakes.filter(m => !m.resolved).length > 0 ? (
+                <Badge variant="error" size="sm">
+                  {userProgress.mistakes.filter(m => !m.resolved).length} to review
+                </Badge>
+              ) : (
+                <Badge variant="success" size="sm">
+                  All clear
+                </Badge>
+              )}
             </div>
 
-            {/* Speech Bubble */}
-            <div
-              style={{
-                backgroundColor: '#FFFFFF',
-                borderRadius: 'var(--radius-lg)',
-                padding: '14px 16px',
-                border: '1.5px solid #DDD6FE',
-                fontSize: '0.84rem',
-                color: '#374151',
-                lineHeight: 1.5,
-                marginBottom: '14px',
-                position: 'relative'
-              }}
-            >
-              "Greetings, scholar! When defining loops in Python, remember that <code>range(1, 5)</code> generates 1 through 4. Keep your momentum going!"
-            </div>
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.5, margin: '0 0 14px' }}>
+              {userProgress.mistakes.filter(m => !m.resolved).length > 0
+                ? `You have ${userProgress.mistakes.filter(m => !m.resolved).length} unresolved concept misconception${userProgress.mistakes.filter(m => !m.resolved).length > 1 ? 's' : ''} in your Mistake Bank. Practice them to retain understanding.`
+                : 'Zero recorded misconceptions! Strengthen syntax memory through targeted project drills.'}
+            </p>
 
-            <div style={{ display: 'flex', gap: '6px' }}>
+            <div style={{ display: 'flex', gap: '8px' }}>
               <button
                 onClick={() => navigateTo('/app/practice')}
                 style={{
                   flex: 1,
-                  padding: '8px 10px',
+                  padding: '9px 12px',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: '#FFFFFF',
-                  border: '1.5px solid #DDD6FE',
-                  color: '#5B21B6',
-                  fontSize: '0.75rem',
+                  backgroundColor: 'var(--bg-surface-subtle)',
+                  border: '1.5px solid var(--border-default)',
+                  color: 'var(--text-primary)',
+                  fontSize: '0.78rem',
                   fontFamily: 'var(--font-display)',
                   fontWeight: 700,
-                  boxShadow: '0 2px 0 #DDD6FE',
-                  cursor: 'pointer'
+                  boxShadow: '0 2px 0 var(--border-default)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px'
                 }}
               >
-                Build in Practice 🛠️
+                <Icon name="barbell" size={15} />
+                <span>Practice Drills</span>
               </button>
               <button
                 onClick={() => navigateTo('/app/review')}
                 style={{
                   flex: 1,
-                  padding: '8px 10px',
+                  padding: '9px 12px',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: '#FFFFFF',
-                  border: '1.5px solid #DDD6FE',
-                  color: '#5B21B6',
-                  fontSize: '0.75rem',
+                  backgroundColor: 'var(--brand-light)',
+                  border: '1.5px solid var(--brand-border)',
+                  color: 'var(--brand-primary)',
+                  fontSize: '0.78rem',
                   fontFamily: 'var(--font-display)',
                   fontWeight: 700,
-                  boxShadow: '0 2px 0 #DDD6FE',
-                  cursor: 'pointer'
+                  boxShadow: '0 2px 0 var(--brand-border)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px'
                 }}
               >
-                Review Mistakes 🛡️
+                <Icon name="history" size={15} />
+                <span>Mistake Bank</span>
               </button>
             </div>
           </div>
 
-          {/* 2. Daily Quests / Missions Card */}
+          {/* 2. Daily Learning Goals Card */}
           <div className="card-plate" style={{ padding: '20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--text-primary)' }}>
-                Daily Quests
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.98rem', color: 'var(--text-primary)' }}>
+                Daily Learning Goals
               </div>
               <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)' }}>
-                Resets in 6h
+                Active Session
               </span>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {/* Mission 1 */}
+              {/* Goal 1: XP Target */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
-                  <span>Earn 50 XP</span>
-                  <span style={{ color: 'var(--brand-primary)' }}>{userProgress.dailyGoalEarnedXp}/50 XP</span>
+                  <span>Daily XP Target</span>
+                  <span style={{ color: 'var(--brand-primary)' }}>{userProgress.dailyGoalEarnedXp} / 50 XP</span>
                 </div>
                 <ProgressBar progress={Math.min(100, (userProgress.dailyGoalEarnedXp / 50) * 100)} height={8} />
               </div>
 
-              {/* Mission 2 */}
+              {/* Goal 2: Lessons Completed */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
-                  <span>Complete 1 Lesson</span>
-                  <span style={{ color: '#10B981' }}>1 / 1 ✓</span>
+                  <span>Active Streak</span>
+                  <span style={{ color: '#E11D48' }}>{userProgress.streak} Days Active</span>
                 </div>
-                <ProgressBar progress={100} height={8} />
+                <ProgressBar progress={userProgress.streak > 0 ? 100 : 0} height={8} color="#E11D48" />
               </div>
 
-              {/* Mission 3 */}
+              {/* Goal 3: Unit 1 Skills */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
-                  <span>Build 1 Practice Project</span>
-                  <span style={{ color: 'var(--text-muted)' }}>0 / 1</span>
+                  <span>Unit 1 Foundations</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>
+                    {userProgress.completedSkillIds.length} / 10 Skills
+                  </span>
                 </div>
-                <ProgressBar progress={0} height={8} />
+                <ProgressBar progress={Math.round((userProgress.completedSkillIds.length / 10) * 100)} height={8} color="#10B981" />
               </div>
             </div>
           </div>
@@ -763,6 +781,156 @@ export const LearningPath: React.FC = () => {
                 icon={<Icon name="player-play" size={16} fill="#fff" />}
               >
                 Start Lesson (+20 XP)
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. UNIT 1 COMPLETION & CAPSTONE MODAL */}
+      {showUnitCapstoneModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(30, 27, 23, 0.6)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 100,
+            padding: '20px'
+          }}
+          onClick={() => setShowUnitCapstoneModal(false)}
+        >
+          <div
+            className="animate-pop-in"
+            style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: 'var(--radius-2xl, 24px)',
+              border: '2px solid var(--border-default, #E5DDD0)',
+              boxShadow: '0 16px 36px rgba(30, 27, 23, 0.2)',
+              padding: '28px 32px',
+              maxWidth: '560px',
+              width: '100%',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+              <div
+                style={{
+                  width: '60px',
+                  height: '60px',
+                  borderRadius: '18px',
+                  backgroundColor: '#FEF3C7',
+                  border: '2px solid #FDE68A',
+                  boxShadow: '0 4px 0 #B45309',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#D97706'
+                }}
+              >
+                <Icon name="award" size={32} stroke={2.5} />
+              </div>
+              <div>
+                <Badge variant="warning" size="sm">
+                  UNIT 1 CAPSTONE
+                </Badge>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.45rem', fontWeight: 800, color: 'var(--text-primary)', margin: '2px 0 0' }}>
+                  Python Foundations
+                </h3>
+              </div>
+            </div>
+
+            <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: '20px' }}>
+              Congratulations on progressing through Unit 1! You have practiced the fundamental building blocks of Python. Review the concepts mastered below and take the comprehensive Final Challenge.
+            </p>
+
+            {/* Concept Summary Grid */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px' }}>
+                Mastered Core Concepts:
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+                {[
+                  'Variables & Assignment',
+                  'Arithmetic & Precedence',
+                  'Strings & Formatting',
+                  'User Input (input())',
+                  'Type Conversion (int/str)',
+                  'Comparisons (== vs =)',
+                  'Boolean Logic (and/or/not)',
+                  'Conditions (if/elif/else)'
+                ].map((concept, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: '8px 12px',
+                      backgroundColor: '#ECFDF5',
+                      borderRadius: 'var(--radius-md, 8px)',
+                      border: '1px solid #A7F3D0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontSize: '0.85rem',
+                      fontWeight: 700,
+                      color: '#065F46'
+                    }}
+                  >
+                    <span>✓</span>
+                    <span>{concept}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Final Challenge Overview */}
+            <div style={{
+              backgroundColor: '#EFF6FF',
+              border: '1.5px solid #BFDBFE',
+              borderRadius: 'var(--radius-lg, 12px)',
+              padding: '14px 18px',
+              marginBottom: '24px',
+              fontSize: '0.88rem',
+              color: '#1E40AF',
+              lineHeight: 1.5
+            }}>
+              <strong>Final Challenge (5 Multi-Concept Problems):</strong>
+              <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#1D4ED8' }}>
+                • Tip Calculator (Input + Arithmetic)<br/>
+                • BMI Formula (Conversion + Power Operator)<br/>
+                • Overtime Pay (Conditional Arithmetic)<br/>
+                • Tiered Shipping Fee (Multi-Branch Logic)<br/>
+                • Parking Garage Fee (Calculation + Fee Cap)
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={() => setShowUnitCapstoneModal(false)}
+              >
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                size="md"
+                onClick={() => {
+                  setShowUnitCapstoneModal(false);
+                  startLesson('unit_01_final');
+                }}
+                icon={<Icon name="player-play" size={16} fill="#fff" />}
+              >
+                Start Final Challenge (+100 XP)
               </Button>
             </div>
           </div>

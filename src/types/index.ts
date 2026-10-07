@@ -34,6 +34,8 @@ export interface PredictOption {
   explanation: string;
 }
 
+export * from './question';
+
 export type LessonBlockType = 
   | 'explanation' 
   | 'code_example' 
@@ -51,7 +53,16 @@ export type LessonBlockType =
   | 'code_prediction'
   | 'mini_challenge'
   | 'refactoring_challenge'
-  | 'trace_execution';
+  | 'trace_execution'
+  | 'trace_code'
+  | 'CODE_COMPLETION'
+  | 'MULTIPLE_CHOICE'
+  | 'PREDICT_OUTPUT'
+  | 'WRITE_CODE'
+  | 'DEBUG_CODE'
+  | 'TRACE_CODE'
+  | 'TRUE_FALSE_WITH_REASONING'
+  | 'APPLY';
 
 export interface LessonBlock {
   id: string;
@@ -86,6 +97,26 @@ export interface LessonBlock {
   hint?: string;
   tests?: ChallengeTest[];
   diagnosticRules?: DiagnosticRule[];
+  // Extended fields for deliberate practice engine
+  questionType?: string;
+  misconceptionTag?: string;
+  misconception_tag?: string;
+  repairConcept?: string;
+  repair_concept?: string;
+  mentalModel?: string;
+  mental_model?: string;
+  relevantLine?: string;
+  relevant_line?: string;
+  repairQuestion?: any;
+  repair_question?: any;
+  traceSteps?: any[];
+  trace_steps?: any[];
+  progressiveHints?: [string, string, string];
+  progressive_hints?: [string, string, string];
+  xp?: number;
+  order?: number;
+  section?: string;
+  learning_objective?: string;
 }
 
 export interface Challenge {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import confetti from 'canvas-confetti';
 import { useApp } from '../context/AppContext';
-import { Lesson, LessonBlock, Challenge } from '../types';
+import { Lesson, LessonBlock, Challenge, TestResult } from '../types';
 import { courseService } from '../services/courseService';
 import { codeExecutionService } from '../services/codeExecutionService';
 import { sound } from '../utils/audio';
@@ -102,6 +102,16 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [feedbackMsg, setFeedbackMsg] = useState<{ title: string; msg: string; detail?: string }>({ title: '', msg: '' });
   const [executionOutput, setExecutionOutput] = useState<string>('');
 
+  // Enhanced Question Type States: Tracing, Debugging attempts, Test Results, and Repair Flow
+  const [traceInputs, setTraceInputs] = useState<Record<number, string>>({});
+  const [traceFeedback, setTraceFeedback] = useState<{ checked: boolean; allPassed: boolean; failedIndex?: number; message?: string } | null>(null);
+  const [debugAttempts, setDebugAttempts] = useState<number>(0);
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
+  const [showRepairFlow, setShowRepairFlow] = useState<boolean>(false);
+  const [repairSelectedOptId, setRepairSelectedOptId] = useState<string | null>(null);
+  const [repairAnswerChecked, setRepairAnswerChecked] = useState<boolean>(false);
+  const [repairIsCorrect, setRepairIsCorrect] = useState<boolean>(false);
+
   // Reset state when navigating to a new block or changing phase
   useEffect(() => {
     setExerciseState('unanswered');
@@ -110,6 +120,16 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     setShowHint(false);
     setExecutionOutput('');
     setFeedbackMsg({ title: '', msg: '' });
+
+    // Reset extended interactive states
+    setTraceInputs({});
+    setTraceFeedback(null);
+    setDebugAttempts(0);
+    setTestResults([]);
+    setShowRepairFlow(false);
+    setRepairSelectedOptId(null);
+    setRepairAnswerChecked(false);
+    setRepairIsCorrect(false);
 
     // Initialize code editor
     setCode(currentBlock.starterCode || '');
@@ -188,11 +208,21 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     } else {
       sound.playError();
       setExerciseState('incorrect');
+      const tag = currentBlock.misconceptionTag || 'MISCONCEPTION_DETECTED';
+      const detailMsg = currentBlock.mentalModel
+        ? `Mental Model: ${currentBlock.mentalModel}`
+        : (currentBlock.commonMistake ? `Common Misconception: ${currentBlock.commonMistake}` : undefined);
+
       setFeedbackMsg({
-        title: sessionPhase === 'review' ? 'Review feedback:' : 'Incorrect attempt',
-        msg: chosen?.explanation || currentBlock.commonMistake || 'Review the explanation and correct answer below.',
-        detail: currentBlock.commonMistake ? `Common Misconception: ${currentBlock.commonMistake}` : undefined
+        title: sessionPhase === 'review' ? 'Review feedback:' : 'Misconception Identified',
+        msg: chosen?.explanation || currentBlock.commonMistake || 'Review the explanation below.',
+        detail: detailMsg
       });
+
+      // Activate repair flow if repair question is present
+      if (currentBlock.repairQuestion) {
+        setShowRepairFlow(true);
+      }
 
       if (sessionPhase === 'initial') {
         setWrongQuestions(prev => [
@@ -203,12 +233,27 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           recordMistake({
             skillId: lessonMeta.skillId,
             lessonId: lessonMeta.id,
-            mistakeType: (currentBlock.type as string) || 'quiz_error',
+            mistakeType: tag,
             explanation: chosen?.explanation || 'Incorrect option selected',
             userCode: chosen?.text || selectedOptionId
           });
         }
       }
+    }
+  };
+
+  // Handler: Verify repair question attempt
+  const handleVerifyRepair = () => {
+    if (!repairSelectedOptId || !currentBlock.repairQuestion) return;
+    const chosen = currentBlock.repairQuestion.options.find((o: any) => o.id === repairSelectedOptId);
+    setRepairAnswerChecked(true);
+
+    if (chosen?.isCorrect) {
+      sound.playSuccess();
+      setRepairIsCorrect(true);
+    } else {
+      sound.playError();
+      setRepairIsCorrect(false);
     }
   };
 
@@ -376,6 +421,73 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     }
   };
 
+  // Handler: Trace Code Inputs and Verification
+  const handleTraceInputChange = (stepIdx: number, val: string) => {
+    if (exerciseState === 'correct' || exerciseState === 'incorrect') return;
+    setTraceInputs(prev => ({ ...prev, [stepIdx]: val }));
+  };
+
+  const checkTraceAnswer = () => {
+    const steps = currentBlock.traceSteps || [];
+    if (steps.length === 0) return;
+
+    let firstFailIndex = -1;
+    let allPassed = true;
+
+    for (let i = 0; i < steps.length; i++) {
+      const step = steps[i];
+      const userVal = (traceInputs[i] || '').trim();
+      const expected = String(step.expectedValue).trim();
+      if (userVal !== expected) {
+        allPassed = false;
+        if (firstFailIndex === -1) firstFailIndex = i;
+      }
+    }
+
+    if (allPassed) {
+      sound.playSuccess();
+      setExerciseState('correct');
+      setTraceFeedback({ checked: true, allPassed: true });
+      setFeedbackMsg({
+        title: sessionPhase === 'review' ? 'Variable trace mastered!' : 'Flawless Execution Trace!',
+        msg: currentBlock.explanation || 'You accurately tracked the internal state of all variables across each line.'
+      });
+      if (sessionPhase === 'initial') {
+        setFirstAttemptCorrectCount(prev => prev + 1);
+      } else if (sessionPhase === 'review') {
+        setReviewCorrectCount(prev => prev + 1);
+        setWrongQuestions(prev => prev.map((q, idx) => idx === reviewIndex ? { ...q, isReviewCorrect: true } : q));
+      }
+    } else {
+      sound.playError();
+      setExerciseState('incorrect');
+      const failedStep = steps[firstFailIndex];
+      const failMsg = failedStep?.explanation || `On line ${failedStep?.lineNumber || firstFailIndex + 1}, ${failedStep?.variable} was expected to be "${failedStep?.expectedValue}", but got "${traceInputs[firstFailIndex] || ''}".`;
+      setTraceFeedback({ checked: true, allPassed: false, failedIndex: firstFailIndex, message: failMsg });
+      setFeedbackMsg({
+        title: 'Trace State Mismatch',
+        msg: failMsg,
+        detail: currentBlock.explanation
+      });
+
+      if (sessionPhase === 'initial') {
+        setWrongQuestions(prev => [
+          ...prev,
+          { block: currentBlock, userAnswer: JSON.stringify(traceInputs), concept: currentBlock.concept }
+        ]);
+        if (lessonMeta) {
+          recordMistake({
+            skillId: lessonMeta.skillId,
+            lessonId: lessonMeta.id,
+            mistakeType: currentBlock.misconceptionTag || 'VARIABLE_VALUE_CONFUSION',
+            explanation: failMsg,
+            userCode: JSON.stringify(traceInputs)
+          });
+        }
+      }
+    }
+  };
+
   // Handler: Run Code (write_the_code, fix_the_code, mini_challenge, refactoring_challenge)
   const handleRunCode = async () => {
     if (!lessonMeta) return;
@@ -394,12 +506,14 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         id: t.id,
         description: t.description,
         expectedOutput: t.expectedOutput,
-        input: t.input
+        input: t.input,
+        assertionPython: (t as any).assertionPython
       }))
     };
 
     const res = await codeExecutionService.execute(code, challengePayload);
     setExecutionOutput(res.stdout || (res.error ? `Error: ${res.error}` : ''));
+    setTestResults(res.testResults || []);
 
     if (res.success) {
       sound.playSuccess();
@@ -416,12 +530,34 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       }
     } else {
       sound.playError();
+      const newAttempts = debugAttempts + 1;
+      setDebugAttempts(newAttempts);
+
+      const isDebugExercise = currentBlock.type === 'fix_code';
+
+      let title = res.diagnostic?.mistakeType ? `Diagnostic: ${res.diagnostic.mistakeType.replace(/_/g, ' ')}` : 'Tests Failed';
+      let message = res.diagnostic?.message || res.error || 'Your code did not match expected requirements.';
+      let detail = currentBlock.explanation || res.diagnostic?.fixSuggestion || 'Check the requirements and test results below.';
+
+      // Attempt progression for debugging exercises
+      if (isDebugExercise) {
+        if (newAttempts === 1) {
+          title = 'Attempt 1 of 3: Diagnostic Feedback';
+          message = res.diagnostic?.message || res.error || 'A syntax or runtime issue was encountered.';
+          detail = 'Examine the failing line and error message. Try correcting it!';
+        } else if (newAttempts === 2) {
+          title = 'Attempt 2 of 3: Targeted Hint';
+          message = currentBlock.hint || 'Review operator syntax, colon placement, or variable types.';
+          detail = res.diagnostic?.fixSuggestion || 'Keep going! Make sure comparison uses == and conditions end with :';
+        } else {
+          title = 'Attempt 3: Full Explanation';
+          message = currentBlock.explanation || 'Review the expected fix explained below.';
+          detail = 'Check the expected solution code displayed below to reinforce the pattern.';
+        }
+      }
+
       setExerciseState('incorrect');
-      setFeedbackMsg({
-        title: res.diagnostic?.mistakeType ? `Diagnostic: ${res.diagnostic.mistakeType.replace(/_/g, ' ')}` : 'Tests Failed',
-        msg: res.diagnostic?.message || res.error || 'Your code did not match expected requirements.',
-        detail: currentBlock.explanation || res.diagnostic?.fixSuggestion || 'Check the correct solution code displayed below.'
-      });
+      setFeedbackMsg({ title, msg: message, detail });
 
       if (sessionPhase === 'initial') {
         setWrongQuestions(prev => [
@@ -432,7 +568,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           recordMistake({
             skillId: lessonMeta.skillId,
             lessonId: lessonMeta.id,
-            mistakeType: res.diagnostic?.mistakeType || 'runtime_code_error',
+            mistakeType: currentBlock.misconceptionTag || res.diagnostic?.mistakeType || 'runtime_code_error',
             explanation: res.diagnostic?.message || 'Code execution did not pass verification.',
             userCode: code
           });
@@ -880,6 +1016,159 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 );
               })}
             </div>
+
+            {/* Repair Session for Predict Output, Reasoning & Misconceptions */}
+            {exerciseState === 'incorrect' && currentBlock.repairQuestion && (
+              <div
+                className="animate-pop-in"
+                style={{
+                  marginTop: '24px',
+                  backgroundColor: '#FEF3C7',
+                  border: '2px solid #F59E0B',
+                  borderRadius: 'var(--radius-xl, 16px)',
+                  padding: '20px 24px',
+                  boxShadow: '0 4px 14px rgba(245, 158, 11, 0.15)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '1.2rem' }}>🔧</span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: '#92400E' }}>
+                      CONCEPT REPAIR SESSION
+                    </span>
+                  </div>
+                  {currentBlock.misconceptionTag && (
+                    <span style={{
+                      backgroundColor: '#FDE68A',
+                      color: '#78350F',
+                      padding: '2px 10px',
+                      borderRadius: '999px',
+                      fontSize: '0.72rem',
+                      fontFamily: 'var(--font-mono, monospace)',
+                      fontWeight: 700
+                    }}>
+                      {currentBlock.misconceptionTag}
+                    </span>
+                  )}
+                </div>
+
+                {/* Mental Model */}
+                {currentBlock.mentalModel && (
+                  <div style={{
+                    backgroundColor: '#FFFFFF',
+                    border: '1px solid #FCD34D',
+                    borderRadius: 'var(--radius-lg, 12px)',
+                    padding: '12px 16px',
+                    marginBottom: '16px',
+                    fontSize: '0.9rem',
+                    color: '#78350F',
+                    lineHeight: 1.5
+                  }}>
+                    💡 <strong>Mental Model:</strong> {currentBlock.mentalModel}
+                  </div>
+                )}
+
+                {/* Repair Question */}
+                <div style={{
+                  backgroundColor: '#FFFFFF',
+                  border: '1.5px solid #FCD34D',
+                  borderRadius: 'var(--radius-lg, 12px)',
+                  padding: '16px 20px'
+                }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#B45309', textTransform: 'uppercase', marginBottom: '6px' }}>
+                    Repair Question (Verify Understanding):
+                  </div>
+                  <p style={{ margin: '0 0 10px', fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.96rem' }}>
+                    {currentBlock.repairQuestion.prompt}
+                  </p>
+
+                  {currentBlock.repairQuestion.codeSnippet && (
+                    <div style={{
+                      backgroundColor: '#1E1E1E',
+                      borderRadius: '8px',
+                      padding: '10px 14px',
+                      marginBottom: '14px',
+                      fontFamily: 'var(--font-mono, monospace)',
+                      color: '#E2E8F0',
+                      fontSize: '0.88rem'
+                    }}>
+                      <pre style={{ margin: 0 }}>{currentBlock.repairQuestion.codeSnippet}</pre>
+                    </div>
+                  )}
+
+                  {/* Repair Options */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
+                    {currentBlock.repairQuestion.options.map((rOpt: any) => {
+                      const isRepairSelected = repairSelectedOptId === rOpt.id;
+                      let rBg = isRepairSelected ? '#EEF2FF' : '#F9FAFB';
+                      let rBorder = isRepairSelected ? 'var(--brand-primary, #4338CA)' : '#E5E7EB';
+
+                      if (repairAnswerChecked) {
+                        if (rOpt.isCorrect) {
+                          rBg = '#ECFDF5';
+                          rBorder = '#10B981';
+                        } else if (isRepairSelected) {
+                          rBg = '#FEF2F2';
+                          rBorder = '#EF4444';
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={rOpt.id}
+                          onClick={() => {
+                            if (!repairAnswerChecked) {
+                              sound.playClick();
+                              setRepairSelectedOptId(rOpt.id);
+                            }
+                          }}
+                          disabled={repairAnswerChecked}
+                          style={{
+                            padding: '10px 14px',
+                            borderRadius: '8px',
+                            border: `1.5px solid ${rBorder}`,
+                            backgroundColor: rBg,
+                            textAlign: 'left',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            color: 'var(--text-primary)',
+                            cursor: repairAnswerChecked ? 'default' : 'pointer'
+                          }}
+                        >
+                          {rOpt.text}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Repair Verification / Status */}
+                  {!repairAnswerChecked ? (
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      disabled={!repairSelectedOptId}
+                      onClick={handleVerifyRepair}
+                    >
+                      Verify Repair Answer
+                    </Button>
+                  ) : (
+                    <div style={{
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      backgroundColor: repairIsCorrect ? '#ECFDF5' : '#FEF2F2',
+                      border: `1px solid ${repairIsCorrect ? '#A7F3D0' : '#FECACA'}`,
+                      color: repairIsCorrect ? '#065F46' : '#991B1B',
+                      fontSize: '0.86rem',
+                      fontWeight: 600
+                    }}>
+                      {repairIsCorrect
+                        ? '✓ Repair confirmed! You successfully corrected the misconception.'
+                        : 'Review the correct answer highlighted in green above before continuing.'}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         );
 
@@ -1081,6 +1370,126 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         );
       }
 
+      // Trace Code (Line-by-line variable state tracking)
+      case 'trace_code': {
+        const traceSteps = currentBlock.traceSteps || [];
+        return (
+          <div className="animate-fade-in" style={{ paddingBottom: '160px' }}>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', alignItems: 'center' }}>
+              <Badge variant="brand" size="sm">VARIABLE TRACE</Badge>
+              {sessionPhase === 'review' && <Badge variant="warning" size="sm">REVIEW REINFORCEMENT</Badge>}
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                Track the value of each variable line by line as code executes
+              </span>
+            </div>
+
+            <div style={{ marginBottom: '24px' }}>
+              {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
+            </div>
+
+            <div style={{ backgroundColor: 'var(--bg-app, #F9FAFB)', padding: '20px 24px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default, #E5E7EB)' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '16px' }}>
+                Trace Execution Table
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {traceSteps.map((step, idx) => {
+                  const userVal = traceInputs[idx] || '';
+                  const isChecked = traceFeedback?.checked;
+                  const isStepCorrect = isChecked && userVal.trim() === String(step.expectedValue).trim();
+                  const isStepIncorrect = isChecked && !isStepCorrect;
+
+                  let borderColor = '#E5E7EB';
+                  let bgColor = '#FFFFFF';
+                  if (isChecked) {
+                    if (isStepCorrect) {
+                      borderColor = '#10B981';
+                      bgColor = '#ECFDF5';
+                    } else if (isStepIncorrect) {
+                      borderColor = '#EF4444';
+                      bgColor = '#FEF2F2';
+                    }
+                  }
+
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: '12px 16px',
+                        borderRadius: 'var(--radius-lg, 12px)',
+                        border: `1.5px solid ${borderColor}`,
+                        backgroundColor: bgColor,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '16px',
+                        flexWrap: 'wrap'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{
+                          padding: '4px 8px',
+                          backgroundColor: '#1E1E1E',
+                          color: '#A7F3D0',
+                          fontFamily: 'var(--font-mono, monospace)',
+                          fontSize: '0.78rem',
+                          borderRadius: '6px'
+                        }}>
+                          Line {step.lineNumber || idx + 1}
+                        </span>
+                        <code style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.94rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                          {step.codeLine}
+                        </code>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                          Value of <strong>{step.variable}</strong>:
+                        </span>
+                        <input
+                          type="text"
+                          value={userVal}
+                          onChange={(e) => handleTraceInputChange(idx, e.target.value)}
+                          disabled={exerciseState === 'correct' || exerciseState === 'incorrect'}
+                          placeholder="?"
+                          style={{
+                            width: '80px',
+                            padding: '8px 12px',
+                            borderRadius: '8px',
+                            border: `1.5px solid ${isStepIncorrect ? '#EF4444' : (isStepCorrect ? '#10B981' : '#D1D5DB')}`,
+                            fontFamily: 'var(--font-mono, monospace)',
+                            fontSize: '0.95rem',
+                            fontWeight: 700,
+                            textAlign: 'center',
+                            outline: 'none'
+                          }}
+                        />
+                        {isChecked && (
+                          isStepCorrect ? (
+                            <span style={{ color: '#10B981', fontWeight: 800 }}>✓</span>
+                          ) : (
+                            <span style={{ color: '#EF4444', fontWeight: 800 }}>✗ ({step.expectedValue})</span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {exerciseState === 'incorrect' && (
+                <div style={{ marginTop: '16px', padding: '14px', backgroundColor: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 'var(--radius-lg)', color: '#065F46' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '4px' }}>Trace Explanation:</div>
+                  <div style={{ fontSize: '0.9rem', lineHeight: 1.5 }}>
+                    {currentBlock.explanation || 'Review each step carefully. Variables hold their updated state from preceding lines.'}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+
       // 6. Write the Code, Fix the Code, Mini Challenge, Refactoring
       case 'write_code':
       case 'fix_code':
@@ -1170,8 +1579,68 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               </div>
             )}
 
-            {/* Reveal Solution Code Immediately if Incorrect */}
-            {exerciseState === 'incorrect' && currentBlock.solutionCode && (
+            {/* Structured Test Results / Assertions */}
+            {testResults.length > 0 && (
+              <div style={{
+                marginTop: '16px',
+                backgroundColor: '#FFFFFF',
+                border: '1.5px solid var(--border-default, #E5E7EB)',
+                borderRadius: 'var(--radius-lg, 12px)',
+                padding: '16px 20px',
+                boxShadow: 'var(--shadow-xs)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
+                    Test Cases ({testResults.filter(t => t.passed).length} / {testResults.length} Passed)
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {testResults.map((t, idx) => (
+                    <div
+                      key={t.testId || idx}
+                      style={{
+                        padding: '10px 14px',
+                        borderRadius: '8px',
+                        backgroundColor: t.passed ? '#ECFDF5' : '#FEF2F2',
+                        border: `1px solid ${t.passed ? '#A7F3D0' : '#FECACA'}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '12px'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{
+                          color: t.passed ? '#10B981' : '#EF4444',
+                          fontWeight: 800,
+                          fontSize: '1rem'
+                        }}>
+                          {t.passed ? '✓' : '✗'}
+                        </span>
+                        <span style={{
+                          fontSize: '0.9rem',
+                          fontWeight: 600,
+                          color: t.passed ? '#065F46' : '#991B1B'
+                        }}>
+                          {t.description}
+                        </span>
+                      </div>
+                      <span style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        color: t.passed ? '#059669' : '#DC2626'
+                      }}>
+                        {t.passed ? 'Passed' : 'Failed'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Reveal Solution Code: for regular questions on incorrect, or for fix_code only on Attempt 3+ */}
+            {exerciseState === 'incorrect' && currentBlock.solutionCode && (currentBlock.type !== 'fix_code' || debugAttempts >= 3) && (
               <div style={{ marginTop: '16px', backgroundColor: '#1E1E1E', border: '1px solid #10B981', borderRadius: 'var(--radius-lg, 12px)', padding: '16px 20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -1212,9 +1681,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     const isBlankType = currentBlock.type === 'fill_in_the_blank';
     const isOrderingType = currentBlock.type === 'code_ordering';
     const isMatchingType = currentBlock.type === 'match_code_to_concept';
+    const isTraceType = currentBlock.type === 'trace_code';
     const isExplanation = currentBlock.type === 'explanation' || currentBlock.type === 'code_example';
 
-    // When exercise is in correct OR incorrect state, CONTINUE is the ONLY action!
+    const traceStepsCount = (currentBlock.traceSteps || []).length;
+    const isTraceFilled = traceStepsCount > 0 && traceStepsCount === Object.keys(traceInputs).filter(k => (traceInputs[Number(k)] || '').trim() !== '').length;
+
+    // When exercise is in correct OR incorrect state, CONTINUE is the default action!
     const isAnswerChecked = exerciseState === 'correct' || exerciseState === 'incorrect' || exerciseState === 'completed';
 
     return (
@@ -1226,7 +1699,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           right: 0,
           backgroundColor: footerBg,
           borderTop: `2px solid ${borderColor}`,
-          padding: '18px 24px',
+          padding: '16px 20px',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
@@ -1234,6 +1707,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           boxShadow: drawerShadow,
           transition: 'background-color 150ms ease, border-color 150ms ease'
         }}
+        aria-live="polite"
       >
         <div style={{ width: '100%', maxWidth: '820px' }}>
           {/* Feedback Section */}
@@ -1272,9 +1746,28 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             </div>
           )}
 
-          {/* Action Button Section: Single Flow -> Check then Continue */}
+          {/* Action Button Section */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            {isExplanation || isAnswerChecked ? (
+            {exerciseState === 'incorrect' && currentBlock.type === 'fix_code' && debugAttempts < 3 ? (
+              <div style={{ display: 'flex', gap: '12px', width: '100%', maxWidth: '440px', justifyContent: 'flex-end' }}>
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => setExerciseState('unanswered')}
+                  style={{ flex: 1 }}
+                >
+                  TRY AGAIN (Attempt {debugAttempts + 1}/3)
+                </Button>
+                <Button
+                  variant="danger"
+                  size="lg"
+                  onClick={handleNextStep}
+                  style={{ flex: 1 }}
+                >
+                  CONTINUE
+                </Button>
+              </div>
+            ) : isExplanation || isAnswerChecked ? (
               <Button
                 variant={exerciseState === 'incorrect' ? 'danger' : 'success'}
                 size="lg"
@@ -1295,6 +1788,17 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 style={{ maxWidth: '300px' }}
               >
                 RUN CODE
+              </Button>
+            ) : isTraceType ? (
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={checkTraceAnswer}
+                disabled={!isTraceFilled}
+                fullWidth
+                style={{ maxWidth: '300px' }}
+              >
+                CHECK TRACE VALUES
               </Button>
             ) : isBlankType ? (
               <Button
