@@ -2,9 +2,44 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { SkillNode, Unit } from '../../types';
 import { Icon } from '../ui/Icon';
-import { Button } from '../common/Button';
-import { Badge } from '../common/Badge';
-import { ProgressBar } from '../common/ProgressBar';
+import { Button, Badge, ProgressBar, Modal } from '../common';
+
+const UnitProgressRing: React.FC<{ progress: number; size?: number; color?: string }> = ({ progress, size = 48, color = 'var(--brand-primary)' }) => {
+  const strokeWidth = 4.5;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (progress / 100) * circumference;
+
+  return (
+    <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="var(--border-default)"
+          strokeWidth={strokeWidth}
+          fill="transparent"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={color}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          fill="transparent"
+          style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+        />
+      </svg>
+      <span style={{ position: 'absolute', fontSize: '0.68rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+        {progress}%
+      </span>
+    </div>
+  );
+};
 
 export const LearningPath: React.FC = () => {
   const { 
@@ -16,7 +51,8 @@ export const LearningPath: React.FC = () => {
     navigateTo 
   } = useApp();
 
-  const [showUnitCapstoneModal, setShowUnitCapstoneModal] = useState<boolean>(false);
+  const [activeCapstoneUnit, setActiveCapstoneUnit] = useState<Unit | null>(null);
+  const [renderedUnitsCount, setRenderedUnitsCount] = useState<number>(6);
 
   // Find the current skill and active lesson to recommend in "Continue Learning"
   let currentSkill: SkillNode | null = null;
@@ -47,7 +83,9 @@ export const LearningPath: React.FC = () => {
   };
 
   // Helper to render the serpentine winding SVG track for a given unit's skills
-  const renderSerpentineTrack = (skills: SkillNode[], unitCheckpoint: { title: string; description: string }) => {
+  const renderSerpentineTrack = (unit: Unit) => {
+    const skills = unit.skills;
+    const unitCheckpoint = unit.checkpoint;
     const nodeSpacing = 110;
     const centerX = 160;
     const totalHeight = skills.length * nodeSpacing + 100;
@@ -289,28 +327,33 @@ export const LearningPath: React.FC = () => {
               alignItems: 'center'
             }}
           >
-            <button
-              onClick={() => setShowUnitCapstoneModal(true)}
-              style={{
-                width: '68px',
-                height: '68px',
-                borderRadius: '20px',
-                backgroundColor: '#FEF3C7',
-                border: '3px solid #FDE68A',
-                boxShadow: '0 6px 0 #B45309',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#D97706',
-                cursor: 'pointer',
-                transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
-              }}
-              className="hover-elevate"
-              title={`${unitCheckpoint.title}: ${unitCheckpoint.description}`}
-              aria-label={`Capstone Challenge: ${unitCheckpoint.title}`}
-            >
-              <Icon name="award" size={32} stroke={2.5} />
-            </button>
+            {(() => {
+              const isUnitCompleted = unit.skills.every(s => userProgress.completedSkillIds.includes(s.id));
+              return (
+                <button
+                  onClick={() => setActiveCapstoneUnit(unit)}
+                  style={{
+                    width: '68px',
+                    height: '68px',
+                    borderRadius: '20px',
+                    backgroundColor: isUnitCompleted ? 'var(--state-success-subtle)' : '#FEF3C7',
+                    border: `3px solid ${isUnitCompleted ? 'var(--state-success)' : '#FDE68A'}`,
+                    boxShadow: `0 6px 0 ${isUnitCompleted ? 'var(--state-success)' : '#B45309'}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: isUnitCompleted ? 'var(--state-success)' : '#D97706',
+                    cursor: 'pointer',
+                    transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)'
+                  }}
+                  className="hover-elevate"
+                  title={`Unit ${unit.unitNumber} Capstone: ${unitCheckpoint.title}`}
+                  aria-label={`Capstone Challenge: ${unitCheckpoint.title}`}
+                >
+                  <Icon name={isUnitCompleted ? 'trophy' : 'award'} size={32} stroke={2.5} />
+                </button>
+              );
+            })()}
             <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)', marginTop: '8px' }}>
               {unitCheckpoint.title}
             </span>
@@ -393,12 +436,12 @@ export const LearningPath: React.FC = () => {
       >
         {/* LEFT COLUMN: THE SERPENTINE JOURNEY PATH */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
-          {course.units.map((unit) => {
+          {course.units.slice(0, renderedUnitsCount).map((unit) => {
             const completedCount = unit.skills.filter(s => userProgress.completedSkillIds.includes(s.id)).length;
             const progressPct = Math.round((completedCount / unit.skills.length) * 100);
 
             return (
-              <div key={unit.id} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div key={unit.id} id={`unit-anchor-${unit.id}`} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 {/* Unit Header Card */}
                 <div
                   className="card-plate"
@@ -412,7 +455,7 @@ export const LearningPath: React.FC = () => {
                     gap: '12px'
                   }}
                 >
-                  <div>
+                  <div style={{ flex: 1, minWidth: '220px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                       <span
                         style={{
@@ -436,21 +479,38 @@ export const LearningPath: React.FC = () => {
                     </p>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
-                    <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)' }}>
-                      {completedCount} / {unit.skills.length} Skills ({progressPct}%)
-                    </span>
-                    <div style={{ width: '100px' }}>
-                      <ProgressBar progress={progressPct} height={6} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)' }}>
+                        {completedCount} / {unit.skills.length} Skills
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                        {progressPct === 100 ? 'Unit Mastered' : progressPct > 0 ? 'In Progress' : 'Not Started'}
+                      </div>
                     </div>
+                    <UnitProgressRing progress={progressPct} color={unit.themeColor} />
                   </div>
                 </div>
 
                 {/* Sinuous SVG Serpentine Track with 3D Stepping-Stone Nodes */}
-                {renderSerpentineTrack(unit.skills, unit.checkpoint)}
+                {renderSerpentineTrack(unit)}
               </div>
             );
           })}
+
+          {renderedUnitsCount < course.units.length && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '16px 0 32px' }}>
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => setRenderedUnitsCount(prev => Math.min(course.units.length, prev + 8))}
+                icon={<Icon name="arrow-down" size={18} />}
+                iconPosition="right"
+              >
+                Load Next Units ({renderedUnitsCount} of {course.units.length} Displayed)
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* RIGHT COLUMN: DEVELOPER COMPANION & PROGRESS DOCK */}
@@ -788,128 +848,108 @@ export const LearningPath: React.FC = () => {
         </div>
       )}
 
-      {/* 4. UNIT 1 COMPLETION & CAPSTONE MODAL */}
-      {showUnitCapstoneModal && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(30, 27, 23, 0.6)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 100,
-            padding: '20px'
-          }}
-          onClick={() => setShowUnitCapstoneModal(false)}
+      {/* 4. DYNAMIC UNIT CAPSTONE MODAL FOR ALL UNITS */}
+      {activeCapstoneUnit && (
+        <Modal
+          isOpen={Boolean(activeCapstoneUnit)}
+          onClose={() => setActiveCapstoneUnit(null)}
+          title={`Unit ${activeCapstoneUnit.unitNumber} Capstone`}
         >
-          <div
-            className="animate-pop-in"
-            style={{
-              backgroundColor: 'var(--bg-surface)',
-              borderRadius: 'var(--radius-2xl)',
-              border: '2px solid var(--border-default)',
-              boxShadow: '0 16px 36px rgba(30, 27, 23, 0.2)',
-              padding: '28px 32px',
-              maxWidth: '560px',
-              width: '100%',
-              position: 'relative'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div style={{ padding: '4px 0 12px' }}>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
               <div
                 style={{
-                  width: '60px',
-                  height: '60px',
-                  borderRadius: '18px',
-                  backgroundColor: '#FEF3C7',
-                  border: '2px solid #FDE68A',
-                  boxShadow: '0 4px 0 #B45309',
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '16px',
+                  backgroundColor: 'var(--brand-light)',
+                  border: '2px solid var(--brand-border)',
+                  boxShadow: '0 4px 0 var(--brand-border)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#D97706'
+                  color: 'var(--brand-primary)',
+                  flexShrink: 0
                 }}
               >
-                <Icon name="award" size={32} stroke={2.5} />
+                <Icon name="award" size={30} stroke={2.5} />
               </div>
               <div>
-                <Badge variant="warning" size="sm">
-                  UNIT 1 CAPSTONE
+                <Badge variant="brand" size="sm">
+                  UNIT {activeCapstoneUnit.unitNumber} CAPSTONE
                 </Badge>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.45rem', fontWeight: 800, color: 'var(--text-primary)', margin: '2px 0 0' }}>
-                  Python Foundations
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: '2px 0 0' }}>
+                  {activeCapstoneUnit.title}
                 </h3>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  {activeCapstoneUnit.subtitle}
+                </div>
               </div>
             </div>
 
             <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: '20px' }}>
-              Congratulations on progressing through Unit 1! You have practiced the fundamental building blocks of Python. Review the concepts mastered below and take the comprehensive Final Challenge.
+              {activeCapstoneUnit.checkpoint?.description || activeCapstoneUnit.description}
             </p>
 
-            {/* Concept Summary Grid */}
+            {/* Skills & Concepts in this unit */}
             <div style={{ marginBottom: '24px' }}>
               <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px' }}>
-                Mastered Core Concepts:
+                Skills & Knowledge in Unit {activeCapstoneUnit.unitNumber}:
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                {[
-                  'Variables & Assignment',
-                  'Arithmetic & Precedence',
-                  'Strings & Formatting',
-                  'User Input (input())',
-                  'Type Conversion (int/str)',
-                  'Comparisons (== vs =)',
-                  'Boolean Logic (and/or/not)',
-                  'Conditions (if/elif/else)'
-                ].map((concept, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      padding: '8px 12px',
-                      backgroundColor: '#ECFDF5',
-                      borderRadius: 'var(--radius-md, 8px)',
-                      border: '1px solid #A7F3D0',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontSize: '0.85rem',
-                      fontWeight: 700,
-                      color: '#065F46'
-                    }}
-                  >
-                    <span>✓</span>
-                    <span>{concept}</span>
-                  </div>
-                ))}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', maxHeight: '180px', overflowY: 'auto' }}>
+                {activeCapstoneUnit.skills.map((skill) => {
+                  const isDone = userProgress.completedSkillIds.includes(skill.id);
+                  const mastery = userProgress.skillMastery[skill.id] || 0;
+
+                  return (
+                    <div
+                      key={skill.id}
+                      style={{
+                        padding: '10px 14px',
+                        backgroundColor: isDone ? 'var(--state-success-subtle)' : 'var(--bg-surface-subtle)',
+                        borderRadius: 'var(--radius-md)',
+                        border: `1.5px solid ${isDone ? 'var(--state-success-border)' : 'var(--border-default)'}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '8px'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+                        <Icon
+                          name={isDone ? 'check' : 'code'}
+                          size={16}
+                          style={{ color: isDone ? 'var(--state-success)' : 'var(--text-secondary)' }}
+                        />
+                        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {skill.title}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 800, color: isDone ? 'var(--state-success)' : 'var(--text-muted)' }}>
+                        {mastery}/5 ★
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Final Challenge Overview */}
+            {/* Capstone Challenge Details */}
             <div style={{
-              backgroundColor: '#EFF6FF',
-              border: '1.5px solid #BFDBFE',
-              borderRadius: 'var(--radius-lg, 12px)',
+              backgroundColor: 'var(--brand-light)',
+              border: '1.5px solid var(--brand-border)',
+              borderRadius: 'var(--radius-lg)',
               padding: '14px 18px',
               marginBottom: '24px',
               fontSize: '0.88rem',
-              color: '#1E40AF',
+              color: 'var(--brand-text)',
               lineHeight: 1.5
             }}>
-              <strong>Final Challenge (5 Multi-Concept Problems):</strong>
-              <div style={{ marginTop: '6px', fontSize: '0.82rem', color: '#1D4ED8' }}>
-                • Tip Calculator (Input + Arithmetic)<br/>
-                • BMI Formula (Conversion + Power Operator)<br/>
-                • Overtime Pay (Conditional Arithmetic)<br/>
-                • Tiered Shipping Fee (Multi-Branch Logic)<br/>
-                • Parking Garage Fee (Calculation + Fee Cap)
+              <strong>Capstone Milestone: {activeCapstoneUnit.checkpoint?.title || 'Synthesis Challenge'}</strong>
+              <div style={{ marginTop: '4px', fontSize: '0.82rem', opacity: 0.9 }}>
+                Synthesizes concepts from all {activeCapstoneUnit.skills.length} skills in this unit into multi-step problems with full test validation.
               </div>
             </div>
 
@@ -918,7 +958,7 @@ export const LearningPath: React.FC = () => {
               <Button
                 variant="secondary"
                 size="md"
-                onClick={() => setShowUnitCapstoneModal(false)}
+                onClick={() => setActiveCapstoneUnit(null)}
               >
                 Close
               </Button>
@@ -926,16 +966,19 @@ export const LearningPath: React.FC = () => {
                 variant="primary"
                 size="md"
                 onClick={() => {
-                  setShowUnitCapstoneModal(false);
-                  startLesson('unit_01_final');
+                  const targetLesson = activeCapstoneUnit.unitNumber === 1 
+                    ? 'unit_01_final'
+                    : (activeCapstoneUnit.skills[activeCapstoneUnit.skills.length - 1]?.lessons[0]?.id || '1.1');
+                  setActiveCapstoneUnit(null);
+                  startLesson(targetLesson);
                 }}
                 icon={<Icon name="player-play" size={16} fill="#fff" />}
               >
-                Start Final Challenge (+100 XP)
+                Start Capstone Challenge (+100 XP)
               </Button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

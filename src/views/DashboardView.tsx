@@ -7,8 +7,56 @@ import { Card } from '../components/common/Card';
 import { ProgressBar } from '../components/common/ProgressBar';
 import { progressionService } from '../services/progressionService';
 
+// Circular SVG Daily Goal Ring
+const DailyGoalRing: React.FC<{
+  earned: number;
+  target: number;
+  size?: number;
+}> = ({ earned, target, size = 110 }) => {
+  const strokeWidth = 10;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const percentage = Math.min(100, Math.round((earned / (target || 50)) * 100));
+  const offset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="var(--border-default)"
+          strokeWidth={strokeWidth}
+          fill="transparent"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke={percentage >= 100 ? 'var(--state-success)' : 'var(--brand-primary)'}
+          strokeWidth={strokeWidth}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          fill="transparent"
+          style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+        />
+      </svg>
+      <div style={{ position: 'absolute', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <span style={{ fontSize: '1.25rem', fontWeight: 900, fontFamily: 'var(--font-display)', color: 'var(--text-primary)', lineHeight: 1 }}>
+          {percentage}%
+        </span>
+        <span style={{ fontSize: '0.625rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>
+          GOAL
+        </span>
+      </div>
+    </div>
+  );
+};
+
 export const DashboardView: React.FC = () => {
-  const { userProfile, course, mistakes, navigateTo } = useApp();
+  const { userProgress, course, mistakes, navigateTo, startLesson } = useApp();
 
   // Dynamic greeting based on time of day
   const getGreeting = () => {
@@ -18,121 +66,395 @@ export const DashboardView: React.FC = () => {
     return 'Good evening';
   };
 
-  const nextLessonId = progressionService.getNextLesson(userProfile, course) || 'py_lesson_1';
+  const nextLessonId = progressionService.getNextLesson(userProgress, course) || '1.1';
   const unresolvedMistakes = mistakes.filter(m => !m.resolved);
   const primaryWeakness = unresolvedMistakes[0];
 
+  // Resolve current active unit, skill, and lesson details
+  let activeUnit = course.units[0];
+  let activeSkill = course.units[0]?.skills[0];
+  let activeLesson = activeSkill?.lessons[0];
+
+  for (const unit of course.units) {
+    for (const skill of unit.skills) {
+      const foundLesson = skill.lessons.find(l => l.id === nextLessonId);
+      if (foundLesson) {
+        activeUnit = unit;
+        activeSkill = skill;
+        activeLesson = foundLesson;
+        break;
+      }
+    }
+  }
+
+  // Calculate course completion stats
+  let totalLessonsCount = 0;
+  for (const unit of course.units) {
+    for (const skill of unit.skills) {
+      totalLessonsCount += skill.lessons.length;
+    }
+  }
+  const completedLessonsCount = userProgress.completedLessonIds.length;
+  const courseProgressPct = totalLessonsCount > 0 ? Math.round((completedLessonsCount / totalLessonsCount) * 100) : 0;
+
+  // Active unit progress
+  const unitLessons = activeUnit ? activeUnit.skills.flatMap(s => s.lessons) : [];
+  const completedUnitLessons = unitLessons.filter(l => userProgress.completedLessonIds.includes(l.id)).length;
+  const unitProgressPct = unitLessons.length > 0 ? Math.round((completedUnitLessons / unitLessons.length) * 100) : 0;
+
+  // Generate 30-Day Activity Heatmap Data
+  const heatmapDays = React.useMemo(() => {
+    const days: Array<{ date: string; dayNumber: number; xp: number; hasActivity: boolean; isToday: boolean }> = [];
+    const today = new Date();
+
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const match = userProgress.activityHistory?.find(a => a.date === dateStr);
+      const isToday = i === 0;
+
+      days.push({
+        date: dateStr,
+        dayNumber: d.getDate(),
+        xp: match?.xp || 0,
+        hasActivity: Boolean(match && match.xp > 0),
+        isToday
+      });
+    }
+    return days;
+  }, [userProgress.activityHistory]);
+
+  // Generate 7-Day Weekly Chart Data
+  const weeklyData = React.useMemo(() => {
+    const past7Days: Array<{ label: string; date: string; xp: number; isToday: boolean }> = [];
+    const today = new Date();
+
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const match = userProgress.activityHistory?.find(a => a.date === dateStr);
+      const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
+
+      past7Days.push({
+        label: dayName,
+        date: dateStr,
+        xp: match?.xp || 0,
+        isToday: i === 0
+      });
+    }
+    return past7Days;
+  }, [userProgress.activityHistory]);
+
+  const maxWeeklyXp = Math.max(100, ...weeklyData.map(d => d.xp));
+  const totalWeeklyXp = weeklyData.reduce((acc, curr) => acc + curr.xp, 0);
+
+  const dailyXpTarget = userProgress.dailyGoal?.xpTarget || userProgress.dailyGoalXp || 50;
+  const dailyXpEarned = userProgress.dailyGoal?.xpEarned || userProgress.dailyGoalEarnedXp || 0;
+
   return (
-    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
-      {/* Top Greeting & Daily Streak Banner */}
+    <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
+      
+      {/* Top Greeting & Quick Switcher */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '1.875rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', marginBottom: '4px' }}>
-            {getGreeting()}, {userProfile.name.split(' ')[0]} 👋
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem' }}>
-            You're on a <strong style={{ color: 'var(--text-primary)' }}>{userProfile.streak}-day streak</strong>. Keep your momentum by completing your daily goals.
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+            <h1 style={{ fontSize: '1.875rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: 0 }}>
+              {getGreeting()}, {userProgress.name.split(' ')[0]} 👋
+            </h1>
+            <Badge variant="brand" size="sm">Level {userProgress.level || 1}</Badge>
+          </div>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', margin: 0 }}>
+            You're on a <strong style={{ color: 'var(--text-primary)' }}>{userProgress.streak}-day streak</strong>. Keep your momentum high with your next targeted challenge.
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* View Toggle Pill */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Button
             variant="secondary"
             size="md"
-            onClick={() => navigateTo('/app/review')}
-            icon={<Icon name="history" size={16} />}
+            onClick={() => navigateTo('/app')}
+            icon={<Icon name="map" size={16} />}
           >
-            Mistake Bank {unresolvedMistakes.length > 0 && `(${unresolvedMistakes.length})`}
+            Learning Path
           </Button>
           <Button
-            variant="primary"
+            variant="secondary"
             size="md"
-            onClick={() => navigateTo(`/app/lesson/${nextLessonId}`)}
-            icon={<Icon name="player-play" size={15} fill="#fff" />}
+            onClick={() => navigateTo('/app/practice')}
+            icon={<Icon name="barbell" size={16} />}
           >
-            Continue Learning
+            Practice Arena
           </Button>
         </div>
       </div>
 
-      {/* Grid: Main Continue Card + Daily Goals */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '28px' }}>
-        {/* Continue Learning Primary Card */}
-        <Card variant="interactive" padding="lg" onClick={() => navigateTo(`/app/lesson/${nextLessonId}`)} style={{ borderLeft: '4px solid var(--brand-primary)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Badge variant="python"><Icon name="brand-python" size={14} style={{ marginRight: 4 }} /> Python Foundations</Badge>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Lesson 3 of 6</span>
+      {/* 1. DOMINANT "CONTINUE LEARNING" HERO CARD */}
+      <div
+        className="card-plate animate-slide-up"
+        style={{
+          padding: '28px 32px',
+          marginBottom: '28px',
+          backgroundColor: 'var(--bg-surface)',
+          borderRadius: 'var(--radius-xl)',
+          border: '1.5px solid var(--border-default)',
+          boxShadow: 'var(--tactile-card)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
+          <div style={{ flex: 1, minWidth: '280px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <Badge variant="brand" size="sm">
+                UNIT {activeUnit?.unitNumber || 1} • {activeUnit?.title || 'PYTHON FOUNDATIONS'}
+              </Badge>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>
+                {completedUnitLessons} of {unitLessons.length} lessons in unit
+              </span>
             </div>
-            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              Resume <Icon name="chevron-right" size={16} stroke={3} />
-            </span>
+
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.25 }}>
+              {activeSkill?.title}: {activeLesson?.title || 'Interactive Challenge'}
+            </h2>
+
+            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.55, maxWidth: '640px', marginBottom: '20px' }}>
+              {activeLesson?.description || 'Build solid muscle memory with immediate code evaluation, interactive test assertions, and diagnostic feedback.'}
+            </p>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                <Icon name="clock" size={16} style={{ color: 'var(--brand-primary)' }} />
+                <span>~{activeLesson?.estimatedMinutes || 4} min session</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                <Icon name="sparkles" size={16} style={{ color: 'var(--warning-text)' }} />
+                <span>+{activeLesson?.xpReward || 25} XP reward</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                <Icon name="terminal" size={16} style={{ color: 'var(--secondary-solid)' }} />
+                <span>Interactive Python runner</span>
+              </div>
+            </div>
+
+            {/* Inline Module Progress Bar */}
+            <div style={{ maxWidth: '420px', backgroundColor: 'var(--bg-app)', padding: '12px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem', fontWeight: 800 }}>
+                <span style={{ color: 'var(--text-secondary)' }}>Unit Progress</span>
+                <span style={{ color: 'var(--brand-primary)' }}>{unitProgressPct}% Completed</span>
+              </div>
+              <ProgressBar progress={unitProgressPct} height={8} />
+            </div>
           </div>
 
-          <h2 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '6px', color: 'var(--text-primary)' }}>
-            Comparison Operators (== vs =)
-          </h2>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '20px', lineHeight: 1.5 }}>
-            Learn how Python evaluates boolean equality expressions and avoid the classic single-equals assignment pitfall.
-          </p>
+          {/* Action Trigger Button */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => startLesson(nextLessonId)}
+              icon={<Icon name="player-play" size={18} fill="#fff" />}
+              iconPosition="left"
+              style={{ padding: '14px 28px', fontSize: '1.05rem', minWidth: '220px' }}
+            >
+              Resume Lesson (↵)
+            </Button>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px', fontWeight: 600 }}>
+              Press Enter or click to begin
+            </span>
+          </div>
+        </div>
+      </div>
 
-          <div style={{ backgroundColor: 'var(--bg-app)', padding: '12px', borderRadius: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Module Progress</span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--brand-primary)' }}>66%</span>
+      {/* 2. STATS ROW: DAILY GOAL RING + 30-DAY STREAK HEATMAP + WEEKLY XP */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '28px' }}>
+        
+        {/* A. Daily Goal Ring */}
+        <Card variant="default" padding="lg">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+            <div>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                Daily Learning Goal
+              </h3>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Session target for today
+              </span>
             </div>
-            <ProgressBar progress={66} height={10} />
+            <Badge variant={dailyXpEarned >= dailyXpTarget ? 'success' : 'brand'} size="sm">
+              {dailyXpEarned >= dailyXpTarget ? 'Goal Achieved' : 'In Progress'}
+            </Badge>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            <DailyGoalRing earned={dailyXpEarned} target={dailyXpTarget} size={110} />
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+              <div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  Daily XP Progress
+                </div>
+                <div style={{ fontSize: '1.15rem', fontWeight: 900, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                  {dailyXpEarned} <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>/ {dailyXpTarget} XP</span>
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  Lessons Target
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-secondary)' }}>
+                  {userProgress.dailyGoal?.lessonsCompleted || (dailyXpEarned > 0 ? 1 : 0)} / {userProgress.dailyGoal?.lessonsTarget || 2} Lessons
+                </div>
+              </div>
+            </div>
           </div>
         </Card>
 
-        {/* Daily Goals Summary */}
+        {/* B. Streak Calendar: 30-Day Activity Heatmap */}
         <Card variant="default" padding="lg">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700 }}>Today's Goals</h3>
-            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--brand-primary)', backgroundColor: 'var(--brand-light)', padding: '3px 8px', borderRadius: 'var(--radius-full)' }}>
-              1 / 2 Complete
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Icon name="flame" size={18} fill="#FDA4AF" style={{ color: 'var(--streak-color)' }} />
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                  {userProgress.streak} Day Streak
+                </h3>
+              </div>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Last 30 days activity heatmap
+              </span>
+            </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', backgroundColor: 'var(--bg-app)', padding: '2px 8px', borderRadius: '6px' }}>
+              Best: {Math.max(userProgress.streak, userProgress.bestStreak || userProgress.streak)}d
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', backgroundColor: 'var(--bg-app)', borderRadius: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Icon name="check" size={20} stroke={3} style={{ color: 'var(--brand-primary)' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>Complete 1 lesson</span>
-              </div>
-              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--brand-primary)', backgroundColor: 'var(--brand-light)', padding: '4px 8px', borderRadius: '8px' }}>Done (+100 XP)</span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', backgroundColor: 'var(--bg-app)', borderRadius: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '3px solid var(--border-default)' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>Complete 1 more lesson</span>
-              </div>
-              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>0 / 1</span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', backgroundColor: '#FEF2F2', borderRadius: '12px', border: '1px solid #FECACA' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Icon name="history" size={20} style={{ color: '#EF4444' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#991B1B' }}>Repair 1 mistake</span>
-              </div>
-              <button
-                onClick={() => navigateTo('/app/review')}
-                style={{ fontSize: '0.8rem', fontWeight: 800, color: '#EF4444', textDecoration: 'underline' }}
+          {/* 30-Day Heatmap Grid */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(10, 1fr)',
+              gap: '6px',
+              padding: '10px 0'
+            }}
+          >
+            {heatmapDays.map((day) => (
+              <div
+                key={day.date}
+                title={`${day.date}: ${day.hasActivity ? `${day.xp} XP earned` : 'No activity recorded'}${day.isToday ? ' (Today)' : ''}`}
+                style={{
+                  aspectRatio: '1',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: day.hasActivity
+                    ? 'var(--secondary-solid)'
+                    : day.isToday
+                    ? 'var(--brand-light)'
+                    : 'var(--bg-app)',
+                  border: day.isToday
+                    ? '1.5px solid var(--brand-primary)'
+                    : '1px solid var(--border-default)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.625rem',
+                  fontWeight: 800,
+                  color: day.hasActivity ? '#FFFFFF' : 'var(--text-muted)',
+                  cursor: 'default',
+                  transition: 'transform var(--transition-fast)'
+                }}
               >
-                Start Drill
-              </button>
+                {day.dayNumber}
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            <span>30 days ago</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--bg-app)', border: '1px solid var(--border-default)' }} />
+              <span>Rest</span>
+              <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--secondary-solid)', marginLeft: '6px' }} />
+              <span>Learned</span>
             </div>
+            <span>Today</span>
+          </div>
+        </Card>
+
+        {/* C. Weekly XP Chart */}
+        <Card variant="default" padding="lg">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+            <div>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                Weekly XP Rhythm
+              </h3>
+              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                {totalWeeklyXp} XP earned this week
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#16A34A', fontWeight: 800, backgroundColor: 'var(--state-success-subtle)', padding: '2px 8px', borderRadius: '6px' }}>
+              <Icon name="trending-up" size={14} stroke={2.5} />
+              <span>Active</span>
+            </div>
+          </div>
+
+          {/* 7-Day Bar Chart */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              height: '95px',
+              padding: '0 4px',
+              borderBottom: '1px solid var(--border-default)',
+              marginBottom: '10px'
+            }}
+          >
+            {weeklyData.map((d) => {
+              const heightPct = Math.min(100, Math.max(14, (d.xp / maxWeeklyXp) * 100));
+
+              return (
+                <div key={d.date} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', flex: 1 }}>
+                  <span style={{ fontSize: '0.58rem', fontWeight: 800, color: d.xp > 0 ? 'var(--brand-primary)' : 'transparent' }}>
+                    {d.xp}
+                  </span>
+                  <div
+                    style={{
+                      width: '20px',
+                      height: `${heightPct}%`,
+                      backgroundColor: d.isToday
+                        ? 'var(--brand-primary)'
+                        : d.xp > 0
+                        ? 'var(--secondary-solid)'
+                        : 'var(--bg-app)',
+                      borderRadius: '4px 4px 0 0',
+                      border: d.xp === 0 ? '1px dashed var(--border-default)' : 'none',
+                      transition: 'height 400ms ease'
+                    }}
+                    title={`${d.label} (${d.date}): ${d.xp} XP`}
+                  />
+                  <span style={{ fontSize: '0.68rem', fontWeight: d.isToday ? 800 : 600, color: d.isToday ? 'var(--brand-primary)' : 'var(--text-secondary)' }}>
+                    {d.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+            <span>Weekly Total:</span>
+            <strong style={{ color: 'var(--text-primary)' }}>{totalWeeklyXp} XP</strong>
           </div>
         </Card>
       </div>
 
-      {/* Needs Attention / Adaptive Mistake Alert */}
+      {/* 3. OPTIONAL MISTAKE BANK ALERT (If any unresolved mistakes exist) */}
       {primaryWeakness && (
         <div
           style={{
-            backgroundColor: '#FFFBEB',
-            border: '1px solid #FDE68A',
+            backgroundColor: 'var(--warning-bg)',
+            border: '1.5px solid var(--warning-border)',
             borderRadius: 'var(--radius-lg)',
             padding: '18px 22px',
             marginBottom: '28px',
@@ -147,33 +469,33 @@ export const DashboardView: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', maxWidth: '640px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '8px',
-                backgroundColor: '#FEF3C7',
+                width: '38px',
+                height: '38px',
+                borderRadius: '10px',
+                backgroundColor: 'var(--warning-border)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#D97706',
+                color: '#FFFFFF',
                 flexShrink: 0
               }}
             >
-              <Icon name="alert-triangle" size={20} />
+              <Icon name="history" size={20} stroke={2.5} />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#B45309', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Needs Attention • Mistake Bank
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--warning-text)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Mistake Bank • Adaptive Review Needed
                 </span>
-                <span style={{ fontSize: '0.75rem', backgroundColor: '#FEE2E2', color: '#991B1B', fontWeight: 800, padding: '2px 8px', borderRadius: '6px' }}>
+                <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--error-bg)', color: 'var(--error-solid)', fontWeight: 800, padding: '2px 8px', borderRadius: '6px', border: '1px solid var(--error-border)' }}>
                   Failed {primaryWeakness.frequency}x
                 </span>
               </div>
-              <h4 style={{ fontSize: '0.98rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '3px' }}>
+              <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 3px' }}>
                 {primaryWeakness.conceptName}: {primaryWeakness.explanation}
               </h4>
-              <p style={{ fontSize: '0.84rem', color: '#78350F', margin: 0 }}>
-                You recently confused assignment (<code style={{ background: '#FEF3C7', padding: '1px 4px' }}>=</code>) with equality (<code style={{ background: '#FEF3C7', padding: '1px 4px' }}>==</code>). Complete a 2-minute diagnostic repair drill to solidify mastery.
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.45 }}>
+                Strengthen mental models and clarify misconceptions before taking the unit capstone synthesis challenge.
               </p>
             </div>
           </div>
@@ -182,103 +504,48 @@ export const DashboardView: React.FC = () => {
             variant="secondary"
             size="md"
             onClick={() => navigateTo('/app/review')}
-            icon={<Icon name="history" size={15} />}
+            icon={<Icon name="player-play" size={15} />}
           >
             Start Repair Drill
           </Button>
         </div>
       )}
 
-      {/* Skills Matrix & Learning Activity Breakdown */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
-        {/* Skill Mastery Breakdown */}
-        <Card variant="default" padding="lg">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800 }}>Skill Mastery Matrix</h3>
-            <button
-              onClick={() => navigateTo('/app/progress')}
-              style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--brand-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}
+      {/* 4. COURSE CURRICULUM OVERVIEW */}
+      <Card variant="default" padding="lg">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+          <div>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+              Python Track Curriculum Summary
+            </h3>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              {course.units.length} total units • {totalLessonsCount} interactive lessons
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)' }}>
+                {courseProgressPct}% Completed
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                {completedLessonsCount} of {totalLessonsCount} lessons
+              </div>
+            </div>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigateTo('/app')}
+              icon={<Icon name="map" size={15} />}
             >
-              Full Analytics <Icon name="arrow-up-right" size={16} stroke={3} />
-            </button>
+              Open Full Map
+            </Button>
           </div>
+        </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ padding: '8px 12px', backgroundColor: 'var(--bg-app)', borderRadius: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem' }}>
-                <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Python Syntax & Output</span>
-                <span style={{ fontWeight: 800, color: '#10B981' }}>90%</span>
-              </div>
-              <ProgressBar progress={90} color="#10B981" height={8} />
-            </div>
+        <ProgressBar progress={courseProgressPct} height={10} />
+      </Card>
 
-            <div style={{ padding: '8px 12px', backgroundColor: 'var(--bg-app)', borderRadius: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem' }}>
-                <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Variables & Data Types</span>
-                <span style={{ fontWeight: 800, color: '#10B981' }}>85%</span>
-              </div>
-              <ProgressBar progress={85} color="#10B981" height={8} />
-            </div>
-
-            <div style={{ padding: '8px 12px', backgroundColor: '#FFFBEB', borderRadius: '12px', border: '1px solid #FDE68A' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem' }}>
-                <span style={{ fontWeight: 700, color: '#92400E' }}>Comparison Operators</span>
-                <span style={{ fontWeight: 800, color: '#F59E0B' }}>60% (Review)</span>
-              </div>
-              <ProgressBar progress={60} color="#F59E0B" height={8} />
-            </div>
-
-            <div style={{ padding: '8px 12px', backgroundColor: 'var(--bg-app)', borderRadius: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem' }}>
-                <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Control Flow (if / else)</span>
-                <span style={{ fontWeight: 800, color: '#3B82F6' }}>70%</span>
-              </div>
-              <ProgressBar progress={70} color="#3B82F6" height={8} />
-            </div>
-          </div>
-        </Card>
-
-        {/* Weekly Activity Heatmap */}
-        <Card variant="default" padding="lg">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800 }}>Weekly Learning Rhythm</h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem', color: '#16A34A', fontWeight: 800, backgroundColor: '#DCFCE7', padding: '4px 8px', borderRadius: '8px' }}>
-              <Icon name="trending-up" size={16} stroke={3} />
-              <span>+34% this week</span>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '110px', padding: '0 8px 10px', borderBottom: '1px solid var(--border-subtle)', marginBottom: '14px' }}>
-            {userProfile.activityHistory.map((item) => {
-              const dayName = new Date(item.date).toLocaleDateString('en-US', { weekday: 'narrow' });
-              const heightPct = Math.min(100, Math.max(25, (item.xp / 350) * 100));
-
-              return (
-                <div key={item.date} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1 }}>
-                  <div
-                    style={{
-                      width: '26px',
-                      height: `${heightPct}%`,
-                      backgroundColor: item.lessonsCount > 0 ? 'var(--brand-primary)' : 'var(--border-default)',
-                      borderRadius: '4px 4px 0 0',
-                      transition: 'height 300ms ease'
-                    }}
-                    title={`${item.date}: ${item.xp} XP (${item.lessonsCount} lessons)`}
-                  />
-                  <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                    {dayName}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-            <span>Weekly Target: 7/7 days</span>
-            <strong style={{ color: 'var(--brand-text)' }}>Active Streak: {userProfile.streak} days 🔥</strong>
-          </div>
-        </Card>
-      </div>
     </div>
   );
 };

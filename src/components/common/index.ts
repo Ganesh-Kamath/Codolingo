@@ -12,3 +12,4 @@ export * from './ProgressBar';
 export * from './StreakIndicator';
 export * from './XPIndicator';
 export * from './SortableCodeList';
+export * from './CommandPalette';

@@ -11,6 +11,8 @@ export const BottomNav: React.FC = () => {
   const currentTab =
     (rawTab === '/app' || rawTab === '/app/learn')
       ? '/app'
+      : rawTab === '/app/dashboard'
+      ? '/app/dashboard'
       : rawTab.startsWith('/app/practice') || rawTab.startsWith('/app/projects')
       ? '/app/practice'
       : rawTab.startsWith('/app/review')
@@ -20,11 +22,12 @@ export const BottomNav: React.FC = () => {
       : '/app';
 
   const items = [
-    { id: '/app', label: 'Learn', iconName: 'book' },
+    { id: '/app', label: 'Path', iconName: 'map' },
+    { id: '/app/dashboard', label: 'Stats', iconName: 'layout-dashboard' },
     { id: '/app/practice', label: 'Practice', iconName: 'barbell' },
     {
       id: '/app/review',
-      label: 'Mistake Bank',
+      label: 'Mistakes',
       iconName: 'history',
       badge: unresolvedMistakesCount > 0 ? unresolvedMistakesCount : undefined
     },
