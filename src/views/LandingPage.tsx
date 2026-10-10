@@ -3,116 +3,236 @@ import { useApp } from '../context/AppContext';
 import { Icon } from '../components/ui/Icon';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
+import { IconButton } from '../components/common/IconButton';
+
+interface CodeSnippetSample {
+  id: string;
+  filename: string;
+  code: string;
+  expectedOutput: string;
+}
+
+const SNIPPET_SAMPLES: CodeSnippetSample[] = [
+  {
+    id: 'variables',
+    filename: 'player_stats.py',
+    code: `# Dynamic Variable & String Interpolation\ncharacter_name = "Aria"\nlevel = 42\nxp = 9850\nskills = ["Python", "Algorithms", "Clean Code"]\n\nprint(f"Hero: {character_name} (Level {level})")\nprint(f"Mastered: {', '.join(skills)}")\nprint(f"Next Rank in: {10000 - xp} XP")`,
+    expectedOutput: `Hero: Aria (Level 42)\nMastered: Python, Algorithms, Clean Code\nNext Rank in: 150 XP\n\n>>> Program executed successfully (0.012s)`
+  },
+  {
+    id: 'comprehension',
+    filename: 'data_filter.py',
+    code: `# List Comprehensions & Transformation\nraw_scores = [88, 92, 59, 100, 74, 95, 61]\n\n# Filter honor roll scores (>= 85)\nhonor_roll = [score for score in raw_scores if score >= 85]\naverage_top = sum(honor_roll) / len(honor_roll)\n\nprint("Honor Roll Scores:", sorted(honor_roll, reverse=True))\nprint(f"Class Top Average: {average_top:.2f}")`,
+    expectedOutput: `Honor Roll Scores: [100, 95, 92, 88]\nClass Top Average: 93.75\n\n>>> Program executed successfully (0.015s)`
+  },
+  {
+    id: 'oop',
+    filename: 'inventory_engine.py',
+    code: `# Object-Oriented Domain Model\nclass CodeQuest:\n    def __init__(self, title, reward_xp):\n        self.title = title\n        self.reward_xp = reward_xp\n        self.completed = False\n\n    def finish(self):\n        self.completed = True\n        return f"Completed '{self.title}'! +{self.reward_xp} XP"\n\nquest = CodeQuest("Build Binary Tree", 150)\nprint(quest.finish())`,
+    expectedOutput: `Completed 'Build Binary Tree'! +150 XP\n\n>>> Program executed successfully (0.018s)`
+  }
+];
 
 export const LandingPage: React.FC = () => {
-  const { navigateTo, soundEnabled, toggleSound } = useApp();
-  const [snippetCode, setSnippetCode] = useState<string>(
-    '# Try Python right here in the browser:\nuser_role = "developer"\nis_ready = user_role == "developer"\n\nif is_ready:\n    print("Welcome to Codolingo. Start writing real code.")\n'
-  );
-  const [miniOutput, setMiniOutput] = useState<string>('');
-  const [hasRun, setHasRun] = useState<boolean>(false);
+  const { navigateTo, theme, toggleTheme } = useApp();
+  const [activeSnippetIndex, setActiveSnippetIndex] = useState<number>(0);
+  const [editorCode, setEditorCode] = useState<string>(SNIPPET_SAMPLES[0].code);
+  const [terminalOutput, setTerminalOutput] = useState<string>('');
+  const [isRunning, setIsRunning] = useState<boolean>(false);
 
-  const runMiniSnippet = () => {
-    setHasRun(true);
-    setMiniOutput('Welcome to Codolingo. Start writing real code.\n>>> Program finished (0.02s)');
+  const handleSelectSnippet = (index: number) => {
+    setActiveSnippetIndex(index);
+    setEditorCode(SNIPPET_SAMPLES[index].code);
+    setTerminalOutput('');
+  };
+
+  const handleRunCode = () => {
+    setIsRunning(true);
+    setTimeout(() => {
+      setTerminalOutput(SNIPPET_SAMPLES[activeSnippetIndex].expectedOutput);
+      setIsRunning(false);
+    }, 280);
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#FFFFFF', color: 'var(--text-primary)' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: 'var(--bg-app)',
+        color: 'var(--text-primary)',
+        transition: 'background-color var(--transition-base), color var(--transition-base)'
+      }}
+    >
       {/* Top Navbar */}
       <nav
         style={{
-          borderBottom: '1px solid var(--border-default)',
+          borderBottom: '1.5px solid var(--border-default)',
           position: 'sticky',
           top: 0,
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(8px)',
-          zIndex: 50
+          backgroundColor: 'var(--bg-surface)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 50,
+          boxShadow: 'var(--shadow-xs)',
+          transition: 'background-color var(--transition-base), border-color var(--transition-base)'
         }}
       >
         <div
           style={{
-            maxWidth: '1200px',
+            maxWidth: '1240px',
             margin: '0 auto',
-            padding: '16px 24px',
+            padding: '12px 24px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => navigateTo('/')}>
+          {/* Logo & Brand */}
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
+            onClick={() => navigateTo('/app')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter') navigateTo('/app'); }}
+            aria-label="Codolingo Home"
+          >
             <div
               style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '8px',
+                width: '38px',
+                height: '38px',
+                borderRadius: 'var(--radius-md)',
                 backgroundColor: 'var(--brand-primary)',
+                border: '1.5px solid var(--brand-bevel)',
+                boxShadow: 'var(--tactile-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#FFFFFF',
-                boxShadow: '0 2px 4px rgba(16, 185, 129, 0.25)'
+                color: '#FFFFFF'
               }}
             >
-              <Icon name="code" size={24} stroke={2.5} />
+              <Icon name="code" size={22} stroke={2.5} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.025em' }}>Codolingo</span>
-              <Badge variant="brand" size="sm">Adaptive Platform</Badge>
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 800,
+                  fontSize: 'var(--text-xl)',
+                  letterSpacing: '-0.025em',
+                  color: 'var(--text-primary)'
+                }}
+              >
+                Codolingo
+              </span>
+              <Badge variant="brand" size="sm">PYTHON ODYSSEY</Badge>
             </div>
           </div>
 
+          {/* Nav Links & Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <button
-              onClick={() => navigateTo('/app/learn')}
-              style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}
-              className="desktop-only"
+              onClick={() => navigateTo('/app')}
+              style={{
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                color: 'var(--text-secondary)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              className="desktop-only nav-hover-item"
             >
-              Curriculum
+              Curriculum (43 Units)
+            </button>
+            <button
+              onClick={() => navigateTo('/app/practice')}
+              style={{
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                color: 'var(--text-secondary)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              className="desktop-only nav-hover-item"
+            >
+              Practice Arena
             </button>
             <button
               onClick={() => navigateTo('/app/review')}
-              style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)' }}
-              className="desktop-only"
+              style={{
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                color: 'var(--text-secondary)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              className="desktop-only nav-hover-item"
             >
               Mistake Bank
             </button>
-            <Button variant="primary" size="md" onClick={() => navigateTo('/onboarding')} icon={<Icon name="arrow-right" size={16} stroke={3} />} iconPosition="right">
-              Get Started
+
+            {/* Theme Toggle */}
+            <IconButton
+              name={theme === 'dark' ? 'sun' : 'moon'}
+              label="Toggle Theme"
+              variant="subtle"
+              size="sm"
+              onClick={toggleTheme}
+            />
+
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => navigateTo('/app')}
+              icon={<Icon name="arrow-right" size={16} stroke={3} />}
+              iconPosition="right"
+            >
+              Launch App
             </Button>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section style={{ padding: '72px 24px 48px', maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
+      <section
+        style={{
+          padding: '64px 24px 48px',
+          maxWidth: '1240px',
+          margin: '0 auto',
+          textAlign: 'center'
+        }}
+      >
         <div style={{ display: 'inline-flex', marginBottom: '20px' }}>
           <div
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '6px 14px',
+              padding: '6px 16px',
               backgroundColor: 'var(--brand-light)',
-              border: '1px solid var(--brand-border)',
+              border: '1.5px solid var(--brand-border)',
               borderRadius: 'var(--radius-full)',
-              color: 'var(--brand-text)',
-              fontSize: '0.8125rem',
-              fontWeight: 600
+              color: 'var(--brand-primary)',
+              fontSize: 'var(--text-xs)',
+              fontWeight: 800,
+              letterSpacing: '0.02em',
+              boxShadow: 'var(--shadow-xs)'
             }}
           >
-            <Icon name="sparkles" size={16} style={{ color: 'var(--brand-primary)' }} />
-            <span>Duolingo-level habit formation. Professional engineering depth.</span>
+            <Icon name="sparkles" size={15} fill="var(--brand-primary)" />
+            <span>DUOLINGO DELIGHT • REAL IDE PRECISION • LOCAL-FIRST SPEED</span>
           </div>
         </div>
 
         <h1
           style={{
-            fontSize: 'clamp(2.4rem, 5vw, 3.75rem)',
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
             fontWeight: 800,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.15,
-            maxWidth: '900px',
+            letterSpacing: '-0.035em',
+            lineHeight: 1.12,
+            maxWidth: '960px',
             margin: '0 auto 20px',
             color: 'var(--text-primary)'
           }}
@@ -122,32 +242,52 @@ export const LandingPage: React.FC = () => {
 
         <p
           style={{
-            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
             color: 'var(--text-secondary)',
-            maxWidth: '680px',
+            maxWidth: '720px',
             margin: '0 auto 36px',
             lineHeight: 1.6
           }}
         >
-          Learn syntax, write code in a real Monaco editor, get intelligent diagnostics on every mistake, and repair conceptual gaps through adaptive drills.
+          Learn syntax in atomic micro-lessons, write Python directly in an embedded Monaco editor, run unit tests in WebAssembly, and permanently repair your mistakes with AST-driven diagnostics.
         </p>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '48px' }}>
-          <Button variant="primary" size="lg" onClick={() => navigateTo('/onboarding')} icon={<Icon name="player-play" size={20} fill="#fff" />}>
-            Start Learning
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '14px',
+            flexWrap: 'wrap',
+            marginBottom: '48px'
+          }}
+        >
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => navigateTo('/app')}
+            icon={<Icon name="player-play" size={20} fill="#fff" />}
+          >
+            Start Coding Free
           </Button>
-          <Button variant="secondary" size="lg" onClick={() => navigateTo('/app')}>
-            Skip to Dashboard
+
+          <Button
+            variant="secondary"
+            size="lg"
+            onClick={() => navigateTo('/app/practice')}
+            icon={<Icon name="barbell" size={20} />}
+          >
+            Open Practice Sandbox
           </Button>
         </div>
 
         {/* Live Interactive Hero Code Demo */}
         <div
           style={{
-            maxWidth: '820px',
+            maxWidth: '880px',
             margin: '0 auto',
             borderRadius: 'var(--radius-xl)',
-            border: '1px solid var(--border-default)',
+            border: '2px solid var(--border-default)',
             backgroundColor: '#1E1E1E',
             color: '#D4D4D4',
             textAlign: 'left',
@@ -155,30 +295,60 @@ export const LandingPage: React.FC = () => {
             overflow: 'hidden'
           }}
         >
-          {/* Editor Header Bar */}
+          {/* Editor Header Bar with Snippet Tabs */}
           <div
             style={{
-              padding: '12px 18px',
-              backgroundColor: '#181818',
+              padding: '10px 16px',
+              backgroundColor: '#141414',
               borderBottom: '1px solid #2D2D2D',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '12px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F59E0B' }} />
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10B981' }} />
-              <span style={{ fontSize: '0.8125rem', color: '#888888', marginLeft: '10px', fontFamily: 'var(--font-mono)' }}>
-                interactive_sandbox.py
-              </span>
+            {/* Window Dots & Tab Switchers */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                <div style={{ width: '11px', height: '11px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
+                <div style={{ width: '11px', height: '11px', borderRadius: '50%', backgroundColor: '#F59E0B' }} />
+                <div style={{ width: '11px', height: '11px', borderRadius: '50%', backgroundColor: '#10B981' }} />
+              </div>
+
+              <div style={{ display: 'flex', gap: '6px' }}>
+                {SNIPPET_SAMPLES.map((snippet, idx) => (
+                  <button
+                    key={snippet.id}
+                    onClick={() => handleSelectSnippet(idx)}
+                    style={{
+                      backgroundColor: activeSnippetIndex === idx ? '#252526' : 'transparent',
+                      color: activeSnippetIndex === idx ? '#FFFFFF' : '#888888',
+                      border: '1px solid',
+                      borderColor: activeSnippetIndex === idx ? '#3E3E42' : 'transparent',
+                      borderRadius: '6px',
+                      padding: '4px 10px',
+                      fontSize: '0.78rem',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Icon name="file-code" size={13} style={{ color: activeSnippetIndex === idx ? '#4ADE80' : '#888' }} />
+                    <span>{snippet.filename}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <Button
               variant="success"
               size="sm"
-              onClick={runMiniSnippet}
+              isLoading={isRunning}
+              onClick={handleRunCode}
               icon={<Icon name="player-play" size={14} fill="#fff" />}
             >
               Run Code
@@ -188,31 +358,32 @@ export const LandingPage: React.FC = () => {
           {/* Interactive Editable Code Textarea */}
           <div style={{ padding: '16px 20px', position: 'relative' }}>
             <textarea
-              value={snippetCode}
-              onChange={(e) => setSnippetCode(e.target.value)}
+              value={editorCode}
+              onChange={(e) => setEditorCode(e.target.value)}
               style={{
                 width: '100%',
-                height: '110px',
+                height: '140px',
                 backgroundColor: 'transparent',
                 color: '#9CDCFE',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.9rem',
+                fontSize: '0.88rem',
                 lineHeight: 1.5,
                 border: 'none',
                 outline: 'none',
                 resize: 'none'
               }}
               spellCheck={false}
+              aria-label="Interactive Python code preview"
             />
 
-            {/* Output terminal below code */}
-            {hasRun && (
+            {/* Output terminal */}
+            {terminalOutput ? (
               <div
                 style={{
                   marginTop: '12px',
                   padding: '12px 16px',
                   backgroundColor: '#0F0F0F',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-md)',
                   border: '1px solid #2A2A2A',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.84rem',
@@ -220,90 +391,364 @@ export const LandingPage: React.FC = () => {
                 }}
                 className="animate-fade-in"
               >
-                <div style={{ color: '#888', fontSize: '0.75rem', marginBottom: '4px' }}>TERMINAL STDOUT:</div>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{miniOutput}</pre>
+                <div style={{ color: '#888888', fontSize: '0.72rem', fontWeight: 700, marginBottom: '6px', letterSpacing: '0.04em' }}>
+                  TERMINAL STDOUT:
+                </div>
+                <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{terminalOutput}</pre>
+              </div>
+            ) : (
+              <div
+                style={{
+                  marginTop: '8px',
+                  padding: '8px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  fontSize: '0.75rem',
+                  color: '#888',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <Icon name="terminal-2" size={14} />
+                <span>Click &quot;Run Code&quot; above to execute in the browser terminal</span>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* The 8-Step Core Learning Loop */}
-      <section style={{ padding: '64px 24px', backgroundColor: 'var(--bg-app)', borderTop: '1px solid var(--border-default)', borderBottom: '1px solid var(--border-default)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
-          <Badge variant="brand" size="md">Adaptive Learning Cycle</Badge>
-          <h2 style={{ fontSize: '2rem', fontWeight: 800, marginTop: '12px', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-            Built around the scientific mastery loop
+      {/* The 4-Step Mastery Cycle */}
+      <section
+        style={{
+          padding: '72px 24px',
+          backgroundColor: 'var(--bg-surface)',
+          borderTop: '1.5px solid var(--border-default)',
+          borderBottom: '1.5px solid var(--border-default)'
+        }}
+      >
+        <div style={{ maxWidth: '1180px', margin: '0 auto', textAlign: 'center' }}>
+          <Badge variant="brand" size="md">THE DELIBERATE METHOD</Badge>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'var(--text-3xl)',
+              fontWeight: 800,
+              letterSpacing: '-0.025em',
+              marginTop: '14px',
+              marginBottom: '16px',
+              color: 'var(--text-primary)'
+            }}
+          >
+            How Codolingo builds permanent engineering muscle
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto 40px' }}>
-            Most platforms either bore you with 30-minute videos or test you on multiple-choice trivia. Codolingo enforces real development muscle memory.
+          <p
+            style={{
+              color: 'var(--text-secondary)',
+              fontSize: 'var(--text-base)',
+              maxWidth: '680px',
+              margin: '0 auto 48px',
+              lineHeight: 1.6
+            }}
+          >
+            Most coding sites test trivia or make you watch passive video lectures. Codolingo is built from cognitive science: small concepts, immediate synthesis, rapid failure, and targeted repair.
           </p>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '16px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gap: '20px',
               textAlign: 'left'
             }}
           >
             {[
-              { step: '01', title: 'Learn', desc: 'Atomic concepts distilled into punchy, clear mental models.', icon: 'book' },
-              { step: '02', title: 'Write Real Code', desc: 'Full Monaco editor with syntax highlighting, autocomplete, and shortcuts.', icon: 'terminal-2' },
-              { step: '03', title: 'Make Mistakes', desc: 'Failure is celebrated. Code is run against automated unit test suites.', icon: 'history' },
-              { step: '04', title: 'Understand & Repair', desc: 'Intelligent diagnostics pinpoint exactly why `=` failed instead of `==`.', icon: 'bolt' }
+              {
+                step: 'STEP 01',
+                title: 'Bite-Sized Concepts',
+                desc: 'Atomic mental models with crystal-clear syntax explanations and zero fluffy preamble.',
+                icon: 'book',
+                badgeColor: 'var(--brand-primary)'
+              },
+              {
+                step: 'STEP 02',
+                title: 'Monaco IDE Synthesis',
+                desc: 'Write real Python in a professional editor with syntax highlighting, autocomplete, and keyboard shortcuts.',
+                icon: 'terminal-2',
+                badgeColor: 'var(--info-text)'
+              },
+              {
+                step: 'STEP 03',
+                title: 'Automated Test Suites',
+                desc: 'Code is evaluated instantly by Pyodide against rigorous hidden unit tests with live stdout/stderr streams.',
+                icon: 'cpu',
+                badgeColor: 'var(--warning-text)'
+              },
+              {
+                step: 'STEP 04',
+                title: 'Adaptive Mistake Bank',
+                desc: 'Failed runs are analyzed for misconceptions (like = vs ==) and converted into 2-minute repair drills.',
+                icon: 'history',
+                badgeColor: 'var(--error-solid)'
+              }
             ].map((card) => (
               <div
                 key={card.step}
                 style={{
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--bg-app)',
                   padding: '24px',
-                  borderRadius: 'var(--radius-lg)',
-                  border: '1px solid var(--border-default)',
-                  boxShadow: 'var(--shadow-xs)'
+                  borderRadius: 'var(--radius-xl)',
+                  border: '1.5px solid var(--border-default)',
+                  boxShadow: 'var(--shadow-xs)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>
-                    {card.step}
-                  </span>
-                  <Icon name={card.icon} size={24} stroke={2.5} style={{ color: 'var(--brand-primary)' }} />
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <span
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 800,
+                        fontFamily: 'var(--font-mono)',
+                        color: card.badgeColor,
+                        letterSpacing: '0.04em'
+                      }}
+                    >
+                      {card.step}
+                    </span>
+                    <div
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: 'var(--radius-md)',
+                        backgroundColor: 'var(--bg-surface)',
+                        border: '1px solid var(--border-default)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: card.badgeColor
+                      }}
+                    >
+                      <Icon name={card.icon} size={20} />
+                    </div>
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'var(--text-lg)',
+                      fontWeight: 800,
+                      marginBottom: '8px',
+                      color: 'var(--text-primary)'
+                    }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
+                    {card.desc}
+                  </p>
                 </div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '8px' }}>{card.title}</h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{card.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Curriculum Overview: 43 Units Across 8 Domains */}
+      <section style={{ padding: '80px 24px', maxWidth: '1180px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <Badge variant="brand" size="md">COMPREHENSIVE SYLLABUS</Badge>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'var(--text-3xl)',
+              fontWeight: 800,
+              letterSpacing: '-0.025em',
+              marginTop: '12px',
+              marginBottom: '14px',
+              color: 'var(--text-primary)'
+            }}
+          >
+            43 Units. 8 Mastery Domains. Zero Gaps.
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto' }}>
+            From your very first <code style={{ backgroundColor: 'var(--bg-surface)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--border-default)' }}>print()</code> statement to building production-grade algorithms and software applications.
+          </p>
+        </div>
+
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '18px'
+          }}
+        >
+          {[
+            {
+              domain: 'Domain 1',
+              title: 'Python Foundations & Expressions',
+              units: 'Units 1 – 6',
+              skills: ['Variables & Types', 'Math Operators', 'F-Strings', 'Boolean Logic'],
+              icon: 'flame'
+            },
+            {
+              domain: 'Domain 2',
+              title: 'Control Flow & Logic Branching',
+              units: 'Units 7 – 12',
+              skills: ['Conditionals (if/elif/else)', 'While Loops', 'For In Loops', 'Break & Continue'],
+              icon: 'compass'
+            },
+            {
+              domain: 'Domain 3',
+              title: 'Functions & Modular Code',
+              units: 'Units 13 – 18',
+              skills: ['Parameters & Returns', 'Scope & Namespaces', 'Default Args', 'Lambdas'],
+              icon: 'cpu'
+            },
+            {
+              domain: 'Domain 4',
+              title: 'Data Collections & Structures',
+              units: 'Units 19 – 25',
+              skills: ['Lists & Slicing', 'Dictionaries & Maps', 'Sets & Tuples', 'Comprehensions'],
+              icon: 'database'
+            },
+            {
+              domain: 'Domain 5',
+              title: 'Strings, Files & I/O Streams',
+              units: 'Units 26 – 31',
+              skills: ['String Parsing', 'File Reading & Writing', 'JSON Serializers', 'Exceptions'],
+              icon: 'file-text'
+            },
+            {
+              domain: 'Domain 6',
+              title: 'Object-Oriented Programming',
+              units: 'Units 32 – 37',
+              skills: ['Classes & __init__', 'Encapsulation', 'Inheritance', 'Magic Methods'],
+              icon: 'layers'
+            },
+            {
+              domain: 'Domain 7',
+              title: 'Algorithms & Problem Solving',
+              units: 'Units 38 – 41',
+              skills: ['Binary Search', 'Recursion Trees', 'Sorting & Big O', 'Stack/Queue Drills'],
+              icon: 'bolt'
+            },
+            {
+              domain: 'Domain 8',
+              title: 'Capstone Software Projects',
+              units: 'Units 42 – 43',
+              skills: ['Password Vault', 'Expense Tracker', 'REST Client', 'Text Adventure Engine'],
+              icon: 'trophy'
+            }
+          ].map((item) => (
+            <div
+              key={item.domain}
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                borderRadius: 'var(--radius-lg)',
+                border: '1.5px solid var(--border-default)',
+                padding: '20px 24px',
+                boxShadow: 'var(--shadow-xs)'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>
+                  {item.domain} • {item.units}
+                </span>
+                <Icon name={item.icon} size={18} style={{ color: 'var(--brand-primary)' }} />
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, marginBottom: '10px', color: 'var(--text-primary)' }}>
+                {item.title}
+              </h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {item.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    style={{
+                      fontSize: '0.72rem',
+                      fontWeight: 600,
+                      backgroundColor: 'var(--bg-app)',
+                      color: 'var(--text-secondary)',
+                      padding: '3px 8px',
+                      borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--border-default)'
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Differentiators: The Mistake Bank */}
-      <section style={{ padding: '80px 24px', maxWidth: '1100px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '48px', alignItems: 'center' }}>
+      <section
+        style={{
+          padding: '80px 24px',
+          backgroundColor: 'var(--bg-surface)',
+          borderTop: '1.5px solid var(--border-default)',
+          borderBottom: '1.5px solid var(--border-default)'
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1180px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '48px',
+            alignItems: 'center'
+          }}
+        >
           <div>
-            <Badge variant="warning" size="md">Key Differentiator</Badge>
-            <h2 style={{ fontSize: '2.2rem', fontWeight: 800, marginTop: '12px', marginBottom: '16px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-              The Mistake Bank: We don't just say "Incorrect."
+            <Badge variant="warning" size="md">OUR CORE SUPERPOWER</Badge>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-3xl)',
+                fontWeight: 800,
+                marginTop: '14px',
+                marginBottom: '16px',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.2,
+                color: 'var(--text-primary)'
+              }}
+            >
+              The Mistake Bank: We don&apos;t just say &quot;Incorrect.&quot;
             </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>
-              When a submission fails, Codolingo analyzes the AST and execution trace to pinpoint the conceptual mistake: confusing assignment with equality, variable casing, or unindented blocks.
+            <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-base)', lineHeight: 1.6, marginBottom: '20px' }}>
+              When a submission fails, Codolingo analyzes your AST structure and runtime stack trace to diagnose exactly what went wrong conceptually—confusing assignment with equality, scoping slip-ups, or unindented loops.
             </p>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9375rem' }}>
-                <Icon name="check" size={20} stroke={3} style={{ color: 'var(--brand-primary)' }} />
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', flexShrink: 0 }}>
+                  <Icon name="check" size={14} stroke={3} />
+                </div>
                 <span>Automatically stores failed attempts in your personal Mistake Bank</span>
               </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9375rem' }}>
-                <Icon name="check" size={20} stroke={3} style={{ color: 'var(--brand-primary)' }} />
-                <span>Generates 2-minute targeted "Repair Sessions" for weak concepts</span>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', flexShrink: 0 }}>
+                  <Icon name="check" size={14} stroke={3} />
+                </div>
+                <span>Generates 2-minute targeted &quot;Repair Drills&quot; for weak concepts</span>
               </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9375rem' }}>
-                <Icon name="check" size={20} stroke={3} style={{ color: 'var(--brand-primary)' }} />
-                <span>Tracks mastery recovery until the concept is permanently retained</span>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', flexShrink: 0 }}>
+                  <Icon name="check" size={14} stroke={3} />
+                </div>
+                <span>Reinforces until concepts achieve 100% cognitive retention</span>
               </li>
             </ul>
 
-            <Button variant="primary" size="md" onClick={() => navigateTo('/app/review')} icon={<Icon name="history" size={16} stroke={2.5} />}>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => navigateTo('/app/review')}
+              icon={<Icon name="history" size={16} stroke={2.5} />}
+            >
               Explore Mistake Bank
             </Button>
           </div>
@@ -311,57 +756,107 @@ export const LandingPage: React.FC = () => {
           {/* Interactive Diagnostic Card Mockup */}
           <div
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--bg-app)',
               borderRadius: 'var(--radius-xl)',
-              border: '1px solid var(--border-default)',
+              border: '1.5px solid var(--border-default)',
               padding: '24px',
-              boxShadow: 'var(--shadow-lg)'
+              boxShadow: 'var(--shadow-xl)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#DC2626' }}>
-                DIAGNOSTIC ADVISOR
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--error-solid)' }} />
+                <span style={{ fontSize: '0.8125rem', fontWeight: 800, color: 'var(--error-solid)', fontFamily: 'var(--font-mono)' }}>
+                  AST DIAGNOSTIC ENGINE
+                </span>
+              </div>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Attempt 2 of 3</span>
             </div>
 
             <div
               style={{
                 backgroundColor: 'var(--error-bg)',
-                border: '1px solid var(--error-border)',
+                border: '1.5px solid var(--error-border)',
                 borderRadius: 'var(--radius-md)',
-                padding: '14px',
+                padding: '16px',
                 marginBottom: '16px'
               }}
             >
-              <div style={{ fontWeight: 700, color: 'var(--error-text)', fontSize: '0.9rem', marginBottom: '4px' }}>
+              <div style={{ fontWeight: 800, color: 'var(--error-text)', fontSize: '0.92rem', marginBottom: '6px' }}>
                 Almost there! Assignment vs Equality Check
               </div>
-              <p style={{ fontSize: '0.84rem', color: '#7F1D1D', margin: 0, lineHeight: 1.4 }}>
-                In Python, a single <code style={{ backgroundColor: '#FEE2E2', padding: '1px 4px', borderRadius: '3px' }}>=</code> overwrites the variable. To evaluate equality, use the double equals operator <code style={{ backgroundColor: '#FEE2E2', padding: '1px 4px', borderRadius: '3px' }}>==</code>.
+              <p style={{ fontSize: '0.84rem', color: 'var(--error-text)', margin: 0, lineHeight: 1.5 }}>
+                In Python, a single <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 700 }}>=</code> operator sets a variable value. To evaluate boolean equality, use the double equals operator <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 700 }}>==</code>.
               </p>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-app)', padding: '12px 16px', borderRadius: 'var(--radius-md)', fontFamily: 'var(--font-mono)', fontSize: '0.84rem' }}>
-              <div style={{ color: '#DC2626' }}>- saved_role = user_role</div>
-              <div style={{ color: '#16A34A', fontWeight: 600 }}>+ saved_role == user_role</div>
+            <div
+              style={{
+                backgroundColor: '#1E1E1E',
+                color: '#F87171',
+                padding: '14px 16px',
+                borderRadius: 'var(--radius-md)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.84rem',
+                border: '1px solid #333'
+              }}
+            >
+              <div style={{ color: '#EF4444' }}>- if user_role = &quot;admin&quot;:</div>
+              <div style={{ color: '#4ADE80', fontWeight: 600 }}>+ if user_role == &quot;admin&quot;:</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer CTA */}
-      <footer style={{ backgroundColor: 'var(--bg-app)', borderTop: '1px solid var(--border-default)', padding: '48px 24px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '12px' }}>Ready to start learning?</h3>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', fontSize: '0.9375rem' }}>
-            Jump into the Python Foundations course and write your first real program in under 3 minutes.
+      <footer
+        style={{
+          backgroundColor: 'var(--bg-app)',
+          padding: '64px 24px 48px',
+          textAlign: 'center'
+        }}
+      >
+        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
+          <h3
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'var(--text-2xl)',
+              fontWeight: 800,
+              marginBottom: '14px',
+              color: 'var(--text-primary)'
+            }}
+          >
+            Ready to write real Python?
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '28px', fontSize: 'var(--text-base)', lineHeight: 1.6 }}>
+            No credit card, no sign-up friction. Runs 100% in your browser with offline WebAssembly.
           </p>
-          <Button variant="primary" size="lg" onClick={() => navigateTo('/onboarding')}>
-            Create Account
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => navigateTo('/app')}
+            icon={<Icon name="arrow-right" size={20} stroke={3} />}
+            iconPosition="right"
+          >
+            Start Learning Right Now
           </Button>
-          <div style={{ marginTop: '32px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            Codolingo © 2026. Built with modern engineering principles for millions of aspiring developers.
+
+          <div
+            style={{
+              marginTop: '40px',
+              fontSize: '0.8rem',
+              color: 'var(--text-muted)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px'
+            }}
+          >
+            <span>Codolingo © 2026</span>
+            <span>•</span>
+            <span>Local-First</span>
+            <span>•</span>
+            <span>Stitch DevRealm Odyssey</span>
           </div>
         </div>
       </footer>

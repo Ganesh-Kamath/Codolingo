@@ -1,16 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useApp } from './context/AppContext';
-import { LearningPath } from './components/path/LearningPath';
-import { DashboardView } from './views/DashboardView';
-import { MultiStepLessonView } from './views/MultiStepLessonView';
-import { PracticeView } from './views/PracticeView';
-import { MistakeReviewView } from './views/MistakeReviewView';
-import { ProfileView } from './views/ProfileView';
-import { OnboardingView } from './views/OnboardingView';
 import { Icon } from './components/ui/Icon';
-import { Button, IconButton, Badge, Tooltip, CommandPalette } from './components/common';
+import { Button, IconButton, Tooltip, CommandPalette, Skeleton } from './components/common';
 import { BottomNav } from './components/layout/BottomNav';
 import { progressionService } from './services/progressionService';
+
+// Route-Level Code Splitting (React.lazy)
+const LearningPath = React.lazy(() => import('./components/path/LearningPath').then(m => ({ default: m.LearningPath })));
+const DashboardView = React.lazy(() => import('./views/DashboardView').then(m => ({ default: m.DashboardView })));
+const MultiStepLessonView = React.lazy(() => import('./views/MultiStepLessonView').then(m => ({ default: m.MultiStepLessonView })));
+const PracticeView = React.lazy(() => import('./views/PracticeView').then(m => ({ default: m.PracticeView })));
+const MistakeReviewView = React.lazy(() => import('./views/MistakeReviewView').then(m => ({ default: m.MistakeReviewView })));
+const ProfileView = React.lazy(() => import('./views/ProfileView').then(m => ({ default: m.ProfileView })));
+const OnboardingView = React.lazy(() => import('./views/OnboardingView').then(m => ({ default: m.OnboardingView })));
+const LandingPage = React.lazy(() => import('./views/LandingPage').then(m => ({ default: m.LandingPage })));
+const NotFoundView = React.lazy(() => import('./views/NotFoundView').then(m => ({ default: m.NotFoundView })));
+
+const ViewLoadingFallback = () => (
+  <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'var(--space-8) var(--space-5)' }}>
+    <Skeleton height="44px" width="280px" radius="md" style={{ marginBottom: 'var(--space-6)' }} />
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-4)', marginBottom: 'var(--space-8)' }}>
+      <Skeleton height="110px" radius="lg" />
+      <Skeleton height="110px" radius="lg" />
+      <Skeleton height="110px" radius="lg" />
+      <Skeleton height="110px" radius="lg" />
+    </div>
+    <Skeleton height="320px" radius="xl" />
+  </div>
+);
 
 export const AppContent: React.FC = () => {
   const { 
@@ -27,6 +44,34 @@ export const AppContent: React.FC = () => {
 
   const [activeHudPopover, setActiveHudPopover] = useState<'streak' | 'xp' | 'energy' | 'avatar' | null>(null);
   const hudPopoverRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic Route Document Titles
+  useEffect(() => {
+    let title = 'Codolingo — Python Deliberate Learning';
+    if (currentRoute === '/' || currentRoute === '/landing') {
+      title = 'Codolingo — Duolingo Delight Meets Real IDE Precision';
+    } else if (currentRoute === '/app' || currentRoute === '/app/learn') {
+      title = 'Learning Path (43 Units) — Codolingo';
+    } else if (currentRoute === '/app/dashboard') {
+      title = 'Command Center & Stats — Codolingo';
+    } else if (currentRoute.startsWith('/app/practice')) {
+      title = 'Practice Arena & Sandboxes — Codolingo';
+    } else if (currentRoute.startsWith('/app/projects')) {
+      title = 'Engineering Projects — Codolingo';
+    } else if (currentRoute.startsWith('/app/review')) {
+      title = 'Mistake Bank & Diagnostics — Codolingo';
+    } else if (currentRoute.startsWith('/app/profile')) {
+      title = 'Developer Profile & Badges — Codolingo';
+    } else if (currentRoute.startsWith('/app/lesson/')) {
+      const id = currentRoute.replace('/app/lesson/', '');
+      title = `Lesson ${id} — Codolingo`;
+    } else if (currentRoute === '/onboarding') {
+      title = 'Welcome — Codolingo';
+    } else {
+      title = '404 Coordinate Not Found — Codolingo';
+    }
+    document.title = title;
+  }, [currentRoute]);
 
   // Close HUD popover on outside click or Escape
   useEffect(() => {
@@ -51,7 +96,25 @@ export const AppContent: React.FC = () => {
     };
   }, [activeHudPopover]);
 
-  // 1. If an active lesson is running, verify access and render full-screen interactive lesson runner
+  // 1. Landing Page route
+  if (currentRoute === '/' || currentRoute === '/landing') {
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <LandingPage />
+      </Suspense>
+    );
+  }
+
+  // 2. Onboarding route
+  if (currentRoute === '/onboarding') {
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <OnboardingView />
+      </Suspense>
+    );
+  }
+
+  // 3. Full-Screen Interactive Lesson Runner
   if (currentRoute.startsWith('/app/lesson/')) {
     const lessonId = currentRoute.replace('/app/lesson/', '');
     const isAvailable = progressionService.isLessonAvailable(lessonId, userProgress, course);
@@ -105,7 +168,7 @@ export const AppContent: React.FC = () => {
               fontSize: 'var(--text-base)'
             }}
           >
-            You have not unlocked this lesson yet. Complete the preceding lessons in your learning path to continue.
+            You have not unlocked this lesson yet. Complete preceding lessons in your learning path to continue.
           </p>
           <Button
             variant="primary"
@@ -117,15 +180,14 @@ export const AppContent: React.FC = () => {
         </div>
       );
     }
-    return <MultiStepLessonView lessonId={lessonId} />;
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <MultiStepLessonView lessonId={lessonId} />
+      </Suspense>
+    );
   }
 
-  // 1b. If onboarding route
-  if (currentRoute === '/onboarding') {
-    return <OnboardingView />;
-  }
-
-  // 2. Navigation items
+  // 4. Navigation tabs
   const navTabs = [
     { id: '/app', label: 'Path', iconName: 'map' },
     { id: '/app/dashboard', label: 'Dashboard', iconName: 'layout-dashboard' },
@@ -139,17 +201,26 @@ export const AppContent: React.FC = () => {
     { id: '/app/profile', label: 'Profile', iconName: 'user' }
   ];
 
-  const rawTab = currentRoute === '/' ? '/app' : currentRoute;
+  // Route matching
+  const isKnownRoute = 
+    currentRoute === '/app' || 
+    currentRoute === '/app/learn' || 
+    currentRoute === '/app/dashboard' || 
+    currentRoute.startsWith('/app/practice') || 
+    currentRoute.startsWith('/app/projects') || 
+    currentRoute.startsWith('/app/review') || 
+    currentRoute.startsWith('/app/profile');
+
   const currentTab = 
-    (rawTab === '/app' || rawTab === '/app/learn')
+    (currentRoute === '/app' || currentRoute === '/app/learn')
       ? '/app'
-      : rawTab === '/app/dashboard'
+      : currentRoute === '/app/dashboard'
       ? '/app/dashboard'
-      : rawTab.startsWith('/app/practice') || rawTab.startsWith('/app/projects')
+      : currentRoute.startsWith('/app/practice') || currentRoute.startsWith('/app/projects')
       ? '/app/practice'
-      : rawTab.startsWith('/app/review')
+      : currentRoute.startsWith('/app/review')
       ? '/app/review'
-      : rawTab.startsWith('/app/profile')
+      : currentRoute.startsWith('/app/profile')
       ? '/app/profile'
       : '/app';
 
@@ -336,7 +407,7 @@ export const AppContent: React.FC = () => {
 
           {/* Gamification HUD Pills & Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2.5)' }}>
-            {/* Streak Pill with Click Popover */}
+            {/* Streak Pill */}
             <Tooltip content={`${userProgress.streak} day streak (Click for stats)`}>
               <button
                 onClick={() => setActiveHudPopover(prev => prev === 'streak' ? null : 'streak')}
@@ -364,7 +435,7 @@ export const AppContent: React.FC = () => {
               </button>
             </Tooltip>
 
-            {/* XP Pill with Click Popover */}
+            {/* XP Pill */}
             <Tooltip content={`${userProgress.totalXp.toLocaleString()} Total XP (Click for details)`}>
               <button
                 onClick={() => setActiveHudPopover(prev => prev === 'xp' ? null : 'xp')}
@@ -392,7 +463,7 @@ export const AppContent: React.FC = () => {
               </button>
             </Tooltip>
 
-            {/* Shields Pill with Click Popover */}
+            {/* Shields Pill */}
             <Tooltip content="Practice Shields & Energy (Click for status)">
               <button
                 onClick={() => setActiveHudPopover(prev => prev === 'energy' ? null : 'energy')}
@@ -440,7 +511,7 @@ export const AppContent: React.FC = () => {
               onClick={toggleSound}
             />
 
-            {/* User Avatar with Tactile Frame & Menu */}
+            {/* User Avatar */}
             <Tooltip content="Account & Options">
               <div
                 onClick={() => setActiveHudPopover(prev => prev === 'avatar' ? null : 'avatar')}
@@ -595,10 +666,10 @@ export const AppContent: React.FC = () => {
                   <div style={{ backgroundColor: 'var(--bg-app)', padding: '10px 12px', borderRadius: 'var(--radius-md)', marginBottom: '14px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 800, marginBottom: '6px' }}>
                       <span style={{ color: 'var(--text-secondary)' }}>Daily Goal</span>
-                      <span style={{ color: 'var(--brand-primary)' }}>{userProgress.dailyGoalEarnedXp} / 50 XP</span>
+                      <span style={{ color: 'var(--brand-primary)' }}>{userProgress.dailyGoalEarnedXp} / {userProgress.dailyGoalXp || 50} XP</span>
                     </div>
                     <div style={{ height: '6px', borderRadius: '3px', backgroundColor: 'var(--border-default)', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${Math.min(100, (userProgress.dailyGoalEarnedXp / 50) * 100)}%`, backgroundColor: 'var(--brand-primary)' }} />
+                      <div style={{ height: '100%', width: `${Math.min(100, (userProgress.dailyGoalEarnedXp / (userProgress.dailyGoalXp || 50)) * 100)}%`, backgroundColor: 'var(--brand-primary)' }} />
                     </div>
                   </div>
 
@@ -719,6 +790,18 @@ export const AppContent: React.FC = () => {
                       <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={16} />
                       <span>{theme === 'dark' ? 'Light Theme' : 'Dark Theme'}</span>
                     </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveHudPopover(null);
+                        navigateTo('/landing');
+                      }}
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 10px', borderRadius: 'var(--radius-md)', border: 'none', background: 'none', color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
+                      className="nav-hover-item"
+                    >
+                      <Icon name="compass" size={16} />
+                      <span>About / Overview</span>
+                    </button>
                   </div>
                 </div>
               )}
@@ -727,13 +810,25 @@ export const AppContent: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Body */}
+      {/* Main Body with Suspense */}
       <main style={{ flex: 1, paddingBottom: '60px' }}>
-        {currentTab === '/app' && <LearningPath />}
-        {currentTab === '/app/dashboard' && <DashboardView />}
-        {currentTab === '/app/practice' && <PracticeView />}
-        {currentTab === '/app/review' && <MistakeReviewView />}
-        {currentTab === '/app/profile' && <ProfileView />}
+        <Suspense fallback={<ViewLoadingFallback />}>
+          {!isKnownRoute ? (
+            <NotFoundView />
+          ) : currentTab === '/app' ? (
+            <LearningPath />
+          ) : currentTab === '/app/dashboard' ? (
+            <DashboardView />
+          ) : currentTab === '/app/practice' ? (
+            <PracticeView />
+          ) : currentTab === '/app/review' ? (
+            <MistakeReviewView />
+          ) : currentTab === '/app/profile' ? (
+            <ProfileView />
+          ) : (
+            <LearningPath />
+          )}
+        </Suspense>
       </main>
 
       {/* Global Command Palette (Cmd/Ctrl+K) */}

@@ -13,3 +13,4 @@ export * from './StreakIndicator';
 export * from './XPIndicator';
 export * from './SortableCodeList';
 export * from './CommandPalette';
+export * from './ErrorBoundary';
