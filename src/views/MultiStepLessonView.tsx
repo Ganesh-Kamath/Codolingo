@@ -8,6 +8,7 @@ import { codeExecutionService } from '../services/codeExecutionService';
 import { sound } from '../utils/audio';
 import { Icon } from '../components/ui/Icon';
 import { Button, ProgressBar, Badge, Modal, IconButton, SortableCodeList } from '../components/common';
+import { formatMisconceptionTag } from '../utils/formatters';
 
 interface MultiStepLessonViewProps {
   lessonId: string;
@@ -1103,7 +1104,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               </div>
             )}
 
-            {/* Selectable Options with Stitch DevRealm Tactile 3D Extrusion */}
+            {/* Selectable Options */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {(currentBlock.options || []).map((opt, idx) => {
                 const isSelected = selectedOptionId === opt.id;
@@ -1259,20 +1260,19 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Icon name="tool" size={18} style={{ color: '#92400E' }} />
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: '#92400E' }}>
-                      CONCEPT REPAIR SESSION
+                      Concept review
                     </span>
                   </div>
                   {currentBlock.misconceptionTag && (
                     <span style={{
                       backgroundColor: '#FDE68A',
                       color: '#78350F',
-                      padding: '2px 10px',
+                      padding: '3px 10px',
                       borderRadius: '999px',
-                      fontSize: '0.72rem',
-                      fontFamily: 'var(--font-mono, monospace)',
-                      fontWeight: 700
+                      fontSize: '0.75rem',
+                      fontWeight: 600
                     }}>
-                      {currentBlock.misconceptionTag}
+                      {formatMisconceptionTag(currentBlock.misconceptionTag)}
                     </span>
                   )}
                 </div>
@@ -1746,8 +1746,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                     animation: 'spin 0.8s linear infinite'
                   }}
                 />
-                <span style={{ fontSize: '0.88rem', fontWeight: 700 }}>
-                  Warming up Python engine (Pyodide WebAssembly)...
+                <span style={{ fontSize: '0.88rem', fontWeight: 600 }}>
+                  Starting Python runtime...
                 </span>
               </div>
             )}
@@ -1929,7 +1929,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     }
   };
 
-  // Bottom Fixed Drawer with Stitch DevRealm Odyssey Tactile Actions
+  // Bottom fixed drawer with primary actions
   const renderFooter = () => {
     let footerBg = 'var(--bg-surface)';
     let borderColor = 'var(--border-default)';

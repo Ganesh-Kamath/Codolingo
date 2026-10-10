@@ -194,19 +194,19 @@ export const ProfileView: React.FC = () => {
                 </button>
               </div>
 
-              <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '14px', fontWeight: 600 }}>
-                @{userProfile.username} • Python Scholar & Engineer
+              <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '14px', fontWeight: 500 }}>
+                @{userProfile.username} • Python learner
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--bg-surface-subtle)', padding: '6px 14px', borderRadius: 'var(--radius-full)', border: '1.5px solid var(--border-default)', fontSize: '0.82rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--bg-surface-subtle)', padding: '5px 12px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-default)', fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
                   <Icon name="calendar" size={15} style={{ color: 'var(--text-muted)' }} /> Joined 2026
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#FFF1F2', color: '#E11D48', padding: '6px 14px', borderRadius: 'var(--radius-full)', border: '1.5px solid #FECDD3', boxShadow: '0 2px 0 #FECDD3', fontSize: '0.82rem', fontWeight: 800, fontFamily: 'var(--font-display)' }}>
-                  <Icon name="flame" size={15} fill="#FDA4AF" /> {userProfile.streak} Day Streak
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--bg-surface-subtle)', color: 'var(--text-primary)', padding: '5px 12px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-default)', fontSize: '0.82rem', fontWeight: 600 }}>
+                  <Icon name="flame" size={15} style={{ color: 'var(--streak-color)' }} /> <span className="tabular-nums">{userProfile.streak} day streak</span>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#FEF3C7', color: '#B45309', padding: '6px 14px', borderRadius: 'var(--radius-full)', border: '1.5px solid #FDE68A', boxShadow: '0 2px 0 #FDE68A', fontSize: '0.82rem', fontWeight: 800, fontFamily: 'var(--font-display)' }}>
-                  <Icon name="sparkles" size={15} fill="#FDE68A" /> {userProfile.totalXp.toLocaleString()} Total XP
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--bg-surface-subtle)', color: 'var(--text-primary)', padding: '5px 12px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-default)', fontSize: '0.82rem', fontWeight: 600 }}>
+                  <Icon name="sparkles" size={15} style={{ color: 'var(--warning-text)' }} /> <span className="tabular-nums">{userProfile.totalXp.toLocaleString()} XP</span>
                 </span>
               </div>
             </div>
@@ -217,9 +217,9 @@ export const ProfileView: React.FC = () => {
               variant="primary"
               size="md"
               icon={<Icon name="book" size={16} />}
-              onClick={() => navigateTo('/app/learn')}
+              onClick={() => navigateTo('/app')}
             >
-              Resume Journey
+              Resume lesson
             </Button>
           </div>
         </div>
@@ -270,14 +270,14 @@ export const ProfileView: React.FC = () => {
         </div>
 
         <div className="card-plate" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: 'var(--bg-surface)' }}>
-          <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: '#EFF6FF', border: '1.5px solid #BFDBFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563EB' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)' }}>
             <Icon name="shield-check" size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
-              Repaired Weaknesses
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+              Mistakes Reviewed
             </div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }} className="tabular-nums">
               {userProfile.mistakes.filter(m => m.resolved).length}
             </div>
           </div>
@@ -285,38 +285,38 @@ export const ProfileView: React.FC = () => {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', marginBottom: '32px' }}>
-        {/* 3. Daily Quest Goal */}
+        {/* 3. Daily Goal */}
         <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-            <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: '#EFF6FF', border: '1.5px solid #BFDBFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563EB', boxShadow: '0 2px 0 #BFDBFE' }}>
+            <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)' }}>
               <Icon name="target" size={20} />
             </div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-              Today's Quest Goal
+              Daily goal
             </h2>
           </div>
           
           <div style={{ marginBottom: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Daily Target Progress</span>
-              <span style={{ color: 'var(--brand-primary)' }}>{userProfile.dailyGoalEarnedXp} / {userProfile.dailyGoalXp} XP</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem', fontWeight: 600 }}>
+              <span style={{ color: 'var(--text-secondary)' }}>Today's progress</span>
+              <span style={{ color: 'var(--brand-primary)' }} className="tabular-nums">{userProfile.dailyGoalEarnedXp} / {userProfile.dailyGoalXp} XP</span>
             </div>
-            <ProgressBar progress={Math.min(100, (userProfile.dailyGoalEarnedXp / userProfile.dailyGoalXp) * 100)} height={12} />
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '10px', textAlign: 'center', fontWeight: 600 }}>
+            <ProgressBar progress={Math.min(100, (userProfile.dailyGoalEarnedXp / userProfile.dailyGoalXp) * 100)} height={10} />
+            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '10px', textAlign: 'center', fontWeight: 500 }}>
               {userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp > 0 
-                ? `${userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp} XP remaining to lock in today's streak shield.`
-                : "Daily goal achieved! Streak safe for today."}
+                ? `${userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp} XP remaining to reach today's goal.`
+                : "Daily goal achieved."}
             </div>
           </div>
 
           <Button
-            variant="primary"
+            variant="secondary"
             size="md"
             fullWidth
-            onClick={() => navigateTo('/app/learn')}
-            icon={<Icon name="player-play" size={16} fill="#fff" />}
+            onClick={() => navigateTo('/app')}
+            icon={<Icon name="player-play" size={16} />}
           >
-            Earn XP in Lessons
+            Continue learning
           </Button>
         </div>
 
@@ -464,8 +464,8 @@ export const ProfileView: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={20} style={{ color: 'var(--brand-primary)' }} />
               <div>
-                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Visual Theme</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Parchment Odyssey light mode or Midnight Obsidian dark mode</div>
+                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Theme</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Light or dark interface</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
@@ -474,29 +474,29 @@ export const ProfileView: React.FC = () => {
                   if (theme !== 'light') toggleTheme();
                 }}
                 style={{
-                  padding: '7px 14px',
+                  padding: '6px 14px',
                   borderRadius: 'var(--radius-full)',
-                  border: theme === 'light' ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                  border: theme === 'light' ? '1px solid var(--brand-primary)' : '1px solid var(--border-default)',
                   backgroundColor: theme === 'light' ? 'var(--brand-primary)' : 'var(--bg-surface)',
                   color: theme === 'light' ? '#FFFFFF' : 'var(--text-secondary)',
-                  fontWeight: 800,
+                  fontWeight: 600,
                   fontSize: '0.82rem',
                   cursor: 'pointer'
                 }}
               >
-                Parchment
+                Light
               </button>
               <button
                 onClick={() => {
                   if (theme !== 'dark') toggleTheme();
                 }}
                 style={{
-                  padding: '7px 14px',
+                  padding: '6px 14px',
                   borderRadius: 'var(--radius-full)',
-                  border: theme === 'dark' ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                  border: theme === 'dark' ? '1px solid var(--brand-primary)' : '1px solid var(--border-default)',
                   backgroundColor: theme === 'dark' ? 'var(--brand-primary)' : 'var(--bg-surface)',
                   color: theme === 'dark' ? '#FFFFFF' : 'var(--text-secondary)',
-                  fontWeight: 800,
+                  fontWeight: 600,
                   fontSize: '0.82rem',
                   cursor: 'pointer'
                 }}
@@ -511,34 +511,34 @@ export const ProfileView: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Icon name="player-pause" size={20} style={{ color: 'var(--brand-primary)' }} />
               <div>
-                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Reduced Motion</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Disables particle confetti, bouncy animations, and pulsing glow effects</div>
+                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Reduced motion</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Minimize animations and motion effects</div>
               </div>
             </div>
             <button
               onClick={toggleReducedMotion}
               style={{
-                padding: '7px 16px',
+                padding: '6px 16px',
                 borderRadius: 'var(--radius-full)',
-                border: reducedMotion ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                border: reducedMotion ? '1px solid var(--brand-primary)' : '1px solid var(--border-default)',
                 backgroundColor: reducedMotion ? 'var(--brand-primary)' : 'var(--bg-surface)',
                 color: reducedMotion ? '#FFFFFF' : 'var(--text-secondary)',
-                fontWeight: 800,
+                fontWeight: 600,
                 fontSize: '0.82rem',
                 cursor: 'pointer'
               }}
             >
-              {reducedMotion ? 'Reduced On' : 'Full Animation'}
+              {reducedMotion ? 'Enabled' : 'Disabled'}
             </button>
           </div>
 
           {/* Row 4: Daily Goal Selector */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icon name="flame" size={20} style={{ color: '#E11D48' }} />
+              <Icon name="flame" size={20} style={{ color: 'var(--streak-color)' }} />
               <div>
-                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Daily XP Target</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Target energy required to protect your daily streak</div>
+                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Daily XP target</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>XP earned each day to maintain your streak</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
@@ -817,7 +817,7 @@ export const ProfileView: React.FC = () => {
             This will permanently reset your XP, current streak, completed units, challenge solutions, and mistake drill logs back to initial state.
           </p>
           <div style={{ marginTop: '14px', padding: '10px 14px', backgroundColor: 'var(--error-bg, #FEF2F2)', borderRadius: '8px', border: '1px solid var(--error-border, #FECACA)', color: 'var(--error-text, #991B1B)', fontSize: '0.8rem', fontWeight: 700 }}>
-            Tip: You can use "Export JSON" first if you'd like to backup your current journey!
+            Tip: You can export a JSON backup first to save your current progress.
           </div>
         </div>
       </Modal>

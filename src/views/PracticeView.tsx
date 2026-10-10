@@ -139,24 +139,23 @@ export const PracticeView: React.FC = () => {
       <div style={{ marginBottom: '32px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
-              Practice Arena
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
+              Practice
             </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
-              Freeform sandbox, curriculum coding challenges, and capstone software projects.
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '680px', lineHeight: 1.5, margin: 0 }}>
+              Playground sandbox, targeted coding challenges, and guided software projects.
             </p>
           </div>
 
-          {/* Navigation Pill Switcher (Playground | Challenges | Projects) */}
+          {/* Navigation Pill Switcher */}
           <div
             style={{
               display: 'inline-flex',
-              padding: '5px',
+              padding: '4px',
               backgroundColor: 'var(--bg-surface-subtle)',
-              border: '1.5px solid var(--border-default)',
-              boxShadow: '0 2px 0 var(--border-default)',
-              borderRadius: 'var(--radius-xl)',
-              gap: '6px'
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-lg)',
+              gap: '4px'
             }}
           >
             <button
@@ -168,20 +167,18 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 18px',
-                borderRadius: '12px',
-                border: activeTab === 'playground' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-md)',
+                border: activeTab === 'playground' ? '1px solid var(--border-default)' : '1px solid transparent',
                 backgroundColor: activeTab === 'playground' ? 'var(--bg-surface)' : 'transparent',
                 color: activeTab === 'playground' ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                fontSize: '0.9rem',
+                fontWeight: 600,
+                fontSize: '0.85rem',
                 cursor: 'pointer',
-                boxShadow: activeTab === 'playground' ? '0 3px 0 var(--border-default)' : 'none',
                 transition: 'all 120ms ease'
               }}
             >
-              <Icon name="terminal" size={18} style={{ color: activeTab === 'playground' ? 'var(--brand-primary)' : 'currentColor' }} />
+              <Icon name="terminal" size={16} style={{ color: activeTab === 'playground' ? 'var(--brand-primary)' : 'currentColor' }} />
               <span>Playground</span>
             </button>
 
@@ -194,21 +191,19 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 18px',
-                borderRadius: '12px',
-                border: activeTab === 'challenges' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-md)',
+                border: activeTab === 'challenges' ? '1px solid var(--border-default)' : '1px solid transparent',
                 backgroundColor: activeTab === 'challenges' ? 'var(--bg-surface)' : 'transparent',
                 color: activeTab === 'challenges' ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                fontSize: '0.9rem',
+                fontWeight: 600,
+                fontSize: '0.85rem',
                 cursor: 'pointer',
-                boxShadow: activeTab === 'challenges' ? '0 3px 0 var(--border-default)' : 'none',
                 transition: 'all 120ms ease'
               }}
             >
-              <Icon name="code" size={18} style={{ color: activeTab === 'challenges' ? 'var(--brand-primary)' : 'currentColor' }} />
-              <span>Challenges ({allChallenges.length})</span>
+              <Icon name="code" size={16} style={{ color: activeTab === 'challenges' ? 'var(--brand-primary)' : 'currentColor' }} />
+              <span>Challenges</span>
             </button>
 
             <button
@@ -220,26 +215,24 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 18px',
-                borderRadius: '12px',
-                border: activeTab === 'projects' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
+                padding: '8px 16px',
+                borderRadius: 'var(--radius-md)',
+                border: activeTab === 'projects' ? '1px solid var(--border-default)' : '1px solid transparent',
                 backgroundColor: activeTab === 'projects' ? 'var(--bg-surface)' : 'transparent',
                 color: activeTab === 'projects' ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                fontSize: '0.9rem',
+                fontWeight: 600,
+                fontSize: '0.85rem',
                 cursor: 'pointer',
-                boxShadow: activeTab === 'projects' ? '0 3px 0 var(--border-default)' : 'none',
                 transition: 'all 120ms ease'
               }}
             >
-              <Icon name="folder" size={18} style={{ color: activeTab === 'projects' ? 'var(--brand-primary)' : 'currentColor' }} />
-              <span>Projects ({PROJECTS_DATA.length})</span>
+              <Icon name="folder" size={16} style={{ color: activeTab === 'projects' ? 'var(--brand-primary)' : 'currentColor' }} />
+              <span>Projects</span>
             </button>
           </div>
         </div>
 
-        <div style={{ height: '1.5px', backgroundColor: 'var(--border-default)' }} />
+        <div style={{ height: '1px', backgroundColor: 'var(--border-default)' }} />
       </div>
 
       {/* 1. PLAYGROUND WORKSPACE */}

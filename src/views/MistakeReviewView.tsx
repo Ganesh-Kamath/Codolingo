@@ -7,6 +7,7 @@ import { Icon } from '../components/ui/Icon';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { Card } from '../components/common/Card';
+import { formatMisconceptionTag } from '../utils/formatters';
 
 interface MisconceptionDrillConfig {
   starterCode: (item: MistakeRecord) => string;
@@ -288,16 +289,16 @@ export const MistakeReviewView: React.FC = () => {
   return (
     <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
       {/* Header */}
-      <div style={{ marginBottom: '28px', borderBottom: '2px solid var(--border-subtle)', paddingBottom: '24px' }}>
+      <div style={{ marginBottom: '28px', borderBottom: '1px solid var(--border-default)', paddingBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <Badge variant="warning" size="md"><Icon name="shield-check" size={14} style={{ marginRight: 4 }} /> Adaptive Recovery</Badge>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 600 }}>Spaced Concept Reinforcement</span>
+          <Badge variant="brand" size="sm">Review</Badge>
+          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 500 }}>Practice items you missed</span>
         </div>
-        <h1 style={{ fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px', fontFamily: 'var(--font-display)' }}>
-          Mistake Bank
+        <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px', fontFamily: 'var(--font-display)' }}>
+          Mistake bank
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
-          Errors are stepping stones. Repair syntax pitfalls through targeted interactive drills to cement genuine mastery.
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '680px', lineHeight: 1.5, margin: 0 }}>
+          Review questions you missed during lessons and confirm your understanding through focused drills.
         </p>
       </div>
 
@@ -309,20 +310,18 @@ export const MistakeReviewView: React.FC = () => {
             setFilter('unresolved');
           }}
           style={{
-            padding: '8px 18px',
+            padding: '6px 14px',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.85rem',
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
+            fontWeight: 600,
             backgroundColor: filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
             color: filter === 'unresolved' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1.5px solid ${filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
-            boxShadow: filter === 'unresolved' ? '0 3px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+            border: `1px solid ${filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
             cursor: 'pointer',
             transition: 'all 120ms ease'
           }}
         >
-          Needs Repair ({mistakes.filter(m => !m.resolved).length})
+          Unresolved ({mistakes.filter(m => !m.resolved).length})
         </button>
         <button
           onClick={() => {
@@ -330,20 +329,18 @@ export const MistakeReviewView: React.FC = () => {
             setFilter('resolved');
           }}
           style={{
-            padding: '8px 18px',
+            padding: '6px 14px',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.85rem',
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
+            fontWeight: 600,
             backgroundColor: filter === 'resolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
             color: filter === 'resolved' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1.5px solid ${filter === 'resolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
-            boxShadow: filter === 'resolved' ? '0 3px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+            border: `1px solid ${filter === 'resolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
             cursor: 'pointer',
             transition: 'all 120ms ease'
           }}
         >
-          Repaired ({mistakes.filter(m => m.resolved).length})
+          Resolved ({mistakes.filter(m => m.resolved).length})
         </button>
         <button
           onClick={() => {
@@ -351,20 +348,18 @@ export const MistakeReviewView: React.FC = () => {
             setFilter('all');
           }}
           style={{
-            padding: '8px 18px',
+            padding: '6px 14px',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.85rem',
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
+            fontWeight: 600,
             backgroundColor: filter === 'all' ? 'var(--brand-primary)' : 'var(--bg-surface)',
             color: filter === 'all' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1.5px solid ${filter === 'all' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
-            boxShadow: filter === 'all' ? '0 3px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+            border: `1px solid ${filter === 'all' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
             cursor: 'pointer',
             transition: 'all 120ms ease'
           }}
         >
-          All Entries ({mistakes.length})
+          All ({mistakes.length})
         </button>
       </div>
 
@@ -398,44 +393,31 @@ export const MistakeReviewView: React.FC = () => {
           >
             <Icon name="award" size={42} stroke={2.5} />
           </div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
-            {allResolved ? 'All Concepts Mastered & Repaired!' : 'No Pending Mistakes Found'}
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+            {allResolved ? 'All mistakes resolved' : 'No mistakes to review'}
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '520px', margin: '0 auto 24px', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '480px', margin: '0 auto 24px', lineHeight: 1.6 }}>
             {allResolved 
-              ? 'Outstanding work! Every previous code misconception in your bank has been diagnosed and reinforced. Your cognitive accuracy is operating at 100%.'
-              : 'Your code execution history looks healthy. Keep completing lessons and challenges to build endurance.'}
+              ? 'You have reviewed and corrected every missed question in your bank.'
+              : 'When you miss a question during a lesson, it will appear here for targeted review.'}
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <Button
               variant="primary"
               size="md"
-              onClick={() => navigateTo('/app/practice')}
-              icon={<Icon name="terminal" size={16} />}
+              onClick={() => navigateTo('/app')}
+              icon={<Icon name="player-play" size={16} fill="currentColor" />}
             >
-              Practice Arena
+              Continue lessons
             </Button>
             <Button
               variant="secondary"
               size="md"
-              onClick={() => navigateTo('/app/learn')}
-              icon={<Icon name="book" size={16} />}
+              onClick={() => navigateTo('/app/practice')}
+              icon={<Icon name="barbell" size={16} />}
             >
-              Curriculum Path
+              Explore practice
             </Button>
-            {allResolved && (
-              <Button
-                variant="ghost"
-                size="md"
-                onClick={() => {
-                  sound.playSuccess();
-                  fireCelebrationConfetti({ particleCount: 100, spread: 60 });
-                }}
-                icon={<Icon name="sparkles" size={16} />}
-              >
-                Celebrate!
-              </Button>
-            )}
           </div>
         </div>
       ) : (
@@ -457,7 +439,7 @@ export const MistakeReviewView: React.FC = () => {
                     gap: '12px',
                     marginBottom: '14px',
                     paddingBottom: '8px',
-                    borderBottom: '1.5px solid var(--border-default)'
+                    borderBottom: '1px solid var(--border-default)'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -465,9 +447,9 @@ export const MistakeReviewView: React.FC = () => {
                       style={{
                         width: '32px',
                         height: '32px',
-                        borderRadius: '10px',
+                        borderRadius: '8px',
                         backgroundColor: 'var(--bg-surface-subtle)',
-                        border: '1.5px solid var(--border-default)',
+                        border: '1px solid var(--border-default)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -477,8 +459,8 @@ export const MistakeReviewView: React.FC = () => {
                       <Icon name="cpu" size={16} />
                     </div>
                     <div>
-                      <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
-                        {conceptGroup}
+                      <h2 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                        {formatMisconceptionTag(conceptGroup)}
                       </h2>
                     </div>
                   </div>
@@ -487,16 +469,16 @@ export const MistakeReviewView: React.FC = () => {
                     {groupUnresolvedCount > 0 ? (
                       <Badge variant="error" size="sm">
                         <Icon name="alert-circle" size={12} style={{ marginRight: 4 }} />
-                        {groupUnresolvedCount} {groupUnresolvedCount === 1 ? 'repair pending' : 'repairs pending'}
+                        {groupUnresolvedCount} {groupUnresolvedCount === 1 ? 'pending' : 'pending'}
                       </Badge>
                     ) : (
                       <Badge variant="success" size="sm">
-                        <Icon name="check" size={12} style={{ marginRight: 4 }} /> All Repaired
+                        <Icon name="check" size={12} style={{ marginRight: 4 }} /> All resolved
                       </Badge>
                     )}
                     {groupRepairedCount > 0 && groupUnresolvedCount > 0 && (
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                        ({groupRepairedCount} solved)
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }} className="tabular-nums">
+                        ({groupRepairedCount} resolved)
                       </span>
                     )}
                   </div>
@@ -514,9 +496,9 @@ export const MistakeReviewView: React.FC = () => {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                               <Badge variant={item.resolved ? 'success' : 'error'} size="sm">
                                 {item.resolved ? (
-                                  <><Icon name="check" size={12} style={{ marginRight: 4 }} /> Repaired</>
+                                  <><Icon name="check" size={12} style={{ marginRight: 4 }} /> Resolved</>
                                 ) : (
-                                  <><Icon name="alert-triangle" size={12} style={{ marginRight: 4 }} /> Encountered {item.frequency || 1}x</>
+                                  <><Icon name="alert-triangle" size={12} style={{ marginRight: 4 }} /> Missed {item.frequency || 1}x</>
                                 )}
                               </Badge>
                               {item.lessonTitle && (

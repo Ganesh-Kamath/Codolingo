@@ -236,7 +236,7 @@ export const AppContent: React.FC = () => {
         transition: 'background-color var(--transition-base)'
       }}
     >
-      {/* Top Application Header / Stitch DevRealm Odyssey HUD */}
+      {/* Top Application Header HUD */}
       <header
         style={{
           height: 'var(--topbar-height)',

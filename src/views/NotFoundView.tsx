@@ -53,8 +53,8 @@ export const NotFoundView: React.FC = () => {
           </div>
           <div>Traceback (most recent call last):</div>
           <div style={{ color: '#9CA3AF' }}>  File &quot;codolingo/router.py&quot;, line 404, in resolve_route</div>
-          <div style={{ color: '#F87171', fontWeight: 700, marginTop: '4px' }}>
-            RouteNotFoundError: Target &apos;{currentRoute}&apos; does not exist in this realm.
+          <div style={{ color: '#F87171', fontWeight: 600, marginTop: '4px' }}>
+            RouteNotFoundError: Path &apos;{currentRoute}&apos; was not found.
           </div>
         </div>
 
@@ -65,29 +65,29 @@ export const NotFoundView: React.FC = () => {
             gap: 'var(--space-1.5)',
             padding: 'var(--space-1) var(--space-3)',
             borderRadius: 'var(--radius-full)',
-            backgroundColor: 'var(--warning-bg)',
-            color: 'var(--warning-text)',
+            backgroundColor: 'var(--bg-surface-subtle)',
+            color: 'var(--text-muted)',
             fontSize: 'var(--text-xs)',
-            fontWeight: 800,
+            fontWeight: 600,
             marginBottom: 'var(--space-3)',
-            border: '1px solid var(--warning-border)'
+            border: '1px solid var(--border-default)'
           }}
         >
           <Icon name="compass" size={14} />
-          <span>HTTP 404 • UNMAPPED COORDINATES</span>
+          <span>Error 404</span>
         </div>
 
         <h1
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'var(--text-3xl)',
+            fontSize: 'var(--text-2xl)',
             fontWeight: 800,
-            letterSpacing: '-0.025em',
-            marginBottom: 'var(--space-3)',
+            letterSpacing: '-0.02em',
+            marginBottom: 'var(--space-2)',
             color: 'var(--text-primary)'
           }}
         >
-          Coordinate Not Found
+          Page not found
         </h1>
 
         <p
@@ -100,7 +100,7 @@ export const NotFoundView: React.FC = () => {
             margin: '0 auto var(--space-6)'
           }}
         >
-          The path you tried to visit isn&apos;t mapped to any lesson, challenge, or project in the Python curriculum.
+          The page you requested doesn&apos;t exist or may have been moved.
         </p>
 
         <div
@@ -113,11 +113,11 @@ export const NotFoundView: React.FC = () => {
         >
           <Button
             variant="primary"
-            size="lg"
+            size="md"
             onClick={() => navigateTo('/app')}
-            icon={<Icon name="map" size={18} />}
+            icon={<Icon name="map" size={16} />}
           >
-            Return to Learning Path
+            Return to learning path
           </Button>
 
           <Button

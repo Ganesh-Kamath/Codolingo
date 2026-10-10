@@ -123,7 +123,6 @@ export const LandingPage: React.FC = () => {
               >
                 Codolingo
               </span>
-              <Badge variant="brand" size="sm">PYTHON ODYSSEY</Badge>
             </div>
           </div>
 
@@ -133,7 +132,7 @@ export const LandingPage: React.FC = () => {
               onClick={() => navigateTo('/app')}
               style={{
                 fontSize: '0.875rem',
-                fontWeight: 700,
+                fontWeight: 600,
                 color: 'var(--text-secondary)',
                 background: 'none',
                 border: 'none',
@@ -141,13 +140,13 @@ export const LandingPage: React.FC = () => {
               }}
               className="desktop-only nav-hover-item"
             >
-              Curriculum (43 Units)
+              Curriculum
             </button>
             <button
               onClick={() => navigateTo('/app/practice')}
               style={{
                 fontSize: '0.875rem',
-                fontWeight: 700,
+                fontWeight: 600,
                 color: 'var(--text-secondary)',
                 background: 'none',
                 border: 'none',
@@ -155,13 +154,13 @@ export const LandingPage: React.FC = () => {
               }}
               className="desktop-only nav-hover-item"
             >
-              Practice Arena
+              Practice
             </button>
             <button
               onClick={() => navigateTo('/app/review')}
               style={{
                 fontSize: '0.875rem',
-                fontWeight: 700,
+                fontWeight: 600,
                 color: 'var(--text-secondary)',
                 background: 'none',
                 border: 'none',
@@ -169,7 +168,7 @@ export const LandingPage: React.FC = () => {
               }}
               className="desktop-only nav-hover-item"
             >
-              Mistake Bank
+              Mistake bank
             </button>
 
             {/* Theme Toggle */}
@@ -182,13 +181,13 @@ export const LandingPage: React.FC = () => {
             />
 
             <Button
-              variant="primary"
+              variant="secondary"
               size="md"
               onClick={() => navigateTo('/app')}
-              icon={<Icon name="arrow-right" size={16} stroke={3} />}
+              icon={<Icon name="arrow-right" size={16} stroke={2} />}
               iconPosition="right"
             >
-              Launch App
+              Open app
             </Button>
           </div>
         </div>
@@ -197,7 +196,7 @@ export const LandingPage: React.FC = () => {
       {/* Hero Section */}
       <section
         style={{
-          padding: '64px 24px 48px',
+          padding: '72px 24px 48px',
           maxWidth: '1240px',
           margin: '0 auto',
           textAlign: 'center'
@@ -209,47 +208,46 @@ export const LandingPage: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '6px 16px',
+              padding: '6px 14px',
               backgroundColor: 'var(--brand-light)',
-              border: '1.5px solid var(--brand-border)',
+              border: '1px solid var(--brand-border)',
               borderRadius: 'var(--radius-full)',
               color: 'var(--brand-primary)',
               fontSize: 'var(--text-xs)',
-              fontWeight: 800,
-              letterSpacing: '0.02em',
-              boxShadow: 'var(--shadow-xs)'
+              fontWeight: 600,
+              letterSpacing: '0.01em'
             }}
           >
-            <Icon name="sparkles" size={15} fill="var(--brand-primary)" />
-            <span>DUOLINGO DELIGHT • REAL IDE PRECISION • LOCAL-FIRST SPEED</span>
+            <Icon name="code" size={14} style={{ color: 'var(--brand-primary)' }} />
+            <span>Interactive Python curriculum</span>
           </div>
         </div>
 
         <h1
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
+            fontSize: 'clamp(2.4rem, 5vw, 4rem)',
             fontWeight: 800,
-            letterSpacing: '-0.035em',
-            lineHeight: 1.12,
-            maxWidth: '960px',
-            margin: '0 auto 20px',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.15,
+            maxWidth: '900px',
+            margin: '0 auto 18px',
             color: 'var(--text-primary)'
           }}
         >
-          Become a real programmer by writing <span style={{ color: 'var(--brand-primary)' }}>real code</span>. Not trivia.
+          Learn Python by writing <span style={{ color: 'var(--brand-primary)' }}>real code</span>
         </h1>
 
         <p
           style={{
-            fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
+            fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
             color: 'var(--text-secondary)',
-            maxWidth: '720px',
+            maxWidth: '660px',
             margin: '0 auto 36px',
             lineHeight: 1.6
           }}
         >
-          Learn syntax in atomic micro-lessons, write Python directly in an embedded Monaco editor, run unit tests in WebAssembly, and permanently repair your mistakes with AST-driven diagnostics.
+          Focused interactive lessons, browser-native Python execution, and clear diagnostic feedback when you make a mistake.
         </p>
 
         <div
@@ -257,7 +255,7 @@ export const LandingPage: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '14px',
+            gap: '12px',
             flexWrap: 'wrap',
             marginBottom: '48px'
           }}
@@ -266,18 +264,18 @@ export const LandingPage: React.FC = () => {
             variant="primary"
             size="lg"
             onClick={() => navigateTo('/app')}
-            icon={<Icon name="player-play" size={20} fill="#fff" />}
+            icon={<Icon name="player-play" size={18} fill="currentColor" />}
           >
-            Start Coding Free
+            Start learning
           </Button>
 
           <Button
             variant="secondary"
             size="lg"
             onClick={() => navigateTo('/app/practice')}
-            icon={<Icon name="barbell" size={20} />}
+            icon={<Icon name="barbell" size={18} />}
           >
-            Open Practice Sandbox
+            Explore practice
           </Button>
         </div>
 
@@ -555,10 +553,10 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Curriculum Overview: 43 Units Across 8 Domains */}
+      {/* Curriculum Overview */}
       <section style={{ padding: '80px 24px', maxWidth: '1180px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <Badge variant="brand" size="md">COMPREHENSIVE SYLLABUS</Badge>
+          <Badge variant="brand" size="md">Curriculum</Badge>
           <h2
             style={{
               fontFamily: 'var(--font-display)',
@@ -570,10 +568,10 @@ export const LandingPage: React.FC = () => {
               color: 'var(--text-primary)'
             }}
           >
-            43 Units. 8 Mastery Domains. Zero Gaps.
+            43 units. 8 core topics.
           </h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto' }}>
-            From your very first <code style={{ backgroundColor: 'var(--bg-surface)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--border-default)' }}>print()</code> statement to building production-grade algorithms and software applications.
+            From your first print statement to building complete software tools and algorithms.
           </p>
         </div>
 
@@ -647,16 +645,16 @@ export const LandingPage: React.FC = () => {
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 borderRadius: 'var(--radius-lg)',
-                border: '1.5px solid var(--border-default)',
+                border: '1px solid var(--border-default)',
                 padding: '20px 24px',
                 boxShadow: 'var(--shadow-xs)'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>
                   {item.domain} • {item.units}
                 </span>
-                <Icon name={item.icon} size={18} style={{ color: 'var(--brand-primary)' }} />
+                <Icon name={item.icon} size={18} style={{ color: 'var(--text-muted)' }} />
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, marginBottom: '10px', color: 'var(--text-primary)' }}>
                 {item.title}
@@ -667,12 +665,12 @@ export const LandingPage: React.FC = () => {
                     key={skill}
                     style={{
                       fontSize: '0.72rem',
-                      fontWeight: 600,
+                      fontWeight: 500,
                       backgroundColor: 'var(--bg-app)',
                       color: 'var(--text-secondary)',
                       padding: '3px 8px',
                       borderRadius: 'var(--radius-sm)',
-                      border: '1px solid var(--border-default)'
+                      border: '1px solid var(--border-subtle)'
                     }}
                   >
                     {skill}
@@ -684,13 +682,13 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Differentiators: The Mistake Bank */}
+      {/* Differentiators: Mistake Bank */}
       <section
         style={{
           padding: '80px 24px',
           backgroundColor: 'var(--bg-surface)',
-          borderTop: '1.5px solid var(--border-default)',
-          borderBottom: '1.5px solid var(--border-default)'
+          borderTop: '1px solid var(--border-default)',
+          borderBottom: '1px solid var(--border-default)'
         }}
       >
         <div
@@ -704,7 +702,7 @@ export const LandingPage: React.FC = () => {
           }}
         >
           <div>
-            <Badge variant="warning" size="md">OUR CORE SUPERPOWER</Badge>
+            <Badge variant="brand" size="md">Adaptive review</Badge>
             <h2
               style={{
                 fontFamily: 'var(--font-display)',
@@ -717,57 +715,57 @@ export const LandingPage: React.FC = () => {
                 color: 'var(--text-primary)'
               }}
             >
-              The Mistake Bank: We don&apos;t just say &quot;Incorrect.&quot;
+              Learn from your mistakes
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-base)', lineHeight: 1.6, marginBottom: '20px' }}>
-              When a submission fails, Codolingo analyzes your AST structure and runtime stack trace to diagnose exactly what went wrong conceptually—confusing assignment with equality, scoping slip-ups, or unindented loops.
+              When a check fails, Codolingo identifies the specific conceptual gap—like confusing assignment with equality or miscounting loop ranges—so you understand what happened and how to fix it.
             </p>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
-                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', flexShrink: 0 }}>
-                  <Icon name="check" size={14} stroke={3} />
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--state-success)', flexShrink: 0 }}>
+                  <Icon name="check" size={14} stroke={2.5} />
                 </div>
-                <span>Automatically stores failed attempts in your personal Mistake Bank</span>
+                <span>Saves missed questions automatically into your review bank</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
-                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', flexShrink: 0 }}>
-                  <Icon name="check" size={14} stroke={3} />
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--state-success)', flexShrink: 0 }}>
+                  <Icon name="check" size={14} stroke={2.5} />
                 </div>
-                <span>Generates 2-minute targeted &quot;Repair Drills&quot; for weak concepts</span>
+                <span>Provides targeted review drills for concepts needing practice</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
-                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-primary)', flexShrink: 0 }}>
-                  <Icon name="check" size={14} stroke={3} />
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--state-success)', flexShrink: 0 }}>
+                  <Icon name="check" size={14} stroke={2.5} />
                 </div>
-                <span>Reinforces until concepts achieve 100% cognitive retention</span>
+                <span>Clears each item once you demonstrate consistent understanding</span>
               </li>
             </ul>
 
             <Button
-              variant="primary"
+              variant="secondary"
               size="md"
               onClick={() => navigateTo('/app/review')}
-              icon={<Icon name="history" size={16} stroke={2.5} />}
+              icon={<Icon name="history" size={16} />}
             >
-              Explore Mistake Bank
+              Open mistake bank
             </Button>
           </div>
 
-          {/* Interactive Diagnostic Card Mockup */}
+          {/* Interactive Diagnostic Card */}
           <div
             style={{
               backgroundColor: 'var(--bg-app)',
               borderRadius: 'var(--radius-xl)',
-              border: '1.5px solid var(--border-default)',
+              border: '1px solid var(--border-default)',
               padding: '24px',
-              boxShadow: 'var(--shadow-xl)'
+              boxShadow: 'var(--shadow-sm)'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--error-solid)' }} />
-                <span style={{ fontSize: '0.8125rem', fontWeight: 800, color: 'var(--error-solid)', fontFamily: 'var(--font-mono)' }}>
-                  AST DIAGNOSTIC ENGINE
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-error)' }} />
+                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--state-error)', fontFamily: 'var(--font-mono)' }}>
+                  Diagnostic feedback
                 </span>
               </div>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Attempt 2 of 3</span>
@@ -775,18 +773,18 @@ export const LandingPage: React.FC = () => {
 
             <div
               style={{
-                backgroundColor: 'var(--error-bg)',
-                border: '1.5px solid var(--error-border)',
+                backgroundColor: 'var(--state-error-subtle)',
+                border: '1px solid var(--error-border)',
                 borderRadius: 'var(--radius-md)',
                 padding: '16px',
                 marginBottom: '16px'
               }}
             >
-              <div style={{ fontWeight: 800, color: 'var(--error-text)', fontSize: '0.92rem', marginBottom: '6px' }}>
-                Almost there! Assignment vs Equality Check
+              <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.92rem', marginBottom: '6px' }}>
+                Assignment vs. equality check
               </div>
-              <p style={{ fontSize: '0.84rem', color: 'var(--error-text)', margin: 0, lineHeight: 1.5 }}>
-                In Python, a single <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 700 }}>=</code> operator sets a variable value. To evaluate boolean equality, use the double equals operator <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 700 }}>==</code>.
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                In Python, a single <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>=</code> operator assigns a value. To check equality, use the comparison operator <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>==</code>.
               </p>
             </div>
 
@@ -808,7 +806,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer CTA */}
+      {/* Footer */}
       <footer
         style={{
           backgroundColor: 'var(--bg-app)',
@@ -826,19 +824,19 @@ export const LandingPage: React.FC = () => {
               color: 'var(--text-primary)'
             }}
           >
-            Ready to write real Python?
+            Ready to learn Python?
           </h3>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '28px', fontSize: 'var(--text-base)', lineHeight: 1.6 }}>
-            No credit card, no sign-up friction. Runs 100% in your browser with offline WebAssembly.
+            Runs entirely in your browser with zero installation. All data is saved locally on your device.
           </p>
           <Button
             variant="primary"
             size="lg"
             onClick={() => navigateTo('/app')}
-            icon={<Icon name="arrow-right" size={20} stroke={3} />}
+            icon={<Icon name="arrow-right" size={18} stroke={2} />}
             iconPosition="right"
           >
-            Start Learning Right Now
+            Start learning
           </Button>
 
           <div
@@ -852,11 +850,11 @@ export const LandingPage: React.FC = () => {
               gap: '12px'
             }}
           >
-            <span>Codolingo © 2026</span>
+            <span>Codolingo</span>
             <span>•</span>
-            <span>Local-First</span>
+            <span>Local data storage</span>
             <span>•</span>
-            <span>Stitch DevRealm Odyssey</span>
+            <span>Python 3</span>
           </div>
         </div>
       </footer>

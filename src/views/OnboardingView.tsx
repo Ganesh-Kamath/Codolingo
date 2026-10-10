@@ -25,12 +25,12 @@ export const OnboardingView: React.FC = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#F8F9FA',
+      backgroundColor: 'var(--bg-app)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       padding: '40px 20px',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: 'var(--font-sans)'
     }}>
       {/* Progress Bar */}
       <div style={{ width: '100%', maxWidth: '600px', marginBottom: '40px' }}>
@@ -39,11 +39,11 @@ export const OnboardingView: React.FC = () => {
             <div
               key={i}
               style={{
-                height: '8px',
+                height: '6px',
                 flex: 1,
                 backgroundColor: i <= step ? 'var(--brand-primary)' : 'var(--border-default)',
-                borderRadius: '4px',
-                transition: 'background-color 0.3s'
+                borderRadius: '3px',
+                transition: 'background-color 0.2s ease'
               }}
             />
           ))}
@@ -53,11 +53,11 @@ export const OnboardingView: React.FC = () => {
       <div style={{ width: '100%', maxWidth: '600px', flex: 1 }}>
         {step === 1 && (
           <div className="animate-fade-in">
-            <h1 style={{ fontSize: '2rem', fontWeight: 800, textAlign: 'center', marginBottom: '16px', color: 'var(--text-primary)' }}>
+            <h1 style={{ fontSize: '1.875rem', fontWeight: 800, textAlign: 'center', marginBottom: '12px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
               What do you want to learn?
             </h1>
-            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '32px' }}>
-              Choose a path to start your journey. You can always change this later.
+            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '0.95rem' }}>
+              Choose a track to begin. You can switch tracks anytime.
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -118,19 +118,19 @@ export const OnboardingView: React.FC = () => {
 
         {step === 2 && (
           <div className="animate-fade-in">
-            <h1 style={{ fontSize: '2rem', fontWeight: 800, textAlign: 'center', marginBottom: '16px', color: 'var(--text-primary)' }}>
-              What is your daily goal?
+            <h1 style={{ fontSize: '1.875rem', fontWeight: 800, textAlign: 'center', marginBottom: '12px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              Set a daily goal
             </h1>
-            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '32px' }}>
-              Setting a goal helps you build a strong habit.
+            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '0.95rem' }}>
+              Choose how much time you want to spend each day.
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {[
-                { id: 'casual', label: 'Casual', desc: '5 mins / day', xp: '10 XP' },
-                { id: 'regular', label: 'Regular', desc: '10 mins / day', xp: '20 XP' },
-                { id: 'serious', label: 'Serious', desc: '15 mins / day', xp: '30 XP' },
-                { id: 'intense', label: 'Intense', desc: '30 mins / day', xp: '50 XP' }
+                { id: 'casual', label: 'Casual', desc: '5 min / day', xp: '10 XP' },
+                { id: 'regular', label: 'Regular', desc: '10 min / day', xp: '20 XP' },
+                { id: 'serious', label: 'Serious', desc: '15 min / day', xp: '30 XP' },
+                { id: 'intense', label: 'Intense', desc: '30 min / day', xp: '50 XP' }
               ].map(goal => (
                 <Card 
                   key={goal.id}
@@ -138,16 +138,16 @@ export const OnboardingView: React.FC = () => {
                   padding="md"
                   onClick={() => setSelectedGoal(goal.id)}
                   style={{ 
-                    border: selectedGoal === goal.id ? '2px solid var(--brand-primary)' : '2px solid transparent',
-                    backgroundColor: selectedGoal === goal.id ? 'var(--brand-light)' : '#FFFFFF',
+                    border: selectedGoal === goal.id ? '2px solid var(--brand-primary)' : '1px solid var(--border-default)',
+                    backgroundColor: selectedGoal === goal.id ? 'var(--brand-light)' : 'var(--bg-surface)',
                     display: 'flex', justifyContent: 'space-between', alignItems: 'center'
                   }}
                 >
                   <div>
-                    <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: '0 0 4px 0', color: 'var(--text-primary)' }}>{goal.label}</h3>
-                    <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{goal.desc}</p>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 700, margin: '0 0 4px 0', color: 'var(--text-primary)' }}>{goal.label}</h3>
+                    <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{goal.desc}</p>
                   </div>
-                  <div style={{ fontWeight: 800, color: 'var(--brand-primary)' }}>
+                  <div style={{ fontWeight: 700, color: 'var(--brand-primary)' }} className="tabular-nums">
                     {goal.xp}
                   </div>
                 </Card>
@@ -159,19 +159,19 @@ export const OnboardingView: React.FC = () => {
         {step === 3 && (
           <div className="animate-fade-in" style={{ textAlign: 'center' }}>
             <div style={{ 
-              width: '100px', height: '100px', borderRadius: '50%', 
-              backgroundColor: 'var(--brand-primary)', color: 'white',
+              width: '80px', height: '80px', borderRadius: '50%', 
+              backgroundColor: 'var(--brand-light)', color: 'var(--brand-primary)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 24px auto',
-              boxShadow: '0 8px 24px rgba(16, 185, 129, 0.3)'
+              border: '2px solid var(--brand-border)'
             }}>
-              <Icon name="rocket" size={48} />
+              <Icon name="check" size={36} stroke={2.5} />
             </div>
-            <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '16px', color: 'var(--text-primary)' }}>
-              You're all set!
+            <h1 style={{ fontSize: '1.875rem', fontWeight: 800, marginBottom: '12px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              Setup complete
             </h1>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '1.125rem', maxWidth: '400px', margin: '0 auto 32px auto', lineHeight: 1.5 }}>
-              Your curriculum is ready. It's time to write your first line of real code.
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', fontSize: '1rem', maxWidth: '420px', margin: '0 auto 32px auto', lineHeight: 1.5 }}>
+              Your Python curriculum is ready. Begin with Unit 1 foundations.
             </p>
           </div>
         )}
@@ -185,7 +185,7 @@ export const OnboardingView: React.FC = () => {
           disabled={(step === 1 && !selectedCourse) || (step === 2 && !selectedGoal)}
           onClick={handleNext}
         >
-          {step === 3 ? 'Start Learning' : 'Continue'}
+          {step === 3 ? 'Start lesson' : 'Continue'}
         </Button>
       </div>
     </div>
