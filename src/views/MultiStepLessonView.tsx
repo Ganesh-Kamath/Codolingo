@@ -7,9 +7,7 @@ import { courseService } from '../services/courseService';
 import { codeExecutionService } from '../services/codeExecutionService';
 import { sound } from '../utils/audio';
 import { Icon } from '../components/ui/Icon';
-import { Button } from '../components/common/Button';
-import { ProgressBar } from '../components/common/ProgressBar';
-import { Badge } from '../components/common/Badge';
+import { Button, ProgressBar, Badge, Modal, IconButton, SortableCodeList } from '../components/common';
 
 interface MultiStepLessonViewProps {
   lessonId: string;
@@ -114,6 +112,43 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [repairAnswerChecked, setRepairAnswerChecked] = useState<boolean>(false);
   const [repairIsCorrect, setRepairIsCorrect] = useState<boolean>(false);
 
+  // Phase 2 Interactive Upgrades: Exit Modal, Keyboard Nav, XP Animation & Diagnostics
+  const [showExitModal, setShowExitModal] = useState<boolean>(false);
+  const [lessonStartTime] = useState<number>(() => Date.now());
+  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+  const [displayedXp, setDisplayedXp] = useState<number>(0);
+  const [isEngineWarming, setIsEngineWarming] = useState<boolean>(false);
+  const [expandedTests, setExpandedTests] = useState<Record<number, boolean>>({});
+
+  // Calculate elapsed time upon completion
+  useEffect(() => {
+    if (sessionPhase === 'completed') {
+      const elapsed = Math.max(1, Math.floor((Date.now() - lessonStartTime) / 1000));
+      setElapsedSeconds(elapsed);
+    }
+  }, [sessionPhase, lessonStartTime]);
+
+  // Animated count-up for XP upon completion
+  useEffect(() => {
+    if (sessionPhase === 'completed' && lessonMeta) {
+      let start = 0;
+      const target = lessonMeta.xpReward;
+      const duration = 1000;
+      const interval = 25;
+      const step = Math.max(1, Math.ceil(target / (duration / interval)));
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) {
+          setDisplayedXp(target);
+          clearInterval(timer);
+        } else {
+          setDisplayedXp(start);
+        }
+      }, interval);
+      return () => clearInterval(timer);
+    }
+  }, [sessionPhase, lessonMeta]);
+
   // Reset state when navigating to a new block or changing phase
   useEffect(() => {
     setExerciseState('unanswered');
@@ -164,6 +199,58 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     setSelectedOptionId(optionId);
     setExerciseState('answering');
   };
+
+  // Keyboard-first listener: Enter=Check/Continue, 1-4=Select Option, Esc=Exit
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (showExitModal) return;
+
+      const target = e.target as HTMLElement | null;
+      const isInput = target && (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable ||
+        Boolean(target.closest('.monaco-editor'))
+      );
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setShowExitModal(true);
+        return;
+      }
+
+      if (isInput) return;
+
+      // 1-4 option selection for multiple choice
+      if (['1', '2', '3', '4'].includes(e.key) && currentBlock.options && currentBlock.options.length > 0) {
+        const optIdx = parseInt(e.key, 10) - 1;
+        if (optIdx >= 0 && optIdx < currentBlock.options.length) {
+          e.preventDefault();
+          handleOptionSelect(currentBlock.options[optIdx].id);
+          return;
+        }
+      }
+
+      // Enter for Check / Continue
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (exerciseState === 'correct' || exerciseState === 'incorrect' || exerciseState === 'completed') {
+          handleNextStep();
+        } else if (exerciseState === 'answering' || currentBlock.type === 'fill_in_the_blank' || currentBlock.type === 'code_ordering' || currentBlock.type === 'match_code_to_concept' || currentBlock.type === 'trace_code') {
+          if (currentBlock.type === 'fill_in_the_blank') checkBlankAnswer();
+          else if (currentBlock.type === 'code_ordering') checkOrderingAnswer();
+          else if (currentBlock.type === 'match_code_to_concept') checkMatchAnswer();
+          else if (currentBlock.type === 'trace_code') checkTraceAnswer();
+          else if (selectedOptionId) checkOptionAnswer();
+        } else if (['write_code', 'fix_code', 'mini_challenge', 'refactoring_challenge'].includes(currentBlock.type)) {
+          handleRunCode();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  });
 
   // Helper: Retrieve formatted correct answer display text
   const getCorrectAnswerDisplay = (block: LessonBlock): string => {
@@ -513,7 +600,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       }))
     };
 
+    const warmTimer = setTimeout(() => {
+      setIsEngineWarming(true);
+    }, 450);
+
     const res = await codeExecutionService.execute(code, challengePayload);
+    clearTimeout(warmTimer);
+    setIsEngineWarming(false);
     setExecutionOutput(res.stdout || (res.error ? `Error: ${res.error}` : ''));
     setTestResults(res.testResults || []);
 
@@ -788,67 +881,138 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   if (sessionPhase === 'completed' && lessonMeta) {
     const accuracy = blocks.length > 0 ? Math.round((firstAttemptCorrectCount / blocks.length) * 100) : 100;
     const isPerfect = wrongQuestions.length === 0;
+    const minutes = Math.floor(elapsedSeconds / 60);
+    const seconds = elapsedSeconds % 60;
+    const timeDisplay = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
 
     return (
-      <div className="flex-center animate-pop-in" style={{ minHeight: '100vh', flexDirection: 'column', backgroundColor: '#FFFFFF', padding: '32px 20px', textAlign: 'center' }}>
-        <div style={{ width: '92px', height: '92px', borderRadius: '50%', backgroundColor: '#ECFDF5', color: '#10B981', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="shadow-lg">
-          <Icon name="award" size={52} stroke={2.5} />
+      <div className="flex-center animate-pop-in" style={{ minHeight: '100vh', flexDirection: 'column', backgroundColor: 'var(--bg-app)', padding: '40px 20px', textAlign: 'center' }}>
+        <div
+          style={{
+            width: '96px',
+            height: '96px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--state-success-subtle)',
+            color: 'var(--state-success)',
+            border: '2px solid var(--state-success)',
+            boxShadow: '0 8px 24px rgba(16, 185, 129, 0.25)',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          className="animate-bounce"
+        >
+          <Icon name="award" size={54} stroke={2.5} />
         </div>
-        <div style={{ marginBottom: '12px' }}>
+
+        <div style={{ marginBottom: '12px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
           <Badge variant="brand" size="md">Lesson {lessonMeta.id} Complete</Badge>
+          {isPerfect && <Badge variant="success" size="md">Flawless 100%</Badge>}
         </div>
-        <h1 style={{ fontSize: '2.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)' }}>
+
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
           {isPerfect ? 'Flawless Mastery!' : 'Lesson Complete!'}
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '28px', lineHeight: 1.5 }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '32px', lineHeight: 1.5 }}>
           {isPerfect
             ? `Spectacular! You answered all ${blocks.length} questions correctly on your first attempt.`
-            : `Great perseverance! You worked through all ${blocks.length} questions and reviewed missed concepts.`}
+            : `Great perseverance! You mastered all ${blocks.length} interactions and reinforced your understanding.`}
         </p>
 
         {/* Performance Statistics Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '14px', maxWidth: '520px', width: '100%', marginBottom: '28px' }}>
-          <div style={{ padding: '16px', backgroundColor: '#F9FAFB', borderRadius: 'var(--radius-xl)', border: '1px solid #E5E7EB' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>First Attempt</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: accuracy >= 80 ? '#10B981' : '#F59E0B', marginTop: '4px' }}>
-              {firstAttemptCorrectCount} / {blocks.length}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '14px', maxWidth: '580px', width: '100%', marginBottom: '28px' }}>
+          {/* XP Card */}
+          <div style={{
+            padding: '18px 14px',
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1.5px solid var(--state-warning-border)',
+            boxShadow: 'var(--shadow-sm)'
+          }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--state-warning)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              XP Earned
             </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{accuracy}% Accuracy</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--state-warning)', marginTop: '4px', fontFamily: 'var(--font-display)' }}>
+              +{displayedXp} XP
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+              <Icon name="coin" size={14} /> Banked
+            </div>
           </div>
 
-          <div style={{ padding: '16px', backgroundColor: '#F9FAFB', borderRadius: 'var(--radius-xl)', border: '1px solid #E5E7EB' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Mistakes Reviewed</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: isPerfect ? '#10B981' : '#3B82F6', marginTop: '4px' }}>
-              {wrongQuestions.length > 0 ? `${reviewCorrectCount} / ${wrongQuestions.length}` : '0 Mistakes'}
+          {/* Accuracy Card */}
+          <div style={{
+            padding: '18px 14px',
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1.5px solid var(--border-default)',
+            boxShadow: 'var(--shadow-sm)'
+          }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Accuracy
+            </div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: accuracy >= 80 ? 'var(--state-success)' : 'var(--state-warning)', marginTop: '4px', fontFamily: 'var(--font-display)' }}>
+              {accuracy}%
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+              {firstAttemptCorrectCount}/{blocks.length} First Try
+            </div>
+          </div>
+
+          {/* Time Card */}
+          <div style={{
+            padding: '18px 14px',
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1.5px solid var(--border-default)',
+            boxShadow: 'var(--shadow-sm)'
+          }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Time Taken
+            </div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--brand-primary)', marginTop: '4px', fontFamily: 'var(--font-display)' }}>
+              {timeDisplay}
+            </div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+              Focus Time
+            </div>
+          </div>
+
+          {/* Review Card */}
+          <div style={{
+            padding: '18px 14px',
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1.5px solid var(--border-default)',
+            boxShadow: 'var(--shadow-sm)'
+          }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Reviews
+            </div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: isPerfect ? 'var(--state-success)' : 'var(--brand-primary)', marginTop: '4px', fontFamily: 'var(--font-display)' }}>
+              {wrongQuestions.length > 0 ? `${reviewCorrectCount}/${wrongQuestions.length}` : '0'}
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
               {isPerfect ? 'Zero Mistakes' : 'Reinforced'}
             </div>
           </div>
-
-          <div style={{ padding: '16px', backgroundColor: '#FEF3C7', borderRadius: 'var(--radius-xl)', border: '1px solid #FDE68A' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B45309', textTransform: 'uppercase' }}>XP Earned</div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#B45309', marginTop: '4px' }}>
-              +{lessonMeta.xpReward} XP
-            </div>
-            <div style={{ fontSize: '0.75rem', color: '#92400E', marginTop: '2px' }}>Progress Saved</div>
-          </div>
         </div>
 
         {/* Concepts to Revisit Section */}
         {conceptsToRevisit.length > 0 && (
-          <div style={{ maxWidth: '520px', width: '100%', marginBottom: '32px', textAlign: 'left', backgroundColor: '#F9FAFB', borderRadius: 'var(--radius-lg)', padding: '16px 20px', border: '1px solid #E5E7EB' }}>
-            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '8px' }}>
-              Concepts To Revisit:
+          <div style={{ maxWidth: '580px', width: '100%', marginBottom: '32px', textAlign: 'left', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-lg)', padding: '16px 20px', border: '1.5px solid var(--border-default)' }}>
+            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Icon name="history" size={16} /> Concepts Reinforced Today:
             </div>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {conceptsToRevisit.map((concept, idx) => (
                 <span
                   key={idx}
                   style={{
-                    backgroundColor: '#EFF6FF',
-                    color: '#1D4ED8',
-                    border: '1px solid #BFDBFE',
+                    backgroundColor: 'var(--brand-light)',
+                    color: 'var(--brand-text)',
+                    border: '1px solid var(--border-subtle)',
                     borderRadius: 'var(--radius-full)',
                     padding: '4px 12px',
                     fontSize: '0.8rem',
@@ -862,8 +1026,15 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           </div>
         )}
 
-        <Button variant="primary" size="lg" onClick={exitLesson} icon={<Icon name="arrow-right" size={20} />} iconPosition="right" style={{ minWidth: '240px' }}>
-          Continue Learning
+        <Button
+          variant="success"
+          size="lg"
+          onClick={exitLesson}
+          icon={<Icon name="arrow-right" size={20} />}
+          iconPosition="right"
+          style={{ minWidth: '260px' }}
+        >
+          Continue to Pathway
         </Button>
       </div>
     );
@@ -877,7 +1048,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       case 'code_example':
         return (
           <div className="animate-fade-in" style={{ paddingBottom: '120px' }}>
-            <div style={{ backgroundColor: 'var(--bg-app, #F9FAFB)', padding: '28px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default, #E5E7EB)' }}>
+            <div style={{ backgroundColor: 'var(--bg-app)', padding: '28px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default)' }}>
               {renderFormattedMarkdown(currentBlock.content || currentBlock.contentMarkdown)}
             </div>
           </div>
@@ -886,6 +1057,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       // 2. Multiple Choice, Output Prediction, Code Prediction, Error Diagnosis, Scenario, Trace
       case 'multiple_choice':
       case 'output_prediction':
+      case 'predict_output':
       case 'code_prediction':
       case 'error_diagnosis':
       case 'real_world_scenario':
@@ -909,9 +1081,27 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             </div>
 
             {/* Prompt with Code Fences */}
-            <div style={{ marginBottom: '24px' }}>
+            <div style={{ marginBottom: '20px' }}>
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
+
+            {/* Code Snippet (if provided separately) */}
+            {currentBlock.codeSnippet && !((currentBlock.content || currentBlock.prompt || '').includes(currentBlock.codeSnippet)) && (
+              <div style={{
+                backgroundColor: '#1E1E1E',
+                borderRadius: 'var(--radius-lg, 12px)',
+                padding: '16px 20px',
+                marginBottom: '20px',
+                border: '1px solid #334155',
+                overflowX: 'auto',
+                boxShadow: 'var(--shadow-xs)'
+              }}>
+                <div style={{ fontSize: '0.72rem', color: '#94A3B8', marginBottom: '8px', fontFamily: 'var(--font-mono)' }}>python</div>
+                <pre style={{ margin: 0, color: '#F8FAFC', fontFamily: 'var(--font-mono)', fontSize: '0.94rem', lineHeight: 1.5 }}>
+                  {currentBlock.codeSnippet}
+                </pre>
+              </div>
+            )}
 
             {/* Selectable Options with Stitch DevRealm Tactile 3D Extrusion */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -919,55 +1109,55 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 const isSelected = selectedOptionId === opt.id;
                 const letter = String.fromCharCode(65 + idx);
 
-                let bgCol = '#FFFFFF';
-                let borderCol = 'var(--border-default, #E5DDD0)';
-                let bevelCol = '#E2D9CC';
-                let textCol = 'var(--text-primary, #1E1B17)';
-                let badgeBg = 'var(--bg-surface-subtle, #FAF6EE)';
-                let badgeBorder = 'var(--border-default, #E5DDD0)';
-                let badgeBevel = '#D5C9B7';
-                let badgeColor = 'var(--text-secondary, #57534E)';
+                let bgCol = 'var(--bg-surface)';
+                let borderCol = 'var(--border-default)';
+                let bevelCol = 'var(--border-default)';
+                let textCol = 'var(--text-primary)';
+                let badgeBg = 'var(--bg-surface-subtle)';
+                let badgeBorder = 'var(--border-default)';
+                let badgeBevel = 'var(--border-default)';
+                let badgeColor = 'var(--text-secondary)';
 
                 if (exerciseState === 'correct' || exerciseState === 'incorrect') {
                   if (isSelected) {
                     if (opt.isCorrect) {
-                      bgCol = '#ECFDF5';
-                      borderCol = '#10B981';
-                      bevelCol = '#047857';
-                      textCol = '#065F46';
-                      badgeBg = '#10B981';
-                      badgeBorder = '#059669';
-                      badgeBevel = '#047857';
+                      bgCol = 'var(--state-success-subtle)';
+                      borderCol = 'var(--state-success)';
+                      bevelCol = 'var(--state-success)';
+                      textCol = 'var(--state-success)';
+                      badgeBg = 'var(--state-success)';
+                      badgeBorder = 'var(--state-success)';
+                      badgeBevel = 'var(--state-success)';
                       badgeColor = '#FFFFFF';
                     } else {
-                      bgCol = '#FEF2F2';
-                      borderCol = '#EF4444';
-                      bevelCol = '#991B1B';
-                      textCol = '#991B1B';
-                      badgeBg = '#EF4444';
-                      badgeBorder = '#DC2626';
-                      badgeBevel = '#991B1B';
+                      bgCol = 'var(--state-error-subtle)';
+                      borderCol = 'var(--state-error)';
+                      bevelCol = 'var(--state-error)';
+                      textCol = 'var(--state-error)';
+                      badgeBg = 'var(--state-error)';
+                      badgeBorder = 'var(--state-error)';
+                      badgeBevel = 'var(--state-error)';
                       badgeColor = '#FFFFFF';
                     }
                   } else if (opt.isCorrect && exerciseState === 'incorrect') {
                     // Clearly reveal correct answer in glowing emerald
-                    borderCol = '#10B981';
-                    bgCol = '#ECFDF5';
-                    bevelCol = '#047857';
-                    textCol = '#065F46';
-                    badgeBg = '#10B981';
-                    badgeBorder = '#059669';
-                    badgeBevel = '#047857';
+                    borderCol = 'var(--state-success)';
+                    bgCol = 'var(--state-success-subtle)';
+                    bevelCol = 'var(--state-success)';
+                    textCol = 'var(--state-success)';
+                    badgeBg = 'var(--state-success)';
+                    badgeBorder = 'var(--state-success)';
+                    badgeBevel = 'var(--state-success)';
                     badgeColor = '#FFFFFF';
                   }
                 } else if (isSelected) {
-                  borderCol = 'var(--brand-primary, #4338CA)';
-                  bgCol = 'var(--brand-light, #EEF2FF)';
-                  bevelCol = '#312E81';
-                  textCol = 'var(--brand-text, #312E81)';
-                  badgeBg = 'var(--brand-primary, #4338CA)';
-                  badgeBorder = '#312E81';
-                  badgeBevel = '#1E1B4B';
+                  borderCol = 'var(--brand-primary)';
+                  bgCol = 'var(--brand-light)';
+                  bevelCol = 'var(--brand-hover)';
+                  textCol = 'var(--brand-text)';
+                  badgeBg = 'var(--brand-primary)';
+                  badgeBorder = 'var(--brand-hover)';
+                  badgeBevel = 'var(--brand-hover)';
                   badgeColor = '#FFFFFF';
                 }
 
@@ -1015,15 +1205,32 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                       {letter}
                     </span>
                     <span style={{ flex: 1, fontSize: '1rem', lineHeight: 1.45, fontFamily: 'var(--font-sans)' }}>{opt.text}</span>
+                    {exerciseState === 'unanswered' || exerciseState === 'answering' ? (
+                      <kbd
+                        style={{
+                          fontSize: '0.72rem',
+                          padding: '3px 7px',
+                          borderRadius: 'var(--radius-sm)',
+                          backgroundColor: 'var(--bg-surface-subtle)',
+                          border: '1px solid var(--border-default)',
+                          color: 'var(--text-muted)',
+                          fontFamily: 'var(--font-mono)',
+                          fontWeight: 700
+                        }}
+                        className="desktop-only"
+                      >
+                        {idx + 1}
+                      </kbd>
+                    ) : null}
                     {(exerciseState === 'correct' || exerciseState === 'incorrect') && (
                       opt.isCorrect ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#10B981', fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--state-success)', fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
                           <span>CORRECT</span>
                           <Icon name="check" size={22} stroke={3} />
                         </div>
                       ) : (
                         isSelected && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#EF4444', fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--state-error)', fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
                             <span>MISSED</span>
                             <Icon name="x" size={22} stroke={3} />
                           </div>
@@ -1254,7 +1461,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               <Badge variant="brand" size="sm">CODE ORDERING</Badge>
               {sessionPhase === 'review' && <Badge variant="warning" size="sm">REVIEW REINFORCEMENT</Badge>}
               <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', alignSelf: 'center' }}>
-                Use arrows to arrange steps in execution sequence
+                Drag & drop blocks to arrange in execution order (touch & keyboard supported)
               </span>
             </div>
 
@@ -1262,62 +1469,19 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {orderedItems.map((itemText, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '2px solid var(--border-default, #E5E7EB)',
-                    borderRadius: 'var(--radius-lg, 12px)',
-                    padding: '14px 18px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '12px',
-                    boxShadow: 'var(--shadow-xs)'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ width: '28px', height: '28px', borderRadius: '50%', backgroundColor: '#F3F4F6', color: '#4B5563', fontSize: '0.8rem', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {idx + 1}
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '0.94rem', color: 'var(--text-primary)' }}>
-                      {itemText}
-                    </span>
-                  </div>
-
-                  {exerciseState !== 'correct' && exerciseState !== 'incorrect' && (
-                    <div style={{ display: 'flex', gap: '6px' }}>
-                      <button
-                        onClick={() => moveOrderItem(idx, 'up')}
-                        disabled={idx === 0}
-                        style={{ padding: '6px 10px', borderRadius: '6px', border: '1px solid #E5E7EB', backgroundColor: idx === 0 ? '#F9FAFB' : '#FFFFFF', cursor: idx === 0 ? 'not-allowed' : 'pointer' }}
-                        title="Move Up"
-                      >
-                        ▲
-                      </button>
-                      <button
-                        onClick={() => moveOrderItem(idx, 'down')}
-                        disabled={idx === orderedItems.length - 1}
-                        style={{ padding: '6px 10px', borderRadius: '6px', border: '1px solid #E5E7EB', backgroundColor: idx === orderedItems.length - 1 ? '#F9FAFB' : '#FFFFFF', cursor: idx === orderedItems.length - 1 ? 'not-allowed' : 'pointer' }}
-                        title="Move Down"
-                      >
-                        ▼
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <SortableCodeList
+              items={orderedItems}
+              onChange={setOrderedItems}
+              disabled={exerciseState === 'correct' || exerciseState === 'incorrect'}
+            />
 
             {/* Reveal Correct Order Immediately if Incorrect */}
             {exerciseState === 'incorrect' && (
-              <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 'var(--radius-lg)' }}>
-                <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#065F46', textTransform: 'uppercase', marginBottom: '8px' }}>
-                  Correct Execution Sequence:
+              <div style={{ marginTop: '20px', padding: '16px', backgroundColor: 'var(--state-success-subtle)', border: '1.5px solid var(--state-success-border)', borderRadius: 'var(--radius-lg)' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--state-success)', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Icon name="check" size={16} /> Correct Execution Sequence:
                 </div>
-                <div style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono, monospace)', color: '#065F46', fontSize: '0.92rem', lineHeight: 1.6 }}>
+                <div style={{ whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono, monospace)', color: 'var(--state-success)', fontSize: '0.92rem', lineHeight: 1.6 }}>
                   {getCorrectAnswerDisplay(currentBlock)}
                 </div>
               </div>
@@ -1546,11 +1710,43 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               </div>
             )}
 
+            {/* Engine Warming Indicator */}
+            {isEngineWarming && (
+              <div
+                className="animate-pulse"
+                style={{
+                  backgroundColor: 'var(--brand-light)',
+                  border: '1.5px solid var(--brand-primary)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '12px 18px',
+                  marginBottom: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  color: 'var(--brand-text)'
+                }}
+              >
+                <div
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    borderRadius: '50%',
+                    border: '2px solid var(--brand-primary)',
+                    borderTopColor: 'transparent',
+                    animation: 'spin 0.8s linear infinite'
+                  }}
+                />
+                <span style={{ fontSize: '0.88rem', fontWeight: 700 }}>
+                  Warming up Python engine (Pyodide WebAssembly)...
+                </span>
+              </div>
+            )}
+
             {/* Monaco Python Editor */}
-            <div style={{ borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default, #E5E7EB)', overflow: 'hidden', marginBottom: '14px', boxShadow: 'var(--shadow-sm)' }}>
-              <div style={{ height: '38px', backgroundColor: '#F9FAFB', borderBottom: '1px solid var(--border-default, #E5E7EB)', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ borderRadius: 'var(--radius-xl, 16px)', border: '1.5px solid var(--border-default)', overflow: 'hidden', marginBottom: '14px', boxShadow: 'var(--shadow-sm)' }}>
+              <div style={{ height: '38px', backgroundColor: 'var(--bg-surface-subtle)', borderBottom: '1px solid var(--border-default)', padding: '0 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Icon name="code" size={16} style={{ color: '#10B981' }} />
+                  <Icon name="code" size={16} style={{ color: 'var(--state-success)' }} />
                   <span style={{ fontSize: '0.78rem', fontWeight: 700, fontFamily: 'var(--font-mono, monospace)', color: 'var(--text-secondary)' }}>
                     solution.py
                   </span>
@@ -1579,11 +1775,18 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                     minimap: { enabled: false },
                     lineNumbers: 'on',
                     fontSize: 14,
+                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
                     wordWrap: 'on',
                     tabSize: 4,
                     scrollBeyondLastLine: false,
                     readOnly: exerciseState === 'correct' || exerciseState === 'incorrect',
-                    padding: { top: 12, bottom: 12 }
+                    padding: { top: 12, bottom: 12 },
+                    quickSuggestions: false,
+                    parameterHints: { enabled: false },
+                    suggestOnTriggerCharacters: false,
+                    renderLineHighlight: 'all',
+                    glyphMargin: false,
+                    folding: false
                   }}
                 />
               </div>
@@ -1591,9 +1794,21 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
             {/* Output / Console Preview */}
             {executionOutput && (
-              <div style={{ backgroundColor: '#1E1E1E', color: '#E2E8F0', borderRadius: 'var(--radius-lg, 12px)', padding: '14px 18px', marginTop: '12px', fontFamily: 'var(--font-mono, monospace)', fontSize: '0.85rem' }}>
-                <div style={{ fontSize: '0.7rem', color: '#9CA3AF', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Execution Output</div>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{executionOutput}</pre>
+              <div style={{
+                backgroundColor: '#1E1E1E',
+                color: '#E2E8F0',
+                borderRadius: 'var(--radius-lg, 12px)',
+                border: '1px solid #334155',
+                padding: '14px 18px',
+                marginTop: '12px',
+                boxShadow: 'var(--shadow-sm)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.72rem', color: '#94A3B8', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: 'var(--font-mono)' }}>
+                  <Icon name="terminal" size={14} /> stdout / stderr
+                </div>
+                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: '0.88rem', lineHeight: 1.5 }}>
+                  {executionOutput}
+                </pre>
               </div>
             )}
 
@@ -1601,58 +1816,83 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             {testResults.length > 0 && (
               <div style={{
                 marginTop: '16px',
-                backgroundColor: '#FFFFFF',
-                border: '1.5px solid var(--border-default, #E5E7EB)',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1.5px solid var(--border-default)',
                 borderRadius: 'var(--radius-lg, 12px)',
                 padding: '16px 20px',
                 boxShadow: 'var(--shadow-xs)'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
-                    Test Cases ({testResults.filter(t => t.passed).length} / {testResults.length} Passed)
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Icon name="circle-check" size={16} /> Test Cases ({testResults.filter(t => t.passed).length} / {testResults.length} Passed)
                   </div>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Click failed tests for details</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {testResults.map((t, idx) => (
-                    <div
-                      key={t.testId || idx}
-                      style={{
-                        padding: '10px 14px',
-                        borderRadius: '8px',
-                        backgroundColor: t.passed ? '#ECFDF5' : '#FEF2F2',
-                        border: `1px solid ${t.passed ? '#A7F3D0' : '#FECACA'}`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '12px'
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{
-                          color: t.passed ? '#10B981' : '#EF4444',
-                          fontWeight: 800,
-                          fontSize: '1rem'
-                        }}>
-                          {t.passed ? '✓' : '✗'}
-                        </span>
-                        <span style={{
-                          fontSize: '0.9rem',
-                          fontWeight: 600,
-                          color: t.passed ? '#065F46' : '#991B1B'
-                        }}>
-                          {t.description}
-                        </span>
+                  {testResults.map((t, idx) => {
+                    const isExpanded = Boolean(expandedTests[idx]);
+                    return (
+                      <div
+                        key={t.testId || idx}
+                        onClick={() => {
+                          if (!t.passed) {
+                            setExpandedTests(prev => ({ ...prev, [idx]: !prev[idx] }));
+                          }
+                        }}
+                        style={{
+                          padding: '10px 14px',
+                          borderRadius: '8px',
+                          backgroundColor: t.passed ? 'var(--state-success-subtle)' : 'var(--state-error-subtle)',
+                          border: `1px solid ${t.passed ? 'var(--state-success-border)' : 'var(--state-error-border)'}`,
+                          cursor: t.passed ? 'default' : 'pointer'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <Icon
+                              name={t.passed ? 'circle-check' : 'circle-x'}
+                              size={18}
+                              style={{ color: t.passed ? 'var(--state-success)' : 'var(--state-error)' }}
+                            />
+                            <span style={{
+                              fontSize: '0.9rem',
+                              fontWeight: 600,
+                              color: t.passed ? 'var(--state-success)' : 'var(--state-error)'
+                            }}>
+                              {t.description}
+                            </span>
+                          </div>
+                          <span style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            color: t.passed ? 'var(--state-success)' : 'var(--state-error)'
+                          }}>
+                            {t.passed ? 'Passed' : (isExpanded ? 'Hide Details ▲' : 'Details ▼')}
+                          </span>
+                        </div>
+
+                        {/* Expandable Failure Details */}
+                        {!t.passed && isExpanded && (
+                          <div style={{
+                            marginTop: '10px',
+                            paddingTop: '8px',
+                            borderTop: '1px dashed var(--state-error-border)',
+                            fontSize: '0.82rem',
+                            fontFamily: 'var(--font-mono)',
+                            color: 'var(--state-error)'
+                          }}>
+                            {t.error && <div><strong>Error:</strong> {t.error}</div>}
+                            {t.expectedOutput !== undefined && <div><strong>Expected:</strong> {String(t.expectedOutput)}</div>}
+                            {t.actualOutput !== undefined && <div><strong>Actual:</strong> {String(t.actualOutput)}</div>}
+                            {!t.error && t.expectedOutput === undefined && (
+                              <div>Assertion failed. Check return values against the problem description.</div>
+                            )}
+                          </div>
+                        )}
                       </div>
-                      <span style={{
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        color: t.passed ? '#059669' : '#DC2626'
-                      }}>
-                        {t.passed ? 'Passed' : 'Failed'}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -1681,18 +1921,18 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
   // Bottom Fixed Drawer with Stitch DevRealm Odyssey Tactile Actions
   const renderFooter = () => {
-    let footerBg = '#FFFFFF';
-    let borderColor = 'var(--border-default, #E5DDD0)';
-    let drawerShadow = '0 -4px 16px rgba(30, 27, 23, 0.05)';
+    let footerBg = 'var(--bg-surface)';
+    let borderColor = 'var(--border-default)';
+    let drawerShadow = '0 -4px 16px rgba(0, 0, 0, 0.08)';
 
     if (exerciseState === 'correct') {
-      footerBg = '#ECFDF5';
-      borderColor = '#10B981';
-      drawerShadow = '0 -6px 24px rgba(16, 185, 129, 0.15)';
+      footerBg = 'var(--state-success-subtle)';
+      borderColor = 'var(--state-success)';
+      drawerShadow = '0 -6px 24px rgba(16, 185, 129, 0.2)';
     } else if (exerciseState === 'incorrect') {
-      footerBg = '#FEF2F2';
-      borderColor = '#EF4444';
-      drawerShadow = '0 -6px 24px rgba(239, 68, 68, 0.15)';
+      footerBg = 'var(--state-error-subtle)';
+      borderColor = 'var(--state-error)';
+      drawerShadow = '0 -6px 24px rgba(239, 68, 68, 0.2)';
     }
 
     const isCodingType = currentBlock.type === 'write_code' || currentBlock.type === 'fix_code' || currentBlock.type === 'mini_challenge' || currentBlock.type === 'refactoring_challenge';
@@ -1718,6 +1958,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           backgroundColor: footerBg,
           borderTop: `2px solid ${borderColor}`,
           padding: '16px 20px',
+          paddingBottom: 'max(16px, env(safe-area-inset-bottom, 16px))',
           zIndex: 100,
           display: 'flex',
           flexDirection: 'column',
@@ -1737,8 +1978,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                   height: '44px',
                   borderRadius: '14px',
                   flexShrink: 0,
-                  backgroundColor: exerciseState === 'correct' ? '#10B981' : '#EF4444',
-                  border: `2px solid ${exerciseState === 'correct' ? '#059669' : '#DC2626'}`,
+                  backgroundColor: exerciseState === 'correct' ? 'var(--state-success)' : 'var(--state-error)',
+                  border: `2px solid ${exerciseState === 'correct' ? 'var(--state-success)' : 'var(--state-error)'}`,
                   boxShadow: `0 3px 0 ${exerciseState === 'correct' ? '#047857' : '#991B1B'}`,
                   color: '#FFF',
                   display: 'flex',
@@ -1749,23 +1990,35 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 <Icon name={exerciseState === 'correct' ? 'check' : 'x'} size={26} stroke={3.5} />
               </div>
               <div style={{ flex: 1 }}>
-                <h4 style={{ margin: '0 0 4px', fontSize: '1.2rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: exerciseState === 'correct' ? '#065F46' : '#991B1B' }}>
-                  {feedbackMsg.title}
+                <h4 style={{ margin: '0 0 4px', fontSize: '1.2rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: exerciseState === 'correct' ? 'var(--state-success)' : 'var(--state-error)' }}>
+                  {exerciseState === 'correct' ? (feedbackMsg.title || 'Excellent!') : (feedbackMsg.title || 'Needs Review')}
                 </h4>
-                <p style={{ margin: 0, fontSize: '0.95rem', color: exerciseState === 'correct' ? '#047857' : '#7F1D1D', lineHeight: 1.45, fontWeight: 500 }}>
+                <p style={{ margin: 0, fontSize: '0.95rem', color: exerciseState === 'correct' ? 'var(--state-success)' : 'var(--state-error)', lineHeight: 1.45, fontWeight: 500 }}>
                   {feedbackMsg.msg}
                 </p>
                 {feedbackMsg.detail && (
-                  <p style={{ margin: '6px 0 0', fontSize: '0.85rem', color: exerciseState === 'correct' ? '#065F46' : '#991B1B', fontWeight: 600 }}>
-                    💡 {feedbackMsg.detail}
-                  </p>
+                  <div style={{
+                    margin: '8px 0 0',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: exerciseState === 'correct' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                    fontSize: '0.85rem',
+                    color: exerciseState === 'correct' ? 'var(--state-success)' : 'var(--state-error)',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <Icon name="bulb" size={16} />
+                    <span><strong>Mental model:</strong> {feedbackMsg.detail}</span>
+                  </div>
                 )}
               </div>
             </div>
           )}
 
           {/* Action Button Section */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px' }}>
             {exerciseState === 'incorrect' && currentBlock.type === 'fix_code' && debugAttempts < 3 ? (
               <div style={{ display: 'flex', gap: '12px', width: '100%', maxWidth: '440px', justifyContent: 'flex-end' }}>
                 <Button
@@ -1774,13 +2027,15 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                   onClick={() => setExerciseState('unanswered')}
                   style={{ flex: 1 }}
                 >
-                  TRY AGAIN (Attempt {debugAttempts + 1}/3)
+                  TRY AGAIN ({debugAttempts + 1}/3)
                 </Button>
                 <Button
                   variant="danger"
                   size="lg"
                   onClick={handleNextStep}
                   style={{ flex: 1 }}
+                  icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                  iconPosition="right"
                 >
                   CONTINUE
                 </Button>
@@ -1791,7 +2046,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 size="lg"
                 onClick={handleNextStep}
                 fullWidth
-                style={{ maxWidth: '300px' }}
+                style={{ maxWidth: '320px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 {exerciseState === 'incorrect' ? 'GOT IT, CONTINUE' : 'CONTINUE (+20 XP)'}
               </Button>
@@ -1804,6 +2061,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={code.trim() === ''}
                 fullWidth
                 style={{ maxWidth: '300px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 RUN CODE
               </Button>
@@ -1815,6 +2074,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={!isTraceFilled}
                 fullWidth
                 style={{ maxWidth: '300px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 CHECK TRACE VALUES
               </Button>
@@ -1826,6 +2087,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={blankAnswer.trim() === ''}
                 fullWidth
                 style={{ maxWidth: '300px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 CHECK ANSWER
               </Button>
@@ -1836,6 +2099,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={checkOrderingAnswer}
                 fullWidth
                 style={{ maxWidth: '300px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 CHECK ORDER
               </Button>
@@ -1846,6 +2111,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={checkMatchAnswer}
                 fullWidth
                 style={{ maxWidth: '300px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 CHECK MATCHES
               </Button>
@@ -1857,6 +2124,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={!selectedOptionId}
                 fullWidth
                 style={{ maxWidth: '300px' }}
+                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                iconPosition="right"
               >
                 CHECK ANSWER
               </Button>
@@ -1873,39 +2142,40 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const progressPercentage = currentTotal > 0 ? Math.round((currentStep / currentTotal) * 100) : 100;
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-app, #FDFBF7)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-app)' }}>
       {/* Top Header */}
       <header
         style={{
           height: '68px',
-          borderBottom: '1.5px solid var(--border-default, #E5DDD0)',
-          boxShadow: '0 2px 0 var(--border-subtle, #F2EBE1)',
+          borderBottom: '1.5px solid var(--border-default)',
+          boxShadow: 'var(--shadow-xs)',
           padding: '0 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'var(--bg-surface)',
           position: 'sticky',
           top: 0,
           zIndex: 40
         }}
       >
         <button
-          onClick={exitLesson}
+          onClick={() => setShowExitModal(true)}
           style={{
             width: '38px',
             height: '38px',
             borderRadius: '12px',
-            backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
-            border: '1.5px solid var(--border-default, #E5DDD0)',
-            boxShadow: '0 2px 0 var(--border-default, #E5DDD0)',
+            backgroundColor: 'var(--bg-surface-subtle)',
+            border: '1.5px solid var(--border-default)',
+            boxShadow: '0 2px 0 var(--border-default)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: 'var(--text-secondary)',
             cursor: 'pointer'
           }}
-          title="Exit to learning path"
+          title="Exit to learning path (Esc)"
+          aria-label="Exit lesson"
         >
           <Icon name="x" size={20} stroke={2.5} />
         </button>
@@ -1923,27 +2193,27 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '4px',
-              padding: '4px 10px',
-              backgroundColor: '#EFF6FF',
+              gap: '6px',
+              padding: '6px 12px',
+              backgroundColor: 'var(--brand-light)',
               borderRadius: 'var(--radius-full)',
-              border: '1.5px solid #BFDBFE',
-              color: '#1D4ED8',
+              border: '1.5px solid var(--brand-primary)',
+              color: 'var(--brand-text)',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
               fontSize: '0.78rem'
             }}
           >
-            <Icon name="shield" size={14} fill="#BFDBFE" />
+            <Icon name="shield" size={14} />
             <span>Shield Active</span>
           </div>
         </div>
       </header>
 
       {/* Main Block Content */}
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '36px 20px' }}>
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '36px 20px', paddingBottom: '240px' }}>
         <div style={{ maxWidth: '780px', width: '100%' }}>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '20px', color: 'var(--text-primary)' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '20px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
             {currentBlock.title}
           </h1>
           {renderBlockContent()}
@@ -1952,6 +2222,27 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
       {/* Bottom Sticky Action Footer */}
       {renderFooter()}
+
+      {/* Exit Confirmation Modal */}
+      <Modal
+        isOpen={showExitModal}
+        onClose={() => setShowExitModal(false)}
+        title="Leave Lesson?"
+      >
+        <div style={{ padding: '8px 0 12px' }}>
+          <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '0.95rem', margin: '0 0 24px' }}>
+            Are you sure you want to exit? Your progress in this lesson will not be saved until all exercises are completed.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <Button variant="secondary" onClick={() => setShowExitModal(false)}>
+              Keep Learning
+            </Button>
+            <Button variant="danger" onClick={exitLesson}>
+              Leave Lesson
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
