@@ -344,7 +344,7 @@ export const LandingPage: React.FC = () => {
                   borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'rgba(255, 255, 255, 0.04)',
                   fontSize: '0.75rem',
-                  color: '#888',
+                  color: '#A3A3A3',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px'

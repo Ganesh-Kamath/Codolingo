@@ -95,7 +95,7 @@ export const PracticeWorkspaceHeader: React.FC<PracticeWorkspaceHeaderProps> = (
           {subtitle && (
             <span
               style={{
-                color: '#768390',
+                color: '#ADBAC7',
                 fontSize: '0.75rem',
                 backgroundColor: '#1C2128',
                 padding: '2px 8px',

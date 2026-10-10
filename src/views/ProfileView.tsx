@@ -219,7 +219,7 @@ export const ProfileView: React.FC = () => {
             <Icon name="flame" size={24} fill="#FDA4AF" />
           </div>
           <div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
               Streak
             </div>
             <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
@@ -233,7 +233,7 @@ export const ProfileView: React.FC = () => {
             <Icon name="sparkles" size={24} fill="#FDE68A" />
           </div>
           <div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
               Total XP
             </div>
             <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
@@ -247,7 +247,7 @@ export const ProfileView: React.FC = () => {
             <Icon name="circle-check" size={24} stroke={2.5} />
           </div>
           <div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
               Lessons Done
             </div>
             <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
@@ -261,7 +261,7 @@ export const ProfileView: React.FC = () => {
             <Icon name="shield-check" size={24} />
           </div>
           <div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontWeight: 600, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
               Mistakes Reviewed
             </div>
             <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }} className="tabular-nums">
@@ -336,7 +336,6 @@ export const ProfileView: React.FC = () => {
                   borderRadius: 'var(--radius-xl)',
                   border: `1.5px solid ${item.unlocked ? '#FDE68A' : 'var(--border-default)'}`,
                   boxShadow: item.unlocked ? '0 4px 0 #B45309' : '0 2px 0 var(--border-default)',
-                  opacity: item.unlocked ? 1 : 0.65,
                   textAlign: 'center',
                   transition: 'transform var(--transition-fast)'
                 }}
@@ -353,7 +352,7 @@ export const ProfileView: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: item.unlocked ? '#D97706' : 'var(--text-muted)',
+                    color: item.unlocked ? '#D97706' : 'var(--text-secondary)',
                     marginBottom: '10px'
                   }}
                 >
@@ -367,7 +366,7 @@ export const ProfileView: React.FC = () => {
                 {!item.unlocked ? (
                   <div style={{ width: '100%', marginTop: '6px' }}>
                     <ProgressBar progress={(item.progress / item.maxProgress) * 100} height={6} />
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block', fontWeight: 700 }}>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '4px', display: 'block', fontWeight: 700 }}>
                       {item.progress}/{item.maxProgress}
                     </span>
                   </div>

@@ -163,7 +163,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
       {/* Workspace Header */}
       <PracticeWorkspaceHeader
         title="Playground"
-        subtitle="Python 3.11 WASM IDE"
+        subtitle="Python Workspace"
         backLabel="Practice"
         onBack={onBack}
         selectedLanguage={selectedLanguage}
@@ -208,7 +208,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                backgroundColor: isRunning ? '#238636' : '#2EA043',
+                backgroundColor: isRunning ? '#14532D' : '#166534',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '8px',
                 color: '#FFFFFF',
@@ -216,15 +216,15 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
                 fontSize: '0.8125rem',
                 fontWeight: 700,
                 cursor: isRunning ? 'not-allowed' : 'pointer',
-                boxShadow: '0 0 12px rgba(46, 160, 67, 0.35)',
+                boxShadow: 'var(--shadow-xs)',
                 opacity: isRunning ? 0.8 : 1,
                 transition: 'all 120ms ease'
               }}
               onMouseEnter={(e) => {
-                if (!isRunning) e.currentTarget.style.backgroundColor = '#3FB950';
+                if (!isRunning) e.currentTarget.style.backgroundColor = '#15803D';
               }}
               onMouseLeave={(e) => {
-                if (!isRunning) e.currentTarget.style.backgroundColor = '#2EA043';
+                if (!isRunning) e.currentTarget.style.backgroundColor = '#166534';
               }}
               title="Execute Python Script (Ctrl + Enter)"
             >
@@ -247,7 +247,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
                 <>
                   <Icon name="player-play" size={15} />
                   <span>Run</span>
-                  <span style={{ fontSize: '0.7rem', opacity: 0.8, marginLeft: '2px', fontFamily: 'var(--font-mono, monospace)' }}>
+                  <span style={{ fontSize: '0.7rem', color: '#FFFFFF', marginLeft: '2px', fontFamily: 'var(--font-mono, monospace)' }}>
                     (Ctrl+Enter)
                   </span>
                 </>
@@ -559,7 +559,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
               {output ? (
                 output
               ) : (
-                <div style={{ color: '#484F58', fontStyle: 'italic', fontSize: '0.8125rem' }}>
+                <div style={{ color: '#8B949E', fontStyle: 'italic', fontSize: '0.8125rem' }}>
                   Output will appear here.
                 </div>
               )}

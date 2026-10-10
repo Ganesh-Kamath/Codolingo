@@ -267,7 +267,7 @@ export const LearningPath: React.FC = () => {
                         position: 'absolute',
                         top: '-18px',
                         backgroundColor: '#F59E0B',
-                        color: '#FFFFFF',
+                        color: '#451A03',
                         fontSize: '0.625rem',
                         fontWeight: 900,
                         fontFamily: 'var(--font-display)',
@@ -547,8 +547,7 @@ export const LearningPath: React.FC = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
-                    gap: '12px',
-                    opacity: 0.8
+                    gap: '12px'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: '220px' }}>

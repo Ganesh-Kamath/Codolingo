@@ -371,7 +371,7 @@ export const DashboardView: React.FC = () => {
                 {totalWeeklyXp} XP earned this week
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: '#16A34A', fontWeight: 800, backgroundColor: 'var(--state-success-subtle)', padding: '2px 8px', borderRadius: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--success-text)', fontWeight: 800, backgroundColor: 'var(--state-success-subtle)', padding: '2px 8px', borderRadius: '6px' }}>
               <Icon name="trending-up" size={14} stroke={2.5} />
               <span>Active</span>
             </div>
