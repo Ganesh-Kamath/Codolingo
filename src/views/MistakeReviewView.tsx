@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { MistakeRecord } from '../types';
 import { sound } from '../utils/audio';
@@ -218,6 +218,16 @@ export const MistakeReviewView: React.FC = () => {
     return true;
   });
 
+  const groupedMistakes = useMemo(() => {
+    const groups: { [conceptName: string]: MistakeRecord[] } = {};
+    filteredMistakes.forEach(m => {
+      const key = m.conceptName || m.mistakeType.replace(/_/g, ' ') || 'General Python Syntax';
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(m);
+    });
+    return groups;
+  }, [filteredMistakes]);
+
   const activeConfig = selectedMistake ? MISCONCEPTION_CONFIGS[selectedMistake.mistakeType] : undefined;
   const isDrillSupported = Boolean(activeConfig);
 
@@ -273,175 +283,312 @@ export const MistakeReviewView: React.FC = () => {
     }
   };
 
+  const allResolved = mistakes.length > 0 && mistakes.every(m => m.resolved);
+
   return (
     <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
       {/* Header */}
       <div style={{ marginBottom: '28px', borderBottom: '2px solid var(--border-subtle)', paddingBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <Badge variant="warning" size="md"><Icon name="shield-check" size={14} style={{ marginRight: 4 }} /> Adaptive Learning</Badge>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 600 }}>Mistake Recovery Engine</span>
+          <Badge variant="warning" size="md"><Icon name="shield-check" size={14} style={{ marginRight: 4 }} /> Adaptive Recovery</Badge>
+          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 600 }}>Spaced Concept Reinforcement</span>
         </div>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
-          Mistake Bank & Concept Repair
+        <h1 style={{ fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px', fontFamily: 'var(--font-display)' }}>
+          Mistake Bank
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
-          Mistakes are part of progression. Repair weak concepts through short targeted drills so they never trip you up again.
+          Errors are stepping stones. Repair syntax pitfalls through targeted interactive drills to cement genuine mastery.
         </p>
       </div>
 
       {/* Filter Tabs */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
         <button
-          onClick={() => setFilter('unresolved')}
+          onClick={() => {
+            sound.playClick();
+            setFilter('unresolved');
+          }}
           style={{
             padding: '8px 18px',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.85rem',
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            backgroundColor: filter === 'unresolved' ? '#FEF2F2' : 'var(--bg-surface)',
-            color: filter === 'unresolved' ? '#991B1B' : 'var(--text-secondary)',
-            border: `1.5px solid ${filter === 'unresolved' ? '#EF4444' : 'var(--border-default)'}`,
-            boxShadow: filter === 'unresolved' ? '0 3px 0 #DC2626' : '0 2px 0 var(--border-default)',
-            cursor: 'pointer'
+            backgroundColor: filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
+            color: filter === 'unresolved' ? '#FFFFFF' : 'var(--text-secondary)',
+            border: `1.5px solid ${filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
+            boxShadow: filter === 'unresolved' ? '0 3px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+            cursor: 'pointer',
+            transition: 'all 120ms ease'
           }}
         >
           Needs Repair ({mistakes.filter(m => !m.resolved).length})
         </button>
         <button
-          onClick={() => setFilter('resolved')}
+          onClick={() => {
+            sound.playClick();
+            setFilter('resolved');
+          }}
           style={{
             padding: '8px 18px',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.85rem',
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            backgroundColor: filter === 'resolved' ? '#ECFDF5' : 'var(--bg-surface)',
-            color: filter === 'resolved' ? '#065F46' : 'var(--text-secondary)',
-            border: `1.5px solid ${filter === 'resolved' ? '#10B981' : 'var(--border-default)'}`,
-            boxShadow: filter === 'resolved' ? '0 3px 0 #047857' : '0 2px 0 var(--border-default)',
-            cursor: 'pointer'
+            backgroundColor: filter === 'resolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
+            color: filter === 'resolved' ? '#FFFFFF' : 'var(--text-secondary)',
+            border: `1.5px solid ${filter === 'resolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
+            boxShadow: filter === 'resolved' ? '0 3px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+            cursor: 'pointer',
+            transition: 'all 120ms ease'
           }}
         >
           Repaired ({mistakes.filter(m => m.resolved).length})
         </button>
         <button
-          onClick={() => setFilter('all')}
+          onClick={() => {
+            sound.playClick();
+            setFilter('all');
+          }}
           style={{
             padding: '8px 18px',
             borderRadius: 'var(--radius-full)',
             fontSize: '0.85rem',
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
-            backgroundColor: filter === 'all' ? '#1E1B17' : 'var(--bg-surface)',
+            backgroundColor: filter === 'all' ? 'var(--brand-primary)' : 'var(--bg-surface)',
             color: filter === 'all' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1.5px solid ${filter === 'all' ? '#1E1B17' : 'var(--border-default)'}`,
-            boxShadow: filter === 'all' ? '0 3px 0 #000' : '0 2px 0 var(--border-default)',
-            cursor: 'pointer'
+            border: `1.5px solid ${filter === 'all' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
+            boxShadow: filter === 'all' ? '0 3px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+            cursor: 'pointer',
+            transition: 'all 120ms ease'
           }}
         >
-          All Entries
+          All Entries ({mistakes.length})
         </button>
       </div>
 
-      {/* Mistakes List */}
+      {/* Satisfying Resolved State or Grouped Concept List */}
       {filteredMistakes.length === 0 ? (
-        <Card variant="subtle" padding="lg" style={{ textAlign: 'center', padding: '64px 24px', backgroundColor: '#F0FDF4', border: '2px dashed #BBF7D0' }}>
-          <div style={{ width: '64px', height: '64px', backgroundColor: '#DCFCE7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-            <Icon name="check" size={36} stroke={3} style={{ color: '#16A34A' }} />
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '64px 28px',
+            backgroundColor: 'var(--bg-surface)',
+            borderRadius: '24px',
+            border: '2px solid var(--border-default)',
+            boxShadow: '0 4px 0 var(--border-default)'
+          }}
+          className="animate-pop-in"
+        >
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
+              backgroundColor: 'var(--success-bg, #ECFDF5)',
+              border: '2px solid var(--success-border, #A7F3D0)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+              color: 'var(--success-text, #059669)',
+              boxShadow: '0 4px 16px rgba(16, 185, 129, 0.2)'
+            }}
+          >
+            <Icon name="award" size={42} stroke={2.5} />
           </div>
-          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '6px' }}>
-            No pending mistakes in this view
-          </h3>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '20px' }}>
-            Your code execution history looks healthy. Keep completing new lessons!
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+            {allResolved ? 'All Concepts Mastered & Repaired!' : 'No Pending Mistakes Found'}
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '520px', margin: '0 auto 24px', lineHeight: 1.6 }}>
+            {allResolved 
+              ? 'Outstanding work! Every previous code misconception in your bank has been diagnosed and reinforced. Your cognitive accuracy is operating at 100%.'
+              : 'Your code execution history looks healthy. Keep completing lessons and challenges to build endurance.'}
           </p>
-          <Button variant="primary" size="md" onClick={() => navigateTo('/app/learn')}>
-            Explore Lessons
-          </Button>
-        </Card>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => navigateTo('/app/practice')}
+              icon={<Icon name="terminal" size={16} />}
+            >
+              Practice Arena
+            </Button>
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={() => navigateTo('/app/learn')}
+              icon={<Icon name="book" size={16} />}
+            >
+              Curriculum Path
+            </Button>
+            {allResolved && (
+              <Button
+                variant="ghost"
+                size="md"
+                onClick={() => {
+                  sound.playSuccess();
+                  fireCelebrationConfetti({ particleCount: 100, spread: 60 });
+                }}
+                icon={<Icon name="sparkles" size={16} />}
+              >
+                Celebrate!
+              </Button>
+            )}
+          </div>
+        </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {filteredMistakes.map(item => {
-            const hasDrill = Boolean(MISCONCEPTION_CONFIGS[item.mistakeType]);
+        /* Grouped By Concept */
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          {Object.entries(groupedMistakes).map(([conceptGroup, items]) => {
+            const groupUnresolvedCount = items.filter(i => !i.resolved).length;
+            const groupRepairedCount = items.filter(i => i.resolved).length;
+
             return (
-              <Card key={item.id} variant="default" padding="lg">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-                  <div style={{ maxWidth: '680px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                      <Badge variant={item.resolved ? 'success' : 'error'} size="sm">
-                        {item.resolved ? <><Icon name="check" size={12} style={{marginRight: 4}} /> Repaired</> : <><Icon name="alert-triangle" size={12} style={{marginRight: 4}} /> Failed {item.frequency || 1}x</>}
-                      </Badge>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)' }}>
-                        {item.conceptName || item.mistakeType}
-                      </span>
-                      {item.lessonTitle && (
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>• {item.lessonTitle}</span>
-                      )}
+              <div key={conceptGroup} className="animate-fade-in">
+                {/* Concept Group Header */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '12px',
+                    marginBottom: '14px',
+                    paddingBottom: '8px',
+                    borderBottom: '1.5px solid var(--border-default)'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '10px',
+                        backgroundColor: 'var(--bg-surface-subtle)',
+                        border: '1.5px solid var(--border-default)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--brand-primary)'
+                      }}
+                    >
+                      <Icon name="cpu" size={16} />
                     </div>
-
-                    <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>
-                      {item.explanation || 'Code verification failed.'}
-                    </h3>
-
-                    {/* Code snippet showing the user's mistake */}
-                    {item.userCode && (
-                      <div style={{ marginTop: '10px' }}>
-                        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
-                          Your previous attempt snippet:
-                        </div>
-                        <pre
-                          style={{
-                            backgroundColor: '#1E1E1E',
-                            color: '#F87171',
-                            padding: '10px 14px',
-                            borderRadius: 'var(--radius-sm)',
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.84rem',
-                            overflowX: 'auto',
-                            margin: 0
-                          }}
-                        >
-                          {item.userCode}
-                        </pre>
-                      </div>
-                    )}
+                    <div>
+                      <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                        {conceptGroup}
+                      </h2>
+                    </div>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
-                    {!item.resolved ? (
-                      hasDrill ? (
-                        <Button
-                          variant="primary"
-                          size="md"
-                          onClick={() => handleOpenRepair(item)}
-                          icon={<Icon name="history" size={15} />}
-                        >
-                          Start Repair Drill (+50 XP)
-                        </Button>
-                      ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                            Review concept in lesson
-                          </span>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => handleOpenRepair(item)}
-                          >
-                            View Record Details
-                          </Button>
-                        </div>
-                      )
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {groupUnresolvedCount > 0 ? (
+                      <Badge variant="error" size="sm">
+                        <Icon name="alert-circle" size={12} style={{ marginRight: 4 }} />
+                        {groupUnresolvedCount} {groupUnresolvedCount === 1 ? 'repair pending' : 'repairs pending'}
+                      </Badge>
                     ) : (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--success-text)', fontSize: '0.9rem', fontWeight: 700, backgroundColor: 'var(--success-bg)', padding: '8px 12px', borderRadius: '8px' }}>
-                        <Icon name="check" size={16} stroke={3} />
-                        <span>Concept Verified</span>
-                      </div>
+                      <Badge variant="success" size="sm">
+                        <Icon name="check" size={12} style={{ marginRight: 4 }} /> All Repaired
+                      </Badge>
+                    )}
+                    {groupRepairedCount > 0 && groupUnresolvedCount > 0 && (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                        ({groupRepairedCount} solved)
+                      </span>
                     )}
                   </div>
                 </div>
-              </Card>
+
+                {/* Concept Mistake Items List */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  {items.map(item => {
+                    const hasDrill = Boolean(MISCONCEPTION_CONFIGS[item.mistakeType]);
+
+                    return (
+                      <Card key={item.id} variant="default" padding="lg">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+                          <div style={{ maxWidth: '680px', flex: '1 1 300px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                              <Badge variant={item.resolved ? 'success' : 'error'} size="sm">
+                                {item.resolved ? (
+                                  <><Icon name="check" size={12} style={{ marginRight: 4 }} /> Repaired</>
+                                ) : (
+                                  <><Icon name="alert-triangle" size={12} style={{ marginRight: 4 }} /> Encountered {item.frequency || 1}x</>
+                                )}
+                              </Badge>
+                              {item.lessonTitle && (
+                                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                  Lesson {item.lessonTitle}
+                                </span>
+                              )}
+                            </div>
+
+                            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.4, fontFamily: 'var(--font-display)' }}>
+                              {item.explanation || 'Code verification failed.'}
+                            </h3>
+
+                            {/* Code snippet */}
+                            {item.userCode && (
+                              <div style={{ marginTop: '10px' }}>
+                                <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
+                                  Attempt Snippet:
+                                </div>
+                                <pre
+                                  style={{
+                                    backgroundColor: '#1E1E1E',
+                                    color: '#F87171',
+                                    padding: '10px 14px',
+                                    borderRadius: 'var(--radius-sm)',
+                                    fontFamily: 'var(--font-mono, monospace)',
+                                    fontSize: '0.84rem',
+                                    overflowX: 'auto',
+                                    margin: 0
+                                  }}
+                                >
+                                  {item.userCode}
+                                </pre>
+                              </div>
+                            )}
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
+                            {!item.resolved ? (
+                              hasDrill ? (
+                                <Button
+                                  variant="primary"
+                                  size="md"
+                                  onClick={() => handleOpenRepair(item)}
+                                  icon={<Icon name="history" size={15} />}
+                                >
+                                  Start Repair Drill (+50 XP)
+                                </Button>
+                              ) : (
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
+                                  <Button
+                                    variant="secondary"
+                                    size="sm"
+                                    onClick={() => handleOpenRepair(item)}
+                                  >
+                                    View Drill Details
+                                  </Button>
+                                </div>
+                              )
+                            ) : (
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--success-text)', fontSize: '0.85rem', fontWeight: 800, backgroundColor: 'var(--success-bg)', padding: '6px 12px', borderRadius: '8px' }}>
+                                <Icon name="check" size={15} stroke={3} />
+                                <span>Concept Reinforced</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </div>
@@ -467,8 +614,9 @@ export const MistakeReviewView: React.FC = () => {
         >
           <div
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--bg-surface)',
               borderRadius: 'var(--radius-xl)',
+              border: '1.5px solid var(--border-default)',
               maxWidth: '640px',
               width: '100%',
               padding: '28px',

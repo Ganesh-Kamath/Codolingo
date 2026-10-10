@@ -7,6 +7,7 @@ import { practiceStorageService } from '../../services/practiceStorageService';
 import { codeExecutionService } from '../../services/codeExecutionService';
 import { sound } from '../../utils/audio';
 import { Icon } from '../../components/ui/Icon';
+import { Modal } from '../../components/common/Modal';
 
 interface PlaygroundWorkspaceProps {
   onBack?: () => void;
@@ -24,8 +25,15 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
   const [hasError, setHasError] = useState<boolean>(false);
-  const [terminalHeight, setTerminalHeight] = useState<number>(240);
+  const [terminalHeight, setTerminalHeight] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('codolingo_playground_terminal_height');
+      if (saved) return Math.max(120, Math.min(window.innerHeight - 200, parseInt(saved, 10)));
+    } catch {}
+    return 240;
+  });
   const [isTerminalCollapsed, setIsTerminalCollapsed] = useState<boolean>(false);
+  const [showCheatSheet, setShowCheatSheet] = useState<boolean>(false);
   
   // Resizing state
   const isDraggingRef = useRef<boolean>(false);
@@ -51,6 +59,9 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
       const deltaY = startYRef.current - e.clientY;
       const newHeight = Math.max(120, Math.min(window.innerHeight - 200, startHeightRef.current + deltaY));
       setTerminalHeight(newHeight);
+      try {
+        localStorage.setItem('codolingo_playground_terminal_height', String(newHeight));
+      } catch {}
     };
 
     const handleMouseUp = () => {
@@ -305,6 +316,27 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
               <span style={{ fontSize: '0.75rem', color: '#8B949E', fontFamily: 'var(--font-mono, monospace)' }}>
                 UTF-8 • 4 Spaces
               </span>
+              <button
+                onClick={() => setShowCheatSheet(true)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  backgroundColor: '#21262D',
+                  border: '1px solid #30363D',
+                  color: '#C9D1D9',
+                  fontSize: '0.72rem',
+                  cursor: 'pointer',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontWeight: 600,
+                  fontFamily: 'var(--font-mono, monospace)'
+                }}
+                title="Keyboard Shortcuts Cheat Sheet"
+              >
+                <Icon name="help-circle" size={13} />
+                <span>Shortcuts</span>
+              </button>
             </div>
           </div>
 
@@ -427,8 +459,40 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {output && !isTerminalCollapsed && (
-                <button
-                  onClick={handleClearOutput}
+                <>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(output);
+                      sound.playClick();
+                    }}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: '#8B949E',
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                      fontFamily: 'var(--font-mono, monospace)',
+                      padding: '3px 6px',
+                      borderRadius: '4px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#F0F6FC';
+                      e.currentTarget.style.backgroundColor = '#21262D';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#8B949E';
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                    title="Copy terminal output"
+                  >
+                    <Icon name="copy" size={13} />
+                    <span>Copy</span>
+                  </button>
+                  <button
+                    onClick={handleClearOutput}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -455,7 +519,8 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
                   <Icon name="trash" size={13} />
                   <span>Clear</span>
                 </button>
-              )}
+              </>
+            )}
 
               <button
                 onClick={() => setIsTerminalCollapsed(prev => !prev)}
@@ -541,6 +606,86 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
           )}
         </div>
       </div>
+
+      {/* Keyboard Shortcuts Cheat Sheet Modal */}
+      <Modal
+        isOpen={showCheatSheet}
+        onClose={() => setShowCheatSheet(false)}
+        title="Playground Keyboard Shortcuts"
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '6px 0 16px' }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: '0 0 4px', lineHeight: 1.5 }}>
+            Boost your coding speed with tactile IDE shortcuts supported in the sandbox.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {[
+              { keys: ['Ctrl / ⌘', 'Enter'], desc: 'Run Python code in Pyodide engine', highlight: true },
+              { keys: ['Ctrl / ⌘', 'K'], desc: 'Open global Codolingo Command Palette', highlight: false },
+              { keys: ['Ctrl / ⌘', 'S'], desc: 'Autosave code to local storage', highlight: false },
+              { keys: ['Esc'], desc: 'Dismiss active modal or palette', highlight: false },
+              { keys: ['Tab'], desc: 'Indent 4 spaces (soft tabs)', highlight: false },
+              { keys: ['Shift', 'Tab'], desc: 'Outdent line / unindent', highlight: false }
+            ].map((sc, i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 14px',
+                  backgroundColor: sc.highlight ? 'var(--brand-light)' : 'var(--bg-surface-subtle)',
+                  borderRadius: 'var(--radius-md)',
+                  border: `1.5px solid ${sc.highlight ? 'var(--brand-border)' : 'var(--border-default)'}`
+                }}
+              >
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  {sc.desc}
+                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  {sc.keys.map((k, j) => (
+                    <kbd
+                      key={j}
+                      style={{
+                        padding: '3px 8px',
+                        fontSize: '0.75rem',
+                        fontWeight: 800,
+                        fontFamily: 'var(--font-mono)',
+                        backgroundColor: 'var(--bg-surface)',
+                        border: '1px solid var(--border-strong)',
+                        borderRadius: '4px',
+                        color: 'var(--text-primary)',
+                        boxShadow: '0 1px 0 var(--border-strong)'
+                      }}
+                    >
+                      {k}
+                    </kbd>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px' }}>
+            <button
+              onClick={() => setShowCheatSheet(false)}
+              style={{
+                padding: '8px 20px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--brand-primary)',
+                border: '1.5px solid var(--brand-bevel)',
+                boxShadow: '0 2px 0 var(--brand-bevel)',
+                color: '#FFFFFF',
+                fontWeight: 800,
+                fontSize: '0.85rem',
+                cursor: 'pointer'
+              }}
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -98,6 +98,12 @@ interface AppContextType {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
   setTheme: (theme: 'light' | 'dark') => void;
+  reducedMotion: boolean;
+  toggleReducedMotion: () => void;
+  updateProfile: (updates: Partial<UserProgressState>) => void;
+  resetProgress: () => void;
+  exportProgress: () => string;
+  importProgress: (jsonString: string) => boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -269,6 +275,77 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
+  const [reducedMotion, setReducedMotion] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('codolingo_reduced_motion');
+      if (saved !== null) return saved === 'true';
+      if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return true;
+      }
+    } catch {}
+    return false;
+  });
+
+  useEffect(() => {
+    try {
+      document.documentElement.setAttribute('data-reduced-motion', reducedMotion ? 'true' : 'false');
+      localStorage.setItem('codolingo_reduced_motion', String(reducedMotion));
+    } catch {}
+  }, [reducedMotion]);
+
+  const toggleReducedMotion = () => {
+    sound.playClick();
+    setReducedMotion(prev => !prev);
+  };
+
+  const updateProfile = (updates: Partial<UserProgressState>) => {
+    setUserProgress(prev => {
+      const updated = { ...prev, ...updates };
+      return updated;
+    });
+  };
+
+  const resetProgress = () => {
+    setUserProgress(INITIAL_PROGRESS);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_PROGRESS));
+      localStorage.removeItem('codolingo_completed_challenges');
+      localStorage.removeItem('codolingo_playground_code_python');
+    } catch {}
+  };
+
+  const exportProgress = (): string => {
+    const backupData = {
+      version: 1,
+      timestamp: new Date().toISOString(),
+      userProgress,
+      completedChallenges: (() => {
+        try {
+          return JSON.parse(localStorage.getItem('codolingo_completed_challenges') || '[]');
+        } catch { return []; }
+      })()
+    };
+    return JSON.stringify(backupData, null, 2);
+  };
+
+  const importProgress = (jsonString: string): boolean => {
+    try {
+      const data = JSON.parse(jsonString);
+      const progressData = data.userProgress || data;
+      if (!progressData || !progressData.userId || !Array.isArray(progressData.completedSkillIds)) {
+        return false;
+      }
+      setUserProgress(progressData);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progressData));
+      if (Array.isArray(data.completedChallenges)) {
+        localStorage.setItem('codolingo_completed_challenges', JSON.stringify(data.completedChallenges));
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const toggleSound = () => {
     const next = sound.toggleSound();
     setSoundEnabled(next);
@@ -299,7 +376,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         toggleSound,
         theme,
         toggleTheme,
-        setTheme
+        setTheme,
+        reducedMotion,
+        toggleReducedMotion,
+        updateProfile,
+        resetProgress,
+        exportProgress,
+        importProgress
       }}
     >
       {children}

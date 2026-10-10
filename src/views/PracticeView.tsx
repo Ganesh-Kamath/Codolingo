@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Icon } from '../components/ui/Icon';
 import { Badge } from '../components/common/Badge';
+import { Button } from '../components/common/Button';
+import { EmptyState } from '../components/common/EmptyState';
 import { Project, PROJECTS_DATA, ProjectDifficulty } from '../data/projectsData';
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { ProjectWorkspaceView } from './ProjectWorkspaceView';
@@ -12,19 +14,76 @@ import { sound } from '../utils/audio';
 
 type PracticeSubTab = 'playground' | 'challenges' | 'projects';
 type DifficultyFilter = 'all' | 'easy' | 'medium' | 'hard' | ProjectDifficulty;
+type StatusFilter = 'all' | 'solved' | 'unsolved';
 
 export const PracticeView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<PracticeSubTab>('playground');
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
+  const [topicFilter, setTopicFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
   // Selection states
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedChallenge, setSelectedChallenge] = useState<PracticeChallengeItem | null>(null);
-  const [isWorkspaceOpen, setIsWorkspaceOpen] = useState<boolean>(false);
 
   // Completed challenges tracker
   const completedChallengeIds = practiceStorageService.getCompletedChallengeIds();
+
+  // Challenges list
+  const allChallenges = practiceChallengeService.getAllChallenges();
+
+  // Distinct Topics
+  const availableTopics = useMemo(() => {
+    const set = new Set<string>();
+    allChallenges.forEach((c) => {
+      if (c.topic) set.add(c.topic.trim());
+    });
+    return Array.from(set).sort();
+  }, [allChallenges]);
+
+  // Filtered Challenges
+  const filteredChallenges = allChallenges.filter((ch) => {
+    const matchesDifficulty = difficultyFilter === 'all' || ch.difficulty === difficultyFilter;
+    const matchesTopic = topicFilter === 'all' || ch.topic.toLowerCase() === topicFilter.toLowerCase();
+    const isCompleted = completedChallengeIds.includes(ch.id);
+    const matchesStatus =
+      statusFilter === 'all' ||
+      (statusFilter === 'solved' && isCompleted) ||
+      (statusFilter === 'unsolved' && !isCompleted);
+
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      query === '' ||
+      ch.title.toLowerCase().includes(query) ||
+      ch.description.toLowerCase().includes(query) ||
+      ch.topic.toLowerCase().includes(query) ||
+      (ch.lessonTitle && ch.lessonTitle.toLowerCase().includes(query));
+
+    return matchesDifficulty && matchesTopic && matchesStatus && matchesSearch;
+  });
+
+  // Filtered Projects
+  const filteredProjects = PROJECTS_DATA.filter((project) => {
+    const matchesDifficulty = difficultyFilter === 'all' || project.difficulty === difficultyFilter;
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      query === '' ||
+      project.title.toLowerCase().includes(query) ||
+      project.shortDescription.toLowerCase().includes(query) ||
+      project.skills.some((s) => s.toLowerCase().includes(query)) ||
+      project.topics.some((t) => t.toLowerCase().includes(query));
+
+    return matchesDifficulty && matchesSearch;
+  });
+
+  const handleResetFilters = () => {
+    sound.playClick();
+    setDifficultyFilter('all');
+    setTopicFilter('all');
+    setStatusFilter('all');
+    setSearchQuery('');
+  };
 
   // If a project is selected, render the dedicated ProjectWorkspaceView
   if (selectedProject) {
@@ -58,48 +117,19 @@ export const PracticeView: React.FC = () => {
     );
   }
 
-  // Challenges list
-  const allChallenges = practiceChallengeService.getAllChallenges();
-  const filteredChallenges = allChallenges.filter((ch) => {
-    const matchesDifficulty = difficultyFilter === 'all' || ch.difficulty === difficultyFilter;
-    const query = searchQuery.trim().toLowerCase();
-    const matchesSearch =
-      query === '' ||
-      ch.title.toLowerCase().includes(query) ||
-      ch.description.toLowerCase().includes(query) ||
-      ch.topic.toLowerCase().includes(query) ||
-      (ch.lessonTitle && ch.lessonTitle.toLowerCase().includes(query));
-
-    return matchesDifficulty && matchesSearch;
-  });
-
-  // Projects list
-  const filteredProjects = PROJECTS_DATA.filter((project) => {
-    const matchesDifficulty = difficultyFilter === 'all' || project.difficulty === difficultyFilter;
-    const query = searchQuery.trim().toLowerCase();
-    const matchesSearch =
-      query === '' ||
-      project.title.toLowerCase().includes(query) ||
-      project.shortDescription.toLowerCase().includes(query) ||
-      project.skills.some((s) => s.toLowerCase().includes(query)) ||
-      project.topics.some((t) => t.toLowerCase().includes(query));
-
-    return matchesDifficulty && matchesSearch;
-  });
-
   const getDifficultyBadge = (diff: string) => {
     switch (diff) {
       case 'easy':
       case 'beginner':
-        return { bg: '#ECFDF5', text: '#065F46', border: '#A7F3D0' };
+        return { bg: 'var(--success-bg, #ECFDF5)', text: 'var(--success-text, #065F46)', border: 'var(--success-border, #A7F3D0)' };
       case 'medium':
       case 'intermediate':
-        return { bg: '#FEF3C7', text: '#92400E', border: '#FDE68A' };
+        return { bg: 'var(--warning-bg, #FEF3C7)', text: 'var(--warning-text, #92400E)', border: 'var(--warning-border, #FDE68A)' };
       case 'hard':
       case 'advanced':
-        return { bg: '#FEE2E2', text: '#991B1B', border: '#FECACA' };
+        return { bg: 'var(--error-bg, #FEE2E2)', text: 'var(--error-text, #991B1B)', border: 'var(--error-border, #FECACA)' };
       default:
-        return { bg: '#F3F4F6', text: '#374151', border: '#E5E7EB' };
+        return { bg: 'var(--bg-surface-subtle)', text: 'var(--text-secondary)', border: 'var(--border-default)' };
     }
   };
 
@@ -110,10 +140,10 @@ export const PracticeView: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
           <div>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
-              Practice
+              Practice Arena
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
-              Build. Experiment. Solve.
+              Freeform sandbox, curriculum coding challenges, and capstone software projects.
             </p>
           </div>
 
@@ -122,10 +152,10 @@ export const PracticeView: React.FC = () => {
             style={{
               display: 'inline-flex',
               padding: '5px',
-              backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
-              border: '1.5px solid var(--border-default, #E5DDD0)',
-              boxShadow: '0 2px 0 var(--border-default, #E5DDD0)',
-              borderRadius: 'var(--radius-xl, 16px)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1.5px solid var(--border-default)',
+              boxShadow: '0 2px 0 var(--border-default)',
+              borderRadius: 'var(--radius-xl)',
               gap: '6px'
             }}
           >
@@ -138,10 +168,10 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 20px',
+                padding: '10px 18px',
                 borderRadius: '12px',
                 border: activeTab === 'playground' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
-                backgroundColor: activeTab === 'playground' ? '#FFFFFF' : 'transparent',
+                backgroundColor: activeTab === 'playground' ? 'var(--bg-surface)' : 'transparent',
                 color: activeTab === 'playground' ? 'var(--brand-primary)' : 'var(--text-secondary)',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 800,
@@ -164,10 +194,10 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 20px',
+                padding: '10px 18px',
                 borderRadius: '12px',
                 border: activeTab === 'challenges' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
-                backgroundColor: activeTab === 'challenges' ? '#FFFFFF' : 'transparent',
+                backgroundColor: activeTab === 'challenges' ? 'var(--bg-surface)' : 'transparent',
                 color: activeTab === 'challenges' ? 'var(--brand-primary)' : 'var(--text-secondary)',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 800,
@@ -190,10 +220,10 @@ export const PracticeView: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '10px 20px',
+                padding: '10px 18px',
                 borderRadius: '12px',
                 border: activeTab === 'projects' ? '1.5px solid var(--border-default)' : '1.5px solid transparent',
-                backgroundColor: activeTab === 'projects' ? '#FFFFFF' : 'transparent',
+                backgroundColor: activeTab === 'projects' ? 'var(--bg-surface)' : 'transparent',
                 color: activeTab === 'projects' ? 'var(--brand-primary)' : 'var(--text-secondary)',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 800,
@@ -209,7 +239,7 @@ export const PracticeView: React.FC = () => {
           </div>
         </div>
 
-        <div style={{ height: '1.5px', backgroundColor: 'var(--border-default, #E5DDD0)' }} />
+        <div style={{ height: '1.5px', backgroundColor: 'var(--border-default)' }} />
       </div>
 
       {/* 1. PLAYGROUND WORKSPACE */}
@@ -222,7 +252,7 @@ export const PracticeView: React.FC = () => {
       {/* 2. CHALLENGES SECTION */}
       {activeTab === 'challenges' && (
         <div className="animate-fade-in">
-          {/* Filter Bar */}
+          {/* Top Filter Bar (Difficulty, Status, and Search) */}
           <div
             style={{
               display: 'flex',
@@ -230,7 +260,7 @@ export const PracticeView: React.FC = () => {
               justifyContent: 'space-between',
               flexWrap: 'wrap',
               gap: '16px',
-              marginBottom: '28px'
+              marginBottom: '18px'
             }}
           >
             {/* Difficulty Tabs */}
@@ -246,15 +276,15 @@ export const PracticeView: React.FC = () => {
                       setDifficultyFilter(diff);
                     }}
                     style={{
-                      padding: '8px 18px',
-                      borderRadius: 'var(--radius-full, 9999px)',
-                      border: active ? '1.5px solid #1E1B17' : '1.5px solid var(--border-default)',
-                      backgroundColor: active ? '#1E1B17' : '#FFFFFF',
-                      color: active ? '#FFFFFF' : 'var(--text-primary)',
-                      boxShadow: active ? '0 3px 0 #000' : '0 2px 0 var(--border-default)',
+                      padding: '8px 16px',
+                      borderRadius: 'var(--radius-full)',
+                      border: active ? '1.5px solid var(--text-primary)' : '1.5px solid var(--border-default)',
+                      backgroundColor: active ? 'var(--text-primary)' : 'var(--bg-surface)',
+                      color: active ? 'var(--bg-app)' : 'var(--text-primary)',
+                      boxShadow: active ? '0 3px 0 rgba(0,0,0,0.25)' : '0 2px 0 var(--border-default)',
                       fontFamily: 'var(--font-display)',
                       fontWeight: 800,
-                      fontSize: '0.85rem',
+                      fontSize: '0.82rem',
                       cursor: 'pointer',
                       textTransform: 'capitalize'
                     }}
@@ -265,8 +295,53 @@ export const PracticeView: React.FC = () => {
               })}
             </div>
 
+            {/* Status Filter (All / Solved / Unsolved) */}
+            <div
+              style={{
+                display: 'inline-flex',
+                padding: '3px',
+                backgroundColor: 'var(--bg-surface-subtle)',
+                borderRadius: 'var(--radius-full)',
+                border: '1.5px solid var(--border-default)',
+                gap: '4px'
+              }}
+            >
+              {(['all', 'solved', 'unsolved'] as const).map((status) => {
+                const active = statusFilter === status;
+                const icon = status === 'solved' ? 'check' : status === 'unsolved' ? 'circle' : 'list';
+                return (
+                  <button
+                    key={status}
+                    onClick={() => {
+                      sound.playClick();
+                      setStatusFilter(status);
+                    }}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      padding: '6px 12px',
+                      borderRadius: 'var(--radius-full)',
+                      border: 'none',
+                      backgroundColor: active ? 'var(--bg-surface)' : 'transparent',
+                      color: active ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 800,
+                      fontSize: '0.78rem',
+                      cursor: 'pointer',
+                      boxShadow: active ? '0 2px 0 var(--border-default)' : 'none',
+                      textTransform: 'capitalize'
+                    }}
+                  >
+                    <Icon name={icon} size={13} stroke={2.5} />
+                    <span>{status}</span>
+                  </button>
+                );
+              })}
+            </div>
+
             {/* Search Input */}
-            <div style={{ position: 'relative', minWidth: '280px' }}>
+            <div style={{ position: 'relative', minWidth: '260px', flex: '1 1 260px', maxWidth: '360px' }}>
               <Icon
                 name="search"
                 size={16}
@@ -280,15 +355,15 @@ export const PracticeView: React.FC = () => {
               />
               <input
                 type="text"
-                placeholder="Search coding challenges..."
+                placeholder="Search by title, prompt, topic..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   width: '100%',
                   padding: '9px 14px 9px 38px',
-                  borderRadius: 'var(--radius-full, 9999px)',
+                  borderRadius: 'var(--radius-full)',
                   border: '1.5px solid var(--border-default)',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--bg-surface)',
                   color: 'var(--text-primary)',
                   fontSize: '0.875rem',
                   fontFamily: 'inherit',
@@ -296,8 +371,133 @@ export const PracticeView: React.FC = () => {
                   boxShadow: '0 2px 0 var(--border-default)'
                 }}
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--text-muted)'
+                  }}
+                >
+                  <Icon name="x" size={14} />
+                </button>
+              )}
             </div>
           </div>
+
+          {/* Topic Filter Chips Row */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              overflowX: 'auto',
+              paddingBottom: '14px',
+              marginBottom: '20px',
+              scrollbarWidth: 'thin'
+            }}
+          >
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', fontFamily: 'var(--font-display)', textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap', marginRight: '4px' }}>
+              Topics:
+            </span>
+
+            <button
+              onClick={() => {
+                sound.playClick();
+                setTopicFilter('all');
+              }}
+              style={{
+                whiteSpace: 'nowrap',
+                padding: '5px 12px',
+                borderRadius: 'var(--radius-full)',
+                fontSize: '0.75rem',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                border: topicFilter === 'all' ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                backgroundColor: topicFilter === 'all' ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                color: topicFilter === 'all' ? '#FFFFFF' : 'var(--text-secondary)',
+                cursor: 'pointer',
+                boxShadow: topicFilter === 'all' ? '0 2px 0 var(--brand-bevel)' : '0 1px 0 var(--border-default)',
+                transition: 'all 120ms ease'
+              }}
+            >
+              All Topics
+            </button>
+
+            {availableTopics.map((top) => {
+              const active = topicFilter.toLowerCase() === top.toLowerCase();
+              return (
+                <button
+                  key={top}
+                  onClick={() => {
+                    sound.playClick();
+                    setTopicFilter(top);
+                  }}
+                  style={{
+                    whiteSpace: 'nowrap',
+                    padding: '5px 12px',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '0.75rem',
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 800,
+                    border: active ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                    backgroundColor: active ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                    color: active ? '#FFFFFF' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    boxShadow: active ? '0 2px 0 var(--brand-bevel)' : '0 1px 0 var(--border-default)',
+                    transition: 'all 120ms ease'
+                  }}
+                >
+                  {top}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Filter Summary Bar if filtered */}
+          {(difficultyFilter !== 'all' || topicFilter !== 'all' || statusFilter !== 'all' || searchQuery.trim() !== '') && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '10px 16px',
+                backgroundColor: 'var(--bg-surface-subtle)',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border-default)',
+                marginBottom: '20px',
+                fontSize: '0.82rem',
+                color: 'var(--text-secondary)'
+              }}
+            >
+              <span>
+                Showing <strong>{filteredChallenges.length}</strong> of {allChallenges.length} challenges matching filters
+              </span>
+              <button
+                onClick={handleResetFilters}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--brand-primary)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                <Icon name="refresh" size={13} />
+                <span>Reset filters</span>
+              </button>
+            </div>
+          )}
 
           {/* Challenges Grid */}
           {filteredChallenges.length > 0 ? (
@@ -314,11 +514,11 @@ export const PracticeView: React.FC = () => {
                       setSelectedChallenge(ch);
                     }}
                     style={{
-                      backgroundColor: '#FFFFFF',
-                      border: isCompleted ? '1.5px solid #10B981' : '1.5px solid var(--border-default)',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: isCompleted ? '1.5px solid var(--success-text)' : '1.5px solid var(--border-default)',
                       borderRadius: '16px',
                       padding: '22px',
-                      boxShadow: isCompleted ? '0 3px 0 #059669' : '0 3px 0 var(--border-default)',
+                      boxShadow: isCompleted ? '0 3px 0 var(--success-text)' : '0 3px 0 var(--border-default)',
                       cursor: 'pointer',
                       display: 'flex',
                       flexDirection: 'column',
@@ -326,20 +526,13 @@ export const PracticeView: React.FC = () => {
                       gap: '16px',
                       transition: 'all 120ms ease'
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = isCompleted ? '0 5px 0 #059669' : '0 5px 0 var(--border-default)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'none';
-                      e.currentTarget.style.boxShadow = isCompleted ? '0 3px 0 #059669' : '0 3px 0 var(--border-default)';
-                    }}
+                    className="card-plate-interactive"
                   >
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                         <span
                           style={{
-                            fontSize: '0.75rem',
+                            fontSize: '0.72rem',
                             fontWeight: 800,
                             padding: '3px 8px',
                             borderRadius: '6px',
@@ -352,11 +545,11 @@ export const PracticeView: React.FC = () => {
                         </span>
 
                         {isCompleted ? (
-                          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#059669', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Icon name="circle-check" size={15} /> Solved
+                          <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--success-text, #059669)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <Icon name="circle-check" size={15} stroke={2.5} /> Solved
                           </span>
                         ) : (
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono, monospace)' }}>
+                          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono, monospace)' }}>
                             {ch.tests.length} tests
                           </span>
                         )}
@@ -376,11 +569,11 @@ export const PracticeView: React.FC = () => {
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid var(--border-subtle, #F0EAE1)' }}>
-                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--brand-primary)' }}>
-                        +{ch.xpReward} XP
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)' }}>
+                      <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--brand-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Icon name="sparkles" size={13} /> +{ch.xpReward} XP
                       </span>
-                      <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#2563EB', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         Open Challenge <Icon name="arrow-right" size={14} />
                       </span>
                     </div>
@@ -389,12 +582,40 @@ export const PracticeView: React.FC = () => {
               })}
             </div>
           ) : (
-            <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#FFFFFF', borderRadius: '16px', border: '1.5px solid var(--border-default)' }}>
-              <Icon name="search" size={32} style={{ color: 'var(--text-muted)', marginBottom: '12px' }} />
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 6px' }}>No challenges match your filter</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>
-                Try adjusting your search keywords or switching difficulty.
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '60px 24px',
+                backgroundColor: 'var(--bg-surface)',
+                borderRadius: '16px',
+                border: '1.5px solid var(--border-default)',
+                boxShadow: '0 2px 0 var(--border-default)'
+              }}
+            >
+              <div
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--bg-surface-subtle)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px',
+                  color: 'var(--text-muted)'
+                }}
+              >
+                <Icon name="search" size={28} />
+              </div>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                No challenges match your filters
+              </h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: '0 0 20px', maxWidth: '420px', marginInline: 'auto' }}>
+                We couldn't find any challenges matching your current search and filter combination.
               </p>
+              <Button variant="primary" size="md" onClick={handleResetFilters} icon={<Icon name="refresh" size={15} />}>
+                Reset all filters
+              </Button>
             </div>
           )}
         </div>
@@ -428,11 +649,11 @@ export const PracticeView: React.FC = () => {
                     }}
                     style={{
                       padding: '8px 18px',
-                      borderRadius: 'var(--radius-full, 9999px)',
-                      border: active ? '1.5px solid #1E1B17' : '1.5px solid var(--border-default)',
-                      backgroundColor: active ? '#1E1B17' : '#FFFFFF',
-                      color: active ? '#FFFFFF' : 'var(--text-primary)',
-                      boxShadow: active ? '0 3px 0 #000' : '0 2px 0 var(--border-default)',
+                      borderRadius: 'var(--radius-full)',
+                      border: active ? '1.5px solid var(--text-primary)' : '1.5px solid var(--border-default)',
+                      backgroundColor: active ? 'var(--text-primary)' : 'var(--bg-surface)',
+                      color: active ? 'var(--bg-app)' : 'var(--text-primary)',
+                      boxShadow: active ? '0 3px 0 rgba(0,0,0,0.25)' : '0 2px 0 var(--border-default)',
                       fontFamily: 'var(--font-display)',
                       fontWeight: 800,
                       fontSize: '0.85rem',
@@ -467,9 +688,9 @@ export const PracticeView: React.FC = () => {
                 style={{
                   width: '100%',
                   padding: '9px 14px 9px 38px',
-                  borderRadius: 'var(--radius-full, 9999px)',
+                  borderRadius: 'var(--radius-full)',
                   border: '1.5px solid var(--border-default)',
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: 'var(--bg-surface)',
                   color: 'var(--text-primary)',
                   fontSize: '0.875rem',
                   fontFamily: 'inherit',
@@ -505,7 +726,7 @@ export const PracticeView: React.FC = () => {
               style={{
                 textAlign: 'center',
                 padding: '60px 20px',
-                backgroundColor: '#FFFFFF',
+                backgroundColor: 'var(--bg-surface)',
                 borderRadius: '16px',
                 border: '1.5px solid var(--border-default)',
                 boxShadow: '0 2px 0 var(--border-default)'
@@ -515,9 +736,12 @@ export const PracticeView: React.FC = () => {
               <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-primary)' }}>
                 No projects match your filter
               </h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0 }}>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: '0 0 16px' }}>
                 Try adjusting your search query or selecting a different difficulty level.
               </p>
+              <Button variant="secondary" size="sm" onClick={handleResetFilters}>
+                Reset filter
+              </Button>
             </div>
           )}
         </div>

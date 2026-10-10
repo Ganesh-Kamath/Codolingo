@@ -32,6 +32,7 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
   const [isCompleted, setIsCompleted] = useState<boolean>(() => {
     return localStorage.getItem(completionKey) === 'true';
   });
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
 
   const [activeTab, setActiveTab] = useState<'both' | 'brief' | 'editor'>('both');
   const editorRef = useRef<any>(null);
@@ -112,14 +113,14 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-app, #FDFBF7)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-app)', display: 'flex', flexDirection: 'column' }}>
       {/* Top Header */}
       <header
         style={{
           height: '68px',
-          backgroundColor: '#FFFFFF',
-          borderBottom: '1.5px solid var(--border-default, #E5DDD0)',
-          boxShadow: '0 2px 0 var(--border-subtle, #F2EBE1)',
+          backgroundColor: 'var(--bg-surface)',
+          borderBottom: '1.5px solid var(--border-default)',
+          boxShadow: '0 2px 0 var(--border-subtle)',
           padding: '0 24px',
           display: 'flex',
           alignItems: 'center',
@@ -136,16 +137,16 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              color: 'var(--text-primary, #1E1B17)',
+              color: 'var(--text-primary)',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
               fontSize: '0.85rem',
-              backgroundColor: 'var(--bg-surface-subtle, #FAF6EE)',
-              border: '1.5px solid var(--border-default, #E5DDD0)',
-              boxShadow: '0 2px 0 var(--border-default, #E5DDD0)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1.5px solid var(--border-default)',
+              boxShadow: '0 2px 0 var(--border-default)',
               cursor: 'pointer',
               padding: '8px 14px',
-              borderRadius: 'var(--radius-md, 12px)'
+              borderRadius: 'var(--radius-md)'
             }}
             title="Return to projects list"
           >
@@ -153,10 +154,10 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
             <span>All Projects</span>
           </button>
 
-          <div style={{ width: '1.5px', height: '24px', backgroundColor: 'var(--border-default, #E5DDD0)' }} />
+          <div style={{ width: '1.5px', height: '24px', backgroundColor: 'var(--border-default)' }} />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, margin: 0, color: 'var(--text-primary, #1E1B17)' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)' }}>
               {project.title}
             </h2>
             {getDifficultyBadge()}
@@ -166,20 +167,47 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
         {/* Header Right Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
+            onClick={() => {
+              sound.playClick();
+              setIsSidebarCollapsed(prev => !prev);
+            }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 14px',
+              borderRadius: 'var(--radius-md)',
+              fontSize: '0.82rem',
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              border: '1.5px solid var(--border-default)',
+              backgroundColor: isSidebarCollapsed ? 'var(--brand-primary)' : 'var(--bg-surface)',
+              color: isSidebarCollapsed ? '#FFFFFF' : 'var(--text-primary)',
+              boxShadow: isSidebarCollapsed ? '0 2px 0 var(--brand-bevel)' : '0 2px 0 var(--border-default)',
+              cursor: 'pointer',
+              transition: 'all 120ms ease'
+            }}
+            title={isSidebarCollapsed ? 'Show project requirements' : 'Hide project requirements for full editor view'}
+          >
+            <Icon name={isSidebarCollapsed ? 'layout-sidebar' : 'layout-sidebar-left-collapse'} size={15} />
+            <span>{isSidebarCollapsed ? 'Show Requirements' : 'Hide Requirements'}</span>
+          </button>
+
+          <button
             onClick={handleToggleComplete}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               padding: '8px 16px',
-              borderRadius: 'var(--radius-md, 12px)',
+              borderRadius: 'var(--radius-md)',
               fontSize: '0.85rem',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
-              border: isCompleted ? '1.5px solid #059669' : '1.5px solid var(--border-default)',
-              backgroundColor: isCompleted ? '#ECFDF5' : '#FFFFFF',
-              color: isCompleted ? '#065F46' : 'var(--text-primary)',
-              boxShadow: isCompleted ? '0 3px 0 #047857' : '0 2px 0 var(--border-default)',
+              border: isCompleted ? '1.5px solid var(--success-text)' : '1.5px solid var(--border-default)',
+              backgroundColor: isCompleted ? 'var(--success-bg)' : 'var(--bg-surface)',
+              color: isCompleted ? 'var(--success-text)' : 'var(--text-primary)',
+              boxShadow: isCompleted ? '0 3px 0 var(--success-text)' : '0 2px 0 var(--border-default)',
               cursor: 'pointer',
               transition: 'all 120ms ease'
             }}
@@ -191,22 +219,24 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
       </header>
 
       {/* Main Workspace Layout */}
-      <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-        {/* Left Column: Project Brief */}
-        <div
-          style={{
-            flex: '1 1 45%',
-            maxWidth: '620px',
-            minWidth: '340px',
-            backgroundColor: 'var(--bg-app, #FDFBF7)',
-            borderRight: '1.5px solid var(--border-default, #E5DDD0)',
-            overflowY: 'auto',
-            padding: '32px 28px 80px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '24px'
-          }}
-        >
+      <div style={{ flex: 1, display: 'flex', overflow: 'hidden', position: 'relative' }}>
+        {/* Left Column: Project Brief (Collapsible) */}
+        {!isSidebarCollapsed && (
+          <div
+            style={{
+              flex: '1 1 45%',
+              maxWidth: '620px',
+              minWidth: '340px',
+              backgroundColor: 'var(--bg-app)',
+              borderRight: '1.5px solid var(--border-default)',
+              overflowY: 'auto',
+              padding: '32px 28px 80px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '24px'
+            }}
+            className="animate-fade-in"
+          >
           {/* Brief Overview Card */}
           <div className="card-plate" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
@@ -334,16 +364,49 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
             </ul>
           </div>
         </div>
+      )}
+
+        {/* Small expand button if collapsed */}
+        {isSidebarCollapsed && (
+          <button
+            onClick={() => {
+              sound.playClick();
+              setIsSidebarCollapsed(false);
+            }}
+            style={{
+              position: 'absolute',
+              left: '12px',
+              top: '12px',
+              zIndex: 20,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              backgroundColor: 'var(--bg-surface)',
+              border: '1.5px solid var(--border-default)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+              borderRadius: 'var(--radius-md)',
+              padding: '6px 12px',
+              fontSize: '0.8rem',
+              fontWeight: 800,
+              color: 'var(--text-primary)',
+              cursor: 'pointer'
+            }}
+            title="Expand requirements panel"
+          >
+            <Icon name="layout-sidebar" size={14} />
+            <span>Show Brief</span>
+          </button>
+        )}
 
         {/* Right Column: Code Editor & Execution Terminal */}
         <div
           id="project-editor-container"
           style={{
-            flex: '1 1 55%',
+            flex: isSidebarCollapsed ? '1 1 100%' : '1 1 55%',
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: '#1E1E1E',
-            borderLeft: '1px solid #2D3748'
+            borderLeft: isSidebarCollapsed ? 'none' : '1px solid #2D3748'
           }}
         >
           {/* Editor Header Bar */}

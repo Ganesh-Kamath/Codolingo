@@ -31,7 +31,9 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [executionResult, setExecutionResult] = useState<ExecutionResult | null>(null);
   const [hasRun, setHasRun] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'problem' | 'hints'>('problem');
+  const [activeTab, setActiveTab] = useState<'problem' | 'hints' | 'solution'>('problem');
+  const [solutionRevealed, setSolutionRevealed] = useState<boolean>(false);
+  const [copiedSolution, setCopiedSolution] = useState<boolean>(false);
   const [isPassed, setIsPassed] = useState<boolean>(() => {
     return practiceStorageService.isChallengeCompleted(challenge.id);
   });
@@ -55,6 +57,8 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
     setIsPassed(practiceStorageService.isChallengeCompleted(challenge.id));
     setExecutionResult(null);
     setHasRun(false);
+    setSolutionRevealed(false);
+    setCopiedSolution(false);
   }, [challenge.id, challenge.starterCode]);
 
   // Debounced Autosave per challenge (600ms)
@@ -438,27 +442,45 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
               <span>Description</span>
             </button>
 
-            {challenge.hints && challenge.hints.length > 0 && (
-              <button
-                onClick={() => setActiveTab('hints')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '4px 10px',
-                  borderRadius: '6px',
-                  backgroundColor: activeTab === 'hints' ? '#21262D' : 'transparent',
-                  border: 'none',
-                  color: activeTab === 'hints' ? '#F0F6FC' : '#8B949E',
-                  fontSize: '0.8125rem',
-                  fontWeight: 600,
-                  cursor: 'pointer'
-                }}
-              >
-                <Icon name="bulb" size={14} />
-                <span>Hints ({challenge.hints.length})</span>
-              </button>
-            )}
+            <button
+              onClick={() => setActiveTab('hints')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                backgroundColor: activeTab === 'hints' ? '#21262D' : 'transparent',
+                border: 'none',
+                color: activeTab === 'hints' ? '#F0F6FC' : '#8B949E',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              <Icon name="bulb" size={14} />
+              <span>Hints ({challenge.hints?.length || 0})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('solution')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                backgroundColor: activeTab === 'solution' ? '#21262D' : 'transparent',
+                border: 'none',
+                color: activeTab === 'solution' ? '#F0F6FC' : '#8B949E',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              <Icon name="sparkles" size={14} style={{ color: activeTab === 'solution' ? '#E3B341' : 'currentColor' }} />
+              <span>Solution</span>
+            </button>
           </div>
 
           {/* Tab Body */}
@@ -598,47 +620,182 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
                   </div>
                 </div>
               </div>
-            ) : (
+            ) : activeTab === 'hints' ? (
               <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#F0F6FC', margin: '0 0 6px' }}>
-                  Guided Hints
-                </h3>
-                {challenge.hints?.map((hint, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      backgroundColor: '#161B22',
-                      border: '1px solid #21262D',
-                      borderRadius: '8px',
-                      padding: '12px 14px',
-                      fontSize: '0.85rem',
-                      color: '#C9D1D9',
-                      display: 'flex',
-                      gap: '10px'
-                    }}
-                  >
-                    <span
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#F0F6FC', margin: 0 }}>
+                    Guided Hints
+                  </h3>
+                  <span style={{ fontSize: '0.72rem', color: '#8B949E' }}>
+                    {challenge.hints?.length || 0} available
+                  </span>
+                </div>
+                {challenge.hints && challenge.hints.length > 0 ? (
+                  challenge.hints.map((hint, idx) => (
+                    <div
+                      key={idx}
                       style={{
-                        backgroundColor: '#21262D',
-                        color: '#58A6FF',
-                        width: '20px',
-                        height: '20px',
-                        borderRadius: '50%',
+                        backgroundColor: '#161B22',
+                        border: '1px solid #21262D',
+                        borderRadius: '8px',
+                        padding: '12px 14px',
+                        fontSize: '0.85rem',
+                        color: '#C9D1D9',
                         display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        flexShrink: 0
+                        gap: '10px'
                       }}
                     >
-                      {idx + 1}
-                    </span>
-                    <div style={{ whiteSpace: 'pre-wrap', fontFamily: hint.includes('\n') || hint.includes('print') ? 'var(--font-mono, monospace)' : 'inherit' }}>
-                      {hint}
+                      <span
+                        style={{
+                          backgroundColor: '#21262D',
+                          color: '#58A6FF',
+                          width: '20px',
+                          height: '20px',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          flexShrink: 0
+                        }}
+                      >
+                        {idx + 1}
+                      </span>
+                      <div style={{ whiteSpace: 'pre-wrap', fontFamily: hint.includes('\n') || hint.includes('print') ? 'var(--font-mono, monospace)' : 'inherit' }}>
+                        {hint}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ backgroundColor: '#161B22', border: '1px solid #21262D', borderRadius: '8px', padding: '16px', textAlign: 'center', color: '#8B949E', fontSize: '0.84rem' }}>
+                    No progressive hints recorded for this challenge. Review the problem description or test cases.
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Solution Tab */
+              <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {!solutionRevealed ? (
+                  <div style={{ backgroundColor: '#161B22', border: '1px solid #30363D', borderRadius: '12px', padding: '24px 20px', textAlign: 'center' }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#21262D', color: '#E3B341', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+                      <Icon name="bulb" size={24} />
+                    </div>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#F0F6FC', margin: '0 0 6px' }}>
+                      Reference Solution
+                    </h3>
+                    <p style={{ fontSize: '0.84rem', color: '#8B949E', margin: '0 0 16px', lineHeight: 1.5 }}>
+                      Trying to solve the challenge yourself builds the strongest problem-solving skills. If you're stuck, you can reveal the official reference code.
+                    </p>
+                    <button
+                      onClick={() => {
+                        sound.playClick();
+                        setSolutionRevealed(true);
+                      }}
+                      style={{
+                        backgroundColor: '#238636',
+                        color: '#FFFFFF',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        padding: '9px 18px',
+                        borderRadius: '8px',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: '0 0 12px rgba(35, 134, 54, 0.4)'
+                      }}
+                    >
+                      <Icon name="sparkles" size={15} />
+                      <span>Reveal Reference Solution</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Icon name="check" size={15} style={{ color: '#7EE787' }} stroke={3} />
+                        <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#F0F6FC', margin: 0 }}>
+                          Canonical Solution
+                        </h3>
+                      </div>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button
+                          onClick={() => {
+                            sound.playClick();
+                            navigator.clipboard.writeText(challenge.solutionCode || '');
+                            setCopiedSolution(true);
+                            setTimeout(() => setCopiedSolution(false), 2000);
+                          }}
+                          style={{
+                            backgroundColor: '#21262D',
+                            border: '1px solid #30363D',
+                            color: '#C9D1D9',
+                            padding: '5px 10px',
+                            borderRadius: '6px',
+                            fontSize: '0.75rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <Icon name={copiedSolution ? 'check' : 'copy'} size={13} />
+                          <span>{copiedSolution ? 'Copied' : 'Copy'}</span>
+                        </button>
+
+                        {challenge.solutionCode && (
+                          <button
+                            onClick={() => {
+                              if (window.confirm('Insert canonical solution code into your active editor? Current unsaved edits will be replaced.')) {
+                                sound.playClick();
+                                setCode(challenge.solutionCode || '');
+                              }
+                            }}
+                            style={{
+                              backgroundColor: '#1F6FEB',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              color: '#FFFFFF',
+                              padding: '5px 10px',
+                              borderRadius: '6px',
+                              fontSize: '0.75rem',
+                              cursor: 'pointer',
+                              fontWeight: 700,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px'
+                            }}
+                          >
+                            <Icon name="terminal" size={13} />
+                            <span>Insert in Editor</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    <pre
+                      style={{
+                        backgroundColor: '#161B22',
+                        border: '1px solid #30363D',
+                        borderRadius: '8px',
+                        padding: '14px',
+                        color: '#7EE787',
+                        fontFamily: 'var(--font-mono, monospace)',
+                        fontSize: '0.84rem',
+                        lineHeight: 1.5,
+                        overflowX: 'auto',
+                        margin: 0
+                      }}
+                    >
+                      {challenge.solutionCode || '# Canonical pattern:\n# Review expected target output above to verify format.'}
+                    </pre>
+
+                    <div style={{ fontSize: '0.8rem', color: '#8B949E', lineHeight: 1.5, backgroundColor: '#161B22', padding: '10px 12px', borderRadius: '6px', border: '1px solid #21262D' }}>
+                      <strong style={{ color: '#C9D1D9' }}>Key Takeaway:</strong> Notice how the solution satisfies all test cases without hardcoding intermediate outputs.
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             )}
           </div>

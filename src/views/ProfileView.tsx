@@ -1,30 +1,134 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Icon } from '../components/ui/Icon';
 import { Card } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
+import { Modal } from '../components/common/Modal';
 import { ProgressBar } from '../components/common/ProgressBar';
+import { sound } from '../utils/audio';
+import { fireCelebrationConfetti } from '../utils/confetti';
+
+const AVATAR_PRESETS = [
+  { name: 'Scholar', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=scholar' },
+  { name: 'Pythonista', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=python' },
+  { name: 'Cyber Fox', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=fox' },
+  { name: 'Wizard', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=wizard' },
+  { name: 'Automaton', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=robot' },
+  { name: 'Night Owl', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=owl' },
+];
 
 export const ProfileView: React.FC = () => {
-  const { userProfile, navigateTo } = useApp();
+  const { 
+    userProfile, 
+    navigateTo, 
+    theme, 
+    toggleTheme, 
+    soundEnabled, 
+    toggleSound, 
+    reducedMotion, 
+    toggleReducedMotion,
+    updateProfile,
+    resetProgress,
+    exportProgress,
+    importProgress
+  } = useApp();
+
+  // Modals
+  const [showEditProfileModal, setShowEditProfileModal] = useState<boolean>(false);
+  const [showResetConfirmModal, setShowResetConfirmModal] = useState<boolean>(false);
+  const [showImportModal, setShowImportModal] = useState<boolean>(false);
+  const [importJsonText, setImportJsonText] = useState<string>('');
+  const [importError, setImportError] = useState<string | null>(null);
+
+  // Edit profile form state
+  const [editName, setEditName] = useState<string>(userProfile.name || 'Learner');
+  const [editUsername, setEditUsername] = useState<string>(userProfile.username || 'learner');
+  const [editAvatarUrl, setEditAvatarUrl] = useState<string>(
+    userProfile.avatarUrl || AVATAR_PRESETS[0].url
+  );
+
+  const displayAvatar = userProfile.avatarUrl || AVATAR_PRESETS[0].url;
+
+  const handleSaveProfile = () => {
+    sound.playSuccess();
+    updateProfile({
+      name: editName.trim() || 'Learner',
+      username: editUsername.trim() || 'learner',
+      avatarUrl: editAvatarUrl
+    });
+    setShowEditProfileModal(false);
+  };
+
+  const handleSelectDailyGoal = (xpTarget: number) => {
+    sound.playClick();
+    updateProfile({
+      dailyGoalXp: xpTarget
+    });
+  };
+
+  const handleExportData = () => {
+    sound.playClick();
+    try {
+      const jsonStr = exportProgress();
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `codolingo-progress-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert('Unable to generate export file.');
+    }
+  };
+
+  const handleImportSubmit = () => {
+    setImportError(null);
+    if (!importJsonText.trim()) {
+      setImportError('Please paste your exported JSON backup text.');
+      return;
+    }
+    const success = importProgress(importJsonText.trim());
+    if (success) {
+      sound.playSuccess();
+      try {
+        fireCelebrationConfetti({ particleCount: 70, spread: 60 });
+      } catch {}
+      setShowImportModal(false);
+      setImportJsonText('');
+    } else {
+      sound.playError();
+      setImportError('Invalid backup JSON format. Please ensure you pasted a valid Codolingo backup.');
+    }
+  };
+
+  const handleResetAll = () => {
+    sound.playClick();
+    resetProgress();
+    setShowResetConfirmModal(false);
+    navigateTo('/app');
+  };
 
   return (
-    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
-      {/* Profile Header Card */}
+    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 80px' }} className="animate-fade-in">
+      {/* 1. Profile Header Hero */}
       <div
         className="card-plate"
         style={{
           padding: '28px',
           marginBottom: '28px',
-          borderLeft: '6px solid var(--brand-primary)'
+          borderLeft: '6px solid var(--brand-primary)',
+          backgroundColor: 'var(--bg-surface)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <div style={{ position: 'relative' }}>
               <img
-                src={userProfile.avatarUrl}
+                src={displayAvatar}
                 alt={userProfile.name}
                 style={{
                   width: '92px',
@@ -32,7 +136,8 @@ export const ProfileView: React.FC = () => {
                   borderRadius: '24px',
                   objectFit: 'cover',
                   border: '3px solid var(--brand-primary)',
-                  boxShadow: '0 4px 0 var(--brand-bevel)'
+                  boxShadow: '0 4px 0 var(--brand-bevel)',
+                  backgroundColor: 'var(--bg-surface-subtle)'
                 }}
               />
               <div style={{ 
@@ -47,24 +152,55 @@ export const ProfileView: React.FC = () => {
                 fontSize: '0.75rem',
                 fontFamily: 'var(--font-display)',
                 fontWeight: 900,
-                border: '2px solid #fff',
-                boxShadow: '0 2px 0 var(--brand-bevel)'
+                border: '2px solid var(--bg-surface)',
+                boxShadow: '0 2px 0 var(--brand-bevel)',
+                whiteSpace: 'nowrap'
               }}>
                 LVL {userProfile.level}
               </div>
             </div>
+
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.9rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
                   {userProfile.name}
                 </h1>
+                <button
+                  onClick={() => {
+                    sound.playClick();
+                    setEditName(userProfile.name || 'Learner');
+                    setEditUsername(userProfile.username || 'learner');
+                    setEditAvatarUrl(displayAvatar);
+                    setShowEditProfileModal(true);
+                  }}
+                  style={{
+                    backgroundColor: 'var(--bg-surface-subtle)',
+                    border: '1.5px solid var(--border-default)',
+                    boxShadow: '0 1px 0 var(--border-default)',
+                    borderRadius: '8px',
+                    padding: '4px 10px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    color: 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                  title="Edit your display name & avatar"
+                >
+                  <Icon name="pencil" size={13} />
+                  <span>Edit Profile</span>
+                </button>
               </div>
+
               <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '14px', fontWeight: 600 }}>
                 @{userProfile.username} • Python Scholar & Engineer
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--bg-surface-subtle)', padding: '6px 14px', borderRadius: 'var(--radius-full)', border: '1.5px solid var(--border-default)', fontSize: '0.82rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
-                  <Icon name="calendar" size={15} style={{ color: 'var(--text-muted)' }} /> Joined Sept 2026
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: 'var(--bg-surface-subtle)', padding: '6px 14px', borderRadius: 'var(--radius-full)', border: '1.5px solid var(--border-default)', fontSize: '0.82rem', fontWeight: 700, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+                  <Icon name="calendar" size={15} style={{ color: 'var(--text-muted)' }} /> Joined 2026
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#FFF1F2', color: '#E11D48', padding: '6px 14px', borderRadius: 'var(--radius-full)', border: '1.5px solid #FECDD3', boxShadow: '0 2px 0 #FECDD3', fontSize: '0.82rem', fontWeight: 800, fontFamily: 'var(--font-display)' }}>
                   <Icon name="flame" size={15} fill="#FDA4AF" /> {userProfile.streak} Day Streak
@@ -78,10 +214,10 @@ export const ProfileView: React.FC = () => {
 
           <div style={{ display: 'flex', gap: '10px' }}>
             <Button
-              variant="secondary"
+              variant="primary"
               size="md"
               icon={<Icon name="book" size={16} />}
-              onClick={() => navigateTo('/app')}
+              onClick={() => navigateTo('/app/learn')}
             >
               Resume Journey
             </Button>
@@ -89,82 +225,103 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-        
-        {/* Daily Goal & Streak Panel */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div className="card-plate" style={{ padding: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-              <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: '#EFF6FF', border: '1.5px solid #BFDBFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563EB', boxShadow: '0 2px 0 #BFDBFE' }}>
-                <Icon name="target" size={20} />
-              </div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                Today's Quest Goal
-              </h2>
-            </div>
-            
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Daily XP</span>
-                <span style={{ color: 'var(--brand-primary)' }}>{userProfile.dailyGoalEarnedXp} / {userProfile.dailyGoalXp} XP</span>
-              </div>
-              <ProgressBar progress={(userProfile.dailyGoalEarnedXp / userProfile.dailyGoalXp) * 100} height={12} />
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px', textAlign: 'center', fontWeight: 600 }}>
-                {userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp > 0 
-                  ? `${userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp} XP remaining to lock in today's streak.`
-                  : "Daily goal achieved! Streak shield energized."}
-              </div>
-            </div>
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              onClick={() => navigateTo('/app')}
-              icon={<Icon name="player-play" size={16} fill="#fff" />}
-            >
-              Continue Learning
-            </Button>
+      {/* 2. Stats Summary Strip */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '28px' }}>
+        <div className="card-plate" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: 'var(--bg-surface)' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: '#FFF1F2', border: '1.5px solid #FECDD3', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E11D48' }}>
+            <Icon name="flame" size={24} fill="#FDA4AF" />
           </div>
-
-          {/* Gamified Engine Status */}
-          <div className="card-plate" style={{ padding: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-              <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: 'var(--bg-surface-subtle)', border: '1.5px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)', boxShadow: '0 2px 0 var(--border-default)' }}>
-                <Icon name="terminal" size={20} />
-              </div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                Curriculum Engine
-              </h2>
+          <div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+              Streak
             </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '18px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>Curriculum Data</span>
-                <Badge variant="brand" size="sm">43 Units • 7,320 Items</Badge>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>Python Runtime</span>
-                <Badge variant="success" size="sm">Pyodide WASM Engine</Badge>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-display)' }}>Projects Library</span>
-                <Badge variant="warning" size="sm">30 Engineering Labs</Badge>
-              </div>
-            </div>
-
-            <div style={{ padding: '12px 14px', backgroundColor: '#ECFDF5', borderRadius: 'var(--radius-md)', border: '1.5px solid #A7F3D0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <Icon name="check" size={18} style={{ color: '#059669' }} stroke={3} />
-              <span style={{ fontSize: '0.8rem', color: '#065F46', fontWeight: 700 }}>
-                Client sandbox authenticated & calibrated.
-              </span>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              {userProfile.streak} {userProfile.streak === 1 ? 'day' : 'days'}
             </div>
           </div>
         </div>
 
-        {/* Collectible Achievements Grid */}
-        <div className="card-plate" style={{ padding: '24px' }}>
+        <div className="card-plate" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: 'var(--bg-surface)' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: '#FEF3C7', border: '1.5px solid #FDE68A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#B45309' }}>
+            <Icon name="sparkles" size={24} fill="#FDE68A" />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+              Total XP
+            </div>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              {userProfile.totalXp.toLocaleString()}
+            </div>
+          </div>
+        </div>
+
+        <div className="card-plate" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: 'var(--bg-surface)' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: '#ECFDF5', border: '1.5px solid #A7F3D0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#059669' }}>
+            <Icon name="circle-check" size={24} stroke={2.5} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+              Lessons Done
+            </div>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              {userProfile.completedLessonIds.length}
+            </div>
+          </div>
+        </div>
+
+        <div className="card-plate" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: 'var(--bg-surface)' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', backgroundColor: '#EFF6FF', border: '1.5px solid #BFDBFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563EB' }}>
+            <Icon name="shield-check" size={24} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+              Repaired Weaknesses
+            </div>
+            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+              {userProfile.mistakes.filter(m => m.resolved).length}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+        {/* 3. Daily Quest Goal */}
+        <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: '#EFF6FF', border: '1.5px solid #BFDBFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563EB', boxShadow: '0 2px 0 #BFDBFE' }}>
+              <Icon name="target" size={20} />
+            </div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+              Today's Quest Goal
+            </h2>
+          </div>
+          
+          <div style={{ marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>
+              <span style={{ color: 'var(--text-secondary)' }}>Daily Target Progress</span>
+              <span style={{ color: 'var(--brand-primary)' }}>{userProfile.dailyGoalEarnedXp} / {userProfile.dailyGoalXp} XP</span>
+            </div>
+            <ProgressBar progress={Math.min(100, (userProfile.dailyGoalEarnedXp / userProfile.dailyGoalXp) * 100)} height={12} />
+            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '10px', textAlign: 'center', fontWeight: 600 }}>
+              {userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp > 0 
+                ? `${userProfile.dailyGoalXp - userProfile.dailyGoalEarnedXp} XP remaining to lock in today's streak shield.`
+                : "Daily goal achieved! Streak safe for today."}
+            </div>
+          </div>
+
+          <Button
+            variant="primary"
+            size="md"
+            fullWidth
+            onClick={() => navigateTo('/app/learn')}
+            icon={<Icon name="player-play" size={16} fill="#fff" />}
+          >
+            Earn XP in Lessons
+          </Button>
+        </div>
+
+        {/* 4. Achievements Grid */}
+        <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: '#FEF3C7', border: '1.5px solid #FDE68A', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#D97706', boxShadow: '0 2px 0 #FDE68A' }}>
@@ -174,9 +331,9 @@ export const ProfileView: React.FC = () => {
                 Achievements
               </h2>
             </div>
-            <span style={{ fontSize: '0.82rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--brand-primary)', backgroundColor: 'var(--brand-light)', border: '1px solid var(--brand-border)', padding: '4px 10px', borderRadius: 'var(--radius-full)' }}>
+            <Badge variant="brand" size="sm">
               {userProfile.achievements.filter(a => a.unlocked).length} / {userProfile.achievements.length} Unlocked
-            </span>
+            </Badge>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '16px' }}>
@@ -188,49 +345,47 @@ export const ProfileView: React.FC = () => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   padding: '16px 12px',
-                  backgroundColor: item.unlocked ? '#FFFFFF' : 'var(--bg-surface-subtle)',
+                  backgroundColor: item.unlocked ? 'var(--bg-surface)' : 'var(--bg-surface-subtle)',
                   borderRadius: 'var(--radius-xl)',
                   border: `1.5px solid ${item.unlocked ? '#FDE68A' : 'var(--border-default)'}`,
                   boxShadow: item.unlocked ? '0 4px 0 #B45309' : '0 2px 0 var(--border-default)',
                   opacity: item.unlocked ? 1 : 0.65,
                   textAlign: 'center',
-                  transition: 'transform var(--transition-fast)',
-                  cursor: 'pointer'
+                  transition: 'transform var(--transition-fast)'
                 }}
                 className={item.unlocked ? 'card-plate-interactive' : ''}
                 title={item.description}
               >
                 <div
                   style={{
-                    width: '60px',
-                    height: '60px',
+                    width: '56px',
+                    height: '56px',
                     borderRadius: '50%',
-                    backgroundColor: item.unlocked ? '#FEF3C7' : '#E5DDD0',
-                    border: `2px solid ${item.unlocked ? '#F59E0B' : '#D5C9B7'}`,
+                    backgroundColor: item.unlocked ? '#FEF3C7' : 'var(--bg-surface-subtle)',
+                    border: `2px solid ${item.unlocked ? '#F59E0B' : 'var(--border-default)'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: item.unlocked ? '#D97706' : '#8E8A83',
+                    color: item.unlocked ? '#D97706' : 'var(--text-muted)',
                     marginBottom: '10px'
                   }}
                 >
-                  <Icon name={item.unlocked ? 'award' : 'lock'} size={28} />
+                  <Icon name={item.unlocked ? 'award' : 'lock'} size={26} stroke={2.5} />
                 </div>
                 
                 <span style={{ fontSize: '0.84rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '4px', lineHeight: 1.2 }}>
                   {item.title}
                 </span>
                 
-                {!item.unlocked && (
+                {!item.unlocked ? (
                   <div style={{ width: '100%', marginTop: '6px' }}>
                     <ProgressBar progress={(item.progress / item.maxProgress) * 100} height={6} />
                     <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block', fontWeight: 700 }}>
                       {item.progress}/{item.maxProgress}
                     </span>
                   </div>
-                )}
-                {item.unlocked && (
-                  <span style={{ fontSize: '0.7rem', color: '#059669', fontFamily: 'var(--font-display)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '3px', marginTop: '4px' }}>
+                ) : (
+                  <span style={{ fontSize: '0.7rem', color: 'var(--success-text)', fontFamily: 'var(--font-display)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '3px', marginTop: '4px' }}>
                     <Icon name="check" size={12} stroke={3} /> UNLOCKED
                   </span>
                 )}
@@ -239,6 +394,433 @@ export const ProfileView: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* 5. Comprehensive Settings & Data Panel */}
+      <div className="card-plate" style={{ padding: '28px', backgroundColor: 'var(--bg-surface)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
+          <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: 'var(--bg-surface-subtle)', border: '1.5px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
+            <Icon name="settings" size={20} />
+          </div>
+          <div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+              Preferences & System Settings
+            </h2>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              Configure visual appearance, audio chimes, animation pacing, and offline backups.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          {/* Row 1: Audio Effects */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icon name={soundEnabled ? 'volume' : 'volume-off'} size={20} style={{ color: 'var(--brand-primary)' }} />
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Sound Effects & Chimes</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Satisfying audio feedback on correct answers and completions</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                onClick={() => {
+                  sound.playSuccess();
+                }}
+                disabled={!soundEnabled}
+                style={{
+                  padding: '6px 10px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border-default)',
+                  backgroundColor: 'var(--bg-surface)',
+                  color: 'var(--text-secondary)',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
+                  cursor: soundEnabled ? 'pointer' : 'not-allowed',
+                  opacity: soundEnabled ? 1 : 0.5
+                }}
+              >
+                Test Sound
+              </button>
+              <button
+                onClick={toggleSound}
+                style={{
+                  padding: '7px 16px',
+                  borderRadius: 'var(--radius-full)',
+                  border: soundEnabled ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                  backgroundColor: soundEnabled ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                  color: soundEnabled ? '#FFFFFF' : 'var(--text-secondary)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer'
+                }}
+              >
+                {soundEnabled ? 'Enabled' : 'Muted'}
+              </button>
+            </div>
+          </div>
+
+          {/* Row 2: Theme Appearance */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={20} style={{ color: 'var(--brand-primary)' }} />
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Visual Theme</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Parchment Odyssey light mode or Midnight Obsidian dark mode</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              <button
+                onClick={() => {
+                  if (theme !== 'light') toggleTheme();
+                }}
+                style={{
+                  padding: '7px 14px',
+                  borderRadius: 'var(--radius-full)',
+                  border: theme === 'light' ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                  backgroundColor: theme === 'light' ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                  color: theme === 'light' ? '#FFFFFF' : 'var(--text-secondary)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Parchment
+              </button>
+              <button
+                onClick={() => {
+                  if (theme !== 'dark') toggleTheme();
+                }}
+                style={{
+                  padding: '7px 14px',
+                  borderRadius: 'var(--radius-full)',
+                  border: theme === 'dark' ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                  backgroundColor: theme === 'dark' ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                  color: theme === 'dark' ? '#FFFFFF' : 'var(--text-secondary)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Dark
+              </button>
+            </div>
+          </div>
+
+          {/* Row 3: Reduced Motion */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icon name="player-pause" size={20} style={{ color: 'var(--brand-primary)' }} />
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Reduced Motion</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Disables particle confetti, bouncy animations, and pulsing glow effects</div>
+              </div>
+            </div>
+            <button
+              onClick={toggleReducedMotion}
+              style={{
+                padding: '7px 16px',
+                borderRadius: 'var(--radius-full)',
+                border: reducedMotion ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                backgroundColor: reducedMotion ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                color: reducedMotion ? '#FFFFFF' : 'var(--text-secondary)',
+                fontWeight: 800,
+                fontSize: '0.82rem',
+                cursor: 'pointer'
+              }}
+            >
+              {reducedMotion ? 'Reduced On' : 'Full Animation'}
+            </button>
+          </div>
+
+          {/* Row 4: Daily Goal Selector */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icon name="flame" size={20} style={{ color: '#E11D48' }} />
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Daily XP Target</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Target energy required to protect your daily streak</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {[20, 50, 100].map((goal) => {
+                const active = userProfile.dailyGoalXp === goal;
+                return (
+                  <button
+                    key={goal}
+                    onClick={() => handleSelectDailyGoal(goal)}
+                    style={{
+                      padding: '7px 14px',
+                      borderRadius: 'var(--radius-full)',
+                      border: active ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                      backgroundColor: active ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                      color: active ? '#FFFFFF' : 'var(--text-secondary)',
+                      fontWeight: 800,
+                      fontSize: '0.82rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {goal} XP {goal === 20 ? '(Casual)' : goal === 50 ? '(Regular)' : '(Intense)'}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Row 5: Backup & Progress JSON Management */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icon name="database" size={20} style={{ color: 'var(--brand-primary)' }} />
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Local Data & Offline Backup</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Export your completed curriculum, challenges, and XP snapshot</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={handleExportData}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '7px 14px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1.5px solid var(--border-default)',
+                  backgroundColor: 'var(--bg-surface)',
+                  color: 'var(--text-primary)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer'
+                }}
+              >
+                <Icon name="download" size={14} />
+                <span>Export JSON</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setImportError(null);
+                  setImportJsonText('');
+                  setShowImportModal(true);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '7px 14px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1.5px solid var(--border-default)',
+                  backgroundColor: 'var(--bg-surface)',
+                  color: 'var(--text-primary)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer'
+                }}
+              >
+                <Icon name="upload" size={14} />
+                <span>Import JSON</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  setShowResetConfirmModal(true);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '7px 14px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1.5px solid var(--error-border, #FECACA)',
+                  backgroundColor: 'var(--error-bg, #FEF2F2)',
+                  color: 'var(--error-text, #991B1B)',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer'
+                }}
+              >
+                <Icon name="trash" size={14} />
+                <span>Reset Progress</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* MODAL 1: Edit Profile */}
+      <Modal
+        isOpen={showEditProfileModal}
+        onClose={() => setShowEditProfileModal(false)}
+        title="Edit Learner Profile"
+        size="md"
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <Button variant="secondary" size="md" onClick={() => setShowEditProfileModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" size="md" onClick={handleSaveProfile} icon={<Icon name="check" size={16} />}>
+              Save Profile
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div>
+            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '6px' }}>
+              Display Name
+            </label>
+            <input
+              type="text"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              placeholder="Your name"
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                borderRadius: 'var(--radius-md)',
+                border: '1.5px solid var(--border-default)',
+                backgroundColor: 'var(--bg-surface)',
+                color: 'var(--text-primary)',
+                fontFamily: 'inherit',
+                fontSize: '0.9rem'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '6px' }}>
+              Username Handle
+            </label>
+            <input
+              type="text"
+              value={editUsername}
+              onChange={(e) => setEditUsername(e.target.value)}
+              placeholder="username"
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                borderRadius: 'var(--radius-md)',
+                border: '1.5px solid var(--border-default)',
+                backgroundColor: 'var(--bg-surface)',
+                color: 'var(--text-primary)',
+                fontFamily: 'inherit',
+                fontSize: '0.9rem'
+              }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '10px' }}>
+              Choose Avatar
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '10px' }}>
+              {AVATAR_PRESETS.map((preset) => {
+                const selected = editAvatarUrl === preset.url;
+                return (
+                  <button
+                    key={preset.name}
+                    onClick={() => {
+                      sound.playClick();
+                      setEditAvatarUrl(preset.url);
+                    }}
+                    style={{
+                      border: selected ? '2.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                      boxShadow: selected ? '0 3px 0 var(--brand-bevel)' : '0 1px 0 var(--border-default)',
+                      borderRadius: '14px',
+                      padding: '4px',
+                      backgroundColor: 'var(--bg-surface-subtle)',
+                      cursor: 'pointer',
+                      transform: selected ? 'scale(1.05)' : 'none',
+                      transition: 'all 120ms ease'
+                    }}
+                    title={preset.name}
+                  >
+                    <img
+                      src={preset.url}
+                      alt={preset.name}
+                      style={{ width: '100%', height: 'auto', borderRadius: '10px', display: 'block' }}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* MODAL 2: Import JSON Backup */}
+      <Modal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        title="Import Progress Backup (JSON)"
+        size="md"
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <Button variant="secondary" size="md" onClick={() => setShowImportModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" size="md" onClick={handleImportSubmit} icon={<Icon name="upload" size={16} />}>
+              Restore Backup
+            </Button>
+          </div>
+        }
+      >
+        <div>
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>
+            Paste the raw JSON content of your exported backup file below to restore your progress:
+          </p>
+          <textarea
+            value={importJsonText}
+            onChange={(e) => setImportJsonText(e.target.value)}
+            placeholder='{"version": 1, "userProgress": { ... }}'
+            style={{
+              width: '100%',
+              height: '160px',
+              fontFamily: 'var(--font-mono, monospace)',
+              fontSize: '0.8rem',
+              padding: '12px',
+              borderRadius: 'var(--radius-md)',
+              border: '1.5px solid var(--border-default)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              color: 'var(--text-primary)',
+              resize: 'vertical'
+            }}
+          />
+          {importError && (
+            <div style={{ marginTop: '10px', color: 'var(--error-text)', fontSize: '0.82rem', fontWeight: 700 }}>
+              {importError}
+            </div>
+          )}
+        </div>
+      </Modal>
+
+      {/* MODAL 3: Reset Confirmation */}
+      <Modal
+        isOpen={showResetConfirmModal}
+        onClose={() => setShowResetConfirmModal(false)}
+        title="Reset All Progress?"
+        size="sm"
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <Button variant="secondary" size="md" onClick={() => setShowResetConfirmModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="danger" size="md" onClick={handleResetAll} icon={<Icon name="trash" size={16} />}>
+              Yes, Reset Everything
+            </Button>
+          </div>
+        }
+      >
+        <div>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5, margin: 0 }}>
+            This will permanently reset your XP, current streak, completed units, challenge solutions, and mistake drill logs back to initial state.
+          </p>
+          <div style={{ marginTop: '14px', padding: '10px 14px', backgroundColor: 'var(--error-bg, #FEF2F2)', borderRadius: '8px', border: '1px solid var(--error-border, #FECACA)', color: 'var(--error-text, #991B1B)', fontSize: '0.8rem', fontWeight: 700 }}>
+            Tip: You can use "Export JSON" first if you'd like to backup your current journey!
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
