@@ -35,28 +35,28 @@ export const Card: React.FC<CardProps> = ({
       case 'subtle':
         return {
           backgroundColor: 'var(--bg-surface-subtle)',
-          border: '1.5px solid var(--border-subtle)',
+          border: '1px solid var(--border-subtle)',
           boxShadow: 'none'
         };
       case 'interactive':
         return {
           backgroundColor: 'var(--bg-surface)',
-          border: '1.5px solid var(--border-default)',
-          boxShadow: 'var(--tactile-card)',
+          border: '1px solid var(--border-default)',
+          boxShadow: 'var(--shadow-xs)',
           cursor: 'pointer'
         };
       case 'accent':
         return {
           backgroundColor: 'var(--bg-surface)',
-          border: `1.5px solid ${accentColor || 'var(--brand-primary)'}`,
-          boxShadow: 'var(--tactile-card)'
+          border: `1px solid ${accentColor || 'var(--brand-primary)'}`,
+          boxShadow: 'var(--shadow-xs)'
         };
       case 'default':
       default:
         return {
           backgroundColor: 'var(--bg-surface)',
-          border: '1.5px solid var(--border-default)',
-          boxShadow: 'var(--tactile-card)'
+          border: '1px solid var(--border-default)',
+          boxShadow: 'var(--shadow-xs)'
         };
     }
   };

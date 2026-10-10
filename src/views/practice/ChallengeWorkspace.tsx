@@ -1097,8 +1097,9 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
                                 }}
                               >
                                 {isHidden ? (
-                                  <div style={{ color: '#F0883E' }}>
-                                    🔒 Hidden test failed. Expected output is protected.
+                                  <div style={{ color: '#F0883E', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <Icon name="lock" size={14} />
+                                    <span>Hidden test failed. Expected output is protected.</span>
                                   </div>
                                 ) : (
                                   <div>
@@ -1168,8 +1169,9 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
                         {executionResult.diagnostic.message}
                       </div>
                       {executionResult.diagnostic.fixSuggestion && (
-                        <div style={{ color: '#7EE787', fontSize: '0.8125rem' }}>
-                          💡 Suggestion: {executionResult.diagnostic.fixSuggestion}
+                        <div style={{ color: '#7EE787', fontSize: '0.8125rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Icon name="bulb" size={13} style={{ flexShrink: 0 }} />
+                          <span>Suggestion: {executionResult.diagnostic.fixSuggestion}</span>
                         </div>
                       )}
                     </div>

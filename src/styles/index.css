@@ -143,14 +143,23 @@ button {
   border-color: var(--brand-primary) !important;
 }
 
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-measure {
+  max-width: 68ch;
+  line-height: 1.6;
+}
+
 /* ========================================================
-   TACTILE 3D PLATES & CARDS
+   CLEAN SURFACE CARDS (Restrained & Tasteful)
    ======================================================== */
 .card-plate {
   background-color: var(--bg-surface);
-  border: 1.5px solid var(--border-default);
-  box-shadow: var(--tactile-card);
-  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-lg);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-base);
 }
 
@@ -159,18 +168,20 @@ button {
 }
 
 .card-plate-interactive:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--border-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
   border-color: var(--border-strong);
 }
 
 .card-plate-interactive:active {
-  transform: translateY(2px);
-  box-shadow: var(--tactile-card-pressed);
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
 }
 
 /* ========================================================
-   TACTILE 3D EXTRUSION BUTTONS
+   DISCIPLINED BUTTONS
+   Only primary action retains the 3D bevel.
+   Secondary, outline and ghost are flat and calm.
    ======================================================== */
 .tactile-btn {
   display: inline-flex;
@@ -181,84 +192,87 @@ button {
   border-radius: var(--radius-md);
   user-select: none;
   cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
-}
-
-.tactile-btn:active:not(:disabled) {
-  transform: translateY(3px);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .tactile-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
   transform: none !important;
 }
 
+/* Primary Action Only (Check, Continue, Start) */
 .tactile-btn-primary {
   background-color: var(--brand-primary);
   color: #FFFFFF;
-  border: 1.5px solid var(--brand-bevel);
+  border: 1px solid var(--brand-bevel);
   box-shadow: var(--tactile-primary);
 }
 .tactile-btn-primary:hover:not(:disabled) {
   background-color: var(--brand-hover);
 }
 .tactile-btn-primary:active:not(:disabled) {
+  transform: translateY(2px);
   box-shadow: var(--tactile-primary-pressed);
 }
 
+/* Secondary / Flat Neutral */
+.tactile-btn-white, .tactile-btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-xs);
+}
+.tactile-btn-white:hover:not(:disabled), .tactile-btn-secondary:hover:not(:disabled) {
+  background-color: var(--bg-surface-subtle);
+  border-color: var(--border-strong);
+}
+.tactile-btn-white:active:not(:disabled), .tactile-btn-secondary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Success (Feedback Drawer only) */
 .tactile-btn-emerald {
   background-color: var(--secondary-solid);
   color: #FFFFFF;
-  border: 1.5px solid var(--secondary-bevel);
-  box-shadow: var(--tactile-secondary);
+  border: 1px solid var(--secondary-bevel);
+  box-shadow: none;
 }
 .tactile-btn-emerald:hover:not(:disabled) {
   background-color: var(--secondary-hover);
 }
 .tactile-btn-emerald:active:not(:disabled) {
-  box-shadow: var(--tactile-secondary-pressed);
+  transform: translateY(1px);
 }
 
+/* Warning / Gold */
 .tactile-btn-gold {
   background-color: var(--warning-solid);
   color: #FFFFFF;
-  border: 1.5px solid var(--warning-bevel);
-  box-shadow: var(--tactile-gold);
+  border: 1px solid var(--warning-bevel);
+  box-shadow: none;
 }
 .tactile-btn-gold:hover:not(:disabled) {
   background-color: var(--warning-hover);
 }
 .tactile-btn-gold:active:not(:disabled) {
-  box-shadow: var(--tactile-gold-pressed);
+  transform: translateY(1px);
 }
 
-.tactile-btn-white {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  border: 1.5px solid var(--border-default);
-  box-shadow: var(--tactile-card);
-}
-.tactile-btn-white:hover:not(:disabled) {
-  background-color: var(--bg-surface-subtle);
-  border-color: var(--border-strong);
-}
-.tactile-btn-white:active:not(:disabled) {
-  box-shadow: var(--tactile-card-pressed);
-}
-
+/* Danger / Destructive */
 .tactile-btn-danger {
-  background-color: var(--error-solid);
-  color: #FFFFFF;
-  border: 1.5px solid var(--error-bevel);
-  box-shadow: var(--tactile-danger);
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-border);
+  box-shadow: none;
 }
 .tactile-btn-danger:hover:not(:disabled) {
-  background-color: var(--error-hover);
+  background-color: #FEE2E2;
 }
 .tactile-btn-danger:active:not(:disabled) {
-  box-shadow: var(--tactile-danger-pressed);
+  transform: translateY(1px);
 }
+
 
 /* ========================================================
    SCROLLBAR POLISH

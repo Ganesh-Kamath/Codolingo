@@ -261,11 +261,11 @@ export const AppContent: React.FC = () => {
             position: 'relative'
           }}
         >
-          {/* Brand Logo & Course Selector */}
+          {/* Brand Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <div
               onClick={() => navigateTo('/app')}
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2.5)', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
               role="button"
               tabIndex={0}
               aria-label="Go to home learning path"
@@ -275,47 +275,29 @@ export const AppContent: React.FC = () => {
             >
               <div
                 style={{
-                  width: '38px',
-                  height: '38px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: 'var(--radius-md)',
                   backgroundColor: 'var(--brand-primary)',
-                  border: '1.5px solid var(--brand-bevel)',
-                  boxShadow: 'var(--tactile-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#FFFFFF'
                 }}
               >
-                <Icon name="code" size={22} stroke={2.5} />
+                <Icon name="code" size={18} stroke={2.2} />
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1.5)' }}>
-                <span
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontWeight: 800,
-                    fontSize: 'var(--text-xl)',
-                    letterSpacing: '-0.025em',
-                    color: 'var(--text-primary)'
-                  }}
-                >
-                  Codolingo
-                </span>
-                <span
-                  style={{
-                    backgroundColor: 'var(--brand-light)',
-                    color: 'var(--brand-primary)',
-                    fontSize: '0.625rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.06em',
-                    padding: '2px 6px',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1px solid var(--brand-border)'
-                  }}
-                >
-                  ACADEMY
-                </span>
-              </div>
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 700,
+                  fontSize: 'var(--text-lg)',
+                  letterSpacing: '-0.025em',
+                  color: 'var(--text-primary)'
+                }}
+              >
+                Codolingo
+              </span>
             </div>
 
             {/* Quick Command Palette Button */}
@@ -327,14 +309,13 @@ export const AppContent: React.FC = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'var(--space-2)',
-                padding: 'var(--space-1.5) var(--space-3)',
+                gap: '6px',
+                padding: '4px 10px',
                 backgroundColor: 'var(--bg-surface-subtle)',
-                border: '1.5px solid var(--border-default)',
-                boxShadow: '0 2px 0 var(--border-default)',
+                border: '1px solid var(--border-default)',
                 borderRadius: 'var(--radius-md)',
                 fontSize: 'var(--text-xs)',
-                fontWeight: 700,
+                fontWeight: 600,
                 color: 'var(--text-secondary)',
                 cursor: 'pointer',
                 marginLeft: 'var(--space-2)'
@@ -342,21 +323,21 @@ export const AppContent: React.FC = () => {
               title="Search curriculum, actions, views (Cmd+K)"
               aria-label="Open Command Palette"
             >
-              <Icon name="search" size={14} />
-              <span>Search...</span>
+              <Icon name="search" size={13} />
+              <span>Search</span>
               <kbd style={{
                 fontSize: '0.625rem',
-                padding: '1px 5px',
-                borderRadius: '4px',
+                padding: '1px 4px',
+                borderRadius: '3px',
                 backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-strong)',
+                border: '1px solid var(--border-default)',
                 fontFamily: 'var(--font-mono)'
               }}>⌘K</kbd>
             </button>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav style={{ display: 'flex', gap: 'var(--space-1.5)' }} className="desktop-only" aria-label="Main Navigation">
+          <nav style={{ display: 'flex', gap: 'var(--space-1)' }} className="desktop-only" aria-label="Main Navigation">
             {navTabs.map((tab) => {
               const isActive = currentTab === tab.id;
 
@@ -367,34 +348,33 @@ export const AppContent: React.FC = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'var(--space-2)',
-                    padding: 'var(--space-2) var(--space-3.5)',
+                    gap: '6px',
+                    padding: '6px 12px',
                     borderRadius: 'var(--radius-md)',
                     fontSize: 'var(--text-sm)',
-                    fontFamily: 'var(--font-display)',
-                    fontWeight: 700,
+                    fontWeight: isActive ? 600 : 500,
                     backgroundColor: isActive ? 'var(--brand-light)' : 'transparent',
                     color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                    border: isActive ? '1.5px solid var(--brand-border)' : '1.5px solid transparent',
-                    boxShadow: isActive ? '0 2px 0 var(--brand-border)' : 'none',
+                    border: '1px solid',
+                    borderColor: isActive ? 'var(--brand-border)' : 'transparent',
                     transition: 'all var(--transition-fast)',
                     cursor: 'pointer'
                   }}
                   className={isActive ? '' : 'nav-hover-item'}
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <Icon name={tab.iconName} size={17} />
+                  <Icon name={tab.iconName} size={15} />
                   <span>{tab.label}</span>
                   {tab.badge ? (
                     <span
                       style={{
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: 800,
-                        backgroundColor: 'var(--error-solid)',
-                        color: '#FFFFFF',
+                        fontSize: '0.6875rem',
+                        fontWeight: 700,
+                        backgroundColor: 'var(--error-bg)',
+                        color: 'var(--error-text)',
                         padding: '1px 6px',
                         borderRadius: 'var(--radius-full)',
-                        border: '1px solid var(--error-bevel)'
+                        border: '1px solid var(--error-border)'
                       }}
                     >
                       {tab.badge}
@@ -405,8 +385,8 @@ export const AppContent: React.FC = () => {
             })}
           </nav>
 
-          {/* Gamification HUD Pills & Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2.5)' }}>
+          {/* Gamification HUD Indicators & Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             {/* Streak Pill */}
             <Tooltip content={`${userProgress.streak} day streak (Click for stats)`}>
               <button
@@ -414,24 +394,22 @@ export const AppContent: React.FC = () => {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 'var(--space-1.5)',
-                  padding: 'var(--space-1) var(--space-3)',
-                  backgroundColor: 'var(--streak-bg)',
+                  gap: '6px',
+                  padding: '5px 10px',
+                  backgroundColor: 'var(--bg-surface-subtle)',
                   borderRadius: 'var(--radius-full)',
-                  border: '1.5px solid #FECDD3',
-                  boxShadow: '0 2px 0 #FECDD3',
-                  color: 'var(--streak-color)',
-                  fontWeight: 800,
+                  border: '1px solid var(--border-default)',
+                  color: 'var(--text-primary)',
+                  fontWeight: 600,
                   fontSize: 'var(--text-xs)',
-                  fontFamily: 'var(--font-display)',
                   cursor: 'pointer'
                 }}
-                className="desktop-only hover-elevate"
+                className="desktop-only"
                 aria-expanded={activeHudPopover === 'streak'}
                 aria-label="View streak details"
               >
-                <Icon name="flame" size={15} fill="#FDA4AF" />
-                <span>{userProgress.streak} DAYS</span>
+                <Icon name="flame" size={14} style={{ color: 'var(--streak-color)' }} />
+                <span className="tabular-nums">{userProgress.streak}d</span>
               </button>
             </Tooltip>
 
@@ -442,52 +420,48 @@ export const AppContent: React.FC = () => {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 'var(--space-1.5)',
-                  padding: 'var(--space-1) var(--space-3)',
-                  backgroundColor: 'var(--warning-bg)',
+                  gap: '6px',
+                  padding: '5px 10px',
+                  backgroundColor: 'var(--bg-surface-subtle)',
                   borderRadius: 'var(--radius-full)',
-                  border: '1.5px solid var(--warning-border)',
-                  boxShadow: '0 2px 0 var(--warning-border)',
-                  color: 'var(--warning-text)',
-                  fontWeight: 800,
+                  border: '1px solid var(--border-default)',
+                  color: 'var(--text-primary)',
+                  fontWeight: 600,
                   fontSize: 'var(--text-xs)',
-                  fontFamily: 'var(--font-display)',
                   cursor: 'pointer'
                 }}
-                className="desktop-only hover-elevate"
+                className="desktop-only"
                 aria-expanded={activeHudPopover === 'xp'}
                 aria-label="View XP and level details"
               >
-                <Icon name="sparkles" size={15} fill="var(--warning-border)" />
-                <span>{userProgress.totalXp.toLocaleString()} XP</span>
+                <Icon name="sparkles" size={14} style={{ color: 'var(--xp-color)' }} />
+                <span className="tabular-nums">{userProgress.totalXp.toLocaleString()} XP</span>
               </button>
             </Tooltip>
 
             {/* Shields Pill */}
-            <Tooltip content="Practice Shields & Energy (Click for status)">
+            <Tooltip content="Practice Shields & Energy">
               <button
                 onClick={() => setActiveHudPopover(prev => prev === 'energy' ? null : 'energy')}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 'var(--space-1.5)',
-                  padding: 'var(--space-1) var(--space-3)',
-                  backgroundColor: 'var(--info-bg)',
+                  gap: '5px',
+                  padding: '5px 10px',
+                  backgroundColor: 'var(--bg-surface-subtle)',
                   borderRadius: 'var(--radius-full)',
-                  border: '1.5px solid var(--info-border)',
-                  boxShadow: '0 2px 0 var(--info-border)',
-                  color: 'var(--info-text)',
-                  fontWeight: 800,
+                  border: '1px solid var(--border-default)',
+                  color: 'var(--text-secondary)',
+                  fontWeight: 600,
                   fontSize: 'var(--text-xs)',
-                  fontFamily: 'var(--font-display)',
                   cursor: 'pointer'
                 }}
-                className="desktop-only hover-elevate"
+                className="desktop-only"
                 aria-expanded={activeHudPopover === 'energy'}
                 aria-label="View shields and energy status"
               >
-                <Icon name="shield" size={15} fill="var(--info-border)" />
-                <span>{userProgress.energy}/{userProgress.maxEnergy}</span>
+                <Icon name="shield" size={14} style={{ color: 'var(--info-text)' }} />
+                <span className="tabular-nums">{userProgress.energy}/{userProgress.maxEnergy}</span>
               </button>
             </Tooltip>
 

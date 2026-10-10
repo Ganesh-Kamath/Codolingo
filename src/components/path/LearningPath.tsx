@@ -570,52 +570,24 @@ export const LearningPath: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button
+              <Button
+                variant="secondary"
+                size="sm"
+                fullWidth
                 onClick={() => navigateTo('/app/practice')}
-                style={{
-                  flex: 1,
-                  padding: '9px 12px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--bg-surface-subtle)',
-                  border: '1.5px solid var(--border-default)',
-                  color: 'var(--text-primary)',
-                  fontSize: '0.78rem',
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  boxShadow: '0 2px 0 var(--border-default)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px'
-                }}
+                icon={<Icon name="barbell" size={14} />}
               >
-                <Icon name="barbell" size={15} />
-                <span>Practice Drills</span>
-              </button>
-              <button
+                Practice Drills
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                fullWidth
                 onClick={() => navigateTo('/app/review')}
-                style={{
-                  flex: 1,
-                  padding: '9px 12px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--brand-light)',
-                  border: '1.5px solid var(--brand-border)',
-                  color: 'var(--brand-primary)',
-                  fontSize: '0.78rem',
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  boxShadow: '0 2px 0 var(--brand-border)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px'
-                }}
+                icon={<Icon name="history" size={14} />}
               >
-                <Icon name="history" size={15} />
-                <span>Mistake Bank</span>
-              </button>
+                Mistake Bank
+              </Button>
             </div>
           </div>
 
@@ -802,7 +774,7 @@ export const LearningPath: React.FC = () => {
                               justifyContent: 'center'
                             }}
                           >
-                            {isDone ? '✓' : idx + 1}
+                            {isDone ? <Icon name="check" size={12} stroke={2.5} /> : <span className="tabular-nums">{idx + 1}</span>}
                           </span>
                           <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                             {les.title}
@@ -927,8 +899,9 @@ export const LearningPath: React.FC = () => {
                           {skill.title}
                         </span>
                       </div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 800, color: isDone ? 'var(--state-success)' : 'var(--text-muted)' }}>
-                        {mastery}/5 ★
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: isDone ? 'var(--state-success)' : 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        <span className="tabular-nums">{mastery}/5</span>
+                        <Icon name="star" size={12} fill={isDone ? 'currentColor' : 'none'} stroke={1.5} />
                       </span>
                     </div>
                   );

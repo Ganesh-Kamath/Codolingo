@@ -28,43 +28,43 @@ export const Button: React.FC<ButtonProps> = ({
         return {
           backgroundColor: 'var(--brand-primary)',
           color: '#FFFFFF',
-          border: '1.5px solid var(--brand-bevel)',
+          border: '1px solid var(--brand-bevel)',
           boxShadow: 'var(--tactile-primary)'
         };
       case 'secondary':
         return {
           backgroundColor: 'var(--bg-surface)',
           color: 'var(--text-primary)',
-          border: '1.5px solid var(--border-default)',
-          boxShadow: 'var(--tactile-card)'
+          border: '1px solid var(--border-default)',
+          boxShadow: 'var(--shadow-xs)'
         };
       case 'outline':
         return {
           backgroundColor: 'transparent',
           color: 'var(--text-primary)',
-          border: '1.5px solid var(--border-strong)',
+          border: '1px solid var(--border-default)',
           boxShadow: 'none'
         };
       case 'ghost':
         return {
           backgroundColor: 'transparent',
           color: 'var(--text-secondary)',
-          border: '1.5px solid transparent',
+          border: '1px solid transparent',
           boxShadow: 'none'
         };
       case 'success':
         return {
           backgroundColor: 'var(--secondary-solid)',
           color: '#FFFFFF',
-          border: '1.5px solid var(--secondary-bevel)',
-          boxShadow: 'var(--tactile-secondary)'
+          border: '1px solid var(--secondary-bevel)',
+          boxShadow: 'none'
         };
       case 'danger':
         return {
-          backgroundColor: 'var(--error-solid)',
-          color: '#FFFFFF',
-          border: '1.5px solid var(--error-bevel)',
-          boxShadow: 'var(--tactile-danger)'
+          backgroundColor: 'var(--error-bg)',
+          color: 'var(--error-text)',
+          border: '1px solid var(--error-border)',
+          boxShadow: 'none'
         };
       default:
         return {};

@@ -287,11 +287,15 @@ export const LessonView: React.FC<LessonViewProps> = ({ lessonId = 'py_lesson_3'
                   paddingTop: '10px',
                   borderTop: '1px solid var(--border-subtle)',
                   fontSize: '0.84rem',
-                  color: 'var(--text-secondary)'
+                  color: 'var(--text-secondary)',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '6px'
                 }}
                 className="animate-fade-in"
               >
-                💡 {challenge.hint}
+                <Icon name="bulb" size={15} style={{ color: 'var(--warning-text)', flexShrink: 0, marginTop: '2px' }} />
+                <span>{challenge.hint}</span>
               </div>
             )}
           </div>
@@ -460,8 +464,9 @@ export const LessonView: React.FC<LessonViewProps> = ({ lessonId = 'py_lesson_3'
                             {executionResult.diagnostic.message}
                           </p>
                           {executionResult.diagnostic.fixSuggestion && (
-                            <div style={{ marginTop: '6px', fontSize: '0.78rem', color: '#991B1B', fontWeight: 600 }}>
-                              💡 Suggestion: {executionResult.diagnostic.fixSuggestion}
+                            <div style={{ marginTop: '6px', fontSize: '0.78rem', color: '#991B1B', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <Icon name="bulb" size={13} style={{ flexShrink: 0 }} />
+                              <span>Suggestion: {executionResult.diagnostic.fixSuggestion}</span>
                             </div>
                           )}
                         </div>

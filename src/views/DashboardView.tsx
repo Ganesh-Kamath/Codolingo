@@ -161,12 +161,12 @@ export const DashboardView: React.FC = () => {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <h1 style={{ fontSize: '1.875rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: 0 }}>
-              {getGreeting()}, {userProgress.name.split(' ')[0]} 👋
+              {getGreeting()}, {userProgress.name.split(' ')[0]}
             </h1>
-            <Badge variant="brand" size="sm">Level {userProgress.level || 1}</Badge>
+            <Badge variant="brand" size="sm"><span className="tabular-nums">Level {userProgress.level || 1}</span></Badge>
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', margin: 0 }}>
-            You're on a <strong style={{ color: 'var(--text-primary)' }}>{userProgress.streak}-day streak</strong>. Keep your momentum high with your next targeted challenge.
+            You're on a <strong style={{ color: 'var(--text-primary)' }} className="tabular-nums">{userProgress.streak}-day streak</strong>. Keep your momentum high with your next targeted challenge.
           </p>
         </div>
 
@@ -199,8 +199,8 @@ export const DashboardView: React.FC = () => {
           marginBottom: '28px',
           backgroundColor: 'var(--bg-surface)',
           borderRadius: 'var(--radius-xl)',
-          border: '1.5px solid var(--border-default)',
-          boxShadow: 'var(--tactile-card)',
+          border: '1px solid var(--border-default)',
+          boxShadow: 'var(--shadow-xs)',
           position: 'relative',
           overflow: 'hidden'
         }}
@@ -211,12 +211,12 @@ export const DashboardView: React.FC = () => {
               <Badge variant="brand" size="sm">
                 UNIT {activeUnit?.unitNumber || 1} • {activeUnit?.title || 'PYTHON FOUNDATIONS'}
               </Badge>
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)' }} className="tabular-nums">
                 {completedUnitLessons} of {unitLessons.length} lessons in unit
               </span>
             </div>
 
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.25 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.25 }}>
               {activeSkill?.title}: {activeLesson?.title || 'Interactive Challenge'}
             </h2>
 
@@ -225,43 +225,43 @@ export const DashboardView: React.FC = () => {
             </p>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '22px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
-                <Icon name="clock" size={16} style={{ color: 'var(--brand-primary)' }} />
-                <span>~{activeLesson?.estimatedMinutes || 4} min session</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                <Icon name="clock" size={16} style={{ color: 'var(--text-muted)' }} />
+                <span className="tabular-nums">~{activeLesson?.estimatedMinutes || 4} min session</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
                 <Icon name="sparkles" size={16} style={{ color: 'var(--warning-text)' }} />
-                <span>+{activeLesson?.xpReward || 25} XP reward</span>
+                <span className="tabular-nums">+{activeLesson?.xpReward || 25} XP</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
-                <Icon name="terminal" size={16} style={{ color: 'var(--secondary-solid)' }} />
-                <span>Interactive Python runner</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                <Icon name="terminal" size={16} style={{ color: 'var(--text-muted)' }} />
+                <span>Interactive Python</span>
               </div>
             </div>
 
             {/* Inline Module Progress Bar */}
             <div style={{ maxWidth: '420px', backgroundColor: 'var(--bg-app)', padding: '12px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem', fontWeight: 800 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem', fontWeight: 700 }}>
                 <span style={{ color: 'var(--text-secondary)' }}>Unit Progress</span>
-                <span style={{ color: 'var(--brand-primary)' }}>{unitProgressPct}% Completed</span>
+                <span style={{ color: 'var(--brand-primary)' }} className="tabular-nums">{unitProgressPct}% Completed</span>
               </div>
               <ProgressBar progress={unitProgressPct} height={8} />
             </div>
           </div>
 
-          {/* Action Trigger Button */}
+          {/* Action Trigger Button (Single Primary Tactile Action) */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
             <Button
               variant="primary"
               size="lg"
               onClick={() => startLesson(nextLessonId)}
-              icon={<Icon name="player-play" size={18} fill="#fff" />}
+              icon={<Icon name="player-play" size={18} fill="currentColor" />}
               iconPosition="left"
               style={{ padding: '14px 28px', fontSize: '1.05rem', minWidth: '220px' }}
             >
-              Resume Lesson (↵)
+              Resume Lesson
             </Button>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px', fontWeight: 600 }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px', fontWeight: 500 }}>
               Press Enter or click to begin
             </span>
           </div>
@@ -525,15 +525,15 @@ export const DashboardView: React.FC = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)' }} className="tabular-nums">
                 {courseProgressPct}% Completed
               </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }} className="tabular-nums">
                 {completedLessonsCount} of {totalLessonsCount} lessons
               </div>
             </div>
             <Button
-              variant="primary"
+              variant="secondary"
               size="sm"
               onClick={() => navigateTo('/app')}
               icon={<Icon name="map" size={15} />}

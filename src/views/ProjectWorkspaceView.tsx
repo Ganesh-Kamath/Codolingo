@@ -204,16 +204,16 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
               fontSize: '0.85rem',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
-              border: isCompleted ? '1.5px solid var(--success-text)' : '1.5px solid var(--border-default)',
-              backgroundColor: isCompleted ? 'var(--success-bg)' : 'var(--bg-surface)',
-              color: isCompleted ? 'var(--success-text)' : 'var(--text-primary)',
-              boxShadow: isCompleted ? '0 3px 0 var(--success-text)' : '0 2px 0 var(--border-default)',
+              border: isCompleted ? '1px solid var(--state-success)' : '1px solid var(--border-default)',
+              backgroundColor: isCompleted ? 'var(--state-success-subtle)' : 'var(--bg-surface)',
+              color: isCompleted ? 'var(--state-success)' : 'var(--text-primary)',
+              boxShadow: 'none',
               cursor: 'pointer',
               transition: 'all 120ms ease'
             }}
           >
             <Icon name={isCompleted ? 'check' : 'circle'} size={16} stroke={2.5} />
-            <span>{isCompleted ? 'Project Completed ✓' : 'Mark as Built'}</span>
+            <span>{isCompleted ? 'Completed' : 'Mark as Built'}</span>
           </button>
         </div>
       </header>

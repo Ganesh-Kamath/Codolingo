@@ -1257,7 +1257,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               >
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '1.2rem' }}>🔧</span>
+                    <Icon name="tool" size={18} style={{ color: '#92400E' }} />
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: '#92400E' }}>
                       CONCEPT REPAIR SESSION
                     </span>
@@ -1287,9 +1287,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                     marginBottom: '16px',
                     fontSize: '0.9rem',
                     color: '#78350F',
-                    lineHeight: 1.5
+                    lineHeight: 1.5,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px'
                   }}>
-                    💡 <strong>Mental Model:</strong> {currentBlock.mentalModel}
+                    <Icon name="bulb" size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <div><strong>Mental Model:</strong> {currentBlock.mentalModel}</div>
                   </div>
                 )}
 
@@ -1387,7 +1391,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                       fontWeight: 600
                     }}>
                       {repairIsCorrect
-                        ? '✓ Repair confirmed! You successfully corrected the misconception.'
+                        ? 'Repair confirmed. Misconception corrected.'
                         : 'Review the correct answer highlighted in green above before continuing.'}
                     </div>
                   )}
@@ -1648,9 +1652,14 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                         />
                         {isChecked && (
                           isStepCorrect ? (
-                            <span style={{ color: '#10B981', fontWeight: 800 }}>✓</span>
+                            <span style={{ color: 'var(--state-success)', display: 'inline-flex', alignItems: 'center' }}>
+                              <Icon name="check" size={14} stroke={2.5} />
+                            </span>
                           ) : (
-                            <span style={{ color: '#EF4444', fontWeight: 800 }}>✗ ({step.expectedValue})</span>
+                            <span style={{ color: 'var(--state-error)', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                              <Icon name="x" size={14} stroke={2.5} />
+                              <span className="tabular-nums">({step.expectedValue})</span>
+                            </span>
                           )
                         )}
                       </div>
@@ -1705,8 +1714,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
             {/* Hint Box */}
             {showHint && currentBlock.hint && (
-              <div className="animate-fade-in" style={{ backgroundColor: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 'var(--radius-lg, 12px)', padding: '14px 18px', marginBottom: '18px', color: '#1E40AF', fontSize: '0.9rem' }}>
-                💡 <strong>Hint:</strong> {currentBlock.hint}
+              <div className="animate-fade-in" style={{ backgroundColor: 'var(--brand-light)', border: '1px solid var(--brand-border)', borderRadius: 'var(--radius-lg, 12px)', padding: '14px 18px', marginBottom: '18px', color: 'var(--brand-primary)', fontSize: '0.9rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <Icon name="bulb" size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+                <div><strong>Hint:</strong> {currentBlock.hint}</div>
               </div>
             )}
 
