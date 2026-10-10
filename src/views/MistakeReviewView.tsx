@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
 import { MistakeRecord } from '../types';
 import { sound } from '../utils/audio';
-import { fireCelebrationConfetti } from '../utils/confetti';
 import { Icon } from '../components/ui/Icon';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
@@ -268,16 +267,6 @@ export const MistakeReviewView: React.FC = () => {
       setVerifyError(null);
       setRepairSuccess(true);
       resolveMistake(selectedMistake.id);
-
-      try {
-        fireCelebrationConfetti({
-          particleCount: 70,
-          spread: 50,
-          origin: { y: 0.6 }
-        });
-      } catch {
-        // Fallback
-      }
     } else {
       sound.playError();
       setVerifyError(validation.errorReason || 'Verification failed. Your code still contains the misconception. Check the hint and try again.');

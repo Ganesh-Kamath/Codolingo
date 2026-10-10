@@ -1,8 +1,11 @@
 // Synthesized Audio Feedback using Web Audio API (Zero external assets required)
+// Restrained, low-volume, non-overlapping audio chimes
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
   private enabled: boolean = true;
+  private volume: number = 0.25; // Default subtle, low volume (25%)
+  private activeGains: GainNode[] = [];
 
   constructor() {
     // Lazily initialized on first user gesture
@@ -22,6 +25,28 @@ class SoundEngine {
     return this.ctx;
   }
 
+  // Fade out and stop any actively playing sounds so they never stack or collide
+  private stopActiveSounds() {
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    for (const gain of this.activeGains) {
+      try {
+        gain.gain.cancelScheduledValues(now);
+        gain.gain.setValueAtTime(gain.gain.value, now);
+        gain.gain.linearRampToValueAtTime(0.0001, now + 0.015);
+      } catch {}
+    }
+    this.activeGains = [];
+  }
+
+  public setVolume(val: number) {
+    this.volume = Math.max(0, Math.min(1, val));
+  }
+
+  public getVolume(): number {
+    return this.volume;
+  }
+
   public toggleSound(enabled?: boolean) {
     if (enabled !== undefined) {
       this.enabled = enabled;
@@ -36,31 +61,37 @@ class SoundEngine {
   }
 
   public playSuccess() {
-    if (!this.enabled) return;
+    if (!this.enabled || this.volume <= 0) return;
     try {
       const ctx = this.getContext();
       if (!ctx) return;
 
+      this.stopActiveSounds();
+
       const now = ctx.currentTime;
-      // Elegant 3-chord major chime (C5 -> E5 -> G5)
-      const notes = [523.25, 659.25, 783.99];
+      // Gentle, restrained 2-note harmonic chime (523Hz -> 659Hz)
+      const notes = [523.25, 659.25];
+      const masterGain = ctx.createGain();
+      masterGain.connect(ctx.destination);
+      this.activeGains.push(masterGain);
 
       notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
 
-        gain.gain.setValueAtTime(0, now + idx * 0.08);
-        gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.08 + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.35);
+        const peakGain = 0.07 * this.volume;
+        gain.gain.setValueAtTime(0, now + idx * 0.06);
+        gain.gain.linearRampToValueAtTime(peakGain, now + idx * 0.06 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + 0.22);
 
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(masterGain);
 
-        osc.start(now + idx * 0.08);
-        osc.stop(now + idx * 0.08 + 0.35);
+        osc.start(now + idx * 0.06);
+        osc.stop(now + idx * 0.06 + 0.22);
       });
     } catch {
       // Audio context might fail silently without blocking UI
@@ -68,54 +99,62 @@ class SoundEngine {
   }
 
   public playError() {
-    if (!this.enabled) return;
+    if (!this.enabled || this.volume <= 0) return;
     try {
       const ctx = this.getContext();
       if (!ctx) return;
 
+      this.stopActiveSounds();
+
       const now = ctx.currentTime;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
+      this.activeGains.push(gain);
 
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(220, now);
-      osc.frequency.linearRampToValueAtTime(175, now + 0.22);
+      osc.frequency.setValueAtTime(160, now);
+      osc.frequency.linearRampToValueAtTime(130, now + 0.14);
 
-      gain.gain.setValueAtTime(0.1, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+      const peakGain = 0.05 * this.volume;
+      gain.gain.setValueAtTime(peakGain, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.25);
+      osc.stop(now + 0.15);
     } catch {
       // Silently ignore
     }
   }
 
   public playClick() {
-    if (!this.enabled) return;
+    if (!this.enabled || this.volume <= 0) return;
     try {
       const ctx = this.getContext();
       if (!ctx) return;
 
+      this.stopActiveSounds();
+
       const now = ctx.currentTime;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
+      this.activeGains.push(gain);
 
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(800, now);
-      osc.frequency.exponentialRampToValueAtTime(400, now + 0.03);
+      osc.frequency.setValueAtTime(750, now);
+      osc.frequency.exponentialRampToValueAtTime(350, now + 0.02);
 
-      gain.gain.setValueAtTime(0.04, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+      const peakGain = 0.03 * this.volume;
+      gain.gain.setValueAtTime(peakGain, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.03);
+      osc.stop(now + 0.02);
     } catch {
       // Silently ignore
     }

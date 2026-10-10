@@ -250,7 +250,6 @@ export const LearningPath: React.FC = () => {
                     position: 'relative',
                     userSelect: 'none'
                   }}
-                  className={isCurrent ? 'current-node-pulse' : ''}
                   title={isLocked ? `Locked: Complete prior skills to unlock` : `${skill.title} (Click to inspect)`}
                 >
                   {isCompleted ? (

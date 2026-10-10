@@ -7,7 +7,6 @@ import { Button } from '../components/common/Button';
 import { Modal } from '../components/common/Modal';
 import { ProgressBar } from '../components/common/ProgressBar';
 import { sound } from '../utils/audio';
-import { fireCelebrationConfetti } from '../utils/confetti';
 
 const AVATAR_PRESETS = [
   { name: 'Scholar', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=scholar' },
@@ -94,9 +93,6 @@ export const ProfileView: React.FC = () => {
     const success = importProgress(importJsonText.trim());
     if (success) {
       sound.playSuccess();
-      try {
-        fireCelebrationConfetti({ particleCount: 70, spread: 60 });
-      } catch {}
       setShowImportModal(false);
       setImportJsonText('');
     } else {

@@ -31,9 +31,10 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const showToast = useCallback((toast: Omit<ToastItem, 'id'>) => {
     const id = `toast_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
     const newToast: ToastItem = { ...toast, id };
-    setToasts((prev) => [...prev, newToast]);
+    // Enforce max one toast at a time (never stacked)
+    setToasts([newToast]);
 
-    const duration = toast.duration ?? 4000;
+    const duration = toast.duration ?? 3200;
     if (duration > 0) {
       setTimeout(() => {
         removeToast(id);
@@ -44,16 +45,16 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const showXpToast = useCallback((amount: number, reason?: string) => {
     showToast({
       type: 'xp',
-      title: `+${amount} XP Earned!`,
-      message: reason || 'Keep up the momentum!'
+      title: `+${amount} XP earned`,
+      message: reason || 'Session progress updated'
     });
   }, [showToast]);
 
   const showStreakToast = useCallback((days: number) => {
     showToast({
       type: 'streak',
-      title: `${days} Day Streak Extended!`,
-      message: 'Consistency builds world-class engineering mastery.'
+      title: `${days}-day streak extended`,
+      message: 'Practice every day to maintain your streak.'
     });
   }, [showToast]);
 

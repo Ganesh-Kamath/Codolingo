@@ -43,6 +43,15 @@ html, body {
   }
 }
 
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
 /* ========================================================
    TYPOGRAPHY HIERARCHY
    ======================================================== */
@@ -323,27 +332,17 @@ button {
   100% { background-position: 200% 0; }
 }
 
-@keyframes nodePulse {
-  0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4), var(--tactile-primary); }
-  70% { box-shadow: 0 0 0 12px rgba(99, 102, 241, 0), var(--tactile-primary); }
-  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0), var(--tactile-primary); }
-}
-
-.current-node-pulse {
-  animation: nodePulse 2.4s infinite ease-out;
-}
-
 .hover-elevate {
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .hover-elevate:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   border-color: var(--brand-border) !important;
 }
 
 .hover-elevate:active {
-  transform: translateY(2px);
+  transform: translateY(1px);
 }
 
 .animate-fade-in {
@@ -351,11 +350,11 @@ button {
 }
 
 .animate-slide-up {
-  animation: slideUp var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideUp var(--transition-slow) forwards;
 }
 
 .animate-pop-in {
-  animation: popIn 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: popIn var(--transition-base) forwards;
 }
 
 /* Skeleton Loading Shimmer */
