@@ -37,6 +37,7 @@ export const ProfileView: React.FC = () => {
   const [showEditProfileModal, setShowEditProfileModal] = useState<boolean>(false);
   const [showResetConfirmModal, setShowResetConfirmModal] = useState<boolean>(false);
   const [showImportModal, setShowImportModal] = useState<boolean>(false);
+  const [showShortcutsModal, setShowShortcutsModal] = useState<boolean>(false);
   const [importJsonText, setImportJsonText] = useState<string>('');
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -599,7 +600,141 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      {/* 7. Danger Zone Card */}
+      {/* 7. About Codolingo Card */}
+      <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
+              <Icon name="info-circle" size={18} />
+            </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                  About Codolingo
+                </h2>
+                <Badge variant="brand" size="sm">v1.2.0</Badge>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+                Client-side Python deliberate practice. Runs locally in your browser.
+              </p>
+            </div>
+          </div>
+          <a
+            href="mailto:feedback@codolingo.app?subject=Codolingo%20Feedback"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--border-default)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              color: 'var(--text-secondary)',
+              fontSize: '0.8125rem',
+              fontWeight: 600,
+              textDecoration: 'none'
+            }}
+          >
+            <Icon name="mail" size={14} />
+            <span>Send feedback</span>
+          </a>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
+          <button
+            onClick={() => {
+              sound.playClick();
+              setShowShortcutsModal(true);
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 14px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1px solid var(--border-default)',
+              color: 'var(--text-primary)',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left'
+            }}
+            className="nav-hover-item"
+          >
+            <Icon name="keyboard" size={16} style={{ color: 'var(--brand-primary)' }} />
+            <span>Keyboard shortcuts</span>
+          </button>
+
+          <button
+            onClick={() => navigateTo('/changelog')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 14px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1px solid var(--border-default)',
+              color: 'var(--text-primary)',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left'
+            }}
+            className="nav-hover-item"
+          >
+            <Icon name="sparkles" size={16} style={{ color: 'var(--warning-text)' }} />
+            <span>Changelog</span>
+          </button>
+
+          <button
+            onClick={() => navigateTo('/privacy')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 14px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1px solid var(--border-default)',
+              color: 'var(--text-primary)',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left'
+            }}
+            className="nav-hover-item"
+          >
+            <Icon name="shield-check" size={16} style={{ color: 'var(--brand-primary)' }} />
+            <span>Privacy policy</span>
+          </button>
+
+          <button
+            onClick={() => navigateTo('/terms')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 14px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1px solid var(--border-default)',
+              color: 'var(--text-primary)',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              textAlign: 'left'
+            }}
+            className="nav-hover-item"
+          >
+            <Icon name="file-text" size={16} style={{ color: 'var(--text-secondary)' }} />
+            <span>Terms of service</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 8. Danger Zone Card */}
       <div
         style={{
           padding: '24px',
@@ -803,6 +938,62 @@ export const ProfileView: React.FC = () => {
           <div style={{ marginTop: '14px', padding: '10px 14px', backgroundColor: 'var(--error-bg, #FEF2F2)', borderRadius: '8px', border: '1px solid var(--error-border, #FECACA)', color: 'var(--error-text, #991B1B)', fontSize: '0.8rem', fontWeight: 700 }}>
             Tip: You can export a JSON backup first to save your current progress.
           </div>
+        </div>
+      </Modal>
+
+      {/* MODAL 4: Keyboard Shortcuts */}
+      <Modal
+        isOpen={showShortcutsModal}
+        onClose={() => setShowShortcutsModal(false)}
+        title="Keyboard Shortcuts"
+        size="md"
+        footer={
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="secondary" size="md" onClick={() => setShowShortcutsModal(false)}>
+              Close
+            </Button>
+          </div>
+        }
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {[
+            { key: '⌘ K / Ctrl+K', desc: 'Open Command Palette from any screen' },
+            { key: '⌘ ↵ / Ctrl+Enter', desc: 'Run code in the interactive editor' },
+            { key: '1 – 4', desc: 'Select multiple-choice option directly' },
+            { key: 'Esc', desc: 'Close open dialogs, modals, or popovers' },
+            { key: 'Tab / Shift+Tab', desc: 'Navigate between interactive controls' },
+            { key: 'Space / Enter', desc: 'Trigger selected action or button' }
+          ].map((item) => (
+            <div
+              key={item.key}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '8px 12px',
+                borderRadius: '8px',
+                backgroundColor: 'var(--bg-surface-subtle)',
+                border: '1px solid var(--border-default)'
+              }}
+            >
+              <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{item.desc}</span>
+              <kbd
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.78rem',
+                  padding: '3px 8px',
+                  borderRadius: '6px',
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1px solid var(--border-default)',
+                  boxShadow: '0 1px 0 var(--border-default)',
+                  color: 'var(--text-primary)',
+                  fontWeight: 600
+                }}
+              >
+                {item.key}
+              </kbd>
+            </div>
+          ))}
         </div>
       </Modal>
     </div>

@@ -4,6 +4,8 @@ import { useApp } from '../../context/AppContext';
 import { StreakIndicator } from '../common/StreakIndicator';
 import { XPIndicator } from '../common/XPIndicator';
 
+import { BrandLogo } from '../common/BrandLogo';
+
 interface SidebarProps {
   collapsed?: boolean;
 }
@@ -14,19 +16,17 @@ export const Sidebar: React.FC<SidebarProps> = () => {
   const unresolvedMistakesCount = mistakes.filter(m => !m.resolved).length;
 
   const navItems = [
-    { label: 'Dashboard', iconName: 'layout-dashboard', route: '/app' },
-    { label: 'Learn & Explore', iconName: 'compass', route: '/app/learn' },
-    { label: 'Current Course', iconName: 'book', route: `/app/course/${activeCourse.id}` },
-    { label: 'Practice Drills', iconName: 'barbell', route: '/app/practice' },
+    { label: 'Path', iconName: 'map', route: '/app' },
+    { label: 'Dashboard', iconName: 'layout-dashboard', route: '/app/dashboard' },
+    { label: 'Practice', iconName: 'barbell', route: '/app/practice' },
     { 
-      label: 'Mistake Review', 
+      label: 'Review', 
       iconName: 'history', 
       route: '/app/review',
       badge: unresolvedMistakesCount > 0 ? `${unresolvedMistakesCount}` : undefined,
-      badgeColor: '#EF4444'
+      badgeColor: 'var(--state-error)'
     },
-    { label: 'Analytics', iconName: 'chart-bar', route: '/app/progress' },
-    { label: 'My Profile', iconName: 'user', route: '/app/profile' },
+    { label: 'Profile', iconName: 'user', route: '/app/profile' },
   ];
 
   return (
@@ -36,7 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         height: '100vh',
         position: 'sticky',
         top: 0,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--bg-surface)',
         borderRight: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',
@@ -48,54 +48,14 @@ export const Sidebar: React.FC<SidebarProps> = () => {
       {/* Brand Header */}
       <div
         style={{
-          padding: '20px 20px 16px',
+          padding: '18px 20px 16px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid var(--border-subtle)'
+          borderBottom: '1px solid var(--border-default)'
         }}
       >
-        <div 
-          onClick={() => navigateTo('/')}
-          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
-        >
-          <div
-            style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '8px',
-              backgroundColor: 'var(--brand-primary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFFFFF',
-              boxShadow: '0 2px 4px rgba(16, 185, 129, 0.25)'
-            }}
-          >
-            <Icon name="code" size={20} stroke={2.5} />
-          </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontWeight: 800, fontSize: '1.125rem', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
-                Codolingo
-              </span>
-              <span 
-                style={{ 
-                  fontSize: '0.625rem', 
-                  backgroundColor: 'var(--brand-light)', 
-                  color: 'var(--brand-text)', 
-                  fontWeight: 700,
-                  padding: '2px 5px',
-                  borderRadius: '4px',
-                  border: '1px solid var(--brand-border)'
-                }}
-              >
-                PRO
-              </span>
-            </div>
-            <div style={{ fontSize: '0.6875rem', color: 'var(--text-secondary)' }}>Adaptive Dev Engine</div>
-          </div>
-        </div>
+        <BrandLogo size="md" onClick={() => navigateTo('/app')} />
 
         <button
           onClick={toggleSound}
@@ -103,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
             padding: '6px',
             borderRadius: 'var(--radius-sm)',
             color: soundEnabled ? 'var(--text-secondary)' : 'var(--text-muted)',
-            transition: 'background-color 150ms'
+            transition: 'color var(--transition-fast)'
           }}
           title={soundEnabled ? 'Mute sound effects' : 'Unmute sound effects'}
         >
@@ -192,7 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
         style={{
           padding: '16px',
           borderTop: '1px solid var(--border-subtle)',
-          backgroundColor: '#FFFFFF'
+          backgroundColor: 'var(--bg-surface)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>

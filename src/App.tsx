@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useApp } from './context/AppContext';
 import { Icon } from './components/ui/Icon';
-import { Button, IconButton, Tooltip, CommandPalette, Skeleton } from './components/common';
+import { Button, IconButton, Tooltip, CommandPalette, Skeleton, BrandLogo } from './components/common';
 import { BottomNav } from './components/layout/BottomNav';
 import { progressionService } from './services/progressionService';
 
@@ -15,6 +15,9 @@ const ProfileView = React.lazy(() => import('./views/ProfileView').then(m => ({ 
 const OnboardingView = React.lazy(() => import('./views/OnboardingView').then(m => ({ default: m.OnboardingView })));
 const LandingPage = React.lazy(() => import('./views/LandingPage').then(m => ({ default: m.LandingPage })));
 const NotFoundView = React.lazy(() => import('./views/NotFoundView').then(m => ({ default: m.NotFoundView })));
+const PrivacyView = React.lazy(() => import('./views/PrivacyView').then(m => ({ default: m.PrivacyView })));
+const TermsView = React.lazy(() => import('./views/TermsView').then(m => ({ default: m.TermsView })));
+const ChangelogView = React.lazy(() => import('./views/ChangelogView').then(m => ({ default: m.ChangelogView })));
 
 const ViewLoadingFallback = () => (
   <div style={{ maxWidth: '1100px', margin: '0 auto', padding: 'var(--space-8) var(--space-5)' }}>
@@ -49,28 +52,39 @@ export const AppContent: React.FC = () => {
   useEffect(() => {
     let title = 'Codolingo — Python Deliberate Learning';
     if (currentRoute === '/' || currentRoute === '/landing') {
-      title = 'Codolingo — Duolingo Delight Meets Real IDE Precision';
+      title = 'Codolingo — Learn Python Through Deliberate Practice';
     } else if (currentRoute === '/app' || currentRoute === '/app/learn') {
-      title = 'Learning Path (43 Units) — Codolingo';
+      title = 'Learning Path — Codolingo';
     } else if (currentRoute === '/app/dashboard') {
-      title = 'Command Center & Stats — Codolingo';
+      title = 'Dashboard — Codolingo';
     } else if (currentRoute.startsWith('/app/practice')) {
-      title = 'Practice Arena & Sandboxes — Codolingo';
+      title = 'Practice Drills — Codolingo';
     } else if (currentRoute.startsWith('/app/projects')) {
-      title = 'Engineering Projects — Codolingo';
+      title = 'Projects — Codolingo';
     } else if (currentRoute.startsWith('/app/review')) {
-      title = 'Mistake Bank & Diagnostics — Codolingo';
+      title = 'Mistake Bank — Codolingo';
     } else if (currentRoute.startsWith('/app/profile')) {
-      title = 'Developer Profile & Badges — Codolingo';
+      title = 'Settings & Profile — Codolingo';
     } else if (currentRoute.startsWith('/app/lesson/')) {
       const id = currentRoute.replace('/app/lesson/', '');
       title = `Lesson ${id} — Codolingo`;
+    } else if (currentRoute === '/privacy') {
+      title = 'Privacy Policy — Codolingo';
+    } else if (currentRoute === '/terms') {
+      title = 'Terms of Service — Codolingo';
+    } else if (currentRoute === '/changelog') {
+      title = 'Changelog — Codolingo';
     } else if (currentRoute === '/onboarding') {
       title = 'Welcome — Codolingo';
     } else {
-      title = '404 Coordinate Not Found — Codolingo';
+      title = 'Page Not Found — Codolingo';
     }
     document.title = title;
+  }, [currentRoute]);
+
+  // Sensible scroll restoration
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [currentRoute]);
 
   // Close HUD popover on outside click or Escape
@@ -105,7 +119,34 @@ export const AppContent: React.FC = () => {
     );
   }
 
-  // 2. Onboarding route
+  // 2. Privacy Policy route
+  if (currentRoute === '/privacy') {
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <PrivacyView />
+      </Suspense>
+    );
+  }
+
+  // 3. Terms of Service route
+  if (currentRoute === '/terms') {
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <TermsView />
+      </Suspense>
+    );
+  }
+
+  // 4. Changelog route
+  if (currentRoute === '/changelog') {
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <ChangelogView />
+      </Suspense>
+    );
+  }
+
+  // 5. Onboarding route
   if (currentRoute === '/onboarding') {
     return (
       <Suspense fallback={<ViewLoadingFallback />}>
@@ -263,42 +304,7 @@ export const AppContent: React.FC = () => {
         >
           {/* Brand Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-            <div
-              onClick={() => navigateTo('/app')}
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
-              role="button"
-              tabIndex={0}
-              aria-label="Go to home learning path"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') navigateTo('/app');
-              }}
-            >
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--brand-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#FFFFFF'
-                }}
-              >
-                <Icon name="code" size={18} stroke={2.2} />
-              </div>
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: 'var(--text-lg)',
-                  letterSpacing: '-0.025em',
-                  color: 'var(--text-primary)'
-                }}
-              >
-                Codolingo
-              </span>
-            </div>
+            <BrandLogo size="md" onClick={() => navigateTo('/app')} />
 
             {/* Quick Command Palette Button */}
             <button
@@ -504,7 +510,7 @@ export const AppContent: React.FC = () => {
                 }}
               >
                 <img
-                  src={userProgress.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'}
+                  src={userProgress.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=learner'}
                   alt={userProgress.name}
                   style={{
                     width: '36px',
@@ -712,7 +718,7 @@ export const AppContent: React.FC = () => {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px solid var(--border-default)' }}>
                     <img
-                      src={userProgress.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'}
+                      src={userProgress.avatarUrl || 'https://api.dicebear.com/7.x/bottts/svg?seed=learner'}
                       alt={userProgress.name}
                       style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--brand-primary)' }}
                     />

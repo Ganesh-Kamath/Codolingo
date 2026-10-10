@@ -16,7 +16,7 @@ export const TopBar: React.FC<TopBarProps> = ({ title, subtitle }) => {
     <header
       style={{
         height: 'var(--topbar-height)',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--bg-surface)',
         borderBottom: '1px solid var(--border-default)',
         padding: '0 24px',
         display: 'flex',

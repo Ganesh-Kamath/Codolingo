@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Icon } from '../components/ui/Icon';
 import { Button } from '../components/common/Button';
-import { Badge } from '../components/common/Badge';
 import { IconButton } from '../components/common/IconButton';
+import { BrandLogo } from '../components/common/BrandLogo';
 
 interface CodeSnippetSample {
   id: string;
@@ -15,21 +15,21 @@ interface CodeSnippetSample {
 const SNIPPET_SAMPLES: CodeSnippetSample[] = [
   {
     id: 'variables',
-    filename: 'player_stats.py',
-    code: `# Dynamic Variable & String Interpolation\ncharacter_name = "Aria"\nlevel = 42\nxp = 9850\nskills = ["Python", "Algorithms", "Clean Code"]\n\nprint(f"Hero: {character_name} (Level {level})")\nprint(f"Mastered: {', '.join(skills)}")\nprint(f"Next Rank in: {10000 - xp} XP")`,
-    expectedOutput: `Hero: Aria (Level 42)\nMastered: Python, Algorithms, Clean Code\nNext Rank in: 150 XP\n\n>>> Program executed successfully (0.012s)`
+    filename: 'metrics.py',
+    code: `# Variables and f-string formatting\nname = "Python Learner"\ncompleted_units = 14\ntotal_units = 43\n\npct = (completed_units / total_units) * 100\nprint(f"Learner: {name}")\nprint(f"Progress: {completed_units}/{total_units} units ({pct:.1f}%)")`,
+    expectedOutput: `Learner: Python Learner\nProgress: 14/43 units (32.6%)\n\n>>> Executed in browser sandbox (0.012s)`
   },
   {
     id: 'comprehension',
-    filename: 'data_filter.py',
-    code: `# List Comprehensions & Transformation\nraw_scores = [88, 92, 59, 100, 74, 95, 61]\n\n# Filter honor roll scores (>= 85)\nhonor_roll = [score for score in raw_scores if score >= 85]\naverage_top = sum(honor_roll) / len(honor_roll)\n\nprint("Honor Roll Scores:", sorted(honor_roll, reverse=True))\nprint(f"Class Top Average: {average_top:.2f}")`,
-    expectedOutput: `Honor Roll Scores: [100, 95, 92, 88]\nClass Top Average: 93.75\n\n>>> Program executed successfully (0.015s)`
+    filename: 'filter.py',
+    code: `# List comprehensions and filtering\nraw_scores = [88, 92, 59, 100, 74, 95, 61]\n\n# Filter scores above 80\nhonor_roll = [score for score in raw_scores if score >= 80]\naverage = sum(honor_roll) / len(honor_roll)\n\nprint("Honor Roll:", sorted(honor_roll, reverse=True))\nprint(f"Average: {average:.2f}")`,
+    expectedOutput: `Honor Roll: [100, 95, 92, 88]\nAverage: 93.75\n\n>>> Executed in browser sandbox (0.015s)`
   },
   {
-    id: 'oop',
-    filename: 'inventory_engine.py',
-    code: `# Object-Oriented Domain Model\nclass CodeQuest:\n    def __init__(self, title, reward_xp):\n        self.title = title\n        self.reward_xp = reward_xp\n        self.completed = False\n\n    def finish(self):\n        self.completed = True\n        return f"Completed '{self.title}'! +{self.reward_xp} XP"\n\nquest = CodeQuest("Build Binary Tree", 150)\nprint(quest.finish())`,
-    expectedOutput: `Completed 'Build Binary Tree'! +150 XP\n\n>>> Program executed successfully (0.018s)`
+    id: 'functions',
+    filename: 'format_currency.py',
+    code: `# Function definition and formatting\ndef format_price(amount: float, currency: str = "$") -> str:\n    return f"{currency}{amount:,.2f}"\n\nitems = [19.99, 149.50, 4.00, 1299.00]\nfor item in items:\n    print(format_price(item))`,
+    expectedOutput: `$19.99\n$149.50\n$4.00\n$1,299.00\n\n>>> Executed in browser sandbox (0.010s)`
   }
 ];
 
@@ -51,7 +51,7 @@ export const LandingPage: React.FC = () => {
     setTimeout(() => {
       setTerminalOutput(SNIPPET_SAMPLES[activeSnippetIndex].expectedOutput);
       setIsRunning(false);
-    }, 280);
+    }, 240);
   };
 
   return (
@@ -66,19 +66,18 @@ export const LandingPage: React.FC = () => {
       {/* Top Navbar */}
       <nav
         style={{
-          borderBottom: '1.5px solid var(--border-default)',
+          borderBottom: '1px solid var(--border-default)',
           position: 'sticky',
           top: 0,
           backgroundColor: 'var(--bg-surface)',
-          backdropFilter: 'blur(10px)',
+          backdropFilter: 'blur(8px)',
           zIndex: 50,
-          boxShadow: 'var(--shadow-xs)',
           transition: 'background-color var(--transition-base), border-color var(--transition-base)'
         }}
       >
         <div
           style={{
-            maxWidth: '1240px',
+            maxWidth: '1120px',
             margin: '0 auto',
             padding: '12px 24px',
             display: 'flex',
@@ -87,44 +86,7 @@ export const LandingPage: React.FC = () => {
           }}
         >
           {/* Logo & Brand */}
-          <div
-            style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
-            onClick={() => navigateTo('/app')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => { if (e.key === 'Enter') navigateTo('/app'); }}
-            aria-label="Codolingo Home"
-          >
-            <div
-              style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--brand-primary)',
-                border: '1.5px solid var(--brand-bevel)',
-                boxShadow: 'var(--tactile-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFFFFF'
-              }}
-            >
-              <Icon name="code" size={22} stroke={2.5} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 800,
-                  fontSize: 'var(--text-xl)',
-                  letterSpacing: '-0.025em',
-                  color: 'var(--text-primary)'
-                }}
-              >
-                Codolingo
-              </span>
-            </div>
-          </div>
+          <BrandLogo size="md" onClick={() => navigateTo('/app')} />
 
           {/* Nav Links & Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -168,13 +130,13 @@ export const LandingPage: React.FC = () => {
               }}
               className="desktop-only nav-hover-item"
             >
-              Mistake bank
+              Mistakes
             </button>
 
             {/* Theme Toggle */}
             <IconButton
               name={theme === 'dark' ? 'sun' : 'moon'}
-              label="Toggle Theme"
+              label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               variant="subtle"
               size="sm"
               onClick={toggleTheme}
@@ -182,9 +144,9 @@ export const LandingPage: React.FC = () => {
 
             <Button
               variant="secondary"
-              size="md"
+              size="sm"
               onClick={() => navigateTo('/app')}
-              icon={<Icon name="arrow-right" size={16} stroke={2} />}
+              icon={<Icon name="arrow-right" size={15} stroke={2} />}
               iconPosition="right"
             >
               Open app
@@ -196,8 +158,8 @@ export const LandingPage: React.FC = () => {
       {/* Hero Section */}
       <section
         style={{
-          padding: '72px 24px 48px',
-          maxWidth: '1240px',
+          padding: '80px 24px 56px',
+          maxWidth: '920px',
           margin: '0 auto',
           textAlign: 'center'
         }}
@@ -207,59 +169,51 @@ export const LandingPage: React.FC = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '6px 14px',
-              backgroundColor: 'var(--brand-light)',
-              border: '1px solid var(--brand-border)',
+              gap: '6px',
+              padding: '4px 12px',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1px solid var(--border-default)',
               borderRadius: 'var(--radius-full)',
-              color: 'var(--brand-primary)',
-              fontSize: 'var(--text-xs)',
-              fontWeight: 600,
-              letterSpacing: '0.01em'
+              color: 'var(--text-secondary)',
+              fontSize: '0.78rem',
+              fontWeight: 600
             }}
           >
-            <Icon name="code" size={14} style={{ color: 'var(--brand-primary)' }} />
-            <span>Interactive Python curriculum</span>
+            <Icon name="code" size={13} style={{ color: 'var(--brand-primary)' }} />
+            <span>Browser-native Python practice</span>
           </div>
         </div>
 
+        {/* One Strong Headline */}
         <h1
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
             fontWeight: 800,
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.035em',
             lineHeight: 1.15,
-            maxWidth: '900px',
             margin: '0 auto 18px',
             color: 'var(--text-primary)'
           }}
         >
-          Learn Python by writing <span style={{ color: 'var(--brand-primary)' }}>real code</span>
+          Learn Python through deliberate practice
         </h1>
 
+        {/* One Subhead */}
         <p
           style={{
             fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
             color: 'var(--text-secondary)',
-            maxWidth: '660px',
+            maxWidth: '620px',
             margin: '0 auto 36px',
             lineHeight: 1.6
           }}
         >
-          Focused interactive lessons, browser-native Python execution, and clear diagnostic feedback when you make a mistake.
+          43 bite-sized units, real code execution in your browser, and immediate diagnostic feedback when you make a mistake.
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-            flexWrap: 'wrap',
-            marginBottom: '48px'
-          }}
-        >
+        {/* ONE Dominant CTA */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '56px' }}>
           <Button
             variant="primary"
             size="lg"
@@ -268,28 +222,17 @@ export const LandingPage: React.FC = () => {
           >
             Start learning
           </Button>
-
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => navigateTo('/app/practice')}
-            icon={<Icon name="barbell" size={18} />}
-          >
-            Explore practice
-          </Button>
         </div>
 
-        {/* Live Interactive Hero Code Demo */}
+        {/* Real Product Live Demo Sandbox */}
         <div
           style={{
-            maxWidth: '880px',
-            margin: '0 auto',
             borderRadius: 'var(--radius-xl)',
-            border: '2px solid var(--border-default)',
+            border: '1.5px solid var(--border-default)',
             backgroundColor: '#1E1E1E',
             color: '#D4D4D4',
             textAlign: 'left',
-            boxShadow: 'var(--shadow-xl)',
+            boxShadow: 'var(--shadow-lg)',
             overflow: 'hidden'
           }}
         >
@@ -306,12 +249,11 @@ export const LandingPage: React.FC = () => {
               gap: '12px'
             }}
           >
-            {/* Window Dots & Tab Switchers */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-                <div style={{ width: '11px', height: '11px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
-                <div style={{ width: '11px', height: '11px', borderRadius: '50%', backgroundColor: '#F59E0B' }} />
-                <div style={{ width: '11px', height: '11px', borderRadius: '50%', backgroundColor: '#10B981' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#F59E0B' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10B981' }} />
               </div>
 
               <div style={{ display: 'flex', gap: '6px' }}>
@@ -347,14 +289,14 @@ export const LandingPage: React.FC = () => {
               size="sm"
               isLoading={isRunning}
               onClick={handleRunCode}
-              icon={<Icon name="player-play" size={14} fill="#fff" />}
+              icon={<Icon name="player-play" size={13} fill="#fff" />}
             >
               Run Code
             </Button>
           </div>
 
           {/* Interactive Editable Code Textarea */}
-          <div style={{ padding: '16px 20px', position: 'relative' }}>
+          <div style={{ padding: '16px 20px' }}>
             <textarea
               value={editorCode}
               onChange={(e) => setEditorCode(e.target.value)}
@@ -364,8 +306,8 @@ export const LandingPage: React.FC = () => {
                 backgroundColor: 'transparent',
                 color: '#9CDCFE',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.88rem',
-                lineHeight: 1.5,
+                fontSize: '0.86rem',
+                lineHeight: 1.55,
                 border: 'none',
                 outline: 'none',
                 resize: 'none'
@@ -384,13 +326,13 @@ export const LandingPage: React.FC = () => {
                   borderRadius: 'var(--radius-md)',
                   border: '1px solid #2A2A2A',
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '0.84rem',
+                  fontSize: '0.82rem',
                   color: '#4ADE80'
                 }}
                 className="animate-fade-in"
               >
-                <div style={{ color: '#888888', fontSize: '0.72rem', fontWeight: 700, marginBottom: '6px', letterSpacing: '0.04em' }}>
-                  TERMINAL STDOUT:
+                <div style={{ color: '#888888', fontSize: '0.7rem', fontWeight: 700, marginBottom: '6px', letterSpacing: '0.04em' }}>
+                  TERMINAL OUTPUT:
                 </div>
                 <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{terminalOutput}</pre>
               </div>
@@ -409,453 +351,223 @@ export const LandingPage: React.FC = () => {
                 }}
               >
                 <Icon name="terminal-2" size={14} />
-                <span>Click &quot;Run Code&quot; above to execute in the browser terminal</span>
+                <span>Click &quot;Run Code&quot; to execute in browser WebAssembly</span>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* The 4-Step Mastery Cycle */}
+      {/* Short "How it works" section (3 Steps) */}
       <section
         style={{
           padding: '72px 24px',
-          backgroundColor: 'var(--bg-surface)',
-          borderTop: '1.5px solid var(--border-default)',
-          borderBottom: '1.5px solid var(--border-default)'
+          borderTop: '1px solid var(--border-default)',
+          borderBottom: '1px solid var(--border-default)',
+          backgroundColor: 'var(--bg-surface)'
         }}
       >
-        <div style={{ maxWidth: '1180px', margin: '0 auto', textAlign: 'center' }}>
-          <Badge variant="brand" size="md">THE DELIBERATE METHOD</Badge>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'var(--text-3xl)',
-              fontWeight: 800,
-              letterSpacing: '-0.025em',
-              marginTop: '14px',
-              marginBottom: '16px',
-              color: 'var(--text-primary)'
-            }}
-          >
-            How Codolingo builds permanent engineering muscle
-          </h2>
-          <p
-            style={{
-              color: 'var(--text-secondary)',
-              fontSize: 'var(--text-base)',
-              maxWidth: '680px',
-              margin: '0 auto 48px',
-              lineHeight: 1.6
-            }}
-          >
-            Most coding sites test trivia or make you watch passive video lectures. Codolingo is built from cognitive science: small concepts, immediate synthesis, rapid failure, and targeted repair.
-          </p>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              The Method
+            </span>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.9rem',
+                fontWeight: 800,
+                letterSpacing: '-0.02em',
+                margin: '8px 0 12px',
+                color: 'var(--text-primary)'
+              }}
+            >
+              How it works
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '520px', margin: '0 auto', lineHeight: 1.55 }}>
+              Practice beats passive watching. Three disciplined steps to build permanent code fluency.
+            </p>
+          </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '20px',
-              textAlign: 'left'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '20px'
             }}
           >
             {[
               {
-                step: 'STEP 01',
-                title: 'Bite-Sized Concepts',
-                desc: 'Atomic mental models with crystal-clear syntax explanations and zero fluffy preamble.',
-                icon: 'book',
-                badgeColor: 'var(--brand-primary)'
+                step: '01',
+                title: 'Bite-sized concepts',
+                desc: '5-minute micro-lessons with clear syntax examples and zero preamble. Learn one atomic pattern at a time.',
+                icon: 'book'
               },
               {
-                step: 'STEP 02',
-                title: 'Monaco IDE Synthesis',
-                desc: 'Write real Python in a professional editor with syntax highlighting, autocomplete, and keyboard shortcuts.',
-                icon: 'terminal-2',
-                badgeColor: 'var(--info-text)'
+                step: '02',
+                title: 'Write real code',
+                desc: 'Browser-native Python execution with automated test suites. Write solutions directly in the editor.',
+                icon: 'terminal-2'
               },
               {
-                step: 'STEP 03',
-                title: 'Automated Test Suites',
-                desc: 'Code is evaluated instantly by Pyodide against rigorous hidden unit tests with live stdout/stderr streams.',
-                icon: 'cpu',
-                badgeColor: 'var(--warning-text)'
-              },
-              {
-                step: 'STEP 04',
-                title: 'Adaptive Mistake Bank',
-                desc: 'Failed runs are analyzed for misconceptions (like = vs ==) and converted into 2-minute repair drills.',
-                icon: 'history',
-                badgeColor: 'var(--error-solid)'
+                step: '03',
+                title: 'Targeted mistake repair',
+                desc: 'When code fails, diagnostic analysis highlights the exact misconception and schedules targeted review drills.',
+                icon: 'history'
               }
-            ].map((card) => (
+            ].map((item) => (
               <div
-                key={card.step}
+                key={item.step}
                 style={{
                   backgroundColor: 'var(--bg-app)',
                   padding: '24px',
                   borderRadius: 'var(--radius-xl)',
-                  border: '1.5px solid var(--border-default)',
-                  boxShadow: 'var(--shadow-xs)',
+                  border: '1px solid var(--border-default)',
                   display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between'
+                  flexDirection: 'column'
                 }}
               >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        fontWeight: 800,
-                        fontFamily: 'var(--font-mono)',
-                        color: card.badgeColor,
-                        letterSpacing: '0.04em'
-                      }}
-                    >
-                      {card.step}
-                    </span>
-                    <div
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: 'var(--radius-md)',
-                        backgroundColor: 'var(--bg-surface)',
-                        border: '1px solid var(--border-default)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: card.badgeColor
-                      }}
-                    >
-                      <Icon name={card.icon} size={20} />
-                    </div>
-                  </div>
-                  <h3
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                  <span
                     style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 'var(--text-lg)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.8125rem',
                       fontWeight: 800,
-                      marginBottom: '8px',
-                      color: 'var(--text-primary)'
+                      color: 'var(--brand-primary)'
                     }}
                   >
-                    {card.title}
-                  </h3>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-                    {card.desc}
-                  </p>
+                    {item.step}
+                  </span>
+                  <div
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '8px',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-default)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--text-secondary)'
+                    }}
+                  >
+                    <Icon name={item.icon} size={18} />
+                  </div>
                 </div>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '1.1rem',
+                    fontWeight: 800,
+                    marginBottom: '8px',
+                    color: 'var(--text-primary)'
+                  }}
+                >
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.55, margin: 0 }}>
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Curriculum Overview */}
-      <section style={{ padding: '80px 24px', maxWidth: '1180px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <Badge variant="brand" size="md">Curriculum</Badge>
-          <h2
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'var(--text-3xl)',
-              fontWeight: 800,
-              letterSpacing: '-0.025em',
-              marginTop: '12px',
-              marginBottom: '14px',
-              color: 'var(--text-primary)'
-            }}
-          >
-            43 units. 8 core topics.
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto' }}>
-            From your first print statement to building complete software tools and algorithms.
-          </p>
-        </div>
-
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '18px'
-          }}
-        >
-          {[
-            {
-              domain: 'Domain 1',
-              title: 'Python Foundations & Expressions',
-              units: 'Units 1 – 6',
-              skills: ['Variables & Types', 'Math Operators', 'F-Strings', 'Boolean Logic'],
-              icon: 'flame'
-            },
-            {
-              domain: 'Domain 2',
-              title: 'Control Flow & Logic Branching',
-              units: 'Units 7 – 12',
-              skills: ['Conditionals (if/elif/else)', 'While Loops', 'For In Loops', 'Break & Continue'],
-              icon: 'compass'
-            },
-            {
-              domain: 'Domain 3',
-              title: 'Functions & Modular Code',
-              units: 'Units 13 – 18',
-              skills: ['Parameters & Returns', 'Scope & Namespaces', 'Default Args', 'Lambdas'],
-              icon: 'cpu'
-            },
-            {
-              domain: 'Domain 4',
-              title: 'Data Collections & Structures',
-              units: 'Units 19 – 25',
-              skills: ['Lists & Slicing', 'Dictionaries & Maps', 'Sets & Tuples', 'Comprehensions'],
-              icon: 'database'
-            },
-            {
-              domain: 'Domain 5',
-              title: 'Strings, Files & I/O Streams',
-              units: 'Units 26 – 31',
-              skills: ['String Parsing', 'File Reading & Writing', 'JSON Serializers', 'Exceptions'],
-              icon: 'file-text'
-            },
-            {
-              domain: 'Domain 6',
-              title: 'Object-Oriented Programming',
-              units: 'Units 32 – 37',
-              skills: ['Classes & __init__', 'Encapsulation', 'Inheritance', 'Magic Methods'],
-              icon: 'layers'
-            },
-            {
-              domain: 'Domain 7',
-              title: 'Algorithms & Problem Solving',
-              units: 'Units 38 – 41',
-              skills: ['Binary Search', 'Recursion Trees', 'Sorting & Big O', 'Stack/Queue Drills'],
-              icon: 'bolt'
-            },
-            {
-              domain: 'Domain 8',
-              title: 'Capstone Software Projects',
-              units: 'Units 42 – 43',
-              skills: ['Password Vault', 'Expense Tracker', 'REST Client', 'Text Adventure Engine'],
-              icon: 'trophy'
-            }
-          ].map((item) => (
-            <div
-              key={item.domain}
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                borderRadius: 'var(--radius-lg)',
-                border: '1px solid var(--border-default)',
-                padding: '20px 24px',
-                boxShadow: 'var(--shadow-xs)'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>
-                  {item.domain} • {item.units}
-                </span>
-                <Icon name={item.icon} size={18} style={{ color: 'var(--text-muted)' }} />
-              </div>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, marginBottom: '10px', color: 'var(--text-primary)' }}>
-                {item.title}
-              </h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {item.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    style={{
-                      fontSize: '0.72rem',
-                      fontWeight: 500,
-                      backgroundColor: 'var(--bg-app)',
-                      color: 'var(--text-secondary)',
-                      padding: '3px 8px',
-                      borderRadius: 'var(--radius-sm)',
-                      border: '1px solid var(--border-subtle)'
-                    }}
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Differentiators: Mistake Bank */}
-      <section
+      {/* Quiet Footer */}
+      <footer
         style={{
-          padding: '80px 24px',
-          backgroundColor: 'var(--bg-surface)',
-          borderTop: '1px solid var(--border-default)',
-          borderBottom: '1px solid var(--border-default)'
+          padding: '56px 24px 40px',
+          maxWidth: '1120px',
+          margin: '0 auto'
         }}
       >
         <div
           style={{
-            maxWidth: '1180px',
-            margin: '0 auto',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '48px',
-            alignItems: 'center'
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '32px',
+            marginBottom: '40px'
           }}
         >
           <div>
-            <Badge variant="brand" size="md">Adaptive review</Badge>
-            <h2
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'var(--text-3xl)',
-                fontWeight: 800,
-                marginTop: '14px',
-                marginBottom: '16px',
-                letterSpacing: '-0.025em',
-                lineHeight: 1.2,
-                color: 'var(--text-primary)'
-              }}
-            >
-              Learn from your mistakes
-            </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-base)', lineHeight: 1.6, marginBottom: '20px' }}>
-              When a check fails, Codolingo identifies the specific conceptual gap—like confusing assignment with equality or miscounting loop ranges—so you understand what happened and how to fix it.
+            <BrandLogo size="md" onClick={() => navigateTo('/app')} />
+            <p style={{ marginTop: '10px', fontSize: '0.85rem', color: 'var(--text-muted)', maxWidth: '280px', lineHeight: 1.5 }}>
+              Local-first Python learning. Runs entirely in your browser with no remote tracking.
             </p>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
-                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--state-success)', flexShrink: 0 }}>
-                  <Icon name="check" size={14} stroke={2.5} />
-                </div>
-                <span>Saves missed questions automatically into your review bank</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
-                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--state-success)', flexShrink: 0 }}>
-                  <Icon name="check" size={14} stroke={2.5} />
-                </div>
-                <span>Provides targeted review drills for concepts needing practice</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.92rem' }}>
-                <div style={{ width: '22px', height: '22px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--state-success)', flexShrink: 0 }}>
-                  <Icon name="check" size={14} stroke={2.5} />
-                </div>
-                <span>Clears each item once you demonstrate consistent understanding</span>
-              </li>
-            </ul>
-
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => navigateTo('/app/review')}
-              icon={<Icon name="history" size={16} />}
-            >
-              Open mistake bank
-            </Button>
           </div>
 
-          {/* Interactive Diagnostic Card */}
-          <div
-            style={{
-              backgroundColor: 'var(--bg-app)',
-              borderRadius: 'var(--radius-xl)',
-              border: '1px solid var(--border-default)',
-              padding: '24px',
-              boxShadow: 'var(--shadow-sm)'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--state-error)' }} />
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--state-error)', fontFamily: 'var(--font-mono)' }}>
-                  Diagnostic feedback
-                </span>
+          <div style={{ display: 'flex', gap: '48px', flexWrap: 'wrap' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '12px', letterSpacing: '0.04em' }}>
+                App
               </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Attempt 2 of 3</span>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem' }}>
+                <li>
+                  <button onClick={() => navigateTo('/app')} style={{ color: 'var(--text-secondary)', cursor: 'pointer' }} className="nav-hover-item">
+                    Learning Path
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/app/practice')} style={{ color: 'var(--text-secondary)', cursor: 'pointer' }} className="nav-hover-item">
+                    Practice Arena
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/app/review')} style={{ color: 'var(--text-secondary)', cursor: 'pointer' }} className="nav-hover-item">
+                    Mistake Bank
+                  </button>
+                </li>
+              </ul>
             </div>
 
-            <div
-              style={{
-                backgroundColor: 'var(--state-error-subtle)',
-                border: '1px solid var(--error-border)',
-                borderRadius: 'var(--radius-md)',
-                padding: '16px',
-                marginBottom: '16px'
-              }}
-            >
-              <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.92rem', marginBottom: '6px' }}>
-                Assignment vs. equality check
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '12px', letterSpacing: '0.04em' }}>
+                Product
               </div>
-              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
-                In Python, a single <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>=</code> operator assigns a value. To check equality, use the comparison operator <code style={{ backgroundColor: 'rgba(0,0,0,0.06)', padding: '1px 5px', borderRadius: '3px', fontWeight: 600 }}>==</code>.
-              </p>
-            </div>
-
-            <div
-              style={{
-                backgroundColor: '#1E1E1E',
-                color: '#F87171',
-                padding: '14px 16px',
-                borderRadius: 'var(--radius-md)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.84rem',
-                border: '1px solid #333'
-              }}
-            >
-              <div style={{ color: '#EF4444' }}>- if user_role = &quot;admin&quot;:</div>
-              <div style={{ color: '#4ADE80', fontWeight: 600 }}>+ if user_role == &quot;admin&quot;:</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem' }}>
+                <li>
+                  <button onClick={() => navigateTo('/changelog')} style={{ color: 'var(--text-secondary)', cursor: 'pointer' }} className="nav-hover-item">
+                    Changelog
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/privacy')} style={{ color: 'var(--text-secondary)', cursor: 'pointer' }} className="nav-hover-item">
+                    Privacy Policy
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/terms')} style={{ color: 'var(--text-secondary)', cursor: 'pointer' }} className="nav-hover-item">
+                    Terms of Service
+                  </button>
+                </li>
+                <li>
+                  <a href="mailto:feedback@codolingo.app?subject=Codolingo%20Feedback" style={{ color: 'var(--text-secondary)' }}>
+                    Send Feedback
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Footer */}
-      <footer
-        style={{
-          backgroundColor: 'var(--bg-app)',
-          padding: '64px 24px 48px',
-          textAlign: 'center'
-        }}
-      >
-        <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-          <h3
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'var(--text-2xl)',
-              fontWeight: 800,
-              marginBottom: '14px',
-              color: 'var(--text-primary)'
-            }}
-          >
-            Ready to learn Python?
-          </h3>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '28px', fontSize: 'var(--text-base)', lineHeight: 1.6 }}>
-            Runs entirely in your browser with zero installation. All data is saved locally on your device.
-          </p>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => navigateTo('/app')}
-            icon={<Icon name="arrow-right" size={18} stroke={2} />}
-            iconPosition="right"
-          >
-            Start learning
-          </Button>
-
-          <div
-            style={{
-              marginTop: '40px',
-              fontSize: '0.8rem',
-              color: 'var(--text-muted)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '12px'
-            }}
-          >
-            <span>Codolingo</span>
-            <span>•</span>
-            <span>Local data storage</span>
-            <span>•</span>
-            <span>Python 3</span>
-          </div>
+        <div
+          style={{
+            paddingTop: '24px',
+            borderTop: '1px solid var(--border-default)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            fontSize: '0.8rem',
+            color: 'var(--text-muted)'
+          }}
+        >
+          <span>© 2026 Codolingo. No cookies, no accounts, no tracking.</span>
+          <span>Python 3.12 WebAssembly</span>
         </div>
       </footer>
     </div>
