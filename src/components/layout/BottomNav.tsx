@@ -23,11 +23,11 @@ export const BottomNav: React.FC = () => {
 
   const items = [
     { id: '/app', label: 'Path', iconName: 'map' },
-    { id: '/app/dashboard', label: 'Stats', iconName: 'layout-dashboard' },
+    { id: '/app/dashboard', label: 'Dashboard', iconName: 'layout-dashboard' },
     { id: '/app/practice', label: 'Practice', iconName: 'barbell' },
     {
       id: '/app/review',
-      label: 'Mistakes',
+      label: 'Review',
       iconName: 'history',
       badge: unresolvedMistakesCount > 0 ? unresolvedMistakesCount : undefined
     },

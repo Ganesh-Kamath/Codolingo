@@ -156,39 +156,17 @@ export const DashboardView: React.FC = () => {
   return (
     <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
       
-      {/* Top Greeting & Quick Switcher */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <h1 style={{ fontSize: '1.875rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: 0 }}>
-              {getGreeting()}, {userProgress.name.split(' ')[0]}
-            </h1>
-            <Badge variant="brand" size="sm"><span className="tabular-nums">Level {userProgress.level || 1}</span></Badge>
-          </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', margin: 0 }}>
-            You're on a <strong style={{ color: 'var(--text-primary)' }} className="tabular-nums">{userProgress.streak}-day streak</strong>. Keep your momentum high with your next targeted challenge.
-          </p>
+      {/* Top Greeting */}
+      <div style={{ marginBottom: '28px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+          <h1 style={{ fontSize: '1.875rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: 0 }}>
+            {getGreeting()}, {userProgress.name.split(' ')[0]}
+          </h1>
+          <Badge variant="brand" size="sm"><span className="tabular-nums">Level {userProgress.level || 1}</span></Badge>
         </div>
-
-        {/* View Toggle Pill */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => navigateTo('/app')}
-            icon={<Icon name="map" size={16} />}
-          >
-            Learning Path
-          </Button>
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => navigateTo('/app/practice')}
-            icon={<Icon name="barbell" size={16} />}
-          >
-            Practice Arena
-          </Button>
-        </div>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', margin: 0 }}>
+          You are on a <strong style={{ color: 'var(--text-primary)' }} className="tabular-nums">{userProgress.streak}-day streak</strong>. Pick up where you left off below.
+        </p>
       </div>
 
       {/* 1. DOMINANT "CONTINUE LEARNING" HERO CARD */}

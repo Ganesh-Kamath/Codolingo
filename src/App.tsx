@@ -194,7 +194,7 @@ export const AppContent: React.FC = () => {
     { id: '/app/practice', label: 'Practice', iconName: 'barbell' },
     { 
       id: '/app/review', 
-      label: 'Mistake Bank', 
+      label: 'Review', 
       iconName: 'history', 
       badge: userProgress.mistakes.filter(m => !m.resolved).length 
     },

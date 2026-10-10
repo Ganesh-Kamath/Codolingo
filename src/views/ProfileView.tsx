@@ -212,16 +212,6 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <Button
-              variant="primary"
-              size="md"
-              icon={<Icon name="book" size={16} />}
-              onClick={() => navigateTo('/app')}
-            >
-              Resume lesson
-            </Button>
-          </div>
         </div>
       </div>
 
@@ -395,77 +385,30 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      {/* 5. Comprehensive Settings & Data Panel */}
-      <div className="card-plate" style={{ padding: '28px', backgroundColor: 'var(--bg-surface)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
-          <div style={{ width: '38px', height: '38px', borderRadius: '12px', backgroundColor: 'var(--bg-surface-subtle)', border: '1.5px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
-            <Icon name="settings" size={20} />
+      {/* 5. Preferences Card */}
+      <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
+            <Icon name="settings" size={18} />
           </div>
           <div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-              Preferences & System Settings
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+              Preferences
             </h2>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              Configure visual appearance, audio chimes, animation pacing, and offline backups.
+            <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              Display, audio, motion, and daily goals.
             </p>
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-          {/* Row 1: Audio Effects */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {/* Theme Appearance */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '12px', border: '1px solid var(--border-default)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icon name={soundEnabled ? 'volume' : 'volume-off'} size={20} style={{ color: 'var(--brand-primary)' }} />
+              <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={18} style={{ color: 'var(--brand-primary)' }} />
               <div>
-                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Sound Effects & Chimes</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Satisfying audio feedback on correct answers and completions</div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button
-                onClick={() => {
-                  sound.playSuccess();
-                }}
-                disabled={!soundEnabled}
-                style={{
-                  padding: '6px 10px',
-                  borderRadius: '8px',
-                  border: '1px solid var(--border-default)',
-                  backgroundColor: 'var(--bg-surface)',
-                  color: 'var(--text-secondary)',
-                  fontSize: '0.75rem',
-                  fontWeight: 700,
-                  cursor: soundEnabled ? 'pointer' : 'not-allowed',
-                  opacity: soundEnabled ? 1 : 0.5
-                }}
-              >
-                Test Sound
-              </button>
-              <button
-                onClick={toggleSound}
-                style={{
-                  padding: '7px 16px',
-                  borderRadius: 'var(--radius-full)',
-                  border: soundEnabled ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
-                  backgroundColor: soundEnabled ? 'var(--brand-primary)' : 'var(--bg-surface)',
-                  color: soundEnabled ? '#FFFFFF' : 'var(--text-secondary)',
-                  fontWeight: 800,
-                  fontSize: '0.82rem',
-                  cursor: 'pointer'
-                }}
-              >
-                {soundEnabled ? 'Enabled' : 'Muted'}
-              </button>
-            </div>
-          </div>
-
-          {/* Row 2: Theme Appearance */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={20} style={{ color: 'var(--brand-primary)' }} />
-              <div>
-                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Theme</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Light or dark interface</div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Theme</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Light or dark interface</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
@@ -480,7 +423,7 @@ export const ProfileView: React.FC = () => {
                   backgroundColor: theme === 'light' ? 'var(--brand-primary)' : 'var(--bg-surface)',
                   color: theme === 'light' ? '#FFFFFF' : 'var(--text-secondary)',
                   fontWeight: 600,
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   cursor: 'pointer'
                 }}
               >
@@ -497,7 +440,7 @@ export const ProfileView: React.FC = () => {
                   backgroundColor: theme === 'dark' ? 'var(--brand-primary)' : 'var(--bg-surface)',
                   color: theme === 'dark' ? '#FFFFFF' : 'var(--text-secondary)',
                   fontWeight: 600,
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   cursor: 'pointer'
                 }}
               >
@@ -506,25 +449,70 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
 
-          {/* Row 3: Reduced Motion */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+          {/* Audio Effects */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '12px', border: '1px solid var(--border-default)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icon name="player-pause" size={20} style={{ color: 'var(--brand-primary)' }} />
+              <Icon name={soundEnabled ? 'volume' : 'volume-off'} size={18} style={{ color: 'var(--brand-primary)' }} />
               <div>
-                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Reduced motion</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Minimize animations and motion effects</div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Sound effects</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Audio cues for correct answers and completions</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                onClick={() => sound.playSuccess()}
+                disabled={!soundEnabled}
+                style={{
+                  padding: '5px 10px',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border-default)',
+                  backgroundColor: 'var(--bg-surface)',
+                  color: 'var(--text-secondary)',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  cursor: soundEnabled ? 'pointer' : 'not-allowed',
+                  opacity: soundEnabled ? 1 : 0.5
+                }}
+              >
+                Test sound
+              </button>
+              <button
+                onClick={toggleSound}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: 'var(--radius-full)',
+                  border: soundEnabled ? '1px solid var(--brand-primary)' : '1px solid var(--border-default)',
+                  backgroundColor: soundEnabled ? 'var(--brand-primary)' : 'var(--bg-surface)',
+                  color: soundEnabled ? '#FFFFFF' : 'var(--text-secondary)',
+                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  cursor: 'pointer'
+                }}
+              >
+                {soundEnabled ? 'Enabled' : 'Muted'}
+              </button>
+            </div>
+          </div>
+
+          {/* Reduced Motion */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '12px', border: '1px solid var(--border-default)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icon name="player-pause" size={18} style={{ color: 'var(--brand-primary)' }} />
+              <div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Reduced motion</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Minimize animations across views</div>
               </div>
             </div>
             <button
               onClick={toggleReducedMotion}
               style={{
-                padding: '6px 16px',
+                padding: '6px 14px',
                 borderRadius: 'var(--radius-full)',
                 border: reducedMotion ? '1px solid var(--brand-primary)' : '1px solid var(--border-default)',
                 backgroundColor: reducedMotion ? 'var(--brand-primary)' : 'var(--bg-surface)',
                 color: reducedMotion ? '#FFFFFF' : 'var(--text-secondary)',
                 fontWeight: 600,
-                fontSize: '0.82rem',
+                fontSize: '0.8rem',
                 cursor: 'pointer'
               }}
             >
@@ -532,13 +520,13 @@ export const ProfileView: React.FC = () => {
             </button>
           </div>
 
-          {/* Row 4: Daily Goal Selector */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
+          {/* Daily Goal Target */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', padding: '14px 16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '12px', border: '1px solid var(--border-default)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icon name="flame" size={20} style={{ color: 'var(--streak-color)' }} />
+              <Icon name="flame" size={18} style={{ color: 'var(--streak-color)' }} />
               <div>
-                <div style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Daily XP target</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>XP earned each day to maintain your streak</div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>Daily XP target</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Target XP to maintain streak rhythm</div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: '6px' }}>
@@ -549,102 +537,102 @@ export const ProfileView: React.FC = () => {
                     key={goal}
                     onClick={() => handleSelectDailyGoal(goal)}
                     style={{
-                      padding: '7px 14px',
+                      padding: '6px 12px',
                       borderRadius: 'var(--radius-full)',
-                      border: active ? '1.5px solid var(--brand-primary)' : '1.5px solid var(--border-default)',
+                      border: active ? '1px solid var(--brand-primary)' : '1px solid var(--border-default)',
                       backgroundColor: active ? 'var(--brand-primary)' : 'var(--bg-surface)',
                       color: active ? '#FFFFFF' : 'var(--text-secondary)',
-                      fontWeight: 800,
-                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      fontSize: '0.8rem',
                       cursor: 'pointer'
                     }}
                   >
-                    {goal} XP {goal === 20 ? '(Casual)' : goal === 50 ? '(Regular)' : '(Intense)'}
+                    {goal} XP
                   </button>
                 );
               })}
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Row 5: Backup & Progress JSON Management */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', padding: '16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '14px', border: '1px solid var(--border-default)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icon name="database" size={20} style={{ color: 'var(--brand-primary)' }} />
-              <div>
-                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>Local Data & Offline Backup</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Export your completed curriculum, challenges, and XP snapshot</div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button
-                onClick={handleExportData}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '7px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1.5px solid var(--border-default)',
-                  backgroundColor: 'var(--bg-surface)',
-                  color: 'var(--text-primary)',
-                  fontWeight: 800,
-                  fontSize: '0.82rem',
-                  cursor: 'pointer'
-                }}
-              >
-                <Icon name="download" size={14} />
-                <span>Export JSON</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  sound.playClick();
-                  setImportError(null);
-                  setImportJsonText('');
-                  setShowImportModal(true);
-                }}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '7px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1.5px solid var(--border-default)',
-                  backgroundColor: 'var(--bg-surface)',
-                  color: 'var(--text-primary)',
-                  fontWeight: 800,
-                  fontSize: '0.82rem',
-                  cursor: 'pointer'
-                }}
-              >
-                <Icon name="upload" size={14} />
-                <span>Import JSON</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  sound.playClick();
-                  setShowResetConfirmModal(true);
-                }}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '7px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1.5px solid var(--error-border, #FECACA)',
-                  backgroundColor: 'var(--error-bg, #FEF2F2)',
-                  color: 'var(--error-text, #991B1B)',
-                  fontWeight: 800,
-                  fontSize: '0.82rem',
-                  cursor: 'pointer'
-                }}
-              >
-                <Icon name="trash" size={14} />
-                <span>Reset Progress</span>
-              </button>
-            </div>
+      {/* 6. Data & Backups Card */}
+      <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>
+            <Icon name="database" size={18} />
           </div>
+          <div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+              Data & Backups
+            </h2>
+            <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
+              All progress is stored locally in your browser. Export or restore backups at any time.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', padding: '14px 16px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: '12px', border: '1px solid var(--border-default)' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)' }}>Local progress snapshot</div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Export your curriculum progress, challenge history, and XP snapshot</div>
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleExportData}
+              icon={<Icon name="download" size={14} />}
+            >
+              Export JSON
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => {
+                sound.playClick();
+                setImportError(null);
+                setImportJsonText('');
+                setShowImportModal(true);
+              }}
+              icon={<Icon name="upload" size={14} />}
+            >
+              Import JSON
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* 7. Danger Zone Card */}
+      <div
+        style={{
+          padding: '24px',
+          borderRadius: 'var(--radius-xl)',
+          backgroundColor: 'var(--bg-surface)',
+          border: '1.5px solid var(--error-border)',
+          marginBottom: '28px'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+          <div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 800, color: 'var(--error-solid)', margin: '0 0 4px' }}>
+              Danger Zone
+            </h2>
+            <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary)', maxWidth: '580px', lineHeight: 1.5 }}>
+              Permanently reset your XP, streaks, completed units, and review logs back to the initial state. This cannot be undone.
+            </p>
+          </div>
+          <Button
+            variant="danger"
+            size="md"
+            onClick={() => {
+              sound.playClick();
+              setShowResetConfirmModal(true);
+            }}
+            icon={<Icon name="trash" size={14} />}
+          >
+            Reset Progress
+          </Button>
         </div>
       </div>
 

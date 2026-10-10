@@ -1,92 +1,69 @@
 const { chromium } = require('playwright');
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 
-async function capture() {
-  const outDir = path.join(__dirname, '..', 'screenshots', 'phase3');
-  if (!fs.existsSync(outDir)) {
-    fs.mkdirSync(outDir, { recursive: true });
-  }
+const BASE_URL = 'http://localhost:5173';
+const OUT_DIR = path.join(__dirname, '..', 'screenshots', 'phase3');
 
-  const browser = await chromium.launch();
-
-  // Helper function to capture a view
-  async function take(name, width, height, hashRoute, actions = null) {
-    const context = await browser.newContext({
-      viewport: { width, height },
-      deviceScaleFactor: 2
-    });
-    const page = await context.newPage();
-
-    await page.goto(`http://localhost:5173/#${hashRoute}`);
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(600);
-
-    if (actions) {
-      await actions(page);
-      await page.waitForTimeout(400);
-    }
-
-    const filePath = path.join(outDir, `${name}.png`);
-    await page.screenshot({ path: filePath });
-    console.log(`Saved: ${name}.png (${width}x${height})`);
-    await context.close();
-  }
-
-  // 1. Learning Path - Desktop, Tablet, Mobile
-  await take('learning_path_1440', 1440, 900, '/app');
-  await take('learning_path_768', 768, 1024, '/app');
-  await take('learning_path_375', 375, 812, '/app');
-
-  // 2. Dynamic Unit Capstone Modal open on Desktop
-  await take('capstone_modal_1440', 1440, 900, '/app', async (page) => {
-    const capstoneBtn = await page.$('button[aria-label*="Capstone Challenge"]');
-    if (capstoneBtn) {
-      await capstoneBtn.click();
-    }
-  });
-
-  // 3. Command Dashboard - Desktop, Tablet, Mobile
-  await take('dashboard_1440', 1440, 900, '/app/dashboard');
-  await take('dashboard_768', 768, 1024, '/app/dashboard');
-  await take('dashboard_375', 375, 812, '/app/dashboard');
-
-  // 4. Command Palette (Cmd+K) Modal open
-  await take('command_palette_1440', 1440, 900, '/app', async (page) => {
-    await page.keyboard.down('Control');
-    await page.keyboard.press('k');
-    await page.keyboard.up('Control');
-  });
-
-  // 5. Header HUD Popover (Streak)
-  await take('hud_streak_popover_1440', 1440, 900, '/app', async (page) => {
-    const streakBtn = await page.$('button[aria-label="View streak details"]');
-    if (streakBtn) {
-      await streakBtn.click();
-    }
-  });
-
-  // 6. Header HUD Popover (XP & Daily Goals)
-  await take('hud_xp_popover_1440', 1440, 900, '/app', async (page) => {
-    const xpBtn = await page.$('button[aria-label="View XP and level details"]');
-    if (xpBtn) {
-      await xpBtn.click();
-    }
-  });
-
-  // 7. Dark Mode Dashboard
-  await take('dashboard_dark_1440', 1440, 900, '/app/dashboard', async (page) => {
-    const themeBtn = await page.$('button[aria-label="Switch to dark mode"]');
-    if (themeBtn) {
-      await themeBtn.click();
-    }
-  });
-
-  await browser.close();
-  console.log('Phase 3 screenshot capture complete!');
+if (!fs.existsSync(OUT_DIR)) {
+  fs.mkdirSync(OUT_DIR, { recursive: true });
 }
 
-capture().catch((err) => {
-  console.error('Capture error:', err);
+const routes = [
+  { name: 'landing', path: '/#/landing' },
+  { name: 'path', path: '/#/app' },
+  { name: 'dashboard', path: '/#/app/dashboard' },
+  { name: 'practice', path: '/#/app/practice' },
+  { name: 'review', path: '/#/app/review' },
+  { name: 'profile', path: '/#/app/profile' },
+  { name: 'lesson', path: '/#/app/lesson/1.1' }
+];
+
+const viewports = [
+  { label: '1440', width: 1440, height: 900 },
+  { label: '768', width: 768, height: 1024 },
+  { label: '375', width: 375, height: 812 }
+];
+
+async function run() {
+  const browser = await chromium.launch({ headless: true });
+
+  for (const theme of ['light', 'dark']) {
+    for (const vp of viewports) {
+      const context = await browser.newContext({
+        viewport: { width: vp.width, height: vp.height }
+      });
+      const page = await context.newPage();
+
+      // Set localStorage theme
+      await page.addInitScript(({ themeName }) => {
+        localStorage.setItem('codolingo_theme', themeName);
+        document.documentElement.setAttribute('data-theme', themeName);
+      }, { themeName: theme });
+
+      for (const r of routes) {
+        try {
+          await page.goto(`${BASE_URL}${r.path}`, { waitUntil: 'networkidle', timeout: 15000 });
+          // Ensure lazy route chunk renders and replaces skeleton
+          await page.waitForSelector('.card-plate, h1, h2, .codon-bottom-nav', { timeout: 8000 }).catch(() => {});
+          await page.waitForTimeout(1000);
+          const filename = `${r.name}_${theme}_${vp.label}.png`;
+          await page.screenshot({ path: path.join(OUT_DIR, filename) });
+          console.log(`Saved: ${filename}`);
+        } catch (err) {
+          console.error(`Failed ${r.name} (${theme}, ${vp.label}):`, err.message);
+        }
+      }
+
+      await context.close();
+    }
+  }
+
+  await browser.close();
+  console.log('Phase 3 screenshot capture complete.');
+}
+
+run().catch((e) => {
+  console.error(e);
   process.exit(1);
 });

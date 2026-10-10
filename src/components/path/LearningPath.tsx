@@ -52,7 +52,28 @@ export const LearningPath: React.FC = () => {
   } = useApp();
 
   const [activeCapstoneUnit, setActiveCapstoneUnit] = useState<Unit | null>(null);
-  const [renderedUnitsCount, setRenderedUnitsCount] = useState<number>(6);
+  const [renderedUnitsCount, setRenderedUnitsCount] = useState<number>(10);
+
+  // Find the active unit (first unit that has uncompleted skills, or Unit 1)
+  const activeUnitIndex = React.useMemo(() => {
+    const idx = course.units.findIndex(unit => 
+      unit.skills.some(skill => !userProgress.completedSkillIds.includes(skill.id))
+    );
+    return idx === -1 ? 0 : idx;
+  }, [course.units, userProgress.completedSkillIds]);
+
+  // Track manually expanded units (by default, the active unit is expanded)
+  const [expandedUnitIds, setExpandedUnitIds] = useState<Record<string, boolean>>(() => {
+    const activeUnit = course.units[activeUnitIndex];
+    return activeUnit ? { [activeUnit.id]: true } : {};
+  });
+
+  const toggleUnitExpanded = (unitId: string) => {
+    setExpandedUnitIds(prev => ({
+      ...prev,
+      [unitId]: !prev[unitId]
+    }));
+  };
 
   // Find the current skill and active lesson to recommend in "Continue Learning"
   let currentSkill: SkillNode | null = null;
@@ -435,24 +456,176 @@ export const LearningPath: React.FC = () => {
         }}
       >
         {/* LEFT COLUMN: THE SERPENTINE JOURNEY PATH */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {course.units.slice(0, renderedUnitsCount).map((unit) => {
             const completedCount = unit.skills.filter(s => userProgress.completedSkillIds.includes(s.id)).length;
             const progressPct = Math.round((completedCount / unit.skills.length) * 100);
+            const isUnitCompleted = completedCount === unit.skills.length;
+            const isCurrentUnit = unit.id === course.units[activeUnitIndex]?.id;
+            const isLockedUnit = !isUnitCompleted && !isCurrentUnit && (unit.unitNumber > (course.units[activeUnitIndex]?.unitNumber || 1));
+            const isExpanded = expandedUnitIds[unit.id] ?? (isCurrentUnit);
 
+            // 1. COLLAPSED COMPLETED UNIT (Quiet, compact summary row)
+            if (isUnitCompleted && !isExpanded) {
+              return (
+                <div
+                  key={unit.id}
+                  id={`unit-anchor-${unit.id}`}
+                  className="card-plate"
+                  style={{
+                    padding: '16px 20px',
+                    borderLeft: '5px solid var(--state-success)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '12px',
+                    backgroundColor: 'var(--bg-surface)'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: '220px' }}>
+                    <div
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '10px',
+                        backgroundColor: 'var(--state-success-subtle)',
+                        color: 'var(--state-success)',
+                        border: '1px solid var(--state-success-border)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Icon name="check" size={20} stroke={2.5} />
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--state-success)', fontFamily: 'var(--font-display)' }}>
+                          Unit {unit.unitNumber} Completed
+                        </span>
+                        <span style={{ color: 'var(--border-strong)' }}>•</span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                          {unit.title}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: '2px' }}>
+                        {unit.subtitle}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      {unit.skills.length} / {unit.skills.length} Skills
+                    </span>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => toggleUnitExpanded(unit.id)}
+                      icon={<Icon name="chevron-down" size={14} />}
+                      iconPosition="right"
+                    >
+                      Review Nodes
+                    </Button>
+                  </div>
+                </div>
+              );
+            }
+
+            // 2. COLLAPSED LOCKED UNIT (Quiet, visually demoted locked card)
+            if (isLockedUnit && !isExpanded) {
+              return (
+                <div
+                  key={unit.id}
+                  id={`unit-anchor-${unit.id}`}
+                  style={{
+                    padding: '16px 20px',
+                    borderRadius: 'var(--radius-lg)',
+                    border: '1px solid var(--border-default)',
+                    backgroundColor: 'var(--bg-surface-subtle)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '12px',
+                    opacity: 0.8
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: '220px' }}>
+                    <div
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '10px',
+                        backgroundColor: 'var(--bg-surface)',
+                        color: 'var(--text-muted)',
+                        border: '1px solid var(--border-default)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Icon name="lock" size={18} />
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
+                          Unit {unit.unitNumber}
+                        </span>
+                        <span style={{ color: 'var(--border-strong)' }}>•</span>
+                        <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                          {unit.title}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                        {unit.subtitle} • {unit.skills.length} skills
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      Locked
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => toggleUnitExpanded(unit.id)}
+                      icon={<Icon name="chevron-down" size={14} />}
+                      iconPosition="right"
+                    >
+                      Preview
+                    </Button>
+                  </div>
+                </div>
+              );
+            }
+
+            // 3. FULL ACTIVE UNIT OR EXPANDED UNIT (Serpentine Path)
             return (
-              <div key={unit.id} id={`unit-anchor-${unit.id}`} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div
+                key={unit.id}
+                id={`unit-anchor-${unit.id}`}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '20px',
+                  position: 'relative'
+                }}
+              >
                 {/* Unit Header Card */}
                 <div
                   className="card-plate"
                   style={{
                     padding: '20px 24px',
-                    borderLeft: `6px solid ${unit.themeColor}`,
+                    borderLeft: isCurrentUnit ? '6px solid var(--brand-primary)' : `6px solid ${unit.themeColor}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
-                    gap: '12px'
+                    gap: '12px',
+                    backgroundColor: isCurrentUnit ? 'var(--bg-surface)' : 'var(--bg-surface)'
                   }}
                 >
                   <div style={{ flex: 1, minWidth: '220px' }}>
@@ -464,10 +637,10 @@ export const LearningPath: React.FC = () => {
                           fontWeight: 800,
                           textTransform: 'uppercase',
                           letterSpacing: '0.05em',
-                          color: unit.themeColor
+                          color: isCurrentUnit ? 'var(--brand-primary)' : unit.themeColor
                         }}
                       >
-                        {unit.title}
+                        {isCurrentUnit ? `CURRENT UNIT • UNIT ${unit.unitNumber}` : unit.title}
                       </span>
                       <span style={{ color: 'var(--border-strong)' }}>•</span>
                       <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
@@ -488,7 +661,18 @@ export const LearningPath: React.FC = () => {
                         {progressPct === 100 ? 'Unit Mastered' : progressPct > 0 ? 'In Progress' : 'Not Started'}
                       </div>
                     </div>
-                    <UnitProgressRing progress={progressPct} color={unit.themeColor} />
+                    <UnitProgressRing progress={progressPct} color={isCurrentUnit ? 'var(--brand-primary)' : unit.themeColor} />
+                    
+                    {/* Allow collapsing if not the current active unit */}
+                    {!isCurrentUnit && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleUnitExpanded(unit.id)}
+                        icon={<Icon name="chevron-up" size={14} />}
+                        title="Collapse unit"
+                      />
+                    )}
                   </div>
                 </div>
 
