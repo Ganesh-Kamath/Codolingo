@@ -5,6 +5,7 @@ import { Project, PROJECTS_DATA, ProjectDifficulty } from '../data/projectsData'
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { ProjectWorkspaceView } from './ProjectWorkspaceView';
 import { PracticeWorkspaceView } from './practice/PracticeWorkspaceView';
+import { PlaygroundWorkspace } from './practice/PlaygroundWorkspace';
 import { practiceChallengeService, PracticeChallengeItem } from '../services/practiceChallengeService';
 import { practiceStorageService } from '../services/practiceStorageService';
 import { sound } from '../utils/audio';
@@ -33,19 +34,6 @@ export const PracticeView: React.FC = () => {
         onBack={() => {
           sound.playClick();
           setSelectedProject(null);
-        }}
-      />
-    );
-  }
-
-  // If Playground full IDE is opened
-  if (isWorkspaceOpen && activeTab === 'playground') {
-    return (
-      <PracticeWorkspaceView
-        mode="playground"
-        onBack={() => {
-          sound.playClick();
-          setIsWorkspaceOpen(false);
         }}
       />
     );
@@ -121,19 +109,11 @@ export const PracticeView: React.FC = () => {
       <div style={{ marginBottom: '32px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-              <Badge variant="brand" size="md">
-                <Icon name="barbell" size={14} style={{ marginRight: 4 }} /> Practice & Build
-              </Badge>
-              <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
-                Learn in Lessons • Build in Practice
-              </span>
-            </div>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px' }}>
-              Practice Arena
+              Practice
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', maxWidth: '720px', lineHeight: 1.5, margin: 0 }}>
-              Master Python through sandbox experimentation, curriculum-backed coding challenges, and capstone software projects.
+              Build. Experiment. Solve.
             </p>
           </div>
 
@@ -232,107 +212,10 @@ export const PracticeView: React.FC = () => {
         <div style={{ height: '1.5px', backgroundColor: 'var(--border-default, #E5DDD0)' }} />
       </div>
 
-      {/* 1. PLAYGROUND LAUNCHER CARD */}
+      {/* 1. PLAYGROUND WORKSPACE */}
       {activeTab === 'playground' && (
-        <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div
-            style={{
-              backgroundColor: '#161B22',
-              border: '1.5px solid #30363D',
-              borderRadius: '20px',
-              padding: '36px 32px',
-              color: '#FFFFFF',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '24px',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
-            <div style={{ maxWidth: '640px', zIndex: 1 }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: 'rgba(88, 166, 255, 0.15)', color: '#58A6FF', padding: '4px 12px', borderRadius: '8px', fontSize: '0.8125rem', fontWeight: 700, fontFamily: 'var(--font-mono, monospace)', marginBottom: '14px' }}>
-                <Icon name="terminal" size={15} />
-                <span>INTERACTIVE PYTHON 3 IDE</span>
-              </div>
-              <h2 style={{ fontSize: '1.85rem', fontWeight: 800, fontFamily: 'var(--font-display)', margin: '0 0 12px', color: '#F0F6FC' }}>
-                Free-form Python Sandbox
-              </h2>
-              <p style={{ color: '#8B949E', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
-                Write, execute, and debug custom Python algorithms with instant WebAssembly execution, standard output streaming, and automatic local saving.
-              </p>
-            </div>
-
-            <button
-              onClick={() => {
-                sound.playClick();
-                setIsWorkspaceOpen(true);
-              }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                backgroundColor: '#2EA043',
-                border: '1.5px solid rgba(255,255,255,0.1)',
-                borderRadius: '14px',
-                color: '#FFFFFF',
-                padding: '14px 28px',
-                fontSize: '1.05rem',
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                cursor: 'pointer',
-                boxShadow: '0 4px 16px rgba(46, 160, 67, 0.4)',
-                transition: 'all 120ms ease',
-                zIndex: 1
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#3FB950';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#2EA043';
-                e.currentTarget.style.transform = 'none';
-              }}
-            >
-              <Icon name="player-play" size={20} />
-              <span>Launch Playground IDE</span>
-            </button>
-          </div>
-
-          {/* Quick Feature highlights */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-            <div style={{ backgroundColor: '#FFFFFF', border: '1.5px solid var(--border-default)', borderRadius: '16px', padding: '20px', boxShadow: '0 2px 0 var(--border-default)' }}>
-              <div style={{ width: '38px', height: '38px', borderRadius: '10px', backgroundColor: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563EB', marginBottom: '12px' }}>
-                <Icon name="bolt" size={20} />
-              </div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-primary)' }}>Instant WASM Engine</h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
-                Runs actual Python 3 code in browser sandbox with millisecond responsiveness and full standard library.
-              </p>
-            </div>
-
-            <div style={{ backgroundColor: '#FFFFFF', border: '1.5px solid var(--border-default)', borderRadius: '16px', padding: '20px', boxShadow: '0 2px 0 var(--border-default)' }}>
-              <div style={{ width: '38px', height: '38px', borderRadius: '10px', backgroundColor: '#ECFDF5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#059669', marginBottom: '12px' }}>
-                <Icon name="device-floppy" size={20} />
-              </div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-primary)' }}>Debounced Autosave</h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
-                Your code and experiments are saved continuously to local storage, surviving browser refreshes.
-              </p>
-            </div>
-
-            <div style={{ backgroundColor: '#FFFFFF', border: '1.5px solid var(--border-default)', borderRadius: '16px', padding: '20px', boxShadow: '0 2px 0 var(--border-default)' }}>
-              <div style={{ width: '38px', height: '38px', borderRadius: '10px', backgroundColor: '#F5F3FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7C3AED', marginBottom: '12px' }}>
-                <Icon name="terminal" size={20} />
-              </div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-primary)' }}>Standard I/O Terminal</h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
-                Formatted stdout capture and detailed runtime error diagnostics with line number stack traces.
-              </p>
-            </div>
-          </div>
+        <div className="animate-fade-in" style={{ width: '100%' }}>
+          <PlaygroundWorkspace isEmbedded={true} />
         </div>
       )}
 

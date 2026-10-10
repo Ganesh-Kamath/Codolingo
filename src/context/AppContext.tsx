@@ -16,13 +16,13 @@ import { progressionService } from '../services/progressionService';
 const STORAGE_KEY = 'codolingo_python_curriculum_v1';
 
 const INITIAL_PROGRESS: UserProgressState = {
-  userId: 'usr_default',
-  name: 'Ganesh Kamat',
-  username: 'gkamat',
-  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+  userId: 'usr_learner',
+  name: 'Learner',
+  username: 'learner',
+  avatarUrl: '',
   activeCourseId: 'python',
-  streak: 1,
-  bestStreak: 7,
+  streak: 0,
+  bestStreak: 0,
   level: 1,
   totalXp: 0,
   energy: 5,
@@ -42,17 +42,15 @@ const INITIAL_PROGRESS: UserProgressState = {
     xpTarget: 50,
     xpEarned: 0
   },
-  activityHistory: [
-    { date: '2026-10-01', lessonsCount: 1, xp: 50 }
-  ],
+  activityHistory: [],
   achievements: [
     {
       id: 'first_code',
       title: 'First Output',
       description: 'Run your first line of real code in the sandbox',
       icon: 'Terminal',
-      unlocked: true,
-      progress: 1,
+      unlocked: false,
+      progress: 0,
       maxProgress: 1
     },
     {
@@ -60,8 +58,8 @@ const INITIAL_PROGRESS: UserProgressState = {
       title: 'Consistency King',
       description: 'Maintain a learning streak for 7 consecutive days',
       icon: 'Flame',
-      unlocked: true,
-      progress: 7,
+      unlocked: false,
+      progress: 0,
       maxProgress: 7
     },
     {
@@ -70,7 +68,7 @@ const INITIAL_PROGRESS: UserProgressState = {
       description: 'Repair 3 code mistakes through targeted diagnostic drills',
       icon: 'Wrench',
       unlocked: false,
-      progress: 1,
+      progress: 0,
       maxProgress: 3
     }
   ]
@@ -97,6 +95,9 @@ interface AppContextType {
   setSelectedSkillForModal: (skill: SkillNode | null) => void;
   soundEnabled: boolean;
   toggleSound: () => void;
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
+  setTheme: (theme: 'light' | 'dark') => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -105,7 +106,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [course] = useState<LearningCourse>(PYTHON_COURSE);
   const [userProgress, setUserProgress] = useState<UserProgressState>(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('codolingo_progress_v1') || localStorage.getItem('codon_progress_v1');
       if (saved) {
         const parsed = JSON.parse(saved);
         const skillExists = PYTHON_COURSE.units.some(u => u.skills.some(s => s.id === parsed.currentSkillId));
@@ -131,6 +132,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeLessonId, setActiveLessonId] = useState<string | null>('1.1');
   const [selectedSkillForModal, setSelectedSkillForModal] = useState<SkillNode | null>(null);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  const [theme, setThemeState] = useState<'light' | 'dark'>(() => {
+    try {
+      const savedTheme = localStorage.getItem('codolingo_theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+      if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    } catch {
+      // Fallback
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    try {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('codolingo_theme', theme);
+    } catch (e) {
+      console.error('Failed to save theme', e);
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    sound.playClick();
+    setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const setTheme = (newTheme: 'light' | 'dark') => {
+    setThemeState(newTheme);
+  };
 
   // Sync to localStorage
   useEffect(() => {
@@ -225,10 +258,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const resolveMistake = (mistakeId: string) => {
-    setUserProgress(prev => ({
-      ...prev,
-      mistakes: prev.mistakes.map(m => m.id === mistakeId ? { ...m, resolved: true } : m)
-    }));
+    setUserProgress(prev => {
+      const target = prev.mistakes.find(m => m.id === mistakeId);
+      if (!target || target.resolved) return prev; // Deduplicate: already resolved
+      return {
+        ...prev,
+        totalXp: prev.totalXp + 50,
+        mistakes: prev.mistakes.map(m => m.id === mistakeId ? { ...m, resolved: true } : m)
+      };
+    });
   };
 
   const toggleSound = () => {
@@ -258,7 +296,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         selectedSkillForModal,
         setSelectedSkillForModal,
         soundEnabled,
-        toggleSound
+        toggleSound,
+        theme,
+        toggleTheme,
+        setTheme
       }}
     >
       {children}

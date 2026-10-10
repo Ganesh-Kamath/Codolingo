@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
-import confetti from 'canvas-confetti';
+import { fireCelebrationConfetti } from '../utils/confetti';
 import { useApp } from '../context/AppContext';
 import { Lesson, LessonBlock, Challenge, TestResult } from '../types';
 import { courseService } from '../services/courseService';
@@ -26,7 +26,7 @@ interface WrongQuestionRecord {
 }
 
 export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lessonId }) => {
-  const { course, exitLesson, completeLesson, recordMistake } = useApp();
+  const { course, exitLesson, completeLesson, recordMistake, theme } = useApp();
 
   // Find target lesson metadata in course units
   let lessonMeta: Lesson | null = null;
@@ -64,6 +64,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [reviewIndex, setReviewIndex] = useState<number>(0);
   const [firstAttemptCorrectCount, setFirstAttemptCorrectCount] = useState<number>(0);
   const [reviewCorrectCount, setReviewCorrectCount] = useState<number>(0);
+  const [isCompletionRecorded, setIsCompletionRecorded] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -76,6 +77,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         setReviewIndex(0);
         setFirstAttemptCorrectCount(0);
         setReviewCorrectCount(0);
+        setIsCompletionRecorded(false);
         setSessionPhase('initial');
         setLoading(false);
       }
@@ -593,9 +595,12 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         } else {
           // 15/15 correct on first attempt!
           sound.playSuccess();
-          if (lessonMeta) completeLesson(lessonMeta.id, lessonMeta.xpReward);
+          if (!isCompletionRecorded && lessonMeta) {
+            setIsCompletionRecorded(true);
+            completeLesson(lessonMeta.id, lessonMeta.xpReward);
+          }
           try {
-            confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+            fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
           } catch {}
           setSessionPhase('completed');
         }
@@ -605,11 +610,24 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         // Next review question
         setReviewIndex(prev => prev + 1);
       } else {
-        // Review round complete! Complete lesson with zero infinite loops
+        // Review round complete! Check if any review questions are still unresolved
+        const unmastered = wrongQuestions.filter(q => !q.isReviewCorrect);
+        if (unmastered.length > 0) {
+          // Re-queue remaining unmastered questions
+          setWrongQuestions(unmastered);
+          setReviewIndex(0);
+          setExerciseState('unanswered');
+          setFeedbackMsg({ title: '', msg: '' });
+          return;
+        }
+
         sound.playSuccess();
-        if (lessonMeta) completeLesson(lessonMeta.id, lessonMeta.xpReward);
+        if (!isCompletionRecorded && lessonMeta) {
+          setIsCompletionRecorded(true);
+          completeLesson(lessonMeta.id, lessonMeta.xpReward);
+        }
         try {
-          confetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+          fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
         } catch {}
         setSessionPhase('completed');
       }
@@ -1556,7 +1574,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                       setCode(val || '');
                     }
                   }}
-                  theme="light"
+                  theme={theme === 'dark' ? 'vs-dark' : 'light'}
                   options={{
                     minimap: { enabled: false },
                     lineNumbers: 'on',

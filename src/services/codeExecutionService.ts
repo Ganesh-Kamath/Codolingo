@@ -3,35 +3,200 @@ import { loadPyodide, PyodideInterface } from 'pyodide';
 
 export interface ICodeExecutionService {
   execute(code: string, challenge: Challenge): Promise<ExecutionResult>;
+  executeRaw(code: string): Promise<{ stdout: string; error?: string; executionTimeMs: number }>;
 }
 
+const RUNNER_SCRIPT = `
+import sys
+import io
+import json
+
+def _run_payload(user_code_str, tests_json_str):
+    tests = json.loads(tests_json_str)
+    
+    stdout_capture = io.StringIO()
+    stderr_capture = io.StringIO()
+    orig_stdout = sys.stdout
+    orig_stderr = sys.stderr
+    
+    sys.stdout = stdout_capture
+    sys.stderr = stderr_capture
+    
+    exec_error = None
+    user_namespace = {"__name__": "__main__"}
+    
+    try:
+        exec(user_code_str, user_namespace)
+    except SystemExit as se:
+        exec_error = f"SystemExit: {se}"
+    except Exception as e:
+        exec_error = f"{type(e).__name__}: {e}"
+    except BaseException as be:
+        exec_error = f"{type(be).__name__}: {be}"
+    finally:
+        sys.stdout = orig_stdout
+        sys.stderr = orig_stderr
+        
+    raw_stdout = stdout_capture.getvalue()
+    raw_stderr = stderr_capture.getvalue()
+    
+    test_results = []
+    all_passed = True
+    
+    if exec_error is not None:
+        all_passed = False
+        for t in tests:
+            test_results.append({
+                "testId": t.get("id", "t_unknown"),
+                "description": t.get("description", "Execution verification"),
+                "passed": False,
+                "actualOutput": raw_stdout,
+                "expectedOutput": str(t.get("expectedOutput", "")),
+                "error": exec_error
+            })
+        if len(tests) == 0:
+            test_results.append({
+                "testId": "exec_0",
+                "description": "Code execution",
+                "passed": False,
+                "actualOutput": raw_stdout,
+                "expectedOutput": "",
+                "error": exec_error
+            })
+    else:
+        for t in tests:
+            assertion = t.get("assertionPython", "")
+            raw_exp = str(t.get("expectedOutput", ""))
+            test_passed = False
+            test_err = None
+            
+            if assertion:
+                try:
+                    exec(assertion, user_namespace)
+                    test_passed = True
+                except AssertionError as ae:
+                    test_passed = False
+                    test_err = str(ae) if str(ae) else f"Assertion failed: {assertion}"
+                except Exception as ex:
+                    test_passed = False
+                    test_err = f"{type(ex).__name__}: {ex}"
+            elif ("expectedOutput" in t) and t.get("expectedOutput") is not None:
+                actual_lines = [line.rstrip() for line in raw_stdout.strip().splitlines()] if raw_stdout.strip() else []
+                exp_lines = [line.rstrip() for line in raw_exp.strip().splitlines()] if raw_exp.strip() else []
+                norm_actual = "\\n".join(actual_lines)
+                norm_expected = "\\n".join(exp_lines)
+                
+                if norm_actual == norm_expected:
+                    test_passed = True
+                elif raw_exp.startswith(("'", '"')) and raw_exp.endswith(("'", '"')) and norm_actual == raw_exp[1:-1].strip():
+                    test_passed = True
+                elif norm_actual and norm_expected:
+                    try:
+                        if float(norm_actual) == float(norm_expected):
+                            test_passed = True
+                    except (ValueError, TypeError):
+                        pass
+                
+                if not test_passed:
+                    test_err = f"Expected '{norm_expected}', but got '{norm_actual}'"
+            else:
+                test_passed = (exec_error is None)
+                
+            if not test_passed:
+                all_passed = False
+                
+            test_results.append({
+                "testId": t.get("id", "t_unknown"),
+                "description": t.get("description", "Verification test"),
+                "passed": test_passed,
+                "actualOutput": raw_stdout.strip(),
+                "expectedOutput": raw_exp.strip(),
+                "error": test_err
+            })
+            
+        if len(tests) == 0:
+            all_passed = (exec_error is None)
+            
+    combined_stdout = raw_stdout + ("\\n" + raw_stderr if raw_stderr else "")
+    return json.dumps({
+        "stdout": combined_stdout,
+        "error": exec_error,
+        "allPassed": all_passed,
+        "testResults": test_results
+    })
+`;
+
 export class ClientCodeExecutionService implements ICodeExecutionService {
-  private pyodide: PyodideInterface | null = null;
-  private initializing: Promise<void> | null = null;
-  private pyodideFailed: boolean = false;
+  private worker: Worker | null = null;
+  private pendingRequests: Map<string, { resolve: (res: any) => void; reject: (err: any) => void; timer: any }> = new Map();
+  private pyodideDirect: PyodideInterface | null = null;
+  private initializingDirect: Promise<void> | null = null;
+  private pyodideFailedDirect: boolean = false;
 
   constructor() {
-    this.initPyodide();
+    if (typeof window !== 'undefined') {
+      this.getWorker();
+    }
   }
 
-  private initPyodide(): Promise<void> {
-    if (!this.initializing) {
-      this.initializing = (async () => {
+  private getWorker(): Worker | null {
+    if (typeof window === 'undefined' || typeof Worker === 'undefined') {
+      return null;
+    }
+    if (!this.worker) {
+      try {
+        this.worker = new Worker(new URL('./pyodideWorker.ts', import.meta.url), { type: 'module' });
+        this.worker.onmessage = (e: MessageEvent) => {
+          const { id, ...data } = e.data || {};
+          if (id && this.pendingRequests.has(id)) {
+            const req = this.pendingRequests.get(id)!;
+            clearTimeout(req.timer);
+            this.pendingRequests.delete(id);
+            req.resolve(data);
+          }
+        };
+        this.worker.onerror = (err) => {
+          console.warn('Pyodide Worker encountered error:', err);
+          this.terminateWorker('Worker error');
+        };
+      } catch (err) {
+        console.warn('Could not initialize Pyodide Worker, will use direct runner fallback:', err);
+        this.worker = null;
+      }
+    }
+    return this.worker;
+  }
+
+  private terminateWorker(reason: string) {
+    if (this.worker) {
+      this.worker.terminate();
+      this.worker = null;
+    }
+    for (const [, req] of this.pendingRequests.entries()) {
+      clearTimeout(req.timer);
+      req.reject(new Error(reason));
+    }
+    this.pendingRequests.clear();
+  }
+
+  private async initDirectPyodide(): Promise<void> {
+    if (!this.initializingDirect) {
+      this.initializingDirect = (async () => {
         if (typeof window === 'undefined') {
-          this.pyodideFailed = true;
+          this.pyodideFailedDirect = true;
           return;
         }
         try {
-          this.pyodide = await loadPyodide({
+          this.pyodideDirect = await loadPyodide({
             indexURL: '/pyodide/'
           });
         } catch (err) {
-          console.warn("Pyodide CDN load failed or offline, using fallback code validator:", err);
-          this.pyodideFailed = true;
+          console.warn('Direct Pyodide load failed:', err);
+          this.pyodideFailedDirect = true;
         }
       })();
     }
-    return this.initializing;
+    return this.initializingDirect;
   }
 
   async executeRaw(code: string): Promise<{ stdout: string; error?: string; executionTimeMs: number }> {
@@ -41,69 +206,161 @@ export class ClientCodeExecutionService implements ICodeExecutionService {
       return { stdout: '', error: 'Editor is empty. Write your Python code before running.', executionTimeMs: 0 };
     }
 
-    // In Node.js environments (test suites or CLI runner)
+    // 1. In Node.js environment (e.g. CLI runner or automated test scripts)
     if (typeof window === 'undefined') {
       try {
-        const cpName = 'child_process';
-        const { execSync } = await import(/* @vite-ignore */ cpName);
-        const res = execSync('python', {
-          input: trimmed,
+        const cp = (globalThis as any).process?.versions?.node
+          ? (globalThis as any).require('child_process')
+          : await (Function('m', 'return import(m)')('child_process') as Promise<any>);
+        const script = `
+import sys
+import io
+import traceback
+import json
+
+_stdout = io.StringIO()
+_stderr = io.StringIO()
+_orig_out = sys.stdout
+_orig_err = sys.stderr
+sys.stdout = _stdout
+sys.stderr = _stderr
+_err = None
+
+try:
+    exec(${JSON.stringify(trimmed)}, {"__name__": "__main__"})
+except Exception as e:
+    _err = traceback.format_exc()
+except BaseException as e:
+    _err = f"{type(e).__name__}: {e}"
+finally:
+    sys.stdout = _orig_out
+    sys.stderr = _orig_err
+
+print(json.dumps({
+    "stdout": _stdout.getvalue(),
+    "error": _err if _err else (_stderr.getvalue() if _stderr.getvalue() else None)
+}))
+`;
+        const res = cp.spawnSync('python', [], {
+          input: script,
           encoding: 'utf-8',
-          timeout: 5000,
-          maxBuffer: 1024 * 1024
+          timeout: 6000
         });
+
+        if (res.error) {
+          if ((res.error as any).code === 'ETIMEDOUT') {
+            return {
+              stdout: '',
+              error: 'Execution timed out (exceeded 6 seconds limit). Infinite loop detected.',
+              executionTimeMs: 6000
+            };
+          }
+          return {
+            stdout: '',
+            error: res.error.message || 'Execution error',
+            executionTimeMs: Math.round(performance.now() - startTime)
+          };
+        }
+
+        const parsed = JSON.parse(res.stdout || '{}');
         return {
-          stdout: res.trim() || '(Program finished with no printed output)',
+          stdout: parsed.stdout || '',
+          error: parsed.error || undefined,
           executionTimeMs: Math.max(10, Math.round(performance.now() - startTime))
         };
       } catch (err: any) {
         return {
-          stdout: err.stdout?.toString() || '',
-          error: err.stderr?.toString() || err.message,
+          stdout: '',
+          error: err.message || 'Node execution failed',
           executionTimeMs: Math.round(performance.now() - startTime)
         };
       }
     }
 
-    if (!this.pyodide && !this.pyodideFailed) {
+    // 2. In Browser via Web Worker (Timeout & Infinite Loop protected)
+    const worker = this.getWorker();
+    if (worker) {
+      const id = 'req_' + Math.random().toString(36).substring(2, 9) + Date.now();
+      return new Promise((resolve) => {
+        const timer = setTimeout(() => {
+          this.terminateWorker('Execution timed out (infinite loop protection: exceeded 6 seconds)');
+          resolve({
+            stdout: '',
+            error: 'Execution timed out (infinite loop protection: exceeded 6 seconds). Check for while loops without increments or infinite recursion.',
+            executionTimeMs: 6000
+          });
+        }, 6000);
+
+        this.pendingRequests.set(id, {
+          resolve: (res) => {
+            resolve({
+              stdout: res.stdout || '',
+              error: res.error,
+              executionTimeMs: res.executionTimeMs || Math.round(performance.now() - startTime)
+            });
+          },
+          reject: (err) => {
+            resolve({
+              stdout: '',
+              error: err?.message || 'Worker execution error',
+              executionTimeMs: Math.round(performance.now() - startTime)
+            });
+          },
+          timer
+        });
+
+        worker.postMessage({ id, type: 'executeRaw', code: trimmed });
+      });
+    }
+
+    // 3. Browser fallback directly if Worker is disabled by environment
+    if (!this.pyodideDirect && !this.pyodideFailedDirect) {
       try {
         await Promise.race([
-          this.initPyodide(),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Pyodide load timeout')), 3500))
+          this.initDirectPyodide(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Pyodide load timeout')), 5000))
         ]);
       } catch {
-        this.pyodideFailed = true;
+        this.pyodideFailedDirect = true;
       }
     }
 
-    if (this.pyodide) {
+    if (this.pyodideDirect) {
       try {
         const runnerCode = `
 import sys
 import io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
+import traceback
+import json
 
+_stdout = io.StringIO()
+_stderr = io.StringIO()
+sys.stdout = _stdout
+sys.stderr = _stderr
+_err = ""
 try:
-    exec(${JSON.stringify(trimmed)}, globals())
+    exec(${JSON.stringify(trimmed)}, {"__name__": "__main__"})
 except Exception as e:
-    import traceback
-    traceback.print_exc(file=sys.stderr)
+    _err = traceback.format_exc()
+except BaseException as e:
+    _err = f"{type(e).__name__}: {e}"
+finally:
+    _out = _stdout.getvalue()
+    _err_out = _stderr.getvalue()
+    sys.stdout = sys.__stdout__
+    sys.stderr = sys.__stderr__
 
-_out = sys.stdout.getvalue()
-_err = sys.stderr.getvalue()
-sys.stdout = sys.__stdout__
-sys.stderr = sys.__stderr__
-
-_out + ("\\n" + _err if _err else "")
+json.dumps({
+    "stdout": _out,
+    "error": _err if _err else (_err_out if _err_out else None)
+})
 `;
-        const res = await this.pyodide.runPythonAsync(runnerCode);
-        const outStr = String(res);
-        const hasErr = outStr.includes('Traceback (most recent call last):') || outStr.startsWith('Error: ');
+        const resJson = await this.pyodideDirect.runPythonAsync(runnerCode);
+        const parsed = JSON.parse(String(resJson));
         return {
-          stdout: outStr || '(Program finished with no printed output)',
-          error: hasErr ? 'Runtime error occurred during execution' : undefined,
-          executionTimeMs: Math.max(10, Math.round(performance.now() - startTime))
+          stdout: parsed.stdout || '',
+          error: parsed.error || undefined,
+          executionTimeMs: Math.max(5, Math.round(performance.now() - startTime))
         };
       } catch (err: any) {
         return {
@@ -114,42 +371,11 @@ _out + ("\\n" + _err if _err else "")
       }
     }
 
-    // Safe client-side fallback validator for offline or blocked environments
-    try {
-      const outputLines: string[] = [];
-      const lines = trimmed.split('\n');
-      for (const line of lines) {
-        const printMatch = line.match(/^\s*print\s*\((.*)\)\s*$/);
-        if (printMatch) {
-          let inner = printMatch[1].trim();
-          if ((inner.startsWith('"') && inner.endsWith('"')) || (inner.startsWith("'") && inner.endsWith("'"))) {
-            outputLines.push(inner.slice(1, -1));
-          } else if (inner.startsWith('f"') || inner.startsWith("f'")) {
-            outputLines.push(inner.slice(2, -1));
-          } else {
-            outputLines.push(inner);
-          }
-        }
-      }
-
-      if (outputLines.length > 0) {
-        return {
-          stdout: outputLines.join('\n') + '\n\n>>> Process finished successfully (exit code 0)',
-          executionTimeMs: Math.round(performance.now() - startTime)
-        };
-      }
-
-      return {
-        stdout: `>>> Program executed (${lines.length} lines parsed).\n>>> Process finished successfully (exit code 0)`,
-        executionTimeMs: Math.round(performance.now() - startTime)
-      };
-    } catch (e: any) {
-      return {
-        stdout: '',
-        error: e.message || 'Syntax error',
-        executionTimeMs: Math.round(performance.now() - startTime)
-      };
-    }
+    return {
+      stdout: '',
+      error: 'Python runtime is currently unavailable. Please check your connection or reload.',
+      executionTimeMs: 0
+    };
   }
 
   async execute(code: string, challenge: Challenge): Promise<ExecutionResult> {
@@ -160,182 +386,184 @@ _out + ("\\n" + _err if _err else "")
       return this.createEmptyError(challenge);
     }
 
-    // 1. Pre-execution Diagnostic Rule Matching
-    if (challenge.diagnosticRules) {
-      for (const rule of challenge.diagnosticRules) {
-        try {
-          const regex = new RegExp(rule.pattern, 'm');
-          if (regex.test(code)) {
-            const solRegex = new RegExp(rule.pattern, 'm');
-            if (!solRegex.test(challenge.solutionCode)) {
-              return this.createDiagnosticError(rule, challenge, startTime);
-            }
-          }
-        } catch {
-          // ignore regex errors
-        }
-      }
-    }
+    const tests = challenge.tests || [];
+    const testPayloadJson = JSON.stringify(tests.map(t => ({
+      id: t.id,
+      description: t.description,
+      expectedOutput: t.expectedOutput,
+      input: t.input || '',
+      assertionPython: (t as any).assertionPython || ''
+    })));
 
-    // Wait briefly for Pyodide if initializing
-    if (!this.pyodide && !this.pyodideFailed) {
+    // 1. Node.js environment execution (for tests and verification scripts)
+    if (typeof window === 'undefined') {
       try {
-        await Promise.race([
-          this.initPyodide(),
-          new Promise((_, reject) => setTimeout(() => reject(new Error('Pyodide load timeout')), 3500))
-        ]);
-      } catch {
-        this.pyodideFailed = true;
-      }
-    }
-
-    // 2. Pyodide Real Python Runtime
-    if (this.pyodide) {
-      try {
-        const tests = challenge.tests || [];
-        const testPayloadJson = JSON.stringify(tests.map(t => ({
-          id: t.id,
-          description: t.description,
-          expectedOutput: t.expectedOutput || '',
-          input: t.input || '',
-          assertionPython: (t as any).assertionPython || ''
-        })));
-
-        const runnerCode = `
-import sys
-import io
-import json
-
-_user_code = ${JSON.stringify(trimmedCode)}
-_tests_json = ${JSON.stringify(testPayloadJson)}
-_tests = json.loads(_tests_json)
-
-_stdout_capture = io.StringIO()
-_stderr_capture = io.StringIO()
-_orig_stdout = sys.stdout
-_orig_stderr = sys.stderr
-
-sys.stdout = _stdout_capture
-sys.stderr = _stderr_capture
-
-_exec_error = None
-_user_namespace = {}
-
-try:
-    exec(_user_code, _user_namespace)
-except Exception as e:
-    import traceback
-    _exec_error = f"{type(e).__name__}: {e}"
-
-sys.stdout = _orig_stdout
-sys.stderr = _orig_stderr
-
-_raw_stdout = _stdout_capture.getvalue()
-_raw_stderr = _stderr_capture.getvalue()
-
-_test_results = []
-_all_passed = True
-
-if _exec_error is not None:
-    _all_passed = False
-    for t in _tests:
-        _test_results.append({
-            "testId": t["id"],
-            "description": t["description"],
-            "passed": False,
-            "actualOutput": _raw_stdout,
-            "expectedOutput": t.get("expectedOutput", ""),
-            "error": _exec_error
-        })
-else:
-    for t in _tests:
-        _assertion = t.get("assertionPython", "")
-        _exp_out = str(t.get("expectedOutput", "")).strip()
-        _test_passed = False
-        _test_err = None
-
-        if _assertion:
-            try:
-                exec(_assertion, _user_namespace)
-                _test_passed = True
-            except AssertionError as ae:
-                _test_passed = False
-                _test_err = str(ae) or "Assertion failed"
-            except Exception as ex:
-                _test_passed = False
-                _test_err = f"{type(ex).__name__}: {ex}"
-        elif _exp_out:
-            _norm_actual = _raw_stdout.strip()
-            _strip_q = lambda s: s.strip("'\\"")
-            _test_passed = (
-                _norm_actual == _exp_out or
-                _strip_q(_norm_actual) == _strip_q(_exp_out) or
-                _norm_actual.lower() == _exp_out.lower() or
-                (_exp_out in _norm_actual)
-            )
-            if not _test_passed:
-                _test_err = f"Expected '{_exp_out}', but printed '{_norm_actual}'"
-        else:
-            _test_passed = True
-
-        if not _test_passed:
-            _all_passed = False
-
-        _test_results.append({
-            "testId": t["id"],
-            "description": t["description"],
-            "passed": _test_passed,
-            "actualOutput": _raw_stdout.strip(),
-            "expectedOutput": _exp_out,
-            "error": _test_err
-        })
-
-if len(_tests) == 0:
-    _all_passed = (_exec_error is None)
-
-json.dumps({
-    "stdout": _raw_stdout + ("\\n" + _raw_stderr if _raw_stderr else ""),
-    "error": _exec_error,
-    "allPassed": _all_passed,
-    "testResults": _test_results
-})
+        const cp = (globalThis as any).process?.versions?.node
+          ? (globalThis as any).require('child_process')
+          : await (Function('m', 'return import(m)')('child_process') as Promise<any>);
+        const harness = `
+${RUNNER_SCRIPT}
+print(_run_payload(${JSON.stringify(trimmedCode)}, ${JSON.stringify(testPayloadJson)}))
 `;
-        const rawJsonResult = await this.pyodide.runPythonAsync(runnerCode);
-        const parsed = JSON.parse(String(rawJsonResult));
+        const res = cp.spawnSync('python', [], {
+          input: harness,
+          encoding: 'utf-8',
+          timeout: 6000
+        });
 
-        let diagnosticTag: string | undefined = undefined;
-        let fixSuggestion = challenge.hint || 'Review your code logic.';
-
-        if (parsed.error) {
-          if (parsed.error.includes('SyntaxError')) {
-            diagnosticTag = trimmedCode.includes('if ') && !trimmedCode.includes('==') && trimmedCode.includes('=')
-              ? 'ASSIGNMENT_VS_COMPARISON'
-              : 'SYNTAX_ERROR';
-            fixSuggestion = diagnosticTag === 'ASSIGNMENT_VS_COMPARISON'
-              ? 'Did you use = instead of == in your condition? Remember = assigns, while == compares.'
-              : 'Check for missing parentheses, quotes, or colons (:).';
-          } else if (parsed.error.includes('IndentationError')) {
-            diagnosticTag = 'INDENTATION_ERROR';
-            fixSuggestion = 'Python uses 4 spaces to define code blocks under statements like if or def.';
-          } else if (parsed.error.includes('TypeError') && (parsed.error.includes('can only concatenate str') || parsed.error.includes('unsupported operand'))) {
-            diagnosticTag = 'STRING_VS_NUMBER';
-            fixSuggestion = 'Cannot directly join a string and a number with +. Convert the number first with str(num).';
-          } else if (parsed.error.includes('NameError')) {
-            diagnosticTag = 'VARIABLE_VALUE_CONFUSION';
-            fixSuggestion = 'Variable referenced before assignment or misspelled. Check your spelling and case.';
-          }
+        if (res.error) {
+          const isTimeout = (res.error as any).code === 'ETIMEDOUT';
+          return {
+            success: false,
+            stdout: '',
+            error: isTimeout ? 'Execution timed out (infinite loop protection: exceeded 6 seconds).' : res.error.message,
+            diagnostic: {
+              mistakeType: isTimeout ? 'infinite_loop_or_timeout' : 'runtime_error',
+              message: isTimeout ? 'Your code timed out. Look for infinite loops or recursion.' : res.error.message,
+              fixSuggestion: challenge.hint || 'Review your code logic.'
+            },
+            testResults: tests.map(t => ({
+              testId: t.id,
+              description: t.description,
+              passed: false,
+              actualOutput: '',
+              expectedOutput: t.expectedOutput || '',
+              error: isTimeout ? 'Execution timed out' : res.error?.message
+            })),
+            executionTimeMs: isTimeout ? 6000 : Math.round(performance.now() - startTime)
+          };
         }
+
+        const parsed = JSON.parse(res.stdout || '{}');
+        const diagnostic = this.deriveDiagnostic(trimmedCode, challenge, parsed.error);
 
         return {
-          success: parsed.allPassed,
-          stdout: parsed.stdout || '(Executed cleanly)',
-          error: parsed.error,
-          diagnostic: !parsed.allPassed ? {
-            mistakeType: diagnosticTag || 'test_failure',
-            message: parsed.error || 'One or more verification tests failed.',
-            fixSuggestion
-          } : undefined,
-          testResults: parsed.testResults,
+          success: Boolean(parsed.allPassed),
+          stdout: parsed.stdout || '',
+          error: parsed.error || undefined,
+          diagnostic: !parsed.allPassed ? diagnostic : undefined,
+          testResults: parsed.testResults || [],
+          executionTimeMs: Math.max(10, Math.round(performance.now() - startTime))
+        };
+      } catch (err: any) {
+        return {
+          success: false,
+          stdout: '',
+          error: err.message || 'Node execution failed',
+          diagnostic: {
+            mistakeType: 'execution_error',
+            message: err.message || 'Execution error',
+            fixSuggestion: 'Please check your code syntax.'
+          },
+          testResults: tests.map(t => ({
+            testId: t.id,
+            description: t.description,
+            passed: false,
+            actualOutput: '',
+            expectedOutput: t.expectedOutput || '',
+            error: err.message
+          })),
+          executionTimeMs: Math.round(performance.now() - startTime)
+        };
+      }
+    }
+
+    // 2. In Browser via Web Worker (Timeout & Infinite Loop protected)
+    const worker = this.getWorker();
+    if (worker) {
+      const id = 'req_' + Math.random().toString(36).substring(2, 9) + Date.now();
+      return new Promise<ExecutionResult>((resolve) => {
+        const timer = setTimeout(() => {
+          this.terminateWorker('Execution timed out (infinite loop protection: exceeded 6 seconds)');
+          resolve({
+            success: false,
+            stdout: '',
+            error: 'Execution timed out (infinite loop protection: exceeded 6 seconds). Check for while loops without increments or infinite recursion.',
+            diagnostic: {
+              mistakeType: 'infinite_loop_or_timeout',
+              message: 'Your code ran longer than the allowed 6-second execution limit. Look for loops that never terminate.',
+              fixSuggestion: 'Ensure while loop conditions eventually become False or include a break statement.'
+            },
+            testResults: tests.map(t => ({
+              testId: t.id,
+              description: t.description,
+              passed: false,
+              actualOutput: '',
+              expectedOutput: t.expectedOutput || '',
+              error: 'Execution timed out'
+            })),
+            executionTimeMs: 6000
+          });
+        }, 6000);
+
+        this.pendingRequests.set(id, {
+          resolve: (res) => {
+            const diagnostic = this.deriveDiagnostic(trimmedCode, challenge, res.error);
+            resolve({
+              success: Boolean(res.success),
+              stdout: res.stdout || '',
+              error: res.error,
+              diagnostic: !res.success ? diagnostic : undefined,
+              testResults: res.testResults || [],
+              executionTimeMs: res.executionTimeMs || Math.round(performance.now() - startTime)
+            });
+          },
+          reject: (err) => {
+            resolve({
+              success: false,
+              stdout: '',
+              error: err?.message || 'Worker execution error',
+              diagnostic: {
+                mistakeType: 'execution_exception',
+                message: err?.message || 'Worker execution error',
+                fixSuggestion: 'Please check your syntax or reset to starter code.'
+              },
+              testResults: tests.map(t => ({
+                testId: t.id,
+                description: t.description,
+                passed: false,
+                actualOutput: '',
+                expectedOutput: t.expectedOutput || '',
+                error: err?.message
+              })),
+              executionTimeMs: Math.round(performance.now() - startTime)
+            });
+          },
+          timer
+        });
+
+        worker.postMessage({ id, type: 'execute', code: trimmedCode, testsJson: testPayloadJson });
+      });
+    }
+
+    // 3. Browser fallback directly if Worker is not supported
+    if (!this.pyodideDirect && !this.pyodideFailedDirect) {
+      try {
+        await Promise.race([
+          this.initDirectPyodide(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Pyodide load timeout')), 5000))
+        ]);
+      } catch {
+        this.pyodideFailedDirect = true;
+      }
+    }
+
+    if (this.pyodideDirect) {
+      try {
+        const pythonScript = `
+${RUNNER_SCRIPT}
+_run_payload(${JSON.stringify(trimmedCode)}, ${JSON.stringify(testPayloadJson)})
+`;
+        const rawJsonResult = await this.pyodideDirect.runPythonAsync(pythonScript);
+        const parsed = JSON.parse(String(rawJsonResult));
+        const diagnostic = this.deriveDiagnostic(trimmedCode, challenge, parsed.error);
+
+        return {
+          success: Boolean(parsed.allPassed),
+          stdout: parsed.stdout || '',
+          error: parsed.error || undefined,
+          diagnostic: !parsed.allPassed ? diagnostic : undefined,
+          testResults: parsed.testResults || [],
           executionTimeMs: Math.max(15, Math.round(performance.now() - startTime))
         };
       } catch (err: unknown) {
@@ -349,12 +577,12 @@ json.dumps({
             message,
             fixSuggestion: 'Please check your syntax or reset to starter code.'
           },
-          testResults: (challenge.tests || []).map(t => ({
+          testResults: tests.map(t => ({
             testId: t.id,
             description: t.description,
             passed: false,
             actualOutput: '',
-            expectedOutput: t.expectedOutput,
+            expectedOutput: t.expectedOutput || '',
             error: message
           })),
           executionTimeMs: Math.round(performance.now() - startTime)
@@ -362,111 +590,81 @@ json.dumps({
       }
     }
 
-    // 3. Robust Heuristic / AST Fallback Validator (Runs if offline or CDN blocked)
-    return this.fallbackEvaluate(trimmedCode, challenge, startTime);
+    // 4. Authoritative Runtime Unavailable Result (NO FALSE SUCCESS FALLBACK)
+    return {
+      success: false,
+      stdout: '',
+      error: 'Python runtime is currently unavailable (failed to initialize WebAssembly environment). Please check your internet connection or reload the page.',
+      diagnostic: {
+        mistakeType: 'runtime_unavailable',
+        message: 'The Python execution engine could not be loaded.',
+        fixSuggestion: 'Check your network connection and reload the page to initialize the Pyodide environment.'
+      },
+      testResults: tests.map(t => ({
+        testId: t.id,
+        description: t.description,
+        passed: false,
+        actualOutput: '',
+        expectedOutput: t.expectedOutput || '',
+        error: 'Runtime unavailable'
+      })),
+      executionTimeMs: 0
+    };
   }
 
-  private normalizeCode(code: string): string {
-    return code
-      .replace(/#.*$/gm, '') // remove comments
-      .replace(/["']/g, '"') // normalize quotes
-      .replace(/\s+/g, ' ')   // normalize whitespace
-      .trim();
-  }
+  private deriveDiagnostic(code: string, challenge: Challenge, error?: string): { mistakeType: string; message: string; fixSuggestion: string } {
+    let mistakeType = 'test_failure';
+    let message = error || 'One or more verification tests failed.';
+    let fixSuggestion = challenge.hint || 'Review your code logic and test requirements.';
 
-  private fallbackEvaluate(code: string, challenge: Challenge, startTime: number): ExecutionResult {
-    const normalizedUser = this.normalizeCode(code);
-    const normalizedSol = this.normalizeCode(challenge.solutionCode || '');
-
-    // Extract basic variable assignments from user code
-    const varMap: Record<string, string> = {};
-    const lines = code.split('\n');
-    const printedValues: string[] = [];
-
-    for (const rawLine of lines) {
-      const line = rawLine.trim();
-      const assignMatch = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/);
-      if (assignMatch && !line.startsWith('if') && !line.startsWith('while')) {
-        varMap[assignMatch[1].trim()] = assignMatch[2].trim().replace(/^['"]|['"]$/g, '');
-      }
-      const printMatch = line.match(/^print\s*\((.*)\)$/);
-      if (printMatch) {
-        let inside = printMatch[1].trim().replace(/^['"]|['"]$/g, '');
-        if (varMap[inside] !== undefined) {
-          printedValues.push(varMap[inside]);
-        } else {
-          printedValues.push(inside);
+    if (challenge.diagnosticRules) {
+      for (const rule of challenge.diagnosticRules) {
+        try {
+          const regex = new RegExp(rule.pattern, 'm');
+          if (regex.test(code)) {
+            const solRegex = new RegExp(rule.pattern, 'm');
+            if (!solRegex.test(challenge.solutionCode || '')) {
+              return {
+                mistakeType: rule.mistakeType,
+                message: rule.message,
+                fixSuggestion: rule.fixSuggestion || challenge.hint || 'Review your code logic.'
+              };
+            }
+          }
+        } catch {
+          // ignore regex errors
         }
       }
     }
 
-    // Check direct or structural match
-    const isDirectMatch = normalizedUser === normalizedSol;
-
-    // Check test cases
-    const testResults: TestResult[] = (challenge.tests || []).map((t, idx) => {
-      const exp = (t.expectedOutput || '').replace(/^['"]|['"]$/g, '').trim();
-      const assertion = (t as any).assertionPython || '';
-      let passed = isDirectMatch;
-
-      if (!passed && assertion) {
-        // e.g. assert 'age' in ...
-        const varExistsMatch = assertion.match(/['"]([a-zA-Z_][a-zA-Z0-9_]*)['"]\s+in/);
-        if (varExistsMatch) {
-          passed = varMap[varExistsMatch[1]] !== undefined || normalizedUser.includes(varExistsMatch[1]);
-        }
-        // e.g. assert age == 18 or assert age == '18'
-        const valMatch = assertion.match(/([a-zA-Z_][a-zA-Z0-9_]*)\s*==\s*(.+)/);
-        if (valMatch) {
-          const vName = valMatch[1].trim();
-          const targetVal = valMatch[2].replace(/^['"]|['"]$/g, '').trim();
-          if (varMap[vName] !== undefined) {
-            passed = varMap[vName] === targetVal || varMap[vName].toLowerCase() === targetVal.toLowerCase();
-          } else {
-            passed = normalizedUser.includes(`${vName}=${targetVal}`) || normalizedUser.includes(`${vName} = ${targetVal}`);
-          }
-        }
+    if (error) {
+      if (error.includes('SyntaxError')) {
+        const isAssignmentInIf = code.includes('if ') && !code.includes('==') && code.includes('=');
+        mistakeType = isAssignmentInIf ? 'ASSIGNMENT_VS_COMPARISON' : 'SYNTAX_ERROR';
+        message = isAssignmentInIf ? 'Did you use = instead of == in your condition? Remember = assigns, while == compares.' : error;
+        fixSuggestion = isAssignmentInIf
+          ? 'Replace = with == in your if statement condition.'
+          : 'Check for missing parentheses, missing colons (:), or unclosed quotes.';
+      } else if (error.includes('IndentationError')) {
+        mistakeType = 'INDENTATION_ERROR';
+        message = 'Python uses 4 spaces to define blocks of code under statements like if, for, while, or def.';
+        fixSuggestion = 'Indent the line inside the block by 4 spaces.';
+      } else if (error.includes('TypeError') && (error.includes('can only concatenate str') || error.includes('unsupported operand'))) {
+        mistakeType = 'STRING_VS_NUMBER';
+        message = 'Cannot concatenate a string and a number with +. Convert the number with str() first.';
+        fixSuggestion = 'Wrap the numeric variable or value in str(...) before concatenating.';
+      } else if (error.includes('NameError')) {
+        mistakeType = 'VARIABLE_VALUE_CONFUSION';
+        message = 'A variable was referenced before being defined or its name is misspelled.';
+        fixSuggestion = 'Verify that the variable name is spelled and capitalized consistently.';
+      } else if (error.includes('AssertionError')) {
+        mistakeType = 'assertion_failure';
+        message = error;
+        fixSuggestion = 'Check that your variable values match the exercise specifications.';
       }
+    }
 
-      if (!passed && exp) {
-        const matchesPrint = printedValues.some(p => p === exp || p.includes(exp));
-        const codeContainsExp = normalizedUser.includes(this.normalizeCode(exp));
-        passed = matchesPrint || codeContainsExp;
-      }
-
-      if (!assertion && !exp) {
-        passed = isDirectMatch || normalizedUser.length > 0;
-      }
-
-      return {
-        testId: t.id || `t_${idx}`,
-        description: t.description || `Test Case ${idx + 1}`,
-        passed,
-        actualOutput: passed ? (t.expectedOutput || 'Passed') : 'Did not match',
-        expectedOutput: t.expectedOutput || (assertion ? 'Assertion passed' : ''),
-        error: passed ? undefined : (t.description ? `Failed: ${t.description}` : `Expected "${t.expectedOutput}"`)
-      };
-    });
-
-    const allPassed = testResults.length > 0 ? testResults.every(t => t.passed) : (isDirectMatch || normalizedUser.length > 0);
-
-    return {
-      success: allPassed,
-      stdout: printedValues.length > 0 ? printedValues.join('\n') : (allPassed ? 'Verification passed.' : 'Verification failed.'),
-      diagnostic: allPassed ? undefined : {
-        mistakeType: 'verification_failure',
-        message: 'Your code does not satisfy all verification requirements.',
-        fixSuggestion: challenge.hint || 'Review the instructions and test cases.'
-      },
-      testResults: testResults.length > 0 ? testResults : [{
-        testId: 't_fallback',
-        description: 'Code structure check',
-        passed: allPassed,
-        actualOutput: allPassed ? 'Passed' : 'Incorrect',
-        expectedOutput: 'Matching solution'
-      }],
-      executionTimeMs: Math.round(performance.now() - startTime)
-    };
+    return { mistakeType, message, fixSuggestion };
   }
 
   private createEmptyError(challenge: Challenge): ExecutionResult {
@@ -484,32 +682,10 @@ json.dumps({
         description: t.description,
         passed: false,
         actualOutput: '',
-        expectedOutput: t.expectedOutput,
+        expectedOutput: t.expectedOutput || '',
         error: 'No output generated'
       })),
       executionTimeMs: 0
-    };
-  }
-
-  private createDiagnosticError(rule: any, challenge: Challenge, startTime: number): ExecutionResult {
-    return {
-      success: false,
-      stdout: '',
-      error: 'Lint / Syntax Warning: ' + rule.mistakeType,
-      diagnostic: {
-        mistakeType: rule.mistakeType,
-        message: rule.message,
-        fixSuggestion: rule.fixSuggestion
-      },
-      testResults: (challenge.tests || []).map(t => ({
-        testId: t.id,
-        description: t.description,
-        passed: false,
-        actualOutput: 'Diagnostic error detected',
-        expectedOutput: t.expectedOutput,
-        error: rule.message
-      })),
-      executionTimeMs: Math.round(performance.now() - startTime)
     };
   }
 }

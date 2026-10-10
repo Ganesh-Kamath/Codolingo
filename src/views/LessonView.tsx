@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import confetti from 'canvas-confetti';
+import { fireCelebrationConfetti } from '../utils/confetti';
 import { useApp } from '../context/AppContext';
 import { COURSES } from '../data/courses';
 import { codeExecutionService } from '../services/codeExecutionService';
@@ -15,7 +15,7 @@ interface LessonViewProps {
 }
 
 export const LessonView: React.FC<LessonViewProps> = ({ lessonId = 'py_lesson_3' }) => {
-  const { navigateTo, completeLesson, recordMistake } = useApp();
+  const { navigateTo, completeLesson, recordMistake, theme } = useApp();
 
   // Find target lesson
   let targetLesson = COURSES[0].modules[0].lessons[0];
@@ -72,7 +72,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lessonId = 'py_lesson_3'
 
       // Trigger celebration confetti
       try {
-        confetti({
+        fireCelebrationConfetti({
           particleCount: 90,
           spread: 60,
           origin: { y: 0.6 }
@@ -329,7 +329,7 @@ export const LessonView: React.FC<LessonViewProps> = ({ lessonId = 'py_lesson_3'
                 defaultLanguage="python"
                 value={code}
                 onChange={(val) => setCode(val || '')}
-                theme="light"
+                theme={theme === 'dark' ? 'vs-dark' : 'light'}
                 options={{
                   fontSize: 14,
                   fontFamily: 'JetBrains Mono, monospace',

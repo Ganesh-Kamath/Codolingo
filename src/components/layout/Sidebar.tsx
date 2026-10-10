@@ -77,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ fontWeight: 800, fontSize: '1.125rem', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
-                Codon
+                Codolingo
               </span>
               <span 
                 style={{ 

@@ -102,7 +102,8 @@ export const progressionService = {
       ? [...userProgress.completedLessonIds, lessonId]
       : userProgress.completedLessonIds;
 
-    const newTotalXp = userProgress.totalXp + xpReward;
+    const awardedXp = isFirstTime ? xpReward : 0;
+    const newTotalXp = userProgress.totalXp + awardedXp;
     
     // Find skill that contains this lesson
     let completedSkillId: string | null = null;
@@ -144,18 +145,18 @@ export const progressionService = {
     if (todayIdx >= 0) {
       history[todayIdx] = {
         ...history[todayIdx],
-        lessonsCount: history[todayIdx].lessonsCount + 1,
-        xp: history[todayIdx].xp + xpReward
+        lessonsCount: isFirstTime ? history[todayIdx].lessonsCount + 1 : history[todayIdx].lessonsCount,
+        xp: history[todayIdx].xp + awardedXp
       };
     } else {
       history.push({
         date: todayStr,
-        lessonsCount: 1,
-        xp: xpReward
+        lessonsCount: isFirstTime ? 1 : 0,
+        xp: awardedXp
       });
     }
 
-    const dailyGoalEarnedXp = todayIdx >= 0 ? history[todayIdx].xp : xpReward;
+    const dailyGoalEarnedXp = todayIdx >= 0 ? history[todayIdx].xp : (userProgress.dailyGoalEarnedXp + awardedXp);
     const levelInfo = progressionService.calculateLevel(newTotalXp);
     const streakUpdates = progressionService.updateStreak(userProgress);
 

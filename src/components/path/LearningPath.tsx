@@ -97,7 +97,7 @@ export const LearningPath: React.FC = () => {
           <path
             d={pathD}
             fill="none"
-            stroke="#E5DDD0"
+            stroke="var(--border-default)"
             strokeWidth="18"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -106,7 +106,7 @@ export const LearningPath: React.FC = () => {
           <path
             d={pathD}
             fill="none"
-            stroke="#FDFBF7"
+            stroke="var(--bg-app)"
             strokeWidth="10"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -115,7 +115,7 @@ export const LearningPath: React.FC = () => {
           <path
             d={pathD}
             fill="none"
-            stroke="#D5C9B7"
+            stroke="var(--border-strong)"
             strokeWidth="2.5"
             strokeDasharray="6 8"
             strokeLinecap="round"
@@ -132,26 +132,26 @@ export const LearningPath: React.FC = () => {
             const isLocked = !isUnlocked;
             const mastery = userProgress.skillMastery[skill.id] || 0;
 
-            let bgColor = '#FFFFFF';
+            let bgColor = 'var(--bg-surface)';
             let borderColor = 'var(--border-default)';
-            let bevelColor = '#E2D9CC';
+            let bevelColor = 'var(--tactile-card)';
             let iconColor = 'var(--text-secondary)';
 
             if (isCompleted) {
-              bgColor = '#10B981';
-              borderColor = '#059669';
-              bevelColor = '#047857';
+              bgColor = 'var(--secondary-solid)';
+              borderColor = 'var(--secondary-hover)';
+              bevelColor = 'var(--secondary-bevel)';
               iconColor = '#FFFFFF';
             } else if (isCurrent) {
-              bgColor = '#4338CA';
-              borderColor = '#312E81';
-              bevelColor = '#1E1B4B';
+              bgColor = 'var(--brand-primary)';
+              borderColor = 'var(--brand-bevel)';
+              bevelColor = 'var(--brand-active)';
               iconColor = '#FFFFFF';
             } else if (isLocked) {
-              bgColor = '#F5EFEB';
-              borderColor = '#E5DDD0';
-              bevelColor = '#D5C9B7';
-              iconColor = '#9E978E';
+              bgColor = 'var(--locked-bg)';
+              borderColor = 'var(--locked-border)';
+              bevelColor = 'var(--locked-bevel)';
+              iconColor = 'var(--locked-text)';
             }
 
             return (
@@ -231,7 +231,8 @@ export const LearningPath: React.FC = () => {
                     marginTop: '10px',
                     textAlign: 'center',
                     maxWidth: '130px',
-                    backgroundColor: 'rgba(253, 251, 247, 0.95)',
+                    backgroundColor: 'var(--bg-surface-subtle)',
+                    border: '1px solid var(--border-default)',
                     padding: '3px 8px',
                     borderRadius: 'var(--radius-sm)'
                   }}
@@ -460,7 +461,7 @@ export const LearningPath: React.FC = () => {
             className="card-plate"
             style={{
               padding: '20px',
-              backgroundColor: '#FFFFFF',
+              backgroundColor: 'var(--bg-surface)',
               borderColor: 'var(--border-default)',
               boxShadow: 'var(--tactile-card)'
             }}
@@ -809,9 +810,9 @@ export const LearningPath: React.FC = () => {
           <div
             className="animate-pop-in"
             style={{
-              backgroundColor: '#FFFFFF',
-              borderRadius: 'var(--radius-2xl, 24px)',
-              border: '2px solid var(--border-default, #E5DDD0)',
+              backgroundColor: 'var(--bg-surface)',
+              borderRadius: 'var(--radius-2xl)',
+              border: '2px solid var(--border-default)',
               boxShadow: '0 16px 36px rgba(30, 27, 23, 0.2)',
               padding: '28px 32px',
               maxWidth: '560px',

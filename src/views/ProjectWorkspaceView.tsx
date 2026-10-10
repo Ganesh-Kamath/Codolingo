@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import confetti from 'canvas-confetti';
+import { fireCelebrationConfetti } from '../utils/confetti';
 import { Project } from '../data/projectsData';
 import { Badge } from '../components/common/Badge';
 import { Button } from '../components/common/Button';
 import { Icon } from '../components/ui/Icon';
 import { sound } from '../utils/audio';
+import { useApp } from '../context/AppContext';
 import { codeExecutionService } from '../services/codeExecutionService';
 
 interface ProjectWorkspaceViewProps {
@@ -14,6 +15,7 @@ interface ProjectWorkspaceViewProps {
 }
 
 export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ project, onBack }) => {
+  const { theme } = useApp();
   const storageKey = `codolingo_project_code_${project.id}`;
   const completionKey = `codolingo_project_completed_${project.id}`;
 
@@ -80,7 +82,7 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
     if (nextState) {
       sound.playSuccess();
       try {
-        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+        fireCelebrationConfetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
       } catch {}
     } else {
       sound.playClick();
@@ -407,7 +409,7 @@ export const ProjectWorkspaceView: React.FC<ProjectWorkspaceViewProps> = ({ proj
               defaultLanguage="python"
               value={code}
               onChange={(val) => setCode(val || '')}
-              theme="vs-dark"
+              theme={theme === 'dark' ? 'vs-dark' : 'light'}
               onMount={(editor) => {
                 editorRef.current = editor;
               }}

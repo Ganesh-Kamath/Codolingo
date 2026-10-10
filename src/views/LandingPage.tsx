@@ -7,14 +7,14 @@ import { Badge } from '../components/common/Badge';
 export const LandingPage: React.FC = () => {
   const { navigateTo, soundEnabled, toggleSound } = useApp();
   const [snippetCode, setSnippetCode] = useState<string>(
-    '# Try Python right here in the browser:\nuser_role = "developer"\nis_ready = user_role == "developer"\n\nif is_ready:\n    print("Welcome to Codon. Start writing real code.")\n'
+    '# Try Python right here in the browser:\nuser_role = "developer"\nis_ready = user_role == "developer"\n\nif is_ready:\n    print("Welcome to Codolingo. Start writing real code.")\n'
   );
   const [miniOutput, setMiniOutput] = useState<string>('');
   const [hasRun, setHasRun] = useState<boolean>(false);
 
   const runMiniSnippet = () => {
     setHasRun(true);
-    setMiniOutput('Welcome to Codon. Start writing real code.\n>>> Program finished (0.02s)');
+    setMiniOutput('Welcome to Codolingo. Start writing real code.\n>>> Program finished (0.02s)');
   };
 
   return (
@@ -57,7 +57,7 @@ export const LandingPage: React.FC = () => {
               <Icon name="code" size={24} stroke={2.5} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.025em' }}>Codon</span>
+              <span style={{ fontWeight: 800, fontSize: '1.25rem', letterSpacing: '-0.025em' }}>Codolingo</span>
               <Badge variant="brand" size="sm">Adaptive Platform</Badge>
             </div>
           </div>
@@ -236,7 +236,7 @@ export const LandingPage: React.FC = () => {
             Built around the scientific mastery loop
           </h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto 40px' }}>
-            Most platforms either bore you with 30-minute videos or test you on multiple-choice trivia. Codon enforces real development muscle memory.
+            Most platforms either bore you with 30-minute videos or test you on multiple-choice trivia. Codolingo enforces real development muscle memory.
           </p>
 
           <div
@@ -286,7 +286,7 @@ export const LandingPage: React.FC = () => {
               The Mistake Bank: We don't just say "Incorrect."
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>
-              When a submission fails, Codon analyzes the AST and execution trace to pinpoint the conceptual mistake: confusing assignment with equality, variable casing, or unindented blocks.
+              When a submission fails, Codolingo analyzes the AST and execution trace to pinpoint the conceptual mistake: confusing assignment with equality, variable casing, or unindented blocks.
             </p>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9375rem' }}>
@@ -361,7 +361,7 @@ export const LandingPage: React.FC = () => {
             Create Account
           </Button>
           <div style={{ marginTop: '32px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            Codon © 2026. Built with modern engineering principles for millions of aspiring developers.
+            Codolingo © 2026. Built with modern engineering principles for millions of aspiring developers.
           </div>
         </div>
       </footer>

@@ -1,24 +1,28 @@
 import React from 'react';
 
-interface BadgeProps {
+export interface BadgeProps {
   children: React.ReactNode;
   variant?: 'brand' | 'neutral' | 'success' | 'warning' | 'error' | 'outline' | 'python' | 'js' | 'dsa';
-  size?: 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
   icon?: React.ReactNode;
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
   variant = 'neutral',
   size = 'md',
-  icon
+  icon,
+  style,
+  className = ''
 }) => {
   const getStyles = (): React.CSSProperties => {
     switch (variant) {
       case 'brand':
         return {
           backgroundColor: 'var(--brand-light)',
-          color: 'var(--brand-text)',
+          color: 'var(--brand-primary)',
           borderColor: 'var(--brand-border)'
         };
       case 'success':
@@ -73,25 +77,49 @@ export const Badge: React.FC<BadgeProps> = ({
     }
   };
 
-  const isSmall = size === 'sm';
+  const getPaddingAndFontSize = () => {
+    switch (size) {
+      case 'xs':
+        return {
+          fontSize: '0.625rem',
+          padding: '1px var(--space-1)',
+          gap: '2px'
+        };
+      case 'sm':
+        return {
+          fontSize: 'var(--text-xs)',
+          padding: '2px var(--space-2)',
+          gap: 'var(--space-1)'
+        };
+      case 'md':
+      default:
+        return {
+          fontSize: 'var(--text-sm)',
+          padding: '4px var(--space-3)',
+          gap: 'var(--space-1)'
+        };
+    }
+  };
+
+  const sizing = getPaddingAndFontSize();
 
   return (
     <span
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: '4px',
-        fontSize: isSmall ? '0.6875rem' : '0.75rem',
-        fontWeight: 600,
-        lineHeight: 1,
-        padding: isSmall ? '2px 6px' : '4px 8px',
+        fontWeight: 700,
+        lineHeight: 1.2,
         borderRadius: 'var(--radius-full)',
         border: '1px solid',
-        textTransform: 'uppercase',
-        letterSpacing: '0.03em',
+        letterSpacing: '0.02em',
         whiteSpace: 'nowrap',
-        ...getStyles()
+        userSelect: 'none',
+        ...sizing,
+        ...getStyles(),
+        ...style
       }}
+      className={className}
     >
       {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
       <span>{children}</span>

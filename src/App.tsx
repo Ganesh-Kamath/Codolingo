@@ -7,23 +7,88 @@ import { MistakeReviewView } from './views/MistakeReviewView';
 import { ProfileView } from './views/ProfileView';
 import { OnboardingView } from './views/OnboardingView';
 import { Icon } from './components/ui/Icon';
-import { sound } from './utils/audio';
+import { Button, IconButton, Badge, Tooltip } from './components/common';
 import { BottomNav } from './components/layout/BottomNav';
+import { progressionService } from './services/progressionService';
 
 export const AppContent: React.FC = () => {
   const { 
     currentRoute, 
     navigateTo, 
-    activeLesson, 
     userProgress, 
     soundEnabled, 
     toggleSound, 
+    theme,
+    toggleTheme,
     course 
   } = useApp();
 
-  // 1. If an active lesson is running, render full-screen interactive lesson runner
+  // 1. If an active lesson is running, verify access and render full-screen interactive lesson runner
   if (currentRoute.startsWith('/app/lesson/')) {
     const lessonId = currentRoute.replace('/app/lesson/', '');
+    const isAvailable = progressionService.isLessonAvailable(lessonId, userProgress, course);
+    if (!isAvailable) {
+      return (
+        <div
+          style={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'var(--bg-app)',
+            padding: 'var(--space-6)',
+            textAlign: 'center'
+          }}
+        >
+          <div
+            style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: 'var(--radius-full)',
+              backgroundColor: 'var(--error-bg)',
+              border: '1.5px solid var(--error-border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 'var(--space-4)',
+              color: 'var(--error-solid)'
+            }}
+          >
+            <Icon name="lock" size={32} />
+          </div>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'var(--text-2xl)',
+              fontWeight: 800,
+              marginBottom: 'var(--space-2)',
+              color: 'var(--text-primary)'
+            }}
+          >
+            Lesson Locked
+          </h2>
+          <p
+            style={{
+              color: 'var(--text-secondary)',
+              maxWidth: '420px',
+              marginBottom: 'var(--space-6)',
+              lineHeight: 1.5,
+              fontSize: 'var(--text-base)'
+            }}
+          >
+            You have not unlocked this lesson yet. Complete the preceding lessons in your learning path to continue.
+          </p>
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => navigateTo('/app')}
+          >
+            Return to Learning Path
+          </Button>
+        </div>
+      );
+    }
     return <MultiStepLessonView lessonId={lessonId} />;
   }
 
@@ -58,24 +123,33 @@ export const AppContent: React.FC = () => {
       : '/app';
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-app, #FDFBF7)', display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: 'var(--bg-app)',
+        display: 'flex',
+        flexDirection: 'column',
+        transition: 'background-color var(--transition-base)'
+      }}
+    >
       {/* Top Application Header / Stitch DevRealm Odyssey HUD */}
       <header
         style={{
-          height: '68px',
-          backgroundColor: '#FFFFFF',
+          height: 'var(--topbar-height)',
+          backgroundColor: 'var(--bg-surface)',
           borderBottom: '1.5px solid var(--border-default)',
-          boxShadow: '0 2px 0 var(--border-subtle)',
+          boxShadow: 'var(--shadow-xs)',
           position: 'sticky',
           top: 0,
-          zIndex: 50
+          zIndex: 50,
+          transition: 'background-color var(--transition-base), border-color var(--transition-base)'
         }}
       >
         <div
           style={{
             maxWidth: '1240px',
             margin: '0 auto',
-            padding: '0 20px',
+            padding: '0 var(--space-5)',
             height: '100%',
             display: 'flex',
             alignItems: 'center',
@@ -83,16 +157,22 @@ export const AppContent: React.FC = () => {
           }}
         >
           {/* Brand Logo & Course Selector */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
             <div
               onClick={() => navigateTo('/app')}
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2.5)', cursor: 'pointer' }}
+              role="button"
+              tabIndex={0}
+              aria-label="Go to home learning path"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') navigateTo('/app');
+              }}
             >
               <div
                 style={{
                   width: '38px',
                   height: '38px',
-                  borderRadius: '12px',
+                  borderRadius: 'var(--radius-md)',
                   backgroundColor: 'var(--brand-primary)',
                   border: '1.5px solid var(--brand-bevel)',
                   boxShadow: 'var(--tactile-primary)',
@@ -104,8 +184,16 @@ export const AppContent: React.FC = () => {
               >
                 <Icon name="code" size={22} stroke={2.5} />
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.35rem', letterSpacing: '-0.025em', color: 'var(--text-primary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1.5)' }}>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 800,
+                    fontSize: 'var(--text-xl)',
+                    letterSpacing: '-0.025em',
+                    color: 'var(--text-primary)'
+                  }}
+                >
                   Codolingo
                 </span>
                 <span
@@ -115,7 +203,7 @@ export const AppContent: React.FC = () => {
                     fontSize: '0.625rem',
                     fontWeight: 800,
                     letterSpacing: '0.06em',
-                    padding: '1px 6px',
+                    padding: '2px 6px',
                     borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--brand-border)'
                   }}
@@ -131,26 +219,26 @@ export const AppContent: React.FC = () => {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '8px',
-                padding: '6px 14px',
+                gap: 'var(--space-2)',
+                padding: 'var(--space-1.5) var(--space-3)',
                 backgroundColor: 'var(--bg-surface-subtle)',
                 border: '1.5px solid var(--border-default)',
                 boxShadow: '0 2px 0 var(--border-default)',
                 borderRadius: 'var(--radius-full)',
-                fontSize: '0.8125rem',
+                fontSize: 'var(--text-sm)',
                 fontWeight: 700,
                 color: 'var(--text-primary)',
                 cursor: 'pointer'
               }}
               title="Python Track Active"
             >
-              <Icon name="terminal" size={15} style={{ color: '#4338CA' }} />
+              <Icon name="terminal" size={15} style={{ color: 'var(--brand-primary)' }} />
               <span>{course.title}</span>
             </div>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav style={{ display: 'flex', gap: '8px' }} className="desktop-only">
+          <nav style={{ display: 'flex', gap: 'var(--space-2)' }} className="desktop-only" aria-label="Main Navigation">
             {navTabs.map((tab) => {
               const isActive = currentTab === tab.id;
 
@@ -161,32 +249,33 @@ export const AppContent: React.FC = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
+                    gap: 'var(--space-2)',
+                    padding: 'var(--space-2) var(--space-4)',
                     borderRadius: 'var(--radius-md)',
-                    fontSize: '0.875rem',
+                    fontSize: 'var(--text-sm)',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 700,
                     backgroundColor: isActive ? 'var(--brand-light)' : 'transparent',
                     color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
                     border: isActive ? '1.5px solid var(--brand-border)' : '1.5px solid transparent',
                     boxShadow: isActive ? '0 2px 0 var(--brand-border)' : 'none',
-                    transition: 'all 120ms ease'
+                    transition: 'all var(--transition-fast)'
                   }}
                   className={isActive ? '' : 'nav-hover-item'}
+                  aria-current={isActive ? 'page' : undefined}
                 >
-                  <Icon name={tab.iconName} size={17} style={{ color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)' }} />
+                  <Icon name={tab.iconName} size={17} />
                   <span>{tab.label}</span>
                   {tab.badge ? (
                     <span
                       style={{
-                        fontSize: '0.6875rem',
+                        fontSize: 'var(--text-xs)',
                         fontWeight: 800,
-                        backgroundColor: '#EF4444',
+                        backgroundColor: 'var(--error-solid)',
                         color: '#FFFFFF',
                         padding: '1px 6px',
                         borderRadius: 'var(--radius-full)',
-                        border: '1px solid #DC2626'
+                        border: '1px solid var(--error-bevel)'
                       }}
                     >
                       {tab.badge}
@@ -197,133 +286,147 @@ export const AppContent: React.FC = () => {
             })}
           </nav>
 
-          {/* Gamification HUD Pills & Sound & Profile */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Gamification HUD Pills & Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             {/* Streak Pill */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '5px 11px',
-                backgroundColor: '#FFF1F2',
-                borderRadius: 'var(--radius-full)',
-                border: '1.5px solid #FECDD3',
-                boxShadow: '0 2px 0 #FECDD3',
-                color: '#E11D48',
-                fontWeight: 800,
-                fontSize: '0.8rem',
-                fontFamily: 'var(--font-display)'
-              }}
-              className="desktop-only"
-              title={`${userProgress.streak} day streak`}
-            >
-              <Icon name="flame" size={15} fill="#FDA4AF" />
-              <span>{userProgress.streak} DAYS</span>
-            </div>
+            <Tooltip content={`${userProgress.streak} day streak`}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-1.5)',
+                  padding: 'var(--space-1) var(--space-3)',
+                  backgroundColor: 'var(--streak-bg)',
+                  borderRadius: 'var(--radius-full)',
+                  border: '1.5px solid #FECDD3',
+                  boxShadow: '0 2px 0 #FECDD3',
+                  color: 'var(--streak-color)',
+                  fontWeight: 800,
+                  fontSize: 'var(--text-xs)',
+                  fontFamily: 'var(--font-display)'
+                }}
+                className="desktop-only"
+              >
+                <Icon name="flame" size={15} fill="#FDA4AF" />
+                <span>{userProgress.streak} DAYS</span>
+              </div>
+            </Tooltip>
 
             {/* XP Pill */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '5px 11px',
-                backgroundColor: '#FEF3C7',
-                borderRadius: 'var(--radius-full)',
-                border: '1.5px solid #FDE68A',
-                boxShadow: '0 2px 0 #FDE68A',
-                color: '#B45309',
-                fontWeight: 800,
-                fontSize: '0.8rem',
-                fontFamily: 'var(--font-display)'
-              }}
-              className="desktop-only"
-              title={`${userProgress.totalXp} Total XP`}
-            >
-              <Icon name="sparkles" size={15} fill="#FDE68A" />
-              <span>{userProgress.totalXp.toLocaleString()} XP</span>
-            </div>
+            <Tooltip content={`${userProgress.totalXp.toLocaleString()} Total XP`}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-1.5)',
+                  padding: 'var(--space-1) var(--space-3)',
+                  backgroundColor: 'var(--warning-bg)',
+                  borderRadius: 'var(--radius-full)',
+                  border: '1.5px solid var(--warning-border)',
+                  boxShadow: '0 2px 0 var(--warning-border)',
+                  color: 'var(--warning-text)',
+                  fontWeight: 800,
+                  fontSize: 'var(--text-xs)',
+                  fontFamily: 'var(--font-display)'
+                }}
+                className="desktop-only"
+              >
+                <Icon name="sparkles" size={15} fill="var(--warning-border)" />
+                <span>{userProgress.totalXp.toLocaleString()} XP</span>
+              </div>
+            </Tooltip>
 
             {/* Shields Pill */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '5px 11px',
-                backgroundColor: '#EFF6FF',
-                borderRadius: 'var(--radius-full)',
-                border: '1.5px solid #BFDBFE',
-                boxShadow: '0 2px 0 #BFDBFE',
-                color: '#1D4ED8',
-                fontWeight: 800,
-                fontSize: '0.8rem',
-                fontFamily: 'var(--font-display)'
-              }}
-              className="desktop-only"
-              title="Practice Shields"
-            >
-              <Icon name="shield" size={15} fill="#BFDBFE" />
-              <span>{userProgress.energy}/{userProgress.maxEnergy}</span>
-            </div>
+            <Tooltip content="Practice Shields & Energy">
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-1.5)',
+                  padding: 'var(--space-1) var(--space-3)',
+                  backgroundColor: 'var(--info-bg)',
+                  borderRadius: 'var(--radius-full)',
+                  border: '1.5px solid var(--info-border)',
+                  boxShadow: '0 2px 0 var(--info-border)',
+                  color: 'var(--info-text)',
+                  fontWeight: 800,
+                  fontSize: 'var(--text-xs)',
+                  fontFamily: 'var(--font-display)'
+                }}
+                className="desktop-only"
+              >
+                <Icon name="shield" size={15} fill="var(--info-border)" />
+                <span>{userProgress.energy}/{userProgress.maxEnergy}</span>
+              </div>
+            </Tooltip>
 
-            {/* Sound Toggle */}
-            <button
+            {/* Theme Toggle Button */}
+            <IconButton
+              name={theme === 'dark' ? 'sun' : 'moon'}
+              label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              tooltip={theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
+              variant="subtle"
+              size="sm"
+              onClick={toggleTheme}
+            />
+
+            {/* Sound Toggle Button */}
+            <IconButton
+              name={soundEnabled ? 'volume' : 'volume-off'}
+              label={soundEnabled ? 'Mute sound effects' : 'Unmute sound effects'}
+              tooltip={soundEnabled ? 'Mute Audio' : 'Unmute Audio'}
+              variant="subtle"
+              size="sm"
               onClick={toggleSound}
-              style={{
-                padding: '8px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--bg-surface-subtle)',
-                border: '1.5px solid var(--border-default)',
-                boxShadow: '0 2px 0 var(--border-default)',
-                color: soundEnabled ? 'var(--text-primary)' : 'var(--text-muted)'
-              }}
-              title={soundEnabled ? 'Mute sound effects' : 'Unmute sound effects'}
-            >
-              {soundEnabled ? <Icon name="volume" size={17} /> : <Icon name="volume-off" size={17} />}
-            </button>
+            />
 
             {/* User Avatar with Tactile Frame */}
-            <div
-              onClick={() => navigateTo('/app/profile')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-                position: 'relative'
-              }}
-              title="View Profile"
-            >
-              <img
-                src={userProgress.avatarUrl}
-                alt={userProgress.name}
+            <Tooltip content="View Profile">
+              <div
+                onClick={() => navigateTo('/app/profile')}
                 style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '2px solid var(--brand-primary)',
-                  boxShadow: '0 2px 0 var(--brand-bevel)'
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  position: 'relative'
                 }}
-              />
-              <span
-                style={{
-                  position: 'absolute',
-                  bottom: '-4px',
-                  right: '-4px',
-                  backgroundColor: 'var(--brand-primary)',
-                  color: '#FFFFFF',
-                  fontSize: '0.55rem',
-                  fontWeight: 900,
-                  padding: '1px 4px',
-                  borderRadius: '6px',
-                  border: '1.5px solid #FFFFFF'
+                role="button"
+                tabIndex={0}
+                aria-label="View user profile"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') navigateTo('/app/profile');
                 }}
               >
-                12
-              </span>
-            </div>
+                <img
+                  src={userProgress.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256'}
+                  alt={userProgress.name}
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: 'var(--radius-full)',
+                    objectFit: 'cover',
+                    border: '2px solid var(--brand-primary)',
+                    boxShadow: '0 2px 0 var(--brand-bevel)'
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'absolute',
+                    bottom: '-4px',
+                    right: '-4px',
+                    backgroundColor: 'var(--brand-primary)',
+                    color: '#FFFFFF',
+                    fontSize: '0.55rem',
+                    fontWeight: 900,
+                    padding: '1px 4px',
+                    borderRadius: '6px',
+                    border: '1.5px solid var(--bg-surface)'
+                  }}
+                >
+                  {userProgress.level || 1}
+                </span>
+              </div>
+            </Tooltip>
           </div>
         </div>
       </header>

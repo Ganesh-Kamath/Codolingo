@@ -38,15 +38,17 @@ export const BottomNav: React.FC = () => {
         bottom: 0,
         left: 0,
         right: 0,
-        height: 'var(--bottomnav-height, 64px)',
-        backgroundColor: '#FFFFFF',
+        height: 'var(--bottomnav-height)',
+        backgroundColor: 'var(--bg-surface)',
         borderTop: '1.5px solid var(--border-default)',
-        boxShadow: '0 -2px 10px rgba(30, 27, 23, 0.04)',
+        boxShadow: 'var(--shadow-md)',
+        display: 'none', // Handled responsively via media query in index.css
         alignItems: 'center',
         justifyContent: 'space-around',
-        zIndex: 40
+        zIndex: 40,
+        transition: 'background-color var(--transition-base), border-color var(--transition-base)'
       }}
-      className="mobile-only flex-between"
+      className="codon-bottom-nav"
       aria-label="Mobile navigation"
     >
       {items.map((tab) => {
@@ -64,7 +66,7 @@ export const BottomNav: React.FC = () => {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '3px',
+              gap: '2px',
               flex: 1,
               height: '100%',
               background: 'none',
@@ -72,8 +74,10 @@ export const BottomNav: React.FC = () => {
               position: 'relative',
               color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
               cursor: 'pointer',
-              userSelect: 'none'
+              userSelect: 'none',
+              transition: 'color var(--transition-fast)'
             }}
+            aria-current={isActive ? 'page' : undefined}
           >
             <div style={{ position: 'relative' }}>
               <Icon name={tab.iconName} size={20} stroke={isActive ? 2.5 : 2} />
@@ -83,13 +87,13 @@ export const BottomNav: React.FC = () => {
                     position: 'absolute',
                     top: '-4px',
                     right: '-8px',
-                    backgroundColor: '#EF4444',
+                    backgroundColor: 'var(--error-solid)',
                     color: '#FFFFFF',
                     fontSize: '0.625rem',
                     fontWeight: 800,
                     padding: '0 4px',
                     borderRadius: 'var(--radius-full)',
-                    border: '1.5px solid #FFFFFF',
+                    border: '1.5px solid var(--bg-surface)',
                     lineHeight: '13px'
                   }}
                 >
@@ -97,7 +101,7 @@ export const BottomNav: React.FC = () => {
                 </span>
               ) : null}
             </div>
-            <span style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-display)', fontWeight: isActive ? 800 : 600 }}>
+            <span style={{ fontSize: 'var(--text-xs)', fontFamily: 'var(--font-display)', fontWeight: isActive ? 800 : 600 }}>
               {tab.label}
             </span>
             {isActive && (
@@ -120,4 +124,3 @@ export const BottomNav: React.FC = () => {
     </nav>
   );
 };
-

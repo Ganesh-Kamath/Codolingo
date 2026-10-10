@@ -47,12 +47,12 @@ Text values are called **strings** and must be wrapped in either double quotes (
 
 ### Example:
 \`\`\`python
-print("Welcome to Codon")
+print("Welcome to Codolingo")
 \`\`\`
 
 ### Your Objective:
 Output the message \`Hello, World!\` to the console using the \`print\` function.`,
-                codeSnippetExample: `print("Welcome to Codon")`,
+                codeSnippetExample: `print("Welcome to Codolingo")`,
                 starterCode: `# Write your print statement below:\n`,
                 solutionCode: `print("Hello, World!")`,
                 hint: `Call print with "Hello, World!" enclosed in quotes: print("Hello, World!")`,

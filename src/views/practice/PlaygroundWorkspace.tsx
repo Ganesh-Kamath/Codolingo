@@ -2,16 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { PracticeWorkspaceHeader } from './PracticeWorkspaceHeader';
 import { DEFAULT_LANGUAGE, LanguageDefinition } from '../../types/languages';
+import { useApp } from '../../context/AppContext';
 import { practiceStorageService } from '../../services/practiceStorageService';
 import { codeExecutionService } from '../../services/codeExecutionService';
 import { sound } from '../../utils/audio';
 import { Icon } from '../../components/ui/Icon';
 
 interface PlaygroundWorkspaceProps {
-  onBack: () => void;
+  onBack?: () => void;
+  isEmbedded?: boolean;
 }
 
-export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack }) => {
+export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack, isEmbedded }) => {
+  const { theme } = useApp();
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageDefinition>(DEFAULT_LANGUAGE);
   const [code, setCode] = useState<string>(() => {
     return practiceStorageService.getPlaygroundCode(DEFAULT_LANGUAGE.id, DEFAULT_LANGUAGE.starterTemplate);
@@ -135,11 +138,15 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        height: isEmbedded ? '720px' : '100vh',
+        minHeight: isEmbedded ? '600px' : undefined,
         width: '100%',
         backgroundColor: '#0D1117',
         color: '#C9D1D9',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        borderRadius: isEmbedded ? '16px' : '0',
+        border: isEmbedded ? '1.5px solid #30363D' : 'none',
+        boxShadow: isEmbedded ? '0 8px 32px rgba(0,0,0,0.3)' : 'none'
       }}
     >
       {/* Workspace Header */}
@@ -306,7 +313,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
             <Editor
               height="100%"
               language={selectedLanguage.monacoLanguage}
-              theme="vs-dark"
+              theme={theme === 'dark' ? 'vs-dark' : 'light'}
               value={code}
               onChange={(val) => setCode(val || '')}
               onMount={handleEditorDidMount}
@@ -488,7 +495,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
                 output
               ) : (
                 <div style={{ color: '#484F58', fontStyle: 'italic', fontSize: '0.8125rem' }}>
-                  {`# Press 'Run' (or Ctrl+Enter) to execute your code.\n# Standard output and error tracebacks will appear here.`}
+                  Output will appear here.
                 </div>
               )}
             </div>
@@ -519,7 +526,15 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
                     backgroundColor: isRunning ? '#D29922' : hasError ? '#F85149' : '#2EA043'
                   }}
                 />
-                <span>{isRunning ? 'Executing script...' : hasError ? 'Exited with error' : 'Ready'}</span>
+                <span>
+                  {isRunning
+                    ? 'Running...'
+                    : hasError
+                    ? 'Execution failed'
+                    : executionTime !== null
+                    ? `Completed · ${executionTime} ms`
+                    : 'Ready'}
+                </span>
               </div>
               <span>Pyodide Sandbox</span>
             </div>

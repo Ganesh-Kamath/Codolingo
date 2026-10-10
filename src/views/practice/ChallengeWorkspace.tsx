@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
-import confetti from 'canvas-confetti';
+import { fireCelebrationConfetti } from '../../utils/confetti';
 import { PracticeWorkspaceHeader } from './PracticeWorkspaceHeader';
 import { DEFAULT_LANGUAGE, LanguageDefinition } from '../../types/languages';
 import { PracticeChallengeItem } from '../../services/practiceChallengeService';
@@ -22,7 +22,7 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
   onBack,
   onNextChallenge
 }) => {
-  const { recordMistake } = useApp();
+  const { recordMistake, theme } = useApp();
   const [selectedLanguage] = useState<LanguageDefinition>(DEFAULT_LANGUAGE);
   const [code, setCode] = useState<string>(() => {
     return practiceStorageService.getChallengeCode(challenge.id, challenge.starterCode);
@@ -48,6 +48,14 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
   const startWidthRef = useRef<number>(440);
   const startHeightRef = useRef<number>(230);
   const editorRef = useRef<any>(null);
+
+  // Reset/sync local code and completion state when challenge prop changes
+  useEffect(() => {
+    setCode(practiceStorageService.getChallengeCode(challenge.id, challenge.starterCode));
+    setIsPassed(practiceStorageService.isChallengeCompleted(challenge.id));
+    setExecutionResult(null);
+    setHasRun(false);
+  }, [challenge.id, challenge.starterCode]);
 
   // Debounced Autosave per challenge (600ms)
   useEffect(() => {
@@ -124,7 +132,7 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
         practiceStorageService.setChallengeCompleted(challenge.id, true);
         sound.playSuccess();
         try {
-          confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+          fireCelebrationConfetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
         } catch {}
       } else {
         sound.playError();
@@ -715,7 +723,7 @@ export const ChallengeWorkspace: React.FC<ChallengeWorkspaceProps> = ({
               <Editor
                 height="100%"
                 language={selectedLanguage.monacoLanguage}
-                theme="vs-dark"
+                theme={theme === 'dark' ? 'vs-dark' : 'light'}
                 value={code}
                 onChange={(val) => setCode(val || '')}
                 onMount={handleEditorDidMount}

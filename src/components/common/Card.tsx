@@ -1,9 +1,9 @@
 import React from 'react';
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   variant?: 'default' | 'subtle' | 'interactive' | 'accent';
-  padding?: 'none' | 'sm' | 'md' | 'lg';
+  padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   accentColor?: string;
 }
 
@@ -14,15 +14,19 @@ export const Card: React.FC<CardProps> = ({
   accentColor,
   style,
   className = '',
+  onClick,
+  onKeyDown,
   ...props
 }) => {
   const getPaddingStyle = () => {
     switch (padding) {
       case 'none': return 0;
-      case 'sm': return '14px';
-      case 'lg': return '24px';
+      case 'xs': return 'var(--space-2)';
+      case 'sm': return 'var(--space-3)';
+      case 'lg': return 'var(--space-6)';
+      case 'xl': return 'var(--space-8)';
       case 'md':
-      default: return '18px';
+      default: return 'var(--space-5)';
     }
   };
 
@@ -57,8 +61,22 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (variant === 'interactive' && onClick) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onClick(e as any);
+      }
+    }
+    if (onKeyDown) onKeyDown(e);
+  };
+
   return (
     <div
+      role={variant === 'interactive' ? 'button' : undefined}
+      tabIndex={variant === 'interactive' ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
       style={{
         borderRadius: 'var(--radius-xl)',
         padding: getPaddingStyle(),

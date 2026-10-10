@@ -6,7 +6,7 @@ interface PracticeWorkspaceHeaderProps {
   title: string;
   subtitle?: string;
   backLabel?: string;
-  onBack: () => void;
+  onBack?: () => void;
   selectedLanguage: LanguageDefinition;
   onSelectLanguage?: (lang: LanguageDefinition) => void;
   saveStatus?: 'saved' | 'saving' | 'unsaved';
@@ -16,7 +16,7 @@ interface PracticeWorkspaceHeaderProps {
 export const PracticeWorkspaceHeader: React.FC<PracticeWorkspaceHeaderProps> = ({
   title,
   subtitle,
-  backLabel = 'Practice Arena',
+  backLabel = 'Practice',
   onBack,
   selectedLanguage,
   onSelectLanguage,
@@ -39,40 +39,44 @@ export const PracticeWorkspaceHeader: React.FC<PracticeWorkspaceHeaderProps> = (
     >
       {/* Left Back Button & Workspace Breadcrumb */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
-        <button
-          onClick={onBack}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            backgroundColor: 'transparent',
-            border: '1px solid #2D333B',
-            borderRadius: '8px',
-            color: '#ADBAC7',
-            padding: '6px 12px',
-            fontSize: '0.8125rem',
-            fontFamily: 'var(--font-sans, system-ui)',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 120ms ease'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#1C2128';
-            e.currentTarget.style.borderColor = '#444C56';
-            e.currentTarget.style.color = '#FFFFFF';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.borderColor = '#2D333B';
-            e.currentTarget.style.color = '#ADBAC7';
-          }}
-          title="Return to Practice Navigation"
-        >
-          <Icon name="arrow-left" size={15} />
-          <span>{backLabel}</span>
-        </button>
+        {onBack && (
+          <>
+            <button
+              onClick={onBack}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: 'transparent',
+                border: '1px solid #2D333B',
+                borderRadius: '8px',
+                color: '#ADBAC7',
+                padding: '6px 12px',
+                fontSize: '0.8125rem',
+                fontFamily: 'var(--font-sans, system-ui)',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 120ms ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#1C2128';
+                e.currentTarget.style.borderColor = '#444C56';
+                e.currentTarget.style.color = '#FFFFFF';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.borderColor = '#2D333B';
+                e.currentTarget.style.color = '#ADBAC7';
+              }}
+              title="Return to Practice Navigation"
+            >
+              <Icon name="arrow-left" size={15} />
+              <span>{backLabel}</span>
+            </button>
 
-        <div style={{ width: '1px', height: '20px', backgroundColor: '#23272E' }} />
+            <div style={{ width: '1px', height: '20px', backgroundColor: '#23272E' }} />
+          </>
+        )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
           <span
@@ -143,55 +147,23 @@ export const PracticeWorkspaceHeader: React.FC<PracticeWorkspaceHeaderProps> = (
           </div>
         )}
 
-        {/* Language Selector */}
-        <div style={{ position: 'relative' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              backgroundColor: '#1C2128',
-              border: '1px solid #2D333B',
-              borderRadius: '8px',
-              padding: '4px 10px',
-              fontSize: '0.8125rem',
-              color: '#C9D1D9',
-              fontFamily: 'var(--font-mono, monospace)'
-            }}
-          >
-            <Icon name="code" size={14} style={{ color: '#58A6FF' }} />
-            <select
-              value={selectedLanguage.id}
-              onChange={(e) => {
-                if (onSelectLanguage) {
-                  const target = SUPPORTED_LANGUAGES.find(l => l.id === e.target.value);
-                  if (target) onSelectLanguage(target);
-                }
-              }}
-              disabled={SUPPORTED_LANGUAGES.filter(l => l.executionSupported).length <= 1}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#C9D1D9',
-                fontSize: '0.8125rem',
-                fontFamily: 'inherit',
-                fontWeight: 600,
-                outline: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <option
-                  key={lang.id}
-                  value={lang.id}
-                  disabled={!lang.executionSupported}
-                  style={{ backgroundColor: '#1C2128', color: '#C9D1D9' }}
-                >
-                  {lang.label}{!lang.executionSupported ? ' (Coming Soon)' : ''}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Language Badge */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            backgroundColor: '#1C2128',
+            border: '1px solid #2D333B',
+            borderRadius: '8px',
+            padding: '4px 10px',
+            fontSize: '0.8125rem',
+            color: '#C9D1D9',
+            fontFamily: 'var(--font-mono, monospace)'
+          }}
+        >
+          <Icon name="brand-python" size={14} style={{ color: '#58A6FF' }} />
+          <span style={{ fontWeight: 600 }}>{selectedLanguage.label}</span>
         </div>
 
         {rightExtra && (
