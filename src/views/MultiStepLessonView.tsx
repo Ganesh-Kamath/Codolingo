@@ -25,7 +25,7 @@ interface WrongQuestionRecord {
 }
 
 export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lessonId }) => {
-  const { course, exitLesson, completeLesson, recordMistake, theme } = useApp();
+  const { course, userProgress, reducedMotion, navigateTo, exitLesson, completeLesson, recordMistake, theme } = useApp();
 
   // Find target lesson metadata in course units
   let lessonMeta: Lesson | null = null;
@@ -100,6 +100,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [matchedPairs, setMatchedPairs] = useState<Record<string, string>>({});
   const [code, setCode] = useState<string>('');
   const [showHint, setShowHint] = useState<boolean>(false);
+  const [hintsUsedCount, setHintsUsedCount] = useState<number>(0);
   const [feedbackMsg, setFeedbackMsg] = useState<{ title: string; msg: string; detail?: string }>({ title: '', msg: '' });
   const [executionOutput, setExecutionOutput] = useState<string>('');
 
@@ -120,6 +121,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [displayedXp, setDisplayedXp] = useState<number>(0);
   const [isEngineWarming, setIsEngineWarming] = useState<boolean>(false);
   const [expandedTests, setExpandedTests] = useState<Record<number, boolean>>({});
+  const [showCoachMarks, setShowCoachMarks] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('codolingo_coach_marks') === 'true';
+    } catch {
+      return false;
+    }
+  });
 
   // Calculate elapsed time upon completion
   useEffect(() => {
@@ -132,8 +140,13 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   // Animated count-up for XP upon completion
   useEffect(() => {
     if (sessionPhase === 'completed' && lessonMeta) {
-      let start = 0;
       const target = lessonMeta.xpReward;
+      const isMotionReduced = reducedMotion || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (isMotionReduced) {
+        setDisplayedXp(target);
+        return;
+      }
+      let start = 0;
       const duration = 1000;
       const interval = 25;
       const step = Math.max(1, Math.ceil(target / (duration / interval)));
@@ -148,7 +161,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       }, interval);
       return () => clearInterval(timer);
     }
-  }, [sessionPhase, lessonMeta]);
+  }, [sessionPhase, lessonMeta, reducedMotion]);
 
   // Reset state when navigating to a new block or changing phase
   useEffect(() => {
@@ -687,15 +700,25 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           sound.playSuccess();
           setSessionPhase('review_intro');
         } else {
-          // 15/15 correct on first attempt!
+          // All correct on first attempt!
           sound.playSuccess();
           if (!isCompletionRecorded && lessonMeta) {
             setIsCompletionRecorded(true);
-            completeLesson(lessonMeta.id, lessonMeta.xpReward);
+            completeLesson(lessonMeta.id, lessonMeta.xpReward, {
+              firstAttemptCorrectCount: blocks.length,
+              totalQuestions: blocks.length,
+              hintsUsed: hintsUsedCount,
+              unresolvedMistakesCount: 0
+            });
           }
-          try {
-            fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
-          } catch {}
+          // Confetti restraint: only on accuracy >= 80, unit completion (e.g. lesson 5), or streak milestone
+          const isStreakMilestone = [3, 7, 14, 30].includes(userProgress.streak + 1);
+          const isUnitCapstone = lessonMeta?.id === '5';
+          if (isUnitCapstone || isStreakMilestone || true) { // 100% accuracy here is >= 80%
+            try {
+              fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+            } catch {}
+          }
           setSessionPhase('completed');
         }
       }
@@ -716,13 +739,24 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         }
 
         sound.playSuccess();
+        const finalAccuracy = blocks.length > 0 ? Math.round((firstAttemptCorrectCount / blocks.length) * 100) : 100;
         if (!isCompletionRecorded && lessonMeta) {
           setIsCompletionRecorded(true);
-          completeLesson(lessonMeta.id, lessonMeta.xpReward);
+          completeLesson(lessonMeta.id, lessonMeta.xpReward, {
+            firstAttemptCorrectCount,
+            totalQuestions: blocks.length,
+            hintsUsed: hintsUsedCount,
+            unresolvedMistakesCount: wrongQuestions.length
+          });
         }
-        try {
-          fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
-        } catch {}
+        // Confetti restraint: only when accuracy >= 80%, unit completion, or streak milestone (never on low accuracy)
+        const isStreakMilestone = [3, 7, 14, 30].includes(userProgress.streak + 1);
+        const isUnitCapstone = lessonMeta?.id === '5';
+        if (finalAccuracy >= 80 || isUnitCapstone || isStreakMilestone) {
+          try {
+            fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
+          } catch {}
+        }
         setSessionPhase('completed');
       }
     }
@@ -915,11 +949,19 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
           {isPerfect ? 'Flawless Mastery!' : 'Lesson Complete!'}
         </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '32px', lineHeight: 1.5 }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '20px', lineHeight: 1.5 }}>
           {isPerfect
             ? `Spectacular! You answered all ${blocks.length} questions correctly on your first attempt.`
             : `Great perseverance! You mastered all ${blocks.length} interactions and reinforced your understanding.`}
         </p>
+
+        {/* Streak Status Line */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-default)', marginBottom: '24px' }}>
+          <Icon name="flame" size={18} color="var(--state-warning)" />
+          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            {userProgress.streak > 1 ? `${userProgress.streak}-day streak active` : '1-day streak started!'}
+          </span>
+        </div>
 
         {/* Performance Statistics Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '14px', maxWidth: '580px', width: '100%', marginBottom: '28px' }}>
@@ -980,22 +1022,39 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             </div>
           </div>
 
-          {/* Review Card */}
-          <div style={{
-            padding: '18px 14px',
-            backgroundColor: 'var(--bg-surface)',
-            borderRadius: 'var(--radius-xl)',
-            border: '1.5px solid var(--border-default)',
-            boxShadow: 'var(--shadow-sm)'
-          }}>
-            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Reviews
+          {/* Review Card - Clickable deep link to Fix-It Lab */}
+          <div
+            onClick={() => {
+              if (wrongQuestions.length > 0) {
+                navigateTo('/app/review');
+              }
+            }}
+            role={wrongQuestions.length > 0 ? 'button' : undefined}
+            tabIndex={wrongQuestions.length > 0 ? 0 : undefined}
+            onKeyDown={(e) => {
+              if (wrongQuestions.length > 0 && (e.key === 'Enter' || e.key === ' ')) {
+                navigateTo('/app/review');
+              }
+            }}
+            title={wrongQuestions.length > 0 ? 'Click to open Fix-It Lab' : undefined}
+            style={{
+              padding: '18px 14px',
+              backgroundColor: 'var(--bg-surface)',
+              borderRadius: 'var(--radius-xl)',
+              border: wrongQuestions.length > 0 ? '1.5px solid var(--state-warning-border)' : '1.5px solid var(--border-default)',
+              boxShadow: 'var(--shadow-sm)',
+              cursor: wrongQuestions.length > 0 ? 'pointer' : 'default',
+              transition: 'transform var(--transition-fast)'
+            }}
+          >
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: wrongQuestions.length > 0 ? 'var(--state-warning)' : 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Reviews {wrongQuestions.length > 0 && '⚡'}
             </div>
             <div style={{ fontSize: '1.6rem', fontWeight: 900, color: isPerfect ? 'var(--state-success)' : 'var(--brand-primary)', marginTop: '4px', fontFamily: 'var(--font-display)' }}>
               {wrongQuestions.length > 0 ? `${reviewCorrectCount}/${wrongQuestions.length}` : '0'}
             </div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-              {isPerfect ? 'Zero Mistakes' : 'Reinforced'}
+            <div style={{ fontSize: '0.75rem', color: wrongQuestions.length > 0 ? 'var(--brand-primary)' : 'var(--text-secondary)', marginTop: '2px', fontWeight: wrongQuestions.length > 0 ? 600 : 400 }}>
+              {isPerfect ? 'Zero Mistakes' : 'Fix-It Lab →'}
             </div>
           </div>
         </div>
@@ -1004,9 +1063,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         {conceptsToRevisit.length > 0 && (
           <div style={{ maxWidth: '580px', width: '100%', marginBottom: '32px', textAlign: 'left', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-lg)', padding: '16px 20px', border: '1.5px solid var(--border-default)' }}>
             <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Icon name="history" size={16} /> Concepts Reinforced Today:
+              <Icon name="history" size={16} /> Concepts Needing Attention:
             </div>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
               {conceptsToRevisit.map((concept, idx) => (
                 <span
                   key={idx}
@@ -1024,6 +1083,17 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 </span>
               ))}
             </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => {
+                const first = conceptsToRevisit[0];
+                navigateTo(first ? `/app/review?drill=${encodeURIComponent(first)}` : '/app/review');
+              }}
+              icon={<Icon name="tool" size={15} />}
+            >
+              Repair in Fix-It Lab
+            </Button>
           </div>
         )}
 
@@ -1698,7 +1768,12 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
               {currentBlock.hint && (
                 <button
-                  onClick={() => setShowHint(prev => !prev)}
+                  onClick={() => {
+                    if (!showHint) {
+                      setHintsUsedCount(c => c + 1);
+                    }
+                    setShowHint(prev => !prev);
+                  }}
                   style={{ background: 'none', border: 'none', color: '#2563EB', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
                 >
                   <Icon name="sparkles" size={16} />
@@ -2223,6 +2298,41 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
       {/* Main Block Content */}
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '36px 20px', paddingBottom: '240px' }}>
         <div style={{ maxWidth: '780px', width: '100%' }}>
+          {showCoachMarks && (
+            <div style={{
+              backgroundColor: 'var(--brand-light)',
+              border: '1.5px solid var(--brand-primary)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '14px 18px',
+              marginBottom: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Icon name="bulb" size={22} color="var(--brand-primary)" />
+                <span style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.4 }}>
+                  <strong>Welcome to your first lesson!</strong><br />
+                  1. Track progress on the top bar • 2. Use <strong>Run</strong> to inspect terminal output • 3. Use <strong>Check</strong> to submit
+                </span>
+              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  setShowCoachMarks(false);
+                  try {
+                    localStorage.removeItem('codolingo_coach_marks');
+                  } catch {}
+                }}
+              >
+                Got it
+              </Button>
+            </div>
+          )}
+
           <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '20px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
             {currentBlock.title}
           </h1>

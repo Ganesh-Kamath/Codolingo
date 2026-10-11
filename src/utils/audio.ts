@@ -159,6 +159,42 @@ class SoundEngine {
       // Silently ignore
     }
   }
+
+  public playRepair() {
+    if (!this.enabled || this.volume <= 0) return;
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      this.stopActiveSounds();
+
+      const now = ctx.currentTime;
+      // Ascending 3-note chime (A4 -> C#5 -> E5) celebrating repaired concept
+      const notes = [440.0, 554.37, 659.25];
+      const masterGain = ctx.createGain();
+      masterGain.connect(ctx.destination);
+      this.activeGains.push(masterGain);
+
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+
+        const peakGain = 0.08 * this.volume;
+        gain.gain.setValueAtTime(0, now + idx * 0.06);
+        gain.gain.linearRampToValueAtTime(peakGain, now + idx * 0.06 + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + 0.24);
+
+        osc.connect(gain);
+        gain.connect(masterGain);
+
+        osc.start(now + idx * 0.06);
+        osc.stop(now + idx * 0.06 + 0.24);
+      });
+    } catch {}
+  }
 }
 
 export const sound = new SoundEngine();

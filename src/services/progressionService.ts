@@ -1,4 +1,5 @@
 import { UserProgressState, LearningCourse } from '../types';
+import { masteryService, LessonAttemptStats } from './masteryService';
 
 export const progressionService = {
   // Returns the next available lesson in the course
@@ -95,7 +96,8 @@ export const progressionService = {
     userProgress: UserProgressState,
     lessonId: string,
     xpReward: number,
-    course: LearningCourse
+    course: LearningCourse,
+    attemptStats?: LessonAttemptStats
   ): UserProgressState => {
     const isFirstTime = !userProgress.completedLessonIds.includes(lessonId);
     const updatedCompletedLessons = isFirstTime
@@ -125,7 +127,24 @@ export const progressionService = {
       if (!updatedCompletedSkills.includes(completedSkillId)) {
         updatedCompletedSkills.push(completedSkillId);
       }
-      updatedSkillMastery[completedSkillId] = 5;
+
+      if (attemptStats) {
+        // Count active unresolved mistakes tied to this skill
+        const unresolvedSkillMistakes = userProgress.mistakes.filter(
+          m => !m.resolved && (m.skillId === completedSkillId || m.lessonId === lessonId)
+        ).length;
+
+        const evalResult = masteryService.evaluateAttempt({
+          ...attemptStats,
+          unresolvedMistakesCount: unresolvedSkillMistakes
+        });
+
+        const currentPips = userProgress.skillMastery[completedSkillId];
+        updatedSkillMastery[completedSkillId] = masteryService.updateSkillMastery(currentPips, evalResult.pips);
+      } else if (updatedSkillMastery[completedSkillId] === undefined) {
+        // Fallback for callers without attempt stats
+        updatedSkillMastery[completedSkillId] = 3;
+      }
     }
 
     // Determine next skill to activate

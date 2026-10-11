@@ -525,8 +525,8 @@ export const ProfileView: React.FC = () => {
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Target XP to maintain streak rhythm</div>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '6px' }}>
-              {[20, 50, 100].map((goal) => {
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+              {[10, 20, 30, 50].map((goal) => {
                 const active = userProfile.dailyGoalXp === goal;
                 return (
                   <button

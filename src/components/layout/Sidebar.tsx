@@ -20,7 +20,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
     { label: 'Dashboard', iconName: 'layout-dashboard', route: '/app/dashboard' },
     { label: 'Practice', iconName: 'barbell', route: '/app/practice' },
     { 
-      label: 'Review', 
+      label: 'Fix-It Lab', 
       iconName: 'history', 
       route: '/app/review',
       badge: unresolvedMistakesCount > 0 ? `${unresolvedMistakesCount}` : undefined,

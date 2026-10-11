@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import Editor from '@monaco-editor/react';
 import { useApp } from '../context/AppContext';
 import { MistakeRecord } from '../types';
 import { sound } from '../utils/audio';
@@ -6,713 +7,681 @@ import { Icon } from '../components/ui/Icon';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { Card } from '../components/common/Card';
-import { formatMisconceptionTag } from '../utils/formatters';
-
-interface MisconceptionDrillConfig {
-  starterCode: (item: MistakeRecord) => string;
-  hint: string;
-  validate: (code: string, item: MistakeRecord) => { passed: boolean; errorReason?: string };
-}
-
-const MISCONCEPTION_CONFIGS: Record<string, MisconceptionDrillConfig> = {
-  // 1. Assignment vs Comparison
-  'assignment_in_condition': {
-    starterCode: () => '# Fix the comparison below:\nscore = 100\n\n# Change = to == for comparison:\nif score == 100:\n    print("Perfect score!")',
-    hint: 'In Python, = assigns a value, while == compares equality.',
-    validate: (code) => {
-      const hasComparison = code.includes('==') || code.includes('!=') || code.includes('<=') || code.includes('>=');
-      const hasAssignmentInIf = /if\s+[\w]+\s*=\s*[^=]/.test(code);
-      if (!hasComparison) return { passed: false, errorReason: 'Condition must use comparison operator (==) rather than assignment.' };
-      if (hasAssignmentInIf) return { passed: false, errorReason: 'Found single = inside if statement. Use == for equality.' };
-      return { passed: true };
-    }
-  },
-  'ASSIGNMENT_VS_COMPARISON': {
-    starterCode: () => '# Fix the comparison below:\nscore = 100\n\n# Change = to == for comparison:\nif score == 100:\n    print("Perfect score!")',
-    hint: 'In Python, = assigns a value, while == compares equality.',
-    validate: (code) => {
-      const hasComparison = code.includes('==') || code.includes('!=') || code.includes('<=') || code.includes('>=');
-      const hasAssignmentInIf = /if\s+[\w]+\s*=\s*[^=]/.test(code);
-      if (!hasComparison) return { passed: false, errorReason: 'Condition must use comparison operator (==) rather than assignment.' };
-      if (hasAssignmentInIf) return { passed: false, errorReason: 'Found single = inside if statement. Use == for equality.' };
-      return { passed: true };
-    }
-  },
-
-  // 2. Case Sensitivity
-  'case_sensitivity': {
-    starterCode: () => '# Python is strictly case-sensitive:\n# Fix the capitalization of the function name:\nprint("Hello, Python!")',
-    hint: 'Python built-in functions like print() must be lowercase.',
-    validate: (code) => {
-      if (code.includes('Print(') || code.includes('PRINT(')) {
-        return { passed: false, errorReason: 'Python function names are lowercase. Use print() instead of Print().' };
-      }
-      if (!code.includes('print(')) return { passed: false, errorReason: 'Code must call print().' };
-      return { passed: true };
-    }
-  },
-
-  // 3. String vs Number
-  'STRING_VS_NUMBER': {
-    starterCode: () => '# You cannot concatenate string and int with + directly.\n# Convert age to a string:\nage = 18\nprint("Age: " + str(age))',
-    hint: 'Use str(age), comma separation, or an f-string to output numbers with text.',
-    validate: (code) => {
-      const usesStr = /str\s*\(\s*age\s*\)/.test(code);
-      const usesComma = /print\s*\([^)]*,[^)]*\)/.test(code);
-      const usesFString = /f["'].*\{age\}.*["']/.test(code);
-      const rawConcat = /["']\s*\+\s*age\b/.test(code) || /\bage\s*\+\s*["']/.test(code);
-      if (rawConcat) return { passed: false, errorReason: 'Cannot use + between string and integer without converting first.' };
-      if (usesStr || usesComma || usesFString) return { passed: true };
-      return { passed: false, errorReason: 'Convert age using str(age) or separate arguments with a comma.' };
-    }
-  },
-  'WRONG_TYPE': {
-    starterCode: () => '# Fix the type conversion below:\nage = "20"\n# Convert string to integer before adding:\ntotal = int(age) + 5\nprint(total)',
-    hint: 'Convert string to integer using int().',
-    validate: (code) => {
-      if (!code.includes('int(') && !code.includes('float(')) {
-        return { passed: false, errorReason: 'Convert string variable using int(...).' };
-      }
-      return { passed: true };
-    }
-  },
-
-  // 4. Input is String
-  'INPUT_IS_STRING': {
-    starterCode: () => '# input() returns string text. Convert it to integer for calculation:\nuser_num = "10"\nscore = int(user_num) * 2\nprint(score)',
-    hint: 'Wrap user_num in int(...) to do math.',
-    validate: (code) => {
-      if (!code.includes('int(') && !code.includes('float(')) {
-        return { passed: false, errorReason: 'Convert the input value using int(...).' };
-      }
-      return { passed: true };
-    }
-  },
-
-  // 5. Condition Boundary
-  'CONDITION_BOUNDARY': {
-    starterCode: () => '# Fix the boundary condition below to include 100:\nscore = 100\nif score >= 100:\n    print("Maximum score reached!")',
-    hint: 'Use >= or <= to include the threshold number.',
-    validate: (code) => {
-      if (code.includes('score > 100') || code.includes('score < 100')) {
-        return { passed: false, errorReason: 'Use >= or <= to include the boundary value 100.' };
-      }
-      if (code.includes('>=') || code.includes('<=')) return { passed: true };
-      return { passed: false, errorReason: 'Condition must use inclusive comparison (>= or <=).' };
-    }
-  },
-
-  // 6. Precedence Confusion
-  'PRECEDENCE_CONFUSION': {
-    starterCode: () => '# Group the addition before multiplying by 2:\naverage = (10 + 20) / 2\nprint(average)',
-    hint: 'Parentheses force expressions to evaluate before multiplication/division.',
-    validate: (code) => {
-      if (code.includes('(10 + 20)') || code.includes('(10+20)') || code.includes('(')) {
-        return { passed: true };
-      }
-      return { passed: false, errorReason: 'Group (10 + 20) inside parentheses.' };
-    }
-  },
-
-  // 7. Variable vs Value
-  'VARIABLE_VALUE_CONFUSION': {
-    starterCode: () => '# Print the variable value, NOT the literal text "name":\nname = "Python"\nprint(name)',
-    hint: 'Pass the variable name without quotes to print its value.',
-    validate: (code) => {
-      if (code.includes('print("name")') || code.includes("print('name')")) {
-        return { passed: false, errorReason: 'Quoting "name" prints literal letters. Remove quotes to print variable contents.' };
-      }
-      if (code.includes('print(name)')) return { passed: true };
-      return { passed: false, errorReason: 'Pass name to print() without quotation marks.' };
-    }
-  },
-
-  // 8. Syntax Error
-  'SYNTAX_ERROR': {
-    starterCode: () => '# In Python, if statements must end with a colon (:):\nis_active = True\nif is_active:\n    print("Active")',
-    hint: 'Ensure header statements like if, else, for, while, and def end with a colon (:).',
-    validate: (code) => {
-      if (!/if\s+[\w\s><=!]+:/.test(code) && !code.includes(':')) {
-        return { passed: false, errorReason: 'Missing colon (:) at the end of the if statement.' };
-      }
-      return { passed: true };
-    }
-  },
-
-  // 9. Indentation Error
-  'INDENTATION_ERROR': {
-    starterCode: () => '# Blocks under if statements must be indented:\nis_ready = True\nif is_ready:\n    print("Ready to launch")',
-    hint: 'Indent statements inside the block by 4 spaces.',
-    validate: (code) => {
-      const lines = code.split('\n');
-      const ifIdx = lines.findIndex(l => l.trim().startsWith('if ') && l.trim().endsWith(':'));
-      if (ifIdx >= 0 && ifIdx + 1 < lines.length) {
-        const nextLine = lines[ifIdx + 1];
-        if (nextLine.trim() && !nextLine.startsWith(' ') && !nextLine.startsWith('\t')) {
-          return { passed: false, errorReason: 'Statements inside if block must be indented.' };
-        }
-      }
-      return { passed: true };
-    }
-  },
-
-  // 10. Wrong Operator
-  'WRONG_OPERATOR': {
-    starterCode: () => '# Python uses != for inequality:\nx = 10\ny = 20\nif x != y:\n    print("Not equal")',
-    hint: 'Use != for not equal.',
-    validate: (code) => {
-      if (code.includes('!==') || code.includes('<>')) {
-        return { passed: false, errorReason: 'Python uses != for inequality (not !== or <>).' };
-      }
-      if (code.includes('!=')) return { passed: true };
-      return { passed: false, errorReason: 'Use the != operator.' };
-    }
-  },
-
-  // 11. Boolean Logic Confusion
-  'BOOLEAN_LOGIC_CONFUSION': {
-    starterCode: () => '# Use the and keyword to check both conditions:\nage = 20\nhas_id = True\nif age >= 18 and has_id:\n    print("Access granted")',
-    hint: 'Combine conditions using the and keyword.',
-    validate: (code) => {
-      if (code.includes('&&') || code.includes('||')) {
-        return { passed: false, errorReason: 'Python uses "and" and "or" keywords, not && or ||.' };
-      }
-      if (code.includes(' and ') || code.includes(' or ')) return { passed: true };
-      return { passed: false, errorReason: 'Use the "and" operator to combine boolean conditions.' };
-    }
-  },
-
-  // 12. Loop / Off-by-one
-  'OFF_BY_ONE': {
-    starterCode: () => '# range(1, 6) generates numbers 1, 2, 3, 4, 5:\nfor i in range(1, 6):\n    print(i)',
-    hint: 'range(start, stop) stops before stop. Use range(1, 6) to include 5.',
-    validate: (code) => {
-      if (code.includes('range(1, 5)')) {
-        return { passed: false, errorReason: 'range(1, 5) stops at 4. Use range(1, 6) to include 5.' };
-      }
-      if (code.includes('range(1, 6)')) return { passed: true };
-      return { passed: false, errorReason: 'Specify range(1, 6) to include numbers 1 to 5.' };
-    }
-  },
-  'LOOP_EXECUTION_CONFUSION': {
-    starterCode: () => '# range(1, 6) generates numbers 1, 2, 3, 4, 5:\nfor i in range(1, 6):\n    print(i)',
-    hint: 'Specify range(1, 6) to iterate 5 times from 1 through 5.',
-    validate: (code) => {
-      if (code.includes('range(1, 6)')) return { passed: true };
-      return { passed: false, errorReason: 'Specify range(1, 6) to iterate from 1 through 5.' };
-    }
-  }
-};
+import { ProgressBar } from '../components/common/ProgressBar';
+import { codeExecutionService } from '../services/codeExecutionService';
+import {
+  ALL_REPAIR_DRILLS,
+  getRepairDrillByTag,
+  ConceptRepairDrill,
+  RepairStep
+} from '../curriculum/python/repair';
+import { MisconceptionTag } from '../types/question';
 
 export const MistakeReviewView: React.FC = () => {
-  const { mistakes, resolveMistake, navigateTo } = useApp();
-  const [selectedMistake, setSelectedMistake] = useState<MistakeRecord | null>(null);
-  const [repairCode, setRepairCode] = useState<string>('');
-  const [repairSuccess, setRepairSuccess] = useState<boolean>(false);
-  const [verifyError, setVerifyError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'all' | 'unresolved' | 'resolved'>('unresolved');
+  const { mistakes, resolveMistake, navigateTo, theme, currentRoute } = useApp();
 
-  const filteredMistakes = mistakes.filter(m => {
-    if (filter === 'unresolved') return !m.resolved;
-    if (filter === 'resolved') return m.resolved;
-    return true;
-  });
+  // Active repair drill state
+  const [activeDrill, setActiveDrill] = useState<ConceptRepairDrill | null>(null);
+  const [activeMistake, setActiveMistake] = useState<MistakeRecord | null>(null);
+  const [activeSteps, setActiveSteps] = useState<[RepairStep, RepairStep, RepairStep, RepairStep] | null>(null);
+  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
 
-  const groupedMistakes = useMemo(() => {
-    const groups: { [conceptName: string]: MistakeRecord[] } = {};
-    filteredMistakes.forEach(m => {
-      const key = m.conceptName || m.mistakeType.replace(/_/g, ' ') || 'General Python Syntax';
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(m);
-    });
-    return groups;
-  }, [filteredMistakes]);
+  // Interaction states inside drill
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+  const [optionSubmitted, setOptionSubmitted] = useState<boolean>(false);
+  const [userCode, setUserCode] = useState<string>('');
+  const [terminalOutput, setTerminalOutput] = useState<string>('');
+  const [isExecuting, setIsExecuting] = useState<boolean>(false);
+  const [testResult, setTestResult] = useState<{ passed: boolean; message: string } | null>(null);
+  const [currentHintLevel, setCurrentHintLevel] = useState<number>(0);
+  const [drillCompleted, setDrillCompleted] = useState<boolean>(false);
 
-  const activeConfig = selectedMistake ? MISCONCEPTION_CONFIGS[selectedMistake.mistakeType] : undefined;
-  const isDrillSupported = Boolean(activeConfig);
-
-  const handleOpenRepair = (mistake: MistakeRecord) => {
-    setSelectedMistake(mistake);
-    setRepairSuccess(false);
-    setVerifyError(null);
-
-    const cfg = MISCONCEPTION_CONFIGS[mistake.mistakeType];
-    if (cfg) {
-      setRepairCode(cfg.starterCode(mistake));
-    } else {
-      setRepairCode(mistake.userCode || '# Verification drill unavailable for this record');
+  // Check URL or route for deep link drill (?drill=<tag>)
+  useEffect(() => {
+    let drillParam: string | null = null;
+    if (typeof window !== 'undefined' && window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      drillParam = params.get('drill');
     }
+    if (!drillParam && currentRoute.includes('drill=')) {
+      const parts = currentRoute.split('drill=');
+      if (parts[1]) {
+        drillParam = decodeURIComponent(parts[1].split('&')[0]);
+      }
+    }
+
+    if (drillParam) {
+      const drill = getRepairDrillByTag(drillParam);
+      if (drill) {
+        startDrill(drill);
+      }
+    }
+  }, [currentRoute]);
+
+  // Compute status for each concept drill based on user's mistakes history
+  const getConceptStatus = (tag: MisconceptionTag) => {
+    const matching = mistakes.filter(m => m.mistakeType === tag);
+    if (matching.length === 0) return { status: 'solid' as const, label: 'Solid', color: 'success' as const, unresolvedCount: 0 };
+    const unresolved = matching.filter(m => !m.resolved);
+    if (unresolved.length > 0) return { status: 'needs_repair' as const, label: 'Needs repair', color: 'warning' as const, unresolvedCount: unresolved.length };
+    if (matching.length === 1) return { status: 'improving' as const, label: 'Improving', color: 'brand' as const, unresolvedCount: 0 };
+    return { status: 'solid' as const, label: 'Solid', color: 'success' as const, unresolvedCount: 0 };
   };
 
-  const handleVerifyRepair = () => {
+  const startDrill = (drill: ConceptRepairDrill, mistake?: MistakeRecord) => {
     sound.playClick();
-    if (!selectedMistake) return;
+    const targetMistake = mistake || mistakes.find(m => m.mistakeType === drill.tag && !m.resolved) || mistakes.find(m => m.mistakeType === drill.tag);
+    setActiveDrill(drill);
+    setActiveMistake(targetMistake || null);
+    const steps = drill.getSteps(targetMistake?.userCode);
+    setActiveSteps(steps);
+    setCurrentStepIndex(0);
+    resetStepState(steps[0]);
+    setDrillCompleted(false);
+  };
 
-    // Prevent double resolution if already resolved
-    if (selectedMistake.resolved) {
-      setRepairSuccess(true);
-      return;
-    }
+  const resetStepState = (step: RepairStep) => {
+    setSelectedOptionId(null);
+    setOptionSubmitted(false);
+    setUserCode(step.starterCode || '');
+    setTerminalOutput('');
+    setTestResult(null);
+    setCurrentHintLevel(0);
+  };
 
-    const cfg = MISCONCEPTION_CONFIGS[selectedMistake.mistakeType];
-    if (!cfg) {
-      sound.playError();
-      setVerifyError('Automated verification drill is unavailable for this specific mistake record. Please review the explanation and past snippet above.');
-      return;
-    }
-
-    const validation = cfg.validate(repairCode, selectedMistake);
-    if (validation.passed) {
-      sound.playSuccess();
-      setVerifyError(null);
-      setRepairSuccess(true);
-      resolveMistake(selectedMistake.id);
+  const handleNextStep = () => {
+    if (!activeSteps) return;
+    if (currentStepIndex < activeSteps.length - 1) {
+      const nextIndex = currentStepIndex + 1;
+      setCurrentStepIndex(nextIndex);
+      resetStepState(activeSteps[nextIndex]);
+      sound.playClick();
     } else {
-      sound.playError();
-      setVerifyError(validation.errorReason || 'Verification failed. Your code still contains the misconception. Check the hint and try again.');
+      // Completed all 4 steps!
+      sound.playRepair();
+      setDrillCompleted(true);
+      if (activeMistake) {
+        resolveMistake(activeMistake.id);
+      }
     }
   };
 
-  const allResolved = mistakes.length > 0 && mistakes.every(m => m.resolved);
+  const handleRunCode = async () => {
+    sound.playClick();
+    setIsExecuting(true);
+    setTerminalOutput('Executing Python via Pyodide...\n');
+    try {
+      const res = await codeExecutionService.executeRaw(userCode);
+      if (res.error) {
+        setTerminalOutput(`${res.error}\n`);
+      } else {
+        setTerminalOutput(res.stdout || '(Program completed with no terminal output)\n');
+      }
+    } catch (err) {
+      setTerminalOutput(`Execution error: ${err}\n`);
+    } finally {
+      setIsExecuting(false);
+    }
+  };
 
-  return (
-    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
-      {/* Header */}
-      <div style={{ marginBottom: '28px', borderBottom: '1px solid var(--border-default)', paddingBottom: '24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <Badge variant="brand" size="sm">Review</Badge>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', fontWeight: 500 }}>Practice items you missed</span>
-        </div>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: '0 0 6px', fontFamily: 'var(--font-display)' }}>
-          Mistake bank
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '680px', lineHeight: 1.5, margin: 0 }}>
-          Review questions you missed during lessons and confirm your understanding through focused drills.
-        </p>
-      </div>
+  const handleCheckCode = async (step: RepairStep) => {
+    sound.playClick();
+    setIsExecuting(true);
+    try {
+      const rawRes = await codeExecutionService.executeRaw(userCode);
+      const out = (rawRes.stdout || '').trim();
 
-      {/* Filter Tabs */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
-        <button
-          onClick={() => {
-            sound.playClick();
-            setFilter('unresolved');
-          }}
-          style={{
-            padding: '6px 14px',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            backgroundColor: filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
-            color: filter === 'unresolved' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1px solid ${filter === 'unresolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
-            cursor: 'pointer',
-            transition: 'all 120ms ease'
-          }}
-        >
-          Unresolved ({mistakes.filter(m => !m.resolved).length})
-        </button>
-        <button
-          onClick={() => {
-            sound.playClick();
-            setFilter('resolved');
-          }}
-          style={{
-            padding: '6px 14px',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            backgroundColor: filter === 'resolved' ? 'var(--brand-primary)' : 'var(--bg-surface)',
-            color: filter === 'resolved' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1px solid ${filter === 'resolved' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
-            cursor: 'pointer',
-            transition: 'all 120ms ease'
-          }}
-        >
-          Resolved ({mistakes.filter(m => m.resolved).length})
-        </button>
-        <button
-          onClick={() => {
-            sound.playClick();
-            setFilter('all');
-          }}
-          style={{
-            padding: '6px 14px',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            backgroundColor: filter === 'all' ? 'var(--brand-primary)' : 'var(--bg-surface)',
-            color: filter === 'all' ? '#FFFFFF' : 'var(--text-secondary)',
-            border: `1px solid ${filter === 'all' ? 'var(--brand-primary)' : 'var(--border-default)'}`,
-            cursor: 'pointer',
-            transition: 'all 120ms ease'
-          }}
-        >
-          All ({mistakes.length})
-        </button>
-      </div>
+      // Check expected output if defined
+      if (step.expectedOutput) {
+        const expected = step.expectedOutput.trim();
+        if (out === expected || out.includes(expected)) {
+          sound.playSuccess();
+          setTestResult({ passed: true, message: 'All assertions passed! Output matches expected result.' });
+          setTerminalOutput(rawRes.stdout || '');
+          setIsExecuting(false);
+          return;
+        } else {
+          sound.playError();
+          setTestResult({
+            passed: false,
+            message: `Output mismatch. Expected: "${expected}", but got: "${out}". Check hint if needed.`
+          });
+          setTerminalOutput(rawRes.stdout || rawRes.error || '');
+          setIsExecuting(false);
+          return;
+        }
+      }
 
-      {/* Satisfying Resolved State or Grouped Concept List */}
-      {filteredMistakes.length === 0 ? (
-        <div
-          style={{
-            textAlign: 'center',
-            padding: '64px 28px',
-            backgroundColor: 'var(--bg-surface)',
-            borderRadius: '24px',
-            border: '2px solid var(--border-default)',
-            boxShadow: '0 4px 0 var(--border-default)'
-          }}
-          className="animate-pop-in"
-        >
-          <div
-            style={{
-              width: '80px',
-              height: '80px',
-              backgroundColor: 'var(--success-bg, #ECFDF5)',
-              border: '2px solid var(--success-border, #A7F3D0)',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 20px',
-              color: 'var(--success-text, #059669)',
-              boxShadow: '0 4px 16px rgba(16, 185, 129, 0.2)'
-            }}
-          >
-            <Icon name="award" size={42} stroke={2.5} />
+      // Check test cases if specified
+      if (step.testCases && step.testCases.length > 0) {
+        let allPassed = true;
+        let failReason = '';
+        for (const tc of step.testCases) {
+          if (tc.expectedOutput && !out.includes(tc.expectedOutput.trim())) {
+            allPassed = false;
+            failReason = `Expected output "${tc.expectedOutput}" was not found in output.`;
+            break;
+          }
+        }
+        if (allPassed && !rawRes.error) {
+          sound.playSuccess();
+          setTestResult({ passed: true, message: 'All checks passed successfully!' });
+          setTerminalOutput(rawRes.stdout || '');
+        } else {
+          sound.playError();
+          setTestResult({ passed: false, message: failReason || rawRes.error || 'Assertion failed.' });
+          setTerminalOutput(rawRes.stdout || rawRes.error || '');
+        }
+      } else {
+        if (!rawRes.error) {
+          sound.playSuccess();
+          setTestResult({ passed: true, message: 'Code executed cleanly with no errors.' });
+        } else {
+          sound.playError();
+          setTestResult({ passed: false, message: rawRes.error });
+        }
+      }
+    } catch (err) {
+      sound.playError();
+      setTestResult({ passed: false, message: `Evaluation error: ${err}` });
+    } finally {
+      setIsExecuting(false);
+    }
+  };
+
+  // Group drills by categories
+  const categories = useMemo(() => {
+    const map: { [cat: string]: ConceptRepairDrill[] } = {};
+    ALL_REPAIR_DRILLS.forEach(drill => {
+      if (!map[drill.category]) map[drill.category] = [];
+      map[drill.category].push(drill);
+    });
+    return map;
+  }, []);
+
+  const totalUnresolved = mistakes.filter(m => !m.resolved).length;
+
+  // -------------------------------------------------------------
+  // RENDER: 4-Step Repair Drill Runner Modal / View
+  // -------------------------------------------------------------
+  if (activeDrill && activeSteps) {
+    const currentStep = activeSteps[currentStepIndex];
+
+    if (drillCompleted) {
+      return (
+        <div style={{ maxWidth: '640px', margin: '40px auto', padding: '40px 24px', textAlign: 'center' }} className="animate-pop-in">
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', color: 'var(--state-success)', border: '2px solid var(--state-success)', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="check" size={48} stroke={3} />
           </div>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
-            {allResolved ? 'All mistakes resolved' : 'No mistakes to review'}
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '480px', margin: '0 auto 24px', lineHeight: 1.6 }}>
-            {allResolved 
-              ? 'You have reviewed and corrected every missed question in your bank.'
-              : 'When you miss a question during a lesson, it will appear here for targeted review.'}
+          <Badge variant="success" size="md">Concept Repaired</Badge>
+          <h1 style={{ fontSize: '2rem', fontWeight: 800, marginTop: '12px', marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+            {activeDrill.friendlyTitle}
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.5, marginBottom: '28px' }}>
+            You completed the 4-step repair drill! You spotted the bug, mastered the mental model, fixed the syntax, and proved your understanding with a transfer challenge.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 18px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-default)', marginBottom: '32px' }}>
+            <Icon name="sparkles" size={18} color="var(--state-warning)" />
+            <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)' }}>+50 XP Banked • Mastery Progressed</span>
+          </div>
+
+          <div>
             <Button
               variant="primary"
-              size="md"
-              onClick={() => navigateTo('/app')}
-              icon={<Icon name="player-play" size={16} fill="currentColor" />}
+              size="lg"
+              onClick={() => {
+                setActiveDrill(null);
+                setActiveSteps(null);
+              }}
+              icon={<Icon name="arrow-right" size={18} />}
+              iconPosition="right"
             >
-              Continue lessons
-            </Button>
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => navigateTo('/app/practice')}
-              icon={<Icon name="barbell" size={16} />}
-            >
-              Explore practice
+              Return to Fix-It Lab
             </Button>
           </div>
         </div>
-      ) : (
-        /* Grouped By Concept */
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          {Object.entries(groupedMistakes).map(([conceptGroup, items]) => {
-            const groupUnresolvedCount = items.filter(i => !i.resolved).length;
-            const groupRepairedCount = items.filter(i => i.resolved).length;
+      );
+    }
 
-            return (
-              <div key={conceptGroup} className="animate-fade-in">
-                {/* Concept Group Header */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: '12px',
-                    marginBottom: '14px',
-                    paddingBottom: '8px',
-                    borderBottom: '1px solid var(--border-default)'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
-                        backgroundColor: 'var(--bg-surface-subtle)',
-                        border: '1px solid var(--border-default)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--brand-primary)'
-                      }}
-                    >
-                      <Icon name="cpu" size={16} />
-                    </div>
-                    <div>
-                      <h2 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
-                        {formatMisconceptionTag(conceptGroup)}
-                      </h2>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {groupUnresolvedCount > 0 ? (
-                      <Badge variant="error" size="sm">
-                        <Icon name="alert-circle" size={12} style={{ marginRight: 4 }} />
-                        {groupUnresolvedCount} {groupUnresolvedCount === 1 ? 'pending' : 'pending'}
-                      </Badge>
-                    ) : (
-                      <Badge variant="success" size="sm">
-                        <Icon name="check" size={12} style={{ marginRight: 4 }} /> All resolved
-                      </Badge>
-                    )}
-                    {groupRepairedCount > 0 && groupUnresolvedCount > 0 && (
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }} className="tabular-nums">
-                        ({groupRepairedCount} resolved)
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Concept Mistake Items List */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  {items.map(item => {
-                    const hasDrill = Boolean(MISCONCEPTION_CONFIGS[item.mistakeType]);
-
-                    return (
-                      <Card key={item.id} variant="default" padding="lg">
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-                          <div style={{ maxWidth: '680px', flex: '1 1 300px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                              <Badge variant={item.resolved ? 'success' : 'error'} size="sm">
-                                {item.resolved ? (
-                                  <><Icon name="check" size={12} style={{ marginRight: 4 }} /> Resolved</>
-                                ) : (
-                                  <><Icon name="alert-triangle" size={12} style={{ marginRight: 4 }} /> Missed {item.frequency || 1}x</>
-                                )}
-                              </Badge>
-                              {item.lessonTitle && (
-                                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                                  Lesson {item.lessonTitle}
-                                </span>
-                              )}
-                            </div>
-
-                            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.4, fontFamily: 'var(--font-display)' }}>
-                              {item.explanation || 'Code verification failed.'}
-                            </h3>
-
-                            {/* Code snippet */}
-                            {item.userCode && (
-                              <div style={{ marginTop: '10px' }}>
-                                <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
-                                  Attempt Snippet:
-                                </div>
-                                <pre
-                                  style={{
-                                    backgroundColor: '#1E1E1E',
-                                    color: '#F87171',
-                                    padding: '10px 14px',
-                                    borderRadius: 'var(--radius-sm)',
-                                    fontFamily: 'var(--font-mono, monospace)',
-                                    fontSize: '0.84rem',
-                                    overflowX: 'auto',
-                                    margin: 0
-                                  }}
-                                >
-                                  {item.userCode}
-                                </pre>
-                              </div>
-                            )}
-                          </div>
-
-                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
-                            {!item.resolved ? (
-                              hasDrill ? (
-                                <Button
-                                  variant="primary"
-                                  size="md"
-                                  onClick={() => handleOpenRepair(item)}
-                                  icon={<Icon name="history" size={15} />}
-                                >
-                                  Start Repair Drill (+50 XP)
-                                </Button>
-                              ) : (
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                                  <Button
-                                    variant="secondary"
-                                    size="sm"
-                                    onClick={() => handleOpenRepair(item)}
-                                  >
-                                    View Drill Details
-                                  </Button>
-                                </div>
-                              )
-                            ) : (
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--success-text)', fontSize: '0.85rem', fontWeight: 800, backgroundColor: 'var(--success-bg)', padding: '6px 12px', borderRadius: '8px' }}>
-                                <Icon name="check" size={15} stroke={3} />
-                                <span>Concept Reinforced</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Repair Modal Interactive Drill */}
-      {selectedMistake && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.65)',
-            backdropFilter: 'blur(4px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 100,
-            padding: '20px'
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: 'var(--bg-surface)',
-              borderRadius: 'var(--radius-xl)',
-              border: '1.5px solid var(--border-default)',
-              maxWidth: '640px',
-              width: '100%',
-              padding: '28px',
-              boxShadow: 'var(--shadow-xl)',
-              position: 'relative'
+    return (
+      <div style={{ maxWidth: '840px', margin: '20px auto', padding: '20px 20px 80px' }} className="animate-fade-in">
+        {/* Drill Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <button
+            onClick={() => {
+              setActiveDrill(null);
+              setActiveSteps(null);
             }}
-            className="animate-pop-in"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem' }}
           >
-            <button
-              onClick={() => setSelectedMistake(null)}
-              style={{
-                position: 'absolute',
-                top: '20px',
-                right: '20px',
-                color: 'var(--text-muted)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              <Icon name="x" size={20} />
-            </button>
+            <Icon name="arrow-left" size={16} /> Exit Drill
+          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Badge variant="brand" size="sm">STEP {currentStepIndex + 1} OF 4</Badge>
+            <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)' }}>{currentStep.title}</span>
+          </div>
+        </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <Badge variant="brand" size="sm"><Icon name="wrench" size={12} style={{ marginRight: 4 }} /> Repair Drill</Badge>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{selectedMistake.conceptName || selectedMistake.mistakeType}</span>
+        {/* Progress Bar */}
+        <div style={{ marginBottom: '24px' }}>
+          <ProgressBar progress={((currentStepIndex + 1) / 4) * 100} height={6} />
+        </div>
+
+        {/* Drill Title & Subtitle */}
+        <div style={{ marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', marginBottom: '4px' }}>
+            {currentStep.title}: {currentStep.whatWereFixing}
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: 0 }}>
+            {activeDrill.friendlyTitle} • {activeDrill.category}
+          </p>
+        </div>
+
+        {/* STEP 1: SPOT IT (Multiple Choice / Predict Output) */}
+        {currentStep.stepNumber === 1 && (
+          <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-default)', marginBottom: '24px' }}>
+            <p style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px', lineHeight: 1.5 }}>
+              {currentStep.prompt}
+            </p>
+
+            {currentStep.codeSnippet && (
+              <pre style={{ backgroundColor: 'var(--code-bg, #1E1E1E)', color: 'var(--code-text, #D4D4D4)', padding: '16px', borderRadius: 'var(--radius-md)', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', marginBottom: '20px', overflowX: 'auto', border: '1px solid var(--border-subtle)' }}>
+                <code>{currentStep.codeSnippet}</code>
+              </pre>
+            )}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+              {currentStep.options?.map((opt) => {
+                const isSelected = selectedOptionId === opt.id;
+                let bg = 'var(--bg-surface)';
+                let border = isSelected ? '2px solid var(--brand-primary)' : '1px solid var(--border-default)';
+
+                if (optionSubmitted) {
+                  if (opt.isCorrect) {
+                    bg = 'var(--state-success-subtle)';
+                    border = '2px solid var(--state-success)';
+                  } else if (isSelected && !opt.isCorrect) {
+                    bg = 'var(--state-error-subtle)';
+                    border = '2px solid var(--state-error)';
+                  }
+                }
+
+                return (
+                  <div
+                    key={opt.id}
+                    onClick={() => {
+                      if (!optionSubmitted) setSelectedOptionId(opt.id);
+                    }}
+                    style={{
+                      padding: '14px 18px',
+                      borderRadius: 'var(--radius-lg)',
+                      backgroundColor: bg,
+                      border,
+                      cursor: optionSubmitted ? 'default' : 'pointer',
+                      transition: 'all var(--transition-fast)'
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-primary)' }}>{opt.text}</div>
+                    {optionSubmitted && (opt.isCorrect || isSelected) && (
+                      <div style={{ fontSize: '0.82rem', marginTop: '6px', color: opt.isCorrect ? 'var(--state-success)' : 'var(--state-error)' }}>
+                        {opt.explanation}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
-            <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '10px' }}>
-              Targeted Repair: {selectedMistake.explanation || selectedMistake.mistakeType}
-            </h2>
-
-            {isDrillSupported ? (
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '20px' }}>
-                Fix the code below so it uses the correct Python construct. {activeConfig?.hint}
-              </p>
-            ) : (
-              <div style={{ backgroundColor: '#FEF3C7', border: '1px solid #F59E0B', color: '#92400E', padding: '12px 16px', borderRadius: '8px', marginBottom: 20, fontSize: '0.875rem' }}>
-                <strong>Automated drill unavailable:</strong> This mistake record does not have an automated verification drill attached. Review the explanation above and replay the associated lesson to strengthen this concept.
-              </div>
-            )}
-
-            <div style={{ marginBottom: '20px' }}>
-              <textarea
-                value={repairCode}
-                onChange={(e) => setRepairCode(e.target.value)}
-                readOnly={!isDrillSupported || repairSuccess}
-                style={{
-                  width: '100%',
-                  height: '140px',
-                  backgroundColor: '#1E1E1E',
-                  color: '#9CDCFE',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.875rem',
-                  padding: '14px',
-                  borderRadius: 'var(--radius-md)',
-                  border: '1px solid #333333',
-                  outline: 'none',
-                  resize: 'none'
-                }}
-              />
-            </div>
-
-            {verifyError && (
-              <div
-                style={{
-                  backgroundColor: '#FEF2F2',
-                  border: '1px solid #FCA5A5',
-                  color: '#991B1B',
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-md)',
-                  marginBottom: '16px',
-                  fontSize: '0.875rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <Icon name="alert-triangle" size={16} />
-                <span>{verifyError}</span>
-              </div>
-            )}
-
-            {repairSuccess && (
-              <div
-                style={{
-                  backgroundColor: 'var(--success-bg)',
-                  border: '1px solid var(--success-border)',
-                  color: 'var(--success-text)',
-                  padding: '12px 16px',
-                  borderRadius: 'var(--radius-md)',
-                  marginBottom: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  fontSize: '0.875rem',
-                  fontWeight: 600
-                }}
-                className="animate-fade-in"
-              >
-                <div style={{ backgroundColor: '#fff', borderRadius: '50%', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon name="check" size={16} stroke={3} style={{ color: 'var(--success-text)' }} />
-                </div>
-                <span>Mistake successfully repaired! <strong style={{ color: '#047857' }}>+50 Bonus XP</strong> awarded.</span>
-              </div>
-            )}
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <Button variant="secondary" size="md" onClick={() => setSelectedMistake(null)}>
-                {repairSuccess ? 'Close Drill' : 'Cancel'}
-              </Button>
-              {!repairSuccess && isDrillSupported && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              {!optionSubmitted ? (
                 <Button
                   variant="primary"
                   size="md"
-                  onClick={handleVerifyRepair}
-                  icon={<Icon name="player-play" size={14} fill="#fff" />}
+                  disabled={!selectedOptionId}
+                  onClick={() => {
+                    sound.playClick();
+                    setOptionSubmitted(true);
+                    const opt = currentStep.options?.find(o => o.id === selectedOptionId);
+                    if (opt?.isCorrect) sound.playSuccess();
+                    else sound.playError();
+                  }}
                 >
-                  Verify Fix
+                  Confirm Choice
+                </Button>
+              ) : (
+                <Button
+                  variant="success"
+                  size="md"
+                  onClick={handleNextStep}
+                  icon={<Icon name="arrow-right" size={16} />}
+                  iconPosition="right"
+                >
+                  Continue to Step 2
                 </Button>
               )}
             </div>
           </div>
+        )}
+
+        {/* STEP 2: UNDERSTAND WHY (Mental model explanation + Diagram) */}
+        {currentStep.stepNumber === 2 && (
+          <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-default)', marginBottom: '24px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--brand-light)', color: 'var(--brand-text)', fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '12px' }}>
+              <Icon name="bulb" size={14} /> Mental Model
+            </div>
+
+            <p style={{ fontSize: '1.02rem', lineHeight: 1.6, color: 'var(--text-primary)', marginBottom: '18px' }}>
+              {currentStep.explanationText}
+            </p>
+
+            {currentStep.diagram && (
+              <pre style={{ backgroundColor: 'var(--bg-app)', color: 'var(--brand-primary)', padding: '16px 20px', borderRadius: 'var(--radius-lg)', fontFamily: 'var(--font-mono)', fontSize: '0.88rem', fontWeight: 700, lineHeight: 1.5, marginBottom: '20px', border: '1px solid var(--border-subtle)', whiteSpace: 'pre-wrap' }}>
+                {currentStep.diagram}
+              </pre>
+            )}
+
+            <p style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '14px' }}>
+              {currentStep.prompt}
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+              {currentStep.options?.map((opt) => {
+                const isSelected = selectedOptionId === opt.id;
+                let bg = 'var(--bg-surface)';
+                let border = isSelected ? '2px solid var(--brand-primary)' : '1px solid var(--border-default)';
+
+                if (optionSubmitted) {
+                  if (opt.isCorrect) {
+                    bg = 'var(--state-success-subtle)';
+                    border = '2px solid var(--state-success)';
+                  } else if (isSelected && !opt.isCorrect) {
+                    bg = 'var(--state-error-subtle)';
+                    border = '2px solid var(--state-error)';
+                  }
+                }
+
+                return (
+                  <div
+                    key={opt.id}
+                    onClick={() => {
+                      if (!optionSubmitted) setSelectedOptionId(opt.id);
+                    }}
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: bg,
+                      border,
+                      cursor: optionSubmitted ? 'default' : 'pointer'
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{opt.text}</div>
+                    {optionSubmitted && (opt.isCorrect || isSelected) && (
+                      <div style={{ fontSize: '0.8rem', marginTop: '4px', color: opt.isCorrect ? 'var(--state-success)' : 'var(--state-error)' }}>
+                        {opt.explanation}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              {!optionSubmitted ? (
+                <Button
+                  variant="primary"
+                  size="md"
+                  disabled={!selectedOptionId}
+                  onClick={() => {
+                    sound.playClick();
+                    setOptionSubmitted(true);
+                    const opt = currentStep.options?.find(o => o.id === selectedOptionId);
+                    if (opt?.isCorrect) sound.playSuccess();
+                    else sound.playError();
+                  }}
+                >
+                  Verify Understanding
+                </Button>
+              ) : (
+                <Button
+                  variant="success"
+                  size="md"
+                  onClick={handleNextStep}
+                  icon={<Icon name="arrow-right" size={16} />}
+                  iconPosition="right"
+                >
+                  Continue to Fix It
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 3 & STEP 4: CODE EDITOR (FIX IT & PROVE IT with Run + Check) */}
+        {(currentStep.stepNumber === 3 || currentStep.stepNumber === 4) && (
+          <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-default)', marginBottom: '24px' }}>
+            <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px', lineHeight: 1.5 }}>
+              {currentStep.prompt}
+            </p>
+
+            <div style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border-default)', marginBottom: '14px' }}>
+              <Editor
+                height="170px"
+                language="python"
+                value={userCode}
+                onChange={(val) => setUserCode(val || '')}
+                theme={theme === 'dark' ? 'vs-dark' : 'light'}
+                options={{
+                  fontSize: 14,
+                  minimap: { enabled: false },
+                  scrollBeyondLastLine: false,
+                  lineNumbers: 'on',
+                  tabSize: 4
+                }}
+              />
+            </div>
+
+            {/* Run / Check Controls */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleRunCode}
+                  disabled={isExecuting}
+                  icon={<Icon name="player-play" size={14} />}
+                >
+                  Run Output
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => handleCheckCode(currentStep)}
+                  disabled={isExecuting}
+                  icon={<Icon name="check" size={14} />}
+                >
+                  Check Solution
+                </Button>
+              </div>
+
+              {/* Progressive Hints Button */}
+              {currentHintLevel < 3 && (
+                <button
+                  onClick={() => {
+                    sound.playClick();
+                    setCurrentHintLevel(prev => Math.min(3, prev + 1));
+                  }}
+                  style={{ background: 'none', border: 'none', color: 'var(--brand-primary)', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}
+                >
+                  <Icon name="help" size={14} /> Need a hint? ({currentHintLevel}/3)
+                </button>
+              )}
+            </div>
+
+            {/* Hint Box */}
+            {currentHintLevel > 0 && (
+              <div style={{ backgroundColor: 'var(--brand-light)', padding: '12px 16px', borderRadius: 'var(--radius-md)', marginBottom: '14px', border: '1px solid var(--border-subtle)', fontSize: '0.86rem', color: 'var(--brand-text)' }}>
+                <strong>Hint {currentHintLevel}:</strong> {currentStep.progressiveHints[currentHintLevel - 1]}
+              </div>
+            )}
+
+            {/* Terminal Output */}
+            {terminalOutput && (
+              <div style={{ marginBottom: '14px' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                  Standard Output (stdout):
+                </div>
+                <pre style={{ backgroundColor: '#18181B', color: '#FAFAFA', padding: '10px 14px', borderRadius: 'var(--radius-sm)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)', margin: 0, overflowX: 'auto', maxHeight: '100px' }}>
+                  {terminalOutput}
+                </pre>
+              </div>
+            )}
+
+            {/* Test Case Feedback */}
+            {testResult && (
+              <div style={{ padding: '12px 16px', borderRadius: 'var(--radius-md)', backgroundColor: testResult.passed ? 'var(--state-success-subtle)' : 'var(--state-error-subtle)', border: testResult.passed ? '1px solid var(--state-success)' : '1px solid var(--state-error)', color: testResult.passed ? 'var(--state-success)' : 'var(--state-error)', fontSize: '0.88rem', fontWeight: 600, marginBottom: '16px' }}>
+                {testResult.message}
+              </div>
+            )}
+
+            {testResult?.passed && (
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  variant="success"
+                  size="md"
+                  onClick={handleNextStep}
+                  icon={<Icon name="arrow-right" size={16} />}
+                  iconPosition="right"
+                >
+                  {currentStep.stepNumber === 3 ? 'Continue to Prove It' : 'Complete Concept Repair'}
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // RENDER: Fix-It Lab Main View (Concept Cards & Categories)
+  // -------------------------------------------------------------
+  return (
+    <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '28px 20px 80px' }} className="animate-fade-in">
+      {/* Header Banner */}
+      <div style={{ marginBottom: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+          <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', margin: 0 }}>
+            Fix-It Lab
+          </h1>
+          {totalUnresolved > 0 ? (
+            <Badge variant="warning" size="md">{totalUnresolved} Needs Repair</Badge>
+          ) : (
+            <Badge variant="success" size="md">All Clear</Badge>
+          )}
         </div>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', margin: 0, maxWidth: '680px', lineHeight: 1.5 }}>
+          Master Python by targeting tricky misconceptions. Each drill walks you through a 4-step repair: Spot It, Understand Why, Fix It, and Prove It.
+        </p>
+      </div>
+
+      {/* If 0 mistakes total: Inviting All Clear banner */}
+      {mistakes.length === 0 && (
+        <Card variant="default" padding="lg" style={{ marginBottom: '36px', textAlign: 'center', backgroundColor: 'var(--bg-surface)' }}>
+          <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'var(--state-success-subtle)', color: 'var(--state-success)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="circle-check" size={36} />
+          </div>
+          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', fontFamily: 'var(--font-display)' }}>
+            Your Mistake Bank is Clean!
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '480px', margin: '0 auto 20px', lineHeight: 1.5 }}>
+            You have no recorded mistakes. You can proactively practice common Python traps below to build ironclad muscle memory before you encounter them in lessons.
+          </p>
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={() => startDrill(ALL_REPAIR_DRILLS[0])}
+            icon={<Icon name="tool" size={16} />}
+          >
+            Practice Tricky Concepts Proactively
+          </Button>
+        </Card>
       )}
+
+      {/* Categorized Concept Grid */}
+      {Object.entries(categories).map(([categoryName, drills]) => (
+        <div key={categoryName} style={{ marginBottom: '36px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <Icon name="tag" size={18} color="var(--brand-primary)" />
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, fontFamily: 'var(--font-display)' }}>
+              {categoryName}
+            </h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '18px' }}>
+            {drills.map((drill) => {
+              const { label, color, unresolvedCount } = getConceptStatus(drill.tag);
+              const latestMistake = mistakes.find(m => m.mistakeType === drill.tag);
+
+              return (
+                <div
+                  key={drill.tag}
+                  style={{
+                    backgroundColor: 'var(--bg-surface)',
+                    borderRadius: 'var(--radius-xl)',
+                    border: unresolvedCount > 0 ? '1.5px solid var(--state-warning-border)' : '1px solid var(--border-default)',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    boxShadow: 'var(--shadow-xs)'
+                  }}
+                  className="hover-elevate"
+                >
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
+                      <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                        {drill.friendlyTitle}
+                      </h3>
+                      <Badge variant={color} size="sm">{label}</Badge>
+                    </div>
+
+                    <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '14px' }}>
+                      {drill.description}
+                    </p>
+
+                    {/* Most recent code snippet if available */}
+                    {latestMistake?.userCode && (
+                      <div style={{ marginBottom: '16px' }}>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
+                          Recent Snippet:
+                        </div>
+                        <pre style={{ backgroundColor: 'var(--bg-app)', color: 'var(--text-primary)', padding: '8px 12px', borderRadius: 'var(--radius-md)', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', margin: 0, overflowX: 'auto', border: '1px solid var(--border-subtle)', maxHeight: '70px' }}>
+                          <code>{latestMistake.userCode}</code>
+                        </pre>
+                      </div>
+                    )}
+                  </div>
+
+                  <div style={{ paddingTop: '10px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      4-Step Concept Drill
+                    </span>
+                    <Button
+                      variant={unresolvedCount > 0 ? 'primary' : 'secondary'}
+                      size="sm"
+                      onClick={() => startDrill(drill, latestMistake)}
+                      icon={<Icon name="tool" size={14} />}
+                    >
+                      {unresolvedCount > 0 ? 'Repair Concept (4 steps)' : 'Practice Concept'}
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

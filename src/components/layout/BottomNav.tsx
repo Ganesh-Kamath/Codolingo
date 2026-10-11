@@ -27,7 +27,7 @@ export const BottomNav: React.FC = () => {
     { id: '/app/practice', label: 'Practice', iconName: 'barbell' },
     {
       id: '/app/review',
-      label: 'Review',
+      label: 'Fix-It Lab',
       iconName: 'history',
       badge: unresolvedMistakesCount > 0 ? unresolvedMistakesCount : undefined
     },

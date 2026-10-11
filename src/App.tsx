@@ -62,7 +62,7 @@ export const AppContent: React.FC = () => {
     } else if (currentRoute.startsWith('/app/projects')) {
       title = 'Projects — Codolingo';
     } else if (currentRoute.startsWith('/app/review')) {
-      title = 'Mistake Bank — Codolingo';
+      title = 'Fix-It Lab — Codolingo';
     } else if (currentRoute.startsWith('/app/profile')) {
       title = 'Settings & Profile — Codolingo';
     } else if (currentRoute.startsWith('/app/lesson/')) {
@@ -235,7 +235,7 @@ export const AppContent: React.FC = () => {
     { id: '/app/practice', label: 'Practice', iconName: 'barbell' },
     { 
       id: '/app/review', 
-      label: 'Review', 
+      label: 'Fix-It Lab', 
       iconName: 'history', 
       badge: userProgress.mistakes.filter(m => !m.resolved).length 
     },

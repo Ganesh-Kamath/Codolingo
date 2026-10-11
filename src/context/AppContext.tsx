@@ -12,8 +12,10 @@ import { PYTHON_COURSE } from '../data/pathCurriculum';
 import { COURSES } from '../data/courses';
 import { sound } from '../utils/audio';
 import { progressionService } from '../services/progressionService';
+import { LessonAttemptStats } from '../services/masteryService';
+import { loadAndMigrateProgress, saveProgress, CURRENT_STORAGE_KEY } from '../services/migrationService';
 
-const STORAGE_KEY = 'codolingo_python_curriculum_v1';
+const STORAGE_KEY = CURRENT_STORAGE_KEY;
 
 const INITIAL_PROGRESS: UserProgressState = {
   userId: 'usr_learner',
@@ -88,9 +90,10 @@ interface AppContextType {
   setActiveLessonId: (id: string | null) => void;
   startLesson: (lessonId: string) => void;
   exitLesson: () => void;
-  completeLesson: (lessonId: string, xpReward: number) => void;
+  completeLesson: (lessonId: string, xpReward: number, attemptStats?: LessonAttemptStats) => void;
   recordMistake: (mistake: Omit<MistakeRecord, 'id' | 'timestamp' | 'frequency' | 'resolved'>) => void;
   resolveMistake: (mistakeId: string) => void;
+  skipSkillsViaPlacement: (skillIds: string[], lessonIds: string[]) => void;
   selectedSkillForModal: SkillNode | null;
   setSelectedSkillForModal: (skill: SkillNode | null) => void;
   soundEnabled: boolean;
@@ -111,20 +114,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [course] = useState<LearningCourse>(PYTHON_COURSE);
   const [userProgress, setUserProgress] = useState<UserProgressState>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('codolingo_progress_v1') || localStorage.getItem('codon_progress_v1');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        const skillExists = PYTHON_COURSE.units.some(u => u.skills.some(s => s.id === parsed.currentSkillId));
-        if (!skillExists) {
-          parsed.currentSkillId = 'py_skill_1_1';
-        }
-        return parsed;
-      }
-    } catch {
-      // Fallback
-    }
-    return INITIAL_PROGRESS;
+    return loadAndMigrateProgress(INITIAL_PROGRESS);
   });
 
   const [currentRoute, setCurrentRoute] = useState<string>(() => {
@@ -173,11 +163,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Sync to localStorage
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(userProgress));
-    } catch (e) {
-      console.error('Failed to save progress', e);
-    }
+    saveProgress(userProgress);
   }, [userProgress]);
 
   // Sync hash
@@ -225,8 +211,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     navigateTo('/app');
   };
 
-  const completeLesson = (lessonId: string, xpReward: number) => {
-    setUserProgress(prev => progressionService.processLessonCompletion(prev, lessonId, xpReward, course));
+  const completeLesson = (lessonId: string, xpReward: number, attemptStats?: LessonAttemptStats) => {
+    setUserProgress(prev => progressionService.processLessonCompletion(prev, lessonId, xpReward, course, attemptStats));
   };
 
   const recordMistake = (mistake: Omit<MistakeRecord, 'id' | 'timestamp' | 'frequency' | 'resolved'>) => {
@@ -267,10 +253,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setUserProgress(prev => {
       const target = prev.mistakes.find(m => m.id === mistakeId);
       if (!target || target.resolved) return prev; // Deduplicate: already resolved
+      const updatedMistakes = prev.mistakes.map(m => m.id === mistakeId ? { ...m, resolved: true } : m);
+
+      // If this mistake was tied to a skill, resolving it can help lift mastery by 1 pip
+      const updatedMastery = { ...prev.skillMastery };
+      if (target.skillId && typeof updatedMastery[target.skillId] === 'number') {
+        const currentPips = updatedMastery[target.skillId];
+        if (currentPips >= 0 && currentPips < 5) {
+          updatedMastery[target.skillId] = currentPips + 1;
+        }
+      }
+
       return {
         ...prev,
         totalXp: prev.totalXp + 50,
-        mistakes: prev.mistakes.map(m => m.id === mistakeId ? { ...m, resolved: true } : m)
+        mistakes: updatedMistakes,
+        skillMastery: updatedMastery
+      };
+    });
+  };
+
+  const skipSkillsViaPlacement = (skillIds: string[], lessonIds: string[]) => {
+    setUserProgress(prev => {
+      const updatedLessons = Array.from(new Set([...prev.completedLessonIds, ...lessonIds]));
+      const updatedMastery = { ...prev.skillMastery };
+      skillIds.forEach(sId => {
+        updatedMastery[sId] = 5; // Mastered (Skipped via placement test)
+      });
+      return {
+        ...prev,
+        completedLessonIds: updatedLessons,
+        skillMastery: updatedMastery,
+        totalXp: prev.totalXp + (skillIds.length * 50)
       };
     });
   };
@@ -370,6 +384,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         completeLesson,
         recordMistake,
         resolveMistake,
+        skipSkillsViaPlacement,
         selectedSkillForModal,
         setSelectedSkillForModal,
         soundEnabled,

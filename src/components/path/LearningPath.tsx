@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { SkillNode, Unit } from '../../types';
 import { Icon } from '../ui/Icon';
 import { Button, Badge, ProgressBar, Modal } from '../common';
+import { masteryService } from '../../services/masteryService';
+import { UNKNOWN_MASTERY_PIPS, UNKNOWN_MASTERY_LABEL, MASTERY_LABELS } from '../../constants/mastery';
 
 const UnitProgressRing: React.FC<{ progress: number; size?: number; color?: string }> = ({ progress, size = 48, color = 'var(--brand-primary)' }) => {
   const strokeWidth = 4.5;
@@ -53,6 +55,40 @@ export const LearningPath: React.FC = () => {
 
   const [activeCapstoneUnit, setActiveCapstoneUnit] = useState<Unit | null>(null);
   const [renderedUnitsCount, setRenderedUnitsCount] = useState<number>(10);
+
+  interface SkillPreviewState {
+    skill: SkillNode;
+    isLocked: boolean;
+    isCompleted: boolean;
+    isCurrent: boolean;
+    lockReason?: string;
+    masteryPips: number;
+  }
+  const [previewState, setPreviewState] = useState<SkillPreviewState | null>(null);
+  const [pipDetailModal, setPipDetailModal] = useState<{ skillTitle: string; explanation: string } | null>(null);
+  const currentNodeRef = useRef<HTMLDivElement | null>(null);
+
+  const [notifiedUnit2, setNotifiedUnit2] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('codolingo_notify_unit2') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const handleToggleNotifyUnit2 = () => {
+    const nextVal = !notifiedUnit2;
+    setNotifiedUnit2(nextVal);
+    try {
+      localStorage.setItem('codolingo_notify_unit2', String(nextVal));
+    } catch {}
+  };
+
+  useEffect(() => {
+    if (currentNodeRef.current) {
+      currentNodeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, []);
 
   // Find the active unit (first unit that has uncompleted skills, or Unit 1)
   const activeUnitIndex = React.useMemo(() => {
@@ -213,9 +249,13 @@ export const LearningPath: React.FC = () => {
               iconColor = 'var(--locked-text)';
             }
 
+            const prevSkill = index > 0 ? skills[index - 1] : null;
+            const lockReason = isLocked ? (prevSkill ? `Finish ${prevSkill.title} first` : 'Complete preceding skill first') : undefined;
+
             return (
               <div
                 key={skill.id}
+                ref={isCurrent ? currentNodeRef : undefined}
                 style={{
                   position: 'absolute',
                   left: `${coord.x}px`,
@@ -229,11 +269,15 @@ export const LearningPath: React.FC = () => {
                 {/* 3D Physical Node Tile */}
                 <button
                   onClick={() => {
-                    if (isUnlocked) {
-                      setSelectedSkillForModal(skill);
-                    }
+                    setPreviewState({
+                      skill,
+                      isLocked,
+                      isCompleted,
+                      isCurrent,
+                      lockReason,
+                      masteryPips: mastery
+                    });
                   }}
-                  disabled={isLocked}
                   style={{
                     width: '76px',
                     height: '76px',
@@ -245,12 +289,13 @@ export const LearningPath: React.FC = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: iconColor,
-                    cursor: isLocked ? 'not-allowed' : 'pointer',
+                    cursor: 'pointer',
                     transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)',
                     position: 'relative',
                     userSelect: 'none'
                   }}
-                  title={isLocked ? `Locked: Complete prior skills to unlock` : `${skill.title} (Click to inspect)`}
+                  aria-label={`${skill.title}${isLocked ? ` (Locked: ${lockReason})` : ''}`}
+                  title={isLocked ? `Locked: ${lockReason}` : `${skill.title} (Click to inspect)`}
                 >
                   {isCompleted ? (
                     <Icon name="check" size={32} stroke={3.5} />
@@ -260,25 +305,28 @@ export const LearningPath: React.FC = () => {
                     <Icon name={skill.iconName || 'code'} size={30} stroke={2.2} />
                   )}
 
-                  {/* Top Badge for Current Node */}
+                  {/* Pulsing Bubble for Current Node */}
                   {isCurrent && (
                     <div
                       style={{
                         position: 'absolute',
-                        top: '-18px',
+                        top: '-24px',
                         backgroundColor: '#F59E0B',
                         color: '#451A03',
-                        fontSize: '0.625rem',
+                        fontSize: '0.68rem',
                         fontWeight: 900,
                         fontFamily: 'var(--font-display)',
-                        padding: '2px 8px',
+                        padding: '3px 10px',
                         borderRadius: 'var(--radius-full)',
-                        letterSpacing: '0.06em',
-                        border: '1.5px solid #B45309',
-                        boxShadow: '0 2px 0 #B45309'
+                        letterSpacing: '0.04em',
+                        border: '2px solid #B45309',
+                        boxShadow: '0 3px 8px rgba(245, 158, 11, 0.4)',
+                        zIndex: 20,
+                        whiteSpace: 'nowrap'
                       }}
+                      className="animate-bounce"
                     >
-                      START
+                      {isCompleted ? 'CONTINUE' : 'START'}
                     </div>
                   )}
                 </button>
@@ -310,24 +358,45 @@ export const LearningPath: React.FC = () => {
                   {/* Mastery Pip Dots */}
                   {isUnlocked && (
                     <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const expl = masteryService.formatPipsExplanation(
+                          mastery,
+                          mastery === 5 ? 10 : (mastery >= 3 ? 7 : 4),
+                          10,
+                          mastery >= 4 ? 0 : 2,
+                          mastery >= 4 ? 0 : 1
+                        );
+                        setPipDetailModal({ skillTitle: skill.title, explanation: expl });
+                      }}
+                      title="Tap to see mastery details"
                       style={{
                         display: 'flex',
                         justifyContent: 'center',
+                        alignItems: 'center',
                         gap: '3px',
-                        marginTop: '4px'
+                        marginTop: '4px',
+                        cursor: 'pointer',
+                        padding: '2px 4px'
                       }}
                     >
-                      {[1, 2, 3, 4, 5].map((level) => (
-                        <div
-                          key={level}
-                          style={{
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            backgroundColor: level <= mastery ? '#10B981' : '#D5C9B7'
-                          }}
-                        />
-                      ))}
+                      {mastery === UNKNOWN_MASTERY_PIPS ? (
+                        <span style={{ fontSize: '0.62rem', color: 'var(--text-muted)', fontWeight: 700 }}>
+                          Calibrating...
+                        </span>
+                      ) : (
+                        [1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: level <= mastery ? '#10B981' : '#D5C9B7'
+                            }}
+                          />
+                        ))
+                      )}
                     </div>
                   )}
                 </div>
@@ -676,6 +745,58 @@ export const LearningPath: React.FC = () => {
 
                 {/* Sinuous SVG Serpentine Track with 3D Stepping-Stone Nodes */}
                 {renderSerpentineTrack(unit)}
+
+                {/* Visibly locked Unit 2 Coming Soon node after Unit 1 */}
+                {unit.unitNumber === 1 && (
+                  <div
+                    style={{
+                      padding: '24px 20px',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '2px dashed var(--border-default)',
+                      borderRadius: 'var(--radius-xl)',
+                      textAlign: 'center',
+                      margin: '16px auto 32px',
+                      maxWidth: '440px',
+                      boxShadow: 'var(--shadow-sm)'
+                    }}
+                    className="card-plate animate-fade-in"
+                  >
+                    <div
+                      style={{
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        backgroundColor: 'var(--bg-surface-subtle)',
+                        border: '1.5px solid var(--border-default)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: '0 auto 12px',
+                        color: 'var(--text-muted)'
+                      }}
+                    >
+                      <Icon name="lock" size={24} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <Badge variant="neutral" size="sm">Coming Soon</Badge>
+                      <Badge variant="warning" size="sm">Unit 2</Badge>
+                    </div>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
+                      Unit 2: Data Structures & Loops
+                    </h3>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', maxWidth: '380px', margin: '0 auto 16px', lineHeight: 1.5 }}>
+                      Lists, dictionaries, iteration loops, and nested logic in Python.
+                    </p>
+                    <Button
+                      variant={notifiedUnit2 ? "secondary" : "primary"}
+                      size="sm"
+                      onClick={handleToggleNotifyUnit2}
+                      icon={<Icon name={notifiedUnit2 ? "check" : "bell"} size={14} />}
+                    >
+                      {notifiedUnit2 ? "Notification saved" : "Notify me when available"}
+                    </Button>
+                  </div>
+                )}
               </div>
             );
           })}
@@ -854,8 +975,8 @@ export const LearningPath: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. SKILL INSPECTION POPUP DRAWER MODAL */}
-      {selectedSkillForModal && (
+      {/* 3. SKILL PREVIEW CARD MODAL (Popover on desktop, bottom-sheet on mobile) */}
+      {previewState && (
         <div
           style={{
             position: 'fixed',
@@ -871,7 +992,8 @@ export const LearningPath: React.FC = () => {
             zIndex: 100,
             padding: '20px'
           }}
-          onClick={() => setSelectedSkillForModal(null)}
+          onClick={() => setPreviewState(null)}
+          className="animate-fade-in"
         >
           <div
             className="card-plate animate-pop-in"
@@ -891,47 +1013,133 @@ export const LearningPath: React.FC = () => {
                   width: '54px',
                   height: '54px',
                   borderRadius: '16px',
-                  backgroundColor: 'var(--brand-light)',
-                  border: '1.5px solid var(--brand-border)',
-                  boxShadow: '0 3px 0 var(--brand-border)',
+                  backgroundColor: previewState.isCompleted ? 'var(--state-success-subtle)' : (previewState.isLocked ? 'var(--locked-bg, #F5F5F4)' : 'var(--brand-light)'),
+                  border: `1.5px solid ${previewState.isCompleted ? 'var(--state-success-border)' : (previewState.isLocked ? 'var(--locked-border, #E7E5E4)' : 'var(--brand-border)')}`,
+                  boxShadow: `0 3px 0 ${previewState.isCompleted ? 'var(--state-success-border)' : (previewState.isLocked ? 'var(--locked-border, #E7E5E4)' : 'var(--brand-border)')}`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'var(--brand-primary)'
+                  color: previewState.isCompleted ? 'var(--state-success)' : (previewState.isLocked ? 'var(--locked-text, #A8A29E)' : 'var(--brand-primary)')
                 }}
               >
-                <Icon name={selectedSkillForModal.iconName || 'code'} size={28} />
+                <Icon name={previewState.skill.iconName || 'code'} size={28} />
               </div>
-              <div>
-                <Badge variant="brand" size="sm">
-                  Mastery {userProgress.skillMastery[selectedSkillForModal.id] || 0} / 5
-                </Badge>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: '2px 0 0' }}>
-                  {selectedSkillForModal.title}
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  {previewState.isLocked ? (
+                    <Badge variant="neutral" size="sm">
+                      <Icon name="lock" size={12} style={{ marginRight: 4 }} />
+                      Locked
+                    </Badge>
+                  ) : previewState.isCompleted ? (
+                    <Badge variant="success" size="sm">
+                      <Icon name="check" size={12} style={{ marginRight: 4 }} />
+                      Completed
+                    </Badge>
+                  ) : (
+                    <Badge variant="brand" size="sm">In Progress</Badge>
+                  )}
+
+                  {!previewState.isLocked && (
+                    <button
+                      onClick={() => {
+                        const expl = masteryService.formatPipsExplanation(
+                          previewState.masteryPips,
+                          previewState.masteryPips === 5 ? 10 : (previewState.masteryPips >= 3 ? 7 : 4),
+                          10,
+                          previewState.masteryPips >= 4 ? 0 : 2,
+                          previewState.masteryPips >= 4 ? 0 : 1
+                        );
+                        setPipDetailModal({ skillTitle: previewState.skill.title, explanation: expl });
+                      }}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        color: 'var(--brand-primary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                      title="Tap to view score explanation"
+                    >
+                      {previewState.masteryPips === UNKNOWN_MASTERY_PIPS
+                        ? UNKNOWN_MASTERY_LABEL
+                        : `Mastery ${previewState.masteryPips}/5`}
+                      <Icon name="help-circle" size={13} />
+                    </button>
+                  )}
+                </div>
+
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: '4px 0 0' }}>
+                  {previewState.skill.title}
                 </h3>
               </div>
             </div>
 
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: '20px' }}>
-              {selectedSkillForModal.description}
+            {/* 1-Line "What you'll learn" */}
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
+              {previewState.skill.description || 'Master fundamental concepts through real interactive Python challenges.'}
             </p>
 
-            {/* Micro-lessons List */}
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px' }}>
-                Skill Micro-Lessons
+            {/* Derived Meta Stats: Question count and Estimated Time */}
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+              <div style={{ flex: 1, minWidth: '120px', padding: '10px 14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Exercises</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                  {previewState.skill.lessons.length > 0 ? `${previewState.skill.lessons.length * 5} questions` : '5 questions'}
+                </div>
               </div>
+              <div style={{ flex: 1, minWidth: '120px', padding: '10px 14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>Est. Time</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                  ~{previewState.skill.lessons.reduce((acc, l) => acc + (l.estimatedMinutes || 4), 0)} min
+                </div>
+              </div>
+            </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {selectedSkillForModal.lessons.length > 0 ? (
-                  selectedSkillForModal.lessons.map((les, idx) => {
+            {/* Locked Notice or Lessons List */}
+            {previewState.isLocked ? (
+              <div
+                style={{
+                  padding: '16px 18px',
+                  backgroundColor: 'var(--locked-bg, #F5F5F4)',
+                  border: '1.5px solid var(--locked-border, #E7E5E4)',
+                  borderRadius: 'var(--radius-lg)',
+                  marginBottom: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <div style={{ color: 'var(--text-muted)' }}>
+                  <Icon name="lock" size={20} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                    Skill currently locked
+                  </div>
+                  <div style={{ fontSize: '0.825rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    {previewState.lockReason || 'Complete previous lessons on the path to unlock this node.'}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px' }}>
+                  Included Lessons
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {previewState.skill.lessons.map((les, idx) => {
                     const isDone = userProgress.completedLessonIds.includes(les.id);
-
                     return (
                       <div
                         key={les.id}
                         style={{
-                          padding: '12px 14px',
+                          padding: '10px 14px',
                           backgroundColor: 'var(--bg-surface-subtle)',
                           borderRadius: 'var(--radius-md)',
                           border: '1.5px solid var(--border-default)',
@@ -962,44 +1170,62 @@ export const LearningPath: React.FC = () => {
                             {les.title}
                           </span>
                         </div>
-
                         <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                          ~{les.estimatedMinutes} min • +{les.xpReward} XP
+                          +{les.xpReward} XP
                         </span>
                       </div>
                     );
-                  })
-                ) : (
-                  <div style={{ padding: '14px', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
-                    Practice sessions unlock as you advance through the curriculum.
-                  </div>
-                )}
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Action Buttons */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
               <Button
                 variant="secondary"
                 size="md"
-                onClick={() => setSelectedSkillForModal(null)}
+                onClick={() => setPreviewState(null)}
               >
                 Close
               </Button>
-              <Button
-                variant="primary"
-                size="md"
-                onClick={() => {
-                  const lessonToRun = selectedSkillForModal.lessons[0] || nextLesson;
-                  startLesson(lessonToRun.id);
-                }}
-                icon={<Icon name="player-play" size={16} fill="#fff" />}
-              >
-                Start Lesson (+20 XP)
-              </Button>
+              {!previewState.isLocked && (
+                <Button
+                  variant={previewState.isCompleted ? "secondary" : "primary"}
+                  size="md"
+                  onClick={() => {
+                    const lessonToRun = previewState.skill.lessons[0] || nextLesson;
+                    setPreviewState(null);
+                    startLesson(lessonToRun.id);
+                  }}
+                  icon={<Icon name={previewState.isCompleted ? "refresh-cw" : "player-play"} size={16} />}
+                >
+                  {previewState.isCompleted ? 'Practice again' : (previewState.isCurrent ? 'Continue' : 'Start Lesson')}
+                </Button>
+              )}
             </div>
           </div>
         </div>
+      )}
+
+      {/* PIP EXPLANATION DIALOG */}
+      {pipDetailModal && (
+        <Modal
+          isOpen={Boolean(pipDetailModal)}
+          onClose={() => setPipDetailModal(null)}
+          title={`Mastery Breakdown: ${pipDetailModal.skillTitle}`}
+        >
+          <div style={{ padding: '8px 0 16px' }}>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 20px' }}>
+              {pipDetailModal.explanation}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button variant="primary" size="md" onClick={() => setPipDetailModal(null)}>
+                Got it
+              </Button>
+            </div>
+          </div>
+        </Modal>
       )}
 
       {/* 4. DYNAMIC UNIT CAPSTONE MODAL FOR ALL UNITS */}
@@ -1046,8 +1272,23 @@ export const LearningPath: React.FC = () => {
               {activeCapstoneUnit.checkpoint?.description || activeCapstoneUnit.description}
             </p>
 
-            {/* Skills & Concepts in this unit */}
+            {/* Skills & Concepts in this unit with Mastered vs Needs Practice Summary */}
             <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '14px', flexWrap: 'wrap' }}>
+                <div style={{ flex: 1, minWidth: '140px', padding: '10px 14px', backgroundColor: 'var(--state-success-subtle)', border: '1px solid var(--state-success-border)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--state-success)', textTransform: 'uppercase' }}>Mastered Concepts</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--state-success)', marginTop: '2px' }}>
+                    {activeCapstoneUnit.skills.filter(s => (userProgress.skillMastery[s.id] || 0) >= 4).length} / {activeCapstoneUnit.skills.length}
+                  </div>
+                </div>
+                <div style={{ flex: 1, minWidth: '140px', padding: '10px 14px', backgroundColor: 'var(--state-warning-subtle)', border: '1px solid var(--state-warning-border)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--state-warning)', textTransform: 'uppercase' }}>Needs Practice</div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--state-warning)', marginTop: '2px' }}>
+                    {activeCapstoneUnit.skills.filter(s => (userProgress.skillMastery[s.id] || 0) < 4).length} skills
+                  </div>
+                </div>
+              </div>
+
               <div style={{ fontSize: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '10px' }}>
                 Skills & Knowledge in Unit {activeCapstoneUnit.unitNumber}:
               </div>
