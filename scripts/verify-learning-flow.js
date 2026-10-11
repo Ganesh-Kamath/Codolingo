@@ -11,7 +11,7 @@ console.log('Testing: Immediate Reveal, 15-Q System & Mistake Review');
 console.log('====================================================\n');
 
 // 1. Verify Curriculum Selection on real files
-const contentDir = path.resolve(__dirname, '../public/curriculum/python/content');
+const contentDir = path.resolve(__dirname, '../src/curriculum/python/content');
 if (!fs.existsSync(contentDir)) {
   console.error('Curriculum directory not found at', contentDir);
   process.exit(1);

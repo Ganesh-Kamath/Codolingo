@@ -2,6 +2,16 @@
   "lesson_id": "4.1",
   "title": "The input() Function",
   "unit": "User Input and Output",
+  "unit_num": 4,
+  "learning_objectives": [
+    "Understand that input() always returns text (str)",
+    "Display user-friendly prompts with input()",
+    "Clean raw user input with .strip()",
+    "Handle user responses in simple interactive command-line programs"
+  ],
+  "prerequisites": [
+    "3.5"
+  ],
   "items": [
     {
       "id": "4.1_q1",
@@ -9,15 +19,9 @@
       "concept": "the_input_function_basics",
       "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [],
       "title": "How the input() Function Operates",
       "content": "The `input()` function pauses program execution and waits for the user to type text into the terminal and press Enter.\n\nKey rules:\n1. `input()` ALWAYS returns a string (`str`), even if the user enters digits.\n2. To use the input as a number, it must be explicitly converted (cast) using `int()` or `float()`.\n\n```python\nname = input(\"What is your name? \")\nprint(f\"Hello, {name}!\")\n```",
-      "explanation": "Calling input() halts execution, captures user keystrokes from standard input, and always returns the captured text as a str object.",
-      "metadata": {
-        "concept": "input_fundamentals",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Core teaching on input() return types"
-      }
+      "explanation": "Calling input() halts execution, captures keystrokes from standard input, and always returns the captured text as a str object."
     },
     {
       "id": "4.1_q2",
@@ -25,9 +29,6 @@
       "concept": "the_input_function_basics",
       "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.1_q1"
-      ],
       "prompt": "Consider the following code:\n\n```python\nage = input(\"Enter your age: \")\n# User types: 25\nprint(type(age))\n```\n\nWhat is printed to the console?",
       "options": [
         "<class 'str'>",
@@ -36,14 +37,7 @@
         "TypeError"
       ],
       "correct_answer": "<class 'str'>",
-      "explanation": "In Python, the `input()` function ALWAYS returns user entry as a string (`str`), even if the user types digits. To treat the input as a number, it must be explicitly converted using `int()` or `float()`.",
-      "metadata": {
-        "concept": "input_return_type",
-        "skill": "type_awareness",
-        "learning_objective": "Understand that input() always produces a string",
-        "common_misconception": "Believing numeric keyboard input automatically becomes an int",
-        "why_this_exercise_exists": "Prevents catastrophic type errors when performing arithmetic on raw input"
-      }
+      "explanation": "In Python, the `input()` function ALWAYS returns user entry as a string (`str`), even if the user types digits. To treat the input as a number, it must be explicitly converted using `int()` or `float()`."
     },
     {
       "id": "4.1_q3",
@@ -51,17 +45,9 @@
       "concept": "the_input_function_prompts_and_cleaning",
       "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.1_q2"
-      ],
       "title": "Prompts and Whitespace Hygiene",
       "content": "You can pass an optional prompt string to `input(\"Enter age: \")` which displays on screen without a trailing newline.\n\nUsers often introduce accidental spaces when typing. Calling `.strip()` removes leading and trailing whitespace:\n\n```python\nuser_code = input(\"Enter code: \").strip()\n```",
-      "explanation": "Passing a prompt string keeps user entry on the same line, and strip() sanitizes extraneous surrounding whitespace.",
-      "metadata": {
-        "concept": "prompt_and_whitespace_hygiene",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Teaches prompt design and input sanitization"
-      }
+      "explanation": "Passing a prompt string keeps user entry on the same line, and strip() sanitizes extraneous surrounding whitespace."
     },
     {
       "id": "4.1_q4",
@@ -69,9 +55,6 @@
       "concept": "the_input_function_basics",
       "skill": "input_handling",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.1_q3"
-      ],
       "prompt": "Consider this code where the user enters their name with extra spaces around it:\n\n```python\nraw_name = \"  Aria  \"\ncleaned_name = raw_name.strip()\nprint(f\"Welcome, [{cleaned_name}]!\")\n```\n\nWhat is the exact output?",
       "options": [
         "Welcome, [Aria]!",
@@ -80,14 +63,7 @@
         "SyntaxError"
       ],
       "correct_answer": "Welcome, [Aria]!",
-      "explanation": "User input frequently contains accidental leading or trailing whitespace. Calling `.strip()` returns a new string with surrounding whitespace removed, which is crucial for clean data processing.",
-      "metadata": {
-        "concept": "input_whitespace_cleaning",
-        "skill": "data_sanitization",
-        "learning_objective": "Sanitize user string input using strip()",
-        "common_misconception": "Assuming input() automatically trims surrounding spaces",
-        "why_this_exercise_exists": "Teaches fundamental input hygiene before storing or checking user strings"
-      }
+      "explanation": "User input frequently contains accidental leading or trailing whitespace. Calling `.strip()` returns a new string with surrounding whitespace removed."
     },
     {
       "id": "4.1_q5",
@@ -95,20 +71,17 @@
       "concept": "the_input_function_basics",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q4"
-      ],
-      "prompt": "The following program intends to greet the user with punctuation, but currently prints `Hello  Ganesh !` with awkward double spaces. Fix the concatenation or string formatting so it cleanly outputs `Hello Ganesh!` without extra spaces.\n\n```python\nname = \"Ganesh\"\n# Fix this line:\ngreeting = \"Hello \" + \" \" + name + \" !\"\nprint(greeting)\n```",
+      "prompt": "Fix the string formatting in the program below so it cleanly outputs `Hello Ganesh!` without awkward extra spaces:\n\n```python\nname = \"Ganesh\"\ngreeting = f\"Hello {name}!\"\nprint(greeting)\n```",
       "starter_code": "name = \"Ganesh\"\ngreeting = \"Hello \" + \" \" + name + \" !\"\nprint(greeting)",
       "solution_code": "name = \"Ganesh\"\ngreeting = f\"Hello {name}!\"\nprint(greeting)",
-      "explanation": "Using f-strings (`f\"Hello {name}!\"`) avoids fragile plus-operator concatenation and allows precise control over spacing and punctuation around injected variables.",
-      "metadata": {
-        "concept": "string_formatting_for_prompts",
-        "skill": "string_construction",
-        "learning_objective": "Construct clean greetings from user variables without spacing bugs",
-        "common_misconception": "Relying on manual plus concatenation leading to awkward spacing",
-        "why_this_exercise_exists": "Ensures polished CLI user interfaces"
-      }
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Hello Ganesh!",
+          "description": "Clean greeting output"
+        }
+      ],
+      "explanation": "Using f-strings (`f\"Hello {name}!\"`) avoids fragile plus-operator concatenation and allows precise control over spacing around variables."
     },
     {
       "id": "4.1_q6",
@@ -116,10 +89,7 @@
       "concept": "the_input_function_basics",
       "skill": "tracing",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q5"
-      ],
-      "prompt": "What does the following snippet output when the user provides `\"Dev\"` for first name and `\"Roy\"` for last name?\n\n```python\nfirst = \"Dev\"\nlast = \"Roy\"\nfull_greeting = f\"User: {last.upper()}, {first.capitalize()}\"\nprint(full_greeting)\n```",
+      "prompt": "What does the following snippet output?\n\n```python\nfirst = \"Dev\"\nlast = \"Roy\"\nfull_greeting = f\"User: {last.upper()}, {first.capitalize()}\"\nprint(full_greeting)\n```",
       "options": [
         "User: ROY, Dev",
         "User: Roy, Dev",
@@ -127,14 +97,7 @@
         "User: Dev, Roy"
       ],
       "correct_answer": "User: ROY, Dev",
-      "explanation": "`last.upper()` transforms `'Roy'` to `'ROY'`, while `first.capitalize()` ensures `'Dev'` starts with an uppercase letter and the rest lowercase. The f-string formats them as `'User: ROY, Dev'`.",
-      "metadata": {
-        "concept": "input_formatting_pipeline",
-        "skill": "string_transformation",
-        "learning_objective": "Combine input variables with case normalization methods",
-        "common_misconception": "Confusing upper() and capitalize()",
-        "why_this_exercise_exists": "Shows how raw input strings are normalized for display or indexing"
-      }
+      "explanation": "`last.upper()` transforms `'Roy'` to `'ROY'`, while `first.capitalize()` ensures `'Dev'` starts with an uppercase letter and the rest lowercase."
     },
     {
       "id": "4.1_q7",
@@ -142,9 +105,6 @@
       "concept": "the_input_function_execution",
       "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.1_q6"
-      ],
       "prompt": "What is the return type of `input()`, even if the user types digits like `42`?\n```python\nage = input('Enter age: ')\nprint(type(age))\n```",
       "options": [
         "A. <class 'str'>",
@@ -161,9 +121,6 @@
       "concept": "the_input_function_execution",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q7"
-      ],
       "prompt": "What happens if a program executes `val = input()` in a standard interactive terminal?",
       "options": [
         "A. Execution pauses and waits until the user presses Enter",
@@ -180,14 +137,17 @@
       "concept": "the_input_function_flow",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q8"
-      ],
-      "prompt": "Fix this code so that it removes surrounding whitespace from the user's input before printing it:",
-      "correct_answer": "45",
-      "explanation": "`.strip()` is a method call and must include parentheses `()` to execute and return the cleaned string.",
+      "prompt": "Fix this code so that `.strip()` is actually called as a method to remove whitespace before printing:",
       "starter_code": "name = input('Name: ').strip\nprint(f'Hello {name}')",
-      "solution_code": "name = input('Name: ').strip()\nprint(f'Hello {name}')"
+      "solution_code": "name = input('Name: ').strip()\nprint(f'Hello {name}')",
+      "test_cases": [
+        {
+          "input": "Maya\n",
+          "expected_output": "Name: Maya\nHello Maya",
+          "description": "Strips input and prints greeting"
+        }
+      ],
+      "explanation": "`.strip()` is a method call and must include parentheses `()` to execute and return the cleaned string."
     },
     {
       "id": "4.1_q10",
@@ -195,20 +155,17 @@
       "concept": "the_input_function_basics",
       "skill": "construction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q9"
+      "prompt": "Given `first = '  Maya '` and `last = ' Lin  '`, strip surrounding whitespace and print `Greetings, Maya Lin!`:",
+      "starter_code": "first = \"  Maya \"\nlast = \" Lin  \"\n# Strip whitespace and print greeting\n",
+      "solution_code": "first = \"  Maya \"\nlast = \" Lin  \"\nprint(f\"Greetings, {first.strip()} {last.strip()}!\")",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "Greetings, Maya Lin!",
+          "description": "Prints sanitized greeting"
+        }
       ],
-      "prompt": "Write a complete program snippet that stores a first name `'Maya'` and a last name `'Lin'`, strips any whitespace, and constructs a clean greeting string `'Greetings, Maya Lin!'` stored in a variable called `greeting`.",
-      "starter_code": "first = \"  Maya \"\nlast = \" Lin  \"\n# Strip whitespace and build greeting\n",
-      "solution_code": "first = \"  Maya \"\nlast = \" Lin  \"\ngreeting = f\"Greetings, {first.strip()} {last.strip()}!\"\nprint(greeting)",
-      "explanation": "Calling `.strip()` on both `first` and `last` removes unintentional leading/trailing whitespace before interpolating them into the formatted greeting.",
-      "metadata": {
-        "concept": "input_sanitization_and_assembly",
-        "skill": "implementation",
-        "learning_objective": "Implement an end-to-end user input normalization routine",
-        "common_misconception": "Overlooking whitespace inside user inputs",
-        "why_this_exercise_exists": "Builds authentic CLI data collection skills"
-      }
+      "explanation": "Calling `.strip()` on both `first` and `last` removes unintentional leading/trailing whitespace before interpolating them into the greeting."
     },
     {
       "id": "4.1_q11",
@@ -216,9 +173,6 @@
       "concept": "the_input_function_tracing",
       "skill": "tracing",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q10"
-      ],
       "prompt": "Why is it best practice to include a trailing space in an input prompt string like `input('Enter name: ')`?",
       "options": [
         "A. To prevent the user's typed text from bunching right against the prompt text",
@@ -235,10 +189,7 @@
       "concept": "the_input_function_logic",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q11"
-      ],
-      "prompt": "What does this snippet display if the user types '  Python  ' and presses Enter?\n```python\ntext = '  Python  '.strip()\nprint(f'[{text}]')\n```",
+      "prompt": "What does this snippet display when executed?\n```python\ntext = '  Python  '.strip()\nprint(f'[{text}]')\n```",
       "options": [
         "A. [Python]",
         "B. [  Python  ]",
@@ -246,7 +197,7 @@
         "D. ['Python']"
       ],
       "correct_answer": "A",
-      "explanation": "`.strip()` removes leading and trailing whitespace characters, leaving `[Python]`. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
+      "explanation": "`.strip()` removes leading and trailing whitespace characters, leaving `[Python]`."
     },
     {
       "id": "4.1_q13",
@@ -254,20 +205,12 @@
       "concept": "input_prompt_formatting",
       "skill": "syntax",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.1_q12"
-      ],
       "prompt": "Fill in the blank to prompt the user with `\"Enter city: \"` and store the result in `city`:\n\n```python\ncity = ___(\"Enter city: \")\n```",
       "correct_answer": "input",
       "accepted_answers": [
         "input"
       ],
-      "explanation": "Passing a prompt string argument to `input(\"Enter city: \")` prints the prompt text to standard output without adding a trailing newline, keeping the user's cursor on the same line.",
-      "metadata": {
-        "concept": "input_prompt",
-        "skill": "syntax",
-        "why_this_exercise_exists": "Replaces filler with practical prompt syntax"
-      }
+      "explanation": "Passing a prompt string argument to `input(\"Enter city: \")` displays the prompt text to standard output without adding a trailing newline."
     },
     {
       "id": "4.1_q14",
@@ -275,42 +218,35 @@
       "concept": "input_normalization_upper",
       "skill": "transformation",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q13"
-      ],
-      "prompt": "Given `code = 'ny'`, convert the input code to uppercase `'NY'` and print `f'State: {code.upper()}'`.",
+      "prompt": "Given `code = 'ny'`, convert the code to uppercase and print `State: NY` using an f-string:",
       "starter_code": "code = \"ny\"\n# Convert to uppercase and print\n",
-      "solution_code": "code = \"ny\"\nstate_code = code.upper()\nprint(f\"State: {state_code}\")",
-      "explanation": "Normalizing user input with `.upper()` ensures case-insensitive matching across database records and lookups.",
-      "metadata": {
-        "concept": "case_normalization",
-        "skill": "transformation",
-        "why_this_exercise_exists": "Replaces filler with practical input normalization"
-      }
+      "solution_code": "code = \"ny\"\nprint(f\"State: {code.upper()}\")",
+      "test_cases": [
+        {
+          "input": "",
+          "expected_output": "State: NY",
+          "description": "Prints uppercase state code"
+        }
+      ],
+      "explanation": "Normalizing user text with `.upper()` ensures consistent capitalization across outputs and comparisons."
     },
     {
       "id": "4.1_q15",
-      "type": "code_ordering",
-      "concept": "the_input_function_sequence",
-      "skill": "sequencing",
+      "type": "write_the_code",
+      "concept": "input_greeting",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q14"
+      "prompt": "Write code to ask the user 'Name: ' using input(), and print 'Welcome, <name>!':",
+      "starter_code": "# Ask for user name and print welcome\nname = input('Name: ')\n",
+      "solution_code": "name = input('Name: ')\nprint(f'Welcome, {name}!')",
+      "test_cases": [
+        {
+          "input": "Alex\n",
+          "expected_output": "Name: Alex\nWelcome, Alex!",
+          "description": "Prompts for name and greets user"
+        }
       ],
-      "prompt": "Arrange the lines in correct logical order for The Input Function Sequence:",
-      "options": [
-        "a_15 = 10",
-        "b_15 = 20",
-        "result_15 = a_15 + b_15",
-        "print(result_15)"
-      ],
-      "correct_answer": [
-        "a_15 = 10",
-        "b_15 = 20",
-        "result_15 = a_15 + b_15",
-        "print(result_15)"
-      ],
-      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
+      "explanation": "Reading from input('Name: ') captures the user's name and prints the welcome greeting."
     },
     {
       "id": "4.1_q16",
@@ -318,10 +254,7 @@
       "concept": "input_isdigit_validation",
       "skill": "validation",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q15"
-      ],
-      "prompt": "What does `\"42\".isdigit()` return when validating user input?",
+      "prompt": "What does `\"42\".isdigit()` return when validating numeric input?",
       "options": [
         "True",
         "False",
@@ -329,199 +262,16 @@
         "42"
       ],
       "correct_answer": "True",
-      "explanation": "`.isdigit()` checks if all characters in the string are digits (0-9). For `\"42\"`, it returns `True`, making it an effective pre-check before calling `int()`.",
-      "metadata": {
-        "concept": "input_digit_validation",
-        "skill": "validation",
-        "why_this_exercise_exists": "Replaces filler with input validation"
-      }
+      "explanation": "`.isdigit()` checks if all characters in the string are digits (0-9). For `\"42\"`, it returns `True`, making it an effective pre-check before calling `int()`."
     },
     {
       "id": "4.1_q17",
-      "type": "code_ordering",
-      "concept": "the_input_function_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q16"
-      ],
-      "prompt": "Arrange the lines in correct logical order for The Input Function Algorithm:",
-      "options": [
-        "a_17 = 10",
-        "b_17 = 20",
-        "result_17 = a_17 + b_17",
-        "print(result_17)"
-      ],
-      "correct_answer": [
-        "a_17 = 10",
-        "b_17 = 20",
-        "result_17 = a_17 + b_17",
-        "print(result_17)"
-      ],
-      "explanation": "Variables a_17 and b_17 must be defined before computing their sum and printing."
-    },
-    {
-      "id": "4.1_q18",
-      "type": "fix_the_code",
-      "concept": "input_cleaning_strip",
-      "skill": "sanitization",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q17"
-      ],
-      "prompt": "Fix the line below to strip surrounding quotation marks from user input `raw_tag = '\"science\"'`:\n\n```python\nraw_tag = '\"science\"'\n# Fix using strip:\nclean_tag = raw_tag.strip('\"')\nprint(clean_tag)\n```",
-      "starter_code": "raw_tag = '\"science\"'\nclean_tag = raw_tag.strip('\"')\nprint(clean_tag)",
-      "solution_code": "raw_tag = '\"science\"'\nclean_tag = raw_tag.strip('\"')\nprint(clean_tag)",
-      "explanation": "Passing characters to `.strip('\"')` instructs Python to strip double quote characters from the start and end of the string, yielding `'science'`.",
-      "metadata": {
-        "concept": "custom_character_stripping",
-        "skill": "sanitization",
-        "why_this_exercise_exists": "Replaces filler with custom stripping"
-      }
-    },
-    {
-      "id": "4.1_q19",
-      "type": "error_diagnosis",
-      "concept": "the_input_function_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q18"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Input Function Errors:",
-      "starter_code": "Print('input() Item 19')",
-      "solution_code": "print('input() Item 19')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the input function errors` in The input() Function. When Python validates this code, it applies the standard rules of the input function errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "4.1_q20",
-      "type": "fix_the_code",
-      "concept": "the_input_function_fix",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.1_q19"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Input Function Fix:",
-      "starter_code": "Print('input() Item 20')",
-      "solution_code": "print('input() Item 20')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the input function fix` in The input() Function. When Python validates this code, it applies the standard rules of the input function fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "4.1_q21",
-      "type": "fix_the_code",
-      "concept": "the_input_function_edge_cases",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q20"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Input Function Edge Cases:",
-      "starter_code": "Print('input() Item 21')",
-      "solution_code": "print('input() Item 21')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the input function edge cases` in The input() Function. When Python validates this code, it applies the standard rules of the input function edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "4.1_q22",
-      "type": "error_diagnosis",
-      "concept": "the_input_function_runtime",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q21"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Input Function Runtime:",
-      "starter_code": "Print('input() Item 22')",
-      "solution_code": "print('input() Item 22')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the input function runtime` in The input() Function. When Python validates this code, it applies the standard rules of the input function runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "4.1_q23",
-      "type": "fix_the_code",
-      "concept": "the_input_function_logic_repair",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q22"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Input Function Logic Repair:",
-      "starter_code": "Print('input() Item 23')",
-      "solution_code": "print('input() Item 23')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the input function logic repair` in The input() Function. When Python validates this code, it applies the standard rules of the input function logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "4.1_q24",
-      "type": "fix_the_code",
-      "concept": "the_input_function_optimization",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.1_q23"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Input Function Optimization:",
-      "starter_code": "Print('input() Item 24')",
-      "solution_code": "print('input() Item 24')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the input function optimization` in The input() Function. When Python validates this code, it applies the standard rules of the input function optimization. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "4.1_q25",
-      "type": "fix_the_code",
-      "concept": "input_strip_whitespace",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q24"
-      ],
-      "prompt": "Fix this code so that extraneous leading and trailing spaces entered by the user are automatically removed:",
-      "starter_code": "raw_username = input('Enter username: ')\nclean_username = raw_username.strip\nprint(f'User registered: {clean_username}')",
-      "solution_code": "raw_username = input('Enter username: ')\nclean_username = raw_username.strip()\nprint(f'User registered: {clean_username}')",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "input() Result 25"
-        }
-      ],
-      "hint": "`.strip` is a method. Remember to call it with parentheses `()`.",
-      "explanation": "In Python, method names without parentheses reference the method object itself rather than calling it. Calling `.strip()` executes the string stripping operation and returns the sanitized string."
-    },
-    {
-      "id": "4.1_q26",
-      "type": "write_the_code",
-      "concept": "prompt_string_formatting",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q25"
-      ],
-      "prompt": "Write a line of code that asks the user 'Enter your city: ' and stores their response in a variable named `city`:",
-      "starter_code": "# Prompt the user for their city\ncity = ___",
-      "solution_code": "city = input('Enter your city: ')",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "input() Result 26"
-        }
-      ],
-      "hint": "Pass the prompt string directly to `input()`.",
-      "explanation": "`input(prompt)` displays the prompt text to the standard output and halts execution until the user presses Enter, returning the typed string."
-    },
-    {
-      "id": "4.1_q27",
       "type": "code_prediction",
       "concept": "input_return_type",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.1_q26"
-      ],
       "prompt": "What does this code output when the user types '25'?\n```python\nage = input('Age: ')  # User enters: 25\nprint(age * 2)\n```",
-      "hint": "Remember what data type `input()` always returns.",
+      "hint": "Remember what data type input() always returns.",
       "explanation": "`input()` always returns a string (`str`). Multiplying a string by an integer repeats the string (`'25' * 2` becomes `'2525'`), not numeric multiplication.",
       "options": [
         "2525",
@@ -532,78 +282,28 @@
       "correct_answer": "2525"
     },
     {
-      "id": "4.1_q28",
+      "id": "4.1_q18",
       "type": "write_the_code",
       "concept": "command_line_confirmation",
       "skill": "application",
       "difficulty": "hard",
-      "prerequisites": [
-        "4.1_q27"
-      ],
-      "prompt": "Write code to ask the user 'Proceed? (y/n): ' and print 'Confirmed' if they enter 'y' or 'Y', or 'Cancelled' otherwise:",
-      "starter_code": "ans = input('Proceed? (y/n): ').strip().lower()\nif ans == 'y':\n    ___",
+      "prompt": "Write code to ask the user 'Proceed? (y/n): ' and print 'Confirmed' if they enter 'y', or 'Cancelled' otherwise:",
+      "starter_code": "ans = input('Proceed? (y/n): ').strip().lower()\nif ans == 'y':\n    print('Confirmed')\nelse:\n    print('Cancelled')",
       "solution_code": "ans = input('Proceed? (y/n): ').strip().lower()\nif ans == 'y':\n    print('Confirmed')\nelse:\n    print('Cancelled')",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Confirmed",
+          "input": "y\n",
+          "expected_output": "Proceed? (y/n): y\nConfirmed",
           "description": "handles y confirmation"
-        }
-      ],
-      "hint": "Use `.lower()` to normalize the response before comparing with 'y'.",
-      "explanation": "Normalizing user input with `.strip().lower()` handles unexpected whitespace and case differences gracefully before branching."
-    },
-    {
-      "id": "4.1_q29",
-      "type": "fix_the_code",
-      "concept": "input_in_loop",
-      "skill": "debugging",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.1_q28"
-      ],
-      "prompt": "Fix this loop so it repeatedly asks for a password until the user enters 'secret':",
-      "starter_code": "pwd = ''\nwhile pwd != 'secret':\n    print('Enter password:')\n    # Missing prompt assignment",
-      "solution_code": "pwd = ''\nwhile pwd != 'secret':\n    pwd = input('Enter password: ')",
-      "test_cases": [
+        },
         {
-          "input": "",
-          "expected_output": "input() Result 29"
+          "input": "n\n",
+          "expected_output": "Proceed? (y/n): n\nCancelled",
+          "description": "handles cancellation"
         }
       ],
-      "hint": "Assign the result of `input()` to the `pwd` loop variable.",
-      "explanation": "Without reassigning the loop variable with `pwd = input(...)`, the loop condition will never change, resulting in an infinite loop."
-    },
-    {
-      "id": "4.1_q30",
-      "type": "write_the_code",
-      "concept": "mastery_interactive_greeter",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.1_q29"
-      ],
-      "prompt": "Write a complete script that prompts for a user's first name, then their last name, and prints 'Welcome, <First> <Last>!' with surrounding whitespace removed:",
-      "starter_code": "# Prompt for first and last name, then display formatted greeting\nfirst = ___\nlast = ___\n___",
-      "solution_code": "first = input('First name: ').strip()\nlast = input('Last name: ').strip()\nprint(f'Welcome, {first} {last}!')",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "input() Result 30"
-        }
-      ],
-      "hint": "Read each input with `.strip()` and combine them inside an f-string.",
-      "explanation": "Combining `input()`, string stripping, and f-string interpolation is the standard pattern for building clean interactive command-line interfaces."
+      "hint": "Use .lower() to normalize the response before comparing with 'y'.",
+      "explanation": "Normalizing user input with .strip().lower() handles unexpected whitespace and case differences gracefully before branching."
     }
-  ],
-  "unit_num": 4,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of input()",
-    "Apply idiomatic Python patterns when working with input()",
-    "Debug common runtime exceptions and logic errors associated with input()",
-    "Implement production-ready code utilizing input()"
-  ],
-  "prerequisites": [
-    "3.5"
   ]
 }

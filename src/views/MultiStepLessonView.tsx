@@ -41,20 +41,12 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     }
   }
 
-  if (!lessonMeta) {
-    lessonMeta = course.units[0]?.skills[0]?.lessons[0] || {
-      id: '1.1',
-      title: 'What Is Programming?',
-      order: 1,
-      estimatedMinutes: 4,
-      xpReward: 25
-    };
-    unitTitle = course.units[0]?.title || 'Python Foundations';
-  }
-
   // Load selected blocks asynchronously or from pre-indexed store
   const [blocks, setBlocks] = useState<LessonBlock[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadStatus, setLoadStatus] = useState<'loading' | 'ok' | 'not_found' | 'error'>('loading');
+  const [loadErrorReason, setLoadErrorReason] = useState<string>('');
+  const [loadingSlow, setLoadingSlow] = useState<boolean>(false);
+  const [reloadCounter, setReloadCounter] = useState<number>(0);
 
   // Lesson Progression Flow State
   const [sessionPhase, setSessionPhase] = useState<SessionPhase>('initial');
@@ -67,10 +59,47 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
-    courseService.getLessonBlocks('python', lessonId).then((loaded) => {
-      if (isMounted) {
-        setBlocks(loaded);
+    setLoadStatus('loading');
+    setLoadingSlow(false);
+    setShowExitModal(false);
+
+    const slowTimer = setTimeout(() => {
+      if (isMounted) setLoadingSlow(true);
+    }, 10000);
+
+    if (typeof window !== 'undefined' && (window as any).__SIMULATE_LOAD_ERROR) {
+      clearTimeout(slowTimer);
+      setBlocks([]);
+      setLoadStatus('error');
+      setLoadErrorReason('Failed to load lesson blocks: Simulated network connection error.');
+      return;
+    }
+
+    if (typeof window !== 'undefined' && (window as any).__SIMULATE_UNSUPPORTED_TYPE && lessonMeta) {
+      clearTimeout(slowTimer);
+      setBlocks([{
+        id: 'unsupported_test',
+        type: 'quantum_code_circuit' as any,
+        title: 'Quantum Circuit Simulator',
+        explanation: 'Interactive qubit entanglement challenge'
+      }]);
+      setCurrentBlockIndex(0);
+      setWrongQuestions([]);
+      setReviewIndex(0);
+      setFirstAttemptCorrectCount(0);
+      setReviewCorrectCount(0);
+      setIsCompletionRecorded(false);
+      setSessionPhase('initial');
+      setLoadStatus('ok');
+      return;
+    }
+
+    courseService.resolveLessonBlocks('python', lessonId).then((result) => {
+      if (!isMounted) return;
+      clearTimeout(slowTimer);
+
+      if (result.status === 'ok' && result.blocks.length > 0 && lessonMeta) {
+        setBlocks(result.blocks);
         setCurrentBlockIndex(0);
         setWrongQuestions([]);
         setReviewIndex(0);
@@ -78,14 +107,30 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         setReviewCorrectCount(0);
         setIsCompletionRecorded(false);
         setSessionPhase('initial');
-        setLoading(false);
+        setLoadStatus('ok');
+      } else if (result.status === 'not_found' || result.blocks.length === 0 || !lessonMeta) {
+        setBlocks([]);
+        setLoadStatus('not_found');
+        setLoadErrorReason(result.reason || `Lesson "${lessonId}" could not be found.`);
+      } else {
+        setBlocks([]);
+        setLoadStatus('error');
+        setLoadErrorReason(result.reason || `Failed to load lesson "${lessonId}".`);
       }
     }).catch((err) => {
+      if (!isMounted) return;
+      clearTimeout(slowTimer);
       console.error('Failed to load blocks for lesson', lessonId, err);
-      if (isMounted) setLoading(false);
+      setBlocks([]);
+      setLoadStatus('error');
+      setLoadErrorReason(err?.message || 'Unexpected network or runtime error.');
     });
-    return () => { isMounted = false; };
-  }, [lessonId]);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(slowTimer);
+    };
+  }, [lessonId, reloadCounter]);
 
   // Current active block depending on session phase
   const currentBlock: LessonBlock = sessionPhase === 'review'
@@ -121,13 +166,28 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [displayedXp, setDisplayedXp] = useState<number>(0);
   const [isEngineWarming, setIsEngineWarming] = useState<boolean>(false);
   const [expandedTests, setExpandedTests] = useState<Record<number, boolean>>({});
-  const [showCoachMarks, setShowCoachMarks] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('codolingo_coach_marks') === 'true';
-    } catch {
-      return false;
-    }
-  });
+  const [monacoLoaded, setMonacoLoaded] = useState<boolean>(false);
+  const [monacoTimedOut, setMonacoTimedOut] = useState<boolean>(false);
+  const [showCoachMarks, setShowCoachMarks] = useState<boolean>(false);
+
+  // Reset overlay & modal states on lessonId change
+  useEffect(() => {
+    setShowExitModal(false);
+    setShowCoachMarks(false);
+  }, [lessonId]);
+
+  // Monaco 8s timeout watchdog for coding questions
+  useEffect(() => {
+    setMonacoTimedOut(false);
+    setMonacoLoaded(false);
+    const isCoding = currentBlock.type === 'write_code' || currentBlock.type === 'fix_code' || currentBlock.type === 'mini_challenge' || currentBlock.type === 'refactoring_challenge';
+    if (!isCoding) return;
+
+    const timer = setTimeout(() => {
+      setMonacoTimedOut(true);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [currentBlockIndex, sessionPhase, currentBlock.type]);
 
   // Calculate elapsed time upon completion
   useEffect(() => {
@@ -814,82 +874,199 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     );
   };
 
-  // Loading Screen
-  if (loading) {
+  // 1. Loading Screen (Themed with Lesson-Shaped Skeleton & Timeout Guidance)
+  if (loadStatus === 'loading') {
     return (
-      <div className="flex-center" style={{ minHeight: '100vh', flexDirection: 'column', gap: '20px', backgroundColor: '#FDFBF7' }}>
+      <div
+        className="flex-center"
+        style={{
+          minHeight: '100vh',
+          flexDirection: 'column',
+          gap: '24px',
+          backgroundColor: 'var(--bg-app)',
+          padding: '40px 20px',
+          textAlign: 'center'
+        }}
+      >
         <div
           style={{
-            width: '56px',
-            height: '56px',
+            width: '60px',
+            height: '60px',
             borderRadius: '50%',
-            border: '4px solid #E2D9CC',
-            borderTopColor: 'var(--brand-primary, #4338CA)',
+            border: '4px solid var(--border-default)',
+            borderTopColor: 'var(--brand-primary)',
             animation: 'spin 0.9s cubic-bezier(0.5, 0, 0.5, 1) infinite',
-            boxShadow: '0 4px 12px rgba(67, 56, 202, 0.15)'
+            boxShadow: 'var(--shadow-md)'
           }}
         />
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          Forging Micro-Lesson...
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 600 }}>
-          Synthesizing 15 interactions for {lessonMeta?.title || 'this challenge'}
-        </p>
+        <div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.45rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px' }}>
+            Getting your lesson ready...
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', fontWeight: 600, maxWidth: '420px', lineHeight: 1.5 }}>
+            Synthesizing interactive challenge sequence for {lessonMeta?.title ? `"${lessonMeta.title}"` : `Lesson ${lessonId}`}
+          </p>
+        </div>
+
+        {/* 10s Slow Loading Hint & Retry */}
+        {loadingSlow && (
+          <div
+            className="animate-pop-in"
+            style={{
+              marginTop: '12px',
+              padding: '16px 20px',
+              borderRadius: 'var(--radius-lg)',
+              backgroundColor: 'var(--bg-surface)',
+              border: '1.5px solid var(--border-default)',
+              maxWidth: '440px',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', color: 'var(--warning-solid)', fontWeight: 700, fontSize: '0.85rem' }}>
+              <Icon name="alert-triangle" size={16} />
+              <span>This is taking longer than usual</span>
+            </div>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '14px', lineHeight: 1.4 }}>
+              The runtime may be assembling curriculum resources. You can wait or retry loading now.
+            </p>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setReloadCounter(c => c + 1)}
+                icon={<Icon name="reload" size={14} />}
+              >
+                Retry
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={exitLesson}
+              >
+                Back to Path
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
-  // Lesson Not Found / Empty Error State
-  if (blocks.length === 0) {
+  // 2. Not Found Screen
+  if (loadStatus === 'not_found' || !lessonMeta) {
     return (
-      <div className="flex-center" style={{ minHeight: '100vh', flexDirection: 'column', gap: '20px', backgroundColor: '#FDFBF7', padding: '32px 20px', textAlign: 'center' }}>
+      <div
+        className="flex-center"
+        style={{
+          minHeight: '100vh',
+          flexDirection: 'column',
+          gap: '20px',
+          backgroundColor: 'var(--bg-app)',
+          padding: '40px 20px',
+          textAlign: 'center'
+        }}
+      >
         <div
           style={{
             width: '76px',
             height: '76px',
             borderRadius: '50%',
-            backgroundColor: '#FEF2F2',
-            border: '2px solid #FCA5A5',
-            boxShadow: '0 4px 0 #F87171',
+            backgroundColor: 'var(--brand-light)',
+            border: '2px solid var(--brand-border)',
+            color: 'var(--brand-primary)',
+            boxShadow: 'var(--shadow-md)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
           }}
         >
-          <Icon name="alert-circle" size={40} style={{ color: '#EF4444' }} />
+          <Icon name="compass" size={40} />
         </div>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          Challenge Uncharted
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+          We couldn't find this lesson
         </h2>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '440px', fontSize: '0.95rem', lineHeight: 1.6 }}>
-          We could not load curriculum items for lesson &ldquo;{lessonId}&rdquo;. You may need to complete prerequisite milestones first.
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '440px', fontSize: '0.95rem', lineHeight: 1.6, margin: 0 }}>
+          We could not locate curriculum content for lesson &ldquo;{lessonId}&rdquo;. It may not exist yet or may have been relocated.
         </p>
-        <Button variant="primary" size="lg" onClick={exitLesson}>
-          Return to Pathway
+        <Button variant="primary" size="lg" onClick={exitLesson} icon={<Icon name="arrow-left" size={18} />}>
+          Back to Learning Path
         </Button>
       </div>
     );
   }
 
-  // Review Intro Interstitial Screen
+  // 3. Load Error Screen
+  if (loadStatus === 'error' || blocks.length === 0) {
+    return (
+      <div
+        className="flex-center"
+        style={{
+          minHeight: '100vh',
+          flexDirection: 'column',
+          gap: '20px',
+          backgroundColor: 'var(--bg-app)',
+          padding: '40px 20px',
+          textAlign: 'center'
+        }}
+      >
+        <div
+          style={{
+            width: '76px',
+            height: '76px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--error-bg)',
+            border: '2px solid var(--error-border)',
+            color: 'var(--error-solid)',
+            boxShadow: 'var(--shadow-md)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Icon name="alert-circle" size={40} />
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+          Unable to Load Lesson
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '440px', fontSize: '0.95rem', lineHeight: 1.6, margin: 0 }}>
+          {loadErrorReason || `An error occurred while forging exercises for lesson "${lessonId}".`}
+        </p>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => setReloadCounter(c => c + 1)}
+            icon={<Icon name="reload" size={18} />}
+          >
+            Try Again
+          </Button>
+          <Button variant="secondary" size="lg" onClick={exitLesson}>
+            Back to Path
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // 4. Review Intro Interstitial Screen (Themed)
   if (sessionPhase === 'review_intro') {
     return (
-      <div className="flex-center animate-pop-in" style={{ minHeight: '100vh', flexDirection: 'column', backgroundColor: '#FFFFFF', padding: '32px 20px', textAlign: 'center' }}>
-        <div style={{ width: '84px', height: '84px', borderRadius: '50%', backgroundColor: '#FEF3C7', color: '#D97706', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="shadow-md">
+      <div className="flex-center animate-pop-in" style={{ minHeight: '100vh', flexDirection: 'column', backgroundColor: 'var(--bg-app)', padding: '32px 20px', textAlign: 'center' }}>
+        <div style={{ width: '84px', height: '84px', borderRadius: '50%', backgroundColor: 'var(--warning-bg)', color: 'var(--warning-solid)', border: '2px solid var(--warning-border)', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="shadow-md">
           <Icon name="history" size={44} stroke={2.5} />
         </div>
         <div style={{ marginBottom: '12px' }}>
           <Badge variant="warning" size="md">Review Stage</Badge>
         </div>
-        <h1 style={{ fontSize: '2.2rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)' }}>
+        <h1 style={{ fontSize: '2.2rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
           Let's review what you missed!
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: '480px', marginBottom: '28px', lineHeight: 1.5 }}>
-          You completed all 15 initial questions. Now let's reinforce the <strong>{wrongQuestions.length} concept{wrongQuestions.length > 1 ? 's' : ''}</strong> you missed to lock in understanding.
+          You completed all initial questions. Now let's reinforce the <strong>{wrongQuestions.length} concept{wrongQuestions.length > 1 ? 's' : ''}</strong> you missed to lock in understanding.
         </p>
 
         <div style={{ display: 'flex', gap: '12px', marginBottom: '36px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <div style={{ padding: '12px 20px', backgroundColor: '#F3F4F6', borderRadius: 'var(--radius-xl)', border: '1px solid #E5E7EB', fontWeight: 700, color: '#374151' }}>
+          <div style={{ padding: '12px 20px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border-default)', fontWeight: 700, color: 'var(--text-primary)' }}>
             First Attempt Accuracy: {firstAttemptCorrectCount} / {blocks.length} ({Math.round(firstAttemptCorrectCount / blocks.length * 100)}%)
           </div>
         </div>
@@ -1369,12 +1546,12 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
                 {/* Repair Question */}
                 <div style={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1.5px solid #FCD34D',
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1.5px solid var(--warning-border)',
                   borderRadius: 'var(--radius-lg, 12px)',
                   padding: '16px 20px'
                 }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#B45309', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--warning-text)', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Repair Question (Verify Understanding):
                   </div>
                   <p style={{ margin: '0 0 10px', fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.96rem' }}>
@@ -1383,12 +1560,12 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
                   {currentBlock.repairQuestion.codeSnippet && (
                     <div style={{
-                      backgroundColor: '#1E1E1E',
+                      backgroundColor: 'var(--code-surface)',
                       borderRadius: '8px',
                       padding: '10px 14px',
                       marginBottom: '14px',
                       fontFamily: 'var(--font-mono, monospace)',
-                      color: '#E2E8F0',
+                      color: 'var(--code-text)',
                       fontSize: '0.88rem'
                     }}>
                       <pre style={{ margin: 0 }}>{currentBlock.repairQuestion.codeSnippet}</pre>
@@ -1399,16 +1576,16 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
                     {currentBlock.repairQuestion.options.map((rOpt: any) => {
                       const isRepairSelected = repairSelectedOptId === rOpt.id;
-                      let rBg = isRepairSelected ? '#EEF2FF' : '#F9FAFB';
-                      let rBorder = isRepairSelected ? 'var(--brand-primary, #4338CA)' : '#E5E7EB';
+                      let rBg = isRepairSelected ? 'var(--brand-light)' : 'var(--bg-surface)';
+                      let rBorder = isRepairSelected ? 'var(--brand-primary)' : 'var(--border-default)';
 
                       if (repairAnswerChecked) {
                         if (rOpt.isCorrect) {
-                          rBg = '#ECFDF5';
-                          rBorder = '#10B981';
+                          rBg = 'var(--state-success-subtle)';
+                          rBorder = 'var(--state-success)';
                         } else if (isRepairSelected) {
-                          rBg = '#FEF2F2';
-                          rBorder = '#EF4444';
+                          rBg = 'var(--state-error-subtle)';
+                          rBorder = 'var(--state-error)';
                         }
                       }
 
@@ -1454,9 +1631,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                     <div style={{
                       padding: '10px 14px',
                       borderRadius: '8px',
-                      backgroundColor: repairIsCorrect ? '#ECFDF5' : '#FEF2F2',
-                      border: `1px solid ${repairIsCorrect ? '#A7F3D0' : '#FECACA'}`,
-                      color: repairIsCorrect ? '#065F46' : '#991B1B',
+                      backgroundColor: repairIsCorrect ? 'var(--state-success-subtle)' : 'var(--state-error-subtle)',
+                      border: `1px solid ${repairIsCorrect ? 'var(--state-success-border)' : 'var(--state-error-border)'}`,
+                      color: repairIsCorrect ? 'var(--state-success)' : 'var(--state-error)',
                       fontSize: '0.86rem',
                       fontWeight: 600
                     }}>
@@ -1505,8 +1682,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                     flex: 1,
                     padding: '14px 18px',
                     borderRadius: 'var(--radius-lg, 12px)',
-                    border: `2px solid ${exerciseState === 'incorrect' ? '#EF4444' : (exerciseState === 'correct' ? '#10B981' : 'var(--border-default, #E5E7EB)')}`,
-                    backgroundColor: exerciseState === 'incorrect' ? '#FEF2F2' : (exerciseState === 'correct' ? '#ECFDF5' : '#FFFFFF'),
+                    border: `2px solid ${exerciseState === 'incorrect' ? 'var(--state-error)' : (exerciseState === 'correct' ? 'var(--state-success)' : 'var(--border-default)')}`,
+                    backgroundColor: exerciseState === 'incorrect' ? 'var(--state-error-subtle)' : (exerciseState === 'correct' ? 'var(--state-success-subtle)' : 'var(--bg-surface)'),
+                    color: 'var(--text-primary)',
                     fontSize: '1.05rem',
                     fontFamily: 'var(--font-mono, monospace)',
                     outline: 'none'
@@ -1516,7 +1694,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
               {/* Reveal Correct Answer Immediately if Incorrect */}
               {exerciseState === 'incorrect' && (
-                <div style={{ marginTop: '16px', padding: '14px', backgroundColor: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 'var(--radius-lg)', color: '#065F46' }}>
+                <div style={{ marginTop: '16px', padding: '14px', backgroundColor: 'var(--state-success-subtle)', border: '1px solid var(--state-success-border)', borderRadius: 'var(--radius-lg)', color: 'var(--state-success)' }}>
                   <div style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '4px' }}>Correct Expected Answer:</div>
                   <div style={{ fontSize: '1rem', fontWeight: 700, fontFamily: 'var(--font-mono, monospace)' }}>
                     {getCorrectAnswerDisplay(currentBlock)}
@@ -1595,8 +1773,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                           style={{
                             padding: '10px 14px',
                             borderRadius: '8px',
-                            border: isSelected ? '2px solid #10B981' : '1px solid #E5E7EB',
-                            backgroundColor: isSelected ? '#ECFDF5' : '#FFFFFF',
+                            border: isSelected ? '2px solid var(--state-success)' : '1px solid var(--border-default)',
+                            backgroundColor: isSelected ? 'var(--state-success-subtle)' : 'var(--bg-surface)',
+                            color: 'var(--text-primary)',
                             textAlign: 'left',
                             fontSize: '0.9rem',
                             cursor: (exerciseState === 'correct' || exerciseState === 'incorrect') ? 'default' : 'pointer'
@@ -1613,11 +1792,11 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
             {/* Reveal Correct Matches Immediately if Incorrect */}
             {exerciseState === 'incorrect' && (
-              <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 'var(--radius-lg)' }}>
-                <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#065F46', textTransform: 'uppercase', marginBottom: '8px' }}>
+              <div style={{ marginTop: '20px', padding: '16px', backgroundColor: 'var(--state-success-subtle)', border: '1px solid var(--state-success-border)', borderRadius: 'var(--radius-lg)' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--state-success)', textTransform: 'uppercase', marginBottom: '8px' }}>
                   Correct Concept Pairings:
                 </div>
-                <div style={{ whiteSpace: 'pre-wrap', color: '#065F46', fontSize: '0.92rem', lineHeight: 1.6 }}>
+                <div style={{ whiteSpace: 'pre-wrap', color: 'var(--state-success)', fontSize: '0.92rem', lineHeight: 1.6 }}>
                   {getCorrectAnswerDisplay(currentBlock)}
                 </div>
               </div>
@@ -1643,7 +1822,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-app, #F9FAFB)', padding: '20px 24px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default, #E5E7EB)' }}>
+            <div style={{ backgroundColor: 'var(--bg-app)', padding: '20px 24px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default)' }}>
               <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '16px' }}>
                 Trace Execution Table
               </div>
@@ -1655,15 +1834,15 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                   const isStepCorrect = isChecked && userVal.trim() === String(step.expectedValue).trim();
                   const isStepIncorrect = isChecked && !isStepCorrect;
 
-                  let borderColor = '#E5E7EB';
-                  let bgColor = '#FFFFFF';
+                  let borderColor = 'var(--border-default)';
+                  let bgColor = 'var(--bg-surface)';
                   if (isChecked) {
                     if (isStepCorrect) {
-                      borderColor = '#10B981';
-                      bgColor = '#ECFDF5';
+                      borderColor = 'var(--state-success)';
+                      bgColor = 'var(--state-success-subtle)';
                     } else if (isStepIncorrect) {
-                      borderColor = '#EF4444';
-                      bgColor = '#FEF2F2';
+                      borderColor = 'var(--state-error)';
+                      bgColor = 'var(--state-error-subtle)';
                     }
                   }
 
@@ -1685,8 +1864,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <span style={{
                           padding: '4px 8px',
-                          backgroundColor: '#1E1E1E',
-                          color: '#A7F3D0',
+                          backgroundColor: 'var(--code-surface)',
+                          color: 'var(--code-text)',
                           fontFamily: 'var(--font-mono, monospace)',
                           fontSize: '0.78rem',
                           borderRadius: '6px'
@@ -1845,50 +2024,93 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 </button>
               </div>
 
-              <div style={{ height: '240px' }}>
-                <Editor
-                  height="100%"
-                  defaultLanguage="python"
-                  value={code}
-                  onChange={(val) => {
-                    if (exerciseState !== 'correct' && exerciseState !== 'incorrect') {
-                      setCode(val || '');
-                    }
-                  }}
-                  theme={theme === 'dark' ? 'vs-dark' : 'light'}
-                  options={{
-                    minimap: { enabled: false },
-                    lineNumbers: 'on',
-                    fontSize: 14,
-                    fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
-                    wordWrap: 'on',
-                    tabSize: 4,
-                    scrollBeyondLastLine: false,
-                    readOnly: exerciseState === 'correct' || exerciseState === 'incorrect',
-                    padding: { top: 12, bottom: 12 },
-                    quickSuggestions: false,
-                    parameterHints: { enabled: false },
-                    suggestOnTriggerCharacters: false,
-                    renderLineHighlight: 'all',
-                    glyphMargin: false,
-                    folding: false
-                  }}
-                />
+              <div style={{ height: '240px', position: 'relative' }}>
+                {monacoTimedOut && !monacoLoaded ? (
+                  <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{
+                      padding: '6px 12px',
+                      backgroundColor: 'var(--warning-bg)',
+                      borderBottom: '1px solid var(--warning-border)',
+                      fontSize: '0.75rem',
+                      color: 'var(--warning-text)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}>
+                      <Icon name="alert-triangle" size={14} />
+                      <span>Editor fallback active (offline mode). You can write, run, and check code normally.</span>
+                    </div>
+                    <textarea
+                      value={code}
+                      onChange={(e) => {
+                        if (exerciseState !== 'correct' && exerciseState !== 'incorrect') {
+                          setCode(e.target.value);
+                        }
+                      }}
+                      readOnly={exerciseState === 'correct' || exerciseState === 'incorrect'}
+                      spellCheck={false}
+                      style={{
+                        flex: 1,
+                        width: '100%',
+                        backgroundColor: 'var(--code-surface)',
+                        color: 'var(--code-text)',
+                        fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+                        fontSize: '14px',
+                        lineHeight: 1.5,
+                        padding: '12px 16px',
+                        border: 'none',
+                        outline: 'none',
+                        resize: 'none'
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <Editor
+                    height="100%"
+                    defaultLanguage="python"
+                    value={code}
+                    onMount={() => setMonacoLoaded(true)}
+                    loading={<div style={{ padding: '24px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>Loading Python Editor...</div>}
+                    onChange={(val) => {
+                      if (exerciseState !== 'correct' && exerciseState !== 'incorrect') {
+                        setCode(val || '');
+                      }
+                    }}
+                    theme={theme === 'dark' ? 'vs-dark' : 'light'}
+                    options={{
+                      minimap: { enabled: false },
+                      lineNumbers: 'on',
+                      fontSize: 14,
+                      fontFamily: "var(--font-mono, 'JetBrains Mono', monospace)",
+                      wordWrap: 'on',
+                      tabSize: 4,
+                      scrollBeyondLastLine: false,
+                      readOnly: exerciseState === 'correct' || exerciseState === 'incorrect',
+                      padding: { top: 12, bottom: 12 },
+                      quickSuggestions: false,
+                      parameterHints: { enabled: false },
+                      suggestOnTriggerCharacters: false,
+                      renderLineHighlight: 'all',
+                      glyphMargin: false,
+                      folding: false
+                    }}
+                  />
+                )}
               </div>
             </div>
 
             {/* Output / Console Preview */}
             {executionOutput && (
               <div style={{
-                backgroundColor: '#1E1E1E',
-                color: '#E2E8F0',
+                backgroundColor: 'var(--code-surface)',
+                color: 'var(--code-text)',
                 borderRadius: 'var(--radius-lg, 12px)',
-                border: '1px solid #334155',
+                border: '1px solid var(--code-border)',
                 padding: '14px 18px',
                 marginTop: '12px',
                 boxShadow: 'var(--shadow-sm)'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.72rem', color: '#94A3B8', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: 'var(--font-mono)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: 'var(--font-mono)' }}>
                   <Icon name="terminal" size={14} /> stdout / stderr
                 </div>
                 <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-mono)', fontSize: '0.88rem', lineHeight: 1.5 }}>
@@ -1984,14 +2206,14 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
 
             {/* Reveal Solution Code: for regular questions on incorrect, or for fix_code only on Attempt 3+ */}
             {exerciseState === 'incorrect' && currentBlock.solutionCode && (currentBlock.type !== 'fix_code' || debugAttempts >= 3) && (
-              <div style={{ marginTop: '16px', backgroundColor: '#1E1E1E', border: '1px solid #10B981', borderRadius: 'var(--radius-lg, 12px)', padding: '16px 20px' }}>
+              <div style={{ marginTop: '16px', backgroundColor: 'var(--code-surface)', border: '1px solid var(--state-success)', borderRadius: 'var(--radius-lg, 12px)', padding: '16px 20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#10B981', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--state-success)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Expected Solution Code:
                   </span>
-                  <span style={{ fontSize: '0.7rem', color: '#9CA3AF', fontFamily: 'monospace' }}>python</span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>python</span>
                 </div>
-                <pre style={{ margin: 0, color: '#A7F3D0', fontFamily: 'var(--font-mono, monospace)', fontSize: '0.9rem', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
+                <pre style={{ margin: 0, color: 'var(--code-text)', fontFamily: 'var(--font-mono, monospace)', fontSize: '0.9rem', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
                   {currentBlock.solutionCode}
                 </pre>
               </div>
@@ -1999,8 +2221,52 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           </div>
         );
 
-      default:
-        return <div>Unsupported block type {currentBlock.type}</div>;
+      default: {
+        console.warn(`[MultiStepLessonView] Unsupported question block type: "${currentBlock.type}". Gracefully providing skip path.`);
+        return (
+          <div
+            className="animate-fade-in"
+            style={{
+              padding: '32px 24px',
+              backgroundColor: 'var(--bg-surface)',
+              borderRadius: 'var(--radius-xl, 16px)',
+              border: '1.5px dashed var(--border-strong)',
+              textAlign: 'center',
+              margin: '20px 0'
+            }}
+          >
+            <div style={{
+              width: '52px',
+              height: '52px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--warning-bg)',
+              color: 'var(--warning-solid)',
+              border: '1.5px solid var(--warning-border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px'
+            }}>
+              <Icon name="help-circle" size={26} />
+            </div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', fontFamily: 'var(--font-display)' }}>
+              Interactive Question in Preview
+            </h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '440px', margin: '0 auto 20px', lineHeight: 1.5 }}>
+              This exercise format (<code>{currentBlock.type}</code>) is currently being enhanced. We've marked it safe to skip so your progress continues uninterrupted!
+            </p>
+            <Button
+              variant="primary"
+              size="md"
+              onClick={handleNextStep}
+              icon={<Icon name="arrow-right" size={16} />}
+              iconPosition="right"
+            >
+              Skip & Continue
+            </Button>
+          </div>
+        );
+      }
     }
   };
 
@@ -2337,6 +2603,34 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             {currentBlock.title}
           </h1>
           {renderBlockContent()}
+
+          {/* Dev-only Diagnostics */}
+          {import.meta.env.DEV && (
+            <div
+              style={{
+                marginTop: '32px',
+                padding: '10px 14px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--bg-surface-subtle)',
+                border: '1px dashed var(--border-strong)',
+                fontSize: '0.75rem',
+                fontFamily: 'var(--font-mono)',
+                color: 'var(--text-muted)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                flexWrap: 'wrap'
+              }}
+            >
+              <span><strong>Dev Diagnostics:</strong> Lesson <code>{lessonId}</code></span>
+              <span>•</span>
+              <span><strong>Total:</strong> {blocks.length} blocks</span>
+              <span>•</span>
+              <span><strong>Current:</strong> #{currentBlockIndex + 1} (<code>{currentBlock.type}</code>)</span>
+              <span>•</span>
+              <span><strong>Phase:</strong> <code>{sessionPhase}</code></span>
+            </div>
+          )}
         </div>
       </div>
 

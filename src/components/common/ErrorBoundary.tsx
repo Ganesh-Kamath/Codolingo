@@ -5,6 +5,8 @@ import { Button } from './Button';
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  resetKey?: any;
+  onReset?: () => void;
 }
 
 interface State {
@@ -32,9 +34,21 @@ export class ErrorBoundary extends Component<Props, State> {
     console.error('Codolingo Error Boundary caught an exception:', error, errorInfo);
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (this.state.hasError && prevProps.resetKey !== this.props.resetKey) {
+      this.handleTryAgain();
+    }
+  }
+
+  handleTryAgain = () => {
+    this.setState({ hasError: false, error: null, errorInfo: null });
+    if (this.props.onReset) {
+      this.props.onReset();
+    }
+  };
+
   handleReset = () => {
     this.setState({ hasError: false, error: null, errorInfo: null });
-    window.location.hash = '#/app';
     window.location.reload();
   };
 
@@ -155,31 +169,61 @@ export class ErrorBoundary extends Component<Props, State> {
             )}
 
             {/* Actions */}
-            <div
-              style={{
-                display: 'flex',
-                gap: 'var(--space-3)',
-                justifyContent: 'center',
-                flexWrap: 'wrap'
-              }}
-            >
-              <Button
-                variant="primary"
-                size="md"
-                onClick={this.handleReset}
-                icon={<Icon name="reload" size={16} />}
-              >
-                Reload Codolingo
-              </Button>
-              <Button
-                variant="secondary"
-                size="md"
-                onClick={this.handleNavigateHome}
-                icon={<Icon name="home" size={16} />}
-              >
-                Return to Learning Path
-              </Button>
-            </div>
+            {(() => {
+              const isChunkLoadError = 
+                this.state.error?.name === 'ChunkLoadError' ||
+                this.state.error?.message?.includes('Failed to fetch dynamically imported module') ||
+                this.state.error?.message?.includes('dynamically imported');
+
+              return (
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 'var(--space-3)',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap'
+                  }}
+                >
+                  {isChunkLoadError ? (
+                    <Button
+                      variant="primary"
+                      size="md"
+                      onClick={this.handleReset}
+                      icon={<Icon name="reload" size={16} />}
+                    >
+                      Reload App (New Version Available)
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      size="md"
+                      onClick={this.handleTryAgain}
+                      icon={<Icon name="reload" size={16} />}
+                    >
+                      Try Again
+                    </Button>
+                  )}
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    onClick={this.handleNavigateHome}
+                    icon={<Icon name="home" size={16} />}
+                  >
+                    Return to Learning Path
+                  </Button>
+                  {!isChunkLoadError && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={this.handleReset}
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      Reload App
+                    </Button>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Diagnostics Accordion */}
             {this.state.errorInfo && (

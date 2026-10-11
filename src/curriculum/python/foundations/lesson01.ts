@@ -82,7 +82,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
       { id: 'opt_3', text: 'Line 2 only (overwrites Line 1)', isCorrect: false, explanation: 'Python executes sequentially without erasing prior output.', misconception_tag: 'VARIABLE_VALUE_CONFUSION' },
       { id: 'opt_4', text: '"Line 1"\n"Line 2"', isCorrect: false, explanation: 'Quotes are not printed in console output.', misconception_tag: 'STRING_VS_NUMBER' }
     ],
-    correct_answer: 'Line 1\nLine 2',
+    correct_answer: 'Line 1 and Line 2 on separate lines',
     explanation: 'Python executes statements one after another from top to bottom. Each print() ends with a newline, placing subsequent prints on the next line.',
     hint: 'Each print() call defaults to moving down to a new line.',
     mental_model: 'Think of print() like typing a line on a typewriter and pressing the Return key.',

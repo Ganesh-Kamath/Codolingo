@@ -14,16 +14,40 @@ export interface CourseSummary {
   totalLessons: number;
 }
 
+export interface LessonResolutionResult {
+  status: 'ok' | 'not_found' | 'error';
+  blocks: LessonBlock[];
+  reason?: string;
+}
+
 export interface ICourseProvider {
   courseId: string;
   getMetadata(): CourseSummary;
   getCourse(): LearningCourse;
   getLessonBlocks(lessonId: string): Promise<LessonBlock[]>;
+  resolveLessonBlocks(lessonId: string): Promise<LessonResolutionResult>;
   getRawLessonPool(lessonId: string): Promise<RawCurriculumLesson | null>;
 }
 
 // Vite glob for dynamic loading of raw lesson JSONs on demand
 const rawPythonLessonModules = import.meta.glob('../curriculum/python/content/**/*.json');
+
+// Build an explicit O(1) lookup index from lesson id -> module loader at module init
+const rawLessonLoaderIndex = new Map<string, () => Promise<any>>();
+for (const [filePath, loader] of Object.entries(rawPythonLessonModules)) {
+  // Matches .../1.1_python_syntax.json or .../1.10.json
+  const idMatch = filePath.match(/\/(\d+\.\d+)[_.]/);
+  if (idMatch) {
+    rawLessonLoaderIndex.set(idMatch[1], loader);
+  }
+  const baseName = filePath.split('/').pop()?.replace('.json', '');
+  if (baseName) {
+    rawLessonLoaderIndex.set(baseName, loader);
+  }
+}
+
+// In-memory cache for parsed raw lessons so repeat views don't re-parse JSON
+const rawLessonCache = new Map<string, RawCurriculumLesson>();
 
 class PythonCourseProvider implements ICourseProvider {
   courseId = 'python';
@@ -44,51 +68,95 @@ class PythonCourseProvider implements ICourseProvider {
     return PYTHON_COURSE;
   }
 
+  async resolveLessonBlocks(lessonId: string): Promise<LessonResolutionResult> {
+    const timeoutMs = 8000;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+    const timeoutPromise = new Promise<LessonResolutionResult>((_, reject) => {
+      timerId = setTimeout(() => {
+        reject(new Error(`Loading lesson "${lessonId}" timed out after ${timeoutMs}ms.`));
+      }, timeoutMs);
+    });
+
+    const executionPromise = (async (): Promise<LessonResolutionResult> => {
+      try {
+        // 0. Primary: Check structured Foundations curriculum first
+        const foundationsBlocks = getFoundationsLessonBlocks(lessonId);
+        if (foundationsBlocks && foundationsBlocks.length > 0) {
+          return { status: 'ok', blocks: foundationsBlocks };
+        }
+
+        // 1. Check pre-indexed selected lessons for instant response
+        const preselected = (selectedLessonsMap as Record<string, any>)[lessonId];
+        if (preselected && preselected.blocks && preselected.blocks.length > 0) {
+          return { status: 'ok', blocks: preselected.blocks as LessonBlock[] };
+        }
+
+        // 2. Direct O(1) indexed raw pool lookup
+        const rawLesson = await this.getRawLessonPool(lessonId);
+        if (rawLesson) {
+          const selected = selectLessonQuestions(rawLesson, 15);
+          const mapped = selected.map(mapItemToBlock).filter(Boolean);
+          if (mapped.length > 0) {
+            return { status: 'ok', blocks: mapped };
+          }
+        }
+
+        if (import.meta.env.DEV) {
+          console.warn(`[courseService] Lesson not found for id: "${lessonId}".`);
+        }
+        return {
+          status: 'not_found',
+          blocks: [],
+          reason: `Lesson "${lessonId}" was not found in curriculum.`
+        };
+      } catch (err: any) {
+        console.error(`[courseService] Error resolving blocks for lesson "${lessonId}":`, err);
+        return {
+          status: 'error',
+          blocks: [],
+          reason: err?.message || 'Error occurred while loading lesson.'
+        };
+      }
+    })();
+
+    try {
+      const result = await Promise.race([executionPromise, timeoutPromise]);
+      if (timerId) clearTimeout(timerId);
+      return result;
+    } catch (err: any) {
+      if (timerId) clearTimeout(timerId);
+      console.error(`[courseService] Lesson resolution failed:`, err);
+      return {
+        status: 'error',
+        blocks: [],
+        reason: err?.message || `Loading lesson "${lessonId}" timed out.`
+      };
+    }
+  }
+
   async getLessonBlocks(lessonId: string): Promise<LessonBlock[]> {
-    // 0. Primary: Check structured Foundations curriculum first
-    const foundationsBlocks = getFoundationsLessonBlocks(lessonId);
-    if (foundationsBlocks && foundationsBlocks.length > 0) {
-      return foundationsBlocks;
-    }
-
-    // 1. Check pre-indexed selected lessons for instant response
-    const preselected = (selectedLessonsMap as Record<string, any>)[lessonId];
-    if (preselected && preselected.blocks && preselected.blocks.length > 0) {
-      return preselected.blocks as LessonBlock[];
-    }
-
-    // 2. Fallback: dynamically load raw pool and select
-    const rawLesson = await this.getRawLessonPool(lessonId);
-    if (rawLesson) {
-      const selected = selectLessonQuestions(rawLesson, 15);
-      return selected.map(mapItemToBlock);
-    }
-
-    return [];
+    const result = await this.resolveLessonBlocks(lessonId);
+    return result.blocks;
   }
 
   async getRawLessonPool(lessonId: string): Promise<RawCurriculumLesson | null> {
-    // Find unit and filename for lessonId
-    for (const [filePath, loader] of Object.entries(rawPythonLessonModules)) {
-      if (filePath.includes(`/${lessonId}_`) || filePath.endsWith(`/${lessonId}.json`)) {
-        try {
-          const mod = (await loader()) as any;
-          return (mod.default || mod) as RawCurriculumLesson;
-        } catch (e) {
-          console.error(`Failed to load raw lesson ${lessonId}:`, e);
-        }
-      }
+    if (rawLessonCache.has(lessonId)) {
+      return rawLessonCache.get(lessonId)!;
     }
 
-    // Try finding via manifest file path
-    for (const [filePath, loader] of Object.entries(rawPythonLessonModules)) {
+    const loader = rawLessonLoaderIndex.get(lessonId);
+    if (loader) {
       try {
         const mod = (await loader()) as any;
         const data = (mod.default || mod) as RawCurriculumLesson;
-        if (data.lesson_id === lessonId) {
-          return data;
+        rawLessonCache.set(lessonId, data);
+        if (data.lesson_id) {
+          rawLessonCache.set(data.lesson_id, data);
         }
-      } catch {}
+        return data;
+      } catch (e) {
+        console.error(`Failed to load raw lesson ${lessonId}:`, e);
+      }
     }
 
     return null;
@@ -124,6 +192,10 @@ class CourseRegistry {
 
   async getLessonBlocks(courseId: string, lessonId: string): Promise<LessonBlock[]> {
     return this.getProvider(courseId).getLessonBlocks(lessonId);
+  }
+
+  async resolveLessonBlocks(courseId: string, lessonId: string): Promise<LessonResolutionResult> {
+    return this.getProvider(courseId).resolveLessonBlocks(lessonId);
   }
 
   getAllCourses(): CourseSummary[] {

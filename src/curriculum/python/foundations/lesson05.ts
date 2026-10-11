@@ -255,6 +255,7 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
       {
         id: 'tc_1',
         description: 'Assigns input directly to username variable',
+        input: 'Alex',
         expectedOutput: 'Hello, Alex',
         assertionPython: "assert 'username = input(' in _user_code or 'username=input(' in _user_code"
       }

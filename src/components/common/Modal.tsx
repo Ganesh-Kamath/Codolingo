@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { IconButton } from './IconButton';
 
 export interface ModalProps {
@@ -25,28 +26,80 @@ export const Modal: React.FC<ModalProps> = ({
   className = ''
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      window.addEventListener('keydown', handleKeyDown);
-    } else {
-      document.body.style.overflow = '';
-    }
+      previouslyFocusedElementRef.current = document.activeElement as HTMLElement | null;
 
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      // Focus first focusable element or modal container
+      const timer = setTimeout(() => {
+        if (modalRef.current) {
+          const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusable.length > 0) {
+            focusable[0].focus();
+          } else {
+            modalRef.current.focus();
+          }
+        }
+      }, 50);
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          onClose();
+          return;
+        }
+
+        // Focus trap
+        if (e.key === 'Tab' && modalRef.current) {
+          const focusable = Array.from(
+            modalRef.current.querySelectorAll<HTMLElement>(
+              'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            )
+          ).filter(el => el.offsetParent !== null);
+
+          if (focusable.length === 0) {
+            e.preventDefault();
+            return;
+          }
+
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === first || !modalRef.current.contains(document.activeElement)) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last || !modalRef.current.contains(document.activeElement)) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        clearTimeout(timer);
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+        if (previouslyFocusedElementRef.current && typeof previouslyFocusedElementRef.current.focus === 'function') {
+          previouslyFocusedElementRef.current.focus();
+        }
+      };
+    }
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || typeof document === 'undefined') return null;
 
   const getMaxWidth = () => {
     switch (size) {
@@ -58,14 +111,19 @@ export const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  return (
+  const titleId = title ? 'codolingo-modal-title' : undefined;
+  const descId = description ? 'codolingo-modal-desc' : undefined;
+
+  const modalContent = (
     <div
       role="dialog"
       aria-modal="true"
+      aria-labelledby={titleId}
+      aria-describedby={descId}
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 1000,
+        zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -82,6 +140,7 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div
         ref={modalRef}
+        tabIndex={-1}
         className={`card-plate ${className}`}
         style={{
           width: '100%',
@@ -94,7 +153,8 @@ export const Modal: React.FC<ModalProps> = ({
           border: '1.5px solid var(--border-default)',
           boxShadow: 'var(--shadow-2xl)',
           overflow: 'hidden',
-          animation: 'popIn 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          animation: 'popIn 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          outline: 'none'
         }}
       >
         {/* Header */}
@@ -112,6 +172,7 @@ export const Modal: React.FC<ModalProps> = ({
             <div>
               {title && (
                 <h3
+                  id={titleId}
                   style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: 'var(--text-xl)',
@@ -125,6 +186,7 @@ export const Modal: React.FC<ModalProps> = ({
               )}
               {description && (
                 <p
+                  id={descId}
                   style={{
                     fontSize: 'var(--text-sm)',
                     color: 'var(--text-secondary)',
@@ -178,4 +240,6 @@ export const Modal: React.FC<ModalProps> = ({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { useApp } from './context/AppContext';
 import { Icon } from './components/ui/Icon';
-import { Button, IconButton, Tooltip, CommandPalette, Skeleton, BrandLogo } from './components/common';
+import { Button, IconButton, Tooltip, CommandPalette, Skeleton, BrandLogo, ErrorBoundary } from './components/common';
 import { BottomNav } from './components/layout/BottomNav';
 import { progressionService } from './services/progressionService';
 
@@ -29,6 +29,36 @@ const ViewLoadingFallback = () => (
       <Skeleton height="110px" radius="lg" />
     </div>
     <Skeleton height="320px" radius="xl" />
+  </div>
+);
+
+const LessonLoadingFallback = () => (
+  <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-app)' }}>
+    {/* Lesson Top Bar Skeleton */}
+    <div style={{ height: '64px', borderBottom: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', padding: '0 20px', gap: '16px' }}>
+      <Skeleton height="36px" width="36px" radius="full" />
+      <div style={{ flex: 1, maxWidth: '600px' }}>
+        <Skeleton height="12px" radius="full" />
+      </div>
+      <Skeleton height="32px" width="70px" radius="full" />
+    </div>
+    {/* Lesson Content Skeleton */}
+    <div style={{ flex: 1, maxWidth: '780px', width: '100%', margin: '0 auto', padding: '32px 20px 140px' }}>
+      <Skeleton height="28px" width="140px" radius="md" style={{ marginBottom: '16px' }} />
+      <Skeleton height="40px" width="80%" radius="md" style={{ marginBottom: '24px' }} />
+      <Skeleton height="120px" radius="xl" style={{ marginBottom: '24px' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <Skeleton height="60px" radius="xl" />
+        <Skeleton height="60px" radius="xl" />
+        <Skeleton height="60px" radius="xl" />
+      </div>
+    </div>
+    {/* Footer Drawer Skeleton */}
+    <div style={{ height: '80px', borderTop: '1px solid var(--border-default)', backgroundColor: 'var(--bg-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}>
+      <div style={{ maxWidth: '820px', width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+        <Skeleton height="48px" width="160px" radius="xl" />
+      </div>
+    </div>
   </div>
 );
 
@@ -157,7 +187,7 @@ export const AppContent: React.FC = () => {
 
   // 3. Full-Screen Interactive Lesson Runner
   if (currentRoute.startsWith('/app/lesson/')) {
-    const lessonId = currentRoute.replace('/app/lesson/', '');
+    const lessonId = currentRoute.replace('/app/lesson/', '').split('?')[0].split('#')[0].replace(/\/+$/, '');
     const isAvailable = progressionService.isLessonAvailable(lessonId, userProgress, course);
     if (!isAvailable) {
       return (
@@ -222,9 +252,11 @@ export const AppContent: React.FC = () => {
       );
     }
     return (
-      <Suspense fallback={<ViewLoadingFallback />}>
-        <MultiStepLessonView lessonId={lessonId} />
-      </Suspense>
+      <ErrorBoundary resetKey={lessonId}>
+        <Suspense fallback={<LessonLoadingFallback />}>
+          <MultiStepLessonView lessonId={lessonId} />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 

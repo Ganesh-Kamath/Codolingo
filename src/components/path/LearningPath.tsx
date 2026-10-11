@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useApp } from '../../context/AppContext';
 import { SkillNode, Unit } from '../../types';
 import { Icon } from '../ui/Icon';
 import { Button, Badge, ProgressBar, Modal } from '../common';
 import { masteryService } from '../../services/masteryService';
 import { UNKNOWN_MASTERY_PIPS, UNKNOWN_MASTERY_LABEL, MASTERY_LABELS } from '../../constants/mastery';
+import curriculumStatus from '../../curriculum/python/curriculumStatus.json';
 
 const UnitProgressRing: React.FC<{ progress: number; size?: number; color?: string }> = ({ progress, size = 48, color = 'var(--brand-primary)' }) => {
   const strokeWidth = 4.5;
@@ -63,6 +65,7 @@ export const LearningPath: React.FC = () => {
     isCurrent: boolean;
     lockReason?: string;
     masteryPips: number;
+    isComingSoon?: boolean;
   }
   const [previewState, setPreviewState] = useState<SkillPreviewState | null>(null);
   const [pipDetailModal, setPipDetailModal] = useState<{ skillTitle: string; explanation: string } | null>(null);
@@ -221,10 +224,11 @@ export const LearningPath: React.FC = () => {
         <div style={{ position: 'relative', width: '320px', height: `${totalHeight}px`, zIndex: 10 }}>
           {skills.map((skill, index) => {
             const coord = coords[index];
-            const isCompleted = userProgress.completedSkillIds.includes(skill.id);
-            const isCurrent = skill.id === userProgress.currentSkillId;
-            const isUnlocked = isCompleted || isCurrent || skill.status === 'unlocked';
-            const isLocked = !isUnlocked;
+            const isUnitComingSoon = (curriculumStatus.comingSoonUnits as string[]).includes(unit.id);
+            const isCompleted = !isUnitComingSoon && userProgress.completedSkillIds.includes(skill.id);
+            const isCurrent = !isUnitComingSoon && skill.id === userProgress.currentSkillId;
+            const isUnlocked = !isUnitComingSoon && (isCompleted || isCurrent || skill.status === 'unlocked');
+            const isLocked = isUnitComingSoon || !isUnlocked;
             const mastery = userProgress.skillMastery[skill.id] || 0;
 
             let bgColor = 'var(--bg-surface)';
@@ -250,7 +254,9 @@ export const LearningPath: React.FC = () => {
             }
 
             const prevSkill = index > 0 ? skills[index - 1] : null;
-            const lockReason = isLocked ? (prevSkill ? `Finish ${prevSkill.title} first` : 'Complete preceding skill first') : undefined;
+            const lockReason = isUnitComingSoon
+              ? 'Coming soon: Content in this unit is currently undergoing curriculum verification.'
+              : (isLocked ? (prevSkill ? `Finish ${prevSkill.title} first` : 'Complete preceding skill first') : undefined);
 
             return (
               <div
@@ -275,7 +281,8 @@ export const LearningPath: React.FC = () => {
                       isCompleted,
                       isCurrent,
                       lockReason,
-                      masteryPips: mastery
+                      masteryPips: mastery,
+                      isComingSoon: isUnitComingSoon
                     });
                   }}
                   style={{
@@ -640,6 +647,9 @@ export const LearningPath: React.FC = () => {
                         <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)' }}>
                           Unit {unit.unitNumber}
                         </span>
+                        {(curriculumStatus.comingSoonUnits as string[]).includes(unit.id) && (
+                          <Badge variant="neutral" size="sm">Coming soon</Badge>
+                        )}
                         <span style={{ color: 'var(--border-strong)' }}>•</span>
                         <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                           {unit.title}
@@ -709,6 +719,9 @@ export const LearningPath: React.FC = () => {
                       >
                         {isCurrentUnit ? `CURRENT UNIT • UNIT ${unit.unitNumber}` : unit.title}
                       </span>
+                      {(curriculumStatus.comingSoonUnits as string[]).includes(unit.id) && (
+                        <Badge variant="neutral" size="sm">Coming soon</Badge>
+                      )}
                       <span style={{ color: 'var(--border-strong)' }}>•</span>
                       <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
                         {unit.subtitle}
@@ -975,21 +988,20 @@ export const LearningPath: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. SKILL PREVIEW CARD MODAL (Popover on desktop, bottom-sheet on mobile) */}
-      {previewState && (
+      {/* 3. SKILL PREVIEW CARD MODAL (Rendered into document.body via Portal) */}
+      {previewState && typeof document !== 'undefined' && createPortal(
         <div
+          role="dialog"
+          aria-modal="true"
           style={{
             position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(30, 27, 23, 0.65)',
+            inset: 0,
+            backgroundColor: 'var(--bg-overlay, rgba(30, 27, 23, 0.65))',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 100,
+            zIndex: 9999,
             padding: '20px'
           }}
           onClick={() => setPreviewState(null)}
@@ -1002,7 +1014,8 @@ export const LearningPath: React.FC = () => {
               width: '100%',
               padding: '28px',
               boxShadow: 'var(--shadow-xl)',
-              position: 'relative'
+              position: 'relative',
+              backgroundColor: 'var(--bg-surface)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -1026,7 +1039,12 @@ export const LearningPath: React.FC = () => {
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  {previewState.isLocked ? (
+                  {previewState.isComingSoon ? (
+                    <Badge variant="neutral" size="sm">
+                      <Icon name="clock" size={12} style={{ marginRight: 4 }} />
+                      Coming soon
+                    </Badge>
+                  ) : previewState.isLocked ? (
                     <Badge variant="neutral" size="sm">
                       <Icon name="lock" size={12} style={{ marginRight: 4 }} />
                       Locked
@@ -1120,7 +1138,7 @@ export const LearningPath: React.FC = () => {
                 </div>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
-                    Skill currently locked
+                    {previewState.isComingSoon ? 'Unit coming soon' : 'Skill currently locked'}
                   </div>
                   <div style={{ fontSize: '0.825rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
                     {previewState.lockReason || 'Complete previous lessons on the path to unlock this node.'}
@@ -1136,17 +1154,29 @@ export const LearningPath: React.FC = () => {
                   {previewState.skill.lessons.map((les, idx) => {
                     const isDone = userProgress.completedLessonIds.includes(les.id);
                     return (
-                      <div
+                      <button
                         key={les.id}
+                        type="button"
+                        onClick={() => {
+                          if (!previewState.isLocked && !previewState.isComingSoon) {
+                            setPreviewState(null);
+                            startLesson(les.id);
+                          }
+                        }}
                         style={{
-                          padding: '10px 14px',
+                          padding: '12px 14px',
                           backgroundColor: 'var(--bg-surface-subtle)',
                           borderRadius: 'var(--radius-md)',
                           border: '1.5px solid var(--border-default)',
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'space-between'
+                          justifyContent: 'space-between',
+                          width: '100%',
+                          cursor: 'pointer',
+                          textAlign: 'left'
                         }}
+                        className="hover-elevate"
+                        title={`Start ${les.title}`}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                           <span
@@ -1154,8 +1184,8 @@ export const LearningPath: React.FC = () => {
                               width: '24px',
                               height: '24px',
                               borderRadius: '50%',
-                              backgroundColor: isDone ? '#10B981' : '#E5DDD0',
-                              color: isDone ? '#FFFFFF' : '#57534E',
+                              backgroundColor: isDone ? 'var(--state-success, #10B981)' : 'var(--border-default, #E5DDD0)',
+                              color: isDone ? '#FFFFFF' : 'var(--text-secondary, #57534E)',
                               fontSize: '0.75rem',
                               fontFamily: 'var(--font-display)',
                               fontWeight: 800,
@@ -1170,10 +1200,10 @@ export const LearningPath: React.FC = () => {
                             {les.title}
                           </span>
                         </div>
-                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                          +{les.xpReward} XP
+                        <span style={{ fontSize: '0.78rem', color: 'var(--brand-primary)', fontWeight: 700 }}>
+                          +{les.xpReward} XP →
                         </span>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
@@ -1189,7 +1219,7 @@ export const LearningPath: React.FC = () => {
               >
                 Close
               </Button>
-              {!previewState.isLocked && (
+              {!previewState.isLocked && !previewState.isComingSoon && (
                 <Button
                   variant={previewState.isCompleted ? "secondary" : "primary"}
                   size="md"
@@ -1205,7 +1235,8 @@ export const LearningPath: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* PIP EXPLANATION DIALOG */}
