@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_4_1',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '3. Concatenation',
     concept: 'string_concatenation',
     learning_objective: 'Predict the result of concatenating two string literals with +.',
@@ -32,8 +32,8 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_4_2',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '3. Concatenation',
     concept: 'type_error_string_plus_int',
     learning_objective: 'Identify the TypeError caused by concatenating a string and an integer.',
@@ -70,8 +70,8 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_4_3',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '3. Concatenation',
     concept: 'complete_full_name',
     learning_objective: 'Complete string concatenation to include a spacing delimiter.',
@@ -90,8 +90,8 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_4_4',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '4. Repetition',
     concept: 'string_repetition_operator',
     learning_objective: 'Predict the result of repeating a string using the * operator.',
@@ -116,8 +116,8 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_4_5',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '2. String variables',
     concept: 'write_greeting_generator',
     learning_objective: 'Create string variables and print a greeting combining them.',
@@ -138,19 +138,21 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Variables greeting and target exist',
         expectedOutput: 'Hello, World!',
-        assertionPython: "assert _user_namespace.get('greeting') == 'Hello' and _user_namespace.get('target') == 'World'"
+        assertionPython: "assert _user_namespace.get('greeting') == 'Hello' and _user_namespace.get('target') == 'World'",
+        hidden: true
       }
     ],
     explanation: 'We create the two string variables, concatenate them with `", "` and `"!"`, and print the result.',
     hint: 'greeting = "Hello"\ntarget = "World"\nprint(greeting + ", " + target + "!")',
+    misconception_tag: 'STRING_VS_NUMBER',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_4_6',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '3. Concatenation',
     concept: 'debug_string_concatenation_error',
     learning_objective: 'Debug a TypeError when combining a string with an integer score.',
@@ -165,7 +167,14 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_1',
         description: 'Successfully prints "Your score is: 100" without TypeError',
         expectedOutput: 'Your score is: 100',
-        assertionPython: "assert 'Your score is: 100' in _raw_stdout.strip()"
+        assertionPython: "assert 'Your score is: 100' in _raw_stdout.strip() and _user_namespace.get('score') == 100"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying score variable and conversion',
+        expectedOutput: 'Your score is: 100',
+        assertionPython: "assert _user_namespace.get('score') == 100 and _raw_stdout.strip() == 'Your score is: 100'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -182,8 +191,8 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_4_7',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '1. String literals',
     concept: 'reason_variable_vs_literal',
     learning_objective: 'Explain the critical difference between print(name) and print("name").',
@@ -206,8 +215,8 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_4_8',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '5. String output',
     concept: 'apply_receipt_formatter',
     learning_objective: 'Apply string concatenation to format an itemized receipt line.',
@@ -222,19 +231,27 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_1',
         description: 'Prints formatted receipt line',
         expectedOutput: 'Item: Coffee | Price: $3.50',
-        assertionPython: "assert _raw_stdout.strip() == 'Item: Coffee | Price: $3.50'"
+        assertionPython: "assert _raw_stdout.strip() == 'Item: Coffee | Price: $3.50' and _user_namespace.get('item') == 'Coffee'"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying variables and price',
+        expectedOutput: 'Item: Coffee | Price: $3.50',
+        assertionPython: "assert _user_namespace.get('price') == '3.50' and 'Coffee' in _raw_stdout",
+        hidden: true
       }
     ],
     explanation: 'Concatenating `"Item: "` with `item`, `" | Price: $"`, and `price` constructs the complete formatted line.',
     hint: 'print("Item: " + item + " | Price: $" + price)',
+    misconception_tag: 'STRING_VS_NUMBER',
     xp: 25,
     estimated_time: 75,
     order: 8
   },
   {
     id: 'py_fnd_4_9',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '3. Concatenation',
     concept: 'trace_string_builder',
     learning_objective: 'Trace a string accumulator growing through consecutive concatenations.',
@@ -248,14 +265,15 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: 'Each line appends another character to the existing string and saves the new string back into `msg`.',
     hint: 'Concatenation attaches each new string to the right end of the previous string.',
+    misconception_tag: 'STRING_VS_NUMBER',
     xp: 20,
     estimated_time: 60,
     order: 9
   },
   {
     id: 'py_fnd_4_10',
-    unit: 'unit_01',
-    lesson: '1.4',
+    unit: 'unit_02',
+    lesson: '2.4',
     section: '1. String literals',
     concept: 'debug_embedded_apostrophe',
     learning_objective: 'Debug an unescaped apostrophe inside single quotes by switching to double quotes.',
@@ -271,6 +289,13 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints "It\'s a great day" cleanly without SyntaxError',
         expectedOutput: "It's a great day",
         assertionPython: "assert _raw_stdout.strip() == \"It's a great day\""
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test ensuring no syntax error on quotes',
+        expectedOutput: "It's a great day",
+        assertionPython: "assert _raw_stdout.strip() == \"It's a great day\"",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -288,9 +313,9 @@ export const LESSON_04_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_04: LessonStructure = {
-  id: '1.4',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
+  id: '2.4',
+  unitId: 'unit_02',
+  unitTitle: 'Unit 2: Variables and Data',
   title: 'Strings',
   slug: 'strings',
   order: 4,

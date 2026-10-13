@@ -1,587 +1,597 @@
 {
   "lesson_id": "6.2",
   "title": "The while Loop",
-  "unit": "Loops and Repetition",
+  "unit": "unit_06",
   "items": [
     {
-      "id": "6.2_q1",
+      "id": "6.2_cand_1",
       "type": "micro_lesson",
-      "difficulty": "easy",
-      "prerequisites": [],
       "concept": "the_while_loop_basics",
       "skill": "recognition",
-      "title": "What is a while Loop?",
-      "content": "A while loop is a control flow statement that repeatedly executes a block of code as long as a given condition is true. It is used when you do not know in advance how many times the loop should run. The basic idea is: check a condition, and if it evaluates to True, run the indented code; after the block finishes, check the condition again. When the condition becomes False, the loop stops and the program continues with the next statement after the loop.\n\nExample:\n```python\ncount = 0\nwhile count < 3:\n    print('count is', count)\n    count = count + 1\nprint('Done')\n```\nIn this example, the indented block runs three times because count starts at 0 and increases by 1 each iteration. Once count reaches 3, the condition count < 3 is False, so the loop exits.",
+      "difficulty": "easy",
+      "title": "The while Loop: Condition-Controlled Execution",
       "prompt": "",
-      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+      "explanation": "A while loop repeats a block of code as long as a test condition remains True. Unlike a for loop which traverses a predetermined collection, a while loop continues dynamically until a state boundary is reached.",
+      "content": "# The while Loop: Condition-Controlled Execution\n\nA `while` loop repeatedly executes its block as long as its condition evaluates to `True`.\n\n### Anatomy of a while Loop\n```python\ncount = 1              # 1. Initialize counter\nwhile count <= 3:      # 2. Test condition (runs if True)\n    print(count)       # 3. Loop body action\n    count += 1         # 4. Advance counter towards boundary\n```\n\n### Execution Flow: Step by Step\n1. **Initial Check:** Python evaluates `count <= 3` (`1 <= 3` is `True`).\n2. **First Run:** Prints `1`, increments `count` to `2`.\n3. **Second Check:** `2 <= 3` is `True`. Prints `2`, increments to `3`.\n4. **Third Check:** `3 <= 3` is `True`. Prints `3`, increments to `4`.\n5. **Final Check:** `4 <= 3` is `False`! The loop terminates immediately. Execution resumes sequentially below the loop.\n\n### The Zero-Iteration Rule\nBecause the condition is checked **before** entering the body, if the condition starts `False`, the loop body runs **zero times**."
     },
     {
-      "id": "6.2_q2",
+      "id": "6.2_cand_2",
       "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q1"
-      ],
       "concept": "the_while_loop_basics",
       "skill": "recall",
-      "prompt": "Which statement best describes a while loop?",
-      "options": [
-        "It always runs exactly 5 times.",
-        "It repeats code while a condition is True.",
-        "It runs only once when a condition is False.",
-        "It is used only for printing text."
-      ],
-      "correct_answer": "It repeats code while a condition is True.",
-      "explanation": "A while loop checks a condition before each iteration. If the condition is True, the loop body executes; otherwise, it stops. It does not guarantee a fixed number of runs."
-    },
-    {
-      "id": "6.2_q3",
-      "type": "micro_lesson",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q2"
-      ],
-      "concept": "the_while_loop_syntax",
-      "skill": "understanding",
-      "title": "while Loop Syntax",
-      "content": "The syntax of a while loop in Python has three main parts:\n\n1. The keyword `while`\n2. A condition that evaluates to True or False\n3. An indented block of code to execute\n\nThe condition is tested before every iteration. If the condition is True, Python executes the indented block. After the block finishes, Python returns to the `while` line and re-evaluates the condition. If it is still True, the block runs again. This continues until the condition becomes False, at which point the loop ends.\n\nImportant syntax rules:\n- The condition must be a boolean expression.\n- The code block must be indented consistently (usually 4 spaces).\n- Forgetting to indent the block causes an `IndentationError`.\n- Forgetting to update the condition inside the loop can create an infinite loop.\n\nExample:\n```python\nnumber = 1\nwhile number <= 4:\n    print('number:', number)\n    number = number + 1\n```\nHere, `number <= 4` is the condition, and the two indented lines form the loop body.",
-      "prompt": "",
-      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
-    },
-    {
-      "id": "6.2_q4",
-      "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q3"
-      ],
-      "concept": "the_while_loop_syntax",
-      "skill": "reasoning",
-      "prompt": "Which of the following code snippets correctly uses the while loop syntax?",
+      "prompt": "When does Python evaluate the condition in a standard `while` loop?",
       "options": [
-        "while x > 0:\nprint(x)",
-        "while x > 0:\n    print(x)",
-        "while (x > 0):\n    print(x)",
-        "while x > 0 do:\n    print(x)"
+        "Before every iteration, including before the very first execution",
+        "Only once when the loop is first created",
+        "At the very end of the loop body after all statements run",
+        "Continuously in background parallel threads"
       ],
-      "correct_answer": "while x > 0:\n    print(x)",
-      "explanation": "Python requires the `while` keyword, a condition, a colon, and an indented block. Option B follows this exactly. Option A lacks indentation. Option C uses unnecessary parentheses. Option D uses invalid syntax (`do`)."
+      "correct_answer": "Before every iteration, including before the very first execution",
+      "explanation": "A `while` loop is an entry-controlled loop. Python checks the condition before every single pass. If the condition is False on the first check, the loop body never runs at all.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.2_q5",
-      "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q4"
-      ],
-      "concept": "the_while_loop_matching",
-      "skill": "recognition",
-      "prompt": "Match each code fragment to its purpose.",
-      "options": [
-        "Initializes a counter: count = 0",
-        "Checks the loop condition: while count < 5:",
-        "Updates the counter: count = count + 1",
-        "Prints the current value: print('count is', count)"
-      ],
-      "correct_answer": "Initializes a counter: count = 0",
-      "explanation": "The line `count = 0` sets up the starting value before the loop begins, which is called initialization. The other options describe condition checking, updating, and output."
-    },
-    {
-      "id": "6.2_q6",
-      "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q5"
-      ],
-      "concept": "the_while_loop_pitfalls",
-      "skill": "comprehension",
-      "prompt": "What is a common pitfall when using a while loop?",
-      "options": [
-        "Using a for loop instead of a while loop.",
-        "Forgetting to change the condition inside the loop.",
-        "Always initializing variables after the loop.",
-        "Writing the condition on a separate line without a colon."
-      ],
-      "correct_answer": "Forgetting to change the condition inside the loop.",
-      "explanation": "If the condition never changes to False, the loop runs forever. This is called an infinite loop. You must update at least one variable inside the loop body so the condition eventually becomes False."
-    },
-    {
-      "id": "6.2_q7",
+      "id": "6.2_cand_3",
       "type": "code_prediction",
       "concept": "the_while_loop_execution",
       "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q6"
-      ],
-      "prompt": "What will be printed by the following code?\n```python\ncnt = 1\nwhile cnt <= 3:\n    print('Step', cnt)\n    cnt = cnt + 1\n```",
+      "prompt": "What does this countdown program print?",
+      "code_snippet": "timer = 3\nwhile timer > 0:\n    print(timer)\n    timer -= 1\nprint(\"Liftoff!\")",
+      "expected_output": "3\n2\n1\nLiftoff!",
       "options": [
-        "Step 1 Step 2 Step 3",
-        "Step 1\nStep 2\nStep 3",
-        "Step 1 Step 4",
-        "Nothing is printed"
+        "3\n2\n1\nLiftoff!",
+        "3\n2\n1\n0\nLiftoff!",
+        "Liftoff!",
+        "3\n2\n1"
       ],
-      "correct_answer": "Step 1\nStep 2\nStep 3",
-      "explanation": "The loop initializes cnt to 1. On each iteration, it prints the current value and increments cnt by 1. The condition cnt <= 3 is true for 1, 2, and 3, so three lines are printed."
+      "correct_answer": "3\n2\n1\nLiftoff!",
+      "explanation": "`timer` begins at 3. It prints 3 (timer becomes 2), prints 2 (timer becomes 1), prints 1 (timer becomes 0). When timer is 0, `0 > 0` is False, so the loop ends and \"Liftoff!\" prints.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.2_q8",
-      "type": "output_prediction",
-      "concept": "the_while_loop_execution",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q7"
-      ],
-      "prompt": "What is the final output of this program?\n```python\nname = ''\nwhile name != 'quit':\n    name = input('Enter your name: ')\n    if name != '':\n        print('Hello', name)\n```\nAssume the user enters: Alice, then Bob, then quit.",
-      "options": [
-        "Hello Alice\nHello Bob",
-        "Hello Alice\nHello Bob\nHello quit",
-        "Hello Alice\nHello Bob\nHello ",
-        "Hello Alice\nHello Bob\nHello quit\nHello "
-      ],
-      "correct_answer": "Hello Alice\nHello Bob",
-      "explanation": "The loop continues until the user types exactly 'quit'. For Alice and Bob, the names are non-empty, so 'Hello' followed by the name is printed. When 'quit' is entered, the condition name != 'quit' becomes false and the loop stops."
-    },
-    {
-      "id": "6.2_q9",
+      "id": "6.2_cand_4",
       "type": "code_prediction",
       "concept": "the_while_loop_flow",
       "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q8"
-      ],
-      "prompt": "What happens when this code runs?\n```python\nx = 0\nwhile x < 5:\n    if x == 3:\n        break\n    print('x is', x)\n    x = x + 1\n```",
+      "difficulty": "easy",
+      "prompt": "What does this program print?",
+      "code_snippet": "num = 10\nwhile num < 5:\n    print(num)\n    num += 1\nprint(\"Done\")",
+      "expected_output": "Done",
       "options": [
-        "It prints x is 0, x is 1, x is 2, then exits the loop",
-        "It prints x is 0, x is 1, x is 2, x is 3, then exits",
-        "It prints x is 0, x is 1, x is 2, then raises an error",
-        "It prints x is 0, x is 1, x is 2, x is 3, x is 4"
+        "Done",
+        "10\nDone",
+        "5\nDone",
+        "10"
       ],
-      "correct_answer": "It prints x is 0, x is 1, x is 2, then exits the loop",
-      "explanation": "The break statement immediately terminates the while loop when x becomes 3. Therefore, x is 3 and x is 4 are never printed."
+      "correct_answer": "Done",
+      "explanation": "Initially `num = 10`. The condition `10 < 5` evaluates to `False` on the very first check. The loop body is completely bypassed, and only `\"Done\"` is printed.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.2_q10",
+      "id": "6.2_cand_5",
       "type": "multiple_choice",
-      "concept": "the_while_loop_analysis",
-      "skill": "analysis",
+      "concept": "the_while_loop_scenario",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q9"
-      ],
-      "prompt": "Consider this code:\n```python\ntotal = 0\ni = 1\nwhile i <= 5:\n    total = total + i\n    i = i + 1\n```\nWhat is the value of total after the loop finishes?",
+      "prompt": "A phone battery starts at `charge = 50`. Each gaming session drains 15%. The phone runs sessions `while charge >= 20: charge -= 15`. What is `charge` when the loop ends?",
       "options": [
-        "10",
-        "15",
-        "21",
-        "5"
+        "5",
+        "20",
+        "35",
+        "0"
       ],
-      "correct_answer": "15",
-      "explanation": "The loop adds 1, 2, 3, 4, and 5 to total. 1 + 2 + 3 + 4 + 5 equals 15. The loop stops when i becomes 6, which fails the condition i <= 5."
+      "correct_answer": "5",
+      "explanation": "Pass 1: 50 >= 20 is True -> charge becomes 35. Pass 2: 35 >= 20 is True -> charge becomes 20. Pass 3: 20 >= 20 is True -> charge becomes 5. Pass 4: 5 >= 20 is False -> loop terminates. `charge` is 5.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.2_q11",
+      "id": "6.2_cand_6",
+      "type": "multiple_choice",
+      "concept": "the_while_loop_scenario",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "An ATM allows PIN attempts `attempts_left = 3`. Which while loop condition executes the login prompt as long as the user has at least one attempt remaining?",
+      "options": [
+        "while attempts_left > 0:",
+        "while attempts_left < 3:",
+        "while attempts_left == 0:",
+        "while attempts_left >= 3:"
+      ],
+      "correct_answer": "while attempts_left > 0:",
+      "explanation": "`attempts_left > 0` allows execution when 3, 2, or 1 attempt remains, and terminates the moment attempts reach 0.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.2_cand_7",
+      "type": "multiple_choice",
+      "concept": "the_while_loop_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "Look at this code:\n```python\ni = 1\nwhile i <= 3:\n    print(i)\ni += 1\n```\nWhy does this program freeze and time out instead of counting to 3?",
+      "options": [
+        "i += 1 is unindented outside the loop body, so i never increments while inside the loop",
+        "while loops cannot compare integers with <=",
+        "i must be initialized to 0",
+        "print(i) resets i to 1"
+      ],
+      "correct_answer": "i += 1 is unindented outside the loop body, so i never increments while inside the loop",
+      "explanation": "Because `i += 1` is not indented, it is not part of the loop body. The loop repeats `print(1)` forever with `i` stuck at 1, causing an infinite loop.",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "6.2_cand_8",
+      "type": "multiple_choice",
+      "concept": "the_while_loop_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A game intended to grant 5 daily bonus spins starting from `spins = 1`. The programmer wrote `while spins < 5: spins += 1`. Why did players only receive 4 spins?",
+      "options": [
+        "Strict inequality < 5 stops when spins reaches 5 without running the 5th iteration",
+        "spins += 1 increments by 2",
+        "while loops always skip the first iteration",
+        "spins must start at -1"
+      ],
+      "correct_answer": "Strict inequality < 5 stops when spins reaches 5 without running the 5th iteration",
+      "explanation": "`spins < 5` runs for spins = 1, 2, 3, 4 (4 iterations total). To include the 5th spin, the condition must use inclusive `<= 5`.",
+      "misconception_tag": "OFF_BY_ONE"
+    },
+    {
+      "id": "6.2_cand_9",
+      "type": "multiple_choice",
+      "concept": "the_while_loop_pitfalls",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "What happens when this snippet is executed?\n```python\nwhile True:\n    counter = 1\n    print(counter)\n    counter += 1\n    if counter > 3: break\n```",
+      "options": [
+        "It prints 1 infinitely because counter is re-initialized to 1 at the top of every iteration",
+        "It prints 1, 2, 3 and exits cleanly",
+        "Python raises SyntaxError: break cannot be in while True",
+        "It prints 2, 3, 4"
+      ],
+      "correct_answer": "It prints 1 infinitely because counter is re-initialized to 1 at the top of every iteration",
+      "explanation": "Resetting `counter = 1` inside the loop resets it to 1 on every iteration. `counter` becomes 2, which never satisfies `> 3`, so the loop never terminates. State variables must be initialized outside.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.2_cand_10",
       "type": "code_prediction",
-      "concept": "the_while_loop_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q10"
-      ],
-      "prompt": "Trace the values of a and b through this code and select the final state:\n```python\na = 10\nb = 0\nwhile a > 0:\n    b = b + 1\n    a = a - 2\n```",
-      "options": [
-        "a = 2, b = 5",
-        "a = 0, b = 5",
-        "a = -2, b = 6",
-        "a = 0, b = 4"
-      ],
-      "correct_answer": "a = 0, b = 5",
-      "explanation": "Iteration 1: a = 10, b = 1, a becomes 8. Iteration 2: a = 8, b = 2, a becomes 6. Iteration 3: a = 6, b = 3, a becomes 4. Iteration 4: a = 4, b = 4, a becomes 2. Iteration 5: a = 2, b = 5, a becomes 0. Now a > 0 is false, so the loop ends."
-    },
-    {
-      "id": "6.2_q12",
-      "type": "output_prediction",
-      "concept": "the_while_loop_logic",
+      "concept": "the_while_loop_accumulation",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q11"
-      ],
-      "prompt": "What is printed when the user enters: 5, then 0, then 2, then 0?\n```python\nnum = int(input('Enter a number: '))\nwhile num != 0:\n    print('Positive' if num > 0 else 'Negative')\n    num = int(input('Enter a number: '))\n```",
+      "prompt": "What is printed after the while loop finishes?",
+      "code_snippet": "x = 1\ntotal = 0\nwhile x <= 4:\n    total += x * 10\n    x += 1\nprint(total)",
+      "expected_output": "100",
       "options": [
-        "Positive\nNegative\nPositive",
-        "Positive\nNegative\nPositive\nNegative",
-        "Positive\nPositive\nPositive",
-        "Negative\nPositive\nNegative"
+        "100",
+        "40",
+        "10",
+        "140"
       ],
-      "correct_answer": "Positive\nNegative\nPositive",
-      "explanation": "The first input 5 is not 0, so 'Positive' is printed. The second input 0 stops the loop immediately; no further input is requested. Therefore only two lines are printed: 'Positive' and 'Negative'."
+      "correct_answer": "100",
+      "explanation": "The loop runs for x = 1 (total=10), x = 2 (total=30), x = 3 (total=60), x = 4 (total=100). When x becomes 5, `5 <= 4` is False, and the loop prints 100.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.2_q13",
-      "type": "fill_in_the_blank",
+      "id": "6.2_cand_11",
+      "type": "fix_the_code",
       "concept": "the_while_loop_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.2_q12"
-      ],
-      "prompt": "Complete the Python code by filling in the blank: \n```python\ncount = 0\n___ count < 5:\n    print('Counting:', count)\n    count = count + 1\n```",
-      "correct_answer": "while",
-      "accepted_answers": [
-        "while"
-      ],
-      "explanation": "A while loop repeats a block of code as long as a condition is True. The keyword 'while' must precede the condition, and a colon ':' must end the line."
-    },
-    {
-      "id": "6.2_q14",
-      "type": "multiple_choice",
-      "concept": "the_while_loop_execution_contract",
-      "skill": "mental_model",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q13"
-      ],
-      "prompt": "Does Python have a native `do-while` loop that guarantees at least one execution of the loop body?",
-      "options": [
-        "No; Python has no native do-while loop. A standard while loop tests its condition before the first iteration and may execute zero times.",
-        "Yes; using the `do while condition:` syntax.",
-        "Yes; adding the `always:` keyword guarantees at least one run.",
-        "No; while loops always run at least once regardless of condition."
-      ],
-      "correct_answer": "No; Python has no native do-while loop. A standard while loop tests its condition before the first iteration and may execute zero times.",
-      "explanation": "Unlike C, C++, or Java, Python has NO native `do-while` statement. A Python `while condition:` loop evaluates its condition *prior* to executing the loop body. If the condition is initially `False`, the loop body runs zero times. To emulate a do-while loop in Python, developers idiomatically use `while True:` and break at the end based on a condition.",
-      "metadata": {
-        "concept": "pre_test_loop_evaluation",
-        "skill": "conceptual_rigor",
-        "learning_objective": "Understand that Python while loops are pre-test and may execute zero times",
-        "common_misconception": "Believing Python has a native do-while construct or guarantees one execution",
-        "why_this_exercise_exists": "Directly corrects the flawed prior question and teaches how Python actually evaluates loops"
-      }
-    },
-    {
-      "id": "6.2_q15",
-      "type": "code_ordering",
-      "concept": "the_while_loop_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q14"
-      ],
-      "prompt": "Arrange the following lines in the correct order to print numbers 1 through 3 using a while loop:",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "First, initialize the counter to 1. Then, check the condition before entering the loop. Inside, print the current value and increment the counter. If the counter is not updated, the loop becomes infinite."
-    },
-    {
-      "id": "6.2_q16",
-      "type": "fill_in_the_blank",
-      "concept": "the_while_loop_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q15"
-      ],
-      "prompt": "Complete the pattern for summing numbers from 1 to 5: \n```python\ntotal = 0\nnum = 1\n___ num <= 5:\n    total = total + num\n    num = num + 1\nprint('Total:', total)\n```",
-      "correct_answer": "while",
-      "accepted_answers": [
-        "while"
-      ],
-      "explanation": "This is a standard accumulation pattern. The while loop continues while the counter 'num' is less than or equal to the target value. Inside, the value is added to 'total' and the counter is incremented."
-    },
-    {
-      "id": "6.2_q17",
-      "type": "code_ordering",
-      "concept": "the_while_loop_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q16"
-      ],
-      "prompt": "Arrange the steps to find how many even numbers are between 1 and 9:",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "Initialize the counter before the loop. Check the condition, test for evenness with modulo, increment the counter if even, advance the number, and finally print the result after the loop ends."
-    },
-    {
-      "id": "6.2_q18",
-      "type": "fill_in_the_blank",
-      "concept": "the_while_loop_idioms",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q17"
-      ],
-      "prompt": "Fill in the blank to use the common sentinel-controlled loop idiom: \n```python\nvalue = input('Enter a number (q to quit): ')\n___ value != 'q':\n    number = int(value)\n    print('You entered:', number)\n    value = input('Enter a number (q to quit): ')\n```",
-      "correct_answer": "while",
-      "accepted_answers": [
-        "while"
-      ],
-      "explanation": "The sentinel-controlled loop checks the input before processing. The while loop continues as long as the user has not entered the sentinel value 'q'. This pattern is useful for reading an unknown number of inputs."
-    },
-    {
-      "id": "6.2_q19",
-      "type": "fix_the_code",
-      "concept": "the_while_loop_infinite_loops",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q18"
-      ],
-      "prompt": "The following while loop is supposed to print numbers 0 through 4, but it causes an infinite loop because the loop counter is never updated! Fix the bug.\n\n```python\ncount = 0\nwhile count < 5:\n    print(count)\n```",
-      "starter_code": "count = 0\nwhile count < 5:\n    print(count)",
-      "solution_code": "count = 0\nwhile count < 5:\n    print(count)\n    count += 1",
-      "explanation": "A while loop continues executing as long as its condition remains `True`. Because `count` was initialized to 0 and never incremented inside the loop body, `count < 5` stayed `True` forever. Adding `count += 1` increments the counter so it reaches 5 and terminates.",
-      "metadata": {
-        "concept": "infinite_loop_termination",
-        "skill": "debugging",
-        "learning_objective": "Diagnose and fix infinite loops caused by missing loop variable increments",
-        "common_misconception": "Assuming loops automatically increment integer variables like range() does in for loops",
-        "why_this_exercise_exists": "Every programmer must master while loop termination guarantees"
-      }
-    },
-    {
-      "id": "6.2_q20",
-      "type": "fix_the_code",
       "skill": "debugging",
       "difficulty": "easy",
-      "concept": "the_while_loop_fix",
-      "prerequisites": [
-        "6.2_q19"
+      "prompt": "Fix the syntax and indentation error in the while loop below so it counts from 1 to 3.",
+      "starter_code": "count = 1\nwhile count <= 3\nprint(count)\ncount += 1",
+      "solution_code": "count = 1\nwhile count <= 3:\n    print(count)\n    count += 1",
+      "expected_output": "1\n2\n3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 1, 2, 3 on separate lines",
+          "expectedOutput": "1\n2\n3",
+          "assertionPython": "assert _raw_stdout.strip() == '1\\n2\\n3' and 'while count <= 3:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify count ends at 4",
+          "expectedOutput": "1\n2\n3",
+          "assertionPython": "assert _user_namespace.get('count') == 4",
+          "hidden": true
+        }
       ],
-      "prompt": "Below is a simple program that should print numbers from 1 to 3. It has a bug.",
-      "starter_code": "n = 1\nwhile n <= 3:\n    print('n is', n)\n",
-      "solution_code": "n = 1\nwhile n <= 3:\n    print('n is', n)\n    n = n + 1\n",
-      "hint": "The loop variable must change inside the loop so the condition eventually becomes False.",
-      "explanation": "The original code never increments `n`, so the condition `n <= 3` is always True, creating an infinite loop. Adding `n = n + 1` inside the loop ensures the condition will eventually fail after printing 1, 2, and 3."
+      "explanation": "The `while` statement requires a trailing colon `:`, and all statements in the loop body must be indented by 4 spaces.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
-      "id": "6.2_q21",
+      "id": "6.2_cand_12",
       "type": "fix_the_code",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "concept": "the_while_loop_edge_cases",
-      "prerequisites": [
-        "6.2_q20"
-      ],
-      "prompt": "This program asks for a positive number and repeats until the user enters a value greater than 0. It fails when the user enters 0 or a negative number.",
-      "starter_code": "num = int(input('Enter a positive number: '))\nwhile num <= 0:\n    print('Invalid input.')\n    num = int(input('Try again: '))\nprint('Accepted:', num)\n",
-      "solution_code": "num = int(input('Enter a positive number: '))\nwhile num <= 0:\n    print('Invalid input.')\n    num = int(input('Try again: '))\nprint('Accepted:', num)\n",
-      "hint": "Check what happens on the very first iteration if the initial input is already valid.",
-      "explanation": "The starter code is actually logically correct for repeated input, but it fails as an edge case if the goal is to process at least once even when the first input is valid. To handle the edge case where the initial value should be processed immediately, restructure so the loop only repeats on invalid input, or use a do-while pattern with a flag. The fixed version ensures the first input is always evaluated and only re-prompts when needed."
-    },
-    {
-      "id": "6.2_q22",
-      "type": "fix_the_code",
-      "concept": "the_while_loop_boundary_conditions",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q21"
-      ],
-      "prompt": "The following code intends to sum the first 5 natural numbers (1 + 2 + 3 + 4 + 5 = 15), but has an off-by-one bug stopping prematurely at 4. Fix the condition.\n\n```python\ntotal = 0\ni = 1\nwhile i < 5:\n    total += i\n    i += 1\nprint(total)\n```",
-      "starter_code": "total = 0\ni = 1\nwhile i < 5:\n    total += i\n    i += 1\nprint(total)",
-      "solution_code": "total = 0\ni = 1\nwhile i <= 5:\n    total += i\n    i += 1\nprint(total)",
-      "explanation": "Using `i < 5` exits the loop when `i` reaches 5, excluding 5 from the sum (yielding 10). Changing the condition to `i <= 5` includes 5 in the accumulation, producing the correct sum `15`.",
-      "metadata": {
-        "concept": "off_by_one_boundary_condition",
-        "skill": "debugging",
-        "learning_objective": "Identify and correct off-by-one boundary errors in while loops",
-        "common_misconception": "Using strict < when the boundary item should be included",
-        "why_this_exercise_exists": "Off-by-one loop errors are ubiquitous in software engineering"
-      }
-    },
-    {
-      "id": "6.2_q23",
-      "type": "fix_the_code",
-      "skill": "debugging",
-      "difficulty": "medium",
       "concept": "the_while_loop_logic_repair",
-      "prerequisites": [
-        "6.2_q22"
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "A fitness app counts 5 pushups. The code below stops after 4 pushups because of a strict `<` condition. Change the condition to inclusive `<=` so it counts to 5.",
+      "starter_code": "pushups = 1\nwhile pushups < 5:\n    print(f\"Pushup {pushups}\")\n    pushups += 1",
+      "solution_code": "pushups = 1\nwhile pushups <= 5:\n    print(f\"Pushup {pushups}\")\n    pushups += 1",
+      "expected_output": "Pushup 1\nPushup 2\nPushup 3\nPushup 4\nPushup 5",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Pushup 1 through Pushup 5",
+          "expectedOutput": "Pushup 1\nPushup 2\nPushup 3\nPushup 4\nPushup 5",
+          "assertionPython": "assert _raw_stdout.strip() == 'Pushup 1\\nPushup 2\\nPushup 3\\nPushup 4\\nPushup 5'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies pushups reached 6",
+          "expectedOutput": "Pushup 1\nPushup 2\nPushup 3\nPushup 4\nPushup 5",
+          "assertionPython": "assert _user_namespace.get('pushups') == 6",
+          "hidden": true
+        }
       ],
-      "prompt": "The goal is to print all even numbers from 2 up to and including 10. The current logic prints odd numbers instead.",
-      "starter_code": "n = 2\nwhile n <= 10:\n    print(n)\n    n = n + 1\n",
-      "solution_code": "n = 2\nwhile n <= 10:\n    print(n)\n    n = n + 2\n",
-      "hint": "Think about how to move from one even number to the next.",
-      "explanation": "The starter code increments by 1, printing 2, 3, 4, 5, 6, 7, 8, 9, 10. To print only even numbers, the loop must jump by 2 each time. Changing `n = n + 1` to `n = n + 2` ensures the sequence is 2, 4, 6, 8, 10, satisfying the requirement."
+      "explanation": "Replacing `< 5` with `<= 5` allows the loop body to execute when `pushups == 5`, completing all 5 pushups.",
+      "misconception_tag": "OFF_BY_ONE"
     },
     {
-      "id": "6.2_q24",
-      "type": "refactoring_challenge",
-      "concept": "the_while_loop_idiomatic_search",
-      "skill": "refactoring",
+      "id": "6.2_cand_13",
+      "type": "fix_the_code",
+      "concept": "the_while_loop_logic_repair",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q23"
+      "prompt": "The microwave timer starts at 3 and counts down to 1 before printing \"Beep!\". The code below increments instead of decrementing. Fix the loop body to decrement `seconds -= 1`.",
+      "starter_code": "seconds = 3\nwhile seconds > 0:\n    print(seconds)\n    seconds += 1\nprint(\"Beep!\")",
+      "solution_code": "seconds = 3\nwhile seconds > 0:\n    print(seconds)\n    seconds -= 1\nprint(\"Beep!\")",
+      "expected_output": "3\n2\n1\nBeep!",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 3, 2, 1, Beep!",
+          "expectedOutput": "3\n2\n1\nBeep!",
+          "assertionPython": "assert _raw_stdout.strip() == '3\\n2\\n1\\nBeep!' and 'seconds -= 1' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify seconds final value is 0",
+          "expectedOutput": "3\n2\n1\nBeep!",
+          "assertionPython": "assert _user_namespace.get('seconds') == 0",
+          "hidden": true
+        }
       ],
-      "prompt": "Refactor this manual index-based while loop into an idiomatic `while True` loop that uses `break` when finding the first negative number in `data`:\n\n```python\ndata = [4, 7, -2, 9]\nfound = None\ni = 0\nwhile i < len(data):\n    if data[i] < 0:\n        found = data[i]\n        break\n    i += 1\nprint(found)\n```",
-      "starter_code": "data = [4, 7, -2, 9]\nfound = None\n# Refactor using while True and break\nidx = 0\nwhile True:\n    if idx >= len(data):\n        break\n    if data[idx] < 0:\n        found = data[idx]\n        break\n    idx += 1\nprint(found)",
-      "solution_code": "data = [4, 7, -2, 9]\nfound = None\nidx = 0\nwhile True:\n    if idx >= len(data):\n        break\n    if data[idx] < 0:\n        found = data[idx]\n        break\n    idx += 1\nprint(found)",
-      "explanation": "Emulating a sentinel loop with `while True` and explicit `break` conditions gives complete control over loop exit points for both match and termination conditions.",
-      "metadata": {
-        "concept": "while_true_break_pattern",
-        "skill": "control_flow",
-        "learning_objective": "Structure event/search loops using while True and conditional breaks",
-        "common_misconception": "Fearing while True because of infinite loop risks",
-        "why_this_exercise_exists": "Teaches the standard Python idiom for do-while and event-driven loops"
-      }
+      "explanation": "For a countdown, the counter must decrement towards the terminating boundary `0` using `-= 1`.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.2_q25",
+      "id": "6.2_cand_14",
+      "type": "fix_the_code",
+      "concept": "the_while_loop_fix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "Fix the indentation so that `step += 1` is indented inside the loop body, preventing an infinite loop.",
+      "starter_code": "step = 1\nwhile step <= 3:\n    print(f\"Step {step}\")\nstep += 1",
+      "solution_code": "step = 1\nwhile step <= 3:\n    print(f\"Step {step}\")\n    step += 1",
+      "expected_output": "Step 1\nStep 2\nStep 3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Step 1, Step 2, Step 3",
+          "expectedOutput": "Step 1\nStep 2\nStep 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'Step 1\\nStep 2\\nStep 3'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies step reaches 4",
+          "expectedOutput": "Step 1\nStep 2\nStep 3",
+          "assertionPython": "assert _user_namespace.get('step') == 4",
+          "hidden": true
+        }
+      ],
+      "explanation": "Indenting `step += 1` under the `while` header ensures `step` advances on each iteration.",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "6.2_cand_15",
+      "type": "fix_the_code",
+      "concept": "the_while_loop_accumulation",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "The code below attempts to sum numbers from 1 to 3, but `total = 0` is inside the loop. Move `total = 0` outside before the `while` loop.",
+      "starter_code": "n = 1\nwhile n <= 3:\n    total = 0\n    total += n\n    n += 1\nprint(total)",
+      "solution_code": "n = 1\ntotal = 0\nwhile n <= 3:\n    total += n\n    n += 1\nprint(total)",
+      "expected_output": "6",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs sum 6 (1 + 2 + 3)",
+          "expectedOutput": "6",
+          "assertionPython": "assert _raw_stdout.strip() == '6' and _user_namespace.get('total') == 6"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures total initialized before while loop",
+          "expectedOutput": "6",
+          "assertionPython": "assert _user_code.index('total = 0') < _user_code.index('while ')",
+          "hidden": true
+        }
+      ],
+      "explanation": "Initializing `total = 0` before the while loop preserves the accumulated sum across iterations.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.2_cand_16",
+      "type": "fix_the_code",
+      "concept": "the_while_loop_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A factory machine cuts 3 boards. The loop starts at `board = 0` and checks `while board < 3`. But it prints `Board 0`, `Board 1`, `Board 2`. Fix it so it starts at `board = 1` and checks `board <= 3` to print boards 1 to 3.",
+      "starter_code": "board = 0\nwhile board < 3:\n    print(f\"Board {board}\")\n    board += 1",
+      "solution_code": "board = 1\nwhile board <= 3:\n    print(f\"Board {board}\")\n    board += 1",
+      "expected_output": "Board 1\nBoard 2\nBoard 3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Board 1, Board 2, Board 3",
+          "expectedOutput": "Board 1\nBoard 2\nBoard 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'Board 1\\nBoard 2\\nBoard 3'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies board ends at 4",
+          "expectedOutput": "Board 1\nBoard 2\nBoard 3",
+          "assertionPython": "assert _user_namespace.get('board') == 4",
+          "hidden": true
+        }
+      ],
+      "explanation": "Setting `board = 1` and `while board <= 3:` produces 1-based labels: Board 1, Board 2, Board 3.",
+      "misconception_tag": "OFF_BY_ONE"
+    },
+    {
+      "id": "6.2_cand_17",
       "type": "write_the_code",
       "concept": "the_while_loop_implementation",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q24"
-      ],
-      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of The while Loop.",
-      "starter_code": "def process_6_2_data(items):\n    # Process input according to The while Loop rules\n    pass",
-      "solution_code": "def process_6_2_data(items):\n    return [item for item in items if item is not None]",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a `while` loop that counts down from `t = 3` down to `1`, printing each number, and then prints `\"Liftoff!\"` after the loop terminates.",
+      "starter_code": "t = 3\n# Write while loop counting down to 1, then print Liftoff!\n",
+      "solution_code": "t = 3\nwhile t > 0:\n    print(t)\n    t -= 1\nprint(\"Liftoff!\")",
+      "expected_output": "3\n2\n1\nLiftoff!",
       "test_cases": [
         {
-          "input": "[1, None, 2, None, 3]",
-          "expected_output": "[1, 2, 3]",
-          "description": "cleans null values using The while Loop rules"
-        }
-      ],
-      "hint": "Focus on applying the central Python idiom for The while Loop.",
-      "explanation": "Constructing pure, robust data transformers for The while Loop avoids unintended side effects and guarantees consistent return contracts."
-    },
-    {
-      "id": "6.2_q26",
-      "type": "fix_the_code",
-      "concept": "the_while_loop_debugging",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.2_q25"
-      ],
-      "prompt": "Defensive Validation: Implement a verification helper for The while Loop that confirms preconditions and guards against invalid input.",
-      "starter_code": "def validate_6_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
-      "solution_code": "def validate_6_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Outputs 3, 2, 1, Liftoff!",
+          "expectedOutput": "3\n2\n1\nLiftoff!",
+          "assertionPython": "assert _raw_stdout.strip() == '3\\n2\\n1\\nLiftoff!' and 'while ' in _user_code"
+        },
         {
-          "input": "'valid_token'",
-          "expected_output": "True",
-          "description": "valid input returns True"
+          "id": "tc_2",
+          "description": "Verify final value of t is 0",
+          "expectedOutput": "3\n2\n1\nLiftoff!",
+          "assertionPython": "assert _user_namespace.get('t') == 0",
+          "hidden": true
         }
       ],
-      "hint": "Check the condition and return value carefully.",
-      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
+      "explanation": "The `while t > 0:` loop prints 3, 2, and 1, decrementing `t` each time. When `t` reaches 0, the loop exits and `\"Liftoff!\"` prints.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.2_q27",
-      "type": "code_prediction",
-      "concept": "the_while_loop_edge_case",
-      "skill": "prediction",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.2_q26"
-      ],
-      "prompt": "What will be the outcome when this code handling The while Loop encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
-      "hint": "An empty input list evaluates as falsy and produces an empty result.",
-      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with The while Loop.",
-      "options": [
-        "[]",
-        "None",
-        "IndexError",
-        "ValueError"
-      ],
-      "correct_answer": "[]"
-    },
-    {
-      "id": "6.2_q28",
+      "id": "6.2_cand_18",
       "type": "write_the_code",
-      "concept": "the_while_loop_production_transfer",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.2_q27"
-      ],
-      "prompt": "Transfer Challenge: Solve a practical problem using The while Loop. Implement the function below to satisfy the stated contract.",
-      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for The while Loop\n    return str(val).strip()",
-      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "concept": "the_while_loop_implementation",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A savings account starts with `savings = 100` and `years = 0`. Each year, savings grow by 10% (`savings *= 1.10`) and `years += 1`. Write a `while` loop that runs `while savings < 200:`. After the loop, print `Years: {years}`.",
+      "starter_code": "savings = 100\nyears = 0\n# Loop while savings < 200, grow savings by 10% and increment years\n",
+      "solution_code": "savings = 100\nyears = 0\nwhile savings < 200:\n    savings *= 1.10\n    years += 1\nprint(f\"Years: {years}\")",
+      "expected_output": "Years: 8",
       "test_cases": [
         {
-          "input": "'  python  '",
-          "expected_output": "'PYTHON'",
-          "description": "domain sanitization"
-        }
-      ],
-      "hint": "Use a list comprehension to filter records where 'active' is True.",
-      "explanation": "Applying clean functional contracts for The while Loop ensures testable domain operations."
-    },
-    {
-      "id": "6.2_q29",
-      "type": "fix_the_code",
-      "concept": "the_while_loop_refactoring",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.2_q28"
-      ],
-      "prompt": "Refactor this procedural snippet for The while Loop into clean, modular, and idiomatic Python:",
-      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
-      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Calculates 8 years to double",
+          "expectedOutput": "Years: 8",
+          "assertionPython": "assert _raw_stdout.strip() == 'Years: 8' and _user_namespace.get('years') == 8 and 'while ' in _user_code"
+        },
         {
-          "input": "",
-          "expected_output": "while Loop Result 29"
+          "id": "tc_2",
+          "description": "Verifies final savings balance > 200",
+          "expectedOutput": "Years: 8",
+          "assertionPython": "assert _user_namespace.get('savings') >= 200",
+          "hidden": true
         }
       ],
-      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
-      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+      "explanation": "Compounding at 10% per year takes 8 iterations to cross 200 (100 * 1.1^8 = 214.36). The loop stops when `savings < 200` becomes False.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.2_q30",
+      "id": "6.2_cand_19",
       "type": "write_the_code",
-      "concept": "the_while_loop_pin_retry_system",
-      "skill": "system_design",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.2_q29"
+      "concept": "the_while_loop_patterns",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "A game displays download progress. Initialize `pct = 0`. Write a `while` loop that prints `Loading: {pct}%` and increments `pct += 25` on each step, running `while pct <= 100:`.",
+      "starter_code": "pct = 0\n# Write while loop printing Loading: {pct}% up to 100%\n",
+      "solution_code": "pct = 0\nwhile pct <= 100:\n    print(f\"Loading: {pct}%\")\n    pct += 25",
+      "expected_output": "Loading: 0%\nLoading: 25%\nLoading: 50%\nLoading: 75%\nLoading: 100%",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Loading: 0% through 100% in 25% increments",
+          "expectedOutput": "Loading: 0%\nLoading: 25%\nLoading: 50%\nLoading: 75%\nLoading: 100%",
+          "assertionPython": "assert _raw_stdout.strip() == 'Loading: 0%\\nLoading: 25%\\nLoading: 50%\\nLoading: 75%\\nLoading: 100%' and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Final pct value is 125",
+          "expectedOutput": "Loading: 0%\nLoading: 25%\nLoading: 50%\nLoading: 75%\nLoading: 100%",
+          "assertionPython": "assert _user_namespace.get('pct') == 125",
+          "hidden": true
+        }
       ],
-      "prompt": "Mastery Challenge: Implement a simulated PIN authentication system using a while loop. The correct PIN is `'4821'`. Given a list of user attempts `attempts = ['0000', '1234', '4821']`, iterate through attempts. If the PIN matches, set `authenticated = True` and exit immediately. Allow at most 3 attempts; if exhausted without success, set `locked_out = True`. Implement this cleanly.",
-      "starter_code": "correct_pin = \"4821\"\nattempts = [\"0000\", \"1234\", \"4821\"]\nauthenticated = False\nlocked_out = False\n# Implement PIN verification loop\n",
-      "solution_code": "correct_pin = \"4821\"\nattempts = [\"0000\", \"1234\", \"4821\"]\nauthenticated = False\nlocked_out = False\n\nidx = 0\nmax_attempts = 3\n\nwhile idx < len(attempts) and idx < max_attempts:\n    if attempts[idx] == correct_pin:\n        authenticated = True\n        break\n    idx += 1\n\nif not authenticated:\n    locked_out = True\n\nprint(f\"Auth: {authenticated}, Locked: {locked_out}\")",
-      "explanation": "The loop checks each attempt while tracking the attempt count up to `max_attempts`. If a matching PIN is found, `authenticated` is flagged and `break` terminates early. If all 3 attempts fail, `locked_out` is set to `True`.",
-      "metadata": {
-        "concept": "retry_and_lockout_system",
-        "skill": "production_pattern",
-        "learning_objective": "Build a real-world retry counter with early-exit and security lockout",
-        "common_misconception": "Allowing attempts to exceed the security threshold",
-        "why_this_exercise_exists": "Replaces generic mastery prompt with an authentic authentication challenge"
-      }
+      "explanation": "`pct` advances by 25 from 0 up to 100. When `pct` becomes 125, the loop condition `<= 100` becomes False.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.2_cand_20",
+      "type": "write_the_code",
+      "concept": "the_while_loop_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Generate powers of two less than 50. Initialize `val = 1`. Write a `while` loop running `while val < 50:`. Inside, print `val` and double it with `val *= 2`.",
+      "starter_code": "val = 1\n# While val < 50, print val and multiply by 2\n",
+      "solution_code": "val = 1\nwhile val < 50:\n    print(val)\n    val *= 2",
+      "expected_output": "1\n2\n4\n8\n16\n32",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 1, 2, 4, 8, 16, 32",
+          "expectedOutput": "1\n2\n4\n8\n16\n32",
+          "assertionPython": "assert _raw_stdout.strip() == '1\\n2\\n4\\n8\\n16\\n32' and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Val reaches 64 after loop",
+          "expectedOutput": "1\n2\n4\n8\n16\n32",
+          "assertionPython": "assert _user_namespace.get('val') == 64",
+          "hidden": true
+        }
+      ],
+      "explanation": "Powers of two: 1, 2, 4, 8, 16, 32. After printing 32, `val` becomes 64, terminating the loop because `64 < 50` is False.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.2_cand_21",
+      "type": "write_the_code",
+      "concept": "the_while_loop_accumulation",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Calculate the sum of odd numbers from 1 to 9 (1, 3, 5, 7, 9). Initialize `num = 1` and `total = 0`. Write a `while num <= 9:` loop that adds `num` to `total` and advances `num += 2`. Print `total` at the end.",
+      "starter_code": "num = 1\ntotal = 0\n# Accumulate odd numbers up to 9\n",
+      "solution_code": "num = 1\ntotal = 0\nwhile num <= 9:\n    total += num\n    num += 2\nprint(total)",
+      "expected_output": "25",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates sum of odd numbers as 25",
+          "expectedOutput": "25",
+          "assertionPython": "assert _raw_stdout.strip() == '25' and _user_namespace.get('total') == 25 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Num ends at 11",
+          "expectedOutput": "25",
+          "assertionPython": "assert _user_namespace.get('num') == 11",
+          "hidden": true
+        }
+      ],
+      "explanation": "1 + 3 + 5 + 7 + 9 = 25. The loop steps by 2 on each iteration.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.2_cand_22",
+      "type": "write_the_code",
+      "concept": "the_while_loop_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "An electric car recharges battery level from `battery = 40` to 100 in steps of 20. Write a `while battery < 100:` loop that prints `Battery: {battery}%` and increments `battery += 20`. After the loop, print `\"Full: 100%\"`.",
+      "starter_code": "battery = 40\n# Loop while battery < 100, then print Full: 100%\n",
+      "solution_code": "battery = 40\nwhile battery < 100:\n    print(f\"Battery: {battery}%\")\n    battery += 20\nprint(\"Full: 100%\")",
+      "expected_output": "Battery: 40%\nBattery: 60%\nBattery: 80%\nFull: 100%",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints 40%, 60%, 80%, Full: 100%",
+          "expectedOutput": "Battery: 40%\nBattery: 60%\nBattery: 80%\nFull: 100%",
+          "assertionPython": "assert _raw_stdout.strip() == 'Battery: 40%\\nBattery: 60%\\nBattery: 80%\\nFull: 100%' and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Final battery is 100",
+          "expectedOutput": "Battery: 40%\nBattery: 60%\nBattery: 80%\nFull: 100%",
+          "assertionPython": "assert _user_namespace.get('battery') == 100",
+          "hidden": true
+        }
+      ],
+      "explanation": "The loop executes for 40, 60, and 80. When battery becomes 100, `100 < 100` is False, so the loop exits and prints `\"Full: 100%\"`.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.2_cand_23",
+      "type": "write_the_code",
+      "concept": "the_while_loop_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A science lab tracks material decay starting at `grams = 80` and `half_lives = 0`. Each half-life cuts `grams //= 2` and increments `half_lives += 1`. Run `while grams > 10:`. Afterwards, print `Half-lives: {half_lives}, Left: {grams}g`.",
+      "starter_code": "grams = 80\nhalf_lives = 0\n# Halve grams and increment half_lives while grams > 10\n",
+      "solution_code": "grams = 80\nhalf_lives = 0\nwhile grams > 10:\n    grams //= 2\n    half_lives += 1\nprint(f\"Half-lives: {half_lives}, Left: {grams}g\")",
+      "expected_output": "Half-lives: 3, Left: 10g",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates 3 half-lives to reach 10g (80 -> 40 -> 20 -> 10)",
+          "expectedOutput": "Half-lives: 3, Left: 10g",
+          "assertionPython": "assert _raw_stdout.strip() == 'Half-lives: 3, Left: 10g' and _user_namespace.get('half_lives') == 3 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Checks final grams is 10",
+          "expectedOutput": "Half-lives: 3, Left: 10g",
+          "assertionPython": "assert _user_namespace.get('grams') == 10",
+          "hidden": true
+        }
+      ],
+      "explanation": "Pass 1: 80//2=40. Pass 2: 40//2=20. Pass 3: 20//2=10. At 10, `10 > 10` is False, terminating the loop after 3 iterations.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.2_cand_24",
+      "type": "write_the_code",
+      "concept": "the_while_loop_challenge",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "An elevator ascends from `floor = 1` to `target = 4`. Initialize `dings = 0`. In a `while floor <= target:` loop:\n- Print `Floor {floor}`\n- Increment `dings += 1`\n- Advance `floor += 1`\nAfter the loop, print `Arrival: {dings} dings`.",
+      "starter_code": "floor = 1\ntarget = 4\ndings = 0\n# Ascend floor by floor and tally dings\n",
+      "solution_code": "floor = 1\ntarget = 4\ndings = 0\nwhile floor <= target:\n    print(f\"Floor {floor}\")\n    dings += 1\n    floor += 1\nprint(f\"Arrival: {dings} dings\")",
+      "expected_output": "Floor 1\nFloor 2\nFloor 3\nFloor 4\nArrival: 4 dings",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Floor 1-4 and 4 dings",
+          "expectedOutput": "Floor 1\nFloor 2\nFloor 3\nFloor 4\nArrival: 4 dings",
+          "assertionPython": "assert _raw_stdout.strip() == 'Floor 1\\nFloor 2\\nFloor 3\\nFloor 4\\nArrival: 4 dings' and _user_namespace.get('dings') == 4 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies floor terminates at 5",
+          "expectedOutput": "Floor 1\nFloor 2\nFloor 3\nFloor 4\nArrival: 4 dings",
+          "assertionPython": "assert _user_namespace.get('floor') == 5",
+          "hidden": true
+        }
+      ],
+      "explanation": "The loop executes for floors 1, 2, 3, and 4 (4 iterations total, 4 dings). At floor 5, `5 <= 4` is False, triggering the arrival print.",
+      "misconception_tag": "OFF_BY_ONE"
+    },
+    {
+      "id": "6.2_cand_25",
+      "type": "write_the_code",
+      "concept": "the_while_loop_mastery",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "A borrower pays off a loan `debt = 120`. Each month, they pay $30 (`debt -= 30`) and `months += 1` (starting with `months = 0`). Write a `while debt > 0:` loop. After the debt is cleared, print `Paid off in {months} months`.",
+      "starter_code": "debt = 120\nmonths = 0\n# Pay off $30 each month while debt > 0\n",
+      "solution_code": "debt = 120\nmonths = 0\nwhile debt > 0:\n    debt -= 30\n    months += 1\nprint(f\"Paid off in {months} months\")",
+      "expected_output": "Paid off in 4 months",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates 4 months to pay off $120 debt at $30/mo",
+          "expectedOutput": "Paid off in 4 months",
+          "assertionPython": "assert _raw_stdout.strip() == 'Paid off in 4 months' and _user_namespace.get('months') == 4 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies debt reached 0",
+          "expectedOutput": "Paid off in 4 months",
+          "assertionPython": "assert _user_namespace.get('debt') == 0",
+          "hidden": true
+        }
+      ],
+      "explanation": "120 - 30 = 90 (mo 1), 60 (mo 2), 30 (mo 3), 0 (mo 4). When debt hits 0, `0 > 0` is False, so the loop terminates in 4 months.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 6,
-  "learning_objectives": [
-    "Construct iterative loops using while Loop with proper loop bounds",
-    "Trace variable mutation across loop iterations",
-    "Prevent and debug infinite loop execution bugs",
-    "Apply loop control statements (break and continue) to control execution flow"
-  ],
-  "prerequisites": [
-    "6.1"
   ]
 }

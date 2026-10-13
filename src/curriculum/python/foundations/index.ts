@@ -41,23 +41,38 @@ export const FOUNDATIONS_LESSONS: LessonStructure[] = [
 ];
 
 export const FOUNDATIONS_LESSON_MAP: Record<string, LessonStructure> = {
-  '1.1': LESSON_01,
-  '1.2': LESSON_02,
-  '1.3': LESSON_03,
-  '1.4': LESSON_04,
-  '1.5': LESSON_05,
-  '1.6': LESSON_06,
-  '1.7': LESSON_07,
-  '1.8': LESSON_08,
-  '1.9': LESSON_09,
-  '1.10': LESSON_10,
+  // Canonical Lesson ID Mapping (Non-overlapping across Units 1-5)
+  '1.4': LESSON_01, // The Print Function (Unit 1)
+  '2.1': LESSON_02, // Variables (Unit 2)
+  '3.1': LESSON_03, // Arithmetic Operators (Unit 3)
+  '2.4': LESSON_04, // Strings (Unit 2)
+  '4.1': LESSON_05, // The input() Function (Unit 4)
+  '2.7': LESSON_06, // Type Conversion (Casting) (Unit 2)
+  '3.4': LESSON_07, // Comparison Operators (Unit 3)
+  '3.5': LESSON_08, // Logical Operators (Unit 3)
+  '5.1': LESSON_09, // The if Statement (Unit 5)
+  '5.6': LESSON_10, // Project: Interactive Calculator (Unit 5)
+  'unit_05_checkpoint': {
+    id: 'unit_05_checkpoint',
+    unitId: 'unit_05',
+    unitTitle: 'Unit 5: Conditional Logic',
+    title: 'Conditional Logic Capstone Challenge',
+    slug: 'conditional-logic-capstone',
+    order: 7,
+    description: 'The ultimate synthesis challenge: 5 capstone programming problems combining variables, input, conversion, arithmetic, comparisons, and conditional logic.',
+    estimatedMinutes: 15,
+    xpReward: 100,
+    sections: ['Capstone Challenges'],
+    questions: FINAL_CHALLENGE_QUESTIONS
+  },
+  // Backward compatibility alias for legacy unit_01_final
   'unit_01_final': {
     id: 'unit_01_final',
-    unitId: 'unit_01',
-    unitTitle: 'Unit 1: Python Foundations',
-    title: 'Unit 1 Final Challenge',
-    slug: 'foundations-final-challenge',
-    order: 11,
+    unitId: 'unit_05',
+    unitTitle: 'Unit 5: Conditional Logic',
+    title: 'Conditional Logic Capstone Challenge',
+    slug: 'conditional-logic-capstone',
+    order: 7,
     description: 'The ultimate synthesis challenge: 5 capstone programming problems combining variables, input, conversion, arithmetic, comparisons, and conditional logic.',
     estimatedMinutes: 15,
     xpReward: 100,

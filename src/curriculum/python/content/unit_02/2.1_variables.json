@@ -4,538 +4,619 @@
   "unit": "Variables and Data",
   "items": [
     {
-      "id": "2.1_q1",
-      "type": "micro_lesson",
-      "title": "Variables Are Labels, Not Boxes",
-      "content": "In Python, a variable is not a physical box that holds data. Instead, a variable is a **name tag** or **reference** attached to an object in memory.\n\nWhen you write `x = 42`, Python creates an integer object `42` in memory and binds the label `x` to it. If you later write `y = x`, Python does not make a copy of `42`; it simply binds a second label `y` to the very same object in memory.",
-      "difficulty": "easy",
-      "concept": "variable_references",
-      "skill": "mental_model",
-      "prerequisites": []
-    },
-    {
-      "id": "2.1_q2",
-      "type": "multiple_choice",
-      "question": "Which statement best describes what happens in Python when you execute `score = 100`?",
-      "options": [
-        "Python creates an integer object 100 in memory and binds the name tag 'score' to refer to that object",
-        "Python allocates a fixed physical memory box named 'score' and stores the bits of 100 inside that box permanently",
-        "Python converts the string 'score' into an integer of value 100",
-        "Python creates two distinct copies of 100: one for the variable and one for the screen"
-      ],
-      "correct_answer": "Python creates an integer object 100 in memory and binds the name tag 'score' to refer to that object",
-      "explanation": "In Python's execution model, variables are references (labels) pointing to objects. When you assign `score = 100`, Python allocates an int object with value 100 and points the identifier `score` to it.",
-      "difficulty": "easy",
-      "concept": "variable_references",
-      "skill": "mental_model",
-      "prerequisites": []
-    },
-    {
-      "id": "2.1_q3",
-      "type": "micro_lesson",
-      "concept": "assignment_direction",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "Assignment Works Right to Left",
-      "content": "In Python, the single equals sign `=` does NOT mean mathematical equality.\n\nIt means **assignment**: \n1. Python evaluates the expression on the **right-hand side** first.\n2. Then it assigns that result to the variable name on the **left-hand side**.\n\n```python\ntotal = 10 + 5  # 1. Computes 15, 2. Binds to total\n```",
-      "prompt": "",
-      "explanation": "In Python, the single equals sign `=` does NOT mean mathematical equality. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "2.1_q4",
-      "type": "code_prediction",
-      "concept": "printing_variables",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "prompt": "What does this code output?\n```python\nage = 20\nprint(age)\n```",
-      "options": [
-        "A. age",
-        "B. 20",
-        "C. \"20\"",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "Passing the unquoted variable name `age` into `print()` displays the value referenced by `age`, which is 20."
-    },
-    {
-      "id": "2.1_q5",
-      "type": "multiple_choice",
-      "concept": "variable_vs_string",
-      "skill": "diagnosis",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q4"
-      ],
-      "prompt": "What is the difference between `print(score)` and `print(\"score\")`?",
-      "options": [
-        "A. They are identical.",
-        "B. `print(score)` prints the value stored in the variable `score`, while `print(\"score\")` prints the literal 5-letter word 'score'.",
-        "C. `print(score)` causes a syntax error.",
-        "D. `print(\"score\")` looks up a variable."
-      ],
-      "correct_answer": "B",
-      "explanation": "Quoting text makes it a literal string. Leaving off quotes treats the word as an identifier/variable."
-    },
-    {
-      "id": "2.1_q6",
-      "type": "multiple_choice",
-      "question": "What happens in memory when this code executes?\n\n```python\na = 10\nb = a\na = 20\n```",
-      "options": [
-        "a is rebound to a new int object 20, while b still refers to the original int object 10",
-        "Both a and b now refer to 20 because changing a automatically changes b",
-        "Python raises a ReassignmentError because integers cannot be reassigned",
-        "b becomes None because a was overwritten"
-      ],
-      "correct_answer": "a is rebound to a new int object 20, while b still refers to the original int object 10",
-      "explanation": "When `b = a` runs, `b` points to the object `10`. When `a = 20` runs, the label `a` is rebound to a new object `20`. The name `b` still points to `10`. Integers are immutable, so rebinding `a` has zero effect on `b`.",
-      "difficulty": "easy",
-      "concept": "variable_rebinding",
-      "skill": "memory_tracing",
-      "prerequisites": []
-    },
-    {
-      "id": "2.1_q7",
+      "id": "2.1_fnd_1",
       "type": "output_prediction",
-      "concept": "reassignment",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q6"
-      ],
-      "prompt": "What does this script print?\n```python\nstatus = \"offline\"\nstatus = \"online\"\nprint(status)\n```",
-      "options": [
-        "A. offline",
-        "B. online",
-        "C. offline online",
-        "D. status"
-      ],
-      "correct_answer": "B",
-      "explanation": "This exercise tests `reassignment` in Variables. When Python evaluates this code, it applies the standard rules of reassignment. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "2.1_q8",
-      "type": "micro_lesson",
-      "concept": "updating_variables",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q3",
-        "2.1_q6"
-      ],
-      "title": "Updating a Variable Using Its Old Value",
-      "content": "Because Python evaluates the right side first, you can use a variable's current value to calculate its new value:\n```python\nscore = 10\nscore = score + 5\nprint(score)  # Prints 15\n```\nStep-by-step:\n1. Look at right side: `score + 5` -> `10 + 5` = `15`.\n2. Assign `15` back to `score`.",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
-    },
-    {
-      "id": "2.1_q9",
-      "type": "output_prediction",
-      "concept": "updating_variables",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q8"
-      ],
-      "prompt": "What is the final value of `count` printed by this code?\n```python\ncount = 1\ncount = count + 1\ncount = count + 3\nprint(count)\n```",
-      "options": [
-        "A. 1",
-        "B. 4",
-        "C. 5",
-        "D. 6"
-      ],
-      "correct_answer": "C",
-      "explanation": "Starts at 1 -> `1 + 1 = 2` -> `2 + 3 = 5`."
-    },
-    {
-      "id": "2.1_q10",
-      "type": "error_diagnosis",
-      "concept": "assignment_direction",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q3"
-      ],
-      "prompt": "Why does this code cause a SyntaxError?\n```python\n100 = score\n```",
-      "options": [
-        "A. Variable names must always be written in uppercase.",
-        "B. The target of an assignment must be on the left side; you cannot assign a value to a literal number.",
-        "C. Python only allows numbers up to 99.",
-        "D. You must write `100 == score`."
-      ],
-      "correct_answer": "B",
-      "explanation": "Python's assignment syntax is always `variable_name = value`. A literal number like `100` cannot be assigned to."
-    },
-    {
-      "id": "2.1_q11",
-      "type": "fix_the_code",
-      "concept": "assignment_direction",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q10"
-      ],
-      "prompt": "Fix this reversed assignment statement so that `points` is assigned 50:",
-      "starter_code": "50 = points",
-      "solution_code": "points = 50",
-      "explanation": "This exercise tests `assignment direction` in Variables. When Python validates this code, it applies the standard rules of assignment direction. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "2.1_q12",
-      "type": "micro_lesson",
-      "concept": "multiple_references",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "Assigning One Variable to Another",
-      "content": "When you write `b = a`, Python makes `b` point to the same object currently referenced by `a`:\n```python\na = 10\nb = a\na = 20\nprint(b)\n```\nWhat does `b` print? It prints `10`!\nReassigning `a` later does NOT automatically update `b`. They are independent references.",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
-    },
-    {
-      "id": "2.1_q13",
-      "type": "code_prediction",
-      "concept": "multiple_references",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q12"
-      ],
-      "prompt": "Trace the execution:\n```python\nx = 5\ny = x\nx = 99\nprint(y)\n```\nWhat is printed?",
-      "options": [
-        "A. 99",
-        "B. 5",
-        "C. x",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "When `y = x` executed, `x` had the value 5. Reassigning `x` to 99 afterwards does not change `y`."
-    },
-    {
-      "id": "2.1_q14",
-      "type": "fill_in_the_blank",
-      "concept": "variable_assignment",
+      "concept": "variable_storage",
       "skill": "application",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "prompt": "Create a variable named `city` holding the value `'Paris'`:\n```python\n___ = \"Paris\"\n```",
-      "accepted_answers": [
-        "city"
-      ],
-      "explanation": "This exercise tests `variable assignment` in Variables. When Python validates this code, it applies the standard rules of variable assignment. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "2.1_q15",
-      "type": "micro_lesson",
-      "concept": "dynamic_typing",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "Python is Dynamically Typed",
-      "content": "In some languages (like C or Java), you must declare the type of data a variable will hold, and it can never change.\n\nPython is **dynamically typed**: variables are just tags pointing to objects. A variable can point to a number first, and later be reassigned to a string:\n```python\ndata = 42\ndata = \"Answer\"\n```",
-      "prompt": "",
-      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
-    },
-    {
-      "id": "2.1_q16",
-      "type": "multiple_choice",
-      "concept": "dynamic_typing",
-      "skill": "recognition",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q15"
-      ],
-      "prompt": "What does 'dynamically typed' mean in Python?",
+      "prerequisites": [],
+      "prompt": "Look at the following code:\n```python\nplayer_name = \"Alex\"\nprint(player_name)\n```\nWhat will this program print?",
+      "explanation": "A variable is a labeled name that references a value in memory. When passed to print() without quotes, Python evaluates the variable and prints the value it stores.",
+      "hint": "Because there are no quotes around player_name inside print(), Python looks up the stored value.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
-        "A. You must declare variable types using `int` or `str` before assigning values.",
-        "B. Python automatically determines types at runtime, and variables can be reassigned to values of different types.",
-        "C. Code execution speed increases dynamically as you type faster.",
-        "D. Variables can only hold numeric values."
+        "Alex",
+        "player_name",
+        "\"Alex\"",
+        "Error"
       ],
-      "correct_answer": "B",
-      "explanation": "Dynamic typing means variables bind to objects of any type at runtime without explicit declarations."
+      "correct_answer": "Alex",
+      "code_snippet": "player_name = \"Alex\"\nprint(player_name)",
+      "codeSnippet": "player_name = \"Alex\"\nprint(player_name)",
+      "expected_output": "Alex"
     },
     {
-      "id": "2.1_q17",
-      "type": "write_the_code",
-      "concept": "variable_creation",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "prompt": "Create a variable named `temperature` and assign it the integer `72`.",
-      "starter_code": "# TODO: Implement solution for Variables\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "temperature = 72",
-      "explanation": "This exercise tests `variable creation` in Variables. When Python validates this code, it applies the standard rules of variable creation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "2.1_q18",
-      "type": "match_code_to_concept",
-      "concept": "variable_operations",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q1",
-        "2.1_q6",
-        "2.1_q8"
-      ],
-      "prompt": "Match each code statement to its conceptual action.",
-      "options": {
-        "`x = 5`": "Initial assignment: creates variable `x` pointing to 5.",
-        "`x = 10`": "Reassignment: updates `x` to point to a new value 10.",
-        "`x = x + 1`": "Increment: evaluates current `x` plus 1 and stores result back in `x`."
-      },
-      "correct_answer": {
-        "`x = 5`": "Initial assignment: creates variable `x` pointing to 5.",
-        "`x = 10`": "Reassignment: updates `x` to point to a new value 10.",
-        "`x = x + 1`": "Increment: evaluates current `x` plus 1 and stores result back in `x`."
-      },
-      "explanation": "Initialization creates the binding, reassignment replaces it, and update modifies it based on existing state."
-    },
-    {
-      "id": "2.1_q19",
-      "type": "code_prediction",
-      "concept": "variable_interpolation",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "1.4_q3",
-        "2.1_q1"
-      ],
-      "prompt": "What does this code output?\n```python\nitem = \"Laptop\"\nprice = 899\nprint(\"Product:\", item, \"| Price: $\", price, sep=\"\")\n```",
-      "options": [
-        "A. Product: Laptop | Price: $ 899",
-        "B. Product:Laptop| Price: $899",
-        "C. Product: Laptop | Price: $899",
-        "D. Laptop 899"
-      ],
-      "correct_answer": "B",
-      "explanation": "With `sep=\"\"`, elements are joined with no automatic spaces. The exact spacing comes from the string literals: `'Product:'` + `'Laptop'` + `'| Price: $'` + `'899'` -> `Product:Laptop| Price: $899`."
-    },
-    {
-      "id": "2.1_q20",
+      "id": "2.1_fnd_2",
       "type": "trace_execution",
-      "concept": "variable_tracing",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.1_q8",
-        "2.1_q12"
-      ],
-      "prompt": "Step through this code carefully:\n```python\na = 2\nb = 3\na = a * b\nb = a - b\n```\nWhat are the final values of `a` and `b`?",
-      "options": [
-        "A. a = 6, b = 3",
-        "B. a = 6, b = 0",
-        "C. a = 2, b = 3",
-        "D. a = 5, b = 2"
-      ],
-      "correct_answer": "A",
-      "explanation": "Line 3: `a = 2 * 3 = 6`. Line 4: `b = 6 - 3 = 3`. So `a` is 6 and `b` is 3."
-    },
-    {
-      "id": "2.1_q21",
-      "type": "error_diagnosis",
-      "concept": "undefined_variable",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "1.6_q8",
-        "2.1_q1"
-      ],
-      "prompt": "What happens when this script runs?\n```python\nprint(total_score)\ntotal_score = 50\n```",
-      "options": [
-        "A. Python prints 50 because it scans ahead for assignments.",
-        "B. It raises a `NameError: name 'total_score' is not defined` because Python runs sequentially from top to bottom and the variable doesn't exist yet on line 1.",
-        "C. Python prints 0.",
-        "D. Python prints an empty string."
-      ],
-      "correct_answer": "B",
-      "explanation": "Variables cannot be accessed before they are assigned. Sequential execution requires creation before usage."
-    },
-    {
-      "id": "2.1_q22",
-      "type": "fill_in_the_blank",
-      "concept": "variable_swap",
+      "concept": "variable_trace_linear",
       "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q12"
+      "prerequisites": [],
+      "prompt": "Trace the value of variable `x` line by line as Python runs:\n```python\nx = 5\nx = x + 2\nx = x * 2\n```\nWhat is the value of `x` after each line finishes?",
+      "explanation": "Line 1 sets x to 5. Line 2 reads x (5), adds 2 to get 7, and assigns 7 back into x. Line 3 reads x (7), multiplies by 2, and assigns 14 back into x.",
+      "hint": "Evaluate the right side of the equals sign first, then assign the result into the variable on the left.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "14",
+        "0",
+        "5",
+        "None"
       ],
-      "prompt": "In Python, you can swap two variables in one clean line! Complete the swap:\n```python\na = 1\nb = 2\na, b = b, ___\n```",
+      "correct_answer": "14",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 1,
+          "code": "x = 5",
+          "variable": "Value of x",
+          "expectedValue": "5",
+          "hint": "x is initialized to 5"
+        },
+        {
+          "step": 2,
+          "line": 2,
+          "code": "x = x + 2",
+          "variable": "Value of x",
+          "expectedValue": "7",
+          "hint": "5 + 2 evaluates to 7"
+        },
+        {
+          "step": 3,
+          "line": 3,
+          "code": "x = x * 2",
+          "variable": "Value of x",
+          "expectedValue": "14",
+          "hint": "7 * 2 evaluates to 14"
+        }
+      ]
+    },
+    {
+      "id": "2.1_fnd_3",
+      "type": "fill_in_the_blank",
+      "concept": "variable_assignment_syntax",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Complete the code to store the name `\"Ganesh\"` in the variable `name` and then print it:\n```python\nname = \"Ganesh\"\nprint(____)\n```",
+      "explanation": "To print the value held in the variable `name`, we pass `name` into print() without quotes.",
+      "hint": "Fill in the variable name that was assigned on the first line.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "correct_answer": "name",
       "accepted_answers": [
+        "name"
+      ],
+      "code_snippet": "name = \"Ganesh\"\nprint(____)",
+      "codeSnippet": "name = \"Ganesh\"\nprint(____)"
+    },
+    {
+      "id": "2.1_fnd_4",
+      "type": "output_prediction",
+      "concept": "predict_reassignment",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "What is printed by this program?\n```python\nscore = 20\nscore = score + 5\nprint(score)\n```",
+      "explanation": "The right-hand side `score + 5` is evaluated first using the current value of `score` (20), giving 25. Then 25 is stored back into `score`.",
+      "hint": "Compute 20 + 5 first, then store it back into score.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "25",
+        "20",
+        "205",
+        "Error: Cannot use score on both sides of ="
+      ],
+      "correct_answer": "25",
+      "code_snippet": "score = 20\nscore = score + 5\nprint(score)",
+      "codeSnippet": "score = 20\nscore = score + 5\nprint(score)",
+      "expected_output": "25"
+    },
+    {
+      "id": "2.1_fnd_5",
+      "type": "write_the_code",
+      "concept": "write_variable_creation",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Create a variable called `age` and store the value `18` in it. Then print `age`.",
+      "explanation": "Line 1 `age = 18` creates the variable and assigns 18 to it. Line 2 `print(age)` displays its value.",
+      "hint": "First line: age = 18. Second line: print(age)",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "starter_code": "# Write your code below\n",
+      "solution_code": "age = 18\nprint(age)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Variable age should exist in the program",
+          "input": "",
+          "expectedOutput": "18",
+          "assertionPython": "assert 'age' in _user_namespace, 'Variable age was not found in your program'",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Variable age should equal 18",
+          "input": "",
+          "expectedOutput": "18",
+          "assertionPython": "assert _user_namespace.get('age') == 18, f'Expected age to be 18, got {_user_namespace.get(\"age\")}'",
+          "hidden": true
+        },
+        {
+          "id": "tc_3",
+          "description": "Program should print 18",
+          "input": "",
+          "expectedOutput": "18",
+          "assertionPython": "assert _raw_stdout.strip() == '18', f'Expected printed output 18, got {_raw_stdout.strip()}'",
+          "hidden": false
+        }
+      ],
+      "expected_output": "18"
+    },
+    {
+      "id": "2.1_fnd_6",
+      "type": "fix_the_code",
+      "concept": "debug_case_mismatch",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Fix the bug in the program below. Running this raises `NameError: name 'User_Score' is not defined` because the variable name is capitalized differently.",
+      "explanation": "In Python, variable identifiers are strictly case-sensitive. `user_score` is not the same identifier as `User_Score`.",
+      "hint": "Make the spelling in print() match the lowercase variable definition.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "starter_code": "user_score = 95\nprint(User_Score)",
+      "solution_code": "user_score = 95\nprint(user_score)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints 95 without casing errors",
+          "input": "",
+          "expectedOutput": "95",
+          "assertionPython": "assert _raw_stdout.strip() == '95' and 'user_score' in _user_code and 'User_Score' not in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test: user_score variable identifier correctly matched",
+          "input": "",
+          "expectedOutput": "95",
+          "assertionPython": "assert _user_namespace.get('user_score') == 95 and 'print(user_score)' in _user_code.replace(' ', '')",
+          "hidden": true
+        }
+      ],
+      "expected_output": "95"
+    },
+    {
+      "id": "2.1_fnd_7",
+      "type": "multiple_choice",
+      "concept": "reason_variable_reassignment",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Look at the following code:\n```python\ncoins = 10\ncoins = 25\nprint(coins)\n```\nWhy does this program print `25` instead of `10` or `35`?",
+      "explanation": "A variable can only hold a single value at any given moment. When you assign `coins = 25`, the previous value `10` is discarded.",
+      "hint": "Think of a variable as a whiteboard: writing a new value wipes away the old one.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "Assigning a new value to a variable overwrites whatever value it held previously",
+        "Python automatically adds the values together",
+        "Variables always choose the larger number",
+        "10 was stored in a temporary hidden cache"
+      ],
+      "correct_answer": "Assigning a new value to a variable overwrites whatever value it held previously"
+    },
+    {
+      "id": "2.1_fnd_8",
+      "type": "write_the_code",
+      "concept": "apply_score_tracking",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "In a game, a player starts with `100` points. They then earn `50` bonus points. Write a Python script that:\n1. Creates a variable `points` set to `100`\n2. Reassigns `points` to add `50` to its current value\n3. Prints `points`",
+      "explanation": "`points = 100` followed by `points = points + 50` increments the score to 150 and prints it.",
+      "hint": "Start with points = 100, then points = points + 50, then print(points)",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "starter_code": "# Track the player points\n",
+      "solution_code": "points = 100\npoints = points + 50\nprint(points)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "points starts at 100 and ends at 150",
+          "input": "",
+          "expectedOutput": "150",
+          "assertionPython": "assert _user_namespace.get('points') == 150, f'Expected points to be 150, got {_user_namespace.get(\"points\")}'",
+          "hidden": true
+        },
+        {
+          "id": "tc_2",
+          "description": "Program prints 150",
+          "input": "",
+          "expectedOutput": "150",
+          "assertionPython": "assert _raw_stdout.strip() == '150', f'Expected printed output 150, got {_raw_stdout.strip()}'",
+          "hidden": false
+        }
+      ],
+      "expected_output": "150"
+    },
+    {
+      "id": "2.1_fnd_9",
+      "type": "trace_execution",
+      "concept": "trace_copy_values",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Trace the value of variable `b` across these statements:\n```python\na = 10\nb = a\na = 99\n```\nWhat is the value of `b` after each line?",
+      "explanation": "When `b = a` executes, `b` receives the value that `a` currently holds (10). When `a` is later changed to 99, `b` still holds 10. Primitive values are copied by value, not linked by a live wire.",
+      "hint": "Changing variable a later does not automatically update variable b.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "10",
+        "0",
+        "5",
+        "None"
+      ],
+      "correct_answer": "10",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 1,
+          "code": "a = 10",
+          "variable": "Value of b",
+          "expectedValue": "None",
+          "hint": "b does not exist yet"
+        },
+        {
+          "step": 2,
+          "line": 2,
+          "code": "b = a",
+          "variable": "Value of b",
+          "expectedValue": "10",
+          "hint": "b copies the current value of a (10)"
+        },
+        {
+          "step": 3,
+          "line": 3,
+          "code": "a = 99",
+          "variable": "Value of b",
+          "expectedValue": "10",
+          "hint": "Changing a does NOT change b!"
+        }
+      ]
+    },
+    {
+      "id": "2.1_fnd_10",
+      "type": "fix_the_code",
+      "concept": "debug_invalid_variable_name",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Fix the syntax error in the code below. In Python, variable names cannot start with a digit (like `1st`).",
+      "explanation": "Python identifier naming rules: names must start with a letter (a-z, A-Z) or underscore (_). They can contain numbers, but cannot start with one.",
+      "hint": "Change 1st_place to first_place in both lines.",
+      "misconception_tag": "SYNTAX_ERROR",
+      "starter_code": "1st_place = \"Gold\"\nprint(1st_place)",
+      "solution_code": "first_place = \"Gold\"\nprint(first_place)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints \"Gold\" with a valid identifier name",
+          "input": "",
+          "expectedOutput": "Gold",
+          "assertionPython": "assert _raw_stdout.strip() == 'Gold' and not _user_code.startswith('1st')",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test: valid identifier used in assignment and print",
+          "input": "",
+          "expectedOutput": "Gold",
+          "assertionPython": "assert _raw_stdout.strip() == 'Gold' and '1st' not in _user_code and ('first_place' in _user_namespace or 'place_1' in _user_namespace)",
+          "hidden": true
+        }
+      ],
+      "expected_output": "Gold"
+    },
+    {
+      "id": "2.1_cand_1",
+      "type": "micro_lesson",
+      "concept": "variable_references",
+      "skill": "mental_model",
+      "difficulty": "easy",
+      "title": "Variables Are Reference Tags",
+      "content": "In Python, a variable is not an empty box that holds data. Instead, it is a **name tag** or **reference** pointing to an object created in memory.\n\nWhen you run `score = 50`, Python creates the integer object `50` in memory, then attaches the label `score` to it.",
+      "prompt": "",
+      "explanation": "Think of variables as name tags attached to values in memory. When you call the name tag, Python looks at the value it points to.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_2",
+      "type": "multiple_choice",
+      "concept": "variable_references",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prompt": "What happens in memory when Python executes `battery_level = 85`?",
+      "options": [
+        "Python creates an integer object 85 and attaches the label battery_level to it",
+        "Python permanently reserves a physical memory box named battery_level",
+        "Python converts the variable name into the string \"85\"",
+        "Python prints 85 directly to the console output"
+      ],
+      "correct_answer": "Python creates an integer object 85 and attaches the label battery_level to it",
+      "explanation": "Python creates objects in heap memory and binds variable names as references pointing to those objects.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_3",
+      "type": "fill_in_the_blank",
+      "concept": "variable_assignment_syntax",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "Complete the statement to store the integer `12` in a variable named `cart_items`:\n```python\n______ = 12\n```",
+      "accepted_answers": [
+        "cart_items"
+      ],
+      "correct_answer": "cart_items",
+      "explanation": "The variable name must be on the left side of the assignment operator (=), followed by the value on the right.",
+      "hint": "Type the exact variable name cart_items.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
+    },
+    {
+      "id": "2.1_cand_4",
+      "type": "code_prediction",
+      "concept": "variable_reading",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does this code print?\n```python\nremaining_lives = 3\nprint(remaining_lives)\n```",
+      "code_snippet": "remaining_lives = 3\nprint(remaining_lives)",
+      "options": [
+        "3",
+        "remaining_lives",
+        "\"3\"",
+        "None"
+      ],
+      "correct_answer": "3",
+      "expected_output": "3",
+      "explanation": "Passing remaining_lives without quotes causes Python to evaluate the variable and print the integer 3.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_5",
+      "type": "real_world_scenario",
+      "concept": "reassignment_accumulation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A smart thermostat measures room temperature across two readings:\n```python\ntemp_c = 20.0\ntemp_c = temp_c + 2.5\nprint(temp_c)\n```\nWhat is the final printed temperature?",
+      "code_snippet": "temp_c = 20.0\ntemp_c = temp_c + 2.5\nprint(temp_c)",
+      "options": [
+        "22.5",
+        "20.0",
+        "20.02.5",
+        "temp_c"
+      ],
+      "correct_answer": "22.5",
+      "expected_output": "22.5",
+      "explanation": "Python computes 20.0 + 2.5 on the right side first to produce 22.5, then reassigns that new value into temp_c.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_6",
+      "type": "error_diagnosis",
+      "concept": "name_error_before_definition",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A script attempts to log a username:\n```python\nprint(username)\nusername = \"alex_99\"\n```\nWhat error occurs and why?",
+      "options": [
+        "NameError because username is used before being assigned",
+        "SyntaxError because variable names cannot contain underscores",
+        "TypeError because username must be printed with quotes",
+        "ZeroDivisionError because variables default to zero"
+      ],
+      "correct_answer": "NameError because username is used before being assigned",
+      "explanation": "Python executes line by line top to bottom. Referencing a variable before its assignment statement raises a NameError.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "2.1_cand_7",
+      "type": "fix_the_code",
+      "concept": "case_sensitive_identifier",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A barista checkout system crashes with a NameError. Fix the print call so it prints the price of the coffee.",
+      "starter_code": "coffee_price = 4.50\nprint(Coffee_Price)\n",
+      "solution_code": "coffee_price = 4.50\nprint(coffee_price)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints coffee_price 4.5",
+          "expectedOutput": "4.5",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 4.5 and _user_namespace.get('coffee_price') == 4.5",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses exact lowercase identifier coffee_price",
+          "expectedOutput": "4.5",
+          "assertionPython": "assert 'coffee_price' in _user_code and 'Coffee_Price' not in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Python identifiers are case-sensitive: coffee_price and Coffee_Price are distinct names in memory.",
+      "hint": "Change Coffee_Price to match the exact lowercase coffee_price variable.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_8",
+      "type": "write_the_code",
+      "concept": "store_and_update_state",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "Write code for a music playlist:\n1. Create a variable `song_count` set to `10`.\n2. Add `3` new songs to `song_count` by reassigning `song_count = song_count + 3`.\n3. Print `song_count`.",
+      "starter_code": "# Track playlist song count below\n",
+      "solution_code": "song_count = 10\nsong_count = song_count + 3\nprint(song_count)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints updated song count 13",
+          "expectedOutput": "13",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 13 and _user_namespace.get('song_count') == 13",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures calculation was performed via variable reassignment",
+          "expectedOutput": "13",
+          "assertionPython": "assert 'song_count' in _user_code and '+' in _user_code and _user_namespace.get('song_count') == 13",
+          "hidden": true
+        }
+      ],
+      "explanation": "We initialize song_count to 10, evaluate song_count + 3 (13), and store the updated count back into song_count.",
+      "hint": "Initialize song_count = 10, then update it with song_count = song_count + 3.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_9",
+      "type": "trace_execution",
+      "concept": "independent_variables_trace",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Trace how variables `a` and `b` evolve:\n```python\na = 10\nb = a\na = 25\nprint(b)\n```\nWhat does the print statement output?",
+      "code_snippet": "a = 10\nb = a\na = 25\nprint(b)",
+      "options": [
+        "10",
+        "25",
+        "35",
         "a"
       ],
-      "explanation": "`a, b = b, a` swaps the values of `a` and `b` simultaneously."
+      "correct_answer": "10",
+      "expected_output": "10",
+      "explanation": "When b = a executes, b is bound to the integer 10. Later reassigning a = 25 does not alter where b points.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "2.1_q23",
+      "id": "2.1_cand_10",
       "type": "output_prediction",
-      "concept": "variable_swap",
+      "concept": "variable_swapping_pattern",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prompt": "Consider this classic variable swap sequence:\n```python\nleft = \"Blue\"\nright = \"Red\"\ntemp = left\nleft = right\nright = temp\nprint(left, right)\n```\nWhat is the output?",
+      "code_snippet": "left = \"Blue\"\nright = \"Red\"\ntemp = left\nleft = right\nright = temp\nprint(left, right)",
+      "options": [
+        "Red Blue",
+        "Blue Red",
+        "Red Red",
+        "Blue Blue"
+      ],
+      "correct_answer": "Red Blue",
+      "expected_output": "Red Blue",
+      "explanation": "temp holds \"Blue\" while left is updated to \"Red\". Then right receives \"Blue\" from temp. The values have successfully swapped.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_11",
+      "type": "multiple_choice",
+      "concept": "right_to_left_evaluation",
+      "skill": "reasoning",
+      "difficulty": "easy",
+      "prompt": "In Python, why is `x = x + 1` mathematically impossible but computationally standard?",
+      "options": [
+        "= denotes assignment, not algebraic equality; the right side is evaluated first, then stored in the left",
+        "= creates two parallel threads running both sides simultaneously",
+        "Python ignores the second x and only increments the first",
+        "In Python numbers automatically increase by 1 every clock cycle"
+      ],
+      "correct_answer": "= denotes assignment, not algebraic equality; the right side is evaluated first, then stored in the left",
+      "explanation": "In programming languages, = is the assignment operator. Python calculates the value of x + 1 first, then binds the result back to x.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
+    },
+    {
+      "id": "2.1_cand_12",
+      "type": "fix_the_code",
+      "concept": "assignment_order_fix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A developer accidentally wrote assignment in reverse. Fix the statement so variable `max_users` is assigned `500`.",
+      "starter_code": "500 = max_users\nprint(max_users)\n",
+      "solution_code": "max_users = 500\nprint(max_users)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints max_users 500",
+          "expectedOutput": "500",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 500 and _user_namespace.get('max_users') == 500",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Stores 500 in variable max_users correctly",
+          "expectedOutput": "500",
+          "assertionPython": "assert _user_namespace.get('max_users') == 500 and not '500 = max_users' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Variable names must always appear on the left side of the assignment operator =. Literals cannot be assigned into.",
+      "hint": "Put max_users on the left of = and 500 on the right.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "2.1_cand_13",
+      "type": "mini_challenge",
+      "concept": "bank_account_ledger",
+      "skill": "application",
+      "difficulty": "hard",
+      "prompt": "Simulate a bank account transaction ledger:\n1. Create `balance = 200`\n2. Add a paycheck deposit of `75` to `balance`\n3. Deduct a grocery bill of `30` from `balance`\n4. Print `balance`",
+      "starter_code": "# Implement bank balance tracking below\n",
+      "solution_code": "balance = 200\nbalance = balance + 75\nbalance = balance - 30\nprint(balance)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates final balance 245",
+          "expectedOutput": "245",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 245 and _user_namespace.get('balance') == 245",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies sequential updates to balance variable",
+          "expectedOutput": "245",
+          "assertionPython": "assert _user_namespace.get('balance') == 245 and 'print(balance)' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Starting at 200, balance increases to 275 after the deposit, and decreases to 245 after the deduction.",
+      "hint": "Update balance twice using addition and subtraction before printing.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_14",
+      "type": "fill_in_the_blank",
+      "concept": "print_variable_syntax",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "Complete the code to print the value of `username` rather than the literal word:\n```python\nusername = \"dev_sam\"\nprint(________)\n```",
+      "accepted_answers": [
+        "username"
+      ],
+      "correct_answer": "username",
+      "explanation": "Printing username without quotes evaluates the variable and prints \"dev_sam\".",
+      "hint": "Type the unquoted variable name username.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "2.1_cand_15",
+      "type": "output_prediction",
+      "concept": "sequential_reassignment",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q22"
-      ],
-      "prompt": "What does this code output?\n```python\nx = \"day\"\ny = \"night\"\nx, y = y, x\nprint(x)\n```",
+      "prompt": "What does this program print?\n```python\nlevel = 1\nlevel = 2\nlevel = 3\nprint(level)\n```",
+      "code_snippet": "level = 1\nlevel = 2\nlevel = 3\nprint(level)",
       "options": [
-        "A. day",
-        "B. night",
-        "C. day night",
-        "D. night day"
+        "3",
+        "1",
+        "6",
+        "1 2 3"
       ],
-      "correct_answer": "B",
-      "explanation": "Tuple unpacking swaps the references: `x` receives `'night'` and `y` receives `'day'`."
-    },
-    {
-      "id": "2.1_q24",
-      "type": "multiple_choice",
-      "concept": "inventory_tracking",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q8"
-      ],
-      "prompt": "A warehouse tracking system starts with 50 units. 15 units are shipped out to customers, and 30 new units arrive from suppliers. Which code correctly models this?",
-      "options": [
-        "A. `stock = 50; stock = stock - 15; stock = stock + 30`",
-        "B. `stock = 50 - 15 - 30`",
-        "C. `stock = 15 + 30`",
-        "D. `50 = stock - 15 + 30`"
-      ],
-      "correct_answer": "A",
-      "explanation": "Starting at 50, subtracting the 15 units shipped, and adding the 30 incoming units correctly tracks the running inventory."
-    },
-    {
-      "id": "2.1_q25",
-      "type": "fix_the_code",
-      "concept": "variable_name_quotes",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q5"
-      ],
-      "prompt": "Fix this code so it prints the value stored in `greeting` instead of the literal word 'greeting':",
-      "starter_code": "greeting = \"Good morning!\"\nprint(\"greeting\")",
-      "solution_code": "greeting = \"Good morning!\"\nprint(greeting)",
-      "explanation": "Remove the quotes around `greeting` inside `print()` to output the variable's value."
-    },
-    {
-      "id": "2.1_q26",
-      "type": "multiple_choice",
-      "concept": "memory_model",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "1.2_q8",
-        "2.1_q1"
-      ],
-      "prompt": "In CPython's memory model, what actually happens when you execute `x = 42`?",
-      "options": [
-        "A. Python carves a physical box named 'x' and puts the number 42 inside it.",
-        "B. Python creates an integer object `42` in memory, and binds the name `x` as a reference (pointer) to that object.",
-        "C. Python converts 42 into a string and saves it on the hard drive.",
-        "D. Python allocates a fixed 4-byte CPU register permanently named `x`."
-      ],
-      "correct_answer": "B",
-      "explanation": "Python variables are references (names/tags) pointing to objects in heap memory, not fixed containers."
-    },
-    {
-      "id": "2.1_q27",
-      "type": "mini_challenge",
-      "concept": "variable_calculation",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q8"
-      ],
-      "prompt": "Given `length = 8` and `width = 5`, create a variable `area` that calculates their product (`length * width`), then print `area`.",
-      "starter_code": "length = 8\nwidth = 5\n# Calculate area and print it\n",
-      "solution_code": "length = 8\nwidth = 5\narea = length * width\nprint(area)",
-      "explanation": "This exercise tests `variable calculation` in Variables. When Python validates this code, it applies the standard rules of variable calculation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "2.1_q28",
-      "type": "output_prediction",
-      "concept": "reassignment_chain",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.1_q6",
-        "2.1_q12"
-      ],
-      "prompt": "What does this code print?\n```python\nm = 10\nn = 20\nm = n\nn = 30\nprint(m, n)\n```",
-      "options": [
-        "A. 10 20",
-        "B. 20 30",
-        "C. 30 30",
-        "D. 20 20"
-      ],
-      "correct_answer": "B",
-      "explanation": "When `m = n` runs, `m` points to 20. Then `n` is reassigned to 30. Printing `m, n` outputs `20 30`."
-    },
-    {
-      "id": "2.1_q29",
-      "type": "real_world_scenario",
-      "concept": "debugging_variable_drift",
-      "skill": "evaluation",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.1_q8"
-      ],
-      "prompt": "A developer writes:\n```python\nsubtotal = 100\ntax = subtotal * 0.10\nsubtotal = 200\n```\nWhat is the value of `tax` now, and why?",
-      "correct_answer": "B",
-      "explanation": "Critical mental model: Python is imperative, not reactive. Expressions evaluate eagerly. Changing `subtotal` later has zero effect on already-computed `tax`.",
-      "options": [
-        "A. tax automatically recalculates to 20 when subtotal is changed later.",
-        "B. tax remains 10; variables hold the value assigned at the time of execution, not a reactive formula.",
-        "C. Python raises an UnboundLocalError when reassigning subtotal.",
-        "D. subtotal becomes a tuple containing both 100 and 200."
-      ]
-    },
-    {
-      "id": "2.1_q30",
-      "type": "real_world_scenario",
-      "concept": "variables_synthesis",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.1_q1",
-        "2.1_q3",
-        "2.1_q6",
-        "2.1_q15",
-        "2.1_q26"
-      ],
-      "prompt": "Which of the following statements about Python variables is completely TRUE?",
-      "correct_answer": "B",
-      "explanation": "This exercise tests `variables synthesis` in Variables. When Python validates this code, it applies the standard rules of variables synthesis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution.",
-      "options": [
-        "A. Variables are statically typed memory boxes that cannot change data types.",
-        "B. Variables are symbolic names bound to objects; reassigning a variable rebinds the name to a new object in memory.",
-        "C. Variables can only hold integer numbers.",
-        "D. Creating a variable copies all hardware memory into the variable."
-      ]
+      "correct_answer": "3",
+      "expected_output": "3",
+      "explanation": "Each reassignment overwrites the previous value. When line 4 runs, level references 3.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     }
-  ],
-  "unit_num": 2,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Variables",
-    "Apply idiomatic Python patterns when working with Variables",
-    "Debug common runtime exceptions and logic errors associated with Variables",
-    "Implement production-ready code utilizing Variables"
-  ],
-  "prerequisites": [
-    "1.6"
   ]
 }

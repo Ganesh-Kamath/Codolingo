@@ -3,14 +3,14 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_7_1',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '5. ==',
     concept: 'predict_equality_operator',
     learning_objective: 'Predict the boolean output of the equality comparison == operator.',
     difficulty: 'easy',
     question_type: 'PREDICT_OUTPUT',
-    prompt: 'What will this program print?\n```python\nscore = 10\nprint(score == 10)\n```',
+    prompt: 'Predict the outcome when comparing variable score to the number 10 using ==:\n```python\nscore = 10\nprint(score == 10)\n```',
     codeSnippet: 'score = 10\nprint(score == 10)',
     expected_output: 'True',
     options: [
@@ -32,8 +32,8 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_7_2',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '1. >',
     concept: 'predict_boundary_condition',
     learning_objective: 'Predict strictly greater than (>) behavior at the exact boundary number.',
@@ -60,8 +60,8 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_7_3',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '5. ==',
     concept: 'complete_equality_check',
     learning_objective: 'Complete a comparison statement using the double equals (==) operator.',
@@ -80,8 +80,8 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_7_4',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '5. ==',
     concept: 'reason_single_equals_syntax_error',
     learning_objective: 'Explain why using a single equals sign in a condition is invalid.',
@@ -104,8 +104,8 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_7_5',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '3. >=',
     concept: 'write_comparison_code',
     learning_objective: 'Write code comparing age against an adult threshold of 18 inclusive.',
@@ -126,19 +126,21 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses greater-than-or-equal operator >=',
         expectedOutput: 'True',
-        assertionPython: "assert '>=' in _user_code"
+        assertionPython: "assert '>=' in _user_code",
+        hidden: true
       }
     ],
     explanation: '`age >= 18` checks if age is at least 18. Because 20 >= 18 is True, `can_enter` holds `True`.',
     hint: 'can_enter = age >= 18, then print(can_enter)',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_7_6',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '5. ==',
     concept: 'debug_assignment_in_conditional',
     learning_objective: 'Debug an accidental single equals assignment in a conditional check.',
@@ -154,6 +156,13 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints "Perfect" using comparison ==',
         expectedOutput: 'Perfect',
         assertionPython: "assert _raw_stdout.strip() == 'Perfect' and 'score == 100' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying conditional statement syntax',
+        expectedOutput: 'Perfect',
+        assertionPython: "assert _raw_stdout.strip() == 'Perfect' and '==' in _user_code",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -170,8 +179,8 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_7_7',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '6. !=',
     concept: 'trace_comparison_operators',
     learning_objective: 'Trace the boolean outcomes of multiple comparison expressions.',
@@ -185,14 +194,15 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: '5 < 8 is True. 5 == 8 is False. 5 != 8 (not equal) is True.',
     hint: '!= means "not equal to".',
+    misconception_tag: 'ASSIGNMENT_VS_COMPARISON',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_7_8',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '3. >=',
     concept: 'apply_free_shipping_check',
     learning_objective: 'Apply comparison logic to check if an order qualifies for free shipping.',
@@ -208,24 +218,32 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
         description: 'free_shipping is True for cart_total of 50',
         expectedOutput: 'True',
         assertionPython: "assert _user_namespace.get('free_shipping') is True and _raw_stdout.strip() == 'True'"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying free_shipping boolean variable',
+        expectedOutput: 'True',
+        assertionPython: "assert _user_namespace.get('free_shipping') is True",
+        hidden: true
       }
     ],
     explanation: 'Because the threshold is "at least 50", an order of exactly 50 qualifies! Thus `>=` is the correct operator, returning `True`.',
     hint: 'Use >= for "at least": free_shipping = cart_total >= 50',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 25,
     estimated_time: 60,
     order: 8
   },
   {
     id: 'py_fnd_7_9',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '5. ==',
     concept: 'predict_type_mismatch_equality',
     learning_objective: 'Predict equality comparison between a string and an integer.',
     difficulty: 'medium',
     question_type: 'PREDICT_OUTPUT',
-    prompt: 'What will this program print?\n```python\nprint("10" == 10)\n```',
+    prompt: 'Notice the quotation marks around the first value. What happens when comparing string "10" to integer 10 with ==?\n```python\nprint("10" == 10)\n```',
     codeSnippet: 'print("10" == 10)',
     expected_output: 'False',
     options: [
@@ -246,8 +264,8 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_7_10',
-    unit: 'unit_01',
-    lesson: '1.7',
+    unit: 'unit_03',
+    lesson: '3.4',
     section: '3. >=',
     concept: 'debug_boundary_cutoff',
     learning_objective: 'Debug an off-by-one boundary error where 18-year-olds were excluded.',
@@ -263,6 +281,13 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints True for age 18 using >=',
         expectedOutput: 'True',
         assertionPython: "assert _raw_stdout.strip() == 'True' and '>=' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying can_vote variable for boundary age',
+        expectedOutput: 'True',
+        assertionPython: "assert _user_namespace.get('can_vote') is True and '>=' in _user_code",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -280,12 +305,12 @@ export const LESSON_07_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_07: LessonStructure = {
-  id: '1.7',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'Comparisons',
-  slug: 'comparisons',
-  order: 7,
+  id: '3.4',
+  unitId: 'unit_03',
+  unitTitle: 'Unit 3: Operators and Math',
+  title: 'Comparison Operators',
+  slug: 'comparison-operators',
+  order: 4,
   description: 'Master comparison operators, understand the crucial difference between = and ==, and conquer boundary conditions.',
   estimatedMinutes: 10,
   xpReward: 30,

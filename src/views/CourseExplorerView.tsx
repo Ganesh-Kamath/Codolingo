@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { progressionService } from '../services/progressionService';
 import { CourseCategory } from '../types';
 import { Card } from '../components/common/Card';
 import { Badge } from '../components/common/Badge';
@@ -8,7 +9,7 @@ import { ProgressBar } from '../components/common/ProgressBar';
 import { Icon } from '../components/ui/Icon';
 
 export const CourseExplorerView: React.FC = () => {
-  const { allCourses, userProfile, navigateTo } = useApp();
+  const { allCourses, userProfile, userProgress, course: learningCourse, navigateTo, startLesson } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = [
@@ -162,6 +163,15 @@ export const CourseExplorerView: React.FC = () => {
                   variant={isPrimary ? 'primary' : 'secondary'}
                   size="md"
                   style={{ width: '100%' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (isPython) {
+                      const nextId = progressionService.getNextLesson(userProgress || userProfile, learningCourse) || '1.1';
+                      startLesson(nextId);
+                    } else {
+                      navigateTo(`/app/course/${course.id}`);
+                    }
+                  }}
                   icon={<Icon name="arrow-right" size={15} stroke={3} />}
                   iconPosition="right"
                 >

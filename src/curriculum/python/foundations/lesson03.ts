@@ -3,14 +3,14 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_3_1',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '6. Operator precedence',
     concept: 'arithmetic_precedence',
     learning_objective: 'Predict output of mixed arithmetic involving multiplication and addition.',
     difficulty: 'easy',
     question_type: 'PREDICT_OUTPUT',
-    prompt: 'What will this program print?\n```python\nresult = 2 + 3 * 4\nprint(result)\n```',
+    prompt: 'What will this program print without parentheses?\n```python\nresult = 2 + 3 * 4\nprint(result)\n```',
     codeSnippet: 'result = 2 + 3 * 4\nprint(result)',
     expected_output: '14',
     options: [
@@ -32,8 +32,8 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_3_2',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '5. Division',
     concept: 'float_division_type',
     learning_objective: 'Explain why standard division in Python always results in a float.',
@@ -56,8 +56,8 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_3_3',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '4. Multiplication',
     concept: 'arithmetic_syntax_multiply',
     learning_objective: 'Complete an arithmetic statement using the asterisk multiplication operator.',
@@ -76,14 +76,14 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_3_4',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '6. Operator precedence',
     concept: 'parentheses_precedence',
     learning_objective: 'Predict the outcome of overriding precedence using parentheses.',
     difficulty: 'easy',
     question_type: 'PREDICT_OUTPUT',
-    prompt: 'What will this program print?\n```python\ntotal = (2 + 3) * 4\nprint(total)\n```',
+    prompt: 'Now observe parentheses grouping the addition first. What will this program print?\n```python\ntotal = (2 + 3) * 4\nprint(total)\n```',
     codeSnippet: 'total = (2 + 3) * 4\nprint(total)',
     expected_output: '20',
     options: [
@@ -104,8 +104,8 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_3_5',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '2. Addition',
     concept: 'write_arithmetic_code',
     learning_objective: 'Write code to calculate and print the total cost of two items.',
@@ -132,19 +132,21 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_3',
         description: 'Program prints 30',
         expectedOutput: '30',
-        assertionPython: "assert _raw_stdout.strip() == '30'"
+        assertionPython: "assert _raw_stdout.strip() == '30'",
+        hidden: true
       }
     ],
     explanation: 'We store numbers in variables `book` and `pen`, sum them into `total`, and print the result `30`.',
     hint: 'book = 25, pen = 5, total = book + pen, print(total)',
+    misconception_tag: 'WRONG_OPERATOR',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_3_6',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '6. Operator precedence',
     concept: 'debug_discount_formula',
     learning_objective: 'Debug an arithmetic bug caused by missing grouping parentheses.',
@@ -159,7 +161,14 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_1',
         description: 'Correctly computes average as 90.0 with parentheses',
         expectedOutput: '90.0',
-        assertionPython: "assert float(_raw_stdout.strip()) == 90.0 and '(' in _user_code"
+        assertionPython: "assert float(_raw_stdout.strip()) == 90.0 and '(' in _user_code and _user_namespace.get('average') == 90.0"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying average variable calculation',
+        expectedOutput: '90.0',
+        assertionPython: "assert _user_namespace.get('average') == 90.0",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -176,8 +185,8 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_3_7',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '2. Addition',
     concept: 'trace_accumulator',
     learning_objective: 'Trace an accumulator variable undergoing addition and subtraction.',
@@ -191,14 +200,15 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: 'balance starts at 100. Adding 50 brings it to 150. Subtracting 20 leaves 130.',
     hint: 'Track how each line updates the single balance variable.',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_3_8',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '5. Division',
     concept: 'apply_time_conversion',
     learning_objective: 'Apply integer division // and remainder % to convert minutes to hours and minutes.',
@@ -219,19 +229,21 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Prints hours and minutes',
         expectedOutput: '2\n10',
-        assertionPython: "assert _raw_stdout.strip() == '2\\n10'"
+        assertionPython: "assert _raw_stdout.strip() == '2\\n10'",
+        hidden: true
       }
     ],
     explanation: '`130 // 60` computes full hours (2), and `130 % 60` computes remaining leftover minutes (10).',
     hint: 'hours = total_minutes // 60, minutes = total_minutes % 60',
+    misconception_tag: 'WRONG_OPERATOR',
     xp: 25,
     estimated_time: 90,
     order: 8
   },
   {
     id: 'py_fnd_3_9',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '5. Division',
     concept: 'modulo_remainder_prediction',
     learning_objective: 'Predict the result of the modulo remainder operator %.',
@@ -256,8 +268,8 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_3_10',
-    unit: 'unit_01',
-    lesson: '1.3',
+    unit: 'unit_03',
+    lesson: '3.1',
     section: '3. Subtraction',
     concept: 'debug_negative_order',
     learning_objective: 'Debug operand order in subtraction to prevent negative results.',
@@ -273,6 +285,13 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
         description: 'Correctly prints 35 for change',
         expectedOutput: '35',
         assertionPython: "assert _raw_stdout.strip() == '35' and _user_namespace.get('change') == 35"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying change variable and output',
+        expectedOutput: '35',
+        assertionPython: "assert _user_namespace.get('change') == 35",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -290,12 +309,12 @@ export const LESSON_03_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_03: LessonStructure = {
-  id: '1.3',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'Numbers & Arithmetic',
-  slug: 'numbers-and-arithmetic',
-  order: 3,
+  id: '3.1',
+  unitId: 'unit_03',
+  unitTitle: 'Unit 3: Operators and Math',
+  title: 'Arithmetic Operators',
+  slug: 'arithmetic-operators',
+  order: 1,
   description: 'Master arithmetic operations, division types (// vs / vs %), and operator precedence rules.',
   estimatedMinutes: 10,
   xpReward: 30,

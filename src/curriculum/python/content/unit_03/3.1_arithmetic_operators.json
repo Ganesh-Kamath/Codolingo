@@ -1,545 +1,639 @@
 {
   "lesson_id": "3.1",
   "title": "Arithmetic Operators",
-  "unit": "Operators and Math",
+  "unit": "unit_03",
   "items": [
     {
-      "id": "3.1_q1",
-      "type": "micro_lesson",
-      "concept": "arithmetic_overview",
-      "skill": "recognition",
+      "id": "3.1_fnd_1",
+      "type": "output_prediction",
+      "concept": "arithmetic_precedence",
+      "skill": "application",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.3_q1"
+      "prerequisites": [],
+      "prompt": "What will this program print without parentheses?\n```python\nresult = 2 + 3 * 4\nprint(result)\n```",
+      "explanation": "Python follows standard PEMDAS order of operations: multiplication (*) happens before addition (+). Thus `3 * 4 = 12`, then `2 + 12 = 14`.",
+      "hint": "Multiplication is computed before addition.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "options": [
+        "14",
+        "20",
+        "24",
+        "234"
       ],
-      "title": "The Core Arithmetic Operators",
-      "content": "Python provides 7 core arithmetic operators:\n\n* `+` Addition: `10 + 5 = 15`\n* `-` Subtraction: `10 - 5 = 5`\n* `*` Multiplication: `10 * 5 = 50`\n* `/` True Division: `10 / 4 = 2.5`\n* `//` Floor Division: `10 // 4 = 2`\n* `%` Modulo (Remainder): `10 % 4 = 2`\n* `**` Exponentiation (Power): `2 ** 3 = 8`",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+      "correct_answer": "14",
+      "code_snippet": "result = 2 + 3 * 4\nprint(result)",
+      "codeSnippet": "result = 2 + 3 * 4\nprint(result)"
     },
     {
-      "id": "3.1_q2",
+      "id": "3.1_fnd_2",
       "type": "multiple_choice",
-      "concept": "arithmetic_overview",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q1"
-      ],
-      "prompt": "Which operator calculates the remainder after dividing two numbers?",
-      "options": [
-        "A. `//`",
-        "B. `/`",
-        "C. `%` (Modulo)",
-        "D. `rem`"
-      ],
-      "correct_answer": "C",
-      "explanation": "The percent symbol `%` is the modulo operator; it returns the remainder left over after integer division."
-    },
-    {
-      "id": "3.1_q3",
-      "type": "micro_lesson",
-      "concept": "modulo_operator",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q1"
-      ],
-      "title": "Understanding Modulo (%)",
-      "content": "Think of division from grade school: `17 / 5 = 3 with a remainder of 2`.\n\n* Floor division gives the quotient: `17 // 5` -> `3`\n* Modulo gives the remainder: `17 % 5` -> `2`\n\nIf a number divides evenly with no remainder, modulo produces `0`:\n`20 % 5` -> `0`",
-      "prompt": "",
-      "explanation": "Think of division from grade school: `17 / 5 = 3 with a remainder of 2`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.1_q4",
-      "type": "code_prediction",
-      "concept": "modulo_operator",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q3"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(14 % 4)\n```",
-      "options": [
-        "A. 3.5",
-        "B. 3",
-        "C. 2",
-        "D. 0"
-      ],
-      "correct_answer": "C",
-      "explanation": "4 goes into 14 three times (12), leaving a remainder of 2 (`14 - 12 = 2`)."
-    },
-    {
-      "id": "3.1_q5",
-      "type": "micro_lesson",
-      "concept": "even_odd_pattern",
+      "concept": "float_division_type",
       "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q3"
-      ],
-      "title": "Pattern: Checking Even vs. Odd",
-      "content": "The most common real-world use of modulo is testing whether an integer is **even** or **odd** by dividing by `2`:\n\n* An even number divided by 2 has remainder `0`:\n  `n % 2 == 0` is `True`\n* An odd number divided by 2 has remainder `1`:\n  `n % 2 == 1` is `True`",
-      "prompt": "",
-      "explanation": "The most common real-world use of modulo is testing whether an integer is **even** or **odd** by dividing by `2`:\n\n* An even number divided by 2 has remainder `0`:\n  `n % 2 == 0` is `True`\n* An odd number divided by 2 has remainder `1`:\n  `n % 2 == 1` is `True`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.1_q6",
-      "type": "code_prediction",
-      "concept": "even_odd_pattern",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q5"
-      ],
-      "prompt": "What does this code print?\n```python\nnum = 17\nprint(num % 2 == 0)\n```",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Look at the following code:\n```python\nval = 10 / 2\nprint(val)\n```\nWhat does this print, and why?",
+      "explanation": "In Python, the `/` operator always performs true float division, giving `5.0`. If you want integer floor division, you use `//`.",
+      "hint": "Single slash division always produces a number with a decimal point.",
+      "misconception_tag": "WRONG_TYPE",
       "options": [
-        "A. True",
-        "B. False",
-        "C. 1",
-        "D. 0"
+        "5.0, because single slash (/) division always returns a float in Python",
+        "5, because 10 divides evenly by 2 into an integer",
+        "Error, because integers cannot be divided",
+        "0, because it only returns the remainder"
       ],
-      "correct_answer": "B",
-      "explanation": "17 is odd. `17 % 2 = 1`. Since `1 == 0` is False, it prints `False`."
+      "correct_answer": "5.0, because single slash (/) division always returns a float in Python"
     },
     {
-      "id": "3.1_q7",
+      "id": "3.1_fnd_3",
       "type": "fill_in_the_blank",
-      "concept": "even_check",
+      "concept": "arithmetic_syntax_multiply",
       "skill": "application",
       "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q5"
-      ],
-      "prompt": "Complete the check to test if `x` is perfectly divisible by 10 with no remainder:\n```python\nis_multiple_of_ten = (x % 10 == ___)\n```",
+      "prerequisites": [],
+      "prompt": "Complete the statement to calculate the area of a rectangle with `width = 5` and `height = 8`:\n```python\nwidth = 5\nheight = 8\narea = width ____ height\nprint(area)\n```",
+      "explanation": "In Python, the asterisk `*` is the arithmetic operator for multiplication. `x` is not valid Python syntax for multiplying numbers.",
+      "hint": "Use the asterisk symbol above the number 8 key.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "correct_answer": "*",
       "accepted_answers": [
+        "*"
+      ],
+      "code_snippet": "width = 5\nheight = 8\narea = width ____ height\nprint(area)",
+      "codeSnippet": "width = 5\nheight = 8\narea = width ____ height\nprint(area)"
+    },
+    {
+      "id": "3.1_fnd_4",
+      "type": "output_prediction",
+      "concept": "parentheses_precedence",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Now observe parentheses grouping the addition first. What will this program print?\n```python\ntotal = (2 + 3) * 4\nprint(total)\n```",
+      "explanation": "Parentheses `()` have the highest precedence in Python. `(2 + 3)` evaluates to 5 first, then `5 * 4 = 20`.",
+      "hint": "Calculate inside the parentheses first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "options": [
+        "20",
+        "14",
+        "24",
+        "Error"
+      ],
+      "correct_answer": "20",
+      "code_snippet": "total = (2 + 3) * 4\nprint(total)",
+      "codeSnippet": "total = (2 + 3) * 4\nprint(total)"
+    },
+    {
+      "id": "3.1_fnd_5",
+      "type": "write_the_code",
+      "concept": "write_arithmetic_code",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "A book costs `25` dollars and a pen costs `5` dollars. Write a Python program that:\n1. Creates a variable `book` equal to `25`\n2. Creates a variable `pen` equal to `5`\n3. Creates a variable `total` equal to `book + pen`\n4. Prints `total`",
+      "explanation": "We store numbers in variables `book` and `pen`, sum them into `total`, and print the result `30`.",
+      "hint": "book = 25, pen = 5, total = book + pen, print(total)",
+      "misconception_tag": "WRONG_OPERATOR",
+      "starter_code": "# Calculate total cost\n",
+      "solution_code": "book = 25\npen = 5\ntotal = book + pen\nprint(total)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Variables book and pen should equal 25 and 5",
+          "input": "",
+          "expectedOutput": "30",
+          "assertionPython": "assert _user_namespace.get('book') == 25 and _user_namespace.get('pen') == 5",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Variable total should equal 30",
+          "input": "",
+          "expectedOutput": "30",
+          "assertionPython": "assert _user_namespace.get('total') == 30",
+          "hidden": false
+        },
+        {
+          "id": "tc_3",
+          "description": "Program prints 30",
+          "input": "",
+          "expectedOutput": "30",
+          "assertionPython": "assert _raw_stdout.strip() == '30'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.1_fnd_6",
+      "type": "fix_the_code",
+      "concept": "debug_discount_formula",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A store wants to find the average of two test scores: 80 and 100. The developer wrote the code below, but it prints 130.0 instead of 90.0! Fix the formula using parentheses.",
+      "explanation": "Without parentheses, `score2 / 2` (50) is calculated first, then added to 80 (130). Adding parentheses `(score1 + score2) / 2` forces the sum to happen first (180 / 2 = 90.0).",
+      "hint": "Wrap the addition inside parentheses: (score1 + score2) / 2",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "starter_code": "score1 = 80\nscore2 = 100\naverage = score1 + score2 / 2\nprint(average)",
+      "solution_code": "score1 = 80\nscore2 = 100\naverage = (score1 + score2) / 2\nprint(average)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Correctly computes average as 90.0 with parentheses",
+          "input": "",
+          "expectedOutput": "90.0",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 90.0 and '(' in _user_code and _user_namespace.get('average') == 90.0",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying average variable calculation",
+          "input": "",
+          "expectedOutput": "90.0",
+          "assertionPython": "assert _user_namespace.get('average') == 90.0",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.1_fnd_7",
+      "type": "trace_execution",
+      "concept": "trace_accumulator",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Trace the value of variable `balance` step by step:\n```python\nbalance = 100\nbalance = balance + 50\nbalance = balance - 20\n```\nWhat is `balance` after each line finishes?",
+      "explanation": "balance starts at 100. Adding 50 brings it to 150. Subtracting 20 leaves 130.",
+      "hint": "Track how each line updates the single balance variable.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "130",
+        "50",
+        "25",
         "0"
       ],
-      "explanation": "The modulo operator `%` calculates the remainder of division. For example, `7 % 3` yields `1` because 3 fits into 7 twice with 1 left over."
+      "correct_answer": "130",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 1,
+          "code": "balance = 100",
+          "variable": "Value of balance",
+          "expectedValue": "100",
+          "hint": "Initial balance"
+        },
+        {
+          "step": 2,
+          "line": 2,
+          "code": "balance = balance + 50",
+          "variable": "Value of balance",
+          "expectedValue": "150",
+          "hint": "100 + 50"
+        },
+        {
+          "step": 3,
+          "line": 3,
+          "code": "balance = balance - 20",
+          "variable": "Value of balance",
+          "expectedValue": "130",
+          "hint": "150 - 20"
+        }
+      ]
     },
     {
-      "id": "3.1_q8",
-      "type": "micro_lesson",
-      "concept": "exponentiation_operator",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q1"
-      ],
-      "title": "Exponentiation (**)",
-      "content": "Python uses two asterisks `**` for power and exponents:\n```python\nprint(2 ** 4)  # 2 * 2 * 2 * 2 = 16\nprint(5 ** 2)  # 5 squared = 25\n```\n⚠️ Misconception: Do NOT use `^` for exponents! In Python, `^` is the bitwise XOR operator, not power!",
-      "prompt": "",
-      "explanation": "Python uses two asterisks `**` for power and exponents:\n```python\nprint(2 ** 4)  # 2 * 2 * 2 * 2 = 16\nprint(5 ** 2)  # 5 squared = 25\n```\n⚠️ Misconception: Do NOT use `^` for exponents! In Python, `^` is the bitwise XOR operator, not power!. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.1_q9",
-      "type": "error_diagnosis",
-      "concept": "caret_xor_trap",
-      "skill": "debugging",
+      "id": "3.1_fnd_8",
+      "type": "write_the_code",
+      "concept": "apply_time_conversion",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "3.1_q8"
-      ],
-      "prompt": "A student expects `2 ^ 3` to equal 8, but Python outputs `1`. Why?",
+      "prerequisites": [],
+      "prompt": "You have `130` minutes. Write a Python script that calculates how many hours and remaining minutes that is.\n1. Set `total_minutes = 130`\n2. Set `hours = total_minutes // 60` (integer division)\n3. Set `minutes = total_minutes % 60` (remainder / modulo)\n4. Print `hours` then print `minutes` on separate lines",
+      "explanation": "`130 // 60` computes full hours (2), and `130 % 60` computes remaining leftover minutes (10).",
+      "hint": "hours = total_minutes // 60, minutes = total_minutes % 60",
+      "misconception_tag": "WRONG_OPERATOR",
+      "starter_code": "# Convert 130 minutes into hours and remaining minutes\n",
+      "solution_code": "total_minutes = 130\nhours = total_minutes // 60\nminutes = total_minutes % 60\nprint(hours)\nprint(minutes)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes 2 hours and 10 minutes",
+          "input": "",
+          "expectedOutput": "2\n10",
+          "assertionPython": "assert _user_namespace.get('hours') == 2 and _user_namespace.get('minutes') == 10",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Prints hours and minutes",
+          "input": "",
+          "expectedOutput": "2\n10",
+          "assertionPython": "assert _raw_stdout.strip() == '2\\n10'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.1_fnd_9",
+      "type": "output_prediction",
+      "concept": "modulo_remainder_prediction",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "What will this program print?\n```python\nremainder = 14 % 4\nprint(remainder)\n```",
+      "explanation": "The `%` operator returns the remainder after division. 14 divided by 4 is 3 with 2 left over. Thus `14 % 4 = 2`.",
+      "hint": "Think of dividing 14 candies among 4 friends equally. How many are left in the jar?",
+      "misconception_tag": "WRONG_OPERATOR",
       "options": [
-        "A. `^` is the bitwise XOR operator in Python, not exponentiation; Python uses `**` for exponents (`2 ** 3`).",
-        "B. Python cannot compute powers greater than 2.",
-        "C. The keyboard symbol `^` is broken.",
-        "D. `2 ^ 3` is only allowed inside `print()`."
+        "2",
+        "3",
+        "3.5",
+        "0"
       ],
-      "correct_answer": "A",
-      "explanation": "In Python, `^` performs bitwise XOR (`0b10 ^ 0b11 = 0b01 = 1`). Exponentiation is written `**`."
+      "correct_answer": "2",
+      "code_snippet": "remainder = 14 % 4\nprint(remainder)",
+      "codeSnippet": "remainder = 14 % 4\nprint(remainder)"
     },
     {
-      "id": "3.1_q10",
+      "id": "3.1_fnd_10",
       "type": "fix_the_code",
-      "concept": "fix_power_operator",
-      "skill": "debugging",
+      "concept": "debug_negative_order",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "A cashier has a 50 dollar bill and purchases an item for 15 dollars. The change should be 35 dollars, but this code prints -35! Fix the subtraction order.",
+      "explanation": "Order matters in subtraction! `paid - cost` gives `50 - 15 = 35`, whereas `cost - paid` gives `-35`.",
+      "hint": "Switch the order: paid - cost",
+      "misconception_tag": "WRONG_OPERATOR",
+      "starter_code": "paid = 50\ncost = 15\nchange = cost - paid\nprint(change)",
+      "solution_code": "paid = 50\ncost = 15\nchange = paid - cost\nprint(change)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Correctly prints 35 for change",
+          "input": "",
+          "expectedOutput": "35",
+          "assertionPython": "assert _raw_stdout.strip() == '35' and _user_namespace.get('change') == 35",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying change variable and output",
+          "input": "",
+          "expectedOutput": "35",
+          "assertionPython": "assert _user_namespace.get('change') == 35",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.1_cand_1",
+      "type": "micro_lesson",
+      "concept": "arithmetic_overview",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "# Python Arithmetic Operators\n\nPython provides standard mathematical operators for performing numerical computations:\n\n- `+` (Addition): `5 + 3 -> 8`\n- `-` (Subtraction): `10 - 4 -> 6`\n- `*` (Multiplication): `6 * 7 -> 42`\n- `/` (True Division): `7 / 2 -> 3.5` (always returns a `float`)\n- `//` (Floor Division): `7 // 2 -> 3` (discards remainder)\n- `%` (Modulo): `7 % 2 -> 1` (calculates remainder)\n- `**` (Exponentiation): `2 ** 3 -> 8` (2 raised to the 3rd power)\n\n### Key Trap:\nIn Python, `^` is bitwise XOR, NOT power! Always use `**` to calculate exponents.",
+      "explanation": "Python arithmetic operators let you perform mathematical operations with numbers.",
+      "hint": "Use ** for exponents and / for true division."
+    },
+    {
+      "id": "3.1_cand_2",
+      "type": "multiple_choice",
+      "concept": "floor_division_vs_true_division",
+      "skill": "recognition",
       "difficulty": "easy",
       "prerequisites": [
-        "3.1_q9"
+        "arithmetic_overview"
       ],
-      "prompt": "Fix this code so it calculates 3 cubed (27):",
-      "starter_code": "cube = 3 ^ 3",
-      "solution_code": "cube = 3 ** 3",
-      "explanation": "This exercise tests `fix power operator` in Arithmetic Operators. When Python validates this code, it applies the standard rules of fix power operator. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "prompt": "What is the crucial difference between the `/` operator and the `//` operator in Python?",
+      "options": [
+        "`/` always returns a float with decimals, while `//` truncates the fraction and returns the integer floor",
+        "`/` performs division for integers, while `//` is only valid for strings",
+        "`/` rounds to the nearest even number, while `//` always rounds up",
+        "`//` calculates the remainder, while `/` calculates the quotient"
+      ],
+      "correct_answer": "`/` always returns a float with decimals, while `//` truncates the fraction and returns the integer floor",
+      "explanation": "Single slash `/` performs true float division (e.g. `10 / 2 -> 5.0`). Double slash `//` performs floor division, rounding down to the nearest integer.",
+      "hint": "Single slash always produces a number with a decimal point.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q11",
-      "type": "micro_lesson",
-      "concept": "floor_division_deep_dive",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.3_q7",
-        "3.1_q1"
-      ],
-      "title": "Floor Division Rounds DOWN",
-      "content": "The floor division operator `//` calculates the mathematical quotient and rounds **down** (towards negative infinity):\n\n* Positive: `7 // 2` -> `3.5` rounded down is `3`\n* Even division: `8 // 2` -> `4`\n* Negative: `-7 // 2` -> `-3.5` rounded down is `-4`!",
-      "prompt": "",
-      "explanation": "The floor division operator `//` calculates the mathematical quotient and rounds **down** (towards negative infinity):\n\n* Positive: `7 // 2` -> `3. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.1_q12",
+      "id": "3.1_cand_3",
       "type": "code_prediction",
-      "concept": "floor_division_positive",
+      "concept": "clock_modulo_arithmetic",
       "skill": "prediction",
       "difficulty": "easy",
       "prerequisites": [
-        "3.1_q11"
+        "arithmetic_overview"
       ],
-      "prompt": "What does this code print?\n```python\nprint(19 // 5)\n```",
+      "prompt": "A digital clock reads 9:00. What hour will it display 7 hours later?\n```python\ncurrent_hour = 9\nhours_added = 7\nnew_hour = (current_hour + hours_added) % 12\nprint(new_hour)\n```",
       "options": [
-        "A. 3.8",
-        "B. 4",
-        "C. 3",
-        "D. 19"
+        "4",
+        "16",
+        "3",
+        "12"
       ],
-      "correct_answer": "C",
-      "explanation": "Floor division `//` divides the operands and rounds down to the nearest integer floor. For positive numbers `7 // 2`, it discards the fractional remainder and returns `3`."
+      "correct_answer": "4",
+      "code_snippet": "current_hour = 9\nhours_added = 7\nnew_hour = (current_hour + hours_added) % 12\nprint(new_hour)",
+      "explanation": "`9 + 7 = 16`. Then `16 % 12` calculates the remainder when 16 is divided by 12: `16 = 1 * 12 + 4`. The remainder is `4`.",
+      "hint": "Divide 16 by 12 and find the remainder.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q13",
-      "type": "output_prediction",
-      "concept": "floor_division_negative_deep",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.1_q11"
-      ],
-      "prompt": "What does `-11 // 4` evaluate to?",
-      "options": [
-        "A. -2",
-        "B. -3",
-        "C. -2.75",
-        "D. 2"
-      ],
-      "correct_answer": "B",
-      "explanation": "`-11 / 4 = -2.75`. Rounding down towards negative infinity yields `-3`."
-    },
-    {
-      "id": "3.1_q14",
-      "type": "micro_lesson",
-      "concept": "negative_modulo",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.1_q3",
-        "3.1_q11"
-      ],
-      "title": "The Division Identity",
-      "content": "Python guarantees the mathematical identity:\n```python\n(a // b) * b + (a % b) == a\n```\nBecause `//` rounds down towards negative infinity, in Python the result of `a % b` always has the **same sign as the divisor `b`**:\n```python\nprint(-7 % 4)  # 1 (because -2 * 4 + 1 = -7)\n```",
-      "prompt": "",
-      "explanation": "Python guarantees the mathematical identity:\n```python\n(a // b) * b + (a % b) == a\n```\nBecause `//` rounds down towards negative infinity, in Python the result of `a % b` always has the **same sign as the divisor `b`**:\n```python\nprint(-7 % 4)  # 1 (because -2 * 4 + 1 = -7)\n```. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.1_q15",
-      "type": "code_prediction",
-      "concept": "negative_modulo",
-      "skill": "reasoning",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.1_q14"
-      ],
-      "prompt": "What does `-5 % 3` evaluate to in Python?",
-      "options": [
-        "A. -2",
-        "B. 1",
-        "C. 2",
-        "D. -1"
-      ],
-      "correct_answer": "B",
-      "explanation": "`-5 // 3 = -2`. Since `(-2 * 3) + remainder = -5` -> `-6 + 1 = -5`, the remainder is `1`."
-    },
-    {
-      "id": "3.1_q16",
-      "type": "match_code_to_concept",
-      "concept": "operator_symbols",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.1_q1"
-      ],
-      "prompt": "Match each operator to its operation name.",
-      "options": {
-        "`/`": "True Division (always float)",
-        "`//`": "Floor Division (integer quotient rounded down)",
-        "`%`": "Modulo (division remainder)",
-        "`**`": "Exponentiation (raise to power)"
-      },
-      "correct_answer": {
-        "`/`": "True Division (always float)",
-        "`//`": "Floor Division (integer quotient rounded down)",
-        "`%`": "Modulo (division remainder)",
-        "`**`": "Exponentiation (raise to power)"
-      },
-      "explanation": "This exercise tests `operator symbols` in Arithmetic Operators. When Python validates this code, it applies the standard rules of operator symbols. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.1_q17",
-      "type": "write_the_code",
-      "concept": "modulo_expression",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q3"
-      ],
-      "prompt": "Write an expression that calculates the remainder when `47` is divided by `5`.",
-      "starter_code": "# TODO: Implement solution for Arithmetic Operators\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "47 % 5",
-      "explanation": "This exercise tests `modulo expression` in Arithmetic Operators. When Python validates this code, it applies the standard rules of modulo expression. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.1_q18",
-      "type": "output_prediction",
-      "concept": "fractional_exponents",
-      "skill": "reasoning",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.1_q8"
-      ],
-      "prompt": "In mathematics, raising a number to the power of `0.5` computes its square root! What does `16 ** 0.5` output?",
-      "options": [
-        "A. 8.0",
-        "B. 4.0",
-        "C. 256.0",
-        "D. 4"
-      ],
-      "correct_answer": "B",
-      "explanation": "Raising to `0.5` computes the square root: `16 ** 0.5 = 4.0` (as a float)."
-    },
-    {
-      "id": "3.1_q19",
-      "type": "multiple_choice",
-      "concept": "clock_arithmetic",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.1_q3"
-      ],
-      "prompt": "A 12-hour clock currently shows 9:00. What hour will it show 7 hours from now? Which expression computes the 12-hour clock result?",
-      "options": [
-        "A. `(9 + 7) / 12`",
-        "B. `(9 + 7) % 12`",
-        "C. `(9 + 7) // 12`",
-        "D. `9 + (7 % 12)`"
-      ],
-      "correct_answer": "B",
-      "explanation": "`9 + 7 = 16`. `16 % 12 = 4:00`. Clock arithmetic is a classic modulo application."
-    },
-    {
-      "id": "3.1_q20",
-      "type": "code_prediction",
-      "concept": "zero_modulo_error",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "1.6_q11",
-        "3.1_q3"
-      ],
-      "prompt": "What happens when Python evaluates `15 % 0`?",
-      "options": [
-        "A. Returns 0.",
-        "B. Returns 15.",
-        "C. Raises `ZeroDivisionError: integer modulo by zero`.",
-        "D. Returns None."
-      ],
-      "correct_answer": "C",
-      "explanation": "The modulo operator `%` calculates the remainder of division. For example, `7 % 3` yields `1` because 3 fits into 7 twice with 1 left over."
-    },
-    {
-      "id": "3.1_q21",
+      "id": "3.1_cand_4",
       "type": "fill_in_the_blank",
-      "concept": "square_operator",
+      "concept": "exponentiation_syntax",
       "skill": "application",
       "difficulty": "easy",
       "prerequisites": [
-        "3.1_q8"
+        "arithmetic_overview"
       ],
-      "prompt": "Complete the statement to calculate `x` squared:\n```python\nsquare = x ___ 2\n```",
+      "prompt": "Complete the statement to calculate `5` raised to the power of `3` (`125`):\n```python\ncube = 5 ___ 3\n```",
       "accepted_answers": [
         "**"
       ],
-      "explanation": "This exercise tests `square operator` in Arithmetic Operators. When Python validates this code, it applies the standard rules of square operator. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "**",
+      "explanation": "In Python, the exponentiation operator is `**`. Writing `5 ** 3` evaluates to `125`. Remember that `^` is bitwise XOR, not exponentiation.",
+      "hint": "Two asterisks represent power in Python.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q22",
-      "type": "output_prediction",
-      "concept": "chained_arithmetic",
+      "id": "3.1_cand_5",
+      "type": "code_prediction",
+      "concept": "caret_xor_trap",
       "skill": "prediction",
       "difficulty": "medium",
       "prerequisites": [
-        "3.1_q1"
+        "exponentiation_syntax"
       ],
-      "prompt": "What does this code output?\n```python\nprint(10 + 3 * 2 - 4 / 2)\n```",
+      "prompt": "What does this program print?\n```python\nval = 2 ^ 3\nprint(val)\n```",
       "options": [
-        "A. 14.0",
-        "B. 11.0",
-        "C. 14",
-        "D. 7.0"
+        "1",
+        "8",
+        "6",
+        "SyntaxError"
       ],
-      "correct_answer": "A",
-      "explanation": "`3 * 2 = 6`, `4 / 2 = 2.0`. Then `10 + 6 - 2.0 = 14.0`."
+      "correct_answer": "1",
+      "code_snippet": "val = 2 ^ 3\nprint(val)",
+      "explanation": "In Python, `^` is the bitwise XOR operator, NOT exponentiation! Binary `010 ^ 011 = 001` (which is integer `1`). To calculate `2` to the power of `3`, use `2 ** 3 -> 8`.",
+      "hint": "^ is bitwise XOR in Python, not exponentiation.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q23",
+      "id": "3.1_cand_6",
       "type": "multiple_choice",
-      "concept": "time_conversion_challenge",
+      "concept": "negative_modulo_mechanics",
+      "skill": "reasoning",
+      "difficulty": "hard",
+      "prerequisites": [
+        "arithmetic_overview"
+      ],
+      "prompt": "What does `print(-7 % 3)` output in Python, and why?",
+      "options": [
+        "2, because Python floor division rounds toward negative infinity (-7 // 3 is -3), and -7 - (-3 * 3) = 2",
+        "-1, because 7 % 3 is 1 and the negative sign carries over directly",
+        "-2, because the division rounds toward zero",
+        "1, because the remainder is always absolute value"
+      ],
+      "correct_answer": "2, because Python floor division rounds toward negative infinity (-7 // 3 is -3), and -7 - (-3 * 3) = 2",
+      "explanation": "Python defines modulo satisfying `a = (a // b) * b + (a % b)`. For `-7 % 3`: `-7 // 3 = -3`. Then `-3 * 3 = -9`. `-7 - (-9) = 2`. The result always has the same sign as the divisor `b`.",
+      "hint": "Python floor division rounds down toward negative infinity.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.1_cand_7",
+      "type": "error_diagnosis",
+      "concept": "zero_division_error_diagnosis",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prerequisites": [
+        "arithmetic_overview"
+      ],
+      "prompt": "A student runs this script:\n```python\nitems = 50\ngroups = 0\nper_group = items // groups\nprint(per_group)\n```\nWhat happens and why?",
+      "options": [
+        "A ZeroDivisionError is raised because division or modulo by zero is mathematically undefined",
+        "per_group evaluates to 0 because dividing by 0 gives 0",
+        "per_group evaluates to infinity (float(\"inf\"))",
+        "A TypeError is raised because 0 is an integer"
+      ],
+      "correct_answer": "A ZeroDivisionError is raised because division or modulo by zero is mathematically undefined",
+      "explanation": "In Python, dividing or moduloing by zero with `/`, `//`, or `%` immediately raises a `ZeroDivisionError`.",
+      "hint": "Division by zero raises a runtime error.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.1_cand_8",
+      "type": "real_world_scenario",
+      "concept": "bill_split_calculation",
       "skill": "application",
       "difficulty": "medium",
       "prerequisites": [
-        "3.1_q3",
-        "3.1_q11"
+        "arithmetic_overview"
       ],
-      "prompt": "You have a total of 125 seconds. You want to extract the whole minutes and remaining seconds. Which expressions give the correct minutes and seconds?",
+      "prompt": "Three friends split a restaurant bill of `$85.50` evenly. Which snippet calculates and prints each person's exact share?",
       "options": [
-        "A. `minutes = 125 // 60`, `seconds = 125 % 60`",
-        "B. `minutes = 125 / 60`, `seconds = 125 - 60`",
-        "C. `minutes = 125 % 60`, `seconds = 125 // 60`",
-        "D. `minutes = 125 ** 60`, `seconds = 125 // 60`"
+        "total = 85.50\nshare = total / 3\nprint(share)",
+        "total = 85.50\nshare = total // 3\nprint(share)",
+        "total = 85.50\nshare = total % 3\nprint(share)",
+        "total = 85.50\nshare = total * 3\nprint(share)"
       ],
-      "correct_answer": "A",
-      "explanation": "`125 // 60` gives 2 whole minutes, and `125 % 60` gives the 5 remaining seconds."
+      "correct_answer": "total = 85.50\nshare = total / 3\nprint(share)",
+      "explanation": "Single slash `/` performs exact floating point division: `85.50 / 3 -> 28.5`. Floor division `//` would truncate to `28.0`, dropping fifty cents from the split.",
+      "hint": "You need exact float division for currency splits.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q24",
-      "type": "mini_challenge",
-      "concept": "seconds_converter",
-      "skill": "synthesis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.1_q23"
-      ],
-      "prompt": "Given `total_seconds = 200`, calculate `minutes` using `//` and `remaining_seconds` using `%`, then print `minutes, remaining_seconds`.",
-      "starter_code": "total_seconds = 200\n# Calculate minutes and remaining_seconds, then print them\n",
-      "solution_code": "total_seconds = 200\nminutes = total_seconds // 60\nremaining_seconds = total_seconds % 60\nprint(minutes, remaining_seconds)",
-      "explanation": "`200 // 60 = 3` minutes, `200 % 60 = 20` seconds. Prints `3 20`."
-    },
-    {
-      "id": "3.1_q25",
-      "type": "code_prediction",
-      "concept": "unary_negation",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q1"
-      ],
-      "prompt": "What does this code output?\n```python\nx = 15\nprint(-x)\n```",
-      "options": [
-        "A. 15",
-        "B. -15",
-        "C. SyntaxError",
-        "D. 0"
-      ],
-      "correct_answer": "B",
-      "explanation": "Hyphens `-` are interpreted by Python's parser as subtraction operators, not identifier characters. In Python variable names, words must be joined using underscores `_`."
-    },
-    {
-      "id": "3.1_q26",
-      "type": "output_prediction",
-      "concept": "float_modulo",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.1_q3"
-      ],
-      "prompt": "Can modulo `%` be used on floating-point numbers in Python? What does `5.5 % 2` output?",
-      "options": [
-        "A. TypeError: cannot modulo float",
-        "B. 1.5",
-        "C. 1",
-        "D. 0.5"
-      ],
-      "correct_answer": "B",
-      "explanation": "Yes! Python supports modulo on floats. `2` goes into `5.5` two times (4.0), leaving a remainder of `1.5`."
-    },
-    {
-      "id": "3.1_q27",
+      "id": "3.1_cand_9",
       "type": "fix_the_code",
-      "concept": "integer_division_bug",
+      "concept": "fix_power_operator_bug",
       "skill": "debugging",
       "difficulty": "medium",
       "prerequisites": [
-        "2.3_q7",
-        "3.1_q1"
+        "caret_xor_trap"
       ],
-      "prompt": "Fix this code so it uses true division `/` to get an exact decimal result (2.5) instead of floor division:",
-      "starter_code": "ratio = 5 // 2\nprint(ratio)",
-      "solution_code": "ratio = 5 / 2\nprint(ratio)",
-      "explanation": "Floor division `//` divides the operands and rounds down to the nearest integer floor. For positive numbers `7 // 2`, it discards the fractional remainder and returns `3`."
+      "prompt": "The script below is supposed to calculate the area of a square with side length 6 (`side ** 2 = 36`). Fix the operator bug so it computes exponentiation rather than bitwise XOR.",
+      "starter_code": "side = 6\n# Fix the operator below\narea = side ^ 2\nprint(area)",
+      "solution_code": "side = 6\narea = side ** 2\nprint(area)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes square area 36",
+          "expectedOutput": "36",
+          "assertionPython": "assert _user_namespace.get(\"area\") == 36\nassert _user_namespace.get(\"side\") == 6"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify exponentiation formula on reassignment",
+          "assertionPython": "assert _user_namespace.get(\"area\") == _user_namespace.get(\"side\") ** 2",
+          "hidden": true
+        }
+      ],
+      "explanation": "In Python, replace `^` with `**` to calculate exponents. `side ** 2` squares `6` to produce `36`.",
+      "hint": "Replace ^ with **.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q28",
-      "type": "multiple_choice",
-      "concept": "divmod_builtin_preview",
-      "skill": "recognition",
+      "id": "3.1_cand_10",
+      "type": "write_the_code",
+      "concept": "warehouse_box_packing",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "floor_division_vs_true_division"
+      ],
+      "prompt": "A warehouse has `95` items. Each shipping box fits `12` items.\nWrite a program that:\n1. Sets `total_items = 95` and `box_capacity = 12`\n2. Calculates `full_boxes` using floor division (`//`)\n3. Calculates `leftover_items` using modulo (`%`)\n4. Prints `full_boxes` then prints `leftover_items` on separate lines.",
+      "starter_code": "# Write your packing calculations below\n",
+      "solution_code": "total_items = 95\nbox_capacity = 12\nfull_boxes = total_items // box_capacity\nleftover_items = total_items % box_capacity\nprint(full_boxes)\nprint(leftover_items)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints full boxes (7) and leftover items (11)",
+          "expectedOutput": "7\n11",
+          "assertionPython": "assert _user_namespace.get(\"full_boxes\") == 7\nassert _user_namespace.get(\"leftover_items\") == 11"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies correct variables and operator relationships",
+          "assertionPython": "assert _user_namespace.get(\"total_items\") == 95\nassert _user_namespace.get(\"box_capacity\") == 12\nassert _user_namespace.get(\"full_boxes\") == 95 // 12\nassert _user_namespace.get(\"leftover_items\") == 95 % 12",
+          "hidden": true
+        }
+      ],
+      "explanation": "`95 // 12` calculates how many full groups of 12 fit in 95 (`7`). `95 % 12` calculates the remainder (`11`).",
+      "hint": "Use // for full boxes and % for leftover items.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.1_cand_11",
+      "type": "output_prediction",
+      "concept": "even_odd_modulo_check",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "arithmetic_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nsample = 17\nis_even = (sample % 2 == 0)\nprint(is_even)\n```",
+      "options": [
+        "False",
+        "True",
+        "1",
+        "0"
+      ],
+      "correct_answer": "False",
+      "code_snippet": "sample = 17\nis_even = (sample % 2 == 0)\nprint(is_even)",
+      "explanation": "`17 % 2` evaluates to `1` because 17 divided by 2 leaves a remainder of 1. `1 == 0` evaluates to `False`.",
+      "hint": "17 is an odd number, so remainder modulo 2 is 1.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.1_cand_12",
+      "type": "fix_the_code",
+      "concept": "fix_change_calculation",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "arithmetic_overview"
+      ],
+      "prompt": "A customer gives the cashier `$50.00` to pay for a grocery bill of `$34.25`. The cashier wrote addition instead of subtraction. Fix the operator so `change` contains the correct refund amount.",
+      "starter_code": "amount_paid = 50.00\nbill = 34.25\n# Fix the operator below\nchange = amount_paid + bill\nprint(change)",
+      "solution_code": "amount_paid = 50.00\nbill = 34.25\nchange = amount_paid - bill\nprint(change)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes exact change 15.75",
+          "expectedOutput": "15.75",
+          "assertionPython": "assert abs(_user_namespace.get(\"change\") - 15.75) < 0.0001\nassert _user_namespace.get(\"amount_paid\") == 50.0"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies subtraction operator on payment and bill",
+          "assertionPython": "assert _user_namespace.get(\"change\") == _user_namespace.get(\"amount_paid\") - _user_namespace.get(\"bill\")",
+          "hidden": true
+        }
+      ],
+      "explanation": "Change is calculated by subtracting `bill` from `amount_paid`: `50.00 - 34.25 = 15.75`.",
+      "hint": "Subtract the bill from the amount paid.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.1_cand_13",
+      "type": "code_prediction",
+      "concept": "chained_multiplication_division",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "arithmetic_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nval = 100 / 4 * 2\nprint(val)\n```",
+      "options": [
+        "50.0",
+        "12.5",
+        "50",
+        "12"
+      ],
+      "correct_answer": "50.0",
+      "code_snippet": "val = 100 / 4 * 2\nprint(val)",
+      "explanation": "`/` and `*` have equal precedence and are evaluated strictly from left to right: `100 / 4 = 25.0`, then `25.0 * 2 = 50.0`. Since `/` was involved, the result is a float.",
+      "hint": "Evaluate left to right: 100 / 4 first, then multiply by 2.",
+      "misconception_tag": "PRECEDENCE_CONFUSION"
+    },
+    {
+      "id": "3.1_cand_14",
+      "type": "write_the_code",
+      "concept": "seconds_to_time_breakdown",
+      "skill": "application",
       "difficulty": "hard",
       "prerequisites": [
-        "3.1_q3",
-        "3.1_q11"
+        "floor_division_vs_true_division"
       ],
-      "prompt": "Python provides a built-in function `divmod(a, b)` that calculates both floor division and modulo simultaneously. What does `divmod(10, 3)` return?",
-      "options": [
-        "A. `(3, 1)` (quotient and remainder as a tuple)",
-        "B. `3.33333`",
-        "C. `[3, 3]`",
-        "D. `30`"
+      "prompt": "You are writing the telemetry display for a satellite. You have `total_seconds = 3665`.\nWrite a Python program that:\n1. Defines `total_seconds = 3665`\n2. Calculates `hours = total_seconds // 3600` (1 hour = 3600 seconds)\n3. Calculates `remaining_after_hours = total_seconds % 3600`\n4. Calculates `minutes = remaining_after_hours // 60`\n5. Calculates `seconds = remaining_after_hours % 60`\n6. Prints `hours`, `minutes`, and `seconds` on separate lines.",
+      "starter_code": "# Write seconds breakdown calculations below\n",
+      "solution_code": "total_seconds = 3665\nhours = total_seconds // 3600\nremaining_after_hours = total_seconds % 3600\nminutes = remaining_after_hours // 60\nseconds = remaining_after_hours % 60\nprint(hours)\nprint(minutes)\nprint(seconds)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints 1 hour, 1 minute, 5 seconds",
+          "expectedOutput": "1\n1\n5",
+          "assertionPython": "assert _user_namespace.get(\"hours\") == 1\nassert _user_namespace.get(\"minutes\") == 1\nassert _user_namespace.get(\"seconds\") == 5"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify formula integrity against total_seconds",
+          "assertionPython": "h = _user_namespace.get(\"hours\")\nm = _user_namespace.get(\"minutes\")\ns = _user_namespace.get(\"seconds\")\nassert h * 3600 + m * 60 + s == 3665",
+          "hidden": true
+        }
       ],
-      "correct_answer": "A",
-      "explanation": "`divmod(a, b)` returns `(a // b, a % b)`, which for `(10, 3)` is `(3, 1)`."
+      "explanation": "`3665 // 3600 = 1` hour. `3665 % 3600 = 65` remaining seconds. `65 // 60 = 1` minute. `65 % 60 = 5` seconds.",
+      "hint": "3600 seconds per hour, 60 seconds per minute.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.1_q29",
-      "type": "real_world_scenario",
-      "concept": "pagination_math",
-      "skill": "synthesis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.1_q3",
-        "3.1_q11"
-      ],
-      "prompt": "An online store has 53 products and displays 10 products per page. You need to calculate the total number of pages needed so no products are left out. Which formula correctly calculates this?",
-      "correct_answer": "B",
-      "explanation": "Ceiling division for integers can be cleanly expressed as `(n + d - 1) // d`. `(53 + 9) // 10 = 62 // 10 = 6` pages.",
-      "options": [
-        "A. pages = 53 // 10",
-        "B. pages = (53 + 10 - 1) // 10 (or math.ceil(53 / 10))",
-        "C. pages = 53 % 10",
-        "D. pages = 53 / 10"
-      ]
-    },
-    {
-      "id": "3.1_q30",
-      "type": "real_world_scenario",
-      "concept": "arithmetic_synthesis",
+      "id": "3.1_cand_15",
+      "type": "mini_challenge",
+      "concept": "ecommerce_order_total_challenge",
       "skill": "transfer",
       "difficulty": "hard",
       "prerequisites": [
-        "3.1_q1",
-        "3.1_q3",
-        "3.1_q8",
-        "3.1_q11",
-        "3.1_q14"
+        "arithmetic_overview"
       ],
-      "prompt": "Which of the following summaries regarding Python arithmetic operators is completely TRUE?",
-      "correct_answer": "A",
-      "explanation": "This exercise tests `arithmetic synthesis` in Arithmetic Operators. When Python validates this code, it applies the standard rules of arithmetic synthesis. Understanding how this construct behaves prevents common programming errors and ensures predictable execution.",
-      "options": [
-        "A. Arithmetic operators follow standard mathematical rules: / always yields a float, // computes floor division, and % yields the remainder.",
-        "B. Division by zero returns inf instead of raising an exception in Python.",
-        "C. // always rounds up toward positive infinity.",
-        "D. 2 ** 3 computes bitwise XOR rather than exponentiation."
-      ]
+      "prompt": "Build the checkout pricing calculator for an online store:\n1. Set `item_price = 40.0` and `quantity = 3`\n2. Calculate `subtotal = item_price * quantity`\n3. Apply a discount: calculate `discount_amount = subtotal * 0.10` (10% off)\n4. Calculate `total_due = subtotal - discount_amount`\n5. Print `subtotal` and `total_due` on separate lines.",
+      "starter_code": "# Complete the checkout pricing calculator\n",
+      "solution_code": "item_price = 40.0\nquantity = 3\nsubtotal = item_price * quantity\ndiscount_amount = subtotal * 0.10\ntotal_due = subtotal - discount_amount\nprint(subtotal)\nprint(total_due)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints subtotal 120.0 and total due 108.0",
+          "expectedOutput": "120.0\n108.0",
+          "assertionPython": "assert abs(_user_namespace.get(\"subtotal\") - 120.0) < 0.001\nassert abs(_user_namespace.get(\"total_due\") - 108.0) < 0.001"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies calculation variables exist with correct formulas",
+          "assertionPython": "p = _user_namespace.get(\"item_price\")\nq = _user_namespace.get(\"quantity\")\nsub = _user_namespace.get(\"subtotal\")\ntot = _user_namespace.get(\"total_due\")\nassert sub == p * q\nassert tot == sub - (sub * 0.10)",
+          "hidden": true
+        }
+      ],
+      "explanation": "`40.0 * 3 = 120.0`. `120.0 * 0.10 = 12.0`. `120.0 - 12.0 = 108.0`.",
+      "hint": "Multiply price by quantity, then subtract 10% discount.",
+      "misconception_tag": "WRONG_OPERATOR"
     }
-  ],
-  "unit_num": 3,
-  "learning_objectives": [
-    "Apply Python Arithmetic Operators correctly in mathematical and logical expressions",
-    "Predict evaluation order using operator precedence rules",
-    "Diagnose subtle expression bugs caused by unintended precedence",
-    "Construct compound boolean or arithmetic expressions for real-world logic"
-  ],
-  "prerequisites": [
-    "2.7"
   ]
 }

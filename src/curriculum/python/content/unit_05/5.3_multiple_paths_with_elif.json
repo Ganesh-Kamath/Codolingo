@@ -1,664 +1,580 @@
 {
   "lesson_id": "5.3",
   "title": "Multiple Paths with elif",
-  "unit": "Conditional Logic",
+  "unit": "unit_05",
   "items": [
     {
       "id": "5.3_q1",
       "type": "micro_lesson",
       "concept": "multiple_paths_with_elif_basics",
-      "skill": "recognition",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [],
-      "title": "Recognizing Multiple Paths with elif",
-      "content": "The `if` statement executes a block of code when a condition is true. When you need to check multiple conditions in sequence and execute different code for each, you can chain `elif` (short for 'else if') after an `if` statement. Only the first true condition's block runs; subsequent `elif` and `else` blocks are skipped. This creates multiple distinct paths through your program. For example, consider checking a user's age to determine access level:\n\n```python\nage = 17\nif age < 13:\n    print(\"Child - restricted access\")\nelif age < 18:\n    print(\"Teen - parental consent required\")\nelif age < 65:\n    print(\"Adult - full access\")\nelse:\n    print(\"Senior - assisted access\")\n```\n\nIn this example, only one message prints because Python evaluates each condition from top to bottom and stops at the first true one. `elif` allows you to build a decision tree with more than two outcomes.",
-      "prompt": "",
-      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+      "title": "Multiple Paths with elif",
+      "content": "# Multiple Paths with elif\n\nWhen you need to choose between three or more mutually exclusive options, Python provides `elif` (short for \"else if\").\n\n```python\nscore = 85\nif score >= 90:\n    grade = \"A\"\nelif score >= 80:\n    grade = \"B\"\nelif score >= 70:\n    grade = \"C\"\nelse:\n    grade = \"F\"\n```\n\n### 3 Core Rules of elif:\n1. **Top-to-Bottom Evaluation:** Python tests conditions sequentially in order from top to bottom.\n2. **Early Exit (Short-Circuit):** As soon as *one* condition evaluates to `True`, its code block runs and Python immediately skips all remaining `elif` and `else` clauses.\n3. **Order Matters Critically:** Always place more restrictive (higher threshold) conditions before broader ones. If you check `score >= 70` first, an exam score of 95 will stop at \"C\" and never reach \"A\"!",
+      "explanation": "elif allows testing multiple alternatives sequentially, executing only the very first branch whose condition evaluates to True."
     },
     {
       "id": "5.3_q2",
       "type": "multiple_choice",
-      "concept": "multiple_paths_with_elif_basics",
+      "concept": "multiple_paths_with_elif_flow",
       "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q1"
-      ],
-      "prompt": "Which keyword allows you to check an additional condition after an if statement, before the optional else?",
+      "prompt": "In an `if-elif-else` chain, what happens once Python finds the first condition that evaluates to `True`?",
       "options": [
-        "else if",
-        "elif",
-        "elseif",
-        "then"
+        "It executes that branch's block and skips the rest of the chain completely",
+        "It executes that branch and continues checking all remaining elif conditions",
+        "It raises an error if more than one condition could be True",
+        "It automatically executes the else block as well"
       ],
-      "correct_answer": "elif",
-      "explanation": "Python uses the keyword `elif` (not 'else if' or 'elseif') to chain additional conditions after an `if` statement. The `else` keyword handles the default case when no prior condition is true."
+      "correct_answer": "It executes that branch's block and skips the rest of the chain completely",
+      "explanation": "An if-elif-else chain is mutually exclusive. As soon as the first matching branch executes, Python exits the chain immediately.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.3_q3",
-      "type": "micro_lesson",
-      "concept": "multiple_paths_with_elif_syntax",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q2"
+      "type": "output_prediction",
+      "concept": "multiple_paths_with_elif_pitfalls",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at this flawed grading program:\n```python\nscore = 92\nif score >= 70:\n    print(\"C\")\nelif score >= 90:\n    print(\"A\")\nelse:\n    print(\"F\")\n```\nWhat will this print?",
+      "code_snippet": "score = 92\nif score >= 70:\n    print(\"C\")\nelif score >= 90:\n    print(\"A\")\nelse:\n    print(\"F\")",
+      "options": [
+        {
+          "id": "opt_0",
+          "text": "C",
+          "isCorrect": true,
+          "explanation": "92 >= 70 evaluates to True first, so \"C\" is printed and Python immediately exits the chain."
+        },
+        {
+          "id": "opt_1",
+          "text": "A",
+          "isCorrect": false,
+          "explanation": "Because score >= 70 was evaluated first and succeeded, the elif score >= 90 branch is never reached."
+        },
+        {
+          "id": "opt_2",
+          "text": "Both C and A",
+          "isCorrect": false,
+          "explanation": "An if-elif-else chain exits after the first matching branch."
+        },
+        {
+          "id": "opt_3",
+          "text": "F",
+          "isCorrect": false,
+          "explanation": "The else block only runs if all preceding branches fail."
+        }
       ],
-      "title": "Understanding elif Syntax",
-      "content": "The syntax for multiple paths with `elif` follows a strict pattern. You begin with `if <condition_1>:` followed by an indented block. After that, you may add zero or more `elif <condition_n>:` blocks, each with its own indented block. Optionally, you may end with a single `else:` block that executes when all preceding conditions are false. Each `elif` is evaluated only if all previous conditions were false. Here is a complete valid structure:\n\n```python\nif condition_a:\n    # code for true_a\nelif condition_b:\n    # code for true_b\nelif condition_c:\n    # code for true_c\nelse:\n    # code for all_false\n```\n\nKey rules: (1) `elif` must be lowercase, (2) each clause ends with a colon `:`, (3) indentation must be consistent, and (4) only one `else` is allowed per `if` chain. You cannot place a standalone `elif` without a preceding `if`.",
-      "prompt": "",
-      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+      "correct_answer": "C",
+      "explanation": "Because conditions are checked top-to-bottom, 92 >= 70 is True! Python executes print(\"C\") and immediately exits the chain, never evaluating score >= 90.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.3_q4",
-      "type": "multiple_choice",
-      "concept": "multiple_paths_with_elif_syntax",
-      "skill": "reasoning",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q3"
-      ],
-      "prompt": "Consider the following code. What will be printed when score = 85?\n\n```python\nscore = 85\nif score >= 90:\n    print(\"A\")\nelif score >= 80:\n    print(\"B\")\nelif score >= 70:\n    print(\"C\")\nelse:\n    print(\"F\")\n```",
+      "type": "output_prediction",
+      "concept": "multiple_paths_with_elif_edge_cases",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the following tiered package shipping fee program:\n```python\nweight = 3.5\nif weight <= 1:\n    fee = 5\nelif weight <= 5:\n    fee = 10\nelif weight <= 20:\n    fee = 20\nelse:\n    fee = 40\nprint(fee)\n```\nWhat will this print?",
+      "code_snippet": "weight = 3.5\nif weight <= 1:\n    fee = 5\nelif weight <= 5:\n    fee = 10\nelif weight <= 20:\n    fee = 20\nelse:\n    fee = 40\nprint(fee)",
       "options": [
-        "A",
-        "B",
-        "C",
-        "F"
+        "10",
+        "5",
+        "20",
+        "40"
       ],
-      "correct_answer": "B",
-      "explanation": "Python evaluates conditions top to bottom. Since 85 is not >= 90, the first condition fails. The second condition (85 >= 80) is true, so 'B' prints and the chain stops. The remaining elif and else are skipped."
+      "correct_answer": "10",
+      "explanation": "3.5 <= 1 is False. Python then tests elif weight <= 5 (3.5 <= 5), which is True. fee is assigned 10 and execution exits the chain.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.3_q5",
-      "type": "multiple_choice",
-      "concept": "multiple_paths_with_elif_matching",
-      "skill": "recognition",
+      "type": "fill_in_the_blank",
+      "concept": "multiple_paths_with_elif_keywords",
+      "skill": "syntax",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q4"
+      "prompt": "Complete the intermediate branch keyword to test an alternative condition:\n```python\nif score >= 90:\n    grade = \"A\"\n____ score >= 80:\n    grade = \"B\"\n```",
+      "accepted_answers": [
+        "elif"
       ],
-      "prompt": "Match the following scenario to the correct elif chain structure:\n\nScenario: A program checks a temperature and prints 'Freezing' if below 0, 'Cold' if between 0 and 10, 'Warm' if between 10 and 25, and 'Hot' otherwise.\n\nWhich option represents the correct elif ordering?",
-      "options": [
-        "if temp < 0: ...\nelif temp < 10: ...\nelif temp < 25: ...\nelse: ...",
-        "if temp <= 0: ...\nelif temp <= 10: ...\nelif temp <= 25: ...\nelse: ...",
-        "if temp < 0: ...\nelif temp > 10: ...\nelif temp > 25: ...\nelse: ...",
-        "if temp < 0: ...\nelif temp < 0: ...\nelif temp < 10: ...\nelse: ..."
-      ],
-      "correct_answer": "if temp < 0: ...\nelif temp < 10: ...\nelif temp < 25: ...\nelse: ...",
-      "explanation": "The first option correctly uses ascending thresholds: < 0, then < 10 (which implies >= 0), then < 25 (which implies >= 10), and else catches >= 25. Option B uses <= which would overlap at 0. Option C uses > which would miss values exactly at 10. Option D repeats the same condition, causing unreachable code."
+      "correct_answer": "elif",
+      "explanation": "`elif` is the Python keyword for \"else if\".",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.3_q6",
       "type": "multiple_choice",
-      "concept": "multiple_paths_with_elif_pitfalls",
-      "skill": "comprehension",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q5"
-      ],
-      "prompt": "What is a common pitfall when writing multiple elif conditions?\n\n```python\nvalue = 50\nif value < 10:\n    print(\"Low\")\nelif value < 5:\n    print(\"Very Low\")\nelif value < 20:\n    print(\"Medium\")\nelse:\n    print(\"High\")\n```",
+      "concept": "multiple_paths_with_elif_analysis",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "Consider this temperature program:\n```python\ntemp = 30\nif temp >= 20:\n    print(\"Warm\")\nif temp >= 10:\n    print(\"Mild\")\n```\nWhy does it print BOTH \"Warm\" and \"Mild\"?",
       "options": [
-        "The conditions are redundant and will cause a syntax error.",
-        "A later condition may become unreachable because an earlier condition already matched.",
-        "All conditions will be evaluated even after one is true, causing duplicate output.",
-        "The else block must always contain a condition to avoid an error."
+        "Because they are two separate if statements, both are evaluated independently",
+        "Because Python joins consecutive if statements together automatically",
+        "Because 30 is divisible by both 10 and 20",
+        "Because print functions inside conditionals always repeat"
       ],
-      "correct_answer": "A later condition may become unreachable because an earlier condition already matched.",
-      "explanation": "In the given code, `elif value < 5:` is unreachable because any value less than 5 is also less than 10, so the first `if` would catch it first. This is a classic pitfall: ordering matters, and broader conditions placed before narrower ones can make subsequent branches unreachable. Python stops at the first true condition, so unreachable code produces no error but behaves unexpectedly."
+      "correct_answer": "Because they are two separate if statements, both are evaluated independently",
+      "explanation": "Separate `if` statements are completely independent of each other. If you want mutually exclusive behavior where only one runs, use `elif`.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.3_q7",
-      "type": "code_prediction",
-      "concept": "multiple_paths_with_elif_execution",
+      "type": "output_prediction",
+      "concept": "multiple_paths_with_elif_scenario",
       "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q6"
-      ],
-      "prompt": "What is the output of the following Python code?\n\n```python\nage = 16\nif age < 13:\n    print(\"Child\")\nelif age < 18:\n    print(\"Teenager\")\nelif age < 65:\n    print(\"Adult\")\nelse:\n    print(\"Senior\")\n```",
+      "prompt": "Look at the traffic signal decision logic:\n```python\nlight = \"yellow\"\nif light == \"red\":\n    action = \"Stop\"\nelif light == \"yellow\":\n    action = \"Caution\"\nelif light == \"green\":\n    action = \"Go\"\nelse:\n    action = \"Flash\"\nprint(action)\n```\nWhat will this print?",
+      "code_snippet": "light = \"yellow\"\nif light == \"red\":\n    action = \"Stop\"\nelif light == \"yellow\":\n    action = \"Caution\"\nelif light == \"green\":\n    action = \"Go\"\nelse:\n    action = \"Flash\"\nprint(action)",
       "options": [
-        "Child",
-        "Teenager",
-        "Adult",
-        "Senior"
+        "Caution",
+        "Stop",
+        "Go",
+        "Flash"
       ],
-      "correct_answer": "Teenager",
-      "explanation": "The first condition `age < 13` is False because 16 is not less than 13. The second condition `age < 18` is True, so Python executes the `elif` block and prints 'Teenager'. Once a condition is satisfied, the rest of the `if-elif-else` chain is skipped."
+      "correct_answer": "Caution",
+      "explanation": "light == \"red\" is False. The next condition light == \"yellow\" is True, so action is set to \"Caution\" and the remaining branches are skipped.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.3_q8",
-      "type": "output_prediction",
-      "concept": "multiple_paths_with_elif_execution",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q7"
-      ],
-      "prompt": "What is the output of the following Python code?\n\n```python\nscore = 85\nif score >= 90:\n    print(\"A\")\nelif score >= 80:\n    print(\"B\")\nelif score >= 70:\n    print(\"C\")\nelif score >= 60:\n    print(\"D\")\nelse:\n    print(\"F\")\nprint(\"Done\")\n```",
+      "type": "multiple_choice",
+      "concept": "multiple_paths_with_elif_syntax",
+      "skill": "diagnosis",
+      "difficulty": "easy",
+      "prompt": "A JavaScript developer switches to Python and writes `else if x > 10:`. What happens in Python?",
       "options": [
-        "A\nDone",
-        "B\nDone",
-        "C\nDone",
-        "F\nDone"
+        "SyntaxError: invalid syntax (Python requires elif)",
+        "The code runs correctly because Python treats \"else if\" as an alias for elif",
+        "Python executes only the else block",
+        "Python creates an invisible nested condition"
       ],
-      "correct_answer": "B\nDone",
-      "explanation": "The first condition `score >= 90` is False (85 is not at least 90). The second condition `score >= 80` is True, so Python executes the `elif` block and prints 'B'. The `else` and remaining `elif` blocks are skipped. After the conditional block, the final `print(\"Done\")` executes, producing 'Done' on the next line."
+      "correct_answer": "SyntaxError: invalid syntax (Python requires elif)",
+      "explanation": "Python does not recognize the two words `else if`. The keyword in Python is strictly `elif`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.3_q9",
-      "type": "code_prediction",
-      "concept": "multiple_paths_with_elif_flow",
+      "type": "output_prediction",
+      "concept": "multiple_paths_with_elif_runtime",
       "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q8"
-      ],
-      "prompt": "What is the output of the following Python code?\n\n```python\nx = 5\ny = 10\nif x > y:\n    print(\"First\")\nelif x == y:\n    print(\"Second\")\nelif x < y:\n    print(\"Third\")\nelse:\n    print(\"Fourth\")\n```",
+      "difficulty": "easy",
+      "prompt": "Look at the HTTP response status code classifier:\n```python\nstatus = 500\nif status == 200:\n    msg = \"OK\"\nelif status == 404:\n    msg = \"Not Found\"\nelse:\n    msg = \"Server Error\"\nprint(msg)\n```\nWhat will this print?",
+      "code_snippet": "status = 500\nif status == 200:\n    msg = \"OK\"\nelif status == 404:\n    msg = \"Not Found\"\nelse:\n    msg = \"Server Error\"\nprint(msg)",
       "options": [
-        "First",
-        "Second",
-        "Third",
-        "Fourth"
+        "Server Error",
+        "OK",
+        "Not Found",
+        "500"
       ],
-      "correct_answer": "Third",
-      "explanation": "The first condition `x > y` is False because 5 is not greater than 10. The second condition `x == y` is False because 5 does not equal 10. The third condition `x < y` is True, so Python executes the corresponding `elif` block and prints 'Third'. The `else` block is skipped because a matching condition was found."
+      "correct_answer": "Server Error",
+      "explanation": "Both status == 200 and status == 404 evaluate to False. Python falls through to the else branch, printing \"Server Error\".",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.3_q10",
-      "type": "multiple_choice",
-      "concept": "multiple_paths_with_elif_analysis",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q9"
-      ],
-      "prompt": "Consider the following Python snippet:\n\n```python\nnum = 25\nif num < 10:\n    result = \"Small\"\nelif num < 20:\n    result = \"Medium\"\nelif num < 30:\n    result = \"Large\"\nelse:\n    result = \"Extra Large\"\nprint(result)\n```\n\nWhich statement correctly describes how Python evaluates this conditional structure?",
-      "options": [
-        "Python checks every condition independently, so multiple branches can execute.",
-        "Python evaluates conditions from top to bottom and executes only the first true branch.",
-        "Python always executes the else branch regardless of prior conditions.",
-        "Python randomly selects one true condition to execute."
-      ],
-      "correct_answer": "Python evaluates conditions from top to bottom and executes only the first true branch.",
-      "explanation": "In an `if-elif-else` chain, Python evaluates each condition sequentially. As soon as it encounters a condition that evaluates to True, it executes the corresponding block and skips all remaining `elif` and `else` blocks. This is called short-circuiting or early exit behavior. In this example, `num < 10` is False, `num < 20` is False, and `num < 30` is True, so only the 'Large' assignment occurs."
-    },
-    {
-      "id": "5.3_q11",
-      "type": "code_prediction",
-      "concept": "multiple_paths_with_elif_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q10"
-      ],
-      "prompt": "Trace through the following code step by step. What is printed?\n\n```python\na = 7\nif a > 10:\n    a = a + 5\n    print(a)\nelif a > 5:\n    a = a * 2\n    print(a)\nelif a > 1:\n    print(\"Low\")\nelse:\n    print(\"Zero or Negative\")\nprint(\"Final:\", a)\n```",
-      "options": [
-        "Low\nFinal: 7",
-        "14\nFinal: 14",
-        "High\nFinal: 7",
-        "Error"
-      ],
-      "correct_answer": "14\nFinal: 14",
-      "explanation": "When `a = 7`, `a > 10` is False. The `elif a > 5` branch is True, so `a = 7 * 2 = 14` is printed. The final line then prints `Final: 14`."
-    },
-    {
-      "id": "5.3_q12",
-      "type": "output_prediction",
-      "concept": "multiple_paths_with_elif_logic",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q11"
-      ],
-      "prompt": "What is the output of the following Python code? Assume the user enters 'apple'.\n\n```python\nfruit = input(\"Enter a fruit: \")\nif fruit == \"apple\":\n    print(\"Red or green\")\nelif fruit == \"banana\":\n    print(\"Yellow\")\nelif fruit == \"orange\":\n    print(\"Orange\")\nelse:\n    print(\"Unknown\")\n```",
-      "options": [
-        "Red or green",
-        "Yellow",
-        "Orange",
-        "Unknown"
-      ],
-      "correct_answer": "Red or green",
-      "explanation": "The `input()` function reads 'apple' from the user and stores it in the `fruit` variable. The first condition `fruit == \"apple\"` evaluates to True, so Python executes the corresponding `if` block and prints 'Red or green'. All subsequent `elif` and `else` blocks are skipped due to the early exit behavior of `if-elif-else` chains."
-    },
-    {
-      "id": "5.3_q13",
-      "type": "fill_in_the_blank",
-      "concept": "multiple_paths_with_elif_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q12"
-      ],
-      "prompt": "Complete the code below to check if a number is positive, negative, or zero using multiple paths with elif:\n\nscore = 15\nif score > 0:\n    print(\"positive\")\n_____\nelse:\n    print(\"zero or negative\")",
-      "correct_answer": "elif score < 0:\n    print(\"negative\")",
-      "accepted_answers": [
-        "elif score < 0:\n    print(\"negative\")",
-        "elif score < 0: print(\"negative\")"
-      ],
-      "explanation": "The elif keyword extends the if statement to test additional conditions only when the preceding if and earlier elif clauses evaluate to False. Here, we first check if score > 0. If that is False, we use elif score < 0 to test whether the number is negative. If neither condition is True, the else clause handles zero or any unexpected case. This creates multiple distinct paths through the conditional logic."
-    },
-    {
-      "id": "5.3_q14",
-      "type": "fill_in_the_blank",
-      "concept": "multiple_paths_with_elif_keywords",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q13"
-      ],
-      "prompt": "Fill in the missing keywords to create a multi-way decision that classifies a temperature as cold, mild, or hot:\n\ntemp = 22\nif temp < 10:\n_____\n    print(\"cold\")\n_____\n    print(\"mild\")\nelse:\n    print(\"hot\")",
-      "correct_answer": "elif\n    elif",
-      "accepted_answers": [
-        "elif\n    elif",
-        "elif\n    elif"
-      ],
-      "explanation": "After the initial if statement, the elif keyword allows you to chain additional conditional checks. Each elif is evaluated only if all previous conditions were False. In this temperature example, the first elif checks for mild temperatures (10 to 24), and the else clause captures everything else as hot. Proper indentation and correct use of elif are essential for valid Python syntax."
-    },
-    {
-      "id": "5.3_q15",
-      "type": "code_ordering",
-      "concept": "multiple_paths_with_elif_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q14"
-      ],
-      "prompt": "Arrange the following lines in the correct order to produce a working multi-path conditional that prints a grade message based on score.",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The correct sequence begins with a guard clause if score < 0 or score > 100 to catch invalid input before any grade logic. Next, elif score >= 80 handles the highest performance band. Then elif score >= 60 covers the passing range. Finally, the else clause serves as the catch-all for scores below 60. Ordering matters because Python evaluates conditions top to bottom and stops at the first True branch."
-    },
-    {
-      "id": "5.3_q16",
-      "type": "fill_in_the_blank",
-      "concept": "multiple_paths_with_elif_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q15"
-      ],
-      "prompt": "Complete the pattern to categorize a day of the week into weekday or weekend:\n\nday = \"Saturday\"\nif day == \"Monday\" or day == \"Tuesday\" or day == \"Wednesday\" or day == \"Thursday\" or day == \"Friday\":\n_____\n    print(\"Weekday\")\nelse:\n    print(\"Weekend\")",
-      "correct_answer": "elif",
-      "accepted_answers": [
-        "elif"
-      ],
-      "explanation": "The first if clause already covers all weekday strings. Since we want a separate path for weekends, we use elif to introduce an additional condition. In this simplified example, the else clause actually handles the weekend, but if we wanted to explicitly test for Saturday or Sunday, we would write an elif such as elif day in (\"Saturday\", \"Sunday\"). The key pattern is that elif extends the decision tree with another testable branch."
-    },
-    {
-      "id": "5.3_q17",
-      "type": "code_ordering",
-      "concept": "multiple_paths_with_elif_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q16"
-      ],
-      "prompt": "Order the code fragments to build a valid program that reads an integer age and prints an appropriate life-stage message.",
-      "options": [
-        "age = int(input(\"Enter age: \"))",
-        "elif age >= 13 and age < 18:\n    print(\"Teenager\")",
-        "if age < 13:\n    print(\"Child\")",
-        "else:\n    print(\"Adult\")"
-      ],
-      "correct_answer": [
-        "age = int(input(\"Enter age: \"))",
-        "if age < 13:\n    print(\"Child\")",
-        "elif age >= 13 and age < 18:\n    print(\"Teenager\")",
-        "else:\n    print(\"Adult\")"
-      ],
-      "explanation": "First, we must read and convert user input with age = int(input(\"Enter age: \")). Then the if statement checks for the youngest group. The elif clause handles the teenage range, and the else clause catches all remaining ages as adults. This ordering ensures that each age falls into exactly one branch and that the logic is both readable and correct."
-    },
-    {
-      "id": "5.3_q18",
-      "type": "fill_in_the_blank",
-      "concept": "multiple_paths_with_elif_idioms",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q17"
-      ],
-      "prompt": "Complete the idiom that uses membership testing to classify a fruit as citrus, berry, or other:\n\nfruit = \"orange\"\nif fruit in (\"lemon\", \"lime\", \"grapefruit\"):\n_____\n    print(\"Citrus\")\nelif fruit in (\"strawberry\", \"blueberry\", \"raspberry\"):\n    print(\"Berry\")\nelse:\n    print(\"Other\")",
-      "correct_answer": "elif",
-      "accepted_answers": [
-        "elif",
-        "elif"
-      ],
-      "explanation": "Although the first if clause already handles citrus fruits, the idiomatic pattern for building a multi-path decision tree uses elif to add the next category. Here, fruit in (...) is a membership test that cleanly checks whether the variable matches any value in the tuple. Using elif keeps the structure flat and readable, avoiding nested ifs. This pattern is common when categorizing data into several mutually exclusive groups."
-    },
-    {
-      "id": "5.3_q19",
-      "type": "fix_the_code",
-      "concept": "multiple_paths_with_elif_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q18"
-      ],
-      "prompt": "Identify and explain the error in the following program that attempts to categorize a student's grade using multiple paths with elif.",
-      "starter_code": "def categorize_grade(score):\n    if score >= 90:\n        return 'Excellent'\n    elif score >= 80:\n        return 'Good'\n    elif score >= 70:\n        return 'Average'\n    elif score >= 60:\n        return 'Below Average'\n    else:\n        return 'Failing'\n\n# This function is called with various inputs\nprint(categorize_grade(85))\nprint(categorize_grade(95))",
-      "solution_code": "def categorize_grade(score):\n    if score >= 90:\n        return 'Excellent'\n    elif score >= 80:\n        return 'Good'\n    elif score >= 70:\n        return 'Average'\n    elif score >= 60:\n        return 'Below Average'\n    else:\n        return 'Failing'\n\n# This function is called with various inputs\nprint(categorize_grade(85))\nprint(categorize_grade(95))",
-      "hint": "The logic appears correct for the given test cases, but consider what happens when score is negative or above 100, and whether the conditions are mutually exclusive.",
-      "explanation": "There is no syntax or runtime error in this specific code, but the logic has a flaw: the conditions are not fully mutually exclusive in terms of edge-case validation. For instance, a score of -5 returns 'Failing', which may be acceptable, but a score of 150 also returns 'Failing'. The real issue is that the function lacks input validation. Additionally, if the intention was to strictly enforce 0–100, the conditions should be ordered from highest to lowest (which they are), but an explicit check should be added. The 'error' is a logical gap rather than a crash."
-    },
-    {
-      "id": "5.3_q20",
-      "type": "fix_the_code",
-      "concept": "multiple_paths_with_elif_fix",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.3_q19"
-      ],
-      "prompt": "Fix the following code so it correctly prints the season based on the month number (1–12).",
-      "starter_code": "def get_season(month):\n    if month == 12:\n        print('Winter')\n    elif month == 1 or month == 2:\n        print('Winter')\n    elif month == 3 or month == 4 or month == 5:\n        print('Spring')\n    elif month == 6 or month == 7 or month == 8:\n        print('Summer')\n    elif month == 9 or month == 10 or month == 11:\n        print('Autumn')\n    else:\n        print('Invalid month')",
-      "solution_code": "def get_season(month):\n    if month in (12, 1, 2):\n        print('Winter')\n    elif month in (3, 4, 5):\n        print('Spring')\n    elif month in (6, 7, 8):\n        print('Summer')\n    elif month in (9, 10, 11):\n        print('Autumn')\n    else:\n        print('Invalid month')\n\n# Test cases\nget_season(1)\nget_season(6)\nget_season(9)\nget_season(13)",
-      "hint": "The conditions overlap or are incomplete. Consider using the 'in' operator with tuples to make the code cleaner and ensure all valid months are covered.",
-      "explanation": "The original code uses repeated 'or' conditions, which is verbose and slightly harder to read. The fixed version uses 'in' with tuples to group months by season. It also preserves the else clause for invalid inputs. The order matters: checking Winter first ensures month 12 is caught before it falls through to an unintended branch."
-    },
-    {
-      "id": "5.3_q21",
-      "type": "fix_the_code",
-      "concept": "multiple_paths_with_elif_edge_cases",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q20"
-      ],
-      "prompt": "The function below is supposed to classify a number as positive, negative, or zero, but it fails on edge cases. Fix it.",
-      "starter_code": "def classify_number(n):\n    if n > 0:\n        return 'Positive'\n    elif n < 0:\n        return 'Negative'\n    else:\n        return 'Zero'\n\n# Edge case tests\nprint(classify_number(0))\nprint(classify_number(-0.0))\nprint(classify_number(3.14e-10))",
-      "solution_code": "def classify_number(n):\n    if n > 0:\n        return 'Positive'\n    elif n < 0:\n        return 'Negative'\n    else:\n        return 'Zero'\n\n# Edge case tests\nprint(classify_number(0))\nprint(classify_number(-0.0))\nprint(classify_number(3.14e-10))\n\n# Additional validation for floating-point precision issues\nif isinstance(n, float) and n == 0.0:\n    return 'Zero (floating-point)'",
-      "hint": "Consider how Python handles -0.0 and very small floating-point numbers near zero. The current logic treats -0.0 as 'Negative', which may be unexpected.",
-      "explanation": "In Python, -0.0 == 0.0 evaluates to True, so the else branch catches -0.0 as 'Zero'. However, the sign bit of -0.0 is negative, which can matter in scientific computing. The fix adds an explicit isinstance check for float zero to return a more precise label. For 3.14e-10, it is correctly classified as 'Positive'. The core issue was not a crash but a semantic ambiguity with signed zero."
-    },
-    {
-      "id": "5.3_q22",
-      "type": "fix_the_code",
-      "concept": "multiple_paths_with_elif_runtime",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q21"
-      ],
-      "prompt": "Analyze the runtime behavior of this snippet. What error occurs, and why does it happen during execution?",
-      "starter_code": "def check_access(level):\n    if level == 'admin':\n        return 'Full access'\n    elif level == 'user':\n        return 'Read access'\n    elif level == 'guest':\n        return 'Limited access'\n    elif level == 'superuser':\n        return 'Full access'\n    else:\n        return 'Unknown'\n\n# Runtime test\nuser_input = input('Enter role: ')\nprint(check_access(user_input))",
-      "solution_code": "def check_access(level):\n    if level == 'admin':\n        return 'Full access'\n    elif level == 'user':\n        return 'Read access'\n    elif level == 'guest':\n        return 'Limited access'\n    elif level == 'superuser':\n        return 'Full access'\n    else:\n        return 'Unknown'\n\n# Runtime test with safe input\nuser_input = input('Enter role: ')\nprint(check_access(user_input))",
-      "hint": "The function itself is syntactically valid, but consider what happens when the user enters None or an integer instead of a string.",
-      "explanation": "There is no immediate runtime error inside the function because Python uses duck typing and equality comparison does not raise an exception for mismatched types (e.g., 'admin' == 123 returns False). However, if the program later assumes the return value is a string and performs string operations, a TypeError could occur. More critically, if this code were part of a larger system expecting strict type hints, the lack of validation could propagate errors. The 'runtime error' here is a latent type-safety issue: passing None or an integer causes all comparisons to fail and returns 'Unknown', which may mask bugs upstream."
-    },
-    {
-      "id": "5.3_q23",
       "type": "fix_the_code",
       "concept": "multiple_paths_with_elif_logic_repair",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q22"
+      "prompt": "A grading script checks `score >= 60` before `score >= 90`. When `score = 95`, it erroneously prints `Pass` instead of `Honors`. Reorder the conditions so 90+ gets `Honors` and 60+ gets `Pass`.",
+      "starter_code": "score = 95\nif score >= 60:\n    print(\"Pass\")\nelif score >= 90:\n    print(\"Honors\")\nelse:\n    print(\"Fail\")",
+      "solution_code": "score = 95\nif score >= 90:\n    print(\"Honors\")\nelif score >= 60:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")",
+      "expected_output": "Honors",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Honors for score = 95 with correct condition hierarchy",
+          "expectedOutput": "Honors",
+          "assertionPython": "assert _raw_stdout.strip() == 'Honors' and 'if score >= 90:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying score variable and elif chain",
+          "expectedOutput": "Honors",
+          "assertionPython": "assert _user_namespace.get('score') == 95 and 'elif score >= 60:' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "Repair the logic so that only one branch executes and the conditions are mutually exclusive without redundant checks.",
-      "starter_code": "def discount_tier(amount):\n    if amount >= 100:\n        return 'Gold'\n    if amount >= 50:\n        return 'Silver'\n    if amount >= 10:\n        return 'Bronze'\n    return 'No discount'\n\nprint(discount_tier(200))\nprint(discount_tier(75))\nprint(discount_tier(5))",
-      "solution_code": "def discount_tier(amount):\n    if amount >= 100:\n        return 'Gold'\n    elif amount >= 50:\n        return 'Silver'\n    elif amount >= 10:\n        return 'Bronze'\n    else:\n        return 'No discount'\n\nprint(discount_tier(200))\nprint(discount_tier(75))\nprint(discount_tier(5))",
-      "hint": "The issue is that independent 'if' statements allow multiple branches to be true. Changing to 'elif' ensures only the first matching condition executes.",
-      "explanation": "The original code uses separate 'if' statements, so if amount were 200, both the Gold and Silver conditions would be true, but only Gold would return. However, this pattern is fragile and unclear. The repaired version uses 'elif' to create a proper mutually exclusive chain. The else clause handles the fallback case. This guarantees exactly one branch is taken and improves readability and maintainability."
+      "explanation": "Placing `score >= 90` first ensures top students match the Honors tier before reaching the broader Pass tier.",
+      "hint": "Check if score >= 90: print(\"Honors\") first, then elif score >= 60: print(\"Pass\")",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q11",
+      "type": "fix_the_code",
+      "concept": "multiple_paths_with_elif_fix",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "Line 4 contains an invalid keyword `else if`. Fix line 4 by replacing `else if` with the valid Python keyword `elif`.",
+      "starter_code": "x = 15\nif x > 20:\n    print(\"High\")\nelse if x > 10:\n    print(\"Medium\")\nelse:\n    print(\"Low\")",
+      "solution_code": "x = 15\nif x > 20:\n    print(\"High\")\nelif x > 10:\n    print(\"Medium\")\nelse:\n    print(\"Low\")",
+      "expected_output": "Medium",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Medium with valid elif keyword",
+          "expectedOutput": "Medium",
+          "assertionPython": "assert _raw_stdout.strip() == 'Medium' and 'elif x > 10:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying variable x",
+          "expectedOutput": "Medium",
+          "assertionPython": "assert _user_namespace.get('x') == 15",
+          "hidden": true
+        }
+      ],
+      "explanation": "In Python, the alternative branch keyword is `elif`, not `else if`.",
+      "hint": "Change else if x > 10: to elif x > 10:",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.3_q12",
+      "type": "write_the_code",
+      "concept": "multiple_paths_with_elif_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a program that classifies an exam score:\n1. Set `score = 88`\n2. If `score >= 90`, print `\"A\"`\n3. Elif `score >= 80`, print `\"B\"`\n4. Elif `score >= 70`, print `\"C\"`\n5. Else, print `\"F\"` (should print B)",
+      "starter_code": "# Score letter grade classifier\n",
+      "solution_code": "score = 88\nif score >= 90:\n    print(\"A\")\nelif score >= 80:\n    print(\"B\")\nelif score >= 70:\n    print(\"C\")\nelse:\n    print(\"F\")",
+      "expected_output": "B",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs B for score = 88",
+          "expectedOutput": "B",
+          "assertionPython": "assert _raw_stdout.strip() == 'B' and _user_namespace.get('score') == 88"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying all branch conditions exist",
+          "expectedOutput": "B",
+          "assertionPython": "assert 'elif score >= 80:' in _user_code and 'elif score >= 70:' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`88 >= 90` is False, but `88 >= 80` is True, printing `\"B\"` and skipping the remaining conditions.",
+      "hint": "if score >= 90: ... elif score >= 80: ... elif score >= 70: ... else: ...",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q13",
+      "type": "write_the_code",
+      "concept": "multiple_paths_with_elif_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A movie theater prices admissions according to age:\n1. Set `age = 68`\n2. If `age < 5`:\n   - Set `price = 0`\n3. Elif `age <= 17`:\n   - Set `price = 12`\n4. Elif `age <= 64`:\n   - Set `price = 20`\n5. Else:\n   - Set `price = 15`\n6. Print `f\"Ticket: ${price}\"` (should print Ticket: $15)",
+      "starter_code": "# Movie ticket age tier pricing\n",
+      "solution_code": "age = 68\nif age < 5:\n    price = 0\nelif age <= 17:\n    price = 12\nelif age <= 64:\n    price = 20\nelse:\n    price = 15\nprint(f\"Ticket: ${price}\")",
+      "expected_output": "Ticket: $15",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Ticket: $15 for age = 68 senior rate",
+          "expectedOutput": "Ticket: $15",
+          "assertionPython": "assert _raw_stdout.strip() == 'Ticket: $15' and _user_namespace.get('price') == 15"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying age variable and elif branches",
+          "expectedOutput": "Ticket: $15",
+          "assertionPython": "assert 'elif age <= 64:' in _user_code and _user_namespace.get('age') == 68",
+          "hidden": true
+        }
+      ],
+      "explanation": "`68 < 5`, `68 <= 17`, and `68 <= 64` are all False. The `else` block assigns senior price `15`.",
+      "hint": "Use if, two elif blocks, and an else fallback to set price.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q14",
+      "type": "write_the_code",
+      "concept": "multiple_paths_with_elif_challenge",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "An online marketplace calculates order discounts based on spending:\n1. Set `cart = 120`\n2. If `cart >= 100`:\n   - Set `discount_pct = 20`\n3. Elif `cart >= 50`:\n   - Set `discount_pct = 10`\n4. Else:\n   - Set `discount_pct = 0`\n5. Calculate `savings = cart * discount_pct / 100`\n6. Print `savings` (should print 24.0)",
+      "starter_code": "# Spending discount ladder\n",
+      "solution_code": "cart = 120\nif cart >= 100:\n    discount_pct = 20\nelif cart >= 50:\n    discount_pct = 10\nelse:\n    discount_pct = 0\nsavings = cart * discount_pct / 100\nprint(savings)",
+      "expected_output": "24.0",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes savings as 24.0 for cart = 120",
+          "expectedOutput": "24.0",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 24.0 and _user_namespace.get('discount_pct') == 20 and _user_namespace.get('savings') == 24.0"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying cart variable and elif hierarchy",
+          "expectedOutput": "24.0",
+          "assertionPython": "assert 'elif cart >= 50:' in _user_code and _user_namespace.get('cart') == 120",
+          "hidden": true
+        }
+      ],
+      "explanation": "`120 >= 100` evaluates to True, assigning `discount_pct = 20`. Then `120 * 20 / 100 = 24.0`.",
+      "hint": "if cart >= 100: ... elif cart >= 50: ... else: ... Then calculate savings = cart * discount_pct / 100.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q15",
+      "type": "write_the_code",
+      "concept": "multiple_paths_with_elif_mastery",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "A package courier charges tiered shipping rates by weight:\n1. Set `weight = 8.5`\n2. If `weight <= 2.0`:\n   - Set `cost = 5.0`\n3. Elif `weight <= 10.0`:\n   - Set `cost = 12.5`\n4. Elif `weight <= 25.0`:\n   - Set `cost = 25.0`\n5. Else:\n   - Set `cost = 45.0`\n6. Print `f\"Shipping: ${cost}\"` (should print Shipping: $12.5)",
+      "starter_code": "# Courier shipping rate tiers\n",
+      "solution_code": "weight = 8.5\nif weight <= 2.0:\n    cost = 5.0\nelif weight <= 10.0:\n    cost = 12.5\nelif weight <= 25.0:\n    cost = 25.0\nelse:\n    cost = 45.0\nprint(f\"Shipping: ${cost}\")",
+      "expected_output": "Shipping: $12.5",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Shipping: $12.5 for weight = 8.5",
+          "expectedOutput": "Shipping: $12.5",
+          "assertionPython": "assert _raw_stdout.strip() == 'Shipping: $12.5' and _user_namespace.get('cost') == 12.5"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying weight and cost variables",
+          "expectedOutput": "Shipping: $12.5",
+          "assertionPython": "assert _user_namespace.get('weight') == 8.5 and _user_namespace.get('cost') == 12.5",
+          "hidden": true
+        }
+      ],
+      "explanation": "`8.5 <= 2.0` is False, but `8.5 <= 10.0` is True, setting `cost = 12.5` and exiting the chain.",
+      "hint": "Use if weight <= 2.0, elif weight <= 10.0, elif weight <= 25.0, else: cost = 45.0",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q16",
+      "type": "multiple_choice",
+      "concept": "multiple_paths_with_elif_matching",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "How many `elif` statements can you chain together in Python?",
+      "options": [
+        "As many as needed; there is no fixed limit",
+        "Only 1 elif statement per if",
+        "A maximum of 5 elif statements",
+        "At most 10 before Python raises an OverflowError"
+      ],
+      "correct_answer": "As many as needed; there is no fixed limit",
+      "explanation": "Python permits arbitrarily many `elif` blocks between an opening `if` and an optional closing `else`.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.3_q17",
+      "type": "output_prediction",
+      "concept": "multiple_paths_with_elif_sequence",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the following temperature tier code:\n```python\ntemp = 32\nif temp > 80:\n    print(\"Hot\")\nelif temp > 50:\n    print(\"Mild\")\nelif temp > 32:\n    print(\"Chilly\")\nelse:\n    print(\"Freezing\")\n```\nWhat will this print?",
+      "code_snippet": "temp = 32\nif temp > 80:\n    print(\"Hot\")\nelif temp > 50:\n    print(\"Mild\")\nelif temp > 32:\n    print(\"Chilly\")\nelse:\n    print(\"Freezing\")",
+      "options": [
+        "Freezing",
+        "Chilly",
+        "Mild",
+        "Hot"
+      ],
+      "correct_answer": "Freezing",
+      "explanation": "32 > 80, 32 > 50, and 32 > 32 are all False (32 is equal to 32, not strictly greater). It falls through to the else branch, printing \"Freezing\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q18",
+      "type": "output_prediction",
+      "concept": "multiple_paths_with_elif_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "Look at this sign classifier:\n```python\nval = -5\nif val > 0:\n    print(\"Positive\")\nelif val == 0:\n    print(\"Zero\")\nelse:\n    print(\"Negative\")\n```\nWhat will this print?",
+      "code_snippet": "val = -5\nif val > 0:\n    print(\"Positive\")\nelif val == 0:\n    print(\"Zero\")\nelse:\n    print(\"Negative\")",
+      "options": [
+        "Negative",
+        "Positive",
+        "Zero",
+        "-5"
+      ],
+      "correct_answer": "Negative",
+      "explanation": "-5 > 0 is False, and -5 == 0 is False. Execution routes into else, printing \"Negative\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q19",
+      "type": "multiple_choice",
+      "concept": "multiple_paths_with_elif_practical",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A mobile phone battery icon code uses:\n```python\nif pct >= 80:\n    color = \"Green\"\nelif pct >= 20:\n    color = \"Yellow\"\nelse:\n    color = \"Red\"\n```\nIf `pct = 15`, what color is assigned?",
+      "options": [
+        "Red",
+        "Yellow",
+        "Green",
+        "None"
+      ],
+      "correct_answer": "Red",
+      "explanation": "15 >= 80 is False and 15 >= 20 is False. Execution falls through to the else branch, setting color to \"Red\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q20",
+      "type": "multiple_choice",
+      "concept": "multiple_paths_with_elif_errors",
+      "skill": "diagnosis",
+      "difficulty": "easy",
+      "prompt": "What error occurs if you forget the colon `:` at the end of an `elif` line:\n```python\nelif score >= 80\n```",
+      "options": [
+        "SyntaxError: expected ':'",
+        "IndentationError: unindent does not match",
+        "NameError: score is not defined",
+        "TypeError: invalid condition"
+      ],
+      "correct_answer": "SyntaxError: expected ':'",
+      "explanation": "Like `if` and `else`, the `elif` line introduces a code block and must terminate with a colon `:`.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.3_q21",
+      "type": "fix_the_code",
+      "concept": "multiple_paths_with_elif_idioms",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "Fix the `SyntaxError` on line 4 where a colon was omitted after the `elif` condition.",
+      "starter_code": "speed = 75\nif speed > 80:\n    print(\"Severe\")\nelif speed > 65\n    print(\"Moderate\")\nelse:\n    print(\"Normal\")",
+      "solution_code": "speed = 75\nif speed > 80:\n    print(\"Severe\")\nelif speed > 65:\n    print(\"Moderate\")\nelse:\n    print(\"Normal\")",
+      "expected_output": "Moderate",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Moderate with colon on elif line",
+          "expectedOutput": "Moderate",
+          "assertionPython": "assert _raw_stdout.strip() == 'Moderate' and 'elif speed > 65:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying speed variable",
+          "expectedOutput": "Moderate",
+          "assertionPython": "assert _user_namespace.get('speed') == 75",
+          "hidden": true
+        }
+      ],
+      "explanation": "Adding the missing colon `:` to `elif speed > 65:` resolves the SyntaxError.",
+      "hint": "Add a colon : at the end of line 4: elif speed > 65:",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.3_q22",
+      "type": "write_the_code",
+      "concept": "multiple_paths_with_elif_algorithm",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a program to determine the state of water at atmospheric pressure:\n1. Set `temp = 25`\n2. If `temp <= 0`, print `\"Solid\"`\n3. Elif `temp < 100`, print `\"Liquid\"`\n4. Else, print `\"Gas\"` (should print Liquid)",
+      "starter_code": "# Water state of matter classifier\n",
+      "solution_code": "temp = 25\nif temp <= 0:\n    print(\"Solid\")\nelif temp < 100:\n    print(\"Liquid\")\nelse:\n    print(\"Gas\")",
+      "expected_output": "Liquid",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Liquid for temp = 25",
+          "expectedOutput": "Liquid",
+          "assertionPython": "assert _raw_stdout.strip() == 'Liquid' and _user_namespace.get('temp') == 25"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying elif condition and temp variable",
+          "expectedOutput": "Liquid",
+          "assertionPython": "assert 'elif temp < 100:' in _user_code and _user_namespace.get('temp') == 25",
+          "hidden": true
+        }
+      ],
+      "explanation": "`25 <= 0` is False, but `25 < 100` is True, so `\"Liquid\"` prints.",
+      "hint": "if temp <= 0: ... elif temp < 100: ... else: ...",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.3_q23",
+      "type": "write_the_code",
+      "concept": "multiple_paths_with_elif_advanced",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A customer loyalty club awards member status based on visit count:\n1. Set `visits = 14`\n2. If `visits >= 20`, print `\"Platinum\"`\n3. Elif `visits >= 10`, print `\"Gold\"`\n4. Elif `visits >= 5`, print `\"Silver\"`\n5. Else, print `\"Bronze\"` (should print Gold)",
+      "starter_code": "# Loyalty tier membership classifier\n",
+      "solution_code": "visits = 14\nif visits >= 20:\n    print(\"Platinum\")\nelif visits >= 10:\n    print(\"Gold\")\nelif visits >= 5:\n    print(\"Silver\")\nelse:\n    print(\"Bronze\")",
+      "expected_output": "Gold",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Gold for visits = 14",
+          "expectedOutput": "Gold",
+          "assertionPython": "assert _raw_stdout.strip() == 'Gold' and _user_namespace.get('visits') == 14"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying all membership tiers",
+          "expectedOutput": "Gold",
+          "assertionPython": "assert 'elif visits >= 10:' in _user_code and 'elif visits >= 5:' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`14 >= 20` is False, but `14 >= 10` is True, printing `\"Gold\"`.",
+      "hint": "Use if >= 20, elif >= 10, elif >= 5, else.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.3_q24",
-      "type": "fix_the_code",
+      "type": "write_the_code",
       "concept": "multiple_paths_with_elif_optimization",
-      "skill": "refactoring",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.3_q23"
-      ],
-      "prompt": "Refactor the following verbose elif chain into a more efficient and maintainable structure while preserving identical behavior.",
-      "starter_code": "def map_priority(code):\n    if code == 1:\n        return 'Critical'\n    elif code == 2:\n        return 'High'\n    elif code == 3:\n        return 'Medium'\n    elif code == 4:\n        return 'Low'\n    elif code == 5:\n        return 'Informational'\n    else:\n        return 'Unknown'\n\n# Performance test\nfor c in [1, 2, 3, 4, 5, 99]:\n    print(map_priority(c))",
-      "solution_code": "def map_priority(code):\n    priority_map = {\n        1: 'Critical',\n        2: 'High',\n        3: 'Medium',\n        4: 'Low',\n        5: 'Informational'\n    }\n    return priority_map.get(code, 'Unknown')\n\n# Performance test\nfor c in [1, 2, 3, 4, 5, 99]:\n    print(map_priority(c))",
+      "prompt": "A traffic camera calculates speeding fines based on how far over the speed limit a vehicle was traveling:\n1. Set `speed = 82`\n2. Set `limit = 65`\n3. Calculate `diff = speed - limit` (82 - 65 = 17)\n4. If `diff <= 0`:\n   - Set `fine = 0`\n5. Elif `diff <= 10`:\n   - Set `fine = 50`\n6. Elif `diff <= 20`:\n   - Set `fine = 120`\n7. Else:\n   - Set `fine = 250`\n8. Print `f\"Fine: ${fine}\"` (should print Fine: $120)",
+      "starter_code": "# Speeding fine calculator\n",
+      "solution_code": "speed = 82\nlimit = 65\ndiff = speed - limit\nif diff <= 0:\n    fine = 0\nelif diff <= 10:\n    fine = 50\nelif diff <= 20:\n    fine = 120\nelse:\n    fine = 250\nprint(f\"Fine: ${fine}\")",
+      "expected_output": "Fine: $120",
       "test_cases": [
         {
-          "input": 1,
-          "expected": "Critical"
+          "id": "tc_1",
+          "description": "Outputs Fine: $120 for diff = 17",
+          "expectedOutput": "Fine: $120",
+          "assertionPython": "assert _raw_stdout.strip() == 'Fine: $120' and _user_namespace.get('diff') == 17 and _user_namespace.get('fine') == 120"
         },
         {
-          "input": 3,
-          "expected": "Medium"
-        },
-        {
-          "input": 5,
-          "expected": "Informational"
-        },
-        {
-          "input": 99,
-          "expected": "Unknown"
+          "id": "tc_2",
+          "description": "Hidden test verifying fine tiers and diff variable",
+          "expectedOutput": "Fine: $120",
+          "assertionPython": "assert 'elif diff <= 20:' in _user_code and _user_namespace.get('fine') == 120",
+          "hidden": true
         }
       ],
-      "hint": "When mapping discrete integer keys to values, a dictionary lookup is typically faster than a long elif chain and easier to extend.",
-      "explanation": "The original function uses a linear elif chain with O(n) lookup time where n is the number of branches. The optimized version uses a dictionary with O(1) average-case lookup. This is more efficient for frequent calls and simplifies adding or removing priority levels. The .get() method elegantly handles the default case. Behavior is identical: valid keys return their mapped string, and invalid keys return 'Unknown'."
+      "explanation": "`diff = 17`. `17 <= 0` and `17 <= 10` are False. `17 <= 20` is True, setting `fine = 120`.",
+      "hint": "diff = speed - limit. Then check diff <= 0, diff <= 10, diff <= 20, else: fine = 250.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.3_q25",
       "type": "write_the_code",
-      "concept": "multiple_paths_with_elif_implementation",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q24"
-      ],
-      "prompt": "Write a Python program that asks the user for their age and prints a message based on the following conditions:",
-      "starter_code": "age = input('Enter your age: ')\n# TODO: Use if, elif, and else to categorize the age\n# Categories: child (<13), teenager (13-17), adult (18-64), senior (>=65)\nprint('Category determined.')",
-      "solution_code": "age = int(input('Enter your age: '))\n\nif age < 13:\n    print('You are a child.')\nelif 13 <= age <= 17:\n    print('You are a teenager.')\nelif 18 <= age <= 64:\n    print('You are an adult.')\nelse:\n    print('You are a senior.')",
-      "test_cases": [
-        {
-          "input": "5",
-          "expected": "You are a child."
-        },
-        {
-          "input": "15",
-          "expected": "You are a teenager."
-        },
-        {
-          "input": "30",
-          "expected": "You are an adult."
-        },
-        {
-          "input": "70",
-          "expected": "You are a senior."
-        }
-      ],
-      "hint": "Convert the input to an integer using int(). Chain multiple conditions with elif, and use a final else for the default case.",
-      "explanation": "The if statement checks the first condition. If false, elif evaluates the next condition in sequence. Only one block executes. The final else catches all remaining cases, ensuring exactly one path is taken."
-    },
-    {
-      "id": "5.3_q26",
-      "type": "write_the_code",
-      "concept": "multiple_paths_with_elif_practical",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.3_q25"
-      ],
-      "prompt": "Create a program that determines the day of the week from a number (1=Monday, 7=Sunday) and prints the corresponding name. Handle invalid inputs.",
-      "starter_code": "day_num = input('Enter day number (1-7): ')\n# TODO: Map numbers to day names using if/elif/else\nprint('Day determined.')",
-      "solution_code": "day_num = input('Enter day number (1-7): ')\n\ntry:\n    day_num = int(day_num)\n    if day_num == 1:\n        print('Monday')\n    elif day_num == 2:\n        print('Tuesday')\n    elif day_num == 3:\n        print('Wednesday')\n    elif day_num == 4:\n        print('Thursday')\n    elif day_num == 5:\n        print('Friday')\n    elif day_num == 6:\n        print('Saturday')\n    elif day_num == 7:\n        print('Sunday')\n    else:\n        print('Invalid input: must be between 1 and 7.')\nexcept ValueError:\n    print('Invalid input: not a number.')",
-      "test_cases": [
-        {
-          "input": "1",
-          "expected": "Monday"
-        },
-        {
-          "input": "4",
-          "expected": "Thursday"
-        },
-        {
-          "input": "7",
-          "expected": "Sunday"
-        },
-        {
-          "input": "0",
-          "expected": "Invalid input: must be between 1 and 7."
-        },
-        {
-          "input": "abc",
-          "expected": "Invalid input: not a number."
-        }
-      ],
-      "hint": "Use a try-except block to catch non-integer inputs. Compare the integer against each expected value with separate elif branches.",
-      "explanation": "This scenario demonstrates practical elif usage for discrete value mapping. The try-except ensures robustness against bad input, while elif chains provide clear, ordered branching."
-    },
-    {
-      "id": "5.3_q27",
-      "type": "write_the_code",
-      "concept": "multiple_paths_with_elif_advanced",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.3_q26"
-      ],
-      "prompt": "Write a program that evaluates a student's exam result based on score and attendance. Print a grade and a message. Score thresholds: A (90-100), B (80-89), C (70-79), D (60-69), F (<60). Attendance bonus: if attendance >= 90%, add 5 points (capped at 100).",
-      "starter_code": "score = int(input('Enter exam score (0-100): '))\nattendance = int(input('Enter attendance percentage (0-100): '))\n\n# TODO: Apply attendance bonus and grade using nested if/elif/else\nprint('Result determined.')",
-      "solution_code": "score = int(input('Enter exam score (0-100): '))\nattendance = int(input('Enter attendance percentage (0-100): '))\n\nadjusted_score = score\nif attendance >= 90:\n    adjusted_score = min(score + 5, 100)\n\nif adjusted_score >= 90:\n    grade = 'A'\n    message = 'Excellent performance!'\nelif adjusted_score >= 80:\n    grade = 'B'\n    message = 'Good job!'\nelif adjusted_score >= 70:\n    grade = 'C'\n    message = 'Satisfactory.'\nelif adjusted_score >= 60:\n    grade = 'D'\n    message = 'Needs improvement.'\nelse:\n    grade = 'F'\n    message = 'Fail. Retake the exam.'\n\nprint(f'Grade: {grade}')\nprint(f'Message: {message}')",
-      "test_cases": [
-        {
-          "input": "85\n95",
-          "expected": "Grade: A\nMessage: Excellent performance!"
-        },
-        {
-          "input": "88\n85",
-          "expected": "Grade: B\nMessage: Good job!"
-        },
-        {
-          "input": "75\n92",
-          "expected": "Grade: A\nMessage: Excellent performance!"
-        },
-        {
-          "input": "55\n100",
-          "expected": "Grade: F\nMessage: Fail. Retake the exam."
-        }
-      ],
-      "hint": "First compute the adjusted score with the attendance bonus, then use a single elif chain on the adjusted value to assign the grade.",
-      "explanation": "Advanced elif usage involves preprocessing data (attendance bonus) before branching. The min() function prevents score overflow. Nested logic separates calculation from classification, improving readability."
-    },
-    {
-      "id": "5.3_q28",
-      "type": "write_the_code",
-      "concept": "multiple_paths_with_elif_challenge",
-      "skill": "problem_solving",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.3_q27"
-      ],
-      "prompt": "Challenge: Write a program that classifies a vehicle based on speed (km/h) and fuel type. Categories: 'Eco' (speed <= 60 AND fuel == 'electric'), 'City' (speed <= 80 AND fuel == 'petrol'), 'Highway' (speed > 80 AND fuel == 'diesel'), 'Invalid' otherwise. Ensure no category overlaps incorrectly.",
-      "starter_code": "speed = int(input('Enter speed (km/h): '))\nfuel = input('Enter fuel type (electric/petrol/diesel): ')\n\n# TODO: Implement mutually exclusive classification with if/elif/else\nprint('Vehicle category:', category)",
-      "solution_code": "speed = int(input('Enter speed (km/h): '))\nfuel = input('Enter fuel type (electric/petrol/diesel): ')\n\nif speed <= 60 and fuel == 'electric':\n    category = 'Eco'\nelif speed <= 80 and fuel == 'petrol':\n    category = 'City'\nelif speed > 80 and fuel == 'diesel':\n    category = 'Highway'\nelse:\n    category = 'Invalid'\n\nprint('Vehicle category:', category)",
-      "test_cases": [
-        {
-          "input": "50\nelectric",
-          "expected": "Eco"
-        },
-        {
-          "input": "70\npetrol",
-          "expected": "City"
-        },
-        {
-          "input": "95\ndiesel",
-          "expected": "Highway"
-        },
-        {
-          "input": "50\npetrol",
-          "expected": "Invalid"
-        }
-      ],
-      "hint": "Order matters: check the most specific conditions first. Use 'and' to combine multiple criteria within each elif branch.",
-      "explanation": "This challenge requires designing mutually exclusive branches where each condition is checked in priority order. The first true condition wins, so ordering prevents ambiguous classifications."
-    },
-    {
-      "id": "5.3_q29",
-      "type": "write_the_code",
-      "concept": "multiple_paths_with_elif_scenario",
+      "concept": "multiple_paths_with_elif_mastery",
       "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.3_q28"
-      ],
-      "prompt": "Real-World Scenario: A smart thermostat adjusts heating based on time of day, temperature, and occupancy. Implement a decision tree: if occupied and temp < 18, heat; elif occupied and 18 <= temp < 22, maintain; elif unoccupied and temp < 16, eco mode; elif occupied and temp >= 22, cool; else, maintain. Output the action taken.",
-      "starter_code": "occupied = input('Is anyone home? (yes/no): ')\ntemp = float(input('Current temperature (°C): '))\ntime = input('Time of day (morning/afternoon/evening/night): ')\n\n# TODO: Synthesize multiple inputs into a single elif decision tree\naction = 'unknown'\nprint('Thermostat action:', action)",
-      "solution_code": "occupied = input('Is anyone home? (yes/no): ')\ntemp = float(input('Current temperature (°C): '))\ntime = input('Time of day (morning/afternoon/evening/night): ')\n\nif occupied.lower() == 'yes' and temp < 18:\n    action = 'Heat'\nelif occupied.lower() == 'yes' and 18 <= temp < 22:\n    action = 'Maintain'\nelif occupied.lower() == 'no' and temp < 16:\n    action = 'Eco mode'\nelif occupied.lower() == 'yes' and temp >= 22:\n    action = 'Cool'\nelse:\n    action = 'Maintain'\n\nprint('Thermostat action:', action)",
+      "prompt": "A university transcript converter translates letter grades to numeric GPA quality points:\n1. Set `letter = \"B\"`\n2. If `letter == \"A\"`:\n   - Set `gpa = 4.0`\n3. Elif `letter == \"B\"`:\n   - Set `gpa = 3.0`\n4. Elif `letter == \"C\"`:\n   - Set `gpa = 2.0`\n5. Else:\n   - Set `gpa = 0.0`\n6. Print `f\"GPA: {gpa}\"` (should print GPA: 3.0)",
+      "starter_code": "# GPA quality point converter\n",
+      "solution_code": "letter = \"B\"\nif letter == \"A\":\n    gpa = 4.0\nelif letter == \"B\":\n    gpa = 3.0\nelif letter == \"C\":\n    gpa = 2.0\nelse:\n    gpa = 0.0\nprint(f\"GPA: {gpa}\")",
+      "expected_output": "GPA: 3.0",
       "test_cases": [
         {
-          "input": "yes\n15\nmorning",
-          "expected": "Heat"
+          "id": "tc_1",
+          "description": "Outputs GPA: 3.0 for letter B",
+          "expectedOutput": "GPA: 3.0",
+          "assertionPython": "assert _raw_stdout.strip() == 'GPA: 3.0' and _user_namespace.get('gpa') == 3.0"
         },
         {
-          "input": "yes\n20\nafternoon",
-          "expected": "Maintain"
-        },
-        {
-          "input": "no\n14\nnight",
-          "expected": "Eco mode"
-        },
-        {
-          "input": "yes\n23\nevening",
-          "expected": "Cool"
-        },
-        {
-          "input": "no\n19\nnight",
-          "expected": "Maintain"
+          "id": "tc_2",
+          "description": "Hidden test verifying gpa variable and string comparisons",
+          "expectedOutput": "GPA: 3.0",
+          "assertionPython": "assert 'elif letter == \"B\":' in _user_code and _user_namespace.get('gpa') == 3.0",
+          "hidden": true
         }
       ],
-      "hint": "Normalize string input with .lower() to handle case variations. Structure the elif chain so that each branch represents a distinct operational state.",
-      "explanation": "Real-world synthesis combines multiple data sources into a coherent control flow. The thermostat scenario models how elif chains implement state-based logic in embedded and IoT systems, emphasizing input sanitization and clear state definitions."
-    },
-    {
-      "id": "5.3_q30",
-      "type": "write_the_code",
-      "concept": "multiple_paths_with_elif_mastery",
-      "skill": "mastery",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.3_q29"
-      ],
-      "prompt": "Mastery Challenge: Build a program that validates a username and assigns a role. Rules: length 6-12, at least one digit, at least one uppercase letter, at least one lowercase letter. Role: 'Admin' if starts with 'admin', 'User' if valid, 'Rejected' otherwise. Use a single if/elif/else chain for role assignment after validation checks.",
-      "starter_code": "username = input('Enter username: ')\n\n# TODO: Validate username and assign role using if/elif/else\n# Store validation result and role\nprint('Validation:', valid)\nprint('Role:', role)",
-      "solution_code": "username = input('Enter username: ')\n\nvalid = True\nif len(username) < 6 or len(username) > 12:\n    valid = False\nif not any(c.isdigit() for c in username):\n    valid = False\nif not any(c.isupper() for c in username):\n    valid = False\nif not any(c.islower() for c in username):\n    valid = False\n\nif username.lower().startswith('admin'):\n    role = 'Admin'\nelif valid:\n    role = 'User'\nelse:\n    role = 'Rejected'\n\nprint('Validation:', valid)\nprint('Role:', role)",
-      "test_cases": [
-        {
-          "input": "admin123Ab",
-          "expected": "Validation: True\nRole: Admin"
-        },
-        {
-          "input": "User123",
-          "expected": "Validation: True\nRole: User"
-        },
-        {
-          "input": "user",
-          "expected": "Validation: False\nRole: Rejected"
-        },
-        {
-          "input": "A1b2C3d4E5f6",
-          "expected": "Validation: True\nRole: User"
-        },
-        {
-          "input": "admin",
-          "expected": "Validation: False\nRole: Rejected"
-        }
-      ],
-      "hint": "Use generator expressions with any() for efficient validation. For role assignment, normalize with .lower() before checking the 'admin' prefix to avoid case sensitivity issues.",
-      "explanation": "Mastery-level elif usage integrates multi-step validation with role-based branching. The solution separates validation (boolean accumulation) from authorization (elif chain), demonstrating clean separation of concerns. Generator expressions ensure O(n) validation without extra storage."
+      "explanation": "`letter == \"A\"` is False, but `letter == \"B\"` matches, setting `gpa = 3.0`.",
+      "hint": "Compare letter with \"A\", \"B\", \"C\" using elif.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     }
-  ],
-  "unit_num": 5,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Multiple Paths with elif",
-    "Apply idiomatic Python patterns when working with Multiple Paths with elif",
-    "Debug common runtime exceptions and logic errors associated with Multiple Paths with elif",
-    "Implement production-ready code utilizing Multiple Paths with elif"
-  ],
-  "prerequisites": [
-    "5.2"
   ]
 }

@@ -264,11 +264,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
       }
 
+      const resolvedCount = updatedMistakes.filter(m => m.resolved).length;
+      const updatedAchievements = prev.achievements.map(ach => {
+        if (ach.id === 'repair_prodigy') {
+          const progress = Math.min(resolvedCount, ach.maxProgress || 3);
+          return { ...ach, progress, unlocked: progress >= (ach.maxProgress || 3) };
+        }
+        return ach;
+      });
+
       return {
         ...prev,
         totalXp: prev.totalXp + 50,
         mistakes: updatedMistakes,
-        skillMastery: updatedMastery
+        skillMastery: updatedMastery,
+        achievements: updatedAchievements
       };
     });
   };

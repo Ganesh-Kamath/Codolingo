@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_9_1',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '2. if/else',
     concept: 'predict_if_else_branch',
     learning_objective: 'Predict which branch executes when the if condition evaluates to False.',
@@ -32,8 +32,8 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_9_2',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '3. elif',
     concept: 'predict_elif_short_circuit',
     learning_objective: 'Understand that elif stops checking conditions once the first match is found.',
@@ -60,8 +60,8 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_9_3',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '3. elif',
     concept: 'complete_elif_syntax',
     learning_objective: 'Complete an elif clause with proper keyword and colon syntax.',
@@ -80,8 +80,8 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_9_4',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '1. Basic if',
     concept: 'reason_indentation_block',
     learning_objective: 'Explain why indentation defines code blocks in Python.',
@@ -104,8 +104,8 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_9_5',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '4. multiple conditions',
     concept: 'write_grade_classifier',
     learning_objective: 'Write an if-elif-else structure to classify an exam score into grade letters.',
@@ -126,19 +126,21 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses if, elif, and else keywords',
         expectedOutput: 'B',
-        assertionPython: "assert 'if ' in _user_code and 'elif ' in _user_code and 'else:' in _user_code"
+        assertionPython: "assert 'if ' in _user_code and 'elif ' in _user_code and 'else:' in _user_code",
+        hidden: true
       }
     ],
     explanation: 'The code checks `score >= 90` (False), then checks `score >= 80` (True), executing `print("B")`.',
     hint: 'if score >= 90:\n    print("A")\nelif score >= 80:\n    print("B")\nelse:\n    print("C")',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 25,
     estimated_time: 75,
     order: 5
   },
   {
     id: 'py_fnd_9_6',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '1. Basic if',
     concept: 'debug_missing_colon_and_indent',
     learning_objective: 'Debug syntax and indentation errors in an if statement.',
@@ -154,6 +156,13 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
         description: 'Successfully prints "Welcome back!" with colon and 4-space indentation',
         expectedOutput: 'Welcome back!',
         assertionPython: "assert _raw_stdout.strip() == 'Welcome back!' and 'if logged_in:' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying syntax and output',
+        expectedOutput: 'Welcome back!',
+        assertionPython: "assert _raw_stdout.strip() == 'Welcome back!'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -170,8 +179,8 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_9_7',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '4. multiple conditions',
     concept: 'trace_branch_path',
     learning_objective: 'Trace which specific branch executes based on input variable values.',
@@ -185,14 +194,15 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: '`x < 10` is False, so Python tests `elif x < 20`, which is True. Therefore `res` becomes `"Medium"`. The `else` block is skipped.',
     hint: 'Evaluate each condition in order.',
+    misconception_tag: 'BOOLEAN_LOGIC_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_9_8',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '2. if/else',
     concept: 'apply_cinema_admission',
     learning_objective: 'Apply if/else logic to gate cinema admission by age.',
@@ -213,19 +223,21 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses if/else conditional check',
         expectedOutput: 'Denied',
-        assertionPython: "assert 'if ' in _user_code and 'else:' in _user_code"
+        assertionPython: "assert 'if ' in _user_code and 'else:' in _user_code",
+        hidden: true
       }
     ],
     explanation: '`17 >= 18` is False, so the program routes directly to the `else` block and prints `"Denied"`.',
     hint: 'if age >= 18:\n    print("Allowed")\nelse:\n    print("Denied")',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 25,
     estimated_time: 60,
     order: 8
   },
   {
     id: 'py_fnd_9_9',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '4. multiple conditions',
     concept: 'debug_multiple_ifs_vs_elif',
     learning_objective: 'Debug an issue where multiple separate if statements execute instead of an elif chain.',
@@ -241,6 +253,13 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints only "Warm" using elif on line 4',
         expectedOutput: 'Warm',
         assertionPython: "assert _raw_stdout.strip() == 'Warm' and 'elif temp >= 10:' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying elif prevents dual prints',
+        expectedOutput: 'Warm',
+        assertionPython: "assert 'Normal' not in _raw_stdout and _raw_stdout.strip() == 'Warm'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -257,8 +276,8 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_9_10',
-    unit: 'unit_01',
-    lesson: '1.9',
+    unit: 'unit_05',
+    lesson: '5.1',
     section: '5. nesting only where appropriate',
     concept: 'predict_nested_conditionals',
     learning_objective: 'Predict execution of a nested if condition.',
@@ -286,12 +305,12 @@ export const LESSON_09_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_09: LessonStructure = {
-  id: '1.9',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'if / elif / else',
-  slug: 'if-elif-else',
-  order: 9,
+  id: '5.1',
+  unitId: 'unit_05',
+  unitTitle: 'Unit 5: Conditional Logic',
+  title: 'The if Statement',
+  slug: 'the-if-statement',
+  order: 1,
   description: 'Master branch decision making, mutally exclusive elif chains, and clean indentation structure.',
   estimatedMinutes: 10,
   xpReward: 30,

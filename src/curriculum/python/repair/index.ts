@@ -11,6 +11,8 @@ import { indentationErrorDrill } from './indentationError';
 import { wrongOperatorDrill } from './wrongOperator';
 import { booleanLogicConfusionDrill } from './booleanLogicConfusion';
 import { wrongTypeDrill } from './wrongType';
+import { offByOneDrill } from './offByOne';
+import { loopExecutionConfusionDrill } from './loopExecutionConfusion';
 
 export * from './types';
 
@@ -26,9 +28,8 @@ export const REPAIR_DRILLS: Record<MisconceptionTag, ConceptRepairDrill> = {
   WRONG_OPERATOR: wrongOperatorDrill,
   BOOLEAN_LOGIC_CONFUSION: booleanLogicConfusionDrill,
   WRONG_TYPE: wrongTypeDrill,
-  // Fallbacks for auxiliary tags
-  OFF_BY_ONE: conditionBoundaryDrill,
-  LOOP_EXECUTION_CONFUSION: conditionBoundaryDrill
+  OFF_BY_ONE: offByOneDrill,
+  LOOP_EXECUTION_CONFUSION: loopExecutionConfusionDrill
 };
 
 export const ALL_REPAIR_DRILLS: ConceptRepairDrill[] = [
@@ -42,7 +43,9 @@ export const ALL_REPAIR_DRILLS: ConceptRepairDrill[] = [
   indentationErrorDrill,
   wrongOperatorDrill,
   booleanLogicConfusionDrill,
-  wrongTypeDrill
+  wrongTypeDrill,
+  offByOneDrill,
+  loopExecutionConfusionDrill
 ];
 
 export const getRepairDrillByTag = (tag: string): ConceptRepairDrill => {

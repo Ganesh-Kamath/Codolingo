@@ -1,600 +1,597 @@
 {
   "lesson_id": "6.6",
   "title": "Loop Control: break and continue",
-  "unit": "Loops and Repetition",
+  "unit": "unit_06",
   "items": [
     {
-      "id": "6.6_q1",
+      "id": "6.6_cand_1",
       "type": "micro_lesson",
-      "concept": "loop_control_break_and_continue_basics",
+      "concept": "break_and_continue_basics",
       "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [],
-      "title": "Recognizing break and continue",
-      "content": "In Python, loops normally run through every item in an iterable. Two keywords let you alter that flow: break and continue. The break keyword immediately terminates the loop entirely, skipping any remaining iterations. The continue keyword skips only the current iteration and moves to the next one. For example, consider a for loop that searches for the first negative number in a list. Using break stops the search as soon as one is found. Using continue would skip printing or processing negative numbers while still checking the rest of the list. Recognizing when a program uses break versus continue is the first step toward controlling repetition precisely.",
+      "title": "Loop Control: break vs. continue",
       "prompt": "",
-      "explanation": "In Python, loops normally run through every item in an iterable. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "explanation": "break completely terminates the innermost loop and resumes execution after the loop block. continue skips the remainder of the current iteration and immediately jumps to the next cycle.",
+      "content": "# Loop Control: break and continue\n\nPython provides two essential statements for fine-grained control over loop flow:\n\n### 1. `break`: The Emergency Exit\nWhen Python encounters `break`, it **instantly terminates** the entire loop, skipping all remaining iterations:\n```python\nfor num in [1, 2, 3, 4, 5]:\n    if num == 3:\n        break     # Stop the entire loop here!\n    print(num)\n# Output:\n# 1\n# 2\n```\n\n### 2. `continue`: The Skip Button\nWhen Python encounters `continue`, it skips the rest of the **current iteration only**, immediately jumping to the next item:\n```python\nfor num in [1, 2, 3, 4, 5]:\n    if num == 3:\n        continue  # Skip just number 3!\n    print(num)\n# Output:\n# 1\n# 2\n# 4\n# 5\n```\n\n### Mental Model Summary\n- **`break`** says: *\"I'm completely done with this loop. Get me out now.\"*\n- **`continue`** says: *\"I'm done with this specific item. Move on to the next one.\"*"
     },
     {
-      "id": "6.6_q2",
+      "id": "6.6_cand_2",
       "type": "multiple_choice",
-      "concept": "loop_control_break_and_continue_basics",
+      "concept": "break_and_continue_basics",
       "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q1"
+      "prompt": "What is the key difference between `break` and `continue` inside a loop?",
+      "options": [
+        "break terminates the entire loop, while continue only skips the rest of the current iteration",
+        "break only works in while loops, while continue only works in for loops",
+        "continue terminates the loop, while break restarts the program",
+        "break deletes the sequence being iterated over"
       ],
-      "prompt": "Which keyword exits a loop immediately, without running any further iterations?",
+      "correct_answer": "break terminates the entire loop, while continue only skips the rest of the current iteration",
+      "explanation": "`break` exits the enclosing loop completely. `continue` skips the lines remaining in the current iteration and advances straight to the next pass.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_3",
+      "type": "code_prediction",
+      "concept": "break_and_continue_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "Predict the printed letters when break interrupts the sequence at \"C\":",
+      "code_snippet": "for letter in [\"A\", \"B\", \"C\", \"D\"]:\n    if letter == \"C\":\n        break\n    print(letter)",
+      "expected_output": "A\nB",
+      "options": [
+        "A\nB",
+        "A\nB\nC",
+        "A\nB\nD",
+        "A\nB\nC\nD"
+      ],
+      "correct_answer": "A\nB",
+      "explanation": "When `letter == \"C\"`, the `break` statement executes before `print(letter)`. The loop terminates immediately, so only \"A\" and \"B\" print.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_4",
+      "type": "code_prediction",
+      "concept": "break_and_continue_flow",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "Predict the printed numbers when continue skips the number 2:",
+      "code_snippet": "for num in [1, 2, 3, 4]:\n    if num == 2:\n        continue\n    print(num)",
+      "expected_output": "1\n3\n4",
+      "options": [
+        "1\n3\n4",
+        "1",
+        "1\n2",
+        "2"
+      ],
+      "correct_answer": "1\n3\n4",
+      "explanation": "When `num == 2`, `continue` executes and skips `print(2)`. The loop proceeds to `3` and `4`, printing 1, 3, 4.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_5",
+      "type": "multiple_choice",
+      "concept": "break_and_continue_scenario",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A bank processes charges `[25, -5, 40, -10, 15]`. To sum only positive charges, skipping negative refunds, which loop construct is appropriate?",
+      "options": [
+        "for amt in amounts:\n    if amt < 0:\n        continue\n    total += amt",
+        "for amt in amounts:\n    if amt < 0:\n        break\n    total += amt",
+        "for amt in amounts:\n    if amt > 0:\n        break\n    total += amt",
+        "for amt in amounts:\n    continue amt\n    total += amt"
+      ],
+      "correct_answer": "for amt in amounts:\n    if amt < 0:\n        continue\n    total += amt",
+      "explanation": "Using `continue` skips only the negative values and processes subsequent positive charges. `break` would stop processing prematurely at the first negative amount.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_6",
+      "type": "multiple_choice",
+      "concept": "break_and_continue_scenario",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A security scanner searches for a virus signature in files `[\"doc1\", \"virus\", \"doc2\", \"doc3\"]`. Once `\"virus\"` is detected, the scan must immediately abort to prevent further contagion. Which statement must execute?",
       "options": [
         "break",
         "continue",
-        "return",
-        "pass"
+        "pass",
+        "return None"
       ],
       "correct_answer": "break",
-      "explanation": "break stops the loop entirely at the point where it appears. continue only skips the rest of the current iteration. return exits a function, and pass does nothing."
+      "explanation": "`break` immediately stops the search loop upon finding the target, preventing any further files from being scanned.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q3",
-      "type": "micro_lesson",
-      "concept": "loop_control_break_and_continue_syntax",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q2"
-      ],
-      "title": "Syntax of break and continue",
-      "content": "Both break and continue are standalone statements inside a loop. They do not require a value or an expression after them. Here is the syntax for each. For a for loop: for item in sequence: if condition: break else: continue. For a while loop: while condition: if condition: break else: continue. The indentation must place break or continue inside the loop body. If you place them outside the loop, Python raises an IndentationError. Because they are simple keywords, you can use them in nested loops as well. In a nested loop, break only affects the innermost loop unless you use additional control structures.",
-      "prompt": "",
-      "explanation": "Both break and continue are standalone statements inside a loop. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "6.6_q4",
+      "id": "6.6_cand_7",
       "type": "multiple_choice",
-      "concept": "loop_control_break_and_continue_syntax",
-      "skill": "reasoning",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q3"
-      ],
-      "prompt": "Given this code, which line causes a syntax error because of incorrect indentation?",
+      "concept": "break_and_continue_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A developer wanted to print all usernames except `\"admin\"`:\n```python\nfor u in [\"guest\", \"admin\", \"alice\", \"bob\"]:\n    if u == \"admin\":\n        break\n    print(u)\n```\nWhy did `\"alice\"` and `\"bob\"` fail to print?",
       "options": [
-        "Line 2: for x in range(3):",
-        "Line 3: if x == 1:",
-        "Line 4: continue",
-        "Line 5: print('done')"
+        "break terminated the loop permanently upon reaching \"admin\", skipping all remaining users; continue should have been used instead",
+        "\"alice\" is a reserved Python keyword",
+        "The loop encountered a SyntaxError on \"admin\"",
+        "print(u) cannot execute after an if block"
       ],
-      "correct_answer": "Line 3: if x == 1:",
-      "explanation": "The if statement must be indented under the for loop. If it is at the same level as the for loop, it is not inside the loop and may cause a logical error or, depending on context, an IndentationError if mixed with other indented blocks. continue must also be indented inside the loop, but the question targets the if statement as the source of a common indentation mistake."
+      "correct_answer": "break terminated the loop permanently upon reaching \"admin\", skipping all remaining users; continue should have been used instead",
+      "explanation": "`break` terminates the entire loop. To skip only `\"admin\"` and continue printing subsequent users, the code should use `continue`.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q5",
+      "id": "6.6_cand_8",
       "type": "multiple_choice",
-      "concept": "loop_control_break_and_continue_matching",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q4"
-      ],
-      "prompt": "Match the keyword to its behavior.",
+      "concept": "break_and_continue_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "Why does this while loop freeze in an infinite loop?\n```python\ni = 0\nwhile i < 5:\n    if i == 2:\n        continue\n    print(i)\n    i += 1\n```",
       "options": [
-        "break: stops the loop entirely; continue: skips to the next iteration",
-        "break: skips to the next iteration; continue: stops the loop entirely",
-        "break: pauses the loop; continue: resumes the loop",
-        "break: repeats the current iteration; continue: ends the program"
+        "When i == 2, continue skips i += 1, so i stays 2 forever on all future iterations",
+        "continue cannot be used inside while loops",
+        "i < 5 evaluates to False when i == 2",
+        "print(i) raises TypeError"
       ],
-      "correct_answer": "break: stops the loop entirely; continue: skips to the next iteration",
-      "explanation": "break terminates the loop immediately. continue abandons only the current iteration and proceeds with the next one."
+      "correct_answer": "When i == 2, continue skips i += 1, so i stays 2 forever on all future iterations",
+      "explanation": "In a `while` loop, if `i += 1` is placed after `continue`, skipping it traps `i` at 2 forever. You must advance the counter before calling `continue` in a while loop.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.6_q6",
+      "id": "6.6_cand_9",
       "type": "multiple_choice",
-      "concept": "loop_control_break_and_continue_pitfalls",
-      "skill": "comprehension",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q5"
-      ],
-      "prompt": "What happens if you place a break statement before any condition check inside a loop that is meant to search for a value?",
+      "concept": "break_and_continue_pitfalls",
+      "skill": "recall",
+      "difficulty": "medium",
+      "prompt": "What happens to any lines of code written directly beneath `break` inside the same conditional block?",
       "options": [
-        "The loop exits immediately on the first iteration",
-        "The loop runs normally and finds the value later",
-        "Python raises a ValueError",
-        "The loop skips only the first iteration"
+        "They are unreachable and will never execute because break immediately exits the loop",
+        "They execute once in background threads",
+        "Python throws a compilation SyntaxError",
+        "They execute after the program finishes"
       ],
-      "correct_answer": "The loop exits immediately on the first iteration",
-      "explanation": "A break statement unconditionally terminates the loop. If it appears before any meaningful condition, the loop will stop during its very first pass, which is a common pitfall when beginners place break in the wrong branch of an if statement."
+      "correct_answer": "They are unreachable and will never execute because break immediately exits the loop",
+      "explanation": "`break` unconditionally exits the loop. Any statements placed directly after it within the same branch are unreachable.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q7",
+      "id": "6.6_cand_10",
       "type": "code_prediction",
-      "concept": "loop_control_break_and_continue_execution",
+      "concept": "break_and_continue_tracing",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q6"
-      ],
-      "prompt": "What will the following code print?\n\n```python\nfor i in range(1, 6):\n    if i == 3:\n        break\n    print(i)\n```",
+      "difficulty": "medium",
+      "prompt": "Trace the accumulated output string when both continue and break are evaluated:",
+      "code_snippet": "output = \"\"\nfor n in [1, 2, 3, 4, 5]:\n    if n == 2:\n        continue\n    if n == 4:\n        break\n    output += str(n)\nprint(output)",
+      "expected_output": "13",
       "options": [
-        "1\n2",
-        "1\n2\n3",
-        "1\n2\n3\n4",
-        "1\n2\n3\n4\n5"
+        "13",
+        "123",
+        "134",
+        "1"
       ],
-      "correct_answer": "1\n2",
-      "explanation": "The loop iterates over 1, 2, 3, 4, 5. When i becomes 3, the break statement exits the loop immediately, so 3 is never printed. Only 1 and 2 are printed."
+      "correct_answer": "13",
+      "explanation": "Pass 1 (n=1): output=\"1\". Pass 2 (n=2): continue skips. Pass 3 (n=3): output=\"13\". Pass 4 (n=4): break terminates the loop. Final output is `\"13\"`.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q8",
-      "type": "output_prediction",
-      "skill": "prediction",
-      "concept": "loop_control_break_and_continue_execution",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q7"
-      ],
-      "prompt": "What will the following code print?\n\n```python\nfor num in [2, 4, 6, 8, 10]:\n    if num == 6:\n        continue\n    print(num)\n```",
-      "options": [
-        "2\n4\n6\n8\n10",
-        "2\n4\n8\n10",
-        "4\n6\n8\n10",
-        "2\n4\n6\n8"
-      ],
-      "correct_answer": "2\n4\n8\n10",
-      "explanation": "When num is 6, continue skips the print statement and moves to the next iteration. The remaining numbers 2, 4, 8, and 10 are printed."
-    },
-    {
-      "id": "6.6_q9",
-      "type": "code_prediction",
-      "skill": "prediction",
-      "concept": "loop_control_break_and_continue_flow",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q8"
-      ],
-      "prompt": "What will the following code print?\n\n```python\nfor x in range(0, 5):\n    if x % 2 == 0:\n        continue\n    if x == 4:\n        break\n    print(x)\n```",
-      "options": [
-        "1\n3",
-        "1\n2\n3",
-        "1\n2\n3\n4",
-        "0\n1\n2\n3"
-      ],
-      "correct_answer": "1\n3",
-      "explanation": "Even numbers 0, 2, 4 trigger continue, skipping them. x = 4 also triggers break before printing. Only odd numbers 1 and 3 are printed."
-    },
-    {
-      "id": "6.6_q10",
-      "type": "multiple_choice",
-      "skill": "analysis",
-      "concept": "loop_control_break_and_continue_analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q9"
-      ],
-      "prompt": "Which statement correctly describes the difference between break and continue inside a for loop?",
-      "options": [
-        "break exits the loop entirely, while continue skips the rest of the current iteration and proceeds to the next one.",
-        "break skips the current iteration, while continue exits the loop entirely.",
-        "break and continue both skip the current iteration, but break is used only in while loops.",
-        "break pauses the loop temporarily, while continue resumes it from the beginning."
-      ],
-      "correct_answer": "break exits the loop entirely, while continue skips the rest of the current iteration and proceeds to the next one.",
-      "explanation": "break terminates the loop immediately, transferring control to the statement after the loop. continue ends only the current iteration, jumping to the loop's update and next condition check."
-    },
-    {
-      "id": "6.6_q11",
-      "type": "code_prediction",
-      "skill": "tracing",
-      "concept": "loop_control_break_and_continue_tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q10"
-      ],
-      "prompt": "What will the following code print?\n\n```python\nfor n in range(1, 8):\n    if n == 5:\n        continue\n    if n > 6:\n        break\n    print(n)\n```",
-      "options": [
-        "1\n2\n3\n4\n5\n6",
-        "1\n2\n3\n4\n6",
-        "1\n2\n3\n4\n5",
-        "1\n2\n3\n4\n6\n7"
-      ],
-      "correct_answer": "1\n2\n3\n4\n6",
-      "explanation": "n = 5 triggers continue, so 5 is skipped. n = 6 is printed. n = 7 triggers break before printing, so the loop ends after 6."
-    },
-    {
-      "id": "6.6_q12",
-      "type": "output_prediction",
-      "skill": "prediction",
-      "concept": "loop_control_break_and_continue_logic",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q11"
-      ],
-      "prompt": "What will the following code print?\n\n```python\nfor i in range(3, 10, 2):\n    if i == 7:\n        break\n    print(i)\n```",
-      "options": [
-        "3\n5\n7",
-        "3\n5",
-        "3\n5\n7\n9",
-        "3\n5\n7\n9\n11"
-      ],
-      "correct_answer": "3\n5",
-      "explanation": "The range generates 3, 5, 7, 9. When i becomes 7, break exits the loop immediately, so 7 and 9 are never printed. Only 3 and 5 appear."
-    },
-    {
-      "id": "6.6_q13",
-      "type": "fill_in_the_blank",
-      "concept": "loop_control_break_and_continue_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q12"
-      ],
-      "prompt": "Complete the code below by filling in the blank so that the loop stops when the number 5 is reached:\n\nfor num in range(1, 10):\n    if num == 5:\n        ____\n    print('num is', num)",
-      "correct_answer": "break",
-      "accepted_answers": [
-        "break"
-      ],
-      "explanation": "The break keyword immediately terminates the loop. When num equals 5, break exits the for loop, so no further numbers are printed."
-    },
-    {
-      "idx": 14,
-      "type": "fill_in_the_blank",
-      "concept": "loop_control_break_and_continue_keywords",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q13"
-      ],
-      "prompt": "Fill in the blank with the correct keyword to skip the rest of the current iteration and move to the next one:\n\nfor item in ['a', 'b', 'c']:\n    if item == 'b':\n        ____\n    print('processing', item)",
-      "correct_answer": "continue",
-      "accepted_answers": [
-        "continue"
-      ],
-      "explanation": "The continue keyword skips the remaining code in the current iteration and proceeds to the next item in the sequence. 'b' is skipped, so only 'a' and 'c' are printed.",
-      "id": "6.6_q14"
-    },
-    {
-      "idx": 15,
-      "type": "code_ordering",
-      "concept": "loop_control_break_and_continue_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q14"
-      ],
-      "prompt": "Arrange the following code lines in the correct order so that the loop prints only odd numbers from 1 to 6, stopping before 6:\n\nLine A: print('odd', n)\nLine B: if n % 2 == 0:\nLine C: if n == 6:\nLine D: break\nLine E: n += 1\nLine F: for n in range(1, 7)",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The for loop must come first. Then check if n equals 6 and break. Next check if n is even and skip. Then print the odd number and increment n.",
-      "id": "6.6_q15"
-    },
-    {
-      "idx": 16,
-      "type": "fill_in_the_blank",
-      "concept": "loop_control_break_and_continue_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q15"
-      ],
-      "prompt": "Complete the while loop pattern. The loop should stop when the score reaches 100 or more, but it must skip scores below 50:\n\nscore = 0\nwhile score < 200:\n    if score < 50:\n        ____\n    if score >= 100:\n        break\n    score += 10",
-      "correct_answer": "continue",
-      "accepted_answers": [
-        "continue"
-      ],
-      "explanation": "When score is below 50, continue skips the break check and the increment, moving to the next iteration. This ensures only scores from 50 to 99 are considered before breaking at 100 or above.",
-      "id": "6.6_q16"
-    },
-    {
-      "idx": 17,
-      "type": "code_ordering",
-      "concept": "loop_control_break_and_continue_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q16"
-      ],
-      "prompt": "Order the lines to build an algorithm that finds the first prime number greater than 10, skipping even numbers:\n\nLine A: if n % 2 == 0:\nLine B: if is_prime(n):\nLine C: print('found', n)\nLine D: n += 2\nLine E: break\nLine F: n = 11",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "Start at 11, skip even numbers with continue (via A and D), check primality, print and break when found. The break exits after printing the first prime.",
-      "id": "6.6_q17"
-    },
-    {
-      "idx": 18,
-      "type": "fill_in_the_blank",
-      "concept": "loop_control_break_and_continue_idioms",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q17"
-      ],
-      "prompt": "Complete the common idiom for searching a list and stopping at the first match:\n\ndef find_target(data, target):\n    for item in data:\n        if item == target:\n            ____\n    return None",
-      "correct_answer": "return item",
-      "accepted_answers": [
-        "return item",
-        "return item",
-        "return item"
-      ],
-      "explanation": "Although not a loop control keyword, returning inside the loop acts like break by exiting the function immediately when the target is found. This is a standard search idiom.",
-      "id": "6.6_q18"
-    },
-    {
-      "id": "6.6_q19",
+      "id": "6.6_cand_11",
       "type": "fix_the_code",
-      "concept": "loop_control_break_and_continue_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q18"
-      ],
-      "micro_lesson": {
-        "title": "Identifying Common Mistakes with break and continue",
-        "content": "When using `break`, it immediately terminates the innermost loop, skipping any remaining iterations and any code after the loop block. A frequent error is placing `break` inside a condition that never becomes true, causing the loop to run indefinitely or exit too early. With `continue`, execution jumps to the next iteration, bypassing the rest of the current loop body. A common bug is using `continue` in the final iteration, which may skip necessary cleanup or final calculations. Always trace loop indices and conditions to verify that `break` and `continue` trigger exactly when intended."
-      },
-      "prompt": "Fix the bug in this code for loop control break and continue errors:",
-      "starter_code": "# Fix this code\nPrint('Loop Control: break and continue')",
-      "solution_code": "print('Loop Control: break and continue')",
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
-    },
-    {
-      "id": "6.6_q20",
-      "type": "fix_the_code",
-      "concept": "loop_control_break_and_continue_fix",
+      "concept": "break_and_continue_fix",
       "skill": "debugging",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.6_q19"
+      "prompt": "A security system looks for `\"ALERT\"`. Once found, it should stop immediately. The code uses `continue` instead of `break`, scanning unnecessary items. Replace `continue` with `break`.",
+      "starter_code": "for event in [\"ok\", \"ALERT\", \"ok\", \"ok\"]:\n    if event == \"ALERT\":\n        print(\"Threat detected!\")\n        continue",
+      "solution_code": "for event in [\"ok\", \"ALERT\", \"ok\", \"ok\"]:\n    if event == \"ALERT\":\n        print(\"Threat detected!\")\n        break",
+      "expected_output": "Threat detected!",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Threat detected! and terminates",
+          "expectedOutput": "Threat detected!",
+          "assertionPython": "assert _raw_stdout.strip() == 'Threat detected!' and 'break' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies loop stopped at ALERT",
+          "expectedOutput": "Threat detected!",
+          "assertionPython": "assert _user_namespace.get('event') == 'ALERT'",
+          "hidden": true
+        }
       ],
-      "prompt": "The code below is supposed to print only even numbers from 1 to 10, but it prints all numbers. Fix the code.",
-      "starter_code": "numbers = list(range(1, 11))\nfor n in numbers:\n    if n % 2 == 0:\n        print(n)\n    else:\n        break",
-      "solution_code": "numbers = list(range(1, 11))\nfor n in numbers:\n    if n % 2 == 0:\n        print(n)\n    else:\n        continue",
-      "hint": "Think about whether the loop should stop when it sees an odd number or skip it and keep going.",
-      "explanation": "The original code used `break`, which stops the loop entirely when the first odd number (1) is encountered. Replacing `break` with `continue` skips the odd numbers and allows the loop to proceed to the next iteration, printing only the even numbers."
+      "explanation": "`break` stops the loop immediately upon encountering `\"ALERT\"`.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q21",
+      "id": "6.6_cand_12",
       "type": "fix_the_code",
-      "concept": "loop_control_break_and_continue_edge_cases",
+      "concept": "break_and_continue_fix",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q20"
+      "prompt": "The while loop below freezes because when `i == 2`, `continue` skips `i += 1`. Fix it by incrementing `i += 1` inside the `if i == 2:` block before calling `continue`.",
+      "starter_code": "i = 0\nwhile i < 4:\n    if i == 2:\n        continue\n    print(i)\n    i += 1",
+      "solution_code": "i = 0\nwhile i < 4:\n    if i == 2:\n        i += 1\n        continue\n    print(i)\n    i += 1",
+      "expected_output": "0\n1\n3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 0, 1, 3 without freezing",
+          "expectedOutput": "0\n1\n3",
+          "assertionPython": "assert _raw_stdout.strip() == '0\\n1\\n3'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies final i is 4",
+          "expectedOutput": "0\n1\n3",
+          "assertionPython": "assert _user_namespace.get('i') == 4",
+          "hidden": true
+        }
       ],
-      "prompt": "The code below attempts to find the first positive number in a list, but it fails when the list contains only negative numbers or is empty. Fix the code so it handles these edge cases correctly.",
-      "starter_code": "values = [-5, -2, -9]\nfound = None\nfor v in values:\n    if v > 0:\n        found = v\n        break\nprint(found)",
-      "solution_code": "values = [-5, -2, -9]\nfound = None\nfor v in values:\n    if v > 0:\n        found = v\n        break\nif found is None:\n    print('No positive number found')\nelse:\n    print(found)",
-      "hint": "Consider what happens when the loop finishes without finding a positive number. The variable `found` will remain `None`.",
-      "explanation": "The original code printed `None` without explanation when no positive number existed. The fixed version checks if `found` is still `None` after the loop and prints a clear message, making the behavior explicit for edge cases."
+      "explanation": "Advancing `i += 1` before `continue` ensures `i` becomes 3, avoiding the infinite loop trap.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.6_q22",
+      "id": "6.6_cand_13",
       "type": "fix_the_code",
-      "concept": "loop_control_break_and_continue_runtime",
+      "concept": "break_and_continue_logic_repair",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "The program below mistakenly uses `break` when encountering a negative temperature, stopping the entire forecast. Change `break` to `continue` so it only skips negative values.",
+      "starter_code": "for t in [70, -5, 82, 75]:\n    if t < 0:\n        break\n    print(f\"Temp: {t}\")",
+      "solution_code": "for t in [70, -5, 82, 75]:\n    if t < 0:\n        continue\n    print(f\"Temp: {t}\")",
+      "expected_output": "Temp: 70\nTemp: 82\nTemp: 75",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Temp: 70, 82, 75",
+          "expectedOutput": "Temp: 70\nTemp: 82\nTemp: 75",
+          "assertionPython": "assert _raw_stdout.strip() == 'Temp: 70\\nTemp: 82\\nTemp: 75' and 'continue' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies final t is 75",
+          "expectedOutput": "Temp: 70\nTemp: 82\nTemp: 75",
+          "assertionPython": "assert _user_namespace.get('t') == 75",
+          "hidden": true
+        }
+      ],
+      "explanation": "Using `continue` skips the -5 reading without aborting subsequent valid temperatures (82 and 75).",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_14",
+      "type": "fix_the_code",
+      "concept": "break_and_continue_logic_repair",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q21"
+      "prompt": "An order total cap stops taking orders once accumulated total reaches or exceeds 50. The condition currently uses `total == 50`, which fails to trigger if total jumps past 50. Change the check to `if total >= 50: break`.",
+      "starter_code": "total = 0\nfor price in [20, 25, 30, 10]:\n    total += price\n    if total == 50:\n        break\nprint(f\"Capped total: {total}\")",
+      "solution_code": "total = 0\nfor price in [20, 25, 30, 10]:\n    total += price\n    if total >= 50:\n        break\nprint(f\"Capped total: {total}\")",
+      "expected_output": "Capped total: 75",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Capped total: 75 when sum crosses 50",
+          "expectedOutput": "Capped total: 75",
+          "assertionPython": "assert _raw_stdout.strip() == 'Capped total: 75' and 'total >= 50' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Checks break statement used",
+          "expectedOutput": "Capped total: 75",
+          "assertionPython": "assert 'break' in _user_code",
+          "hidden": true
+        }
       ],
-      "micro_lesson": {
-        "title": "Runtime Errors with break and continue",
-        "content": "A `RuntimeError` or `IndentationError` can occur when `break` or `continue` is placed outside a loop or at the wrong indentation level. Another runtime issue is using `continue` in a `while` loop without updating the loop variable, leading to an infinite loop. Similarly, `break` inside a nested loop only exits the innermost loop, which may be unintended if the programmer expected to exit all loops. Always verify indentation and loop variable updates to avoid runtime surprises."
-      },
-      "prompt": "Fix the bug in this code for loop control break and continue runtime:",
-      "starter_code": "# Fix this code\nPrint('Loop Control: break and continue')",
-      "solution_code": "print('Loop Control: break and continue')",
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+      "explanation": "Because 20 + 25 + 30 = 75, `total == 50` is never True. Using `>= 50` catches any total meeting or exceeding the threshold.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.6_q23",
+      "id": "6.6_cand_15",
       "type": "fix_the_code",
-      "concept": "loop_control_break_and_continue_logic_repair",
+      "concept": "break_and_continue_fix",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q22"
+      "prompt": "The `while True:` loop below counts steps but has no `break` statement, making it an infinite loop. Add `break` inside the `if steps == 3:` block.",
+      "starter_code": "steps = 0\nwhile steps < 100:\n    steps += 1\n    print(f\"Step {steps}\")\n    if steps == 3:\n        # Add break here\n        pass\nprint(\"Done\")",
+      "solution_code": "steps = 0\nwhile steps < 100:\n    steps += 1\n    print(f\"Step {steps}\")\n    if steps == 3:\n        break\nprint(\"Done\")",
+      "expected_output": "Step 1\nStep 2\nStep 3\nDone",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Step 1, 2, 3 and Done",
+          "expectedOutput": "Step 1\nStep 2\nStep 3\nDone",
+          "assertionPython": "assert _raw_stdout.strip() == 'Step 1\\nStep 2\\nStep 3\\nDone' and 'break' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies steps equals 3",
+          "expectedOutput": "Step 1\nStep 2\nStep 3\nDone",
+          "assertionPython": "assert _user_namespace.get('steps') == 3",
+          "hidden": true
+        }
       ],
-      "prompt": "The code below is meant to sum all numbers from 1 to 20, but skip any number divisible by 3. The current logic produces an incorrect total. Fix the code.",
-      "starter_code": "total = 0\nfor i in range(1, 21):\n    if i % 3 == 0:\n        total += i\n    else:\n        continue\nprint(total)",
-      "solution_code": "total = 0\nfor i in range(1, 21):\n    if i % 3 == 0:\n        continue\n    total += i\nprint(total)",
-      "hint": "Review which branch should add to the total and which should skip the current iteration.",
-      "explanation": "The original code added numbers divisible by 3 to `total` and used `continue` for all other numbers, effectively summing only multiples of 3. The fix moves `total += i` before the `continue` and skips only multiples of 3, yielding the correct sum of numbers from 1 to 20 excluding those divisible by 3."
+      "explanation": "`while True:` loops require an explicit `break` statement to terminate.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q24",
+      "id": "6.6_cand_16",
       "type": "fix_the_code",
-      "concept": "loop_control_break_and_continue_optimization",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.6_q23"
-      ],
-      "prompt": "Refactor the following nested loop to use a single loop with early termination (`break`) and skipping logic (`continue`) to improve readability and performance. The goal is to print all pairs (i, j) where i ranges from 0 to 4 and j ranges from 0 to 4, but only when i is even and j is odd.",
-      "starter_code": "for i in range(5):\n    for j in range(5):\n        if i % 2 != 0:\n            continue\n        if j % 2 == 0:\n            continue\n        print(i, j)",
-      "solution_code": "for i in range(5):\n    if i % 2 != 0:\n        continue\n    for j in range(5):\n        if j % 2 == 0:\n            continue\n        print(i, j)",
+      "concept": "break_and_continue_syntax",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "Fix the typo in the keyword `continew` on line 3 so that odd numbers are skipped cleanly.",
+      "starter_code": "for x in [1, 2, 3, 4]:\n    if x % 2 != 0:\n        continew\n    print(x)",
+      "solution_code": "for x in [1, 2, 3, 4]:\n    if x % 2 != 0:\n        continue\n    print(x)",
+      "expected_output": "2\n4",
       "test_cases": [
         {
-          "input": "None",
-          "expected_output": "0 1\n0 3\n2 1\n2 3\n4 1\n4 3"
+          "id": "tc_1",
+          "description": "Outputs 2 and 4",
+          "expectedOutput": "2\n4",
+          "assertionPython": "assert _raw_stdout.strip() == '2\\n4' and 'continue' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies x reaches 4",
+          "expectedOutput": "2\n4",
+          "assertionPython": "assert _user_namespace.get('x') == 4",
+          "hidden": true
         }
       ],
-      "hint": "Think about whether the inner loop can be restructured or if early checks on the outer loop variable can reduce unnecessary iterations.",
-      "explanation": "The original code used two `continue` statements inside a nested loop. While functionally correct, the refactored version preserves the same logic but improves readability by placing the outer-loop condition first. For this specific problem, a single-loop optimization is not possible because both dimensions are needed, but the refactored structure makes the control flow clearer and maintains O(n^2) behavior with minimal overhead."
+      "explanation": "The Python keyword is spelled `continue`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
-      "id": "6.6_q25",
+      "id": "6.6_cand_17",
       "type": "write_the_code",
-      "concept": "loop_control_break_and_continue_implementation",
-      "skill": "application",
+      "concept": "break_and_continue_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Given `scores = [10, -5, 20, -1, 30]`, initialize `total = 0`. In a `for s in scores:` loop, if `s < 0`, skip it with `continue`. Otherwise, add `s` to `total`. Print `Valid total: {total}`.",
+      "starter_code": "scores = [10, -5, 20, -1, 30]\ntotal = 0\n# Loop over scores, skip negatives with continue, accumulate total\n",
+      "solution_code": "scores = [10, -5, 20, -1, 30]\ntotal = 0\nfor s in scores:\n    if s < 0:\n        continue\n    total += s\nprint(f\"Valid total: {total}\")",
+      "expected_output": "Valid total: 60",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Valid total: 60 (10 + 20 + 30)",
+          "expectedOutput": "Valid total: 60",
+          "assertionPython": "assert _raw_stdout.strip() == 'Valid total: 60' and _user_namespace.get('total') == 60 and 'continue' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies continue statement used",
+          "expectedOutput": "Valid total: 60",
+          "assertionPython": "assert 'continue' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`continue` skips `-5` and `-1`, adding only 10, 20, and 30 to reach 60.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_18",
+      "type": "write_the_code",
+      "concept": "break_and_continue_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Given `commands = [\"start\", \"run\", \"STOP\", \"restart\"]`. Write a `for cmd in commands:` loop that prints each command. If `cmd == \"STOP\"`, break immediately after printing it.",
+      "starter_code": "commands = [\"start\", \"run\", \"STOP\", \"restart\"]\n# Print commands, break after printing \"STOP\"\n",
+      "solution_code": "commands = [\"start\", \"run\", \"STOP\", \"restart\"]\nfor cmd in commands:\n    print(cmd)\n    if cmd == \"STOP\":\n        break",
+      "expected_output": "start\nrun\nSTOP",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs start, run, STOP and terminates",
+          "expectedOutput": "start\nrun\nSTOP",
+          "assertionPython": "assert _raw_stdout.strip() == 'start\\nrun\\nSTOP' and 'break' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies restart was never printed",
+          "expectedOutput": "start\nrun\nSTOP",
+          "assertionPython": "assert 'restart' not in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Printing before the break allows `\"STOP\"` to be displayed, while `\"restart\"` is safely omitted.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.6_cand_19",
+      "type": "write_the_code",
+      "concept": "break_and_continue_patterns",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q24"
-      ],
-      "prompt": "Write a Python program that prints numbers from 1 to 10. If the number is 5, skip it using 'continue'. If the number is 7, stop the loop entirely using 'break'.",
-      "starter_code": "for num in range(1, 11):\n    if num == 5:\n        continue\n    if num == 7:\n        break\n    print(num)",
-      "solution_code": "for num in range(1, 11):\n    if num == 5:\n        continue\n    if num == 7:\n        break\n    print(num)",
+      "prompt": "Write a `while True:` loop that increments `battery = 0` by 25 on each iteration (`battery += 25`) and prints `Battery: {battery}%`. If `battery >= 100`, break out of the loop.",
+      "starter_code": "battery = 0\n# Use while True: to increment battery by 25, print, and break when >= 100\n",
+      "solution_code": "battery = 0\nwhile True:\n    battery += 25\n    print(f\"Battery: {battery}%\")\n    if battery >= 100:\n        break",
+      "expected_output": "Battery: 25%\nBattery: 50%\nBattery: 75%\nBattery: 100%",
       "test_cases": [
         {
-          "input": "",
-          "expected": "1\n2\n3\n4\n6\n"
+          "id": "tc_1",
+          "description": "Prints 25%, 50%, 75%, 100% and breaks",
+          "expectedOutput": "Battery: 25%\nBattery: 50%\nBattery: 75%\nBattery: 100%",
+          "assertionPython": "assert _raw_stdout.strip() == 'Battery: 25%\\nBattery: 50%\\nBattery: 75%\\nBattery: 100%' and 'while True:' in _user_code and 'break' in _user_code"
         },
         {
-          "input": "",
-          "expected": "No output for 5, loop terminates after 6."
+          "id": "tc_2",
+          "description": "Final battery is 100",
+          "expectedOutput": "Battery: 25%\nBattery: 50%\nBattery: 75%\nBattery: 100%",
+          "assertionPython": "assert _user_namespace.get('battery') == 100",
+          "hidden": true
         }
       ],
-      "hint": "Use 'continue' to skip the current iteration and 'break' to exit the loop immediately.",
-      "explanation": "The 'continue' statement skips the rest of the current iteration when num is 5, so 5 is not printed. The 'break' statement exits the loop entirely when num is 7, so no numbers after 7 are processed."
+      "explanation": "The `while True:` loop advances by 25 and breaks cleanly once battery reaches 100.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.6_q26",
+      "id": "6.6_cand_20",
       "type": "write_the_code",
-      "concept": "loop_control_break_and_continue_practical",
-      "skill": "application",
+      "concept": "break_and_continue_patterns",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.6_q25"
-      ],
-      "prompt": "Write a program that asks the user to enter numbers until they enter 0. Use 'continue' to skip any negative numbers and 'break' to stop when 0 is entered.",
-      "starter_code": "while True:\n    value = int(input('Enter a number: '))\n    if value == 0:\n        break\n    if value < 0:\n        continue\n    print(f'Positive number: {value}')",
-      "solution_code": "while True:\n    value = int(input('Enter a number: '))\n    if value == 0:\n        break\n    if value < 0:\n        continue\n    print(f'Positive number: {value}')",
+      "prompt": "Given lines `lines = [\"Title\", \"\", \"Chapter 1\", \"\"]`, write a loop that skips empty strings (`if line == \"\": continue`) and prints non-empty lines with a bullet: `- {line}`.",
+      "starter_code": "lines = [\"Title\", \"\", \"Chapter 1\", \"\"]\n# Skip empty strings and print bullet points\n",
+      "solution_code": "lines = [\"Title\", \"\", \"Chapter 1\", \"\"]\nfor line in lines:\n    if line == \"\":\n        continue\n    print(f\"- {line}\")",
+      "expected_output": "- Title\n- Chapter 1",
       "test_cases": [
         {
-          "input": "5\n-3\n0\n",
-          "expected": "Positive number: 5\n"
+          "id": "tc_1",
+          "description": "Outputs - Title and - Chapter 1",
+          "expectedOutput": "- Title\n- Chapter 1",
+          "assertionPython": "assert _raw_stdout.strip() == '- Title\\n- Chapter 1' and 'continue' in _user_code"
         },
         {
-          "input": "-1\n2\n0\n",
-          "expected": "Positive number: 2\n"
+          "id": "tc_2",
+          "description": "Checks continue was used to filter",
+          "expectedOutput": "- Title\n- Chapter 1",
+          "assertionPython": "assert 'continue' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Validate the input first; check for 0 to break, then check for negativity to continue.",
-      "explanation": "The loop runs indefinitely until 0 is entered, which triggers 'break'. Negative inputs trigger 'continue', skipping the print statement and moving to the next iteration."
+      "explanation": "`continue` ignores blank lines and formats only valid chapter titles.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q27",
+      "id": "6.6_cand_21",
       "type": "write_the_code",
-      "concept": "loop_control_break_and_continue_advanced",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.6_q26"
-      ],
-      "prompt": "Write a program that searches a list of integers for the first even number greater than 20. Use 'continue' to skip numbers that are odd or not greater than 20, and 'break' once the target is found.",
-      "starter_code": "numbers = [12, 25, 30, 15, 22, 8]\nfor n in numbers:\n    if n % 2 != 0:\n        continue\n    if n <= 20:\n        continue\n    print('Found:', n)\n    break",
-      "solution_code": "numbers = [12, 25, 30, 15, 22, 8]\nfor n in numbers:\n    if n % 2 != 0:\n        continue\n    if n <= 20:\n        continue\n    print('Found:', n)\n    break",
+      "concept": "break_and_continue_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given `items = [\"pen\", \"notebook\", \"eraser\", \"ruler\"]`. Find the index of `\"eraser\"`. Initialize `found_index = -1`. Use a `for i in range(len(items)):` loop. When `items[i] == \"eraser\"`, set `found_index = i` and `break`. Print `Found at: {found_index}`.",
+      "starter_code": "items = [\"pen\", \"notebook\", \"eraser\", \"ruler\"]\nfound_index = -1\n# Find index of \"eraser\" and break\n",
+      "solution_code": "items = [\"pen\", \"notebook\", \"eraser\", \"ruler\"]\nfound_index = -1\nfor i in range(len(items)):\n    if items[i] == \"eraser\":\n        found_index = i\n        break\nprint(f\"Found at: {found_index}\")",
+      "expected_output": "Found at: 2",
       "test_cases": [
         {
-          "input": "",
-          "expected": "Found: 30\n"
+          "id": "tc_1",
+          "description": "Finds eraser at index 2",
+          "expectedOutput": "Found at: 2",
+          "assertionPython": "assert _raw_stdout.strip() == 'Found at: 2' and _user_namespace.get('found_index') == 2 and 'break' in _user_code"
         },
         {
-          "input": "",
-          "expected": "No output if no such number exists."
+          "id": "tc_2",
+          "description": "Ensures break executed",
+          "expectedOutput": "Found at: 2",
+          "assertionPython": "assert 'break' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Combine multiple conditions with 'continue'; use 'break' only after printing the valid result.",
-      "explanation": "The loop skips odd numbers and numbers <= 20 using 'continue'. When 30 is encountered, it satisfies both conditions, is printed, and 'break' exits the loop."
+      "explanation": "Linear search locates `\"eraser\"` at index 2 and breaks immediately, avoiding scanning the remainder of the list.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q28",
+      "id": "6.6_cand_22",
       "type": "write_the_code",
-      "concept": "loop_control_break_and_continue_challenge",
-      "skill": "problem_solving",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.6_q27"
-      ],
-      "prompt": "You are given a list of temperatures. Write a function that returns the first temperature above 100. Skip temperatures below 0 using 'continue' and stop searching once a value above 100 is found using 'break'.",
-      "starter_code": "def find_extreme(temps):\n    for t in temps:\n        if t < 0:\n            continue\n        if t > 100:\n            return t\n    return None\n\ntemps = [-5, 101, 50, 99, 150]",
-      "solution_code": "def find_extreme(temps):\n    for t in temps:\n        if t < 0:\n            continue\n        if t > 100:\n            return t\n    return None\n\ntemps = [-5, 101, 50, 99, 150]\nprint(find_extreme(temps))",
+      "concept": "break_and_continue_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Iterate from 1 to 5 using `range(1, 6)`. If a number is divisible by 3 (`n % 3 == 0`), skip it using `continue`. Otherwise, print `n`.",
+      "starter_code": "# Loop over range(1, 6), skip multiples of 3, print others\n",
+      "solution_code": "for n in range(1, 6):\n    if n % 3 == 0:\n        continue\n    print(n)",
+      "expected_output": "1\n2\n4\n5",
       "test_cases": [
         {
-          "input": "",
-          "expected": "101\n"
+          "id": "tc_1",
+          "description": "Outputs 1, 2, 4, 5 (skipping 3)",
+          "expectedOutput": "1\n2\n4\n5",
+          "assertionPython": "assert _raw_stdout.strip() == '1\\n2\\n4\\n5' and 'continue' in _user_code"
         },
         {
-          "input": "",
-          "expected": "None if no value exceeds 100."
+          "id": "tc_2",
+          "description": "Checks continue keyword used",
+          "expectedOutput": "1\n2\n4\n5",
+          "assertionPython": "assert 'continue' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Ensure 'break' is not needed because 'return' already exits the function; if using a loop without return, use 'break' to exit and store the result.",
-      "explanation": "Negative temperatures are skipped with 'continue'. The first temperature above 100 (101) is returned immediately. The function exits, so 'break' is unnecessary here."
+      "explanation": "When `n == 3`, `3 % 3 == 0` is True, so `continue` skips 3 and proceeds to 4 and 5.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q29",
+      "id": "6.6_cand_23",
       "type": "write_the_code",
-      "concept": "loop_control_break_and_continue_scenario",
+      "concept": "break_and_continue_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A shopper has a budget limit of $50. Given `cart = [15, 20, 25, 10]`, add prices into `spent = 0`. Before adding an item, check if `spent + item > 50`: if so, `break`. Otherwise, add it. Print `Total spent: ${spent}`.",
+      "starter_code": "cart = [15, 20, 25, 10]\nspent = 0\n# Add items unless spent + item exceeds 50\n",
+      "solution_code": "cart = [15, 20, 25, 10]\nspent = 0\nfor item in cart:\n    if spent + item > 50:\n        break\n    spent += item\nprint(f\"Total spent: ${spent}\")",
+      "expected_output": "Total spent: $35",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Total spent: $35 (15 + 20 = 35; next item 25 exceeds 50)",
+          "expectedOutput": "Total spent: $35",
+          "assertionPython": "assert _raw_stdout.strip() == 'Total spent: $35' and _user_namespace.get('spent') == 35 and 'break' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies budget guard condition",
+          "expectedOutput": "Total spent: $35",
+          "assertionPython": "assert 'spent + item > 50' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "15 + 20 = 35. The next item ($25) would make total 60 (> 50), so the loop breaks immediately, keeping spending at $35.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.6_cand_24",
+      "type": "write_the_code",
+      "concept": "break_and_continue_challenge",
       "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.6_q28"
-      ],
-      "prompt": "A security system scans a list of IP addresses. It must skip private IPs (starting with '192.168' or '10.') using 'continue', and immediately alert and stop scanning if a known malicious IP '203.0.113.5' is found using 'break'. Write the scanning logic.",
-      "starter_code": "ips = ['10.0.0.1', '8.8.8.8', '192.168.1.1', '203.0.113.5', '1.1.1.1']\nfor ip in ips:\n    if ip.startswith('192.168') or ip.startswith('10.'):\n        continue\n    if ip == '203.0.113.5':\n        print('ALERT: Malicious IP detected')\n        break\n    print(f'Scanning {ip}')",
-      "solution_code": "ips = ['10.0.0.1', '8.8.8.8', '192.168.1.1', '203.0.113.5', '1.1.1.1']\nfor ip in ips:\n    if ip.startswith('192.168') or ip.startswith('10.'):\n        continue\n    if ip == '203.0.113.5':\n        print('ALERT: Malicious IP detected')\n        break\n    print(f'Scanning {ip}')",
+      "prompt": "Find the smallest divisor of 35 greater than 1. Initialize `divisor = -1`. In a `for d in range(2, 36):` loop, if `35 % d == 0`, set `divisor = d` and `break`. Print `Smallest divisor: {divisor}`.",
+      "starter_code": "divisor = -1\n# Use range(2, 36) to find first divisor of 35 and break\n",
+      "solution_code": "divisor = -1\nfor d in range(2, 36):\n    if 35 % d == 0:\n        divisor = d\n        break\nprint(f\"Smallest divisor: {divisor}\")",
+      "expected_output": "Smallest divisor: 5",
       "test_cases": [
         {
-          "input": "",
-          "expected": "Scanning 8.8.8.8\nALERT: Malicious IP detected\n"
+          "id": "tc_1",
+          "description": "Outputs Smallest divisor: 5",
+          "expectedOutput": "Smallest divisor: 5",
+          "assertionPython": "assert _raw_stdout.strip() == 'Smallest divisor: 5' and _user_namespace.get('divisor') == 5 and 'break' in _user_code"
         },
         {
-          "input": "",
-          "expected": "No output for private IPs; loop terminates on malicious IP."
+          "id": "tc_2",
+          "description": "Verifies loop broke at 5",
+          "expectedOutput": "Smallest divisor: 5",
+          "assertionPython": "assert _user_namespace.get('d') == 5",
+          "hidden": true
         }
       ],
-      "hint": "Use string methods to identify private ranges; 'continue' filters them out, and 'break' halts on the critical threat.",
-      "explanation": "Private IPs are skipped with 'continue'. When the malicious IP is encountered, the alert is printed and 'break' stops further scanning, ensuring a rapid security response."
+      "explanation": "Testing numbers starting at 2: 2, 3, 4 are not factors. At 5, `35 % 5 == 0`, so it records 5 and breaks immediately.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.6_q30",
+      "id": "6.6_cand_25",
       "type": "write_the_code",
-      "concept": "loop_control_break_and_continue_mastery",
-      "skill": "mastery",
+      "concept": "break_and_continue_mastery",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.6_q29"
-      ],
-      "prompt": "Write a program that reads a sequence of integers from the user. Skip any duplicate values using 'continue', and stop reading as soon as the sum of unique values exceeds 50 using 'break'. Print the final sum and the count of unique values processed.",
-      "starter_code": "unique = []\ntotal = 0\nwhile True:\n    try:\n        val = int(input('Enter a number (or Ctrl+D to stop): '))\n    except:\n        break\n    if val in unique:\n        continue\n    unique.append(val)\n    total += val\n    if total > 50:\n        break\nprint(f'Sum: {total}, Unique count: {len(unique)}')",
-      "solution_code": "unique = []\ntotal = 0\nwhile True:\n    try:\n        val = int(input('Enter a number (or Ctrl+D to stop): '))\n    except:\n        break\n    if val in unique:\n        continue\n    unique.append(val)\n    total += val\n    if total > 50:\n        break\nprint(f'Sum: {total}, Unique count: {len(unique)}')",
+      "prompt": "A customer applies discount coupons `[10, 15, 20, 25]` towards purchases. The maximum discount allowance is $40. For each coupon, if `applied + coupon > 40`, `break`. Otherwise, add it to `applied` and increment `coupons_used += 1` (starting at 0). Print `Discounts: ${applied} across {coupons_used} coupons`.",
+      "starter_code": "coupons = [10, 15, 20, 25]\napplied = 0\ncoupons_used = 0\n# Apply coupons up to $40 limit\n",
+      "solution_code": "coupons = [10, 15, 20, 25]\napplied = 0\ncoupons_used = 0\nfor c in coupons:\n    if applied + c > 40:\n        break\n    applied += c\n    coupons_used += 1\nprint(f\"Discounts: ${applied} across {coupons_used} coupons\")",
+      "expected_output": "Discounts: $25 across 2 coupons",
       "test_cases": [
         {
-          "input": "10\n20\n15\n5\n10\n5\n30\n",
-          "expected": "Sum: 80, Unique count: 5\n"
+          "id": "tc_1",
+          "description": "Applies 10 + 15 = $25 across 2 coupons (next coupon 20 would exceed 40)",
+          "expectedOutput": "Discounts: $25 across 2 coupons",
+          "assertionPython": "assert _raw_stdout.strip() == 'Discounts: $25 across 2 coupons' and _user_namespace.get('applied') == 25 and _user_namespace.get('coupons_used') == 2 and 'break' in _user_code"
         },
         {
-          "input": "25\n30\n",
-          "expected": "Sum: 55, Unique count: 2\n"
+          "id": "tc_2",
+          "description": "Checks break statement utilized",
+          "expectedOutput": "Discounts: $25 across 2 coupons",
+          "assertionPython": "assert 'break' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Maintain a list of seen values to detect duplicates; update the running total and check the threshold after each unique addition.",
-      "explanation": "Duplicates trigger 'continue', preventing them from affecting the sum or count. Once the cumulative total exceeds 50, 'break' exits the loop, preserving only the unique values processed up to that point."
+      "explanation": "Coupon 1 ($10): applied=10. Coupon 2 ($15): applied=25. Coupon 3 ($20): 25+20=45 (>40), so the loop breaks. Total: $25 across 2 coupons.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 6,
-  "learning_objectives": [
-    "Construct iterative loops using Loop Control: break and continue with proper loop bounds",
-    "Trace variable mutation across loop iterations",
-    "Prevent and debug infinite loop execution bugs",
-    "Apply loop control statements (break and continue) to control execution flow"
-  ],
-  "prerequisites": [
-    "6.5"
   ]
 }

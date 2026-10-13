@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_5_1',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '2. Input as text',
     concept: 'input_return_type',
     learning_objective: 'Recognize that the input() function always returns a string.',
@@ -27,8 +27,8 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_5_2',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '2. Input as text',
     concept: 'predict_string_addition_confusion',
     learning_objective: 'Predict output when two string numbers are added with +.',
@@ -56,8 +56,8 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_5_3',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '1. input()',
     concept: 'input_function_syntax',
     learning_objective: 'Complete the statement to prompt the user for input.',
@@ -76,8 +76,8 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_5_4',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '5. Converting input',
     concept: 'reason_input_arithmetic_failure',
     learning_objective: 'Explain why adding a number directly to input() causes an error.',
@@ -100,8 +100,8 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_5_5',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '4. Printing input',
     concept: 'write_greeting_program',
     learning_objective: 'Write a program that takes a variable, stores simulated input, and formats an output greeting.',
@@ -122,19 +122,21 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Variable city equals Tokyo',
         expectedOutput: 'Destination: Tokyo',
-        assertionPython: "assert _user_namespace.get('city') == 'Tokyo'"
+        assertionPython: "assert _user_namespace.get('city') == 'Tokyo'",
+        hidden: true
       }
     ],
     explanation: 'Setting `city = "Tokyo"` and printing `"Destination: " + city` combines the label with the variable.',
     hint: 'city = "Tokyo"\nprint("Destination: " + city)',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_5_6',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '5. Converting input',
     concept: 'debug_string_concatenation_in_math',
     learning_objective: 'Debug string concatenation when mathematical addition was intended.',
@@ -150,6 +152,13 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints mathematical sum 30 using int() conversion',
         expectedOutput: '30',
         assertionPython: "assert _raw_stdout.strip() == '30' and 'int(' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying int conversion and sum',
+        expectedOutput: '30',
+        assertionPython: "assert _user_namespace.get('total') == 30 and _raw_stdout.strip() == '30'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -166,8 +175,8 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_5_7',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '3. Storing input',
     concept: 'trace_input_variable',
     learning_objective: 'Trace variable updates during input processing.',
@@ -181,14 +190,15 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: 'Line 2 creates `label` with `"User: "`. Line 3 appends `"Guest"` to produce `"User: Guest"`.',
     hint: 'Concatenate the prefix with the name stored in raw.',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_5_8',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '4. Printing input',
     concept: 'apply_profile_card',
     learning_objective: 'Apply input variable formatting to print a multi-line user badge.',
@@ -204,18 +214,26 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints all 3 badge lines accurately',
         expectedOutput: '--- BADGE ---\nName: Maya\nRole: Engineer',
         assertionPython: "assert '--- BADGE ---' in _raw_stdout and 'Name: Maya' in _raw_stdout and 'Role: Engineer' in _raw_stdout"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying name and role variables',
+        expectedOutput: '--- BADGE ---\nName: Maya\nRole: Engineer',
+        assertionPython: "assert _user_namespace.get('name') == 'Maya' and _user_namespace.get('role') == 'Engineer'",
+        hidden: true
       }
     ],
     explanation: 'Using three print calls displays the header and the two formatted field lines.',
     hint: 'print("--- BADGE ---") then print("Name: " + name) then print("Role: " + role)',
+    misconception_tag: 'INPUT_IS_STRING',
     xp: 25,
     estimated_time: 75,
     order: 8
   },
   {
     id: 'py_fnd_5_9',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '2. Input as text',
     concept: 'predict_type_of_input',
     learning_objective: 'Predict the type output of type(input_value).',
@@ -240,8 +258,8 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_5_10',
-    unit: 'unit_01',
-    lesson: '1.5',
+    unit: 'unit_04',
+    lesson: '4.1',
     section: '1. input()',
     concept: 'debug_missing_assignment',
     learning_objective: 'Debug input() when the result is not saved into a variable.',
@@ -258,6 +276,14 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
         input: 'Alex',
         expectedOutput: 'Hello, Alex',
         assertionPython: "assert 'username = input(' in _user_code or 'username=input(' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test with different input name',
+        input: 'Jordan',
+        expectedOutput: 'Hello, Jordan',
+        assertionPython: "assert 'Hello, Jordan' in _raw_stdout and _user_namespace.get('username') == 'Jordan'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -275,12 +301,12 @@ export const LESSON_05_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_05: LessonStructure = {
-  id: '1.5',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'User Input',
-  slug: 'user-input',
-  order: 5,
+  id: '4.1',
+  unitId: 'unit_04',
+  unitTitle: 'Unit 4: User Input and Output',
+  title: 'The input() Function',
+  slug: 'the-input-function',
+  order: 1,
   description: 'Learn how to accept user input, understand why input() always returns text, and handle string arithmetic pitfalls.',
   estimatedMinutes: 10,
   xpReward: 30,

@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_2_1',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '1. What a variable represents',
     concept: 'variable_storage',
     learning_objective: 'Predict output when printing a variable holding a value.',
@@ -32,8 +32,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_2',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '2. Creating a variable',
     concept: 'variable_trace_linear',
     learning_objective: 'Trace the value of a variable step by step across consecutive lines.',
@@ -54,8 +54,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_3',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '3. Assigning values',
     concept: 'variable_assignment_syntax',
     learning_objective: 'Complete the statement to assign a value into a variable.',
@@ -74,8 +74,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_4',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '4. Reassigning values',
     concept: 'predict_reassignment',
     learning_objective: 'Predict the final value of a variable after an increment reassignment.',
@@ -102,8 +102,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_5',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '5. Reading a variable',
     concept: 'write_variable_creation',
     learning_objective: 'Create a variable, store a number, and print the variable.',
@@ -124,6 +124,7 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Variable age should equal 18',
         expectedOutput: '18',
+        hidden: true,
         assertionPython: "assert _user_namespace.get('age') == 18, f'Expected age to be 18, got {_user_namespace.get(\"age\")}'"
       },
       {
@@ -135,14 +136,15 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: 'Line 1 `age = 18` creates the variable and assigns 18 to it. Line 2 `print(age)` displays its value.',
     hint: 'First line: age = 18. Second line: print(age)',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_2_6',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '5. Reading a variable',
     concept: 'debug_case_mismatch',
     learning_objective: 'Debug a NameError caused by mismatched variable casing.',
@@ -158,6 +160,13 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints 95 without casing errors',
         expectedOutput: '95',
         assertionPython: "assert _raw_stdout.strip() == '95' and 'user_score' in _user_code and 'User_Score' not in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test: user_score variable identifier correctly matched',
+        expectedOutput: '95',
+        hidden: true,
+        assertionPython: "assert _user_namespace.get('user_score') == 95 and 'print(user_score)' in _user_code.replace(' ', '')"
       }
     ],
     progressive_hints: [
@@ -174,8 +183,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_7',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '4. Reassigning values',
     concept: 'reason_variable_reassignment',
     learning_objective: 'Explain why a variable holds only its most recent value.',
@@ -198,8 +207,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_8',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '5. Reading a variable',
     concept: 'apply_score_tracking',
     learning_objective: 'Apply variable reassignment to calculate a player score update.',
@@ -214,6 +223,7 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_1',
         description: 'points starts at 100 and ends at 150',
         expectedOutput: '150',
+        hidden: true,
         assertionPython: "assert _user_namespace.get('points') == 150, f'Expected points to be 150, got {_user_namespace.get(\"points\")}'"
       },
       {
@@ -225,14 +235,15 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: '`points = 100` followed by `points = points + 50` increments the score to 150 and prints it.',
     hint: 'Start with points = 100, then points = points + 50, then print(points)',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 25,
     estimated_time: 60,
     order: 8
   },
   {
     id: 'py_fnd_2_9',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '4. Reassigning values',
     concept: 'trace_copy_values',
     learning_objective: 'Trace independent values across multiple variable assignments.',
@@ -253,8 +264,8 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_2_10',
-    unit: 'unit_01',
-    lesson: '1.2',
+    unit: 'unit_02',
+    lesson: '2.1',
     section: '2. Creating a variable',
     concept: 'debug_invalid_variable_name',
     learning_objective: 'Debug an invalid variable name that starts with a number.',
@@ -270,6 +281,13 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints "Gold" with a valid identifier name',
         expectedOutput: 'Gold',
         assertionPython: "assert _raw_stdout.strip() == 'Gold' and not _user_code.startswith('1st')"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test: valid identifier used in assignment and print',
+        expectedOutput: 'Gold',
+        hidden: true,
+        assertionPython: "assert _raw_stdout.strip() == 'Gold' and '1st' not in _user_code and ('first_place' in _user_namespace or 'place_1' in _user_namespace)"
       }
     ],
     progressive_hints: [
@@ -287,12 +305,12 @@ export const LESSON_02_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_02: LessonStructure = {
-  id: '1.2',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
+  id: '2.1',
+  unitId: 'unit_02',
+  unitTitle: 'Unit 2: Variables and Data',
   title: 'Variables',
   slug: 'variables',
-  order: 2,
+  order: 1,
   description: 'Understand how variables store, read, and update state in memory without common naming and scoping traps.',
   estimatedMinutes: 9,
   xpReward: 30,

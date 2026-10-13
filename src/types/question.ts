@@ -53,6 +53,7 @@ export interface RepairQuestion {
 export interface StructuredTestCase extends Omit<ChallengeTest, 'expectedOutput'> {
   expectedOutput?: string;
   assertionPython?: string; // e.g. "assert age == 18, 'age should be 18'"
+  hidden?: boolean;
 }
 
 export interface QuestionMetadata {

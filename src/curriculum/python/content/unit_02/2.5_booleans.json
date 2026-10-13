@@ -7,540 +7,521 @@
       "id": "2.5_q1",
       "type": "micro_lesson",
       "concept": "boolean_definition",
-      "skill": "recognition",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "What is a Boolean?",
-      "content": "Named after 19th-century mathematician George Boole, a **boolean** (`bool`) is a data type that can only have one of two possible values:\n\n* `True`\n* `False`\n\nBooleans form the backbone of all decision-making in computer programming: answering yes/no, on/off, and true/false questions.",
+      "title": "The Boolean Type: True and False",
+      "content": "A **boolean** (`bool`) represents one of only two possible truth values:\n- `True`\n- `False`\n\nIn Python, both literals **must be capitalized**. Writing lowercase `true` or `false` causes a `NameError` because Python thinks you are referring to an undefined variable.",
       "prompt": "",
-      "explanation": "Boolean logic in Python uses `and`, `or`, and `not` with short-circuit evaluation. Non-empty objects evaluate to truthy, while empty collections, 0, and None evaluate to falsy."
+      "explanation": "Booleans represent binary truth states. They must always begin with an uppercase letter: True or False.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q2",
       "type": "multiple_choice",
-      "concept": "boolean_definition",
+      "concept": "boolean_capitalization_syntax",
       "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q1"
-      ],
-      "prompt": "What are the two valid boolean literals in Python?",
+      "prompt": "How must boolean literals be capitalized in Python?",
       "options": [
-        "A. `YES` and `NO`",
-        "B. `True` and `False`",
-        "C. `1` and `-1`",
-        "D. `valid` and `invalid`"
+        "True and False (capitalized first letter)",
+        "true and false (all lowercase)",
+        "TRUE and FALSE (all uppercase only)",
+        "Either true or True; Python treats both the same"
       ],
-      "correct_answer": "B",
-      "explanation": "This exercise tests `boolean definition` in Booleans. When Python validates this code, it applies the standard rules of boolean definition. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "True and False (capitalized first letter)",
+      "explanation": "Python keywords True and False have capitalized first letters. Lowercase true is an undefined identifier.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q3",
-      "type": "micro_lesson",
-      "concept": "boolean_capitalization",
-      "skill": "understanding",
+      "type": "code_prediction",
+      "concept": "comparison_produces_boolean",
+      "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "1.3_q14",
-        "2.5_q1"
+      "prompt": "What does this code print?\n```python\nscore = 85\npassed = score >= 70\nprint(passed)\n```",
+      "code_snippet": "score = 85\npassed = score >= 70\nprint(passed)",
+      "options": [
+        "True",
+        "False",
+        "85",
+        "passed"
       ],
-      "title": "Capitalization Matters",
-      "content": "In Python, `True` and `False` **must** be capitalized with an uppercase 'T' and 'F'.\n\nIf you type lowercase `true` or `false` (like in JavaScript or C++), Python does not recognize them as booleans and raises a `NameError`:\n```python\nis_ready = True   # Valid boolean\n# is_ready = true  # NameError: name 'true' is not defined!\n```",
-      "prompt": "",
-      "explanation": "In Python, `True` and `False` **must** be capitalized with an uppercase 'T' and 'F'. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "85 >= 70 evaluates to True. That boolean value is stored in passed and printed.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q4",
-      "type": "error_diagnosis",
-      "concept": "boolean_capitalization",
-      "skill": "debugging",
+      "type": "fill_in_the_blank",
+      "concept": "not_operator_syntax",
+      "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q3"
+      "prompt": "To invert a boolean value (turning `True` into `False`), use the keyword ______ before the expression.",
+      "accepted_answers": [
+        "not"
       ],
-      "prompt": "Why does this line crash with a `NameError`?\n```python\nlogged_in = false\n```",
-      "options": [
-        "A. Variable names cannot contain underscores.",
-        "B. In Python, booleans must be capitalized: `False`, not `false`.",
-        "C. Booleans cannot be stored in variables.",
-        "D. `logged_in` is a reserved keyword."
-      ],
-      "correct_answer": "B",
-      "explanation": "`false` with a lowercase 'f' is treated as an undefined variable name. It must be capitalized as `False`."
+      "correct_answer": "not",
+      "explanation": "The logical `not` operator inverts the truth value: `not True` evaluates to `False`.",
+      "hint": "Type the 3-letter logical operator: not",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q5",
-      "type": "fix_the_code",
-      "concept": "boolean_capitalization_fix",
-      "skill": "debugging",
+      "type": "code_prediction",
+      "concept": "not_operator_prediction",
+      "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q4"
+      "prompt": "What does this code print?\n```python\nis_muted = False\nis_sound_on = not is_muted\nprint(is_sound_on)\n```",
+      "code_snippet": "is_muted = False\nis_sound_on = not is_muted\nprint(is_sound_on)",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
       ],
-      "prompt": "Fix the capitalization error in this boolean assignment:",
-      "starter_code": "is_active = true",
-      "solution_code": "is_active = True",
-      "explanation": "This exercise tests `boolean capitalization fix` in Booleans. When Python validates this code, it applies the standard rules of boolean capitalization fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "`not False` evaluates to `True`.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q6",
-      "type": "micro_lesson",
-      "concept": "boolean_vs_string",
-      "skill": "understanding",
+      "type": "error_diagnosis",
+      "concept": "lowercase_boolean_error",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.4_q1",
-        "2.5_q1"
+      "prompt": "A web developer tries to set a dark mode flag:\n```python\ndark_mode = true\n```\nWhat error occurs and why?",
+      "options": [
+        "NameError: name 'true' is not defined because Python booleans must be capitalized",
+        "SyntaxError: cannot assign booleans",
+        "TypeError: expected True or False",
+        "ValueError: invalid boolean literal"
       ],
-      "title": "Boolean vs. String",
-      "content": "Do NOT wrap booleans in quotation marks:\n\n```python\nis_valid = True    # bool: A genuine truth value\ntext = \"True\"      # str: Literal four-letter text string\n```\n`True` is an active logic value used in conditions. `\"True\"` is just words on a screen.",
-      "prompt": "",
-      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+      "correct_answer": "NameError: name 'true' is not defined because Python booleans must be capitalized",
+      "explanation": "Python does not recognize lowercase `true`. It treats `true` as a variable name that was never initialized.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q7",
-      "type": "multiple_choice",
-      "concept": "boolean_vs_string",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q6"
+      "type": "fix_the_code",
+      "concept": "fix_boolean_capitalization",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "Fix the code so `is_active` stores the valid Python boolean literal for True.",
+      "starter_code": "is_active = true\nprint(is_active)\n",
+      "solution_code": "is_active = True\nprint(is_active)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('is_active') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses capitalized True literal",
+          "expectedOutput": "True",
+          "assertionPython": "assert 'True' in _user_code and not 'true' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "What is the data type of `x = \"False\"`?",
-      "options": [
-        "A. `bool`",
-        "B. `str` (String)",
-        "C. `int`",
-        "D. `None`"
-      ],
-      "correct_answer": "B",
-      "explanation": "Enclosing characters in quotation marks always creates a string (`str`), never a boolean."
+      "explanation": "Capitalize the T in True: `is_active = True`.",
+      "hint": "Change true to True with a capital T.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q8",
-      "type": "micro_lesson",
-      "concept": "comparison_expressions",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q1"
+      "type": "real_world_scenario",
+      "concept": "battery_level_threshold",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A phone battery monitoring service checks battery level:\n```python\nbattery_percent = 15\nlow_battery_warning = battery_percent <= 20\nprint(low_battery_warning)\n```\nWhat is printed?",
+      "code_snippet": "battery_percent = 15\nlow_battery_warning = battery_percent <= 20\nprint(low_battery_warning)",
+      "options": [
+        "True",
+        "False",
+        "15",
+        "20"
       ],
-      "title": "Comparisons Produce Booleans",
-      "content": "Whenever you compare values, Python evaluates the comparison and produces a boolean:\n\n```python\nprint(10 > 5)   # True (10 is greater than 5)\nprint(2 == 3)   # False (2 is not equal to 3)\nprint(4 <= 4)   # True (4 is less than or equal to 4)\n```\nNotice the double equals `==`: it tests equality, while a single `=` assigns.",
-      "prompt": "",
-      "explanation": "Boolean logic in Python uses `and`, `or`, and `not` with short-circuit evaluation. Non-empty objects evaluate to truthy, while empty collections, 0, and None evaluate to falsy."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "15 is less than or equal to 20, so 15 <= 20 evaluates to True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q9",
-      "type": "code_prediction",
-      "concept": "comparison_expressions",
+      "type": "output_prediction",
+      "concept": "bool_int_subclass_arithmetic",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q8"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(7 > 12)\n```",
+      "difficulty": "hard",
+      "prompt": "In Python, `bool` is a subclass of `int` where `True == 1` and `False == 0`. What does this print?\n```python\nprint(True + True + False)\n```",
+      "code_snippet": "print(True + True + False)",
       "options": [
-        "A. True",
-        "B. False",
-        "C. 7 > 12",
-        "D. None"
+        "2",
+        "True",
+        "TrueTrueFalse",
+        "TypeError"
       ],
-      "correct_answer": "B",
-      "explanation": "7 is not greater than 12, so the expression evaluates to `False`."
+      "correct_answer": "2",
+      "expected_output": "2",
+      "explanation": "When used in arithmetic, True acts as 1 and False acts as 0. 1 + 1 + 0 = 2.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.5_q10",
-      "type": "code_prediction",
-      "concept": "equality_comparison",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q8"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(5 == 5)\n```",
+      "type": "multiple_choice",
+      "concept": "boolean_vs_string_confusion",
+      "skill": "recognition",
+      "difficulty": "medium",
+      "prompt": "What is the crucial difference between `active = False` and `active = \"False\"`?",
       "options": [
-        "A. 5",
-        "B. True",
-        "C. False",
-        "D. 10"
+        "The first is a boolean False; the second is a text string of 5 characters",
+        "They are completely identical in memory and type",
+        "The second is faster to compute",
+        "The first is a number zero while the second is an integer"
       ],
-      "correct_answer": "B",
-      "explanation": "`5 == 5` checks if 5 equals 5, which evaluates to `True`."
+      "correct_answer": "The first is a boolean False; the second is a text string of 5 characters",
+      "explanation": "`False` is a boolean object with truth value False. `\"False\"` is a non-empty string which evaluates to truthy in boolean contexts.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "2.5_q11",
-      "type": "micro_lesson",
-      "concept": "not_operator",
-      "skill": "understanding",
+      "type": "fix_the_code",
+      "concept": "fix_string_quoted_boolean",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q1"
+      "prompt": "An access control flag is mistakenly wrapped in quotes. Remove the quotes so `has_access` is a genuine boolean `False`.",
+      "starter_code": "has_access = \"False\"\nprint(has_access == False)\n",
+      "solution_code": "has_access = False\nprint(has_access == False)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True when compared to boolean False",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('has_access') is False",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures has_access is bool type without string quotes",
+          "expectedOutput": "True",
+          "assertionPython": "assert isinstance(_user_namespace.get('has_access'), bool)",
+          "hidden": true
+        }
       ],
-      "title": "The not Operator",
-      "content": "The `not` operator inverts (flips) a boolean value:\n\n* `not True` becomes `False`\n* `not False` becomes `True`\n\n```python\nis_raining = False\nsunny = not is_raining  # True\n```",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+      "explanation": "Remove the quotes from \"False\" so it is the boolean literal False, not a string.",
+      "hint": "Change \"False\" to False without quotation marks.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "2.5_q12",
-      "type": "output_prediction",
-      "concept": "not_operator",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q11"
+      "type": "write_the_code",
+      "concept": "free_shipping_eligibility",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "Check free shipping qualification:\n1. Create `order_total = 65.0`\n2. Create boolean `free_shipping = order_total >= 50.0`\n3. Print `free_shipping`.",
+      "starter_code": "# Evaluate free shipping qualification below\n",
+      "solution_code": "order_total = 65.0\nfree_shipping = order_total >= 50.0\nprint(free_shipping)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('free_shipping') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Validates order_total and comparison logic",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('order_total') == 65.0 and '>=' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "What does this code print?\n```python\ngame_over = False\nprint(not game_over)\n```",
-      "options": [
-        "A. False",
-        "B. True",
-        "C. not False",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "In Python, `bool` is a subclass of `int`. `int(True)` evaluates to `1` and `int(False)` evaluates to `0`."
+      "explanation": "65.0 >= 50.0 evaluates to True and is stored in free_shipping.",
+      "hint": "Compare order_total >= 50.0 and print free_shipping.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q13",
-      "type": "code_prediction",
-      "concept": "double_not",
-      "skill": "reasoning",
+      "type": "output_prediction",
+      "concept": "string_equality_comparison",
+      "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q11"
-      ],
-      "prompt": "What does `not (not True)` evaluate to?",
+      "prompt": "What does this code print?\n```python\ninput_code = \"SECRET\"\nis_correct = input_code == \"secret\"\nprint(is_correct)\n```",
+      "code_snippet": "input_code = \"SECRET\"\nis_correct = input_code == \"secret\"\nprint(is_correct)",
       "options": [
-        "A. True",
-        "B. False",
-        "C. None",
-        "D. SyntaxError"
+        "False",
+        "True",
+        "SECRET",
+        "secret"
       ],
-      "correct_answer": "A",
-      "explanation": "Inner `not True` evaluates to `False`. Outer `not False` flips back to `True`."
+      "correct_answer": "False",
+      "expected_output": "False",
+      "explanation": "String comparison `==` in Python is case-sensitive: \"SECRET\" is not equal to \"secret\", yielding False.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q14",
-      "type": "micro_lesson",
-      "concept": "naming_booleans_pep8",
-      "skill": "recognition",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q7",
-        "2.5_q1"
+      "type": "fill_in_the_blank",
+      "concept": "equality_operator_token",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "In Python, which operator checks if two values are equal? (Type the 2 characters: `==` or `=`)",
+      "accepted_answers": [
+        "=="
       ],
-      "title": "Naming Boolean Variables",
-      "content": "By convention, boolean variable names usually start with a helping verb like `is_`, `has_`, `can_`, or `should_`:\n\n* `is_authenticated = True`\n* `has_permission = False`\n* `can_jump = True`\n\nThis makes code read like natural English!",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+      "correct_answer": "==",
+      "explanation": "`==` is the equality comparison operator. A single `=` is the assignment operator.",
+      "hint": "Type double equals: ==",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
     },
     {
       "id": "2.5_q15",
-      "type": "multiple_choice",
-      "concept": "naming_booleans_pep8",
-      "skill": "evaluation",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q14"
-      ],
-      "prompt": "Which variable name is best practice for tracking whether an audio track is currently playing?",
+      "type": "code_prediction",
+      "concept": "double_not_negation",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What does double negation `not not` produce?\n```python\nis_online = True\nprint(not not is_online)\n```",
+      "code_snippet": "is_online = True\nprint(not not is_online)",
       "options": [
-        "A. `p`",
-        "B. `is_playing`",
-        "C. `play_state_boolean_true`",
-        "D. `audio1`"
+        "True",
+        "False",
+        "None",
+        "SyntaxError"
       ],
-      "correct_answer": "B",
-      "explanation": "This exercise tests `naming booleans pep8` in Booleans. When Python validates this code, it applies the standard rules of naming booleans pep8. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "not is_online is False. not False turns back into True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q16",
-      "type": "micro_lesson",
-      "concept": "bool_is_int_subclass",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.3_q1",
-        "2.5_q1"
+      "type": "multiple_choice",
+      "concept": "assignment_vs_equality_syntax",
+      "skill": "recognition",
+      "difficulty": "medium",
+      "prompt": "Why is `x = 5` valid while `5 = x` is a `SyntaxError` in Python?",
+      "options": [
+        "= assigns the right-hand value to the variable name on the left; a number literal cannot be assigned into",
+        "Variables can only be defined in even numbered lines",
+        "Python requires numbers to come after strings",
+        "5 is a reserved keyword"
       ],
-      "title": "Booleans Are Integers Under the Hood",
-      "content": "In Python, `bool` is actually a direct subclass of `int`!\n\n* `True` has an integer value of `1`\n* `False` has an integer value of `0`\n\n```python\nprint(True + True)  # Prints: 2\nprint(False * 50)   # Prints: 0\nprint(True == 1)    # Prints: True\n```\nWhile you rarely do math with booleans on purpose, understanding this explains many Python behaviors.",
-      "prompt": "",
-      "explanation": "Boolean logic in Python uses `and`, `or`, and `not` with short-circuit evaluation. Non-empty objects evaluate to truthy, while empty collections, 0, and None evaluate to falsy."
+      "correct_answer": "= assigns the right-hand value to the variable name on the left; a number literal cannot be assigned into",
+      "explanation": "The target of an assignment must be an identifier (variable), never an immutable literal like 5.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
     },
     {
       "id": "2.5_q17",
-      "type": "output_prediction",
-      "concept": "bool_is_int_subclass",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.5_q16"
+      "type": "fix_the_code",
+      "concept": "fix_assignment_in_conditional",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A status check accidentally uses `=` instead of `==` for comparison. Fix it to test equality with `200`.",
+      "starter_code": "status_code = 200\nis_ok = status_code = 200\nprint(is_ok)\n",
+      "solution_code": "status_code = 200\nis_ok = status_code == 200\nprint(is_ok)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True from equality check",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('is_ok') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses == for comparison to produce boolean",
+          "expectedOutput": "True",
+          "assertionPython": "assert '==' in _user_code and _user_namespace.get('is_ok') is True",
+          "hidden": true
+        }
       ],
-      "prompt": "What does this code output?\n```python\nprint(True + False + True)\n```",
-      "options": [
-        "A. True",
-        "B. 2",
-        "C. 3",
-        "D. TypeError"
-      ],
-      "correct_answer": "B",
-      "explanation": "Because `True` evaluates to 1 and `False` evaluates to 0 in numeric operations: `1 + 0 + 1 = 2`."
+      "explanation": "Change `status_code = 200` to `status_code == 200` so it evaluates to the boolean True.",
+      "hint": "Use == to compare status_code to 200.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
     },
     {
       "id": "2.5_q18",
-      "type": "match_code_to_concept",
-      "concept": "boolean_operations",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q1",
-        "2.5_q8",
-        "2.5_q11"
+      "type": "output_prediction",
+      "concept": "inequality_operator_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does the `!=` (not equal) operator output here?\n```python\ntemp = 25\nwarning = temp != 25\nprint(warning)\n```",
+      "code_snippet": "temp = 25\nwarning = temp != 25\nprint(warning)",
+      "options": [
+        "False",
+        "True",
+        "25",
+        "None"
       ],
-      "prompt": "Match each expression to its evaluated boolean result.",
-      "options": {
-        "`10 >= 10`": "`True`",
-        "`\"cat\" == \"dog\"`": "`False`",
-        "`not (5 < 2)`": "`True`"
-      },
-      "correct_answer": {
-        "`10 >= 10`": "`True`",
-        "`\"cat\" == \"dog\"`": "`False`",
-        "`not (5 < 2)`": "`True`"
-      },
-      "explanation": "10 is >= 10 (True); 'cat' != 'dog' (False); 5 < 2 is False, and `not False` is True."
+      "correct_answer": "False",
+      "expected_output": "False",
+      "explanation": "25 is equal to 25, so `25 != 25` is False.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q19",
       "type": "write_the_code",
-      "concept": "boolean_creation",
+      "concept": "toggle_feature_flag",
       "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q1"
+      "difficulty": "medium",
+      "prompt": "Toggle a feature flag:\n1. Create `dark_mode = False`\n2. Toggle it to the opposite value using `dark_mode = not dark_mode`\n3. Print `dark_mode`.",
+      "starter_code": "# Toggle the dark_mode flag below\n",
+      "solution_code": "dark_mode = False\ndark_mode = not dark_mode\nprint(dark_mode)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True after toggle",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('dark_mode') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses not operator to toggle state",
+          "expectedOutput": "True",
+          "assertionPython": "assert 'not' in _user_code and _user_namespace.get('dark_mode') is True",
+          "hidden": true
+        }
       ],
-      "prompt": "Create a variable named `has_discount` and assign it the boolean `False`.",
-      "starter_code": "# TODO: Implement solution for Booleans\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "has_discount = False",
-      "explanation": "This exercise tests `boolean creation` in Booleans. When Python validates this code, it applies the standard rules of boolean creation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Applying `not` to False toggles it to True.",
+      "hint": "Set dark_mode = False, then dark_mode = not dark_mode, and print(dark_mode).",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q20",
-      "type": "fill_in_the_blank",
-      "concept": "boolean_toggle",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q8",
-        "2.5_q11"
+      "type": "multiple_choice",
+      "concept": "naming_boolean_convention",
+      "skill": "recognition",
+      "difficulty": "easy",
+      "prompt": "Which variable name best communicates a boolean flag per PEP 8 best practices?",
+      "options": [
+        "is_verified",
+        "verify_user_now",
+        "verification_string",
+        "flag1"
       ],
-      "prompt": "Complete the code to toggle (flip) the boolean value of `light_on`:\n```python\nlight_on = True\nlight_on = ___ light_on\n```",
-      "accepted_answers": [
-        "not"
-      ],
-      "explanation": "`light_on = not light_on` toggles True to False or False to True."
+      "correct_answer": "is_verified",
+      "explanation": "Prefixing boolean variables with is_, has_, or can_ clearly indicates they hold True or False.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q21",
-      "type": "code_prediction",
-      "concept": "boolean_toggle",
+      "type": "output_prediction",
+      "concept": "boolean_multiplication_int",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q20"
-      ],
-      "prompt": "What does this code print?\n```python\nis_muted = True\nis_muted = not is_muted\nis_muted = not is_muted\nprint(is_muted)\n```",
+      "prompt": "What does this print?\n```python\nprint(True * 5)\n```",
+      "code_snippet": "print(True * 5)",
       "options": [
-        "A. False",
-        "B. True",
-        "C. None",
-        "D. 1"
+        "5",
+        "TrueTrueTrueTrueTrue",
+        "True",
+        "TypeError"
       ],
-      "correct_answer": "B",
-      "explanation": "Starting at True -> flips to False -> flips back to True."
+      "correct_answer": "5",
+      "expected_output": "5",
+      "explanation": "In numeric contexts, True is treated as the integer 1. 1 * 5 = 5.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.5_q22",
-      "type": "multiple_choice",
-      "concept": "feature_flag",
+      "type": "real_world_scenario",
+      "concept": "access_control_verification",
       "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q14"
-      ],
-      "prompt": "In professional software development, what is a common use for a boolean variable like `ENABLE_BETA_UI = False`?",
+      "prompt": "An admin portal checks access credentials:\n```python\nrole = \"admin\"\nis_admin = role == \"admin\"\nprint(is_admin)\n```\nWhat is the value of `is_admin`?",
+      "code_snippet": "role = \"admin\"\nis_admin = role == \"admin\"\nprint(is_admin)",
       "options": [
-        "A. To tell the CPU to operate in binary mode.",
-        "B. A 'feature flag' (feature toggle) used to enable or disable features safely without deleting code.",
-        "C. To encrypt the user's password.",
-        "D. To restart the database server."
+        "True",
+        "False",
+        "admin",
+        "\"True\""
       ],
-      "correct_answer": "B",
-      "explanation": "Feature flags are boolean configuration toggles used across modern software teams to manage releases."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "The comparison `role == \"admin\"` evaluates to the boolean value `True`.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q23",
-      "type": "error_diagnosis",
-      "concept": "comparison_vs_assignment",
+      "type": "fix_the_code",
+      "concept": "fix_case_mismatch_boolean",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q3",
-        "2.5_q8"
+      "prompt": "A security guard gate fails because of lowercase `false`. Fix the code so `gate_open` is `False`.",
+      "starter_code": "gate_open = false\nprint(gate_open)\n",
+      "solution_code": "gate_open = False\nprint(gate_open)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints False",
+          "expectedOutput": "False",
+          "assertionPython": "assert _raw_stdout.strip() == 'False' and _user_namespace.get('gate_open') is False",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses capitalized False literal",
+          "expectedOutput": "False",
+          "assertionPython": "assert 'False' in _user_code and not 'false' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "What is the difference between `x = 5` and `x == 5`?",
-      "options": [
-        "A. `x = 5` assigns the value 5 to `x`, while `x == 5` checks whether `x` equals 5 and produces a boolean (`True` or `False`).",
-        "B. They are completely identical.",
-        "C. `x == 5` creates two variables named `x`.",
-        "D. `x = 5` only works for strings."
-      ],
-      "correct_answer": "A",
-      "explanation": "This exercise tests `comparison vs assignment` in Booleans. When Python validates this code, it applies the standard rules of comparison vs assignment. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Capitalize False with an uppercase F: `gate_open = False`.",
+      "hint": "Change false to False.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q24",
       "type": "output_prediction",
-      "concept": "string_equality",
+      "concept": "not_on_expression_prediction",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.4_q1",
-        "2.5_q8"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(\"Python\" == \"python\")\n```",
+      "prompt": "What does this code print?\n```python\nage = 16\ncan_vote = not (age < 18)\nprint(can_vote)\n```",
+      "code_snippet": "age = 16\ncan_vote = not (age < 18)\nprint(can_vote)",
       "options": [
-        "A. True",
-        "B. False",
-        "C. SyntaxError",
-        "D. None"
+        "False",
+        "True",
+        "16",
+        "None"
       ],
-      "correct_answer": "B",
-      "explanation": "String equality in Python is case-sensitive. `'P'` does not equal `'p'`, so the comparison evaluates to `False`."
+      "correct_answer": "False",
+      "expected_output": "False",
+      "explanation": "16 < 18 is True. not True evaluates to False.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.5_q25",
       "type": "mini_challenge",
-      "concept": "age_verification_expression",
+      "concept": "inventory_stock_alert_challenge",
       "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q8"
-      ],
-      "prompt": "Given `user_age = 19`, create a boolean variable `can_vote` that checks if `user_age >= 18`, and print `can_vote`.",
-      "starter_code": "user_age = 19\n# Check if user can vote and print result\n",
-      "solution_code": "user_age = 19\ncan_vote = user_age >= 18\nprint(can_vote)",
-      "explanation": "`can_vote = user_age >= 18` assigns `True`, and printing it outputs `True`."
-    },
-    {
-      "id": "2.5_q26",
-      "type": "output_prediction",
-      "concept": "boolean_str_comparison",
-      "skill": "reasoning",
       "difficulty": "hard",
-      "prerequisites": [
-        "2.5_q6"
+      "prompt": "Build an inventory alert check:\n1. Create `stock = 0`\n2. Create `is_out_of_stock = stock == 0`\n3. Print `is_out_of_stock` on line 1\n4. Reassign `stock = 25`\n5. Recompute `is_out_of_stock = stock == 0`\n6. Print `is_out_of_stock` on line 2.",
+      "starter_code": "# Build the inventory alert check below\n",
+      "solution_code": "stock = 0\nis_out_of_stock = stock == 0\nprint(is_out_of_stock)\nstock = 25\nis_out_of_stock = stock == 0\nprint(is_out_of_stock)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True on line 1 and False on line 2",
+          "expectedOutput": "True\nFalse",
+          "assertionPython": "assert _raw_stdout.strip().splitlines() == ['True', 'False'] and _user_namespace.get('stock') == 25",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies stock reassignment and re-evaluation",
+          "expectedOutput": "True\nFalse",
+          "assertionPython": "assert _user_namespace.get('is_out_of_stock') is False",
+          "hidden": true
+        }
       ],
-      "prompt": "What does this expression evaluate to?\n```python\nprint(True == \"True\")\n```",
-      "options": [
-        "A. True",
-        "B. False",
-        "C. TypeError",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "A `bool` object never equals a `str` object. `True` is not equal to `\"True\"`."
-    },
-    {
-      "id": "2.5_q27",
-      "type": "fix_the_code",
-      "concept": "remove_quotes_boolean",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q6"
-      ],
-      "prompt": "Fix this code so `is_verified` is a genuine boolean instead of a string:",
-      "starter_code": "is_verified = \"True\"",
-      "solution_code": "is_verified = True",
-      "explanation": "This exercise tests `remove quotes boolean` in Booleans. When Python validates this code, it applies the standard rules of remove quotes boolean. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "2.5_q28",
-      "type": "multiple_choice",
-      "concept": "inequality_operator",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q8"
-      ],
-      "prompt": "Which operator checks if two values are NOT equal in Python?",
-      "options": [
-        "A. `<>`",
-        "B. `!=`",
-        "C. `not =`",
-        "D. `!==`"
-      ],
-      "correct_answer": "B",
-      "explanation": "`!=` is the inequality operator in Python (e.g. `5 != 3` is `True`)."
-    },
-    {
-      "id": "2.5_q29",
-      "type": "real_world_scenario",
-      "concept": "access_control_logic",
-      "skill": "synthesis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.5_q8",
-        "2.5_q11"
-      ],
-      "prompt": "A door locks automatically unless an authorized badge is present. If `authorized_badge = True`, which expression evaluates whether the door should be locked?",
-      "correct_answer": "A",
-      "explanation": "If authorized badge is True, `not authorized_badge` is False (unlocked). If authorized badge is False, `not authorized_badge` is True (locked).",
-      "options": [
-        "A. is_locked = not authorized_badge",
-        "B. is_locked = authorized_badge == False or True",
-        "C. is_locked = not not authorized_badge",
-        "D. is_locked = bool('locked')"
-      ]
-    },
-    {
-      "id": "2.5_q30",
-      "type": "real_world_scenario",
-      "concept": "boolean_synthesis",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.5_q1",
-        "2.5_q3",
-        "2.5_q6",
-        "2.5_q8",
-        "2.5_q11",
-        "2.5_q16"
-      ],
-      "prompt": "Which of the following summaries regarding Python booleans is completely TRUE?",
-      "correct_answer": "A",
-      "explanation": "This accurately summarizes all essential properties, semantics, and best practices of Python booleans.",
-      "options": [
-        "A. Booleans are subclasses of integers with exactly two instances: True (value 1) and False (value 0).",
-        "B. Booleans can take three states: True, False, and Maybe.",
-        "C. Any non-empty string converts to False in Python.",
-        "D. bool(0) evaluates to True."
-      ]
+      "explanation": "Initially stock is 0 (True). When stock becomes 25, is_out_of_stock is recomputed to False.",
+      "hint": "Check stock == 0 twice, once when stock is 0 and once after setting it to 25.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     }
-  ],
-  "unit_num": 2,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Booleans",
-    "Apply idiomatic Python patterns when working with Booleans",
-    "Debug common runtime exceptions and logic errors associated with Booleans",
-    "Implement production-ready code utilizing Booleans"
-  ],
-  "prerequisites": [
-    "2.4"
   ]
 }

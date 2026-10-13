@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
+import { progressionService } from '../../services/progressionService';
 import { Icon } from '../ui/Icon';
 
 interface CommandItem {
@@ -21,6 +22,7 @@ export const CommandPalette: React.FC = () => {
 
   const {
     course,
+    userProgress,
     navigateTo,
     startLesson,
     toggleTheme,
@@ -54,8 +56,34 @@ export const CommandPalette: React.FC = () => {
     }
   }, [isOpen]);
 
+  // Resolve next lesson across units
+  const nextLessonId = progressionService.getNextLesson(userProgress, course) || '1.1';
+  let nextLessonTitle = 'Continue Learning';
+  let nextLessonUnitNumber = 1;
+  for (const unit of course.units) {
+    for (const skill of unit.skills) {
+      const l = skill.lessons.find(item => item.id === nextLessonId);
+      if (l) {
+        nextLessonTitle = `${skill.title}: ${l.title}`;
+        nextLessonUnitNumber = unit.unitNumber;
+        break;
+      }
+    }
+  }
+
   // Build command items
   const commands: CommandItem[] = [
+    // Top Action: Resume Next Lesson
+    {
+      id: 'act-continue-lesson',
+      category: 'Actions',
+      title: `Continue Lesson: ${nextLessonTitle}`,
+      subtitle: `Unit ${nextLessonUnitNumber} • Lesson ${nextLessonId} • Resume learning pathway`,
+      icon: 'player-play',
+      action: () => startLesson(nextLessonId),
+      keywords: ['continue', 'next', 'resume', 'start', 'play', nextLessonId, `unit ${nextLessonUnitNumber}`]
+    },
+
     // Top Views
     {
       id: 'nav-learn',

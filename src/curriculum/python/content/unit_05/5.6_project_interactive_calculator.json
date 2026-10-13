@@ -1,626 +1,694 @@
 {
   "lesson_id": "5.6",
   "title": "Project: Interactive Calculator",
-  "unit": "Conditional Logic",
+  "unit": "unit_05",
   "items": [
     {
-      "id": "5.6_q1",
-      "type": "micro_lesson",
-      "concept": "project_interactive_calculator_architecture",
-      "skill": "recognition",
-      "difficulty": "easy",
+      "id": "5.6_fnd_1",
+      "type": "output_prediction",
+      "concept": "predict_full_pipeline",
+      "skill": "application",
+      "difficulty": "medium",
       "prerequisites": [],
-      "title": "Architecture of a Terminal Calculator",
-      "content": "Building an interactive CLI calculator requires coordinating four key phases:\n\n1. **Input Ingestion:** Prompt the user for operands and parse into floats.\n2. **Operator Validation:** Verify the operation is one of `('+', '-', '*', '/')`.\n3. **Computation & Error Handling:** Guard against mathematical division by zero.\n4. **Display:** Present formatted results cleanly to the user.",
-      "explanation": "CLI calculators decouple input collection, mathematical dispatch, and error handling into distinct stages.",
-      "metadata": {
-        "concept": "calculator_architecture",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Architectural roadmap for calculator project"
-      }
+      "prompt": "What will this program print?\n```python\nraw_price = \"40\"\nquantity = 2\ntotal = int(raw_price) * quantity\n\nif total >= 100:\n    print(\"Free Shipping\")\nelse:\n    print(\"Add $10 Shipping\")\n```",
+      "explanation": "`int(\"40\") * 2` calculates `80`. Then `80 >= 100` evaluates to `False`, executing the `else` block to print `\"Add $10 Shipping\"`.",
+      "hint": "Calculate total first: 40 * 2 = 80. Then check 80 >= 100.",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "code_snippet": "raw_price = \"40\"\nquantity = 2\ntotal = int(raw_price) * quantity\n\nif total >= 100:\n    print(\"Free Shipping\")\nelse:\n    print(\"Add $10 Shipping\")",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "Add $10 Shipping",
+          "isCorrect": true,
+          "explanation": "int(\"40\") * 2 is 80. Since 80 is not >= 100, the else branch executes."
+        },
+        {
+          "id": "opt_2",
+          "text": "Free Shipping",
+          "isCorrect": false,
+          "explanation": "80 is less than 100, so the if condition evaluates to False.",
+          "misconception_tag": "CONDITION_BOUNDARY"
+        },
+        {
+          "id": "opt_3",
+          "text": "4040",
+          "isCorrect": false,
+          "explanation": "int(\"40\") was converted to a number, so math multiplication happened.",
+          "misconception_tag": "INPUT_IS_STRING"
+        },
+        {
+          "id": "opt_4",
+          "text": "TypeError",
+          "isCorrect": false,
+          "explanation": "All conversions and comparisons are completely valid.",
+          "misconception_tag": "WRONG_TYPE"
+        }
+      ],
+      "correct_answer": "Add $10 Shipping"
     },
     {
-      "id": "5.6_q2",
-      "type": "micro_lesson",
+      "id": "5.6_fnd_2",
+      "type": "fill_in_the_blank",
+      "concept": "complete_cart_discount",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Complete the condition to give a discount if `subtotal` is greater than or equal to `50`:\n```python\nsubtotal = 65\nif subtotal ____ 50:\n    discount = 10\nelse:\n    discount = 0\nprint(discount)\n```",
+      "explanation": "`>=` checks if `subtotal` is at least 50.",
+      "hint": "Use the greater-than-or-equal operator: >=",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "code_snippet": "subtotal = 65\nif subtotal ____ 50:\n    discount = 10\nelse:\n    discount = 0\nprint(discount)",
+      "correct_answer": ">=",
+      "accepted_answers": [
+        ">="
+      ]
+    },
+    {
+      "id": "5.6_fnd_3",
+      "type": "write_the_code",
+      "concept": "write_temp_converter",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Write a Python program that converts `68` degrees Fahrenheit to Celsius:\nFormula: `celsius = (fahrenheit - 32) * 5 / 9`\n1. Set `fahrenheit = 68`\n2. Compute `celsius = (fahrenheit - 32) * 5 / 9`\n3. Print `celsius`",
+      "explanation": "`(68 - 32)` computes `36` first due to parentheses, then `36 * 5 / 9 = 20.0`.",
+      "hint": "celsius = (fahrenheit - 32) * 5 / 9",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "starter_code": "# Convert Fahrenheit to Celsius\n",
+      "solution_code": "fahrenheit = 68\ncelsius = (fahrenheit - 32) * 5 / 9\nprint(celsius)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes celsius as 20.0",
+          "input": "",
+          "expectedOutput": "20.0",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 20.0 and _user_namespace.get('celsius') == 20.0",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses parentheses to enforce subtraction before multiplication",
+          "input": "",
+          "expectedOutput": "20.0",
+          "assertionPython": "assert '(' in _user_code and ')' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_fnd_4",
+      "type": "fix_the_code",
+      "concept": "debug_password_validator",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A security rule requires passwords to be at least 8 characters long. When `length = 8`, the code below prints `Too Short`! Fix the comparison operator so 8-character passwords are accepted as `Valid`.",
+      "explanation": "`length > 8` rejected passwords of length 8. Replacing with `length >= 8` accepts 8 and above.",
+      "hint": "Use >= instead of > on line 2.",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "length = 8\nif length > 8:\n    print(\"Valid\")\nelse:\n    print(\"Too Short\")",
+      "solution_code": "length = 8\nif length >= 8:\n    print(\"Valid\")\nelse:\n    print(\"Too Short\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints \"Valid\" for length of 8 using >=",
+          "input": "",
+          "expectedOutput": "Valid",
+          "assertionPython": "assert _raw_stdout.strip() == 'Valid' and '>=' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying comparison operator includes 8",
+          "input": "",
+          "expectedOutput": "Valid",
+          "assertionPython": "assert _raw_stdout.strip() == 'Valid'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_fnd_5",
+      "type": "trace_execution",
+      "concept": "trace_ledger_transaction",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Trace the value of variable `balance` across this bank transaction ledger:\n```python\nbalance = 100\nbalance = balance + 50\nbalance = balance - 30\nbalance = balance - 5\n```\nWhat is `balance` after each line?",
+      "explanation": "`100 + 50 = 150`, then `150 - 30 = 120`, then `120 - 5 = 115`.",
+      "hint": "Track each balance update sequentially.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "115",
+        "10.0",
+        "30.0",
+        "Error"
+      ],
+      "correct_answer": "115",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 1,
+          "code": "balance = 100",
+          "variable": "Value of balance",
+          "expectedValue": "100",
+          "hint": "Initial balance"
+        },
+        {
+          "step": 2,
+          "line": 2,
+          "code": "balance = balance + 50",
+          "variable": "Value of balance",
+          "expectedValue": "150",
+          "hint": "Deposit 50"
+        },
+        {
+          "step": 3,
+          "line": 3,
+          "code": "balance = balance - 30",
+          "variable": "Value of balance",
+          "expectedValue": "120",
+          "hint": "Withdrawal 30"
+        },
+        {
+          "step": 4,
+          "line": 4,
+          "code": "balance = balance - 5",
+          "variable": "Value of balance",
+          "expectedValue": "115",
+          "hint": "Fee 5"
+        }
+      ]
+    },
+    {
+      "id": "5.6_fnd_6",
+      "type": "multiple_choice",
+      "concept": "reason_tax_exemption_boundary",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Look at the following tax code:\n```python\nincome = 10000\nif income <= 10000:\n    rate = 0.0\nelse:\n    rate = 0.15\n```\nWhat rate does a taxpayer making exactly $10,000 receive, and why?",
+      "explanation": "`income <= 10000` evaluates to `True` when `income` is `10000`. Therefore `rate` becomes `0.0`.",
+      "hint": "<= means less than OR equal to.",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "options": [
+        {
+          "id": "opt_1",
+          "text": "0.0, because <= includes 10000",
+          "isCorrect": true,
+          "explanation": "The less-than-or-equal operator <= evaluates to True when income is exactly 10000."
+        },
+        {
+          "id": "opt_2",
+          "text": "0.15, because 10000 triggers the higher tax bracket",
+          "isCorrect": false,
+          "explanation": "10000 is <= 10000, so the if block runs, not the else.",
+          "misconception_tag": "CONDITION_BOUNDARY"
+        },
+        {
+          "id": "opt_3",
+          "text": "Error, decimals cannot be stored in variables",
+          "isCorrect": false,
+          "explanation": "Python fully supports floating-point decimals like 0.0 and 0.15.",
+          "misconception_tag": "WRONG_TYPE"
+        },
+        {
+          "id": "opt_4",
+          "text": "None",
+          "isCorrect": false,
+          "explanation": "rate is assigned 0.0.",
+          "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+        }
+      ],
+      "correct_answer": "0.0, because <= includes 10000"
+    },
+    {
+      "id": "5.6_fnd_7",
+      "type": "write_the_code",
+      "concept": "write_delivery_fee_calc",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Write a program to calculate delivery fee:\n1. Set `order_total = 40`\n2. If `order_total >= 50`, set `fee = 0`\n3. Else, set `fee = 5`\n4. Print `fee`",
+      "explanation": "Since `40 >= 50` is False, the `else` block sets `fee = 5` and prints `5`.",
+      "hint": "if order_total >= 50:\n    fee = 0\nelse:\n    fee = 5\nprint(fee)",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Calculate delivery fee\n",
+      "solution_code": "order_total = 40\nif order_total >= 50:\n    fee = 0\nelse:\n    fee = 5\nprint(fee)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 5 for order under 50",
+          "input": "",
+          "expectedOutput": "5",
+          "assertionPython": "assert _raw_stdout.strip() == '5' and _user_namespace.get('fee') == 5",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying fee variable calculation",
+          "input": "",
+          "expectedOutput": "5",
+          "assertionPython": "assert _user_namespace.get('fee') == 5",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_fnd_8",
+      "type": "write_the_code",
+      "concept": "apply_game_health_resolver",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A hero has `50` HP and takes `20` damage. If their remaining HP is greater than `0`, they survive.\nWrite a Python program that:\n1. Sets `hp = 50`\n2. Subtracts `20`: `hp = hp - 20`\n3. If `hp > 0`, prints `\"Alive\"`\n4. Else, prints `\"Defeated\"`",
+      "explanation": "`50 - 20 = 30`. Since `30 > 0` is True, `\"Alive\"` is printed.",
+      "hint": "hp = 50\nhp = hp - 20\nif hp > 0:\n    print(\"Alive\")\nelse:\n    print(\"Defeated\")",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Resolve player damage and status\n",
+      "solution_code": "hp = 50\nhp = hp - 20\nif hp > 0:\n    print(\"Alive\")\nelse:\n    print(\"Defeated\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Correctly prints Alive with remaining hp 30",
+          "input": "",
+          "expectedOutput": "Alive",
+          "assertionPython": "assert _raw_stdout.strip() == 'Alive' and _user_namespace.get('hp') == 30",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying hp variable calculation",
+          "input": "",
+          "expectedOutput": "Alive",
+          "assertionPython": "assert _user_namespace.get('hp') == 30",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_fnd_9",
+      "type": "fix_the_code",
+      "concept": "debug_discount_coupon_code",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A coupon is valid ONLY if the code is `\"SAVE10\"` AND the `cart` is at least 50. But the program below currently accepts any coupon code! Fix line 3 to require both.",
+      "explanation": "Testing equality requires `==`. Using `=` inside an `if` condition triggers a SyntaxError.",
+      "hint": "Replace code = \"SAVE10\" with code == \"SAVE10\".",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "starter_code": "code = \"SAVE10\"\ncart = 60\nif code = \"SAVE10\" and cart >= 50:\n    print(\"Discount Applied\")",
+      "solution_code": "code = \"SAVE10\"\ncart = 60\nif code == \"SAVE10\" and cart >= 50:\n    print(\"Discount Applied\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Uses == for string comparison in if condition",
+          "input": "",
+          "expectedOutput": "Discount Applied",
+          "assertionPython": "assert _raw_stdout.strip() == 'Discount Applied' and 'code == \"SAVE10\"' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying code equality syntax",
+          "input": "",
+          "expectedOutput": "Discount Applied",
+          "assertionPython": "assert _raw_stdout.strip() == 'Discount Applied' and '==' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_fnd_10",
+      "type": "write_the_code",
+      "concept": "write_atm_withdrawal_validator",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "You are writing the core validator for an ATM:\n1. Set `balance = 500`\n2. Set `withdraw_amount = 200`\n3. If `withdraw_amount > 0 and withdraw_amount <= balance`, print `\"Transaction Approved\"`\n4. Else, print `\"Transaction Declined\"`",
+      "explanation": "`withdraw_amount > 0` (True) and `withdraw_amount <= balance` (200 <= 500 is True). Both are True, so the transaction is approved.",
+      "hint": "if withdraw_amount > 0 and withdraw_amount <= balance:\n    print(\"Transaction Approved\")\nelse:\n    print(\"Transaction Declined\")",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# ATM Withdrawal Validator\n",
+      "solution_code": "balance = 500\nwithdraw_amount = 200\nif withdraw_amount > 0 and withdraw_amount <= balance:\n    print(\"Transaction Approved\")\nelse:\n    print(\"Transaction Declined\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints \"Transaction Approved\" for valid withdrawal",
+          "input": "",
+          "expectedOutput": "Transaction Approved",
+          "assertionPython": "assert _raw_stdout.strip() == 'Transaction Approved'",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses compound condition with and",
+          "input": "",
+          "expectedOutput": "Transaction Approved",
+          "assertionPython": "assert ' and ' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_final_1",
+      "type": "write_the_code",
+      "concept": "input_conversion_arithmetic",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Create a tip calculator program:\n1. Set `bill_text = \"50\"`\n2. Set `tip_percent = 20`\n3. Convert `bill_text` to an integer, calculate the `tip_amount` (`bill * tip_percent / 100`)\n4. Calculate `total = bill + tip_amount`\n5. Print `total` (should print 60.0)",
+      "explanation": "`int(\"50\")` yields `50`. Then `50 * 20 / 100 = 10.0`. Finally `50 + 10.0 = 60.0`.",
+      "hint": "bill = int(bill_text), tip_amount = bill * tip_percent / 100, total = bill + tip_amount, print(total)",
+      "misconception_tag": "WRONG_TYPE",
+      "starter_code": "# Calculate tip and total bill\n",
+      "solution_code": "bill_text = \"50\"\ntip_percent = 20\nbill = int(bill_text)\ntip_amount = bill * tip_percent / 100\ntotal = bill + tip_amount\nprint(total)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes total of 60.0 and stores in variable total",
+          "input": "",
+          "expectedOutput": "60.0",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 60.0 and _user_namespace.get('total') == 60.0",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses int conversion on bill_text",
+          "input": "",
+          "expectedOutput": "60.0",
+          "assertionPython": "assert 'int(' in _user_code and _user_namespace.get('bill') == 50",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_final_2",
+      "type": "write_the_code",
+      "concept": "bmi_metric_formula",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [],
+      "prompt": "Calculate BMI: `bmi = weight / (height * height)`\n1. Set `weight = 70` (in kg)\n2. Set `height = 1.75` (in meters)\n3. Compute `bmi = weight / (height * height)`\n4. If `bmi >= 25`, print `\"Overweight\"`\n5. Else, print `\"Healthy\"` (prints \"Healthy\")",
+      "explanation": "`70 / (1.75 * 1.75)` computes `70 / 3.0625 = 22.86`. Because `22.86 < 25`, the program prints `\"Healthy\"`.",
+      "hint": "Wrap (height * height) in parentheses so division happens after the multiplication.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "starter_code": "# Calculate BMI and health category\n",
+      "solution_code": "weight = 70\nheight = 1.75\nbmi = weight / (height * height)\nif bmi >= 25:\n    print(\"Overweight\")\nelse:\n    print(\"Healthy\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Correctly outputs \"Healthy\" for BMI ~22.86 and computes bmi variable",
+          "input": "",
+          "expectedOutput": "Healthy",
+          "assertionPython": "assert _raw_stdout.strip() == 'Healthy' and _user_namespace.get('bmi') is not None and abs(_user_namespace.get('bmi') - (70 / (1.75 * 1.75))) < 0.01",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses parenthesis in denominator to enforce height squared",
+          "input": "",
+          "expectedOutput": "Healthy",
+          "assertionPython": "assert '(' in _user_code and ')' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_final_3",
+      "type": "write_the_code",
+      "concept": "overtime_pay_calculator",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [],
+      "prompt": "An employee earns $20/hour for regular hours (up to 40) and $30/hour (1.5x) for overtime hours beyond 40.\nWrite a program that:\n1. Set `hours = 45`\n2. Set `hourly_rate = 20`\n3. If `hours > 40`:\n   - Set `regular_pay = 40 * hourly_rate`\n   - Set `overtime_pay = (hours - 40) * (hourly_rate * 1.5)`\n   - Set `total_pay = regular_pay + overtime_pay`\n4. Else:\n   - Set `total_pay = hours * hourly_rate`\n5. Print `total_pay` (should print 950.0)",
+      "explanation": "40 hours * $20 = $800. 5 overtime hours * $30 = $150. Total pay = $950.0.",
+      "hint": "Check if hours > 40, calculate 40 * 20 plus 5 * 30.",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Calculate overtime and total pay\n",
+      "solution_code": "hours = 45\nhourly_rate = 20\nif hours > 40:\n    regular_pay = 40 * hourly_rate\n    overtime_pay = (hours - 40) * (hourly_rate * 1.5)\n    total_pay = regular_pay + overtime_pay\nelse:\n    total_pay = hours * hourly_rate\nprint(total_pay)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes total pay as 950.0 and stores in total_pay variable",
+          "input": "",
+          "expectedOutput": "950.0",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 950.0 and _user_namespace.get('total_pay') == 950.0",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying overtime calculation and total_pay",
+          "input": "",
+          "expectedOutput": "950.0",
+          "assertionPython": "assert _user_namespace.get('overtime_pay') == 150.0 and _user_namespace.get('total_pay') == 950.0",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_final_4",
+      "type": "write_the_code",
+      "concept": "tiered_shipping_calculator",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [],
+      "prompt": "Calculate shipping cost based on weight:\n- If `weight <= 2`, shipping is `5`\n- Elif `weight <= 5`, shipping is `10`\n- Else, shipping is `15`\n\nWrite a program where `weight = 3.5`, sets `shipping`, and prints `shipping` (should print 10).",
+      "explanation": "3.5 is not <= 2 (False), but is <= 5 (True), so shipping is set to 10.",
+      "hint": "if weight <= 2:\n    shipping = 5\nelif weight <= 5:\n    shipping = 10\nelse:\n    shipping = 15\nprint(shipping)",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Tiered shipping cost\n",
+      "solution_code": "weight = 3.5\nif weight <= 2:\n    shipping = 5\nelif weight <= 5:\n    shipping = 10\nelse:\n    shipping = 15\nprint(shipping)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Correctly outputs 10 for weight 3.5 and sets shipping variable",
+          "input": "",
+          "expectedOutput": "10",
+          "assertionPython": "assert _raw_stdout.strip() == '10' and _user_namespace.get('shipping') == 10",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses if, elif, and else",
+          "input": "",
+          "expectedOutput": "10",
+          "assertionPython": "assert 'if ' in _user_code and 'elif ' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_final_5",
+      "type": "write_the_code",
+      "concept": "parking_fee_with_cap",
+      "skill": "application",
+      "difficulty": "hard",
+      "prerequisites": [],
+      "prompt": "A parking garage charges $4 per hour, but caps the daily fee at a maximum of $25.\nWrite a Python program that:\n1. Sets `hours_parked = 8`\n2. Calculates `fee = hours_parked * 4`\n3. If `fee > 25`, sets `fee = 25` (capped at max)\n4. Prints: `Parking Fee: $25`",
+      "explanation": "`8 * 4 = 32`. Since `32 > 25`, the conditional caps `fee` at `25`, printing `\"Parking Fee: $25\"`.",
+      "hint": "Calculate fee = hours_parked * 4, if fee > 25: fee = 25, print(\"Parking Fee: $\" + str(fee))",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Parking garage fee calculator\n",
+      "solution_code": "hours_parked = 8\nfee = hours_parked * 4\nif fee > 25:\n    fee = 25\nprint(\"Parking Fee: $\" + str(fee))",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Parking Fee: $25 with capped fee",
+          "input": "",
+          "expectedOutput": "Parking Fee: $25",
+          "assertionPython": "assert _raw_stdout.strip() == 'Parking Fee: $25' and _user_namespace.get('fee') == 25",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Caps fee variable at 25",
+          "input": "",
+          "expectedOutput": "Parking Fee: $25",
+          "assertionPython": "assert _user_namespace.get('fee') == 25",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "5.6_calc_1",
+      "type": "write_the_code",
       "concept": "project_interactive_calculator_dispatch",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.6_q1"
-      ],
-      "title": "Designing Operation Dispatch",
-      "content": "In early Python, operation dispatch is cleanly structured with an `if-elif-else` chain:\n\n```python\nif op == \"+\":\n    result = a + b\nelif op == \"-\":\n    result = a - b\nelif op == \"*\":\n    result = a * b\nelif op == \"/\":\n    if b == 0:\n        result = \"Error: Division by zero\"\n    else:\n        result = a / b\nelse:\n    result = \"Error: Invalid operator\"\n```",
-      "explanation": "An if-elif chain maps operator tokens to their corresponding arithmetic computations.",
-      "metadata": {
-        "concept": "operation_dispatch",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Teaches operator branching in calculators"
-      }
-    },
-    {
-      "id": "5.6_q3",
-      "type": "code_prediction",
-      "concept": "project_interactive_calculator_parsing",
-      "skill": "data_validation",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q2"
+      "prompt": "Write an arithmetic operation dispatcher:\n1. Set `num1 = 15`\n2. Set `op = \"+\"`\n3. Set `num2 = 7`\n4. If `op == \"+\"`: set `result = num1 + num2`\n5. Elif `op == \"-\"`: set `result = num1 - num2`\n6. Elif `op == \"*\"`: set `result = num1 * num2`\n7. Elif `op == \"/\"`: set `result = num1 / num2`\n8. Else: set `result = \"Invalid\"`\n9. Print `result` (should print 22)",
+      "starter_code": "# Arithmetic dispatcher\n",
+      "solution_code": "num1 = 15\nop = \"+\"\nnum2 = 7\nif op == \"+\":\n    result = num1 + num2\nelif op == \"-\":\n    result = num1 - num2\nelif op == \"*\":\n    result = num1 * num2\nelif op == \"/\":\n    result = num1 / num2\nelse:\n    result = \"Invalid\"\nprint(result)",
+      "expected_output": "22",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes result as 22 for addition",
+          "expectedOutput": "22",
+          "assertionPython": "assert _raw_stdout.strip() == '22' and _user_namespace.get('result') == 22"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying all 4 operations are supported in elif chain",
+          "expectedOutput": "22",
+          "assertionPython": "assert 'elif op == \"-\":' in _user_code and 'elif op == \"*\":' in _user_code and 'elif op == \"/\":' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "In an interactive calculator, a user enters the operator string `\"+\"`. Which conditional structure cleanly identifies the valid operation?\n\n```python\nop = \"+\"\nif op in ('+', '-', '*', '/'):\n    valid = True\nelse:\n    valid = False\nprint(valid)\n```\n\nWhat is output?",
-      "options": [
-        "True",
-        "False",
-        "TypeError",
-        "None"
-      ],
-      "correct_answer": "True",
-      "explanation": "Checking `op in ('+', '-', '*', '/')` uses the `in` operator to test membership against a collection of valid operators in a single, clear check.",
-      "metadata": {
-        "concept": "operator_membership_validation",
-        "skill": "validation",
-        "learning_objective": "Validate user-supplied operators using collection membership",
-        "common_misconception": "Writing op == '+' or op == '-' or op == '*' or op == '/'",
-        "why_this_exercise_exists": "Replaces synthetic template function with calculator operator validation"
-      }
+      "explanation": "`op == \"+\"` is True, calculating `15 + 7 = 22`.",
+      "hint": "Use if op == \"+\", elif op == \"-\", elif op == \"*\", elif op == \"/\", else: result = \"Invalid\"",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "5.6_q4",
-      "type": "error_diagnosis",
+      "id": "5.6_calc_2",
+      "type": "write_the_code",
       "concept": "project_interactive_calculator_division",
-      "skill": "edge_cases",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q3"
+      "prompt": "A safe division calculator must prevent division by zero runtime crashes:\n1. Set `num1 = 20`\n2. Set `num2 = 0`\n3. If `num2 == 0`:\n   - Print `\"Error: Division by zero\"`\n4. Else:\n   - Calculate `res = num1 / num2`\n   - Print `res` (should print Error: Division by zero)",
+      "starter_code": "# Safe division zero check\n",
+      "solution_code": "num1 = 20\nnum2 = 0\nif num2 == 0:\n    print(\"Error: Division by zero\")\nelse:\n    res = num1 / num2\n    print(res)",
+      "expected_output": "Error: Division by zero",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Error: Division by zero when divisor is 0",
+          "expectedOutput": "Error: Division by zero",
+          "assertionPython": "assert _raw_stdout.strip() == 'Error: Division by zero' and _user_namespace.get('num2') == 0"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying zero check guard condition",
+          "expectedOutput": "Error: Division by zero",
+          "assertionPython": "assert 'num2 == 0' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "What happens if a calculator performs division without checking the denominator?\n\n```python\nnum1 = 10\nnum2 = 0\nresult = num1 / num2\n```",
-      "options": [
-        "Raises ZeroDivisionError: division by zero",
-        "Returns infinity (float('inf'))",
-        "Returns None",
-        "Returns 0"
-      ],
-      "correct_answer": "Raises ZeroDivisionError: division by zero",
-      "explanation": "Python does not permit mathematical division by zero. Attempting `num1 / 0` immediately raises `ZeroDivisionError`. Production calculators must guard against this condition prior to division.",
-      "metadata": {
-        "concept": "zero_division_guard",
-        "skill": "defensive_programming",
-        "learning_objective": "Anticipate ZeroDivisionError when designing calculator routines",
-        "common_misconception": "Believing Python returns inf or None when dividing by zero",
-        "why_this_exercise_exists": "Teaches critical defensive validation for arithmetic apps"
-      }
+      "explanation": "Checking `num2 == 0` before performing division avoids Python raising a `ZeroDivisionError: division by zero` exception.",
+      "hint": "if num2 == 0: print(\"Error: Division by zero\") else: print(num1 / num2)",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "5.6_q5",
-      "type": "code_ordering",
-      "concept": "project_interactive_calculator_milestone_flow",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q4"
-      ],
-      "prompt": "Arrange the lines in correct logical order for Project Interactive Calculator Milestone Flow:",
-      "options": [
-        "a_5 = 10",
-        "b_5 = 20",
-        "result_5 = a_5 + b_5",
-        "print(result_5)"
-      ],
-      "correct_answer": [
-        "a_5 = 10",
-        "b_5 = 20",
-        "result_5 = a_5 + b_5",
-        "print(result_5)"
-      ],
-      "explanation": "Variables a_5 and b_5 must be defined before computing their sum and printing."
-    },
-    {
-      "id": "5.6_q6",
-      "type": "code_ordering",
-      "concept": "project_interactive_calculator_milestone_flow",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q5"
-      ],
-      "prompt": "Order the instructions to construct an interactive input prompt for two operands and an operator:",
-      "options": [
-        "a = float(input('First number: '))",
-        "op = input('Operator (+, -, *, /): ').strip()",
-        "b = float(input('Second number: '))",
-        "print(f'Calculating {a} {op} {b}')"
-      ],
-      "correct_answer": [
-        "a = float(input('First number: '))",
-        "op = input('Operator (+, -, *, /): ').strip()",
-        "b = float(input('Second number: '))",
-        "print(f'Calculating {a} {op} {b}')"
-      ],
-      "explanation": "Reading inputs in logical sequence gathers all parameters before printing the execution summary."
-    },
-    {
-      "id": "5.6_q7",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_module_bugfix",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q6"
-      ],
-      "prompt": "In the Interactive Calculator project, implement input validation so entering 'exit' halts the main calculation loop:",
-      "starter_code": "user_input = input('Calc> ')\nif user_input.lower() == 'exit':\n    # Halt the loop\n    ___",
-      "solution_code": "user_input = input('Calc> ')\nif user_input.lower() == 'exit':\n    break",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "The `break` statement immediately terminates the active `while` loop, allowing clean exit."
-    },
-    {
-      "id": "5.6_q8",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_module_bugfix",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q7"
-      ],
-      "prompt": "In the Interactive Calculator project, implement division by zero protection in the division operation handler:",
-      "starter_code": "def safe_divide(a, b):\n    if b == 0:\n        return 'Error: Division by zero'\n    return a / b",
-      "solution_code": "def safe_divide(a, b):\n    if b == 0:\n        return 'Error: Division by zero'\n    return a / b",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "Checking `if b == 0` guards against raising ZeroDivisionError before attempting division."
-    },
-    {
-      "id": "5.6_q9",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_module_bugfix",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q8"
-      ],
-      "prompt": "In the Interactive Calculator project, implement addition and multiplication operations based on an operator string:",
-      "starter_code": "def calculate(a, b, op):\n    if op == '+':\n        return a + b\n    elif op == '*':\n        return a * b\n    return None",
-      "solution_code": "def calculate(a, b, op):\n    if op == '+':\n        return a + b\n    elif op == '*':\n        return a * b\n    return None",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "An `if/elif` chain routes calculation to the matching arithmetic operator. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
-    },
-    {
-      "id": "5.6_q10",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_module_bugfix",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q9"
-      ],
-      "prompt": "In the Interactive Calculator project, implement exponential power calculation using the `**` operator:",
-      "starter_code": "def power(base, exponent):\n    return base ___ exponent",
-      "solution_code": "def power(base, exponent):\n    return base ** exponent",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "Python uses the double asterisk `**` for exponentiation. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
-    },
-    {
-      "id": "5.6_q11",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_module_bugfix",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q10"
-      ],
-      "prompt": "In the Interactive Calculator project, format a floating-point calculation result to exactly 2 decimal places:",
-      "starter_code": "def format_result(val):\n    return f'{val:___}'",
-      "solution_code": "def format_result(val):\n    return f'{val:.2f}'",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "The format specifier `:.2f` formats floats with 2 fixed decimal digits. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
-    },
-    {
-      "id": "5.6_q12",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_module_bugfix",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q11"
-      ],
-      "prompt": "In the Interactive Calculator project, append a completed calculation string to the calculation history list:",
-      "starter_code": "history = []\ndef log_calc(record):\n    history.___(record)",
-      "solution_code": "history = []\ndef log_calc(record):\n    history.append(record)",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "`history.append(record)` appends the newly computed entry to the end of the history list."
-    },
-    {
-      "id": "5.6_q13",
+      "id": "5.6_calc_3",
       "type": "write_the_code",
-      "concept": "project_interactive_calculator_milestone_1",
-      "skill": "project_milestone",
+      "concept": "project_interactive_calculator_edge_case",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q12"
+      "prompt": "Operator validator: Validate if operator is recognized:\n1. Set `op = \"%\"`\n2. If `op == \"+\" or op == \"-\" or op == \"*\" or op == \"/\"`:\n   - Print `\"Valid operator\"`\n3. Else:\n   - Print `\"Error: Invalid operator\"` (should print Error: Invalid operator)",
+      "starter_code": "# Operator validator\n",
+      "solution_code": "op = \"%\"\nif op == \"+\" or op == \"-\" or op == \"*\" or op == \"/\":\n    print(\"Valid operator\")\nelse:\n    print(\"Error: Invalid operator\")",
+      "expected_output": "Error: Invalid operator",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Error: Invalid operator for %",
+          "expectedOutput": "Error: Invalid operator",
+          "assertionPython": "assert _raw_stdout.strip() == 'Error: Invalid operator' and _user_namespace.get('op') == '%'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying operator validation logic",
+          "expectedOutput": "Error: Invalid operator",
+          "assertionPython": "assert 'Error: Invalid operator' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "Calculator Milestone 1: Read two numeric inputs from variables `input_a = '15.5'` and `input_b = '4.5'`, convert both to floats, and compute their sum stored in `sum_result`.",
-      "starter_code": "input_a = \"15.5\"\ninput_b = \"4.5\"\n# Convert both inputs to floats and store their sum in sum_result\n",
-      "solution_code": "input_a = \"15.5\"\ninput_b = \"4.5\"\nnum_a = float(input_a)\nnum_b = float(input_b)\nsum_result = num_a + num_b\nprint(f\"Result: {sum_result}\")",
-      "explanation": "Parsing both raw string inputs with `float()` allows accurate floating-point addition yielding `20.0`.",
-      "metadata": {
-        "concept": "calculator_input_ingestion",
-        "skill": "implementation",
-        "learning_objective": "Parse operand strings into floats for calculation",
-        "common_misconception": "Performing addition before type conversion",
-        "why_this_exercise_exists": "First core milestone of the interactive calculator project"
-      }
+      "explanation": "`\"%\"` is not in the allowed operators list, executing the `else` block to print `\"Error: Invalid operator\"`.",
+      "hint": "Check if op is one of +, -, *, /; else print Error: Invalid operator.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "5.6_q14",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_milestone_2",
-      "skill": "project_milestone",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q13"
-      ],
-      "prompt": "Calculator Milestone 2: Given `raw_op = '  *  '`, strip any extra whitespace from the operator and verify if it is one of the supported operators `('+', '-', '*', '/')`. Store boolean validity in `is_valid`.",
-      "starter_code": "raw_op = \"  *  \"\nsupported = ('+', '-', '*', '/')\n# Clean raw_op and verify validity\n",
-      "solution_code": "raw_op = \"  *  \"\nsupported = ('+', '-', '*', '/')\nop = raw_op.strip()\nis_valid = op in supported\nprint(f\"Operator '{op}' valid: {is_valid}\")",
-      "explanation": "Stripping whitespace prevents user keystroke errors like `' + '` from failing validity checks against `supported`.",
-      "metadata": {
-        "concept": "calculator_operator_parsing",
-        "skill": "implementation",
-        "learning_objective": "Clean and validate user operators against allowed operations",
-        "common_misconception": "Testing raw operator without stripping spaces",
-        "why_this_exercise_exists": "Second core milestone of the interactive calculator project"
-      }
-    },
-    {
-      "id": "5.6_q15",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_milestone_3",
-      "skill": "project_milestone",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q14"
-      ],
-      "prompt": "Calculator Milestone 3: Implement addition and subtraction dispatch. Given `a = 20`, `b = 8`, and `op = '-'`, compute `result` if `op == '+'` or `op == '-'`. Store the answer in `result`.",
-      "starter_code": "a = 20\nb = 8\nop = \"-\"\nresult = None\n# Implement addition and subtraction branch\n",
-      "solution_code": "a = 20\nb = 8\nop = \"-\"\nresult = None\nif op == \"+\":\n    result = a + b\nelif op == \"-\":\n    result = a - b\nprint(f\"Calculation: {result}\")",
-      "explanation": "An `if-elif` chain branches on `op`. For `'-'`, it evaluates `20 - 8 = 12`.",
-      "metadata": {
-        "concept": "calculator_additive_dispatch",
-        "skill": "implementation",
-        "learning_objective": "Implement branching for addition and subtraction operations",
-        "common_misconception": "Overlapping operators in sequential if statements",
-        "why_this_exercise_exists": "Third core milestone of the interactive calculator project"
-      }
-    },
-    {
-      "id": "5.6_q16",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_milestone_4",
-      "skill": "project_milestone",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q15"
-      ],
-      "prompt": "Calculator Milestone 4: Add multiplication and division support. Given `a = 24`, `b = 6`, and `op = '/'`, perform the calculation and store in `result`. Handle `op == '*'` as multiplication.",
-      "starter_code": "a = 24\nb = 6\nop = \"/\"\nresult = None\n# Add multiplication and division branching\n",
-      "solution_code": "a = 24\nb = 6\nop = \"/\"\nresult = None\nif op == \"*\":\n    result = a * b\nelif op == \"/\":\n    result = a / b\nprint(f\"Calculation: {result}\")",
-      "explanation": "Evaluating `op == '/'` executes `24 / 6 = 4.0`. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
-      "metadata": {
-        "concept": "calculator_multiplicative_dispatch",
-        "skill": "implementation",
-        "learning_objective": "Implement branching for multiplication and division operations",
-        "common_misconception": "Using integer division // when standard calculator precision requires float /",
-        "why_this_exercise_exists": "Fourth core milestone of the interactive calculator project"
-      }
-    },
-    {
-      "id": "5.6_q17",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_milestone_5",
-      "skill": "project_milestone",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q16"
-      ],
-      "prompt": "Calculator Milestone 5: Safeguard division against zero. Modify the division branch below so that if `b == 0`, it assigns `\"Error: Division by zero\"` to `error_msg` instead of crashing.\n\n```python\na = 10\nb = 0\nop = \"/\"\nif op == \"/\":\n    result = a / b\n```",
-      "starter_code": "a = 10\nb = 0\nop = \"/\"\nresult = None\nerror_msg = None\nif op == \"/\":\n    # Guard against b == 0\n    result = a / b",
-      "solution_code": "a = 10\nb = 0\nop = \"/\"\nresult = None\nerror_msg = None\nif op == \"/\":\n    if b == 0:\n        error_msg = \"Error: Division by zero\"\n    else:\n        result = a / b\nprint(error_msg if error_msg else result)",
-      "explanation": "Checking `if b == 0:` before attempting `a / b` prevents a program crash and provides graceful user-facing error reporting.",
-      "metadata": {
-        "concept": "zero_division_handling",
-        "skill": "error_handling",
-        "learning_objective": "Guard against division by zero gracefully in user applications",
-        "common_misconception": "Allowing the runtime exception to unceremoniously crash the CLI loop",
-        "why_this_exercise_exists": "Fifth core milestone of the interactive calculator project"
-      }
-    },
-    {
-      "id": "5.6_q18",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_milestone_6",
-      "skill": "project_milestone",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q17"
-      ],
-      "prompt": "Calculator Milestone 6: Build the consolidated `calculate(a, b, op)` function that brings all 4 operators together, guards against division by zero, and returns `\"Error: Invalid operator\"` for unknown operations.",
-      "starter_code": "def calculate(a, b, op):\n    # Return result or descriptive error string\n    pass",
-      "solution_code": "def calculate(a, b, op):\n    if op == \"+\":\n        return a + b\n    elif op == \"-\":\n        return a - b\n    elif op == \"*\":\n        return a * b\n    elif op == \"/\":\n        if b == 0:\n            return \"Error: Division by zero\"\n        return a / b\n    else:\n        return \"Error: Invalid operator\"",
-      "explanation": "This complete dispatch function cleanly maps inputs to computations while managing invalid operators and division by zero as well-defined return contracts.",
-      "metadata": {
-        "concept": "calculator_dispatcher_function",
-        "skill": "functional_composition",
-        "learning_objective": "Consolidate parsing, dispatch, and edge case handling into a single robust function",
-        "common_misconception": "Scattering error checks across multiple disconnected blocks",
-        "why_this_exercise_exists": "Sixth core milestone completing the core logic of the calculator project"
-      }
-    },
-    {
-      "id": "5.6_q19",
+      "id": "5.6_calc_4",
       "type": "write_the_code",
       "concept": "project_interactive_calculator_implementation",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q18"
-      ],
-      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Project: Interactive Calculator.",
-      "starter_code": "def process_5_6_data(items):\n    # Process input according to Project: Interactive Calculator rules\n    pass",
-      "solution_code": "def process_5_6_data(items):\n    return [item for item in items if item is not None]",
-      "test_cases": [
-        {
-          "input": "[1, None, 2, None, 3]",
-          "expected_output": "[1, 2, 3]",
-          "description": "cleans null values using Project: Interactive Calculator rules"
-        }
-      ],
-      "hint": "Focus on applying the central Python idiom for Project: Interactive Calculator.",
-      "explanation": "Constructing pure, robust data transformers for Project: Interactive Calculator avoids unintended side effects and guarantees consistent return contracts."
-    },
-    {
-      "id": "5.6_q20",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_debugging",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q19"
-      ],
-      "prompt": "Defensive Validation: Implement a verification helper for Project: Interactive Calculator that confirms preconditions and guards against invalid input.",
-      "starter_code": "def validate_5_6_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
-      "solution_code": "def validate_5_6_input(val):\n    if val is None or val == '':\n        return False\n    return True",
-      "test_cases": [
-        {
-          "input": "'valid_token'",
-          "expected_output": "True",
-          "description": "valid input returns True"
-        }
-      ],
-      "hint": "Check the condition and return value carefully.",
-      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
-    },
-    {
-      "id": "5.6_q21",
-      "type": "code_prediction",
-      "concept": "project_interactive_calculator_edge_case",
-      "skill": "prediction",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q20"
-      ],
-      "prompt": "What will be the outcome when this code handling Project: Interactive Calculator encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
-      "hint": "An empty input list evaluates as falsy and produces an empty result.",
-      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Project: Interactive Calculator.",
-      "options": [
-        "[]",
-        "None",
-        "IndexError",
-        "ValueError"
-      ],
-      "correct_answer": "[]"
-    },
-    {
-      "id": "5.6_q22",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_production_transfer",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q21"
-      ],
-      "prompt": "Transfer Challenge: Solve a practical problem using Project: Interactive Calculator. Implement the function below to satisfy the stated contract.",
-      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Project: Interactive Calculator\n    return str(val).strip()",
-      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "prompt": "Build the Interactive Calculator CLI:\nPrompt sequence via `input()`:\n1. Read first number as float: `num1 = float(input())`\n2. Read operator as string: `op = input()`\n3. Read second number as float: `num2 = float(input())`\n\nExecution rules:\n- If `op == \"+\"`: print `num1 + num2`\n- Elif `op == \"-\"`: print `num1 - num2`\n- Elif `op == \"*\"`: print `num1 * num2`\n- Elif `op == \"/\"`:\n  - If `num2 == 0`: print `\"Error: Division by zero\"`\n  - Else: print `num1 / num2`\n- Else: print `\"Error: Invalid operator\"`",
+      "starter_code": "# Interactive Calculator CLI\nnum1 = float(input())\nop = input()\nnum2 = float(input())\n\n# Implement if/elif/else arithmetic engine with zero division & invalid operator guards\n",
+      "solution_code": "num1 = float(input())\nop = input()\nnum2 = float(input())\n\nif op == \"+\":\n    print(num1 + num2)\nelif op == \"-\":\n    print(num1 - num2)\nelif op == \"*\":\n    print(num1 * num2)\nelif op == \"/\":\n    if num2 == 0:\n        print(\"Error: Division by zero\")\n    else:\n        print(num1 / num2)\nelse:\n    print(\"Error: Invalid operator\")",
+      "expected_output": "20.0",
       "test_cases": [
         {
-          "input": "'  python  '",
-          "expected_output": "'PYTHON'",
-          "description": "domain sanitization"
-        }
-      ],
-      "hint": "Use a list comprehension to filter records where 'active' is True.",
-      "explanation": "Applying clean functional contracts for Project: Interactive Calculator ensures testable domain operations."
-    },
-    {
-      "id": "5.6_q23",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_refactoring",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q22"
-      ],
-      "prompt": "Refactor this procedural snippet for Project: Interactive Calculator into clean, modular, and idiomatic Python:",
-      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
-      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Addition: 12 + 8 = 20.0",
+          "input": "12\n+\n8",
+          "expectedOutput": "20.0",
+          "assertionPython": "assert abs(float(_raw_stdout.splitlines()[-1].strip()) - 20.0) < 0.01"
+        },
         {
-          "input": "",
-          "expected_output": "Project: Interactive Calculator Result 23"
+          "id": "tc_2",
+          "description": "Subtraction: 25 - 7 = 18.0",
+          "input": "25\n-\n7",
+          "expectedOutput": "18.0",
+          "assertionPython": "assert abs(float(_raw_stdout.splitlines()[-1].strip()) - 18.0) < 0.01"
+        },
+        {
+          "id": "tc_3",
+          "description": "Multiplication: 6 * 9 = 54.0",
+          "input": "6\n*\n9",
+          "expectedOutput": "54.0",
+          "assertionPython": "assert abs(float(_raw_stdout.splitlines()[-1].strip()) - 54.0) < 0.01",
+          "hidden": true
+        },
+        {
+          "id": "tc_4",
+          "description": "Division: 20 / 4 = 5.0",
+          "input": "20\n/\n4",
+          "expectedOutput": "5.0",
+          "assertionPython": "assert abs(float(_raw_stdout.splitlines()[-1].strip()) - 5.0) < 0.01",
+          "hidden": true
+        },
+        {
+          "id": "tc_5",
+          "description": "Division by zero guard: 10 / 0 prints Error: Division by zero",
+          "input": "10\n/\n0",
+          "expectedOutput": "Error: Division by zero",
+          "assertionPython": "assert 'Division by zero' in _raw_stdout",
+          "hidden": true
+        },
+        {
+          "id": "tc_6",
+          "description": "Invalid operator guard: 10 % 3 prints Error: Invalid operator",
+          "input": "10\n%\n3",
+          "expectedOutput": "Error: Invalid operator",
+          "assertionPython": "assert 'Invalid operator' in _raw_stdout",
+          "hidden": true
         }
       ],
-      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
-      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
+      "explanation": "The calculator reads two numbers and an operator, routing through an if/elif chain. When division by zero occurs, it safely intercepts and prints \"Error: Division by zero\". Unrecognized operators trigger the final else branch.",
+      "hint": "Use if op == \"+\", elif op == \"-\", elif op == \"*\", elif op == \"/\": with nested if num2 == 0:, else: print(\"Error: Invalid operator\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "5.6_q24",
+      "id": "5.6_calc_5",
       "type": "write_the_code",
       "concept": "project_interactive_calculator_mastery_challenge",
-      "skill": "transfer",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q23"
-      ],
-      "prompt": "Final Capstone Verification: Write a production-grade handler for Project: Interactive Calculator that processes batches and handles empty inputs cleanly.",
-      "starter_code": "def execute_5_6_workflow(batch):\n    # Validate and transform batch\n    pass",
-      "solution_code": "def execute_5_6_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
+      "prompt": "Interactive Calculator with Formatted Output:\nRead `a = float(input())`, `op = input()`, `b = float(input())`.\nPrint formatted result: `f\"{a} {op} {b} = {ans}\"`.\nIf `op == \"/\"` and `b == 0`, print `\"Error: Division by zero\"`.\nIf `op` not in `[\"+\", \"-\", \"*\", \"/\"]`, print `\"Error: Invalid operator\"`.",
+      "starter_code": "# Formatted calculator output\na = float(input())\nop = input()\nb = float(input())\n",
+      "solution_code": "a = float(input())\nop = input()\nb = float(input())\n\nif op == \"+\":\n    print(f\"{a} {op} {b} = {a + b}\")\nelif op == \"-\":\n    print(f\"{a} {op} {b} = {a - b}\")\nelif op == \"*\":\n    print(f\"{a} {op} {b} = {a * b}\")\nelif op == \"/\":\n    if b == 0:\n        print(\"Error: Division by zero\")\n    else:\n        print(f\"{a} {op} {b} = {a / b}\")\nelse:\n    print(\"Error: Invalid operator\")",
+      "expected_output": "10.0 + 5.0 = 15.0",
       "test_cases": [
         {
-          "input": "[' a ', 'b ']",
-          "expected_output": "['a', 'b']",
-          "description": "batch processing workflow"
-        }
-      ],
-      "hint": "Validate input first, then execute the transformation.",
-      "explanation": "Production workflows for Project: Interactive Calculator must validate inputs, maintain immutability, and return deterministic results."
-    },
-    {
-      "id": "5.6_q25",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_implementation",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q24"
-      ],
-      "prompt": "Calculator Milestone 13: Implement memory storage functions: write `Memory` helper class supporting `store(val)`, `recall()`, and `clear()`.",
-      "starter_code": "class CalculatorMemory:\n    def __init__(self):\n        self.val = 0\n    def store(self, n):\n        self.val = n\n    def recall(self):\n        return self.val\n    def clear(self):\n        self.val = 0",
-      "solution_code": "class CalculatorMemory:\n    def __init__(self):\n        self.val = 0\n    def store(self, n):\n        self.val = n\n    def recall(self):\n        return self.val\n    def clear(self):\n        self.val = 0",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Formatted addition output: 10.0 + 5.0 = 15.0",
+          "input": "10\n+\n5",
+          "expectedOutput": "10.0 + 5.0 = 15.0",
+          "assertionPython": "assert '15.0' in _raw_stdout and '+' in _raw_stdout"
+        },
         {
-          "input": "",
-          "expected_output": "0",
-          "description": "memory initialized to 0"
+          "id": "tc_2",
+          "description": "Division by zero check prints Error: Division by zero",
+          "input": "10\n/\n0",
+          "expectedOutput": "Error: Division by zero",
+          "assertionPython": "assert 'Division by zero' in _raw_stdout",
+          "hidden": true
         }
       ],
-      "hint": "Focus on applying the central Python idiom for Project: Interactive Calculator.",
-      "explanation": "Encapsulating memory state within a dedicated class provides clean state management without polluting global scope."
-    },
-    {
-      "id": "5.6_q26",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_debugging",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.6_q25"
-      ],
-      "prompt": "Calculator Milestone 14: Debug floating-point formatting: fix numeric precision output by formatting results to 2 decimal places.",
-      "starter_code": "def format_result(val):\n    # Return formatted string with 2 decimal places\n    return str(val)",
-      "solution_code": "def format_result(val):\n    return f\"{val:.2f}\"",
-      "test_cases": [
-        {
-          "input": "0.1 + 0.2",
-          "expected_output": "'0.30'",
-          "description": "formats float precision"
-        }
-      ],
-      "hint": "Check the condition and return value carefully.",
-      "explanation": "Using f-string formatting specifiers `{val:.2f}` rounds and displays numbers cleanly for user interfaces."
-    },
-    {
-      "id": "5.6_q27",
-      "type": "code_prediction",
-      "concept": "project_interactive_calculator_edge_case",
-      "skill": "prediction",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q26"
-      ],
-      "prompt": "Calculator Milestone 15: Predict the outcome when an interactive session checks whether the user entered an exit command:\n```python\ncmd = ' QUIT '.strip().lower()\nprint(cmd in ('q', 'quit', 'exit'))\n```",
-      "hint": "An empty input list evaluates as falsy and produces an empty result.",
-      "explanation": "Stripping and lowercasing converts ' QUIT ' to 'quit', which is present in the exit command tuple, evaluating to True.",
-      "options": [
-        "True",
-        "False",
-        "None",
-        "ValueError"
-      ],
-      "correct_answer": "True"
-    },
-    {
-      "id": "5.6_q28",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_production_transfer",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q27"
-      ],
-      "prompt": "Calculator Milestone 16: Implement calculation history: write `log_calculation(history, a, op, b, res)` that appends formatted record string.",
-      "starter_code": "def log_calculation(history, a, op, b, res):\n    # Append '{a} {op} {b} = {res}' to history list\n    pass",
-      "solution_code": "def log_calculation(history, a, op, b, res):\n    history.append(f\"{a} {op} {b} = {res}\")\n    return history",
-      "test_cases": [
-        {
-          "input": "[], 10, '+', 5, 15",
-          "expected_output": "['10 + 5 = 15']",
-          "description": "logs calculation history"
-        }
-      ],
-      "hint": "Use a list comprehension to filter records where 'active' is True.",
-      "explanation": "Maintaining an audit log of past calculations in an append-only list enables history inspection."
-    },
-    {
-      "id": "5.6_q29",
-      "type": "fix_the_code",
-      "concept": "project_interactive_calculator_refactoring",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q28"
-      ],
-      "prompt": "Calculator Milestone 17: Refactor operator branching into a clean dictionary dispatch table `OPERATORS = {'+': add, '-': sub, '*': mul, '/': div}`.",
-      "starter_code": "def dispatch_op(op, a, b):\n    ops = {'+': lambda x, y: x + y, '-': lambda x, y: x - y}\n    # Return operation result or None if op invalid\n    pass",
-      "solution_code": "def dispatch_op(op, a, b):\n    ops = {'+': lambda x, y: x + y, '-': lambda x, y: x - y, '*': lambda x, y: x * y}\n    handler = ops.get(op)\n    return handler(a, b) if handler else None",
-      "test_cases": [
-        {
-          "input": "'+', 7, 3",
-          "expected_output": "10",
-          "description": "dispatches addition"
-        }
-      ],
-      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
-      "explanation": "Dispatch tables replace complex if-elif chains with O(1) dictionary key lookups, improving maintainability."
-    },
-    {
-      "id": "5.6_q30",
-      "type": "write_the_code",
-      "concept": "project_interactive_calculator_mastery_challenge",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.6_q29"
-      ],
-      "prompt": "Calculator Boss Milestone: Build the complete `run_calculator(expression_str)` engine that tokenizes, evaluates operations, and formats the output string cleanly.",
-      "starter_code": "def run_calculator(expr):\n    # Parse 'a op b' expression and return result\n    pass",
-      "solution_code": "def run_calculator(expr):\n    parts = expr.strip().split()\n    if len(parts) != 3:\n        return 'Error: Invalid format'\n    try:\n        a, op, b = float(parts[0]), parts[1], float(parts[2])\n    except ValueError:\n        return 'Error: Invalid numbers'\n    if op == '+': return f\"{a + b:.2f}\"\n    elif op == '-': return f\"{a - b:.2f}\"\n    elif op == '*': return f\"{a * b:.2f}\"\n    elif op == '/':\n        if b == 0: return 'Error: Division by zero'\n        return f\"{a / b:.2f}\"\n    return 'Error: Invalid operator'",
-      "test_cases": [
-        {
-          "input": "'10 / 2'",
-          "expected_output": "'5.00'",
-          "description": "runs complete calculator engine"
-        }
-      ],
-      "hint": "Validate input first, then execute the transformation.",
-      "explanation": "This complete capstone orchestrates input validation, parsing, error recovery, arithmetic dispatch, and clean output formatting."
+      "explanation": "Formatted calculation results present clean feedback to the user while strictly guarding against arithmetic exceptions.",
+      "hint": "Format with f-string f\"{a} {op} {b} = {result}\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 5,
-  "learning_objectives": [
-    "Architect a complete multi-step application for Project: Interactive Calculator",
-    "Decompose problem requirements into modular functions and classes",
-    "Implement defensive error handling and input validation",
-    "Verify application correctness against comprehensive test cases"
-  ],
-  "prerequisites": [
-    "5.5"
   ]
 }

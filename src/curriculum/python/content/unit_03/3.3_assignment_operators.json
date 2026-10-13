@@ -1,547 +1,595 @@
 {
   "lesson_id": "3.3",
   "title": "Assignment Operators",
-  "unit": "Operators and Math",
+  "unit": "unit_03",
   "items": [
     {
       "id": "3.3_q1",
       "type": "micro_lesson",
       "concept": "augmented_assignment_overview",
-      "skill": "recognition",
+      "skill": "understanding",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q8"
-      ],
-      "title": "Shorthand: Augmented Assignment",
-      "content": "In programming, you frequently update a variable based on its current value:\n```python\nscore = score + 10\n```\nPython provides a clean, concise shorthand called **augmented assignment** (or compound operators):\n```python\nscore += 10  # Identical in effect to: score = score + 10\n```",
-      "prompt": "",
-      "explanation": "In programming, you frequently update a variable based on its current value:\n```python\nscore = score + 10\n```\nPython provides a clean, concise shorthand called **augmented assignment** (or compound operators):\n```python\nscore += 10  # Identical in effect to: score = score + 10\n```. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "prerequisites": [],
+      "prompt": "# Augmented Assignment Operators in Python\n\nPrograms frequently update a variable based on its existing value (e.g. `score = score + 10`). Python provides concise shorthand operators called **augmented assignment**:\n\n- `+=` (Add and assign): `x += 5` is `x = x + 5`\n- `-=` (Subtract and assign): `x -= 3` is `x = x - 3`\n- `*=` (Multiply and assign): `x *= 2` is `x = x * 2`\n- `/=` (True divide and assign): `x /= 2` is `x = x / 2` (always produces a `float`)\n- `//=` (Floor divide and assign): `x //= 2` is `x = x // 2`\n- `%=` (Modulo and assign): `x %= 10` is `x = x % 10`\n- `**=` (Power and assign): `x **= 2` is `x = x ** 2`\n\n### Two Critical Rules:\n1. **Variable must exist first**: `score += 1` raises a `NameError` if `score` was not previously defined.\n2. **Right-hand side evaluates first**: In `x *= 2 + 3`, Python evaluates `(2 + 3) = 5` first, then computes `x = x * 5`.",
+      "explanation": "Augmented assignment operators update a variable in place using its previous value.",
+      "hint": "x += 1 is shorthand for x = x + 1."
     },
     {
       "id": "3.3_q2",
-      "type": "multiple_choice",
-      "concept": "augmented_assignment_overview",
-      "skill": "recognition",
+      "type": "code_prediction",
+      "concept": "addition_assignment_prediction",
+      "skill": "prediction",
       "difficulty": "easy",
       "prerequisites": [
-        "3.3_q1"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What is the shorthand equivalent of `count = count + 1` in Python?",
+      "prompt": "What will this program print?\n```python\npoints = 50\npoints += 25\nprint(points)\n```",
       "options": [
-        "A. `count++`",
-        "B. `count += 1`",
-        "C. `count =+ 1`",
-        "D. `count.add(1)`"
+        "75",
+        "50",
+        "25",
+        "5025"
       ],
-      "correct_answer": "B",
-      "explanation": "`count += 1` is Python's augmented assignment operator to increment by 1."
+      "correct_answer": "75",
+      "code_snippet": "points = 50\npoints += 25\nprint(points)",
+      "explanation": "`points += 25` expands to `points = points + 25`. Since `points` started at `50`, `50 + 25 = 75`.",
+      "hint": "Add 25 to 50.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q3",
-      "type": "micro_lesson",
-      "concept": "no_increment_operator",
-      "skill": "understanding",
+      "type": "fill_in_the_blank",
+      "concept": "increment_operator_token",
+      "skill": "application",
       "difficulty": "easy",
       "prerequisites": [
-        "3.3_q2"
+        "augmented_assignment_overview"
       ],
-      "title": "Python Has No ++ or -- Operators",
-      "content": "If you have used languages like C++, Java, or JavaScript, you might look for `count++` or `count--`.\n\n**Python DOES NOT have `++` or `--` operators!**\n\nIf you type `++x`, Python simply sees two unary plus signs (`+(+x)`), which leaves `x` unchanged. Always use `+= 1` or `-= 1` in Python.",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+      "prompt": "Complete the statement to increment `count` by `1` using Python's augmented assignment:\n```python\ncount = 0\ncount ___ 1\n```",
+      "accepted_answers": [
+        "+=",
+        "+ ="
+      ],
+      "correct_answer": "+=",
+      "explanation": "In Python, `+=` increments a variable. Unlike C++ or Java, Python does NOT have a `++` operator.",
+      "hint": "Use the += operator.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q4",
       "type": "code_prediction",
-      "concept": "no_increment_operator",
+      "concept": "subtraction_assignment_prediction",
       "skill": "prediction",
-      "difficulty": "medium",
+      "difficulty": "easy",
       "prerequisites": [
-        "3.3_q3"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What does this code output?\n```python\nx = 5\n++x\nprint(x)\n```",
+      "prompt": "What will this program print?\n```python\nbalance = 100\nbalance -= 35\nprint(balance)\n```",
       "options": [
-        "A. 6",
-        "B. 7",
-        "C. 5",
-        "D. SyntaxError"
+        "65",
+        "135",
+        "35",
+        "-35"
       ],
-      "correct_answer": "C",
-      "explanation": "Python does not have a `++` operator. `++x` is parsed as `+(+5)`, which simply evaluates to 5 without altering `x`."
+      "correct_answer": "65",
+      "code_snippet": "balance = 100\nbalance -= 35\nprint(balance)",
+      "explanation": "`balance -= 35` computes `balance = balance - 35`: `100 - 35 = 65`.",
+      "hint": "Subtract 35 from 100.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q5",
-      "type": "micro_lesson",
-      "concept": "all_augmented_operators",
-      "skill": "recognition",
-      "difficulty": "easy",
+      "type": "error_diagnosis",
+      "concept": "uninitialized_variable_augmented_error",
+      "skill": "diagnosis",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.1_q1",
-        "3.3_q1"
+        "augmented_assignment_overview"
       ],
-      "title": "The Full Family of Compound Operators",
-      "content": "Every arithmetic operator has an augmented counterpart:\n\n* `+=` : `x += 3` -> `x = x + 3`\n* `-=` : `x -= 2` -> `x = x - 2`\n* `*=` : `x *= 4` -> `x = x * 4`\n* `/=` : `x /= 2` -> `x = x / 2` (always float!)\n* `//=` : `x //= 2` -> `x = x // 2`\n* `%=` : `x %= 3` -> `x = x % 3`\n* `**=` : `x **= 2` -> `x = x ** 2`",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+      "prompt": "A programmer writes this script as the first line of their file:\n```python\nscore += 10\nprint(score)\n```\nWhat happens when this executes?",
+      "options": [
+        "A NameError is raised because score has not been defined yet, so Python cannot read its previous value",
+        "score initializes automatically to 0, then increments to 10",
+        "score is created as None",
+        "A TypeError is raised"
+      ],
+      "correct_answer": "A NameError is raised because score has not been defined yet, so Python cannot read its previous value",
+      "explanation": "`score += 10` requires evaluating the right side `score + 10`. Because `score` does not exist in memory, attempting to read it triggers `NameError: name 'score' is not defined`.",
+      "hint": "You cannot add to a variable that does not exist yet.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "3.3_q6",
       "type": "code_prediction",
-      "concept": "subtraction_augmented",
+      "concept": "right_hand_side_evaluation_precedence",
       "skill": "prediction",
-      "difficulty": "easy",
+      "difficulty": "hard",
       "prerequisites": [
-        "3.3_q5"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What does this code print?\n```python\nhealth = 100\nhealth -= 25\nprint(health)\n```",
+      "prompt": "What does this code print?\n```python\nx = 5\ny = 2\nx *= y + 3\nprint(x)\n```",
       "options": [
-        "A. 100",
-        "B. 75",
-        "C. 25",
-        "D. -25"
+        "25",
+        "13",
+        "10",
+        "15"
       ],
-      "correct_answer": "B",
-      "explanation": "Hyphens `-` are interpreted by Python's parser as subtraction operators, not identifier characters. In Python variable names, words must be joined using underscores `_`."
+      "correct_answer": "25",
+      "code_snippet": "x = 5\ny = 2\nx *= y + 3\nprint(x)",
+      "explanation": "In augmented assignment, the ENTIRE expression on the right-hand side is evaluated first as if surrounded by parentheses: `(y + 3) = (2 + 3) = 5`. Then `x = x * 5 = 5 * 5 = 25`. It is NOT evaluated as `(x * y) + 3 = (10) + 3 = 13`.",
+      "hint": "Evaluate the right side y + 3 first, then multiply.",
+      "misconception_tag": "PRECEDENCE_CONFUSION"
     },
     {
       "id": "3.3_q7",
       "type": "code_prediction",
-      "concept": "multiplication_augmented",
+      "concept": "division_assignment_type_conversion",
       "skill": "prediction",
-      "difficulty": "easy",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.3_q5"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What does this code output?\n```python\nfactor = 3\nfactor *= 4\nprint(factor)\n```",
+      "prompt": "What will this program print?\n```python\nfuel = 20\nfuel /= 4\nprint(fuel)\n```",
       "options": [
-        "A. 12",
-        "B. 7",
-        "C. 34",
-        "D. 81"
+        "5.0",
+        "5",
+        "4",
+        "0"
       ],
-      "correct_answer": "A",
-      "explanation": "Augmented assignment operators like `+=` perform the arithmetic operation and immediately reassign the result back to the variable in place (e.g. `x += 5` is shorthand for `x = x + 5`)."
+      "correct_answer": "5.0",
+      "code_snippet": "fuel = 20\nfuel /= 4\nprint(fuel)",
+      "explanation": "True division `/=` always converts the resulting value into a `float`: `20 / 4 = 5.0`.",
+      "hint": "Single slash division always produces a float.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "3.3_q8",
-      "type": "output_prediction",
-      "concept": "division_augmented_float",
-      "skill": "prediction",
+      "type": "multiple_choice",
+      "concept": "plus_equal_vs_equal_plus_trap",
+      "skill": "recognition",
       "difficulty": "medium",
       "prerequisites": [
-        "2.3_q7",
-        "3.3_q5"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What is the type and value of `x` after this code runs?\n```python\nx = 10\nx /= 2\nprint(x)\n```",
+      "prompt": "What is the subtle bug if a programmer types `x =+ 5` instead of `x += 5`?",
       "options": [
-        "A. 5 (an int)",
-        "B. 5.0 (a float)",
-        "C. 2",
-        "D. 10"
+        "`=+` assigns positive 5 directly to x, ignoring and overwriting x's previous value",
+        "`=+` raises a SyntaxError immediately",
+        "`=+` adds 5 twice to x",
+        "`=+` is an alias for `+=` and behaves identically"
       ],
-      "correct_answer": "B",
-      "explanation": "Because true division `/` always returns a float, `x /= 2` converts `x` to `5.0`."
+      "correct_answer": "`=+` assigns positive 5 directly to x, ignoring and overwriting x's previous value",
+      "explanation": "In Python, `x =+ 5` is parsed as `x = (+5)` (assigning positive 5). It overwrites `x` rather than adding to it. The augmented assignment operator must be written as `+=`.",
+      "hint": "= followed by + assigns a positive number, it does not increment.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q9",
-      "type": "micro_lesson",
-      "concept": "rhs_precedence_in_augmented",
-      "skill": "understanding",
-      "difficulty": "hard",
+      "type": "fix_the_code",
+      "concept": "fix_equal_plus_syntax_bug",
+      "skill": "debugging",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.2_q1",
-        "3.3_q1"
+        "plus_equal_vs_equal_plus_trap"
       ],
-      "title": "Right-Hand Side Evaluates First!",
-      "content": "A crucial rule of augmented assignment:\n**The entire right-hand side is evaluated completely before the operation is applied.**\n\n```python\nx = 5\nx *= 2 + 3\n```\nHow does this evaluate?\n1. Right side: `2 + 3 = 5`\n2. Multiply: `x = 5 * 5 = 25`\n\nIt does NOT do `(5 * 2) + 3 = 13`!",
-      "prompt": "",
-      "explanation": "A crucial rule of augmented assignment:\n**The entire right-hand side is evaluated completely before the operation is applied. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "prompt": "A fitness tracker counts steps. The programmer accidentally wrote `=+ 500` instead of `+= 500`, resetting the counter to 500 instead of adding to the 1000 previous steps. Fix the operator.",
+      "starter_code": "steps = 1000\n# Fix the operator below\nsteps =+ 500\nprint(steps)",
+      "solution_code": "steps = 1000\nsteps += 500\nprint(steps)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Increments steps to 1500",
+          "expectedOutput": "1500",
+          "assertionPython": "assert _user_namespace.get(\"steps\") == 1500"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies augmented addition operator +=",
+          "assertionPython": "assert _user_namespace.get(\"steps\") == 1000 + 500",
+          "hidden": true
+        }
+      ],
+      "explanation": "Changing `=+` to `+=` performs augmented assignment, accumulating `1000 + 500 = 1500`.",
+      "hint": "Use += instead of =+.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q10",
-      "type": "output_prediction",
-      "concept": "rhs_precedence_in_augmented",
-      "skill": "analysis",
-      "difficulty": "hard",
+      "type": "code_prediction",
+      "concept": "string_concatenation_augmented",
+      "skill": "prediction",
+      "difficulty": "easy",
       "prerequisites": [
-        "3.3_q9"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What does this code output?\n```python\na = 4\na *= 3 + 2\nprint(a)\n```",
+      "prompt": "What will this program print?\n```python\ntext = \"Codolingo\"\ntext += \" Python\"\nprint(text)\n```",
       "options": [
-        "A. 14",
-        "B. 20",
-        "C. 24",
-        "D. 12"
+        "Codolingo Python",
+        "Codolingo",
+        "Python",
+        "TypeError"
       ],
-      "correct_answer": "B",
-      "explanation": "Right side `3 + 2 = 5` is evaluated first. Then `a = 4 * 5 = 20`."
+      "correct_answer": "Codolingo Python",
+      "code_snippet": "text = \"Codolingo\"\ntext += \" Python\"\nprint(text)",
+      "explanation": "`+=` works on strings by concatenating the new string to the end: `\"Codolingo\" + \" Python\" = \"Codolingo Python\"`.",
+      "hint": "+= concatenates text strings.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "3.3_q11",
-      "type": "micro_lesson",
-      "concept": "uninitialized_augmented_error",
-      "skill": "understanding",
+      "type": "code_prediction",
+      "concept": "string_multiplication_augmented",
+      "skill": "prediction",
       "difficulty": "medium",
       "prerequisites": [
-        "1.6_q8",
-        "3.3_q1"
+        "augmented_assignment_overview"
       ],
-      "title": "Variable Must Already Exist",
-      "content": "Because `x += 5` looks up the current value of `x` first, `x` MUST already exist in memory!\n\nIf you use `+=` on a variable that was never initialized:\n```python\ntotal += 10  # NameError: name 'total' is not defined!\n```\nYou must initialize it first: `total = 0`, then `total += 10`.",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+      "prompt": "What does this program print?\n```python\ndivider = \"=\"\ndivider *= 4\nprint(divider)\n```",
+      "options": [
+        "====",
+        "4",
+        "==",
+        "SyntaxError"
+      ],
+      "correct_answer": "====",
+      "code_snippet": "divider = \"=\"\ndivider *= 4\nprint(divider)",
+      "explanation": "`*=` on a string repeats the string in place: `\"=\" * 4 = \"====\"`.",
+      "hint": "*= repeats the string 4 times.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "3.3_q12",
-      "type": "error_diagnosis",
-      "concept": "uninitialized_augmented_error",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "inventory_countdown_augmented",
+      "skill": "application",
       "difficulty": "medium",
       "prerequisites": [
-        "3.3_q11"
+        "augmented_assignment_overview"
       ],
-      "prompt": "A script crashes on line 1 with `NameError: name 'points' is not defined`:\n```python\npoints += 50\n```\nWhat caused this crash?",
-      "options": [
-        "A. `+=` is not valid syntax in Python.",
-        "B. `points += 50` tries to read the current value of `points` to add 50 to it, but `points` was never created.",
-        "C. 50 must be written as a string.",
-        "D. `points` is a reserved keyword."
+      "prompt": "A bakery starts the morning with `50` croissants. Over the morning, `12` are sold, and in the afternoon `18` more are sold.\nWrite a program that:\n1. Sets `croissants = 50`\n2. Uses `-=` to subtract `12`\n3. Uses `-=` to subtract `18`\n4. Prints `croissants`",
+      "starter_code": "# Write inventory deduction using -= below\n",
+      "solution_code": "croissants = 50\ncroissants -= 12\ncroissants -= 18\nprint(croissants)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints remaining croissants 20",
+          "expectedOutput": "20",
+          "assertionPython": "assert _user_namespace.get(\"croissants\") == 20"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies initial 50 and deductions",
+          "assertionPython": "assert _user_namespace.get(\"croissants\") == 50 - 12 - 18",
+          "hidden": true
+        }
       ],
-      "correct_answer": "B",
-      "explanation": "You cannot augment an unassigned variable. It must be initialized (e.g. `points = 0`) before using `+=`."
+      "explanation": "`50 - 12 = 38`. `38 - 18 = 20`.",
+      "hint": "Use croissants -= 12 then croissants -= 18.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q13",
-      "type": "fix_the_code",
-      "concept": "initialize_before_augment",
-      "skill": "debugging",
-      "difficulty": "easy",
+      "type": "code_prediction",
+      "concept": "floor_division_assignment_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.3_q12"
+        "augmented_assignment_overview"
       ],
-      "prompt": "Initialize `score` to 0 before augmenting it so this code runs without error:",
-      "starter_code": "score += 10\nprint(score)",
-      "solution_code": "score = 0\nscore += 10\nprint(score)",
-      "explanation": "Add `score = 0` on the first line to define the starting value."
+      "prompt": "What will this program print?\n```python\npieces = 17\npieces //= 5\nprint(pieces)\n```",
+      "options": [
+        "3",
+        "3.4",
+        "2",
+        "0"
+      ],
+      "correct_answer": "3",
+      "code_snippet": "pieces = 17\npieces //= 5\nprint(pieces)",
+      "explanation": "`pieces //= 5` computes integer floor division: `17 // 5 = 3` (discarding the remainder of 2).",
+      "hint": "Floor division discards the remainder.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q14",
-      "type": "micro_lesson",
-      "concept": "string_augmented_assignment",
-      "skill": "application",
-      "difficulty": "easy",
+      "type": "code_prediction",
+      "concept": "modulo_assignment_cyclic_counter",
+      "skill": "prediction",
+      "difficulty": "medium",
       "prerequisites": [
-        "2.4_q8",
-        "3.3_q1"
+        "augmented_assignment_overview"
       ],
-      "title": "Augmented Assignment with Strings",
-      "content": "Augmented operators also work with strings!\n\n* `+=` appends text:\n```python\ngreeting = \"Hello\"\ngreeting += \" World\"\nprint(greeting)  # Hello World\n```\n* `*=` repeats text:\n```python\nline = \"-\"\nline *= 5\nprint(line)  # -----\n```",
-      "prompt": "",
-      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+      "prompt": "What does this program print?\n```python\nindex = 10\nindex %= 3\nprint(index)\n```",
+      "options": [
+        "1",
+        "3",
+        "0",
+        "3.33"
+      ],
+      "correct_answer": "1",
+      "code_snippet": "index = 10\nindex %= 3\nprint(index)",
+      "explanation": "`index %= 3` replaces `index` with its remainder modulo 3: `10 = 3 * 3 + 1`. The remainder is `1`.",
+      "hint": "Calculate 10 % 3.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q15",
-      "type": "code_prediction",
-      "concept": "string_augmented_assignment",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.3_q14"
-      ],
-      "prompt": "What does this code output?\n```python\nmsg = \"Ha\"\nmsg *= 3\nprint(msg)\n```",
-      "options": [
-        "A. HaHaHa",
-        "B. Ha3",
-        "C. Ha Ha Ha",
-        "D. TypeError"
-      ],
-      "correct_answer": "A",
-      "explanation": "Augmented assignment operators like `+=` perform the arithmetic operation and immediately reassign the result back to the variable in place (e.g. `x += 5` is shorthand for `x = x + 5`)."
-    },
-    {
-      "id": "3.3_q16",
-      "type": "micro_lesson",
-      "concept": "multiple_assignment",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "Multiple Assignment in One Line",
-      "content": "Python allows two convenient forms of multiple assignment:\n\n1. **Chained assignment** (assigning the same value to multiple names):\n```python\na = b = c = 0  # All three variables point to 0\n```\n2. **Tuple unpacking assignment** (assigning different values in parallel):\n```python\nx, y, z = 1, 2, 3  # x=1, y=2, z=3\n```",
-      "prompt": "",
-      "explanation": "Python allows two convenient forms of multiple assignment:\n\n1. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.3_q17",
-      "type": "code_prediction",
-      "concept": "multiple_assignment",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.3_q16"
-      ],
-      "prompt": "What does this code output?\n```python\nx, y = 10, 20\nx += 5\nprint(x, y)\n```",
-      "options": [
-        "A. 15 20",
-        "B. 10 20",
-        "C. 15 25",
-        "D. 10 25"
-      ],
-      "correct_answer": "A",
-      "explanation": "`x` is initialized to 10 and incremented by 5 to 15. `y` remains 20."
-    },
-    {
-      "id": "3.3_q18",
-      "type": "match_code_to_concept",
-      "concept": "assignment_varieties",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.3_q1",
-        "3.3_q16"
-      ],
-      "prompt": "Match each assignment syntax to its description.",
-      "options": {
-        "`x += 1`": "Augmented assignment (increment)",
-        "`a = b = 0`": "Chained assignment (same value to multiple variables)",
-        "`u, v = 5, 10`": "Unpacking assignment (multiple variables to multiple values)"
-      },
-      "correct_answer": {
-        "`x += 1`": "Augmented assignment (increment)",
-        "`a = b = 0`": "Chained assignment (same value to multiple variables)",
-        "`u, v = 5, 10`": "Unpacking assignment (multiple variables to multiple values)"
-      },
-      "explanation": "This exercise tests `assignment varieties` in Assignment Operators. When Python validates this code, it applies the standard rules of assignment varieties. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.3_q19",
-      "type": "fill_in_the_blank",
-      "concept": "modulo_augmented",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.1_q3",
-        "3.3_q5"
-      ],
-      "prompt": "To replace `val = val % 4` with augmented assignment, write `val ___ 4`.",
-      "accepted_answers": [
-        "%="
-      ],
-      "explanation": "The modulo operator `%` calculates the remainder of division. For example, `7 % 3` yields `1` because 3 fits into 7 twice with 1 left over."
-    },
-    {
-      "id": "3.3_q20",
-      "type": "error_diagnosis",
-      "concept": "equals_plus_trap",
+      "type": "fix_the_code",
+      "concept": "fix_uninitialized_counter_bug",
       "skill": "debugging",
       "difficulty": "medium",
       "prerequisites": [
-        "3.3_q1"
+        "uninitialized_variable_augmented_error"
       ],
-      "prompt": "A developer intended to add 5 to `score` (which was 10), but accidentally wrote `score =+ 5`. What is the value of `score` now?",
+      "prompt": "The program below crashes with `NameError: name 'total_cost' is not defined` because it attempts to use `+=` without initializing `total_cost`. Initialize `total_cost = 0.0` before adding the item costs.",
+      "starter_code": "# Initialize total_cost above\ntotal_cost += 15.50\ntotal_cost += 4.50\nprint(total_cost)",
+      "solution_code": "total_cost = 0.0\ntotal_cost += 15.50\ntotal_cost += 4.50\nprint(total_cost)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes total cost 20.0",
+          "expectedOutput": "20.0",
+          "assertionPython": "assert abs(_user_namespace.get(\"total_cost\") - 20.0) < 0.001"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies initialization and accumulation",
+          "assertionPython": "assert _user_namespace.get(\"total_cost\") == 15.50 + 4.50",
+          "hidden": true
+        }
+      ],
+      "explanation": "Initializing `total_cost = 0.0` provides an initial value in memory so Python can read and increment it.",
+      "hint": "Add total_cost = 0.0 on the first line.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "3.3_q16",
+      "type": "code_prediction",
+      "concept": "exponentiation_assignment_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "augmented_assignment_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nbase = 3\nbase **= 3\nprint(base)\n```",
       "options": [
-        "A. 15",
-        "B. 5, because `=+ 5` means assign positive 5 to `score`!",
-        "C. SyntaxError",
-        "D. -5"
+        "27",
+        "9",
+        "6",
+        "1"
       ],
-      "correct_answer": "B",
-      "explanation": "Classic trap: `=+` is NOT augmented assignment. It is normal assignment `=` followed by unary positive `+5`, completely overwriting `score` with 5."
+      "correct_answer": "27",
+      "code_snippet": "base = 3\nbase **= 3\nprint(base)",
+      "explanation": "`base **= 3` raises `base` to the 3rd power: `3 ** 3 = 3 * 3 * 3 = 27`.",
+      "hint": "Calculate 3 to the 3rd power.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.3_q17",
+      "type": "multiple_choice",
+      "concept": "chained_augmented_assignment_invalid",
+      "skill": "recognition",
+      "difficulty": "hard",
+      "prerequisites": [
+        "augmented_assignment_overview"
+      ],
+      "prompt": "In Python, why is the statement `a += b += c` illegal syntax?",
+      "options": [
+        "In Python, augmented assignments are statements that do not return a value, so they cannot be chained",
+        "Because b must be a float",
+        "Because c must be on the left side",
+        "It is legal syntax in Python 3"
+      ],
+      "correct_answer": "In Python, augmented assignments are statements that do not return a value, so they cannot be chained",
+      "explanation": "In Python, assignments are statements, not expressions. They produce no value, so chaining augmented assignment like `a += b += 1` raises `SyntaxError: invalid syntax`.",
+      "hint": "Assignments are statements in Python, not expressions.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "3.3_q18",
+      "type": "write_the_code",
+      "concept": "game_character_health_tracking",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "augmented_assignment_overview"
+      ],
+      "prompt": "In a role-playing game, track hero health:\n1. Set `health = 100`\n2. The hero takes damage: use `-=` to subtract `25`\n3. The hero finds a potion: use `+=` to add `15`\n4. The hero suffers a trap: use `-=` to subtract `10`\n5. Print `health`",
+      "starter_code": "# Track hero health below\n",
+      "solution_code": "health = 100\nhealth -= 25\nhealth += 15\nhealth -= 10\nprint(health)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes remaining health 80",
+          "expectedOutput": "80",
+          "assertionPython": "assert _user_namespace.get(\"health\") == 80"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies sequential operations on health",
+          "assertionPython": "assert _user_namespace.get(\"health\") == 100 - 25 + 15 - 10",
+          "hidden": true
+        }
+      ],
+      "explanation": "`100 - 25 = 75`. `75 + 15 = 90`. `90 - 10 = 80`.",
+      "hint": "Start with health = 100, then use -= and += in order.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.3_q19",
+      "type": "real_world_scenario",
+      "concept": "taxi_meter_fare_accumulator",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "augmented_assignment_overview"
+      ],
+      "prompt": "A taxi ride starts with base fare `$3.50`. Over the trip, `5` miles are traveled at `$2.00` per mile. Which snippet correctly accumulates the final fare using `+=`?",
+      "options": [
+        "fare = 3.50\nfare += 5 * 2.00\nprint(fare)",
+        "fare = 3.50\nfare =+ 5 * 2.00\nprint(fare)",
+        "fare = 3.50\nfare += 5\nfare *= 2.00\nprint(fare)",
+        "fare += 3.50 + 5 * 2.00\nprint(fare)"
+      ],
+      "correct_answer": "fare = 3.50\nfare += 5 * 2.00\nprint(fare)",
+      "explanation": "`5 * 2.00 = 10.00`. `fare += 10.00` adds to base `$3.50`, yielding `$13.50`.",
+      "hint": "Initialize fare to 3.50, then use += with 5 * 2.00.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.3_q20",
+      "type": "code_prediction",
+      "concept": "sequential_multiplication_addition_augmented",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "augmented_assignment_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nscore = 10\nscore *= 3\nscore += 5\nprint(score)\n```",
+      "options": [
+        "35",
+        "45",
+        "30",
+        "18"
+      ],
+      "correct_answer": "35",
+      "code_snippet": "score = 10\nscore *= 3\nscore += 5\nprint(score)",
+      "explanation": "First `score *= 3` updates `score` to `30`. Then `score += 5` updates `score` to `35`.",
+      "hint": "Multiply by 3 first, then add 5.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "3.3_q21",
       "type": "fix_the_code",
-      "concept": "fix_equals_plus",
+      "concept": "fix_inventory_multiplier_augmented",
       "skill": "debugging",
-      "difficulty": "easy",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.3_q20"
+        "augmented_assignment_overview"
       ],
-      "prompt": "Fix this code so it adds 5 to `points` instead of resetting it to 5:",
-      "starter_code": "points = 20\npoints =+ 5",
-      "solution_code": "points = 20\npoints += 5",
-      "explanation": "This exercise tests `fix equals plus` in Assignment Operators. When Python validates this code, it applies the standard rules of fix equals plus. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "prompt": "A server capacity script is supposed to double `server_memory` (from 16 to 32) and then add 8 GB extra buffer. Fix the first operator so it doubles `server_memory` using `*=` instead of `+=`.",
+      "starter_code": "server_memory = 16\n# Fix operator to double memory\nserver_memory += 2\nserver_memory += 8\nprint(server_memory)",
+      "solution_code": "server_memory = 16\nserver_memory *= 2\nserver_memory += 8\nprint(server_memory)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes total memory 40",
+          "expectedOutput": "40",
+          "assertionPython": "assert _user_namespace.get(\"server_memory\") == 40"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies multiplication by 2 followed by addition of 8",
+          "assertionPython": "assert _user_namespace.get(\"server_memory\") == (16 * 2) + 8",
+          "hidden": true
+        }
+      ],
+      "explanation": "`16 * 2 = 32`. `32 + 8 = 40`. Using `*=` doubles the initial memory.",
+      "hint": "Use server_memory *= 2.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q22",
-      "type": "output_prediction",
-      "concept": "floor_division_augmented",
+      "type": "code_prediction",
+      "concept": "chained_subtraction_augmented",
       "skill": "prediction",
-      "difficulty": "medium",
+      "difficulty": "easy",
       "prerequisites": [
-        "3.1_q11",
-        "3.3_q5"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What does this code print?\n```python\nn = 25\nn //= 4\nprint(n)\n```",
+      "prompt": "What will this program print?\n```python\nfuel_gallons = 50\nfuel_gallons -= 10\nfuel_gallons -= 15\nprint(fuel_gallons)\n```",
       "options": [
-        "A. 6.25",
-        "B. 6",
-        "C. 1",
-        "D. 25"
+        "25",
+        "35",
+        "40",
+        "15"
       ],
-      "correct_answer": "B",
-      "explanation": "`25 // 4 = 6`. The augmented operator stores 6 back in `n`."
+      "correct_answer": "25",
+      "code_snippet": "fuel_gallons = 50\nfuel_gallons -= 10\nfuel_gallons -= 15\nprint(fuel_gallons)",
+      "explanation": "`50 - 10 = 40`. `40 - 15 = 25`.",
+      "hint": "Subtract 10, then subtract 15.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "3.3_q23",
       "type": "write_the_code",
-      "concept": "exponent_augmented",
+      "concept": "savings_piggy_bank_accumulator",
       "skill": "application",
-      "difficulty": "easy",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.1_q8",
-        "3.3_q5"
+        "augmented_assignment_overview"
       ],
-      "prompt": "Given variable `val = 4`, write a single line using augmented assignment to square `val` (`val **= 2`).",
-      "starter_code": "# TODO: Implement solution for Assignment Operators\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "val **= 2",
-      "explanation": "The `**` operator raises the left operand to the power of the right operand (e.g. `2 ** 3` evaluates to `8`)."
+      "prompt": "Write a savings accumulator program:\n1. Initialize `savings = 100.0`\n2. Add week 1 deposit: use `+=` to add `25.50`\n3. Add week 2 deposit: use `+=` to add `30.25`\n4. Subtract a purchase: use `-=` to subtract `15.75`\n5. Print `savings`",
+      "starter_code": "# Track savings deposits and withdrawals below\n",
+      "solution_code": "savings = 100.0\nsavings += 25.50\nsavings += 30.25\nsavings -= 15.75\nprint(savings)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes final savings 140.0",
+          "expectedOutput": "140.0",
+          "assertionPython": "assert abs(_user_namespace.get(\"savings\") - 140.0) < 0.001"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies sequential operations on savings",
+          "assertionPython": "assert _user_namespace.get(\"savings\") == 100.0 + 25.50 + 30.25 - 15.75",
+          "hidden": true
+        }
+      ],
+      "explanation": "`100.0 + 25.50 + 30.25 = 155.75`. `155.75 - 15.75 = 140.0`.",
+      "hint": "Start with savings = 100.0, use += twice, then -= once.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "3.3_q24",
-      "type": "multiple_choice",
-      "concept": "game_score_accumulator",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.3_q1"
-      ],
-      "prompt": "A game starts with `score = 0`. The player defeats a minion (+50 pts), takes trap damage (-20 pts), and grabs a double-score powerup (*2). Which code tracks this cleanly?",
-      "options": [
-        "A. `score = 0; score += 50; score -= 20; score *= 2`",
-        "B. `score = 50 - 20 * 2`",
-        "C. `score = 0; score =+ 50; score =- 20`",
-        "D. `score++ 50`"
-      ],
-      "correct_answer": "A",
-      "explanation": "Sequentially applying `+= 50` (50), `-= 20` (30), and `*= 2` (60) accurately tracks game state."
-    },
-    {
-      "id": "3.3_q25",
       "type": "output_prediction",
-      "concept": "accumulate_string_loop_preview",
+      "concept": "modulo_augmented_clock_step",
       "skill": "prediction",
       "difficulty": "medium",
       "prerequisites": [
-        "3.3_q14"
+        "augmented_assignment_overview"
       ],
-      "prompt": "What does this code output?\n```python\ntext = \"\"\ntext += \"Py\"\ntext += \"th\"\ntext += \"on\"\nprint(text)\n```",
+      "prompt": "What will this program print?\n```python\nangle = 350\nangle += 30\nangle %= 360\nprint(angle)\n```",
       "options": [
-        "A. Py th on",
-        "B. Python",
-        "C. on",
-        "D. None"
+        "20",
+        "380",
+        "360",
+        "0"
       ],
-      "correct_answer": "B",
-      "explanation": "Starting from an empty string, each `+=` appends the next piece: `'Python'`."
+      "correct_answer": "20",
+      "code_snippet": "angle = 350\nangle += 30\nangle %= 360\nprint(angle)",
+      "explanation": "`angle += 30` makes `angle = 380`. Then `380 %= 360` computes `380 % 360 = 20`.",
+      "hint": "350 + 30 = 380. Find remainder when divided by 360.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "3.3_q26",
-      "type": "output_prediction",
-      "concept": "augmented_precedence_trace",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.3_q9"
-      ],
-      "prompt": "What does this code print?\n```python\nx = 10\nx -= 3 * 2\nprint(x)\n```",
-      "options": [
-        "A. 14",
-        "B. 4",
-        "C. 20",
-        "D. -6"
-      ],
-      "correct_answer": "B",
-      "explanation": "RHS evaluates first: `3 * 2 = 6`. Then `x -= 6` leaves `10 - 6 = 4`."
-    },
-    {
-      "id": "3.3_q27",
-      "type": "multiple_choice",
-      "concept": "augmented_immutability_rebinding",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.1_q26",
-        "3.3_q1"
-      ],
-      "prompt": "When you do `x = 5; x += 1`, does Python modify the integer `5` in memory, or rebind `x` to a new object `6`?",
-      "options": [
-        "A. It mutates the integer `5` in place.",
-        "B. It creates a new integer object `6` and rebinds the name `x` to it, because integers are immutable in Python.",
-        "C. It converts 5 to a float.",
-        "D. It stores 6 on the hard drive."
-      ],
-      "correct_answer": "B",
-      "explanation": "Because primitive scalars (`int`, `float`, `str`, `bool`) are immutable, augmented assignment on them always creates a new object and rebinds the variable reference."
-    },
-    {
-      "id": "3.3_q28",
+      "id": "3.3_q25",
       "type": "mini_challenge",
-      "concept": "balance_tracking",
-      "skill": "synthesis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.3_q1",
-        "3.3_q5"
-      ],
-      "prompt": "Initialize `balance = 500.0`. Subtract `rent = 350.0` using `-=`, then print `balance`.",
-      "starter_code": "balance = 500.0\nrent = 350.0\n# Subtract rent using -= and print balance\n",
-      "solution_code": "balance = 500.0\nrent = 350.0\nbalance -= rent\nprint(balance)",
-      "explanation": "Augmented assignment operators like `+=` perform the arithmetic operation and immediately reassign the result back to the variable in place (e.g. `x += 5` is shorthand for `x = x + 5`)."
-    },
-    {
-      "id": "3.3_q29",
-      "type": "real_world_scenario",
-      "concept": "shopping_cart_tax",
-      "skill": "synthesis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.3_q5"
-      ],
-      "prompt": "A subtotal is `subtotal = 100.0`. A 10% tax needs to be applied, so `subtotal` becomes 1.10 times its original value. Which single augmented assignment does this?",
-      "correct_answer": "B",
-      "explanation": "The modulo operator `%` calculates the remainder of division. For example, `7 % 3` yields `1` because 3 fits into 7 twice with 1 left over.",
-      "options": [
-        "A. subtotal += subtotal * 1.10",
-        "B. subtotal += subtotal * 0.10 (or subtotal *= 1.10)",
-        "C. subtotal =+ 0.10",
-        "D. subtotal = subtotal + 10"
-      ]
-    },
-    {
-      "id": "3.3_q30",
-      "type": "real_world_scenario",
-      "concept": "assignment_synthesis",
+      "concept": "arcade_game_score_engine_challenge",
       "skill": "transfer",
       "difficulty": "hard",
       "prerequisites": [
-        "3.3_q1",
-        "3.3_q3",
-        "3.3_q9",
-        "3.3_q11",
-        "3.3_q16",
-        "3.3_q27"
+        "augmented_assignment_overview"
       ],
-      "prompt": "Which of the following summaries regarding Python assignment operators is completely TRUE?",
-      "correct_answer": "A",
-      "explanation": "This encapsulates Python assignment mechanics, compound operators, and the non-existence of increment operators.",
-      "options": [
-        "A. Compound assignment operators (like +=, *=) evaluate the right-hand expression first and update the variable in a single concise step.",
-        "B. x =+ 1 is identical in behavior to x += 1.",
-        "C. Compound assignment can only be used with integer variables.",
-        "D. Compound assignment creates a new variable name in the current scope."
-      ]
+      "prompt": "Create an arcade scoring engine:\n1. Initialize `score = 0`\n2. Player defeats a goblin: add `100` with `+=`\n3. Player grabs a 2x star powerup: double score with `*=`\n4. Player takes hit: subtract `50` with `-=`\n5. Player collects a bonus multiplier: multiply by `3` with `*=`\n6. Print `score`",
+      "starter_code": "# Complete the arcade game score engine\n",
+      "solution_code": "score = 0\nscore += 100\nscore *= 2\nscore -= 50\nscore *= 3\nprint(score)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes final arcade score 450",
+          "expectedOutput": "450",
+          "assertionPython": "assert _user_namespace.get(\"score\") == 450"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies exact sequence of score state transitions",
+          "assertionPython": "assert _user_namespace.get(\"score\") == ((100 * 2) - 50) * 3",
+          "hidden": true
+        }
+      ],
+      "explanation": "`0 + 100 = 100`. `100 * 2 = 200`. `200 - 50 = 150`. `150 * 3 = 450`.",
+      "hint": "Start with score = 0, then += 100, *= 2, -= 50, *= 3 in order.",
+      "misconception_tag": "WRONG_OPERATOR"
     }
-  ],
-  "unit_num": 3,
-  "learning_objectives": [
-    "Apply Python Assignment Operators correctly in mathematical and logical expressions",
-    "Predict evaluation order using operator precedence rules",
-    "Diagnose subtle expression bugs caused by unintended precedence",
-    "Construct compound boolean or arithmetic expressions for real-world logic"
-  ],
-  "prerequisites": [
-    "3.2"
   ]
 }

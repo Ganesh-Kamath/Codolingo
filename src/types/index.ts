@@ -310,6 +310,8 @@ export interface UserProgressState {
   dailyGoal: DailyGoal;
   activityHistory: DailyActivity[];
   achievements: Achievement[];
+  _version?: number;
+  _curriculumVersion?: number;
 }
 
 export type UserProfile = UserProgressState;

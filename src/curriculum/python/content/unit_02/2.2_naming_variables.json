@@ -7,533 +7,515 @@
       "id": "2.2_q1",
       "type": "micro_lesson",
       "concept": "naming_rules_overview",
-      "skill": "recognition",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "The Golden Rules of Variable Names",
-      "content": "In Python, variable names (called **identifiers**) must follow strict syntax rules:\n\n1. Must begin with a letter (`a-z`, `A-Z`) or an underscore (`_`).\n2. CANNOT begin with a number (e.g. `2nd_place` is illegal).\n3. Can only contain alphanumeric characters and underscores (`a-z`, `A-Z`, `0-9`, and `_`).\n4. Cannot contain spaces or special symbols like `-`, `!`, `@`, `$`, or `%`.",
+      "title": "Python Variable Naming Rules",
+      "content": "Variable names (identifiers) in Python must obey strict syntax rules:\n1. Must begin with a **letter** (`a-z`, `A-Z`) or an **underscore** (`_`).\n2. May contain letters, digits (`0-9`), and underscores.\n3. Can **never start with a digit** (e.g. `1st_place` is invalid).\n4. Can **never contain spaces or hyphens**.\n5. Cannot be a Python **reserved keyword** like `def`, `class`, or `if`.",
       "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+      "explanation": "Python identifiers must start with a letter or underscore and contain only letters, numbers, and underscores. No spaces, dashes, or leading digits are allowed.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q2",
       "type": "multiple_choice",
-      "concept": "naming_rules",
+      "concept": "legal_identifier_rules",
       "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q1"
-      ],
-      "prompt": "Which of the following is a legal variable name in Python?",
+      "prompt": "Which of the following is a VALID Python variable name?",
       "options": [
-        "A. `2nd_attempt`",
-        "B. `user-name`",
-        "C. `user_name`",
-        "D. `total$`"
+        "player_score",
+        "player score",
+        "2nd_player",
+        "player-score"
       ],
-      "correct_answer": "C",
-      "explanation": "`user_name` consists solely of letters and an underscore. `2nd_attempt` starts with a digit, `user-name` contains a hyphen (subtraction symbol), and `total$` contains `$`, which are all illegal."
+      "correct_answer": "player_score",
+      "explanation": "player_score uses letters and underscores, which is completely valid. Spaces, leading numbers, and hyphens trigger a SyntaxError.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q3",
-      "type": "error_diagnosis",
-      "concept": "digit_start_error",
-      "skill": "debugging",
+      "type": "multiple_choice",
+      "concept": "cannot_start_with_digit",
+      "skill": "reasoning",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q1"
-      ],
-      "prompt": "Why does Python raise a SyntaxError on this line?\n```python\n1st_player = \"Carlos\"\n```",
+      "prompt": "Why does Python reject `3rd_item = \"Headphones\"` with a `SyntaxError`?",
       "options": [
-        "A. Double quotes cannot enclose names.",
-        "B. Variable names cannot start with a digit (number).",
-        "C. Underscores are forbidden in variable names.",
-        "D. `Carlos` is a reserved keyword."
+        "Variable names cannot begin with a digit",
+        "Variable names cannot contain underscores",
+        "Quotes are not allowed on the right-hand side",
+        "Python requires item names to start with a capital letter"
       ],
-      "correct_answer": "B",
-      "explanation": "If an identifier started with a digit, the Python parser would try to parse it as a numeric literal, causing a SyntaxError."
+      "correct_answer": "Variable names cannot begin with a digit",
+      "explanation": "Python syntax requires variable identifiers to begin with a letter or an underscore. If a token begins with a digit, Python assumes it is a number literal.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q4",
-      "type": "fix_the_code",
-      "concept": "fix_invalid_name",
-      "skill": "debugging",
+      "type": "fill_in_the_blank",
+      "concept": "snake_case_pep8",
+      "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q3"
+      "prompt": "According to PEP 8 standard convention, multiple words in variable names should be separated by an ________.",
+      "accepted_answers": [
+        "underscore",
+        "_",
+        "an underscore"
       ],
-      "prompt": "Fix this illegal variable name so it starts with a letter instead of a digit:",
-      "starter_code": "1st_place = \"Gold\"",
-      "solution_code": "first_place = \"Gold\"",
-      "explanation": "Renaming `1st_place` to `first_place` creates a valid identifier starting with a letter."
+      "correct_answer": "underscore",
+      "explanation": "Python uses snake_case: lowercase words separated by underscores (e.g., user_profile_pic).",
+      "hint": "Name the punctuation character: underscore (_).",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q5",
-      "type": "micro_lesson",
-      "concept": "spaces_in_names",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q1"
+      "type": "code_prediction",
+      "concept": "case_sensitivity",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What does this program print?\n```python\nscore = 10\nScore = 25\nprint(score)\n```",
+      "code_snippet": "score = 10\nScore = 25\nprint(score)",
+      "options": [
+        "10",
+        "25",
+        "35",
+        "NameError"
       ],
-      "title": "No Spaces Allowed",
-      "content": "Variable names cannot contain spaces. If you put a space in a name:\n```python\nuser name = \"Alice\"  # SyntaxError!\n```\nPython treats `user` and `name` as two separate disconnected words, causing an immediate SyntaxError.\n\nTo connect multiple words, Python uses the **underscore** `_`:\n```python\nuser_name = \"Alice\"  # Valid and clean!\n```",
-      "prompt": "",
-      "explanation": "Variable names cannot contain spaces. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "correct_answer": "10",
+      "expected_output": "10",
+      "explanation": "Python identifiers are case-sensitive. `score` and `Score` are two entirely distinct variables in memory.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.2_q6",
-      "type": "multiple_choice",
-      "concept": "spaces_in_names",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q5"
-      ],
-      "prompt": "How should multiple words in a Python variable name be separated?",
+      "type": "error_diagnosis",
+      "concept": "reserved_keywords",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A programmer tries to record a flight class:\n```python\nclass = \"Economy\"\n```\nWhy does Python throw a SyntaxError?",
       "options": [
-        "A. With hyphens (e.g. `final-score`)",
-        "B. With spaces (e.g. `final score`)",
-        "C. With underscores (e.g. `final_score`)",
-        "D. With dots (e.g. `final.score`)"
+        "`class` is a reserved Python keyword used for defining object classes",
+        "Variable values cannot be capitalized strings",
+        "The equals sign must be surrounded by three spaces",
+        "Economy is not a recognized built-in type"
       ],
-      "correct_answer": "C",
-      "explanation": "According to PEP 8, variable names in Python should be written in snake_case (lowercase words separated by underscores, e.g. `user_account_balance`). This convention maximizes readability."
+      "correct_answer": "`class` is a reserved Python keyword used for defining object classes",
+      "explanation": "Python reserves 35 keywords (such as def, class, if, return) that cannot be used as variable identifiers.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q7",
-      "type": "micro_lesson",
-      "concept": "snake_case_pep8",
-      "skill": "recognition",
+      "type": "fix_the_code",
+      "concept": "fix_invalid_identifier_leading_digit",
+      "skill": "debugging",
       "difficulty": "easy",
-      "prerequisites": [
-        "1.5_q14",
-        "2.2_q5"
+      "prompt": "Fix the invalid variable name in the checkout code so it stores the discount rate correctly.",
+      "starter_code": "1st_discount = 0.15\nprint(1st_discount)\n",
+      "solution_code": "first_discount = 0.15\nprint(first_discount)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints discount 0.15",
+          "expectedOutput": "0.15",
+          "assertionPython": "assert float(_raw_stdout.strip()) == 0.15 and _user_namespace.get('first_discount') == 0.15",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Replaces leading digit with valid identifier first_discount",
+          "expectedOutput": "0.15",
+          "assertionPython": "assert 'first_discount' in _user_code and not '1st_discount' in _user_code",
+          "hidden": true
+        }
       ],
-      "title": "The Python Style: snake_case",
-      "content": "Python's official style guide (PEP 8) mandates that variable and function names should use **snake_case**:\n\n* All lowercase letters\n* Words separated by underscores\n\nExamples:\n* `item_count`\n* `tax_rate`\n* `is_logged_in`\n\nOther languages frequently use `camelCase` (like `itemCount`), but Python strongly prefers `snake_case`.",
-      "prompt": "",
-      "explanation": "Python's official style guide (PEP 8) mandates that variable and function names should use **snake_case**:\n\n* All lowercase letters\n* Words separated by underscores\n\nExamples:\n* `item_count`\n* `tax_rate`\n* `is_logged_in`\n\nOther languages frequently use `camelCase` (like `itemCount`), but Python strongly prefers `snake_case`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "explanation": "Identifiers cannot start with a digit. Renaming to first_discount adheres to Python naming rules.",
+      "hint": "Spell out \"first_discount\" instead of starting with \"1st\".",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q8",
-      "type": "match_code_to_concept",
-      "concept": "casing_conventions",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q7"
+      "type": "real_world_scenario",
+      "concept": "descriptive_names",
+      "skill": "application",
+      "difficulty": "easy",
+      "prompt": "You are calculating a user monthly subscription invoice. Which variable name best communicates its purpose?",
+      "options": [
+        "monthly_subscription_total",
+        "mst",
+        "x",
+        "amount1"
       ],
-      "prompt": "Match the naming convention to its formatting example.",
-      "options": {
-        "snake_case (Standard Python variables)": "`player_health_points`",
-        "camelCase (Common in JavaScript/Java)": "`playerHealthPoints`",
-        "PascalCase (Used for Python classes)": "`PlayerHealthPoints`"
-      },
-      "correct_answer": {
-        "snake_case (Standard Python variables)": "`player_health_points`",
-        "camelCase (Common in JavaScript/Java)": "`playerHealthPoints`",
-        "PascalCase (Used for Python classes)": "`PlayerHealthPoints`"
-      },
-      "explanation": "snake_case uses lowercase words separated by underscores, which is the Python standard for variables."
+      "correct_answer": "monthly_subscription_total",
+      "explanation": "Descriptive names make code readable and maintainable without needing comments to explain what a variable holds.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.2_q9",
-      "type": "micro_lesson",
-      "concept": "case_sensitivity",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "1.3_q14",
-        "2.1_q1"
+      "type": "multiple_choice",
+      "concept": "shadowing_builtins",
+      "skill": "reasoning",
+      "difficulty": "hard",
+      "prompt": "What dangerous side effect occurs if you write `print = \"Hello\"` in Python?",
+      "options": [
+        "It overwrites the built-in print() function, breaking subsequent print calls with a TypeError",
+        "Python immediately halts with a FatalSyntaxError",
+        "It renames the monitor display driver to \"Hello\"",
+        "Nothing; Python automatically protects all built-in function names"
       ],
-      "title": "Variable Names are Case-Sensitive",
-      "content": "Python distinguishes between uppercase and lowercase letters in identifiers:\n\n```python\nage = 25\nAge = 30\nAGE = 40\n```\nTo Python, `age`, `Age`, and `AGE` are **three completely different variables** in memory!\n\nMixing up your casing is a very common cause of `NameError`.",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+      "correct_answer": "It overwrites the built-in print() function, breaking subsequent print calls with a TypeError",
+      "explanation": "Python permits shadowing built-in names like print, str, and list. Reassigning them replaces the function in the global namespace.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.2_q10",
       "type": "output_prediction",
-      "concept": "case_sensitivity",
+      "concept": "case_sensitivity_lookup",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q9"
-      ],
-      "prompt": "What does this code output?\n```python\nlevel = 1\nLevel = 10\nprint(level)\n```",
+      "prompt": "What does this program print?\n```python\nitem_count = 5\nItem_count = 12\nprint(item_count + 1)\n```",
+      "code_snippet": "item_count = 5\nItem_count = 12\nprint(item_count + 1)",
       "options": [
-        "A. 1",
-        "B. 10",
-        "C. 11",
-        "D. A NameError"
+        "6",
+        "13",
+        "18",
+        "NameError"
       ],
-      "correct_answer": "A",
-      "explanation": "Python is strictly case-sensitive. `level` and `Level` are completely distinct identifiers stored in separate entries in the namespace dictionary. Printing `level` outputs `1`."
+      "correct_answer": "6",
+      "expected_output": "6",
+      "explanation": "item_count is 5. Adding 1 gives 6. The capitalized variable Item_count (12) is not read here.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.2_q11",
-      "type": "error_diagnosis",
-      "concept": "case_sensitivity_error",
+      "type": "fix_the_code",
+      "concept": "fix_hyphen_in_variable_name",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q9"
+      "prompt": "A web app crashes because of an illegal hyphen in a variable name. Fix the code to use snake_case for `user_email`.",
+      "starter_code": "user-email = \"sam@example.com\"\nprint(user-email)\n",
+      "solution_code": "user_email = \"sam@example.com\"\nprint(user_email)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints user email",
+          "expectedOutput": "sam@example.com",
+          "assertionPython": "assert _raw_stdout.strip() == 'sam@example.com' and _user_namespace.get('user_email') == 'sam@example.com'",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Replaces hyphen with underscore",
+          "expectedOutput": "sam@example.com",
+          "assertionPython": "assert 'user_email' in _user_code and '-' not in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "A script crashes on line 2 with `NameError: name 'Score' is not defined`:\n```python\nscore = 100\nprint(Score)\n```\nWhat is the bug?",
-      "options": [
-        "A. The variable was defined in lowercase as `score`, but accessed with capital `S` as `Score`.",
-        "B. The number 100 cannot be stored in a variable.",
-        "C. You must use `print(\"Score\")`.",
-        "D. `score` is a reserved Python keyword."
-      ],
-      "correct_answer": "A",
-      "explanation": "Identifiers are strictly case-sensitive. `Score` is not defined because the variable created was `score`."
+      "explanation": "Hyphens represent the subtraction operator in Python. Use underscores for multi-word identifiers.",
+      "hint": "Replace the hyphen with an underscore: user_email.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q12",
-      "type": "micro_lesson",
-      "concept": "reserved_keywords",
-      "skill": "recognition",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q1"
+      "type": "write_the_code",
+      "concept": "pep8_variable_definition",
+      "skill": "application",
+      "difficulty": "easy",
+      "prompt": "Write code following PEP 8 conventions:\n1. Create a variable `download_speed_mbps` set to `120`.\n2. Print `download_speed_mbps`.",
+      "starter_code": "# Define download speed variable below\n",
+      "solution_code": "download_speed_mbps = 120\nprint(download_speed_mbps)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints 120",
+          "expectedOutput": "120",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 120 and _user_namespace.get('download_speed_mbps') == 120",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Validates identifier name download_speed_mbps",
+          "expectedOutput": "120",
+          "assertionPython": "assert 'download_speed_mbps' in _user_code and _user_namespace.get('download_speed_mbps') == 120",
+          "hidden": true
+        }
       ],
-      "title": "Reserved Keywords",
-      "content": "Python reserves a special set of words for its own grammar (such as `for`, `if`, `else`, `while`, `def`, `class`, `return`, `True`, `False`, `None`).\n\nYou **cannot** use these reserved keywords as variable names:\n```python\nfor = 10  # SyntaxError: invalid syntax\n```\nBecause `for` is reserved for loops, Python refuses to allow it as a variable.",
-      "prompt": "",
-      "explanation": "Python reserves a special set of words for its own grammar (such as `for`, `if`, `else`, `while`, `def`, `class`, `return`, `True`, `False`, `None`). Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "explanation": "download_speed_mbps is descriptive, all lowercase, and uses underscores between words per PEP 8 standards.",
+      "hint": "Assign 120 to download_speed_mbps, then call print().",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q13",
       "type": "multiple_choice",
-      "concept": "reserved_keywords",
+      "concept": "constants_pep8",
       "skill": "recognition",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q12"
-      ],
-      "prompt": "Which of the following CANNOT be used as a variable name because it is a Python keyword?",
+      "prompt": "By convention in Python, how should a constant that never changes (like a maximum retry limit) be named?",
       "options": [
-        "A. `total_sum`",
-        "B. `while`",
-        "C. `my_class`",
-        "D. `variable_1`"
+        "ALL_CAPS with underscores, such as MAX_RETRY_LIMIT",
+        "camelCase, such as maxRetryLimit",
+        "Enclosed in angle brackets, such as <MAX_RETRIES>",
+        "Starting with a dollar sign, such as $MAX_RETRIES"
       ],
-      "correct_answer": "B",
-      "explanation": "Python reserved keywords (such as `pass`, `def`, `class`, `if`, `while`) are part of Python's formal language grammar and cannot be used as variable identifiers. Attempting to assign to a keyword triggers a SyntaxError."
+      "correct_answer": "ALL_CAPS with underscores, such as MAX_RETRY_LIMIT",
+      "explanation": "PEP 8 specifies UPPER_CASE_WITH_UNDERSCORES for constants that are not intended to be reassigned.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q14",
       "type": "fill_in_the_blank",
-      "concept": "keyword_workaround",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q12"
-      ],
-      "prompt": "If you want a variable representing a school class, you cannot name it `class`. By Python convention, add a trailing underscore: `___ = \"Math\"`.",
+      "concept": "underscore_start_legal",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "Is `_session_token` a valid Python identifier? (Type `yes` or `no`)",
       "accepted_answers": [
-        "class_"
+        "yes",
+        "Yes",
+        "YES"
       ],
-      "explanation": "PEP 8 recommends appending a single trailing underscore (e.g. `class_`) to avoid collisions with reserved keywords."
+      "correct_answer": "yes",
+      "explanation": "Identifiers in Python can legally start with an underscore (_). By convention, a leading underscore hints at private or internal use.",
+      "hint": "Identifiers may start with a letter or an underscore.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q15",
-      "type": "micro_lesson",
-      "concept": "overwriting_builtins",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "1.4_q1",
-        "2.2_q12"
+      "type": "code_prediction",
+      "concept": "casing_mistake_name_error",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What happens when this code runs?\n```python\nuser_city = \"Seattle\"\nprint(user_City)\n```",
+      "code_snippet": "user_city = \"Seattle\"\nprint(user_City)",
+      "options": [
+        "NameError",
+        "Seattle",
+        "None",
+        "SyntaxError"
       ],
-      "title": "Danger: Shadowing Built-in Functions",
-      "content": "Python technically allows you to assign to built-in function names like `print`, `str`, or `type`:\n```python\nprint = \"Hello\"  # DANGEROUS!\nprint(\"World\")   # TypeError: 'str' object is not callable!\n```\nBy assigning a string to `print`, you destroyed access to the `print()` function for the rest of your script!\n\nNever use built-in names as variables.",
-      "prompt": "",
-      "explanation": "Python technically allows you to assign to built-in function names like `print`, `str`, or `type`:\n```python\nprint = \"Hello\"  # DANGEROUS!\nprint(\"World\")   # TypeError: 'str' object is not callable!\n```\nBy assigning a string to `print`, you destroyed access to the `print()` function for the rest of your script!\n\nNever use built-in names as variables. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "correct_answer": "NameError",
+      "expected_output": "NameError",
+      "explanation": "Because Python is case-sensitive, `user_City` (with capital C) does not exist, triggering a NameError at runtime.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.2_q16",
       "type": "error_diagnosis",
-      "concept": "shadowing_builtins",
+      "concept": "spaces_in_identifier_diagnosis",
       "skill": "debugging",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.2_q15"
-      ],
-      "prompt": "A developer runs this code and gets `TypeError: 'int' object is not callable` on line 2:\n```python\nprint = 42\nprint(\"Total\")\n```\nWhat caused this error?",
+      "difficulty": "easy",
+      "prompt": "Look at this code:\n```python\ntotal price = 49.99\n```\nWhy does Python throw `SyntaxError: invalid syntax`?",
       "options": [
-        "A. Line 1 reassigned the name `print` to an integer, overwriting the built-in function so it can no longer be called.",
-        "B. Python does not support the number 42.",
-        "C. Line 2 has an unclosed string.",
-        "D. You must restart the computer."
+        "Variable names cannot have spaces; Python treats total and price as two separate statements",
+        "Prices must be whole numbers, not decimals",
+        "The equals sign must be placed inside quotes",
+        "Python does not allow assigning decimal values"
       ],
-      "correct_answer": "A",
-      "explanation": "`print = 42` shadows the built-in `print` function with the integer 42. Calling `42(...)` raises a TypeError."
+      "correct_answer": "Variable names cannot have spaces; Python treats total and price as two separate statements",
+      "explanation": "Spaces separate language tokens. When Python sees two words next to each other before =, it cannot parse the structure.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q17",
-      "type": "micro_lesson",
-      "concept": "constants_pep8",
-      "skill": "recognition",
+      "type": "fix_the_code",
+      "concept": "keyword_rename_fix",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "1.5_q14"
+      "prompt": "A function records pass/fail status but uses the reserved keyword `pass` as a variable. Rename it to `has_passed` so the code executes.",
+      "starter_code": "pass = True\nprint(pass)\n",
+      "solution_code": "has_passed = True\nprint(has_passed)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True from has_passed",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('has_passed') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Replaces keyword pass with has_passed",
+          "expectedOutput": "True",
+          "assertionPython": "assert 'has_passed' in _user_code and not 'pass =' in _user_code",
+          "hidden": true
+        }
       ],
-      "title": "Constants in Python (ALL_CAPS)",
-      "content": "A **constant** is a value that is never meant to change while the program is running (like Pi, or a server timeout).\n\nWhile Python doesn't have a `const` keyword to physically prevent reassignment, PEP 8 convention is to write constants in **ALL_CAPS** with underscores:\n```python\nMAX_LOGIN_ATTEMPTS = 3\nDATABASE_PORT = 5432\n```\nThis signals to other programmers: *'Do not modify this value!'*",
-      "prompt": "",
-      "explanation": "A **constant** is a value that is never meant to change while the program is running (like Pi, or a server timeout). Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "explanation": "pass is a Python keyword for a null statement. Renaming to has_passed makes it a valid identifier.",
+      "hint": "Rename pass to has_passed in both lines.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q18",
-      "type": "multiple_choice",
-      "concept": "constants_pep8",
-      "skill": "recognition",
+      "type": "real_world_scenario",
+      "concept": "boolean_variable_naming_pep8",
+      "skill": "application",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q17"
-      ],
-      "prompt": "According to PEP 8, how should a constant like the maximum file size be named?",
+      "prompt": "According to Python clean code practices, which variable name best represents a boolean condition indicating if a user is logged in?",
       "options": [
-        "A. `maxfilesize`",
-        "B. `MAX_FILE_SIZE`",
-        "C. `MaxFileSize`",
-        "D. `max_file_size$`"
+        "is_logged_in",
+        "login",
+        "check",
+        "flag_status_variable"
       ],
-      "correct_answer": "B",
-      "explanation": "According to PEP 8, variable names in Python should be written in snake_case (lowercase words separated by underscores, e.g. `user_account_balance`). This convention maximizes readability."
+      "correct_answer": "is_logged_in",
+      "explanation": "Prefixing booleans with is_, has_, or can_ makes their true/false purpose immediately obvious to any reader.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.2_q19",
-      "type": "micro_lesson",
-      "concept": "descriptive_names",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "1.5_q23"
+      "type": "output_prediction",
+      "concept": "multiple_underscores_valid",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does this code print?\n```python\n__app_version__ = \"2.4.1\"\nprint(__app_version__)\n```",
+      "code_snippet": "__app_version__ = \"2.4.1\"\nprint(__app_version__)",
+      "options": [
+        "2.4.1",
+        "SyntaxError",
+        "NameError",
+        "__app_version__"
       ],
-      "title": "Descriptive vs Cryptic Names",
-      "content": "Code should be self-documenting. A reader should know what data a variable holds without having to search through other files.\n\n❌ Poor:\n```python\nx = 86400\na = 0.07\n```\n\n✅ Excellent:\n```python\nSECONDS_PER_DAY = 86400\nsales_tax_rate = 0.07\n```",
-      "prompt": "",
-      "explanation": "Code should be self-documenting. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "correct_answer": "2.4.1",
+      "expected_output": "2.4.1",
+      "explanation": "Leading and trailing underscores are syntactically valid in Python identifiers.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q20",
       "type": "multiple_choice",
-      "concept": "descriptive_names",
-      "skill": "evaluation",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q19"
-      ],
-      "prompt": "Which variable name best communicates its purpose in an e-commerce checkout system?",
+      "concept": "invalid_characters_symbols",
+      "skill": "recognition",
+      "difficulty": "medium",
+      "prompt": "Which character is allowed inside a Python variable name?",
       "options": [
-        "A. `d`",
-        "B. `val`",
-        "C. `discount_percentage`",
-        "D. `thing2`"
+        "An underscore (_)",
+        "A dollar sign ($)",
+        "An at-symbol (@)",
+        "An exclamation mark (!)"
       ],
-      "correct_answer": "C",
-      "explanation": "This exercise tests `descriptive names` in Naming Variables. When Python validates this code, it applies the standard rules of descriptive names. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "An underscore (_)",
+      "explanation": "Only letters, digits, and underscores are allowed. Special characters like $, @, !, and # trigger syntax errors.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q21",
       "type": "fix_the_code",
-      "concept": "invalid_characters",
+      "concept": "fix_special_symbol_in_variable",
       "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q1"
+      "difficulty": "medium",
+      "prompt": "Fix the syntax error caused by the dollar sign in the variable name so it prints the total revenue.",
+      "starter_code": "total_revenue$ = 15000\nprint(total_revenue$)\n",
+      "solution_code": "total_revenue = 15000\nprint(total_revenue)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints total_revenue 15000",
+          "expectedOutput": "15000",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 15000 and _user_namespace.get('total_revenue') == 15000",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Removes the $ symbol from the variable name",
+          "expectedOutput": "15000",
+          "assertionPython": "assert '$' not in _user_code and _user_namespace.get('total_revenue') == 15000",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix this variable assignment which uses an illegal hyphen `-`:",
-      "starter_code": "user-email = \"alex@example.com\"",
-      "solution_code": "user_email = \"alex@example.com\"",
-      "explanation": "Hyphens `-` are interpreted by Python's parser as subtraction operators, not identifier characters. In Python variable names, words must be joined using underscores `_`."
+      "explanation": "Special currency symbols like $ are not permitted in Python variable identifiers.",
+      "hint": "Remove the $ symbol from both the assignment and the print call.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q22",
-      "type": "fill_in_the_blank",
-      "concept": "legal_identifier_rules",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.2_q1"
+      "type": "write_the_code",
+      "concept": "server_config_variables",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "Create two clean, PEP 8 compliant configuration variables:\n1. `server_host` set to `\"localhost\"`\n2. `server_port` set to `8080`\n3. Print `server_host` and `server_port` separated by a space on one line.",
+      "starter_code": "# Configure server host and port below\n",
+      "solution_code": "server_host = \"localhost\"\nserver_port = 8080\nprint(server_host, server_port)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints \"localhost 8080\"",
+          "expectedOutput": "localhost 8080",
+          "assertionPython": "assert _raw_stdout.strip() == 'localhost 8080' and _user_namespace.get('server_port') == 8080",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies server_host and server_port variables exist in namespace",
+          "expectedOutput": "localhost 8080",
+          "assertionPython": "assert _user_namespace.get('server_host') == 'localhost' and _user_namespace.get('server_port') == 8080",
+          "hidden": true
+        }
       ],
-      "prompt": "Besides letters, the only special symbol permitted anywhere in a standard Python variable name is the ___.",
-      "accepted_answers": [
-        "underscore",
-        "_"
-      ],
-      "explanation": "In Python variable names, letters, numbers, and the underscore `_` are the only legal characters. The underscore is the sole allowed special punctuation mark."
+      "explanation": "Both server_host and server_port follow snake_case convention and store distinct types (string and int).",
+      "hint": "Define server_host = \"localhost\", server_port = 8080, then print(server_host, server_port).",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "2.2_q23",
-      "type": "match_code_to_concept",
-      "concept": "validity_check",
-      "skill": "analysis",
+      "type": "code_prediction",
+      "concept": "shadowing_variable_reassignment",
+      "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q1",
-        "2.2_q12"
+      "prompt": "What does this program print?\n```python\nmax_score = 100\nMAX_SCORE = 200\nprint(MAX_SCORE - max_score)\n```",
+      "code_snippet": "max_score = 100\nMAX_SCORE = 200\nprint(MAX_SCORE - max_score)",
+      "options": [
+        "100",
+        "0",
+        "200",
+        "NameError"
       ],
-      "prompt": "Classify each variable name as Valid or Invalid.",
-      "options": {
-        "`_session_id`": "Valid (starts with underscore, followed by letters/underscores).",
-        "`2fast`": "Invalid (starts with a digit).",
-        "`pass`": "Invalid (reserved Python keyword)."
-      },
-      "correct_answer": {
-        "`_session_id`": "Valid (starts with underscore, followed by letters/underscores).",
-        "`2fast`": "Invalid (starts with a digit).",
-        "`pass`": "Invalid (reserved Python keyword)."
-      },
-      "explanation": "This exercise tests `validity check` in Naming Variables. When Python validates this code, it applies the standard rules of validity check. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "100",
+      "expected_output": "100",
+      "explanation": "MAX_SCORE (200) and max_score (100) are separate variables. 200 - 100 evaluates to 100.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.2_q24",
-      "type": "code_prediction",
-      "concept": "valid_underscore_names",
-      "skill": "prediction",
+      "type": "multiple_choice",
+      "concept": "keywords_case_sensitivity",
+      "skill": "reasoning",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q23"
-      ],
-      "prompt": "What does this code output?\n```python\n_count = 10\nprint(_count * 2)\n```",
+      "prompt": "In Python, `True` is a keyword. Is `true` (lowercase) also a keyword?",
       "options": [
-        "A. 20",
-        "B. SyntaxError",
-        "C. _count * 2",
-        "D. None"
+        "No, true is not a keyword in Python, but using it as a variable name is confusing and discouraged",
+        "Yes, true and True are identical keywords",
+        "Yes, true represents False in Python",
+        "No, lowercase true is automatically converted to True by the interpreter"
       ],
-      "correct_answer": "A",
-      "explanation": "Starting an identifier with an underscore is 100% legal syntax. `10 * 2 = 20`."
+      "correct_answer": "No, true is not a keyword in Python, but using it as a variable name is confusing and discouraged",
+      "explanation": "Only True, False, and None are capitalized keywords. Lowercase true is an undefined identifier unless assigned.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.2_q25",
-      "type": "real_world_scenario",
-      "concept": "single_letter_variables",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q19"
-      ],
-      "prompt": "When is it acceptable to use short, single-letter variable names like `i`, `x`, or `y`?",
-      "correct_answer": "B",
-      "explanation": "Single-letter variables are standard conventions for loop indices (`i`, `j`) and math coordinates (`x`, `y`), but business values require descriptive names.",
-      "options": [
-        "A. For global configuration settings and database connection strings.",
-        "B. For short-lived loop counters (i, j) or well-understood mathematical coordinates (x, y).",
-        "C. Everywhere, to minimize keystrokes and file size.",
-        "D. Never; Python forbids single-character variable names."
-      ]
-    },
-    {
-      "id": "2.2_q26",
-      "type": "write_the_code",
-      "concept": "pep8_compliance",
+      "type": "mini_challenge",
+      "concept": "ecommerce_cart_naming_challenge",
       "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q7"
-      ],
-      "prompt": "Create a variable in proper PEP 8 snake_case for a user's account balance, assigned to `350.75`.",
-      "starter_code": "# TODO: Implement solution for Naming Variables\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "account_balance = 350.75",
-      "explanation": "According to PEP 8, variable names in Python should be written in snake_case (lowercase words separated by underscores, e.g. `user_account_balance`). This convention maximizes readability."
-    },
-    {
-      "id": "2.2_q27",
-      "type": "output_prediction",
-      "concept": "case_sensitivity_puzzle",
-      "skill": "analysis",
       "difficulty": "hard",
-      "prerequisites": [
-        "2.2_q9"
+      "prompt": "Create clean variables for an e-commerce cart:\n1. `item_name = \"Backpack\"`\n2. `unit_price = 45.0`\n3. `quantity = 2`\n4. `total_price = unit_price * quantity`\n5. Print `item_name` on line 1 and `total_price` on line 2.",
+      "starter_code": "# Build the e-commerce cart model below\n",
+      "solution_code": "item_name = \"Backpack\"\nunit_price = 45.0\nquantity = 2\ntotal_price = unit_price * quantity\nprint(item_name)\nprint(total_price)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Backpack on line 1 and 90.0 on line 2",
+          "expectedOutput": "Backpack\n90.0",
+          "assertionPython": "assert _raw_stdout.strip().splitlines() == ['Backpack', '90.0'] and _user_namespace.get('total_price') == 90.0",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures correct variable names and calculation logic",
+          "expectedOutput": "Backpack\n90.0",
+          "assertionPython": "assert _user_namespace.get('unit_price') == 45.0 and _user_namespace.get('quantity') == 2",
+          "hidden": true
+        }
       ],
-      "prompt": "What does this code output?\n```python\nval = 5\nVal = 10\nVAL = 15\nprint(val + Val + VAL)\n```",
-      "options": [
-        "A. 15",
-        "B. 30",
-        "C. 45",
-        "D. SyntaxError"
-      ],
-      "correct_answer": "B",
-      "explanation": "All three variables coexist independently: 5 + 10 + 15 = 30."
-    },
-    {
-      "id": "2.2_q28",
-      "type": "multiple_choice",
-      "concept": "keyword_module_preview",
-      "skill": "recognition",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.2_q12"
-      ],
-      "prompt": "Python provides a standard library module to programmatically inspect all reserved keywords. What is its name?",
-      "options": [
-        "A. `keywords_list`",
-        "B. `keyword` (which provides `keyword.kwlist`)",
-        "C. `syntax_rules`",
-        "D. `reserved`"
-      ],
-      "correct_answer": "B",
-      "explanation": "Importing `keyword` and checking `keyword.kwlist` reveals all reserved keywords in the current Python version."
-    },
-    {
-      "id": "2.2_q29",
-      "type": "real_world_scenario",
-      "concept": "code_refactoring_names",
-      "skill": "synthesis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.2_q7",
-        "2.2_q19"
-      ],
-      "prompt": "You are refactoring a payroll script:\n```python\nx = 40\ny = 25.50\nz = x * y\n```\nWhich refactoring best follows Python professional standards?",
-      "correct_answer": "B",
-      "explanation": "Option B uses descriptive snake_case names that clearly express the domain logic.",
-      "options": [
-        "A. h = 40; r = 25.0; p = h * r",
-        "B. hours_worked = 40; hourly_rate = 25.0; total_pay = hours_worked * hourly_rate",
-        "C. HoursWorked = 40; HourlyRate = 25.0; TotalPay = HoursWorked * HourlyRate",
-        "D. v1 = 40; v2 = 25.0; v3 = v1 * v2"
-      ]
-    },
-    {
-      "id": "2.2_q30",
-      "type": "real_world_scenario",
-      "concept": "naming_synthesis",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.2_q1",
-        "2.2_q7",
-        "2.2_q12",
-        "2.2_q17"
-      ],
-      "prompt": "Which summary represents the complete Python naming best practices?",
-      "correct_answer": "A",
-      "explanation": "This accurately covers syntax legality, PEP 8 casing conventions, constants, and communicative clarity.",
-      "options": [
-        "A. Variable names must start with a letter or underscore, cannot be Python keywords, and should use snake_case for readability.",
-        "B. Variable names can start with numbers as long as they contain letters.",
-        "C. Variable names are case-insensitive in Python.",
-        "D. Variable names must be in PascalCase to be recognized by CPython."
-      ]
+      "explanation": "All variables follow PEP 8 snake_case and compute the final cart total accurately.",
+      "hint": "Compute total_price = unit_price * quantity, then print item_name followed by total_price.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     }
-  ],
-  "unit_num": 2,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Naming Variables",
-    "Apply idiomatic Python patterns when working with Naming Variables",
-    "Debug common runtime exceptions and logic errors associated with Naming Variables",
-    "Implement production-ready code utilizing Naming Variables"
-  ],
-  "prerequisites": [
-    "2.1"
   ]
 }

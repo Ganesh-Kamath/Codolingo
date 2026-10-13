@@ -1,554 +1,633 @@
 {
   "lesson_id": "3.4",
   "title": "Comparison Operators",
-  "unit": "Operators and Math",
+  "unit": "unit_03",
   "items": [
     {
-      "id": "3.4_q1",
-      "type": "micro_lesson",
-      "concept": "comparison_overview",
-      "skill": "recognition",
+      "id": "3.4_fnd_1",
+      "type": "output_prediction",
+      "concept": "predict_equality_operator",
+      "skill": "application",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q8"
+      "prerequisites": [],
+      "prompt": "Predict the outcome when comparing variable score to the number 10 using ==:\n```python\nscore = 10\nprint(score == 10)\n```",
+      "explanation": "`==` asks a question: \"Are these two values equal?\". Because `10 == 10`, Python produces the boolean value `True`. Single `=` would be assignment.",
+      "hint": "Double equals (==) tests whether two values are equal and answers True or False.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "options": [
+        "True",
+        "10",
+        "False",
+        "SyntaxError"
       ],
-      "title": "The Six Comparison Operators",
-      "content": "Comparison operators test relationships between values and always produce a boolean (`True` or `False`):\n\n* `==` Equal to: `5 == 5` -> `True`\n* `!=` Not equal to: `5 != 3` -> `True`\n* `>` Greater than: `8 > 2` -> `True`\n* `<` Less than: `2 < 8` -> `True`\n* `>=` Greater than or equal to: `5 >= 5` -> `True`\n* `<=` Less than or equal to: `4 <= 5` -> `True`",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
+      "correct_answer": "True",
+      "code_snippet": "score = 10\nprint(score == 10)",
+      "codeSnippet": "score = 10\nprint(score == 10)"
     },
     {
-      "id": "3.4_q2",
+      "id": "3.4_fnd_2",
+      "type": "output_prediction",
+      "concept": "predict_boundary_condition",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "What will this program print?\n```python\npoints = 100\nprint(points > 100)\n```",
+      "explanation": "Strict inequality `>` requires the left number to be larger than the right. Since 100 is not larger than 100, `points > 100` evaluates to `False`. To include 100, use `>=`.",
+      "hint": "Is 100 bigger than 100? No, they are equal.",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "options": [
+        "False",
+        "True",
+        "100",
+        "Error"
+      ],
+      "correct_answer": "False",
+      "code_snippet": "points = 100\nprint(points > 100)",
+      "codeSnippet": "points = 100\nprint(points > 100)"
+    },
+    {
+      "id": "3.4_fnd_3",
+      "type": "fill_in_the_blank",
+      "concept": "complete_equality_check",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Complete the statement to check if `status` is equal to `\"active\"`:\n```python\nstatus = \"active\"\nis_ready = status ____ \"active\"\nprint(is_ready)\n```",
+      "explanation": "In Python, `==` tests for equality. Using a single `=` here would be an assignment, not a comparison.",
+      "hint": "Use two equals signs: ==",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "correct_answer": "==",
+      "accepted_answers": [
+        "=="
+      ],
+      "code_snippet": "status = \"active\"\nis_ready = status ____ \"active\"\nprint(is_ready)",
+      "codeSnippet": "status = \"active\"\nis_ready = status ____ \"active\"\nprint(is_ready)"
+    },
+    {
+      "id": "3.4_fnd_4",
       "type": "multiple_choice",
-      "concept": "comparison_overview",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.4_q1"
-      ],
-      "prompt": "Which operator checks if two values are equal in Python?",
+      "concept": "reason_single_equals_syntax_error",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Look at the following code:\n```python\nage = 18\nif age = 18:\n    print(\"Adult\")\n```\nWhy does Python raise a `SyntaxError: invalid syntax` on line 2?",
+      "explanation": "Single `=` means assignment: `x = 5`. To compare values in Python, you must use `==`: `if age == 18:`. Python intentionally raises a SyntaxError to prevent accidental assignments in conditionals.",
+      "hint": "Assignment uses =, comparison uses ==.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
       "options": [
-        "A. `=`",
-        "B. `==`",
-        "C. `===`",
-        "D. `equals`"
+        "Single equals (=) is used to assign values to variables, whereas double equals (==) is required to test equality in conditions",
+        "18 cannot be compared to a variable",
+        "The word \"Adult\" is not a valid string",
+        "Python requires semicolons after if statements"
       ],
-      "correct_answer": "B",
-      "explanation": "This exercise tests `comparison overview` in Comparison Operators. When Python validates this code, it applies the standard rules of comparison overview. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "Single equals (=) is used to assign values to variables, whereas double equals (==) is required to test equality in conditions"
     },
     {
-      "id": "3.4_q3",
-      "type": "code_prediction",
-      "concept": "inequality_operator",
-      "skill": "prediction",
+      "id": "3.4_fnd_5",
+      "type": "write_the_code",
+      "concept": "write_comparison_code",
+      "skill": "application",
       "difficulty": "easy",
-      "prerequisites": [
-        "3.4_q1"
-      ],
-      "prompt": "What does this code output?\n```python\nx = 10\nprint(x != 10)\n```",
-      "options": [
-        "A. True",
-        "B. False",
-        "C. 10",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "Since `x` is 10, checking if `x` is NOT equal to 10 evaluates to `False`."
+      "prerequisites": [],
+      "prompt": "Write a Python program that:\n1. Sets `age = 20`\n2. Sets `can_enter = age >= 18`\n3. Prints `can_enter`",
+      "explanation": "`age >= 18` checks if age is at least 18. Because 20 >= 18 is True, `can_enter` holds `True`.",
+      "hint": "can_enter = age >= 18, then print(can_enter)",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Write comparison for age threshold\n",
+      "solution_code": "age = 20\ncan_enter = age >= 18\nprint(can_enter)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "can_enter evaluates to True",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('can_enter') is True and _raw_stdout.strip() == 'True'",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses greater-than-or-equal operator >=",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert '>=' in _user_code",
+          "hidden": true
+        }
+      ]
     },
     {
-      "id": "3.4_q4",
+      "id": "3.4_fnd_6",
+      "type": "fix_the_code",
+      "concept": "debug_assignment_in_conditional",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Fix the bug in the code below. It crashes with `SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?` because it accidentally used assignment.",
+      "explanation": "In Python conditions, you must test equality using `==`. Using `=` is an assignment and causes a SyntaxError.",
+      "hint": "Change if score = 100: to if score == 100:",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "starter_code": "score = 100\nif score = 100:\n    print(\"Perfect\")",
+      "solution_code": "score = 100\nif score == 100:\n    print(\"Perfect\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints \"Perfect\" using comparison ==",
+          "input": "",
+          "expectedOutput": "Perfect",
+          "assertionPython": "assert _raw_stdout.strip() == 'Perfect' and 'score == 100' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying conditional statement syntax",
+          "input": "",
+          "expectedOutput": "Perfect",
+          "assertionPython": "assert _raw_stdout.strip() == 'Perfect' and '==' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.4_fnd_7",
+      "type": "trace_execution",
+      "concept": "trace_comparison_operators",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Trace the output for each comparison line:\n```python\nx = 5\ny = 8\nprint(x < y)\nprint(x == y)\nprint(x != y)\n```\nWhat boolean is printed by each line?",
+      "explanation": "5 < 8 is True. 5 == 8 is False. 5 != 8 (not equal) is True.",
+      "hint": "!= means \"not equal to\".",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 3,
+          "code": "print(x < y)",
+          "variable": "Output line 1",
+          "expectedValue": "True",
+          "hint": "Is 5 less than 8?"
+        },
+        {
+          "step": 2,
+          "line": 4,
+          "code": "print(x == y)",
+          "variable": "Output line 2",
+          "expectedValue": "False",
+          "hint": "Is 5 equal to 8?"
+        },
+        {
+          "step": 3,
+          "line": 5,
+          "code": "print(x != y)",
+          "variable": "Output line 3",
+          "expectedValue": "True",
+          "hint": "Is 5 not equal to 8?"
+        }
+      ]
+    },
+    {
+      "id": "3.4_fnd_8",
+      "type": "write_the_code",
+      "concept": "apply_free_shipping_check",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "An online store gives free shipping for orders of at least $50. Write a program that:\n1. Sets `cart_total = 50`\n2. Sets `free_shipping = cart_total >= 50`\n3. Prints `free_shipping`",
+      "explanation": "Because the threshold is \"at least 50\", an order of exactly 50 qualifies! Thus `>=` is the correct operator, returning `True`.",
+      "hint": "Use >= for \"at least\": free_shipping = cart_total >= 50",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "# Check free shipping eligibility\n",
+      "solution_code": "cart_total = 50\nfree_shipping = cart_total >= 50\nprint(free_shipping)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "free_shipping is True for cart_total of 50",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('free_shipping') is True and _raw_stdout.strip() == 'True'",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying free_shipping boolean variable",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('free_shipping') is True",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.4_fnd_9",
+      "type": "output_prediction",
+      "concept": "predict_type_mismatch_equality",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Notice the quotation marks around the first value. What happens when comparing string \"10\" to integer 10 with ==?\n```python\nprint(\"10\" == 10)\n```",
+      "explanation": "In Python, values of different types are not equal. `\"10\"` (str) and `10` (int) have different types, so `\"10\" == 10` is always `False`.",
+      "hint": "Python never pretends a string is a number during == comparisons.",
+      "misconception_tag": "STRING_VS_NUMBER",
+      "options": [
+        "False",
+        "True",
+        "TypeError",
+        "10"
+      ],
+      "correct_answer": "False",
+      "code_snippet": "print(\"10\" == 10)",
+      "codeSnippet": "print(\"10\" == 10)"
+    },
+    {
+      "id": "3.4_fnd_10",
+      "type": "fix_the_code",
+      "concept": "debug_boundary_cutoff",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A voting system allows people aged 18 and older to vote. But when `age = 18`, the code below prints `False`! Fix the comparison operator so 18-year-olds are included.",
+      "explanation": "`>` excludes the boundary number (18 > 18 is False). `>=` includes the boundary (18 >= 18 is True).",
+      "hint": "Replace > with >=",
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "starter_code": "age = 18\ncan_vote = age > 18\nprint(can_vote)",
+      "solution_code": "age = 18\ncan_vote = age >= 18\nprint(can_vote)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True for age 18 using >=",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and '>=' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying can_vote variable for boundary age",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('can_vote') is True and '>=' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.4_cand_1",
       "type": "micro_lesson",
-      "concept": "int_float_equality",
+      "concept": "comparison_operators_overview",
       "skill": "understanding",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.3_q4",
-        "3.4_q1"
-      ],
-      "title": "Comparing Ints and Floats",
-      "content": "Python compares numbers by their mathematical numeric value, not their type:\n\n```python\nprint(5 == 5.0)   # True! Both have the numerical value of 5\nprint(0 == 0.0)   # True!\n```\nEven though one is an `int` and the other is a `float`, their values are equal.",
-      "prompt": "",
-      "explanation": "Python compares numbers by their mathematical numeric value, not their type:\n\n```python\nprint(5 == 5. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "prerequisites": [],
+      "prompt": "# Comparison Operators in Python\n\nComparison operators evaluate relationships between values and **always return a boolean (`True` or `False`)**:\n\n- `==` (Equal to): `5 == 5 -> True`\n- `!=` (Not equal to): `5 != 3 -> True`\n- `>` (Greater than): `10 > 5 -> True`\n- `<` (Less than): `3 < 7 -> True`\n- `>=` (Greater than or equal to): `5 >= 5 -> True`\n- `<=` (Less than or equal to): `4 <= 5 -> True`\n\n### The Fundamental Trap: `=` vs `==`\n- Single equals (`=`) is **assignment**: it stores a value into a variable name.\n- Double equals (`==`) is **comparison**: it tests equality and returns `True` or `False`.",
+      "explanation": "Comparison operators return boolean values True or False.",
+      "hint": "Use == for comparison, not =."
     },
     {
-      "id": "3.4_q5",
-      "type": "code_prediction",
-      "concept": "int_float_equality",
-      "skill": "prediction",
+      "id": "3.4_cand_2",
+      "type": "multiple_choice",
+      "concept": "assignment_vs_comparison_distinction",
+      "skill": "recognition",
       "difficulty": "easy",
       "prerequisites": [
-        "3.4_q4"
+        "comparison_operators_overview"
       ],
-      "prompt": "What does `100 == 100.0` evaluate to in Python?",
+      "prompt": "What happens if you accidentally write `if score = 100:` in Python instead of `if score == 100:`?",
       "options": [
-        "A. False, because one is int and one is float.",
-        "B. True, because their numeric values are identical.",
-        "C. TypeError",
-        "D. None"
+        "Python raises a SyntaxError: invalid syntax because single = is reserved for variable assignment",
+        "Python automatically converts = into == and executes the comparison",
+        "The expression always evaluates to True",
+        "score is reassigned and the loop terminates"
       ],
-      "correct_answer": "B",
-      "explanation": "This exercise tests `int float equality` in Comparison Operators. When Python evaluates this code, it applies the standard rules of int float equality. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "Python raises a SyntaxError: invalid syntax because single = is reserved for variable assignment",
+      "explanation": "In Python, statement assignments using `=` are not allowed inside conditional expressions. Writing `if score = 100:` triggers `SyntaxError: invalid syntax. Maybe you meant '=='?`.",
+      "hint": "Single = is for variable assignment and raises a SyntaxError in conditions.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
     },
     {
-      "id": "3.4_q6",
-      "type": "multiple_choice",
-      "question": "What is the critical distinction between `a == b` and `a is b`?",
-      "options": [
-        "`==` tests if the values are equal, while `is` tests if both variables point to the exact same object in memory (`id(a) == id(b)`)",
-        "`is` tests for value equality, while `==` tests for type equality",
-        "`==` is used exclusively for numbers, while `is` is used exclusively for strings",
-        "`==` modifies the variables to be equal, while `is` compares them"
-      ],
-      "correct_answer": "`==` tests if the values are equal, while `is` tests if both variables point to the exact same object in memory (`id(a) == id(b)`)",
-      "explanation": "`==` checks value equivalence (equality), whereas `is` checks reference identity (whether two identifiers refer to the identical memory address). For example, `[1, 2] == [1, 2]` is `True`, but `[1, 2] is [1, 2]` is `False` because they are separate objects.",
-      "difficulty": "medium",
-      "concept": "equality_vs_identity",
-      "skill": "mental_model",
-      "prerequisites": []
-    },
-    {
-      "id": "3.4_q7",
+      "id": "3.4_cand_3",
       "type": "code_prediction",
-      "concept": "string_comparison",
+      "concept": "string_lexicographical_comparison_trap",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "comparison_operators_overview"
+      ],
+      "prompt": "What does this program print?\n```python\nresult = \"10\" < \"2\"\nprint(result)\n```",
+      "options": [
+        "True",
+        "False",
+        "TypeError",
+        "10"
+      ],
+      "correct_answer": "True",
+      "code_snippet": "result = \"10\" < \"2\"\nprint(result)",
+      "explanation": "When comparing strings, Python compares character-by-character according to their ASCII/Unicode numerical values (alphabetical order). The first character `\"1\"` has ASCII 49, while `\"2\"` has ASCII 50. Since `'1' < '2'`, `\"10\" < \"2\"` evaluates to `True`! To compare numeric magnitudes, always convert to `int` first.",
+      "hint": "Strings compare alphabetically by their first character.",
+      "misconception_tag": "STRING_VS_NUMBER"
+    },
+    {
+      "id": "3.4_cand_4",
+      "type": "fill_in_the_blank",
+      "concept": "not_equal_operator_syntax",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [
+        "comparison_operators_overview"
+      ],
+      "prompt": "Complete the statement to check that `username` is NOT equal to `\"guest\"`:\n```python\nis_member = (username ___ \"guest\")\n```",
+      "accepted_answers": [
+        "!="
+      ],
+      "correct_answer": "!=",
+      "explanation": "In Python, the \"not equal to\" comparison operator is `!=`. Writing `username != \"guest\"` returns `True` if the strings differ.",
+      "hint": "An exclamation point followed by an equals sign.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "3.4_cand_5",
+      "type": "code_prediction",
+      "concept": "chained_comparison_syntax",
       "skill": "prediction",
       "difficulty": "medium",
       "prerequisites": [
-        "3.4_q6"
+        "comparison_operators_overview"
       ],
-      "prompt": "What does this code output?\n```python\nprint(\"banana\" > \"apple\")\n```",
+      "prompt": "What will this program print?\n```python\nage = 25\nvalid = 18 <= age <= 65\nprint(valid)\n```",
       "options": [
         "True",
         "False",
         "SyntaxError",
-        "TypeError"
+        "65"
       ],
       "correct_answer": "True",
-      "explanation": "In Python, string comparison is lexicographical (based on ASCII/Unicode code points). Since 'b' comes after 'a', 'banana' > 'apple' evaluates to True."
+      "code_snippet": "age = 25\nvalid = 18 <= age <= 65\nprint(valid)",
+      "explanation": "Python natively supports chained comparisons! `18 <= age <= 65` is equivalent to `(18 <= age) and (age <= 65)`. Since 25 is between 18 and 65, it evaluates to `True`.",
+      "hint": "Chained comparisons verify if a number is within a range.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "3.4_q8",
+      "id": "3.4_cand_6",
       "type": "code_prediction",
-      "concept": "string_case_precedence",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.4_q6"
-      ],
-      "prompt": "What does `\"Zebra\" < \"ant\"` evaluate to in Python?",
-      "options": [
-        "A. False, because Z comes after A in the alphabet.",
-        "B. True, because uppercase 'Z' (Unicode 90) has a smaller code point than lowercase 'a' (Unicode 97).",
-        "C. TypeError",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "All uppercase ASCII letters (`A-Z`, 65-90) come before lowercase ASCII letters (`a-z`, 97-122). Therefore `'Zebra' < 'ant'` is `True`."
-    },
-    {
-      "id": "3.4_q9",
-      "type": "micro_lesson",
-      "concept": "chained_comparisons",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.4_q1"
-      ],
-      "title": "Chained Comparisons (Python's Superpower)",
-      "content": "In most languages, to test if `x` is between 10 and 20, you must write `x >= 10 && x <= 20`.\n\nPython supports natural mathematical chaining!\n```python\nx = 15\nprint(10 <= x <= 20)  # True!\n```\nPython translates this cleanly into `(10 <= x) and (x <= 20)`.",
-      "prompt": "",
-      "explanation": "In most languages, to test if `x` is between 10 and 20, you must write `x >= 10 && x <= 20`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.4_q10",
-      "type": "code_prediction",
-      "concept": "chained_comparisons",
+      "concept": "float_precision_equality_trap",
       "skill": "prediction",
-      "difficulty": "easy",
+      "difficulty": "hard",
       "prerequisites": [
-        "3.4_q9"
+        "comparison_operators_overview"
       ],
-      "prompt": "What does this code output?\n```python\nage = 25\nprint(18 <= age < 65)\n```",
+      "prompt": "What does this program print?\n```python\nval = (0.1 + 0.2 == 0.3)\nprint(val)\n```",
       "options": [
-        "A. True",
-        "B. False",
-        "C. 25",
-        "D. SyntaxError"
+        "False",
+        "True",
+        "0.3",
+        "TypeError"
       ],
-      "correct_answer": "A",
-      "explanation": "25 is greater than or equal to 18 AND less than 65, so the chained comparison evaluates to `True`."
+      "correct_answer": "False",
+      "code_snippet": "val = (0.1 + 0.2 == 0.3)\nprint(val)",
+      "explanation": "Due to binary floating-point representation (IEEE 754), `0.1 + 0.2` evaluates to `0.30000000000000004` in memory, which is not exactly equal to `0.3`. Therefore `==` evaluates to `False`. In production code, compare floats using `math.isclose()` or `abs(a - b) < 1e-9`.",
+      "hint": "Floating-point math in binary has tiny rounding artifacts.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
-      "id": "3.4_q11",
-      "type": "fill_in_the_blank",
-      "concept": "chained_comparisons",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.4_q9"
-      ],
-      "prompt": "Complete the chained comparison to verify that `score` is between 0 and 100 inclusive:\n```python\nis_valid = (0 <= score ___ 100)\n```",
-      "accepted_answers": [
-        "<="
-      ],
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
-    },
-    {
-      "id": "3.4_q12",
-      "type": "micro_lesson",
-      "concept": "incompatible_type_comparison",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q26",
-        "3.4_q1"
-      ],
-      "title": "Cannot Compare Strings and Numbers with < or >",
-      "content": "Python is strongly typed. While you can check equality between any types (`\"10\" == 10` is `False`), you CANNOT use ordering operators (`<`, `>`, `<=`, `>=`) between a string and a number:\n```python\n# print(\"10\" > 5)  # TypeError: '>' not supported between instances of 'str' and 'int'\n```",
-      "prompt": "",
-      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
-    },
-    {
-      "id": "3.4_q13",
-      "type": "error_diagnosis",
-      "concept": "incompatible_type_comparison",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.4_q12"
-      ],
-      "prompt": "What error occurs when running this code?\n```python\nage = \"20\"\nprint(age >= 18)\n```",
-      "options": [
-        "A. NameError",
-        "B. TypeError: '>=' not supported between instances of 'str' and 'int'",
-        "C. SyntaxError",
-        "D. ValueError"
-      ],
-      "correct_answer": "B",
-      "explanation": "Ordering comparisons between `str` and `int` are not supported. Convert `age` with `int(age)` first."
-    },
-    {
-      "id": "3.4_q14",
+      "id": "3.4_cand_7",
       "type": "fix_the_code",
-      "concept": "fix_type_comparison",
+      "concept": "fix_assignment_in_conditional_bug",
       "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.7_q2",
-        "3.4_q13"
-      ],
-      "prompt": "Fix this code by converting `age_str` to an integer before comparing:",
-      "starter_code": "age_str = \"21\"\ncan_enter = age_str >= 21",
-      "solution_code": "age_str = \"21\"\ncan_enter = int(age_str) >= 21",
-      "explanation": "`int(age_str) >= 21` converts the string to 21 for valid numeric comparison."
-    },
-    {
-      "id": "3.4_q15",
-      "type": "micro_lesson",
-      "concept": "equality_vs_identity",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.1_q26",
-        "3.4_q1"
-      ],
-      "title": "Equality (==) vs. Identity (is)",
-      "content": "Python has two ways to compare objects:\n\n1. **`==` (Value Equality)**: Do these two objects have the same value?\n2. **`is` (Object Identity)**: Do these two variables point to the exact same object at the exact same memory address?\n\n💡 Rule of thumb: Always use `==` when comparing values (like numbers or strings). Use `is` only when checking singletons like `None` (`x is None`).",
-      "prompt": "",
-      "explanation": "Python has two ways to compare objects:\n\n1. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.4_q16",
-      "type": "multiple_choice",
-      "concept": "equality_vs_identity",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.4_q15"
-      ],
-      "prompt": "What is the difference between `a == b` and `a is b`?",
-      "options": [
-        "A. They are identical synonyms.",
-        "B. `==` checks if `a` and `b` hold equivalent values, while `is` checks if `a` and `b` reference the exact same memory address.",
-        "C. `is` is for numbers, `==` is for text.",
-        "D. `==` was removed in Python 3."
-      ],
-      "correct_answer": "B",
-      "explanation": "`==` checks value equality (`__eq__`), while `is` checks memory identity (`id(a) == id(b)`)."
-    },
-    {
-      "id": "3.4_q17",
-      "type": "match_code_to_concept",
-      "concept": "comparison_evaluations",
-      "skill": "analysis",
       "difficulty": "medium",
       "prerequisites": [
-        "3.4_q1",
-        "3.4_q4",
-        "3.4_q6"
+        "assignment_vs_comparison_distinction"
       ],
-      "prompt": "Match each comparison to its boolean result.",
-      "options": {
-        "`15 <= 15`": "`True`",
-        "`\"cat\" == \"Cat\"`": "`False`",
-        "`\"10\" == 10`": "`False`",
-        "`7 != 7.0`": "`False`"
-      },
-      "correct_answer": {
-        "`15 <= 15`": "`True`",
-        "`\"cat\" == \"Cat\"`": "`False`",
-        "`\"10\" == 10`": "`False`",
-        "`7 != 7.0`": "`False`"
-      },
-      "explanation": "15 <= 15 is True; string casing matters (False); string does not equal int (False); 7 equals 7.0 so != is False."
+      "prompt": "A security system checks if the passcode matches `1234`. The developer accidentally used assignment `=` instead of equality `==`. Fix the comparison.",
+      "starter_code": "passcode = 1234\n# Fix the comparison operator below\nis_valid = (passcode = 1234)\nprint(is_valid)",
+      "solution_code": "passcode = 1234\nis_valid = (passcode == 1234)\nprint(is_valid)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Evaluates equality to True",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get(\"is_valid\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies passcode comparison using ==",
+          "assertionPython": "assert _user_namespace.get(\"is_valid\") == (_user_namespace.get(\"passcode\") == 1234)",
+          "hidden": true
+        }
+      ],
+      "explanation": "Replace `=` with `==` to test equality between `passcode` and `1234`.",
+      "hint": "Use == to compare values.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
     },
     {
-      "id": "3.4_q18",
-      "type": "multiple_choice",
-      "question": "Why does PEP 8 mandate checking for `None` using `if value is None:` rather than `if value == None:`?",
-      "options": [
-        "`None` is a unique singleton in Python; `is` directly checks identity in one fast CPU instruction and cannot be tricked by custom classes that override `__eq__`",
-        "`== None` raises a SyntaxError in modern Python 3",
-        "`is None` converts the value to a boolean before comparing",
-        "`== None` deletes the variable if it evaluates to False"
-      ],
-      "correct_answer": "`None` is a unique singleton in Python; `is` directly checks identity in one fast CPU instruction and cannot be tricked by custom classes that override `__eq__`",
-      "explanation": "`None` exists as a single unique singleton object in Python runtime. Comparing with `is None` is faster and prevents unintended side effects if a custom object defines an `__eq__` method that behaves unexpectedly.",
-      "difficulty": "medium",
-      "concept": "none_identity_idiom",
-      "skill": "idiomatic_python",
-      "prerequisites": []
-    },
-    {
-      "id": "3.4_q19",
-      "type": "output_prediction",
-      "concept": "chained_short_circuit_precedence",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.4_q9"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(5 == 5 > 2)\n```",
-      "options": [
-        "A. True",
-        "B. False",
-        "C. TypeError",
-        "D. 2"
-      ],
-      "correct_answer": "A",
-      "explanation": "Chained comparison: `(5 == 5) and (5 > 2)`. Both are True, so it outputs `True`."
-    },
-    {
-      "id": "3.4_q20",
-      "type": "write_the_code",
-      "concept": "temperature_check_expression",
+      "id": "3.4_cand_8",
+      "type": "real_world_scenario",
+      "concept": "speed_limit_boundary_check",
       "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.4_q1"
-      ],
-      "prompt": "Write an expression checking if variable `temp` is strictly below `32` (freezing).",
-      "starter_code": "# TODO: Implement solution for Comparison Operators\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "temp < 32",
-      "explanation": "This exercise tests `temperature check expression` in Comparison Operators. When Python validates this code, it applies the standard rules of temperature check expression. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.4_q21",
-      "type": "error_diagnosis",
-      "concept": "assignment_in_condition_trap",
-      "skill": "debugging",
       "difficulty": "medium",
       "prerequisites": [
-        "2.1_q3",
-        "3.4_q2"
+        "comparison_operators_overview"
       ],
-      "prompt": "A developer writes:\n```python\nif score = 100:\n    print(\"Perfect!\")\n```\nWhy does Python refuse to run this?",
+      "prompt": "A highway speed camera checks whether a car is speeding. The speed limit is `65` mph. Drivers are only fined if their speed strictly exceeds `65` mph (`speed > 65`). Drivers going exactly `65` mph are NOT speeding. Which boolean expression correctly checks for speeding?",
       "options": [
-        "A. Single `=` is an assignment statement, not an equality comparison. Python syntax prohibits statements inside conditions to prevent accidental assignment bugs.",
-        "B. 100 cannot be used in `if` statements.",
-        "C. `score` is a reserved word.",
-        "D. You must write `100 == score`."
+        "is_speeding = current_speed > 65",
+        "is_speeding = current_speed >= 65",
+        "is_speeding = current_speed == 65",
+        "is_speeding = current_speed < 65"
       ],
-      "correct_answer": "A",
-      "explanation": "In Python, `=` is a statement and cannot appear where an expression is expected. Equality comparison requires `==`."
+      "correct_answer": "is_speeding = current_speed > 65",
+      "explanation": "Strict inequality `>` means speeds equal to 65 return `False` (not speeding), whereas speeds 66+ return `True`. Using `>=` would incorrectly penalize drivers driving at exactly 65 mph.",
+      "hint": "Use strictly greater than (>) so 65 is not flagged.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "3.4_q22",
-      "type": "output_prediction",
-      "concept": "string_equality_spaces",
+      "id": "3.4_cand_9",
+      "type": "write_the_code",
+      "concept": "free_shipping_threshold_check",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "comparison_operators_overview"
+      ],
+      "prompt": "An online store grants free shipping on orders of `$50.00` or more (`>= 50.0`).\nWrite a program that:\n1. Sets `cart_total = 54.50`\n2. Calculates `has_free_shipping = cart_total >= 50.0`\n3. Prints `has_free_shipping`",
+      "starter_code": "# Write free shipping comparison below\n",
+      "solution_code": "cart_total = 54.50\nhas_free_shipping = cart_total >= 50.0\nprint(has_free_shipping)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True for cart total $54.50",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get(\"has_free_shipping\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies inclusive boundary comparison >= 50.0",
+          "assertionPython": "ct = _user_namespace.get(\"cart_total\")\nassert _user_namespace.get(\"has_free_shipping\") == (ct >= 50.0)",
+          "hidden": true
+        }
+      ],
+      "explanation": "`54.50 >= 50.0` is `True`. Orders exactly equal to `$50.00` are also included.",
+      "hint": "Use the >= operator with 50.0.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "3.4_cand_10",
+      "type": "code_prediction",
+      "concept": "boolean_equality_with_integers",
       "skill": "prediction",
       "difficulty": "medium",
       "prerequisites": [
-        "2.4_q1",
-        "3.4_q1"
+        "comparison_operators_overview"
       ],
-      "prompt": "What does this code print?\n```python\nprint(\"admin \" == \"admin\")\n```",
+      "prompt": "What will this program print?\n```python\nprint(True == 1)\nprint(False == 0)\n```",
       "options": [
-        "A. True",
-        "B. False",
-        "C. None",
-        "D. SyntaxError"
+        "True\nTrue",
+        "True\nFalse",
+        "False\nFalse",
+        "TypeError\nTypeError"
       ],
-      "correct_answer": "B",
-      "explanation": "Trailing whitespace is part of the string characters. `'admin '` has length 6; `'admin'` has length 5. They are NOT equal."
+      "correct_answer": "True\nTrue",
+      "code_snippet": "print(True == 1)\nprint(False == 0)",
+      "explanation": "In Python, `bool` is a direct subclass of `int`. `True` has numerical value `1` and `False` has numerical value `0`. Therefore `True == 1` and `False == 0` are both `True`.",
+      "hint": "In Python, True equals 1 and False equals 0.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
-      "id": "3.4_q23",
-      "type": "multiple_choice",
-      "concept": "grade_boundary_check",
+      "id": "3.4_cand_11",
+      "type": "fix_the_code",
+      "concept": "fix_strict_less_than_boundary_bug",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "comparison_operators_overview"
+      ],
+      "prompt": "A warehouse temperature monitor flags an alert if `temperature` is freezing (`0°C` or below). The programmer used `< 0`, failing to flag `0°C`. Fix the operator to `<=` so freezing is caught.",
+      "starter_code": "temp = 0\n# Fix operator to flag 0 or below\nis_freezing = temp < 0\nprint(is_freezing)",
+      "solution_code": "temp = 0\nis_freezing = temp <= 0\nprint(is_freezing)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Flags temperature 0 as True",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get(\"is_freezing\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies inclusive boundary <= 0",
+          "assertionPython": "assert _user_namespace.get(\"is_freezing\") == (_user_namespace.get(\"temp\") <= 0)",
+          "hidden": true
+        }
+      ],
+      "explanation": "Changing `< 0` to `<= 0` ensures `0` is included as freezing.",
+      "hint": "Change < to <=.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "3.4_cand_12",
+      "type": "code_prediction",
+      "concept": "not_equal_strings_case_sensitive",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prerequisites": [
+        "comparison_operators_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nrole_a = \"Admin\"\nrole_b = \"admin\"\nprint(role_a == role_b)\n```",
+      "options": [
+        "False",
+        "True",
+        "None",
+        "TypeError"
+      ],
+      "correct_answer": "False",
+      "code_snippet": "role_a = \"Admin\"\nrole_b = \"admin\"\nprint(role_a == role_b)",
+      "explanation": "String comparisons in Python are strictly case-sensitive. Capital `\"A\"` (ASCII 65) is not equal to lowercase `\"a\"` (ASCII 97), so `\"Admin\" == \"admin\"` evaluates to `False`.",
+      "hint": "Python strings are case-sensitive.",
+      "misconception_tag": "STRING_VS_NUMBER"
+    },
+    {
+      "id": "3.4_cand_13",
+      "type": "write_the_code",
+      "concept": "password_length_validator",
       "skill": "application",
       "difficulty": "medium",
       "prerequisites": [
-        "3.4_q9"
+        "comparison_operators_overview"
       ],
-      "prompt": "A student receives an 'A' grade if their score is between 90 and 100 inclusive. Which chained comparison correctly tests this?",
-      "options": [
-        "A. `90 < score < 100`",
-        "B. `90 <= score <= 100`",
-        "C. `90 = score = 100`",
-        "D. `90 <= score < 100`"
+      "prompt": "A website requires passwords to be at least 8 characters long (`len(password) >= 8`).\nWrite a program that:\n1. Sets `password = \"safe_code\"`\n2. Calculates `is_length_valid = len(password) >= 8`\n3. Prints `is_length_valid`",
+      "starter_code": "# Verify password length below\n",
+      "solution_code": "password = \"safe_code\"\nis_length_valid = len(password) >= 8\nprint(is_length_valid)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True for 9-character password",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get(\"is_length_valid\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies length comparison with len() >= 8",
+          "assertionPython": "pw = _user_namespace.get(\"password\")\nassert _user_namespace.get(\"is_length_valid\") == (len(pw) >= 8)",
+          "hidden": true
+        }
       ],
-      "correct_answer": "B",
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+      "explanation": "`len(\"safe_code\")` is `9`. Since `9 >= 8`, the expression evaluates to `True`.",
+      "hint": "Use len(password) >= 8.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "3.4_q24",
-      "type": "code_prediction",
-      "concept": "boolean_comparison",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q16",
-        "3.4_q4"
-      ],
-      "prompt": "What does `False < True` evaluate to in Python?",
-      "options": [
-        "A. TypeError: cannot compare booleans with `<`",
-        "B. True",
-        "C. False",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "Because `bool` inherits from `int`, `False` is 0 and `True` is 1. `0 < 1` evaluates to `True`."
-    },
-    {
-      "id": "3.4_q25",
-      "type": "mini_challenge",
-      "concept": "inventory_threshold",
-      "skill": "synthesis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.4_q1"
-      ],
-      "prompt": "Given `stock = 12` and `MIN_THRESHOLD = 15`, write an expression that evaluates to `True` if stock is less than or equal to threshold, and print it.",
-      "starter_code": "stock = 12\nMIN_THRESHOLD = 15\n# Check if stock <= MIN_THRESHOLD and print result\n",
-      "solution_code": "stock = 12\nMIN_THRESHOLD = 15\nprint(stock <= MIN_THRESHOLD)",
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
-    },
-    {
-      "id": "3.4_q26",
+      "id": "3.4_cand_14",
       "type": "output_prediction",
       "concept": "chained_comparison_failure",
-      "skill": "analysis",
+      "skill": "prediction",
       "difficulty": "medium",
       "prerequisites": [
-        "3.4_q9"
+        "comparison_operators_overview"
       ],
-      "prompt": "What does this code output?\n```python\nx = 10\nprint(5 < x < 8)\n```",
+      "prompt": "What will this program print?\n```python\nx = 10\nresult = 5 < x < 8\nprint(result)\n```",
       "options": [
-        "A. True",
-        "B. False",
-        "C. 10",
-        "D. None"
+        "False",
+        "True",
+        "10",
+        "SyntaxError"
       ],
-      "correct_answer": "B",
-      "explanation": "While `5 < 10` is True, `10 < 8` is False. Because both must be True, the chained comparison returns `False`."
+      "correct_answer": "False",
+      "code_snippet": "x = 10\nresult = 5 < x < 8\nprint(result)",
+      "explanation": "`5 < x < 8` checks whether `x` is strictly between 5 and 8. While `5 < 10` is `True`, `10 < 8` is `False`. Since both conditions must hold, the chained comparison returns `False`.",
+      "hint": "Is 10 less than 8? No.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "3.4_q27",
-      "type": "fill_in_the_blank",
-      "concept": "none_identity_check",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.4_q15"
-      ],
-      "prompt": "PEP 8 states that comparisons to singletons like `None` should always use the identity operator: `if result ___ None:`",
-      "accepted_answers": [
-        "is"
-      ],
-      "explanation": "According to PEP 8, variable names in Python should be written in snake_case (lowercase words separated by underscores, e.g. `user_account_balance`). This convention maximizes readability."
-    },
-    {
-      "id": "3.4_q28",
-      "type": "real_world_scenario",
-      "concept": "speed_limit_violation",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.4_q1"
-      ],
-      "prompt": "A highway speed monitor triggers a fine if a vehicle's `speed` is strictly greater than `65`. What is the condition?",
-      "correct_answer": "A",
-      "explanation": "This exercise tests `speed limit violation` in Comparison Operators. When Python validates this code, it applies the standard rules of speed limit violation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution.",
-      "options": [
-        "A. speed > speed_limit",
-        "B. speed >= speed_limit",
-        "C. speed == speed_limit",
-        "D. speed != speed_limit"
-      ]
-    },
-    {
-      "id": "3.4_q29",
-      "type": "output_prediction",
-      "concept": "digit_string_comparison",
-      "skill": "reasoning",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.4_q6"
-      ],
-      "prompt": "What does this code output? (Careful!)\n```python\nprint(\"20\" < \"3\")\n```",
-      "options": [
-        "A. False, because 20 is greater than 3.",
-        "B. True, because string comparison checks the first character: `'2'` comes before `'3'` alphabetically!",
-        "C. TypeError",
-        "D. SyntaxError"
-      ],
-      "correct_answer": "B",
-      "explanation": "Crucial gotcha: String comparison is alphabetical (lexicographical)! The character `'2'` comes before `'3'`, so `\"20\" < \"3\"` is `True`! Always convert to integers before numeric comparison."
-    },
-    {
-      "id": "3.4_q30",
-      "type": "real_world_scenario",
-      "concept": "comparison_synthesis",
+      "id": "3.4_cand_15",
+      "type": "mini_challenge",
+      "concept": "admission_discount_gate_challenge",
       "skill": "transfer",
       "difficulty": "hard",
       "prerequisites": [
-        "3.4_q1",
-        "3.4_q4",
-        "3.4_q6",
-        "3.4_q9",
-        "3.4_q12",
-        "3.4_q15"
+        "comparison_operators_overview"
       ],
-      "prompt": "Which of the following summaries regarding Python comparison operators is completely TRUE?",
-      "correct_answer": "A",
-      "explanation": "This encapsulates all comparison operators, lexicographical string comparison, chaining, type restrictions, and identity vs equality.",
-      "options": [
-        "A. Comparison operators evaluate to boolean True or False, support chaining (e.g., 0 < x < 10), and distinguish == (equality) from is (identity).",
-        "B. Comparison operators return integers: 1 for true and 0 for false.",
-        "C. Chained comparisons like 1 < x < 5 are syntax errors in Python.",
-        "D. 'apple' > 'banana' evaluates to True because 'apple' is shorter."
-      ]
+      "prompt": "Build an event admission verification engine:\n1. Set `visitor_age = 65`\n2. Set `ticket_price = 20.0`\n3. Calculate `is_senior = visitor_age >= 65`\n4. Calculate `is_child = visitor_age <= 12`\n5. Calculate `has_discount = is_senior == True`\n6. Print `is_senior`\n7. Print `has_discount`",
+      "starter_code": "# Complete the admission verification engine\n",
+      "solution_code": "visitor_age = 65\nticket_price = 20.0\nis_senior = visitor_age >= 65\nis_child = visitor_age <= 12\nhas_discount = is_senior == True\nprint(is_senior)\nprint(has_discount)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True and True for age 65",
+          "expectedOutput": "True\nTrue",
+          "assertionPython": "assert _user_namespace.get(\"is_senior\") is True\nassert _user_namespace.get(\"has_discount\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies senior and child comparison logic",
+          "assertionPython": "age = _user_namespace.get(\"visitor_age\")\nassert _user_namespace.get(\"is_senior\") == (age >= 65)\nassert _user_namespace.get(\"is_child\") == (age <= 12)",
+          "hidden": true
+        }
+      ],
+      "explanation": "`65 >= 65` is `True`. `65 <= 12` is `False`. `has_discount` is `True`.",
+      "hint": "Use >= 65 for seniors and <= 12 for children.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 3,
-  "learning_objectives": [
-    "Apply Python Comparison Operators correctly in mathematical and logical expressions",
-    "Predict evaluation order using operator precedence rules",
-    "Diagnose subtle expression bugs caused by unintended precedence",
-    "Construct compound boolean or arithmetic expressions for real-world logic"
-  ],
-  "prerequisites": [
-    "3.3"
   ]
 }

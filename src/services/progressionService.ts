@@ -134,9 +134,14 @@ export const progressionService = {
           m => !m.resolved && (m.skillId === completedSkillId || m.lessonId === lessonId)
         ).length;
 
+        const totalMistakes = Math.max(
+          unresolvedSkillMistakes,
+          attemptStats.unresolvedMistakesCount || 0
+        );
+
         const evalResult = masteryService.evaluateAttempt({
           ...attemptStats,
-          unresolvedMistakesCount: unresolvedSkillMistakes
+          unresolvedMistakesCount: totalMistakes
         });
 
         const currentPips = userProgress.skillMastery[completedSkillId];
@@ -147,12 +152,13 @@ export const progressionService = {
       }
     }
 
-    // Determine next skill to activate
+    // Determine next skill to activate (only advance, never regress on replay)
     let nextSkillId = userProgress.currentSkillId;
     if (completedSkillId) {
-      const currentIdx = allOrderedSkills.indexOf(completedSkillId);
-      if (currentIdx >= 0 && currentIdx + 1 < allOrderedSkills.length) {
-        nextSkillId = allOrderedSkills[currentIdx + 1];
+      const completedIdx = allOrderedSkills.indexOf(completedSkillId);
+      const activeIdx = allOrderedSkills.indexOf(userProgress.currentSkillId);
+      if ((activeIdx === -1 || completedIdx >= activeIdx) && completedIdx + 1 < allOrderedSkills.length) {
+        nextSkillId = allOrderedSkills[completedIdx + 1];
       }
     }
 
@@ -176,6 +182,14 @@ export const progressionService = {
     }
 
     const dailyGoalEarnedXp = todayIdx >= 0 ? history[todayIdx].xp : (userProgress.dailyGoalEarnedXp + awardedXp);
+    const dailyLessonsCount = todayIdx >= 0 ? history[todayIdx].lessonsCount : (isFirstTime ? 1 : 0);
+    const updatedDailyGoal = {
+      lessonsTarget: userProgress.dailyGoal?.lessonsTarget || 2,
+      lessonsCompleted: dailyLessonsCount,
+      xpTarget: userProgress.dailyGoal?.xpTarget || userProgress.dailyGoalXp || 50,
+      xpEarned: dailyGoalEarnedXp
+    };
+
     const levelInfo = progressionService.calculateLevel(newTotalXp);
     const streakUpdates = progressionService.updateStreak(userProgress);
 
@@ -191,7 +205,8 @@ export const progressionService = {
         if (progress >= 7) unlocked = true;
       }
       if (ach.id === '100_xp' && newTotalXp >= 100) {
-        progress = 100; unlocked = true;
+        progress = Math.min(newTotalXp, 100);
+        unlocked = true;
       }
 
       return { ...ach, progress, unlocked };
@@ -207,6 +222,7 @@ export const progressionService = {
       totalXp: newTotalXp,
       level: levelInfo.level,
       dailyGoalEarnedXp,
+      dailyGoal: updatedDailyGoal,
       activityHistory: history,
       achievements: updatedAchievements
     };

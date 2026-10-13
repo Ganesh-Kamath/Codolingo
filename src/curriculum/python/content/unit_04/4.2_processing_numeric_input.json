@@ -1,602 +1,554 @@
 {
   "lesson_id": "4.2",
   "title": "Processing Numeric Input",
-  "unit": "User Input and Output",
+  "unit": "unit_04",
   "items": [
     {
       "id": "4.2_q1",
       "type": "micro_lesson",
-      "concept": "processing_numeric_input_basics",
-      "skill": "recognition",
+      "concept": "numeric_input_casting_basics",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [],
-      "title": "Why Numeric Conversion is Mandatory",
-      "content": "Because `input()` returns strings, attempting arithmetic on raw input leads to bugs or crashes:\n\n* `\"10\" + \"5\"` evaluates to `\"105\"` (string concatenation).\n* `\"10\" + 5` raises `TypeError: can only concatenate str to str`.\n\nTo perform arithmetic, you must convert the string to a number:\n\n```python\nage = int(input(\"Enter age: \"))\nnext_year = age + 1\n```",
-      "explanation": "Python does not automatically coerce strings into numbers during arithmetic. Explicit type casting with int() or float() is required.",
-      "metadata": {
-        "concept": "numeric_input_casting",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Explains why type conversion is required"
-      }
+      "title": "Converting User Input to Numbers",
+      "content": "# Processing Numeric Input\n\nBecause `input()` always returns a string, you must explicitly convert user entry to a number before doing arithmetic.\n\n```python\n# Converting to integer (whole number)\nage = int(input(\"Enter age: \"))\nnext_year = age + 1\n\n# Converting to float (decimal number)\nprice = float(input(\"Item price: \"))\ntotal = price * 1.08  # with 8% sales tax\n```\n\n### Common Traps:\n1. **Adding Strings Instead of Math:** `\"10\" + \"5\"` is `\"105\"`, while `int(\"10\") + int(\"5\")` is `15`.\n2. **The Decimal String Trap:** Calling `int(\"3.5\")` raises `ValueError: invalid literal for int() with base 10`. Use `float(\"3.5\")` for numbers with decimals.\n3. **Nesting Order:** Always wrap `input()` inside `int()`, like `int(input(...))`.",
+      "explanation": "Wrap input() in int() or float() to convert user text into numbers for mathematical calculations."
     },
     {
       "id": "4.2_q2",
-      "type": "error_diagnosis",
-      "concept": "processing_numeric_input_basics",
-      "skill": "debugging",
+      "type": "multiple_choice",
+      "concept": "input_int_conversion_syntax",
+      "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.2_q1"
-      ],
-      "prompt": "A developer writes the following code to compute next year's age:\n\n```python\nage = \"19\"  # Simulating raw return from input()\nnext_age = age + 1\nprint(next_age)\n```\n\nWhat error occurs when this code executes and why?",
+      "prompt": "What happens if a user enters `4.75` into `amount = int(input(\"Amount: \"))`?",
       "options": [
-        "TypeError: can only concatenate str (not \"int\") to str",
-        "ValueError: invalid literal for int() with base 10",
-        "SyntaxError: cannot add number to variable",
-        "ZeroDivisionError: division by zero"
+        "ValueError: invalid literal for int() with base 10: '4.75'",
+        "Python truncates the decimal and stores 4",
+        "Python rounds the decimal up and stores 5",
+        "amount is saved as a float: 4.75"
       ],
-      "correct_answer": "TypeError: can only concatenate str (not \"int\") to str",
-      "explanation": "Because `age` is a string (`\"19\"`), Python refuses to add an integer (`1`) using the `+` operator. Python does not automatically coerce strings to numbers in addition; you must explicitly cast with `int(age)`.",
-      "metadata": {
-        "concept": "string_numeric_type_mismatch",
-        "skill": "error_recognition",
-        "learning_objective": "Recognize why raw input cannot participate in arithmetic",
-        "common_misconception": "Assuming Python automatically casts numeric strings to numbers during addition",
-        "why_this_exercise_exists": "The #1 beginner bug when handling user input in Python"
-      }
+      "correct_answer": "ValueError: invalid literal for int() with base 10: '4.75'",
+      "explanation": "Python's `int()` function cannot directly parse a string containing a decimal point. It raises `ValueError`. To read decimal numbers, use `float(input())`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q3",
-      "type": "micro_lesson",
-      "concept": "processing_numeric_input_int_vs_float",
-      "skill": "recognition",
+      "type": "fill_in_the_blank",
+      "concept": "float_input_conversion",
+      "skill": "syntax",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.2_q2"
+      "prompt": "Complete the statement to convert user input into a floating-point number:\n```python\nprice = ____(input(\"Enter price: \"))\n```",
+      "accepted_answers": [
+        "float"
       ],
-      "title": "Integer vs Floating-Point Input",
-      "content": "Choose your conversion function based on the expected input:\n\n* `int()` parses whole numbers (e.g. `\"42\"` -> `42`). Calling `int(\"42.5\")` raises a `ValueError`!\n* `float()` parses numbers with decimals (e.g. `\"42.5\"` -> `42.5`).\n\n```python\nprice = float(input(\"Enter price: \"))\nquantity = int(input(\"Enter quantity: \"))\ntotal = price * quantity\n```",
-      "explanation": "int() strictly requires base-10 integer digits, whereas float() supports decimal points.",
-      "metadata": {
-        "concept": "int_vs_float_parsing",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Teaches proper choice between int() and float()"
-      }
+      "correct_answer": "float",
+      "explanation": "The `float()` function parses strings representing decimal numbers into numeric floating-point values.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q4",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_basics",
-      "skill": "repair",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.2_q3"
+      "type": "output_prediction",
+      "concept": "string_input_concatenation_prediction",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the following code where `num = \"7\"` is returned by input:\n```python\nnum = \"7\"\nprint(num + num)\n```\nWhat will this print?",
+      "options": [
+        "77",
+        "14",
+        "49",
+        "TypeError: cannot concatenate str"
       ],
-      "prompt": "Fix the following code so that it correctly converts the input string `items_str` into an integer and calculates `total_items` by adding 5.\n\n```python\nitems_str = \"12\"\n# Fix this calculation:\ntotal_items = items_str + 5\nprint(total_items)\n```",
-      "starter_code": "items_str = \"12\"\ntotal_items = items_str + 5\nprint(total_items)",
-      "solution_code": "items_str = \"12\"\ntotal_items = int(items_str) + 5\nprint(total_items)",
-      "explanation": "Wrapping `items_str` with `int(items_str)` converts the string `'12'` to the integer `12`. Now `12 + 5` evaluates to `17` without a TypeError.",
-      "metadata": {
-        "concept": "int_conversion",
-        "skill": "type_casting",
-        "learning_objective": "Convert numeric strings to integers using int()",
-        "common_misconception": "Trying to cast the entire expression instead of the input string",
-        "why_this_exercise_exists": "Instills proper type conversion habits"
-      }
+      "correct_answer": "77",
+      "explanation": "Without `int()` conversion, `num` is a string. The `+` operator concatenates `\"7\" + \"7\"` into `\"77\"` rather than adding them mathematically.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "4.2_q5",
       "type": "output_prediction",
-      "concept": "processing_numeric_input_basics",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q4"
-      ],
-      "prompt": "Consider processing a floating point price input:\n\n```python\nprice_input = \"19.95\"\nquantity = 2\ntotal = float(price_input) * quantity\nprint(f\"Total: ${total:.2f}\")\n```\n\nWhat is the exact output printed?",
+      "concept": "predict_converted_numeric_input",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does this program print?\n```python\nx = int(\"25\")\ny = int(\"5\")\nprint(x // y)\n```",
       "options": [
-        "Total: $39.90",
-        "Total: $39.9",
-        "Total: $19.9519.95",
-        "TypeError: cannot multiply float by int"
+        "5",
+        "5.0",
+        "255",
+        "0"
       ],
-      "correct_answer": "Total: $39.90",
-      "explanation": "`float(\"19.95\")` converts the string to `19.95`. Multiplying by `2` yields `39.9`. The format specifier `:.2f` rounds/formats the floating point number to exactly two decimal places (`$39.90`).",
-      "metadata": {
-        "concept": "float_conversion_and_formatting",
-        "skill": "float_arithmetic",
-        "learning_objective": "Parse decimal string input with float() and format currency output",
-        "common_misconception": "Using int() on decimal strings which raises ValueError",
-        "why_this_exercise_exists": "Crucial for handling monetary and fractional input in CLI apps"
-      }
+      "correct_answer": "5",
+      "explanation": "`x` is integer 25 and `y` is integer 5. Floor division `25 // 5` evaluates to integer `5`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q6",
-      "type": "error_diagnosis",
-      "concept": "processing_numeric_input_basics",
-      "skill": "debugging",
+      "type": "real_world_scenario",
+      "concept": "restaurant_bill_split_calc",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q5"
-      ],
-      "prompt": "What happens if a user types `\"25.5\"` and your code executes `int(user_text)` directly?\n\n```python\nuser_text = \"25.5\"\nval = int(user_text)\n```",
+      "prompt": "Three roommates want to split a dinner bill evenly. Which line correctly calculates each person's share after taking `total_bill = float(input(\"Total: \"))` and `roommates = int(input(\"People: \"))`?",
       "options": [
-        "Raises ValueError: invalid literal for int() with base 10: '25.5'",
-        "Truncates to integer 25 automatically",
-        "Rounds up to 26",
-        "Converts to float 25.5 silently"
+        "per_person = total_bill / roommates",
+        "per_person = total_bill // roommates",
+        "per_person = total_bill + roommates",
+        "per_person = total_bill * roommates"
       ],
-      "correct_answer": "Raises ValueError: invalid literal for int() with base 10: '25.5'",
-      "explanation": "`int()` only parses strings that contain integer digits (and an optional +/- sign). A decimal point `.` is not a valid base-10 integer character, causing Python to raise a `ValueError`. To parse decimals, use `float(user_text)`.",
-      "metadata": {
-        "concept": "int_float_parsing_boundary",
-        "skill": "exception_understanding",
-        "learning_objective": "Understand when int() fails on decimal strings",
-        "common_misconception": "Assuming int('25.5') will truncate to 25 like int(25.5) does",
-        "why_this_exercise_exists": "Disabuses the learner of the subtle difference between int(float_val) and int(str_val)"
-      }
+      "correct_answer": "per_person = total_bill / roommates",
+      "explanation": "Dividing a float `total_bill` by integer `roommates` with true division `/` computes the exact dollar share per person as a float.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "4.2_q7",
-      "type": "code_prediction",
-      "concept": "processing_numeric_input_execution",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.2_q6"
-      ],
-      "prompt": "What happens when `int(' 42 \\n')` is evaluated?\n```python\nval = int(' 42 \\n')\nprint(val)\n```",
+      "type": "real_world_scenario",
+      "concept": "movie_theater_ticket_cost",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "Movie tickets cost `$12.50` each. A customer types the number of tickets they want. Which expression correctly calculates `total` cost?",
       "options": [
-        "42",
-        "ValueError",
-        "'42'",
-        "None"
+        "total = 12.50 * int(input(\"Tickets: \"))",
+        "total = 12.50 + int(input(\"Tickets: \"))",
+        "total = 12.50 * input(\"Tickets: \")",
+        "total = int(12.50 * input(\"Tickets: \"))"
       ],
-      "correct_answer": "42",
-      "explanation": "Python's `int()` function automatically ignores leading and trailing whitespace characters, returning 42."
+      "correct_answer": "total = 12.50 * int(input(\"Tickets: \"))",
+      "explanation": "Converting the ticket quantity to an integer with `int()` allows mathematical multiplication by the ticket price `$12.50`.",
+      "misconception_tag": "INPUT_IS_STRING"
     },
     {
       "id": "4.2_q8",
       "type": "error_diagnosis",
-      "concept": "processing_numeric_input_execution",
-      "skill": "prediction",
+      "concept": "type_error_adding_int_to_str_input",
+      "skill": "diagnosis",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q7"
-      ],
-      "prompt": "What exception occurs if a user enters 'ten' and the program runs `int(input())`?",
+      "prompt": "A student wrote this script:\n```python\nscore = input(\"Score: \")\nnew_score = score + 10\n```\nWhen the user types `85`, line 2 crashes with which error?",
       "options": [
-        "ValueError",
-        "TypeError",
-        "SyntaxError",
-        "NameError"
+        "TypeError: can only concatenate str (not \"int\") to str",
+        "ValueError: invalid literal for int()",
+        "NameError: name 'score' is not defined",
+        "ZeroDivisionError: integer division by zero"
       ],
-      "correct_answer": "ValueError",
-      "explanation": "Attempting to parse a non-numeric string into an integer raises a ValueError."
+      "correct_answer": "TypeError: can only concatenate str (not \"int\") to str",
+      "explanation": "`score` contains the string `\"85\"`. Adding the integer `10` with `+` triggers `TypeError` because Python forbids mixing string and int with `+`. Wrap with `int(score) + 10`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q9",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_flow",
-      "skill": "prediction",
+      "type": "error_diagnosis",
+      "concept": "value_error_decimal_string_to_int",
+      "skill": "diagnosis",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q8"
+      "prompt": "What error is raised by the following code when the user enters `19.99`?\n```python\nprice = int(input(\"Price: \"))\n```",
+      "options": [
+        "ValueError: invalid literal for int() with base 10: '19.99'",
+        "TypeError: float cannot be converted to int",
+        "SyntaxError: decimal point invalid in input()",
+        "No error; price becomes 19"
       ],
-      "prompt": "Fix this code so it safely calculates total price with a floating-point discount rate:",
-      "correct_answer": "45",
-      "explanation": "Converting '0.15' with `float()` parses the decimal fraction correctly. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
-      "starter_code": "price = 100\nrate = float('0.15')\ntotal = price - (price * rate)\nprint(int(total))",
-      "solution_code": "price = 100\nrate = float('0.15')\ntotal = price - (price * rate)\nprint(int(total))"
+      "correct_answer": "ValueError: invalid literal for int() with base 10: '19.99'",
+      "explanation": "`int()` requires the string to consist strictly of digits. A decimal point `.` causes `ValueError`. Use `float(input())` when parsing decimal values.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q10",
-      "type": "write_the_code",
-      "concept": "processing_numeric_input_basics",
-      "skill": "construction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q9"
+      "type": "fix_the_code",
+      "concept": "fix_missing_int_conversion_in_doubler",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "The program below asks for a number and is supposed to print its double. But when the user enters `5`, it prints `55` instead of `10`! Fix it using `int()`.",
+      "starter_code": "val = input(\"Number: \")\ndoubled = val * 2\nprint(doubled)",
+      "solution_code": "val = int(input(\"Number: \"))\ndoubled = val * 2\nprint(doubled)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Input 5 outputs 10",
+          "input": "5",
+          "expectedOutput": "Number: 5\n10",
+          "assertionPython": "assert _user_namespace.get('doubled') == 10 and '10' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with input 12",
+          "input": "12",
+          "expectedOutput": "Number: 12\n24",
+          "assertionPython": "assert _user_namespace.get('doubled') == 24 and '24' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Write a snippet that takes a string `bill_str = \"45.50\"` and `tip_percent = 20`, converts `bill_str` to float, calculates the tip amount (`bill * tip_percent / 100`), and stores the rounded total (`bill + tip`) in a variable `final_bill` formatted to 2 decimals.",
-      "starter_code": "bill_str = \"45.50\"\ntip_percent = 20\n# Convert, calculate tip and final_bill\n",
-      "solution_code": "bill_str = \"45.50\"\ntip_percent = 20\nbill = float(bill_str)\ntip = bill * (tip_percent / 100)\nfinal_bill = round(bill + tip, 2)\nprint(f\"${final_bill:.2f}\")",
-      "explanation": "`float(bill_str)` yields `45.5`. Tip is `45.5 * 0.20 = 9.1`. Adding them gives `54.6`, which rounded to 2 decimal places produces `54.60`.",
-      "metadata": {
-        "concept": "numeric_input_pipeline",
-        "skill": "application",
-        "learning_objective": "Construct an end-to-end numerical calculation from string inputs",
-        "common_misconception": "Forgetting to convert string before arithmetic",
-        "why_this_exercise_exists": "Provides genuine practical application for user input calculations"
-      }
+      "explanation": "Converting `input()` to an integer with `int(input(...))` enables mathematical multiplication.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "4.2_q11",
-      "type": "multiple_choice",
-      "concept": "processing_numeric_input_tracing",
-      "skill": "tracing",
+      "type": "fix_the_code",
+      "concept": "fix_float_casting_for_prices",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q10"
+      "prompt": "The checkout program below crashes with `ValueError` when customers enter decimal prices like `4.50`. Fix line 1 so it parses decimal numbers as floats.",
+      "starter_code": "price = int(input(\"Price: \"))\nquantity = 2\ntotal = price * quantity\nprint(total)",
+      "solution_code": "price = float(input(\"Price: \"))\nquantity = 2\ntotal = price * quantity\nprint(total)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates total for 4.50 * 2 = 9.0",
+          "input": "4.50",
+          "expectedOutput": "Price: 4.50\n9.0",
+          "assertionPython": "assert _user_namespace.get('total') == 9.0 and '9.0' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with 12.25 * 2 = 24.5",
+          "input": "12.25",
+          "expectedOutput": "Price: 12.25\n24.5",
+          "assertionPython": "assert _user_namespace.get('total') == 24.5 and '24.5' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Why does `int('3.14')` directly raise a `ValueError` in Python?",
-      "options": [
-        "int() requires a string representing an integer base-10 literal without a decimal point",
-        "Python does not support converting strings to numbers",
-        "Floats cannot be cast to integers",
-        "The string contains non-ASCII characters"
-      ],
-      "correct_answer": "int() requires a string representing an integer base-10 literal without a decimal point",
-      "explanation": "`int()` only parses pure whole integer strings. To parse '3.14', first call `float('3.14')`."
+      "explanation": "Change `int(input(...))` to `float(input(...))` to handle decimal currency values.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q12",
       "type": "write_the_code",
-      "concept": "processing_numeric_input_logic",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q11"
+      "concept": "calculate_birth_year_from_age",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a Python program that:\n1. Prompts for age: `age = int(input(\"Enter age: \"))`\n2. Calculates `birth_year = 2026 - age`\n3. Prints: `\"Birth year: \" + str(birth_year)`",
+      "starter_code": "# Calculate birth year from age\n",
+      "solution_code": "age = int(input(\"Enter age: \"))\nbirth_year = 2026 - age\nprint(\"Birth year: \" + str(birth_year))",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "For age 20 prints Birth year: 2006",
+          "input": "20",
+          "expectedOutput": "Enter age: 20\nBirth year: 2006",
+          "assertionPython": "assert _user_namespace.get('birth_year') == 2006 and 'Birth year: 2006' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test for age 35 prints Birth year: 1991",
+          "input": "35",
+          "expectedOutput": "Enter age: 35\nBirth year: 1991",
+          "assertionPython": "assert _user_namespace.get('birth_year') == 1991 and 'Birth year: 1991' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Write code to convert the numeric string in `user_val` to a float and multiply it by 2:",
-      "correct_answer": "60",
-      "explanation": "Use `float(user_val)` to convert the string before performing numeric multiplication. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits.",
-      "starter_code": "user_val = '14.5'\n# Convert and double\nresult = ___",
-      "solution_code": "user_val = '14.5'\nresult = float(user_val) * 2"
+      "explanation": "Convert `age` to `int` for subtraction, and convert `birth_year` back to `str` for printing with `+`.",
+      "misconception_tag": "INPUT_IS_STRING"
     },
     {
       "id": "4.2_q13",
       "type": "write_the_code",
-      "concept": "numeric_input_multiplication",
-      "skill": "arithmetic",
+      "concept": "interactive_rectangle_area_calc",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q12"
+      "prompt": "Write a program that calculates the area of a rectangle:\n1. Takes length: `length = int(input(\"Length: \"))`\n2. Takes width: `width = int(input(\"Width: \"))`\n3. Calculates `area = length * width`\n4. Prints: `area`",
+      "starter_code": "# Calculate rectangle area from inputs\n",
+      "solution_code": "length = int(input(\"Length: \"))\nwidth = int(input(\"Width: \"))\narea = length * width\nprint(area)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes area for 8 by 5 as 40",
+          "input": "8\n5",
+          "expectedOutput": "Length: 8\nWidth: 5\n40",
+          "assertionPython": "assert _user_namespace.get('area') == 40 and '40' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with 12 by 10 as 120",
+          "input": "12\n10",
+          "expectedOutput": "Length: 12\nWidth: 10\n120",
+          "assertionPython": "assert _user_namespace.get('area') == 120 and '120' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Given a quantity string `qty_str = '5'`, parse it as an integer, multiply by price `10`, and store in `total`.",
-      "starter_code": "qty_str = \"5\"\nprice = 10\n# Convert and compute total\n",
-      "solution_code": "qty_str = \"5\"\nprice = 10\ntotal = int(qty_str) * price\nprint(total)",
-      "explanation": "Converting `qty_str` with `int()` allows integer multiplication `5 * 10 = 50`.",
-      "metadata": {
-        "concept": "int_multiplication",
-        "skill": "implementation",
-        "why_this_exercise_exists": "Replaces filler with numeric input math"
-      }
+      "explanation": "Reads two integer inputs and computes their product.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "4.2_q14",
-      "type": "fix_the_code",
-      "concept": "numeric_input_percentage",
-      "skill": "repair",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q13"
+      "type": "mini_challenge",
+      "concept": "restaurant_tip_calculator",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "Build a restaurant tip calculator:\n1. Prompt: `bill = float(input(\"Bill: \"))`\n2. Prompt: `tip_percent = int(input(\"Tip %: \"))`\n3. Calculate: `tip_amount = bill * (tip_percent / 100)`\n4. Calculate: `total = bill + tip_amount`\n5. Print: `total`",
+      "starter_code": "# Build restaurant tip calculator\n",
+      "solution_code": "bill = float(input(\"Bill: \"))\ntip_percent = int(input(\"Tip %: \"))\ntip_amount = bill * (tip_percent / 100)\ntotal = bill + tip_amount\nprint(total)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Bill 50.0 and tip 20% gives total 60.0",
+          "input": "50.0\n20",
+          "expectedOutput": "Bill: 50.0\nTip %: 20\n60.0",
+          "assertionPython": "assert _user_namespace.get('total') == 60.0 and '60.0' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Bill 100.0 and tip 15% gives 115.0",
+          "input": "100.0\n15",
+          "expectedOutput": "Bill: 100.0\nTip %: 15\n115.0",
+          "assertionPython": "assert _user_namespace.get('total') == 115.0 and '115.0' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "A user enters a percentage as `'15%'`. Fix the code so it strips the `'%'` character before converting to float `0.15`:\n\n```python\nrate_str = \"15%\"\n# Fix conversion:\nrate = float(rate_str.rstrip(\"%\")) / 100\nprint(rate)\n```",
-      "starter_code": "rate_str = \"15%\"\nrate = float(rate_str.rstrip(\"%\")) / 100\nprint(rate)",
-      "solution_code": "rate_str = \"15%\"\nrate = float(rate_str.rstrip(\"%\")) / 100\nprint(rate)",
-      "explanation": "Calling `.rstrip('%')` removes the trailing percent sign, leaving `'15'`, which converts cleanly to float `15.0 / 100 = 0.15`.",
-      "metadata": {
-        "concept": "percentage_string_parsing",
-        "skill": "repair",
-        "why_this_exercise_exists": "Replaces filler with percentage parsing"
-      }
+      "explanation": "Converts bill to float and tip percentage to int, then calculates total after applying the percentage.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q15",
-      "type": "code_ordering",
-      "concept": "processing_numeric_input_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q14"
+      "type": "mini_challenge",
+      "concept": "currency_exchange_converter",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "Build a currency exchange calculator:\n1. Prompt: `usd = float(input(\"USD: \"))`\n2. Prompt: `rate = float(input(\"Rate: \"))`\n3. Calculate: `foreign_amount = usd * rate`\n4. Print: `foreign_amount`",
+      "starter_code": "# Currency exchange engine\n",
+      "solution_code": "usd = float(input(\"USD: \"))\nrate = float(input(\"Rate: \"))\nforeign_amount = usd * rate\nprint(foreign_amount)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "USD 100 at rate 0.85 gives 85.0",
+          "input": "100.0\n0.85",
+          "expectedOutput": "USD: 100.0\nRate: 0.85\n85.0",
+          "assertionPython": "assert _user_namespace.get('foreign_amount') == 85.0 and '85.0' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with USD 200 at rate 1.2 gives 240.0",
+          "input": "200.0\n1.2",
+          "expectedOutput": "USD: 200.0\nRate: 1.2\n240.0",
+          "assertionPython": "assert _user_namespace.get('foreign_amount') == 240.0 and '240.0' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Arrange the lines in correct logical order for Processing Numeric Input Sequence:",
-      "options": [
-        "a_15 = 10",
-        "b_15 = 20",
-        "result_15 = a_15 + b_15",
-        "print(result_15)"
-      ],
-      "correct_answer": [
-        "a_15 = 10",
-        "b_15 = 20",
-        "result_15 = a_15 + b_15",
-        "print(result_15)"
-      ],
-      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
+      "explanation": "Reads two float values and computes their product.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q16",
-      "type": "error_diagnosis",
-      "concept": "numeric_input_try_except",
-      "skill": "defensive_programming",
+      "type": "multiple_choice",
+      "concept": "int_float_composition_rule",
+      "skill": "recall",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q15"
-      ],
-      "prompt": "What exception must you catch when calling `int(text)` on untrusted user text?",
+      "prompt": "How can you safely convert the string `\"49.95\"` into the integer `49` without raising a `ValueError`?",
       "options": [
-        "ValueError",
-        "TypeError",
-        "IndexError",
-        "KeyError"
+        "int(float(\"49.95\"))",
+        "int(\"49.95\")",
+        "float(int(\"49.95\"))",
+        "round(\"49.95\")"
       ],
-      "correct_answer": "ValueError",
-      "explanation": "If `text` contains non-digit characters (like `'abc'`), `int()` raises `ValueError: invalid literal for int()`. Wrapping in `try: ... except ValueError:` prevents program crashes.",
-      "metadata": {
-        "concept": "value_error_handling",
-        "skill": "error_recognition",
-        "why_this_exercise_exists": "Replaces filler with exception handling"
-      }
+      "correct_answer": "int(float(\"49.95\"))",
+      "explanation": "First calling `float(\"49.95\")` creates the float `49.95`. Passing that float to `int()` truncates the decimal part to integer `49`. Calling `int(\"49.95\")` directly raises `ValueError`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q17",
-      "type": "code_ordering",
-      "concept": "processing_numeric_input_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q16"
-      ],
-      "prompt": "Arrange the lines in correct logical order for Processing Numeric Input Algorithm:",
+      "type": "output_prediction",
+      "concept": "predict_float_zero_addition",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does this program print?\n```python\nval = float(\"10\")\nprint(val + 5)\n```",
       "options": [
-        "a_17 = 10",
-        "b_17 = 20",
-        "result_17 = a_17 + b_17",
-        "print(result_17)"
+        "15.0",
+        "15",
+        "105",
+        "TypeError: cannot add float and int"
       ],
-      "correct_answer": [
-        "a_17 = 10",
-        "b_17 = 20",
-        "result_17 = a_17 + b_17",
-        "print(result_17)"
-      ],
-      "explanation": "Variables a_17 and b_17 must be defined before computing their sum and printing."
+      "correct_answer": "15.0",
+      "explanation": "`float(\"10\")` produces `10.0`. In Python, adding a float and an integer produces a float: `10.0 + 5 == 15.0`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q18",
-      "type": "write_the_code",
-      "concept": "numeric_input_safe_parser",
-      "skill": "robust_parsing",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.2_q17"
+      "type": "output_prediction",
+      "concept": "negative_numeric_input_conversion",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What will this program print?\n```python\ntemp = int(\"-5\")\nprint(temp - 3)\n```",
+      "options": [
+        "-8",
+        "-2",
+        "-53",
+        "ValueError"
       ],
-      "prompt": "Write a safe parsing function `parse_int_safe(text, default=0)` that returns `int(text)` if valid, or `default` if conversion raises ValueError.",
-      "starter_code": "def parse_int_safe(text, default=0):\n    # Return parsed int or default\n    pass",
-      "solution_code": "def parse_int_safe(text, default=0):\n    try:\n        return int(text)\n    except (ValueError, TypeError):\n        return default\n\nprint(parse_int_safe(\"100\"), parse_int_safe(\"bad\", -1))",
-      "explanation": "Catching `(ValueError, TypeError)` handles both non-numeric strings and `None` gracefully, returning the designated fallback.",
-      "metadata": {
-        "concept": "safe_numeric_fallback",
-        "skill": "implementation",
-        "why_this_exercise_exists": "Replaces filler with production input parser"
-      }
+      "correct_answer": "-8",
+      "explanation": "`int()` successfully parses leading negative signs. `int(\"-5\")` is `-5`, and `-5 - 3` is `-8`.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
       "id": "4.2_q19",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_errors",
-      "skill": "debugging",
+      "type": "real_world_scenario",
+      "concept": "gym_membership_months_cost",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q18"
+      "prompt": "A gym charges `$40` per month. A new member enters how many months they want to pay for. Which snippet accurately calculates `total` cost?",
+      "options": [
+        "months = int(input(\"Months: \"))\ntotal = months * 40",
+        "months = input(\"Months: \")\ntotal = months * 40",
+        "months = int(input(\"Months: \"))\ntotal = months + 40",
+        "months = float(input(\"Months: \"))\ntotal = months // 40"
       ],
-      "prompt": "Fix the capitalization error in this line for Processing Numeric Input Errors:",
-      "starter_code": "Print('Processing Numeric Input Item 19')",
-      "solution_code": "print('Processing Numeric Input Item 19')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `processing numeric input errors` in Processing Numeric Input. When Python validates this code, it applies the standard rules of processing numeric input errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "months = int(input(\"Months: \"))\ntotal = months * 40",
+      "explanation": "Months must be converted to `int` so multiplying by 40 performs numeric multiplication instead of repeating the text.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "4.2_q20",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_fix",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.2_q19"
+      "type": "error_diagnosis",
+      "concept": "empty_input_to_int_crash",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A user presses Enter without typing anything into `num = int(input(\"Number: \"))`. What error occurs?",
+      "options": [
+        "ValueError: invalid literal for int() with base 10: ''",
+        "TypeError: int() missing required argument",
+        "None; num defaults to 0",
+        "IndexError: string index out of range"
       ],
-      "prompt": "Fix the capitalization error in this line for Processing Numeric Input Fix:",
-      "starter_code": "Print('Processing Numeric Input Item 20')",
-      "solution_code": "print('Processing Numeric Input Item 20')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `processing numeric input fix` in Processing Numeric Input. When Python validates this code, it applies the standard rules of processing numeric input fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "ValueError: invalid literal for int() with base 10: ''",
+      "explanation": "When the user presses Enter immediately, `input()` returns an empty string `\"\"`. Passing `\"\"` to `int()` raises `ValueError`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q21",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_edge_cases",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "miles_to_km_converter",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q20"
+      "prompt": "Write a program to convert miles to kilometers (1 mile = 1.6 km):\n1. `miles = float(input(\"Miles: \"))`\n2. `km = miles * 1.6`\n3. Print `km`",
+      "starter_code": "# Convert miles to kilometers\n",
+      "solution_code": "miles = float(input(\"Miles: \"))\nkm = miles * 1.6\nprint(km)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Miles 10 produces 16.0 km",
+          "input": "10.0",
+          "expectedOutput": "Miles: 10.0\n16.0",
+          "assertionPython": "assert _user_namespace.get('km') == 16.0 and '16.0' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with miles 5 produces 8.0 km",
+          "input": "5.0",
+          "expectedOutput": "Miles: 5.0\n8.0",
+          "assertionPython": "assert _user_namespace.get('km') == 8.0 and '8.0' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for Processing Numeric Input Edge Cases:",
-      "starter_code": "Print('Processing Numeric Input Item 21')",
-      "solution_code": "print('Processing Numeric Input Item 21')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `processing numeric input edge cases` in Processing Numeric Input. When Python validates this code, it applies the standard rules of processing numeric input edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Converts input to float and multiplies by the 1.6 conversion factor.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q22",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_runtime",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "hourly_wage_weekly_pay",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q21"
+      "prompt": "Write a program that calculates weekly pay:\n1. `wage = float(input(\"Hourly wage: \"))`\n2. `hours = int(input(\"Hours worked: \"))`\n3. `pay = wage * hours`\n4. Print `pay`",
+      "starter_code": "# Calculate weekly paycheck\n",
+      "solution_code": "wage = float(input(\"Hourly wage: \"))\nhours = int(input(\"Hours worked: \"))\npay = wage * hours\nprint(pay)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Wage 20.0 and 40 hours produces 800.0",
+          "input": "20.0\n40",
+          "expectedOutput": "Hourly wage: 20.0\nHours worked: 40\n800.0",
+          "assertionPython": "assert _user_namespace.get('pay') == 800.0 and '800.0' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with wage 25.5 and 20 hours produces 510.0",
+          "input": "25.5\n20",
+          "expectedOutput": "Hourly wage: 25.5\nHours worked: 20\n510.0",
+          "assertionPython": "assert _user_namespace.get('pay') == 510.0 and '510.0' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for Processing Numeric Input Runtime:",
-      "starter_code": "Print('Processing Numeric Input Item 22')",
-      "solution_code": "print('Processing Numeric Input Item 22')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `processing numeric input runtime` in Processing Numeric Input. When Python validates this code, it applies the standard rules of processing numeric input runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Multiplies float wage by integer hours to compute total paycheck.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q23",
       "type": "fix_the_code",
-      "concept": "processing_numeric_input_logic_repair",
+      "concept": "fix_input_int_nesting_order",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q22"
+      "prompt": "A programmer tried to write `input(int(\"Enter score: \"))`, which crashes! Fix it so the prompt is inside `input()`, and the result is converted to `int`.",
+      "starter_code": "# Fix the type conversion so math addition works\nscore = input(\"Enter score: \")\nbonus = score + 5\nprint(bonus)",
+      "solution_code": "score = int(input(\"Enter score: \"))\nbonus = score + 5\nprint(bonus)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Input 90 produces bonus 95",
+          "input": "90",
+          "expectedOutput": "Enter score: 90\n95",
+          "assertionPython": "assert _user_namespace.get('bonus') == 95 and '95' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with score 50 produces 55",
+          "input": "50",
+          "expectedOutput": "Enter score: 50\n55",
+          "assertionPython": "assert _user_namespace.get('bonus') == 55 and '55' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for Processing Numeric Input Logic Repair:",
-      "starter_code": "Print('Processing Numeric Input Item 23')",
-      "solution_code": "print('Processing Numeric Input Item 23')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `processing numeric input logic repair` in Processing Numeric Input. When Python validates this code, it applies the standard rules of processing numeric input logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Correct order: `int(input(\"prompt\"))`. The prompt text belongs to `input()`, and `int()` wraps the returned string.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.2_q24",
-      "type": "fix_the_code",
-      "concept": "processing_numeric_input_optimization",
-      "skill": "refactoring",
+      "type": "mini_challenge",
+      "concept": "trip_fuel_efficiency_calc",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "4.2_q23"
+      "prompt": "Build a car fuel economy calculator (miles per gallon):\n1. `miles = float(input(\"Miles driven: \"))`\n2. `gallons = float(input(\"Gallons used: \"))`\n3. `mpg = miles / gallons`\n4. Print `mpg`",
+      "starter_code": "# Calculate miles per gallon\n",
+      "solution_code": "miles = float(input(\"Miles driven: \"))\ngallons = float(input(\"Gallons used: \"))\nmpg = miles / gallons\nprint(mpg)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Miles 300.0 and gallons 10.0 gives mpg 30.0",
+          "input": "300.0\n10.0",
+          "expectedOutput": "Miles driven: 300.0\nGallons used: 10.0\n30.0",
+          "assertionPython": "assert _user_namespace.get('mpg') == 30.0 and '30.0' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with miles 450.0 and gallons 15.0 gives mpg 30.0",
+          "input": "450.0\n15.0",
+          "expectedOutput": "Miles driven: 450.0\nGallons used: 15.0\n30.0",
+          "assertionPython": "assert _user_namespace.get('mpg') == 30.0 and '30.0' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for Processing Numeric Input Optimization:",
-      "starter_code": "Print('Processing Numeric Input Item 24')",
-      "solution_code": "print('Processing Numeric Input Item 24')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `processing numeric input optimization` in Processing Numeric Input. When Python validates this code, it applies the standard rules of processing numeric input optimization. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Calculates float division of miles by gallons.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.2_q25",
-      "type": "fix_the_code",
-      "concept": "numeric_input_casting",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q24"
-      ],
-      "prompt": "Fix this code so it calculates the correct sum instead of concatenating strings:",
-      "starter_code": "num1 = input('Enter first: ')\nnum2 = input('Enter second: ')\ntotal = num1 + num2\nprint('Total:', total)",
-      "solution_code": "num1 = int(input('Enter first: '))\nnum2 = int(input('Enter second: '))\ntotal = num1 + num2\nprint('Total:', total)",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "Processing Numeric Input Result 25"
-        }
-      ],
-      "hint": "Wrap each `input()` call in `int()` to convert strings to integers.",
-      "explanation": "Because `input()` returns strings, the `+` operator performs string concatenation (`'5' + '5' = '55'`). Wrapping `input()` in `int()` converts them to numbers so arithmetic addition occurs."
-    },
-    {
-      "id": "4.2_q26",
-      "type": "write_the_code",
-      "concept": "float_parsing",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q25"
-      ],
-      "prompt": "Write code to read a decimal price from the user and calculate total price with 10% tax added:",
-      "starter_code": "# Read price as float and calculate total with 10% tax\nprice = float(input('Price: '))\ntotal = ___",
-      "solution_code": "price = float(input('Price: '))\ntotal = price * 1.10",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "Processing Numeric Input Result 26"
-        }
-      ],
-      "hint": "Multiply price by 1.10 or add `price * 0.10`.",
-      "explanation": "`float()` converts decimal number strings (like '19.99') into IEEE 754 floating-point numbers suitable for financial calculations."
-    },
-    {
-      "id": "4.2_q27",
-      "type": "error_diagnosis",
-      "concept": "value_error_non_numeric",
-      "skill": "diagnosis",
+      "type": "mini_challenge",
+      "concept": "compound_interest_calculator",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "4.2_q26"
-      ],
-      "prompt": "What exception is raised when executing `int('abc')` or `int('3.14')`?",
-      "hint": "The type is correct (str), but the content/value cannot be parsed as a base-10 integer.",
-      "explanation": "In Python, `int()` raises `ValueError: invalid literal for int() with base 10` when passed a string that does not represent a valid whole integer.",
-      "options": [
-        "ValueError",
-        "TypeError",
-        "SyntaxError",
-        "CastError"
-      ],
-      "correct_answer": "ValueError"
-    },
-    {
-      "id": "4.2_q28",
-      "type": "write_the_code",
-      "concept": "safe_numeric_parsing",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.2_q27"
-      ],
-      "prompt": "Write code that attempts to convert `user_str` to an integer, assigning `0` if a `ValueError` occurs:",
-      "starter_code": "user_str = 'invalid'\ntry:\n    val = int(user_str)\nexcept ValueError:\n    val = ___",
-      "solution_code": "user_str = 'invalid'\ntry:\n    val = int(user_str)\nexcept ValueError:\n    val = 0",
+      "prompt": "Build a simple 1-year investment return calculator:\n1. Prompt: `principal = float(input(\"Principal: \"))`\n2. Prompt: `rate = float(input(\"Annual rate (e.g. 0.05): \"))`\n3. Calculate: `interest = principal * rate`\n4. Calculate: `final_balance = principal + interest`\n5. Print: `final_balance`",
+      "starter_code": "# 1-year investment balance calculator\n",
+      "solution_code": "principal = float(input(\"Principal: \"))\nrate = float(input(\"Annual rate (e.g. 0.05): \"))\ninterest = principal * rate\nfinal_balance = principal + interest\nprint(final_balance)",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "0",
-          "description": "handles ValueError fallback"
-        }
-      ],
-      "hint": "Assign 0 inside the `except ValueError:` block.",
-      "explanation": "Using try...except ValueError is the idiomatic Python way (EAFP) to handle unpredictable numeric inputs safely."
-    },
-    {
-      "id": "4.2_q29",
-      "type": "code_prediction",
-      "concept": "float_int_truncation",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.2_q28"
-      ],
-      "prompt": "What does `int(float('9.99'))` evaluate to?\n```python\nval = int(float('9.99'))\nprint(val)\n```",
-      "hint": "First parse to float (9.99), then cast to int. Does `int()` round or truncate?",
-      "explanation": "`int()` truncates toward zero; it does not round. Thus, `float('9.99')` becomes `9.99`, and `int(9.99)` becomes `9`.",
-      "options": [
-        "9",
-        "10",
-        "9.99",
-        "ValueError"
-      ],
-      "correct_answer": "9"
-    },
-    {
-      "id": "4.2_q30",
-      "type": "write_the_code",
-      "concept": "mastery_age_milestone_calculator",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.2_q29"
-      ],
-      "prompt": "Write a complete snippet that asks the user for their birth year, computes their approximate age assuming the current year is 2026, and prints 'You are approximately X years old':",
-      "starter_code": "# Calculate and display approximate age based on current year 2026\nyear_str = input('Birth year: ')\n___",
-      "solution_code": "year_str = input('Birth year: ')\nage = 2026 - int(year_str)\nprint(f'You are approximately {age} years old')",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Principal 1000.0 at rate 0.05 gives 1050.0",
+          "input": "1000.0\n0.05",
+          "expectedOutput": "Principal: 1000.0\nAnnual rate (e.g. 0.05): 0.05\n1050.0",
+          "assertionPython": "assert _user_namespace.get('final_balance') == 1050.0 and '1050.0' in _raw_stdout"
+        },
         {
-          "input": "",
-          "expected_output": "Processing Numeric Input Result 30"
+          "id": "tc_2",
+          "description": "Hidden test with principal 5000.0 at rate 0.10 gives 5500.0",
+          "input": "5000.0\n0.10",
+          "expectedOutput": "Principal: 5000.0\nAnnual rate (e.g. 0.05): 0.10\n5500.0",
+          "assertionPython": "assert _user_namespace.get('final_balance') == 5500.0 and '5500.0' in _raw_stdout",
+          "hidden": true
         }
       ],
-      "hint": "Convert year_str with `int()` and subtract it from 2026.",
-      "explanation": "This synthesizes user string input, explicit type casting with `int()`, arithmetic subtraction, and f-string output formatting."
+      "explanation": "Computes interest and adds it to principal to produce final balance.",
+      "misconception_tag": "WRONG_TYPE"
     }
-  ],
-  "unit_num": 4,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Processing Numeric Input",
-    "Apply idiomatic Python patterns when working with Processing Numeric Input",
-    "Debug common runtime exceptions and logic errors associated with Processing Numeric Input",
-    "Implement production-ready code utilizing Processing Numeric Input"
-  ],
-  "prerequisites": [
-    "4.1"
   ]
 }

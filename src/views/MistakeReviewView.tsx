@@ -129,56 +129,79 @@ export const MistakeReviewView: React.FC = () => {
     setIsExecuting(true);
     try {
       const rawRes = await codeExecutionService.executeRaw(userCode);
+      if (rawRes.error) {
+        sound.playError();
+        setTestResult({ passed: false, message: rawRes.error });
+        setTerminalOutput(rawRes.error);
+        setIsExecuting(false);
+        return;
+      }
+
       const out = (rawRes.stdout || '').trim();
 
-      // Check expected output if defined
+      // Check expected output if defined on the step
       if (step.expectedOutput) {
         const expected = step.expectedOutput.trim();
-        if (out === expected || out.includes(expected)) {
-          sound.playSuccess();
-          setTestResult({ passed: true, message: 'All assertions passed! Output matches expected result.' });
-          setTerminalOutput(rawRes.stdout || '');
-          setIsExecuting(false);
-          return;
-        } else {
+        if (!out.includes(expected) && out !== expected) {
           sound.playError();
           setTestResult({
             passed: false,
-            message: `Output mismatch. Expected: "${expected}", but got: "${out}". Check hint if needed.`
+            message: `Output mismatch. Expected: "${expected}", but got: "${out || '(no output)'}". Check hint if needed.`
           });
-          setTerminalOutput(rawRes.stdout || rawRes.error || '');
+          setTerminalOutput(rawRes.stdout || '');
           setIsExecuting(false);
           return;
         }
       }
 
-      // Check test cases if specified
+      // Check all test cases and Python assertion rules
       if (step.testCases && step.testCases.length > 0) {
         let allPassed = true;
         let failReason = '';
+
         for (const tc of step.testCases) {
-          if (tc.expectedOutput && !out.includes(tc.expectedOutput.trim())) {
-            allPassed = false;
-            failReason = `Expected output "${tc.expectedOutput}" was not found in output.`;
-            break;
+          if (tc.expectedOutput) {
+            const expected = tc.expectedOutput.trim();
+            if (!out.includes(expected) && out !== expected) {
+              allPassed = false;
+              failReason = `Test "${tc.description || 'Output check'}": Expected "${expected}" in output, but got "${out || '(no output)'}".`;
+              break;
+            }
+          }
+
+          if (tc.assertionPython) {
+            const assertScript = `${userCode}\n\n# Codolingo Test Assertion\n${tc.assertionPython}`;
+            const assertRes = await codeExecutionService.executeRaw(assertScript);
+            if (assertRes.error) {
+              allPassed = false;
+              failReason = `Test "${tc.description || 'Assertion'}": ${assertRes.error}`;
+              break;
+            }
           }
         }
-        if (allPassed && !rawRes.error) {
+
+        if (allPassed) {
           sound.playSuccess();
-          setTestResult({ passed: true, message: 'All checks passed successfully!' });
+          setTestResult({ passed: true, message: 'All assertions passed! Output and logic match expected result.' });
           setTerminalOutput(rawRes.stdout || '');
         } else {
           sound.playError();
-          setTestResult({ passed: false, message: failReason || rawRes.error || 'Assertion failed.' });
-          setTerminalOutput(rawRes.stdout || rawRes.error || '');
+          setTestResult({ passed: false, message: failReason || 'Assertion check failed.' });
+          setTerminalOutput(rawRes.stdout || '');
         }
+      } else if (step.expectedOutput) {
+        sound.playSuccess();
+        setTestResult({ passed: true, message: 'All assertions passed! Output matches expected result.' });
+        setTerminalOutput(rawRes.stdout || '');
       } else {
-        if (!rawRes.error) {
+        // Fallback for steps without explicit test cases or expectedOutput: require non-empty code and execution
+        if (userCode.trim().length > 0) {
           sound.playSuccess();
           setTestResult({ passed: true, message: 'Code executed cleanly with no errors.' });
+          setTerminalOutput(rawRes.stdout || '');
         } else {
           sound.playError();
-          setTestResult({ passed: false, message: rawRes.error });
+          setTestResult({ passed: false, message: 'Please write your solution code before submitting.' });
         }
       }
     } catch (err) {

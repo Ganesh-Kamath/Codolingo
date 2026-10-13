@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_6_1',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '1. int()',
     concept: 'predict_int_conversion',
     learning_objective: 'Predict the result of converting a string of digits to an integer before addition.',
@@ -31,8 +31,8 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_6_2',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '5. Common conversion errors',
     concept: 'value_error_conversion',
     learning_objective: 'Recognize that int() cannot convert non-numeric text.',
@@ -57,8 +57,8 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_6_3',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '3. str()',
     concept: 'str_conversion_syntax',
     learning_objective: 'Complete a statement using str() to convert a number for output.',
@@ -77,8 +77,8 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_6_4',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '2. float()',
     concept: 'float_vs_int_decimal_string',
     learning_objective: 'Explain why int("3.14") fails whereas float("3.14") succeeds.',
@@ -101,8 +101,8 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_6_5',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '4. Why conversion matters',
     concept: 'write_type_conversion_calc',
     learning_objective: 'Convert a string price to a float and calculate the total with tax.',
@@ -123,19 +123,21 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses float conversion',
         expectedOutput: '12.5',
-        assertionPython: "assert 'float(' in _user_code"
+        assertionPython: "assert 'float(' in _user_code",
+        hidden: true
       }
     ],
     explanation: '`float("10.0")` converts the text to `10.0`, allowing arithmetic addition of `2.5` to yield `12.5`.',
     hint: 'price = float(price_str), total = price + 2.5, print(total)',
+    misconception_tag: 'WRONG_TYPE',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_6_6',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '5. Common conversion errors',
     concept: 'debug_missing_int_conversion',
     learning_objective: 'Debug a program missing int() conversion before multiplication.',
@@ -151,6 +153,13 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints 45 instead of repeating string',
         expectedOutput: '45',
         assertionPython: "assert _raw_stdout.strip() == '45' and _user_namespace.get('total') == 45"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying int conversion and total',
+        expectedOutput: '45',
+        assertionPython: "assert _user_namespace.get('total') == 45 and _raw_stdout.strip() == '45'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -167,8 +176,8 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_6_7',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '4. Why conversion matters',
     concept: 'trace_conversion_types',
     learning_objective: 'Trace variable types across string, integer, and float conversions.',
@@ -182,14 +191,15 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: '`val` starts as the string `"10"`. Next, `int("10") * 2` yields the integer `20`. Finally, `str(20) + "!"` creates the string `"20!"`.',
     hint: 'Watch how the data type changes from string to integer and back to string.',
+    misconception_tag: 'WRONG_TYPE',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_6_8',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '4. Why conversion matters',
     concept: 'apply_bus_fare',
     learning_objective: 'Apply int() and str() to calculate bus ticket total and format a confirmation.',
@@ -205,18 +215,26 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
         description: 'Computes total fare of 20 and prints formatted Total: $20',
         expectedOutput: 'Total: $20',
         assertionPython: "assert _raw_stdout.strip() == 'Total: $20' and _user_namespace.get('total_fare') == 20"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying calculation of total_fare',
+        expectedOutput: 'Total: $20',
+        assertionPython: "assert _user_namespace.get('total_fare') == 20 and _raw_stdout.strip() == 'Total: $20'",
+        hidden: true
       }
     ],
     explanation: 'We convert `riders_str` with `int()`, compute `4 * 5 = 20`, and convert back with `str(total_fare)` for printing.',
     hint: 'total_fare = int(riders_str) * fare_per_rider, print("Total: $" + str(total_fare))',
+    misconception_tag: 'WRONG_TYPE',
     xp: 25,
     estimated_time: 75,
     order: 8
   },
   {
     id: 'py_fnd_6_9',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '5. Common conversion errors',
     concept: 'debug_float_string_to_int',
     learning_objective: 'Debug an int() crash on a float string by using float() first.',
@@ -232,6 +250,13 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
         description: 'Successfully converts decimal string using float()',
         expectedOutput: '19.99',
         assertionPython: "assert float(_raw_stdout.strip()) == 19.99 and 'float(' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying price variable as float',
+        expectedOutput: '19.99',
+        assertionPython: "assert float(_user_namespace.get('price')) == 19.99 and 'float(' in _user_code",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -248,8 +273,8 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_6_10',
-    unit: 'unit_01',
-    lesson: '1.6',
+    unit: 'unit_02',
+    lesson: '2.7',
     section: '1. int()',
     concept: 'identify_valid_int_conversions',
     learning_objective: 'Identify which string values can be safely converted with int().',
@@ -273,12 +298,12 @@ export const LESSON_06_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_06: LessonStructure = {
-  id: '1.6',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'Type Conversion',
-  slug: 'type-conversion',
-  order: 6,
+  id: '2.7',
+  unitId: 'unit_02',
+  unitTitle: 'Unit 2: Variables and Data',
+  title: 'Type Conversion (Casting)',
+  slug: 'type-conversion-casting',
+  order: 7,
   description: 'Master int(), float(), and str() conversions and understand why data types cannot be mixed blindly in Python.',
   estimatedMinutes: 10,
   xpReward: 30,

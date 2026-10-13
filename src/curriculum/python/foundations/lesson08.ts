@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_8_1',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '2. and',
     concept: 'predict_and_logic',
     learning_objective: 'Predict the outcome of an and operation when one operand is False.',
@@ -31,8 +31,8 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_8_2',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '3. or',
     concept: 'predict_or_logic',
     learning_objective: 'Predict the outcome of an or operation when at least one operand is True.',
@@ -59,8 +59,8 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_8_3',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '2. and',
     concept: 'truth_table_reasoning_and',
     learning_objective: 'Reason through truth table conditions for the and operator.',
@@ -83,8 +83,8 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_8_4',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '5. combining comparisons',
     concept: 'complete_range_condition',
     learning_objective: 'Complete a range check combining two comparisons with the and operator.',
@@ -103,8 +103,8 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_8_5',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '5. combining comparisons',
     concept: 'write_compound_boolean_check',
     learning_objective: 'Write code using and to check if a temperature is in the comfortable range.',
@@ -125,19 +125,21 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses the and operator',
         expectedOutput: 'True',
-        assertionPython: "assert ' and ' in _user_code"
+        assertionPython: "assert ' and ' in _user_code",
+        hidden: true
       }
     ],
     explanation: 'Because 72 is >= 68 (True) and <= 78 (True), `True and True` evaluates to `True`.',
     hint: 'temp = 72, is_comfortable = temp >= 68 and temp <= 78, print(is_comfortable)',
+    misconception_tag: 'BOOLEAN_LOGIC_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_8_6',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '2. and',
     concept: 'debug_and_or_confusion',
     learning_objective: 'Debug logic when or was incorrectly used instead of and.',
@@ -153,6 +155,13 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints False because knows_pin is False and both are required',
         expectedOutput: 'False',
         assertionPython: "assert _raw_stdout.strip() == 'False' and ' and ' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying can_enter evaluates to False with and',
+        expectedOutput: 'False',
+        assertionPython: "assert _user_namespace.get('can_enter') is False and ' and ' in _user_code",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -169,8 +178,8 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_8_7',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '4. not',
     concept: 'trace_boolean_not',
     learning_objective: 'Trace the inversion effect of the not operator on boolean variables.',
@@ -184,14 +193,15 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: 'The `not` operator inverts a boolean. `not True` becomes `False`. Applying `not` again flips `False` back to `True`.',
     hint: 'not flips True to False, and False to True.',
+    misconception_tag: 'BOOLEAN_LOGIC_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_8_8',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '5. combining comparisons',
     concept: 'apply_vip_discount',
     learning_objective: 'Apply compound boolean logic to evaluate discount qualification.',
@@ -207,18 +217,26 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
         description: 'qualifies evaluates to True',
         expectedOutput: 'True',
         assertionPython: "assert _raw_stdout.strip() == 'True' and _user_namespace.get('qualifies') is True"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying qualifies boolean variable',
+        expectedOutput: 'True',
+        assertionPython: "assert _user_namespace.get('qualifies') is True",
+        hidden: true
       }
     ],
     explanation: '`is_member and spend > 50` evaluates both conditions: `True and True` produces `True`.',
     hint: 'qualifies = is_member and spend > 50',
+    misconception_tag: 'BOOLEAN_LOGIC_CONFUSION',
     xp: 25,
     estimated_time: 60,
     order: 8
   },
   {
     id: 'py_fnd_8_9',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '4. not',
     concept: 'predict_not_comparison',
     learning_objective: 'Predict the outcome of not applied to a comparison expression.',
@@ -245,8 +263,8 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_8_10',
-    unit: 'unit_01',
-    lesson: '1.8',
+    unit: 'unit_03',
+    lesson: '3.5',
     section: '5. combining comparisons',
     concept: 'reason_boolean_precedence',
     learning_objective: 'Reason through boolean operator precedence between not, and, and or.',
@@ -270,12 +288,12 @@ export const LESSON_08_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_08: LessonStructure = {
-  id: '1.8',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'Boolean Logic',
-  slug: 'boolean-logic',
-  order: 8,
+  id: '3.5',
+  unitId: 'unit_03',
+  unitTitle: 'Unit 3: Operators and Math',
+  title: 'Logical Operators',
+  slug: 'logical-operators',
+  order: 5,
   description: 'Master True/False truth tables, and, or, not operators, and compound condition precedence.',
   estimatedMinutes: 10,
   xpReward: 30,

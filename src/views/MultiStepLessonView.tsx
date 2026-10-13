@@ -771,9 +771,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               unresolvedMistakesCount: 0
             });
           }
-          // Confetti restraint: only on accuracy >= 80, unit completion (e.g. lesson 5), or streak milestone
+          // Confetti restraint: only on accuracy >= 80, unit completion (e.g. 1.6, 2.7, 3.5, 4.4, 5.6, 6.8), or streak milestone
           const isStreakMilestone = [3, 7, 14, 30].includes(userProgress.streak + 1);
-          const isUnitCapstone = lessonMeta?.id === '5';
+          const isUnitCapstone = ['1.6', '2.7', '3.5', '4.4', '5.6', '6.8'].includes(lessonMeta?.id || '');
           if (isUnitCapstone || isStreakMilestone || true) { // 100% accuracy here is >= 80%
             try {
               fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
@@ -811,7 +811,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
         }
         // Confetti restraint: only when accuracy >= 80%, unit completion, or streak milestone (never on low accuracy)
         const isStreakMilestone = [3, 7, 14, 30].includes(userProgress.streak + 1);
-        const isUnitCapstone = lessonMeta?.id === '5';
+        const isUnitCapstone = ['1.6', '2.7', '3.5', '4.4', '5.6', '6.8'].includes(lessonMeta?.id || '');
         if (finalAccuracy >= 80 || isUnitCapstone || isStreakMilestone) {
           try {
             fireCelebrationConfetti({ particleCount: 140, spread: 80, origin: { y: 0.6 } });
@@ -2385,7 +2385,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                   size="lg"
                   onClick={handleNextStep}
                   style={{ flex: 1 }}
-                  icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                  icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                   iconPosition="right"
                 >
                   CONTINUE
@@ -2398,7 +2398,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={handleNextStep}
                 fullWidth
                 style={{ maxWidth: '320px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 {exerciseState === 'incorrect' ? 'GOT IT, CONTINUE' : 'CONTINUE (+20 XP)'}
@@ -2412,7 +2412,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={code.trim() === ''}
                 fullWidth
                 style={{ maxWidth: '300px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 RUN CODE
@@ -2425,7 +2425,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={!isTraceFilled}
                 fullWidth
                 style={{ maxWidth: '300px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 CHECK TRACE VALUES
@@ -2438,7 +2438,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={blankAnswer.trim() === ''}
                 fullWidth
                 style={{ maxWidth: '300px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 CHECK ANSWER
@@ -2450,7 +2450,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={checkOrderingAnswer}
                 fullWidth
                 style={{ maxWidth: '300px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 CHECK ORDER
@@ -2462,7 +2462,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 onClick={checkMatchAnswer}
                 fullWidth
                 style={{ maxWidth: '300px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 CHECK MATCHES
@@ -2475,7 +2475,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 disabled={!selectedOptionId}
                 fullWidth
                 style={{ maxWidth: '300px' }}
-                icon={<span className="desktop-only" style={{ opacity: 0.75, fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>↵ Enter</span>}
+                icon={<span className="desktop-only" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>↵ Enter</span>}
                 iconPosition="right"
               >
                 CHECK ANSWER

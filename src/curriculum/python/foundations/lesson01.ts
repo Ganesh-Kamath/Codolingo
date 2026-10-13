@@ -4,7 +4,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_1',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '1. What Python does',
     concept: 'print_execution',
     learning_objective: 'Predict the console output of a simple Python print statement.',
@@ -44,7 +44,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_2',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '2. Running a Python program',
     concept: 'print_purpose',
     learning_objective: 'Identify the primary role of the print() function in Python.',
@@ -60,6 +60,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
     correct_answer: 'To display text or values in the console/terminal',
     explanation: 'In Python, print() is built-in to output human-readable information to the console screen.',
     hint: 'Think about where the output appears when you run code in the editor.',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 10,
     estimated_time: 30,
     order: 2
@@ -67,7 +68,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_3',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '3. print()',
     concept: 'sequential_print',
     learning_objective: 'Understand sequential top-to-bottom execution of multiple print statements.',
@@ -87,6 +88,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
     hint: 'Each print() call defaults to moving down to a new line.',
     mental_model: 'Think of print() like typing a line on a typewriter and pressing the Return key.',
     relevant_line: 'print("Line 1")',
+    misconception_tag: 'SYNTAX_ERROR',
     xp: 15,
     estimated_time: 45,
     order: 3
@@ -94,7 +96,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_4',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '4. Strings',
     concept: 'print_syntax',
     learning_objective: 'Complete the print function call with correct closing syntax.',
@@ -114,7 +116,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_5',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '5. Basic output',
     concept: 'write_first_print',
     learning_objective: 'Write a valid print statement with quotes and parentheses.',
@@ -135,11 +137,13 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses the print function',
         expectedOutput: 'Ready to code',
+        hidden: true,
         assertionPython: "assert 'print' in _user_code, 'Must use the print() function'"
       }
     ],
     explanation: '`print("Ready to code")` calls print with a string literal enclosed in double or single quotes.',
     hint: 'Enclose the text inside double quotes: print("Ready to code")',
+    misconception_tag: 'SYNTAX_ERROR',
     xp: 20,
     estimated_time: 60,
     order: 5
@@ -147,7 +151,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_6',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '3. print()',
     concept: 'print_case_sensitivity',
     learning_objective: 'Debug a capitalization error in a Python print call.',
@@ -163,6 +167,13 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints "Hello World" with lowercase print',
         expectedOutput: 'Hello World',
         assertionPython: "assert _raw_stdout.strip() == 'Hello World' and not _user_code.startswith('Print(')"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test: Case-sensitive print verified',
+        expectedOutput: 'Hello World',
+        hidden: true,
+        assertionPython: "assert _raw_stdout.strip() == 'Hello World' and 'print(' in _user_code and 'Print(' not in _user_code"
       }
     ],
     progressive_hints: [
@@ -180,7 +191,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_7',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '4. Strings',
     concept: 'quote_matching',
     learning_objective: 'Explain why mismatched quotation marks cause a SyntaxError.',
@@ -204,7 +215,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_8',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '5. Basic output',
     concept: 'apply_banner',
     learning_objective: 'Apply print statements to construct a multi-line ASCII banner.',
@@ -220,10 +231,18 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints all 3 lines in exact sequence',
         expectedOutput: '== GAME START ==\nPlayer: Hero\n================',
         assertionPython: "assert '== GAME START ==' in _raw_stdout and 'Player: Hero' in _raw_stdout and '================' in _raw_stdout"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test: Multi-line banner structure verified',
+        expectedOutput: '== GAME START ==\nPlayer: Hero\n================',
+        hidden: true,
+        assertionPython: "assert len([l for l in _raw_stdout.strip().splitlines() if l]) == 3 and 'print' in _user_code"
       }
     ],
     explanation: 'Each print() statement outputs one line. Using three consecutive print() calls outputs each line in turn.',
     hint: 'Use 3 separate print() calls, one for each line.',
+    misconception_tag: 'SYNTAX_ERROR',
     xp: 25,
     estimated_time: 90,
     order: 8
@@ -231,7 +250,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_9',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '3. print()',
     concept: 'trace_output_order',
     learning_objective: 'Trace the exact sequential output of multiple prints.',
@@ -245,6 +264,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: 'Python executes strictly from top to bottom. Line 1 prints Alpha, Line 2 prints Beta, and Line 3 prints Gamma.',
     hint: 'Follow the execution order from line 1 down to line 3.',
+    misconception_tag: 'SYNTAX_ERROR',
     xp: 15,
     estimated_time: 45,
     order: 9
@@ -252,7 +272,7 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_1_10',
     unit: 'unit_01',
-    lesson: '1.1',
+    lesson: '1.4',
     section: '4. Strings',
     concept: 'debug_missing_parentheses',
     learning_objective: 'Debug a missing closing parenthesis syntax error.',
@@ -268,6 +288,13 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
         description: 'Successfully prints "System Online" with closed parenthesis',
         expectedOutput: 'System Online',
         assertionPython: "assert _raw_stdout.strip() == 'System Online' and _user_code.strip().endswith(')')"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test: Syntax error resolved with closed parenthesis',
+        expectedOutput: 'System Online',
+        hidden: true,
+        assertionPython: "assert _raw_stdout.strip() == 'System Online' and _user_code.strip().endswith(')') and 'print(' in _user_code"
       }
     ],
     progressive_hints: [
@@ -285,12 +312,12 @@ export const LESSON_01_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_01: LessonStructure = {
-  id: '1.1',
+  id: '1.4',
   unitId: 'unit_01',
   unitTitle: 'Unit 1: Python Foundations',
-  title: 'Your First Python Program',
-  slug: 'your-first-python-program',
-  order: 1,
+  title: 'The Print Function',
+  slug: 'the-print-function',
+  order: 4,
   description: 'Master how Python runs, calling print(), handling string literals, and avoiding syntax pitfalls.',
   estimatedMinutes: 8,
   xpReward: 30,

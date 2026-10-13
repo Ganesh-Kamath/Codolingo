@@ -1,642 +1,597 @@
 {
   "lesson_id": "6.4",
   "title": "The for Loop",
-  "unit": "Loops and Repetition",
+  "unit": "unit_06",
   "items": [
     {
-      "id": "6.4_q1",
+      "id": "6.4_cand_1",
       "type": "micro_lesson",
       "concept": "the_for_loop_basics",
       "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [],
-      "title": "What Is a For Loop?",
-      "content": "A for loop in Python is used to repeat a block of code a specific number of times. It is ideal when you know in advance how many iterations you need. The basic idea is to iterate over a sequence, such as a list, tuple, or string, and execute the same code for each item. For example, if you have a list of fruits and you want to print each one, a for loop lets you do that without writing the print statement multiple times. Here is a simple example:\n\n```python\nmy_list = ['apple', 'banana', 'cherry']\nfor item in my_list:\n    print(item)\n```\n\nIn this code, the for keyword starts the loop, item is a variable that holds the current element during each iteration, and the colon indicates the start of the indented block. Python executes the indented code once for every element in my_list.",
+      "title": "The for Loop: Definite Iteration Over Sequences",
       "prompt": "",
-      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+      "explanation": "A for loop executes a code block once for each item in a sequence (such as a string, list, or range). It automatically assigns each element to the loop variable and terminates when all elements have been visited.",
+      "content": "# The for Loop: Definite Iteration\n\nWhile a `while` loop runs based on a boolean condition, a `for` loop performs **definite iteration**: it iterates across a collection of items, executing once per item.\n\n### Basic Syntax\n```python\nfor item in sequence:\n    # Indented body executes once per element\n    print(item)\n```\n\n### Iterating Over Strings\nStrings are sequences of characters. A `for` loop visits every character from left to right:\n```python\nfor char in \"CODE\":\n    print(char)\n# Output:\n# C\n# O\n# D\n# E\n```\n\n### The Loop Variable Scope\nIn Python, the loop variable remains accessible in the namespace after the loop finishes, retaining the **last value** it held.\n\n### The Accumulator Pattern\nTo calculate totals or counts across a sequence:\n1. Initialize the accumulator (`total = 0` or `result = \"\"`) **before** the loop.\n2. Inside the loop, update the accumulator (`total += item`).\n3. Access the accumulated result **after** the loop completes."
     },
     {
-      "id": "6.4_q2",
+      "id": "6.4_cand_2",
       "type": "multiple_choice",
       "concept": "the_for_loop_basics",
       "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q1"
-      ],
-      "prompt": "Which of the following best describes the purpose of a for loop in Python?",
+      "prompt": "What happens during each iteration of a Python `for item in sequence:` loop?",
       "options": [
-        "To run a block of code only once",
-        "To repeat a block of code a known number of times",
-        "To stop the program immediately",
-        "To define a new function"
+        "The variable item is automatically bound to the next element in the sequence, and the indented body runs",
+        "The entire sequence is deleted from memory",
+        "The loop evaluates whether sequence is True or False",
+        "item is converted to an integer"
       ],
-      "correct_answer": "To repeat a block of code a known number of times",
-      "explanation": "A for loop is designed for repetition when the number of iterations is known beforehand, such as when iterating over a list or a range of numbers."
+      "correct_answer": "The variable item is automatically bound to the next element in the sequence, and the indented body runs",
+      "explanation": "Python's for loop is a \"for-each\" construct. On each pass, it retrieves the next item from the iterable, binds it to the loop variable name, and executes the loop body.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.4_q3",
-      "type": "micro_lesson",
-      "concept": "the_for_loop_syntax",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q2"
-      ],
-      "title": "For Loop Syntax and Structure",
-      "content": "The standard syntax of a for loop in Python follows this pattern:\n\n```python\nfor variable in iterable:\n    # indented block of code\n```\n\nThe variable on the left of the in keyword acts as a placeholder that receives the next value from the iterable during each iteration. The iterable can be a list, tuple, string, dictionary, or any object that supports iteration. The code inside the loop must be indented, typically with four spaces. If you forget the indentation or the colon, Python raises an IndentationError or SyntaxError. Here is a complete example using a string:\n\n```python\nmessage = 'hello'\nfor character in message:\n    print(character)\n```\n\nThis loop prints 'h', then 'e', then 'l', then 'l', then 'o', each on a separate line. Understanding this structure is essential before writing more complex loops.",
-      "prompt": "",
-      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
-    },
-    {
-      "id": "6.4_q4",
-      "type": "multiple_choice",
-      "concept": "the_for_loop_syntax",
-      "skill": "reasoning",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q3"
-      ],
-      "prompt": "Consider the following code snippet:\n\n```python\nfor x in [10, 20, 30]:\n    print(x)\n```\n\nWhat will happen if the print statement is not indented under the for line?",
-      "options": [
-        "The code will print 10, 20, and 30 on separate lines",
-        "The code will run but produce no output",
-        "Python will raise an IndentationError",
-        "The code will print 10, 20, and 30 on one line"
-      ],
-      "correct_answer": "Python will raise an IndentationError",
-      "explanation": "In Python, the body of a for loop must be indented. Without indentation, the interpreter cannot determine which lines belong to the loop, so it raises an IndentationError."
-    },
-    {
-      "id": "6.4_q5",
-      "type": "multiple_choice",
-      "concept": "the_for_loop_matching",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q4"
-      ],
-      "prompt": "Match each Python iterable with the correct example of a for loop that would process it:",
-      "options": [
-        "List: for name in ['Ana', 'Ben']; String: for ch in 'cat'; Range: for i in range(3)",
-        "List: for i in range(5); String: for name in ['Ana', 'Ben']; Range: for ch in 'cat'",
-        "List: for ch in 'cat'; String: for i in range(5); Range: for name in ['Ana', 'Ben']",
-        "List: for i in range(3); String: for ch in 'cat'; Range: for name in ['Ana', 'Ben']"
-      ],
-      "correct_answer": "List: for name in ['Ana', 'Ben']; String: for ch in 'cat'; Range: for i in range(3)",
-      "explanation": "A list is best shown with a list literal such as ['Ana', 'Ben']; a string is shown with a string literal such as 'cat'; and a range is shown with range(3)."
-    },
-    {
-      "id": "6.4_q6",
-      "type": "multiple_choice",
-      "concept": "the_for_loop_pitfalls",
-      "skill": "comprehension",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q5"
-      ],
-      "prompt": "What is a common mistake when using a for loop with a list that you intend to modify during iteration?",
-      "options": [
-        "The loop will always skip the first item",
-        "Modifying the list while iterating can cause items to be skipped or raise an error",
-        "The loop will automatically create a copy of the list",
-        "The loop will run forever"
-      ],
-      "correct_answer": "Modifying the list while iterating can cause items to be skipped or raise an error",
-      "explanation": "Changing the size or contents of a list while a for loop is iterating over it can lead to unexpected behavior, such as skipped elements, because the iterator tracks the original sequence."
-    },
-    {
-      "id": "6.4_q7",
+      "id": "6.4_cand_3",
       "type": "code_prediction",
       "concept": "the_for_loop_execution",
       "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q6"
-      ],
-      "micro_lesson": {
-        "title": "Executing a Simple For Loop",
-        "content": "A for loop in Python iterates over a sequence, such as a list, tuple, or string. Each time the loop runs, the loop variable takes on the next value from the sequence. The indented block under the for statement executes once per item. For example:\n\n```python\nfor i in [1, 2, 3]:\n    print(i)\n```\n\nThis code prints 1, then 2, then 3 on separate lines, because the loop variable i is assigned each value in turn before the print statement runs."
-      },
-      "prompt": "What will the following code print?\n\n```python\nfor x in [10, 20]:\n    print(x)\n```",
+      "prompt": "Predict the console output when iterating through the string \"HI!\":",
+      "code_snippet": "for char in \"HI!\":\n    print(char)",
+      "expected_output": "H\nI\n!",
       "options": [
-        "10\n20",
-        "20\n10",
-        "10 20",
-        "Nothing is printed"
+        "H\nI\n!",
+        "HI!",
+        "H I !",
+        "[\"H\", \"I\", \"!\"]"
       ],
-      "correct_answer": "10\n20",
-      "explanation": "The loop iterates over the list [10, 20] in order. On the first iteration, x is 10 and it prints 10. On the second iteration, x is 20 and it prints 20. Each print statement adds a newline by default."
+      "correct_answer": "H\nI\n!",
+      "explanation": "The string \"HI!\" has 3 characters: \"H\", \"I\", and \"!\". The for loop prints each character on its own line.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.4_q8",
-      "type": "output_prediction",
-      "concept": "the_for_loop_execution",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q7"
-      ],
-      "micro_lesson": {
-        "title": "Predicting Output from Nested and Repeated Loops",
-        "content": "When a loop contains another statement, the indented block determines what repeats. If the loop variable is used inside the block, its current value is available for that iteration only. For example:\n\n```python\nfor letter in ['a', 'b']:\n    print(letter * 2)\n```\n\nHere, letter is 'a' on the first pass, so letter * 2 produces 'aa'. On the second pass, letter is 'b', so the output becomes 'bb'. The loop body runs completely for each item before moving to the next."
-      },
-      "prompt": "What is the exact output of the following program?\n\n```python\nfor n in [2, 3]:\n    print('Count:', n)\n```",
-      "options": [
-        "Count: 2\nCount: 3",
-        "Count: 3\nCount: 2",
-        "Count: 23",
-        "Count: 2\nCount: 3\nCount: 2\nCount: 3"
-      ],
-      "correct_answer": "Count: 2\nCount: 3",
-      "explanation": "The loop visits 2 first, printing 'Count: 2', then visits 3, printing 'Count: 3'. There are no extra repetitions because the loop runs exactly once per item in the list."
-    },
-    {
-      "id": "6.4_q9",
+      "id": "6.4_cand_4",
       "type": "code_prediction",
       "concept": "the_for_loop_flow",
       "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q8"
-      ],
-      "micro_lesson": {
-        "title": "Understanding For Loop Control Flow",
-        "content": "A for loop follows a strict sequence: initialize the iterator, check if there is a remaining item, assign it to the loop variable, execute the body, then advance to the next item. If the sequence is exhausted, the loop ends and execution continues after the loop. This means any code after the loop runs exactly once, regardless of how many iterations occurred.\n\n```python\nfor value in [1, 2]:\n    print(value)\nprint('Done')\n```\n\nThe print('Done') statement is outside the indentation, so it executes after the loop finishes."
-      },
-      "prompt": "How many times does the statement print('Done') execute in this code?\n\n```python\nfor i in range(3):\n    print(i)\nprint('Done')\n```",
+      "difficulty": "easy",
+      "prompt": "What is printed by the final line outside the loop?",
+      "code_snippet": "for letter in [\"X\", \"Y\", \"Z\"]:\n    pass\nprint(f\"Final: {letter}\")",
+      "expected_output": "Final: Z",
       "options": [
-        "0 times",
-        "1 time",
-        "3 times",
-        "4 times"
+        "Final: Z",
+        "Final: X",
+        "NameError: letter is not defined",
+        "Final: [\"X\", \"Y\", \"Z\"]"
       ],
-      "correct_answer": "1 time",
-      "explanation": "The print('Done') statement is not indented under the for loop, so it belongs to the outer scope. It executes exactly once after the loop has completed all its iterations."
+      "correct_answer": "Final: Z",
+      "explanation": "In Python, variables defined in a `for` loop header are not restricted to block scope. When the loop ends, `letter` remains defined and retains its last value, `\"Z\"`.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.4_q10",
+      "id": "6.4_cand_5",
       "type": "multiple_choice",
-      "concept": "the_for_loop_analysis",
-      "skill": "analysis",
+      "concept": "the_for_loop_scenario",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q9"
-      ],
-      "micro_lesson": {
-        "title": "Analyzing For Loop Structure",
-        "content": "When analyzing a for loop, identify the iterable, the loop variable, the body, and any code outside the loop. The body repeats for each element, while code outside runs once. Indentation is critical in Python because it defines scope. A common mistake is placing a statement at the wrong indentation level, which changes when it executes.\n\n```python\nfor item in ['x', 'y']:\n    print(item)\nprint('End')\n```\n\nIn this example, print('End') is outside the loop and therefore executes after both iterations."
-      },
-      "prompt": "Which statement correctly describes the role of indentation in a Python for loop?",
+      "prompt": "A text analyzer counts vowels in `text = \"python\"`. Which loop structure correctly inspects each letter and increments `vowels` when a vowel is found?",
       "options": [
-        "Indentation determines which statements belong inside the loop and which run after it.",
-        "Indentation only affects readability and has no effect on execution.",
-        "All statements in a file must have the same indentation to run.",
-        "Indentation is used only to separate the for keyword from the loop variable."
+        "vowels = 0\nfor char in text:\n    if char in \"aeiou\":\n        vowels += 1",
+        "for char in text:\n    vowels = 0\n    if char in \"aeiou\":\n        vowels += 1",
+        "vowels = len(text) in \"aeiou\"",
+        "for vowels in text:\n    vowels += 1"
       ],
-      "correct_answer": "Indentation determines which statements belong inside the loop and which run after it.",
-      "explanation": "In Python, indentation defines code blocks. Statements indented under the for line are part of the loop body and repeat for each item. Statements at the same or lower indentation level are outside the loop and execute once after the loop finishes."
+      "correct_answer": "vowels = 0\nfor char in text:\n    if char in \"aeiou\":\n        vowels += 1",
+      "explanation": "Initializing `vowels = 0` before the loop and incrementing it conditionally for each vowel correctly counts the vowels. Re-initializing `vowels = 0` inside the loop would lose previous counts.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.4_q11",
+      "id": "6.4_cand_6",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_scenario",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A customer buys items priced `[15, 25, 40]`. Starting with `total = 0`, how does the accumulator mutate during `for item in [15, 25, 40]: total += item`?",
+      "options": [
+        "0 -> 15 -> 40 -> 80",
+        "0 -> 15 -> 25 -> 40",
+        "80 on every pass",
+        "0 -> 40 -> 80"
+      ],
+      "correct_answer": "0 -> 15 -> 40 -> 80",
+      "explanation": "Pass 1: 0 + 15 = 15. Pass 2: 15 + 25 = 40. Pass 3: 40 + 40 = 80. The accumulator preserves the sum across iterations.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.4_cand_7",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A student writes this code to calculate word score:\n```python\nfor letter in [\"a\", \"b\", \"c\"]:\n    score = 0\n    score += 10\nprint(score)\n```\nWhy does it print `10` instead of `30`?",
+      "options": [
+        "score = 0 is placed inside the loop body, wiping out the accumulated points on every iteration",
+        "score += 10 cannot add points to strings",
+        "The loop terminates early after one pass",
+        "print(score) is unindented"
+      ],
+      "correct_answer": "score = 0 is placed inside the loop body, wiping out the accumulated points on every iteration",
+      "explanation": "Because `score = 0` is inside the loop, each iteration resets `score` back to 0 before adding 10. Accumulators must be initialized before the loop starts.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.4_cand_8",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A developer writes:\n```python\nfor i in 5:\n    print(i)\n```\nWhat error does Python raise upon running this code?",
+      "options": [
+        "TypeError: 'int' object is not iterable",
+        "ValueError: integer 5 cannot loop",
+        "SyntaxError: invalid loop target",
+        "NameError: name 'i' is not defined"
+      ],
+      "correct_answer": "TypeError: 'int' object is not iterable",
+      "explanation": "Integers are scalar numbers, not sequences. Python cannot iterate over a raw `int`. To loop 5 times, you must wrap the number in `range(5)`.",
+      "misconception_tag": "WRONG_TYPE"
+    },
+    {
+      "id": "6.4_cand_9",
+      "type": "multiple_choice",
+      "concept": "the_for_loop_pitfalls",
+      "skill": "recall",
+      "difficulty": "medium",
+      "prompt": "If `word = \"CAT\"`, how many iterations does `for char in word:` execute?",
+      "options": [
+        "3 iterations (one for \"C\", one for \"A\", one for \"T\")",
+        "1 iteration (the entire string \"CAT\")",
+        "4 iterations including the null terminator",
+        "0 iterations because strings are immutable"
+      ],
+      "correct_answer": "3 iterations (one for \"C\", one for \"A\", one for \"T\")",
+      "explanation": "Strings in Python are sequences of individual 1-character strings. Iterating over `\"CAT\"` executes the loop body exactly 3 times.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.4_cand_10",
       "type": "code_prediction",
-      "concept": "the_for_loop_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q10"
-      ],
-      "micro_lesson": {
-        "title": "Tracing Variables Through a For Loop",
-        "content": "Tracing means following the value of variables step by step. In a for loop, the loop variable changes on each iteration. You can trace by writing down the current value before and after each pass. This helps predict output and debug logic errors. Consider this example:\n\n```python\ntotal = 0\nfor num in [4, 5]:\n    total = total + num\nprint(total)\n```\n\nInitially, total is 0. After the first iteration, total becomes 4. After the second iteration, total becomes 9. The final print outputs 9."
-      },
-      "prompt": "Trace the value of total after each iteration of this code. What is the final value printed?\n\n```python\ntotal = 1\nfor value in [3, 2]:\n    total = total + value\nprint(total)\n```",
-      "options": [
-        "Final total is 6",
-        "Final total is 3",
-        "Final total is 1",
-        "Final total is 5"
-      ],
-      "correct_answer": "Final total is 6",
-      "explanation": "Start with total = 1. First iteration: total = 1 + 3 = 4. Second iteration: total = 4 + 2 = 6. The print statement outputs 6."
-    },
-    {
-      "id": "6.4_q12",
-      "type": "output_prediction",
-      "concept": "the_for_loop_logic",
+      "concept": "the_for_loop_accumulation",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q11"
-      ],
-      "micro_lesson": {
-        "title": "Combining Loop Logic with String Output",
-        "content": "A for loop can be used to build or display strings repeatedly. When a print statement is inside the loop, it produces output on every iteration. If the loop variable is included in the string, the output changes per iteration. Understanding this pattern helps you predict multi-line results and design programs that process sequences.\n\n```python\nfor step in [1, 2]:\n    print('Step', step)\n```\n\nThis prints Step 1 on one line and Step 2 on the next, because the loop variable step is updated each time."
-      },
-      "prompt": "What output does this program produce?\n\n```python\nfor letter in ['p', 'q']:\n    print('Letter is', letter)\n```",
+      "prompt": "Trace the final accumulated string printed by this loop:",
+      "code_snippet": "res = \"\"\nfor ch in [\"P\", \"Y\", \"!\"]:\n    res += ch + \"-\"\nprint(res)",
+      "expected_output": "P-Y-!-",
       "options": [
-        "Letter is p\nLetter is q",
-        "Letter is q\nLetter is p",
-        "Letter is p q",
-        "Letter is p\nLetter is q\nLetter is p"
+        "P-Y-!-",
+        "P-Y-!",
+        "PY!",
+        "-P-Y-!-"
       ],
-      "correct_answer": "Letter is p\nLetter is q",
-      "explanation": "The loop visits 'p' first, printing 'Letter is p', then visits 'q', printing 'Letter is q'. The print function adds a newline after each call, so the output appears on two separate lines in that exact order."
+      "correct_answer": "P-Y-!-",
+      "explanation": "On each pass, `ch + \"-\"` is appended to `res`: \"\" + \"P-\" = \"P-\"; \"P-\" + \"Y-\" = \"P-Y-\"; \"P-Y-\" + \"!-\" = \"P-Y-!-\".",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.4_q13",
-      "type": "fill_in_the_blank",
-      "concept": "the_for_loop_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.4_q12"
-      ],
-      "prompt": "Complete the sentence: A Python for loop that iterates over a sequence uses the keyword ___ followed by a variable name, a colon, and an indented block.",
-      "correct_answer": "for",
-      "accepted_answers": [
-        "for"
-      ],
-      "explanation": "The for loop in Python always begins with the keyword for. This keyword signals to the interpreter that a repetition structure is starting. The syntax is: for variable in sequence: followed by an indented suite of statements."
-    },
-    {
-      "id": "6.4_q14",
-      "type": "fill_in_the_blank",
-      "concept": "the_for_loop_keywords",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q13"
-      ],
-      "prompt": "In a for loop, the block of code that repeats is defined by indentation and is introduced by the keyword ___ at the end of the header line.",
-      "correct_answer": "colon",
-      "accepted_answers": [
-        "colon",
-        ":"
-      ],
-      "explanation": "Python uses a colon (:) at the end of the for loop header to separate the header from the indented block. Unlike some languages that use braces or keywords, Python relies on the colon and consistent indentation to define the loop body."
-    },
-    {
-      "id": "6.4_q15",
-      "type": "code_ordering",
-      "concept": "the_for_loop_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q14"
-      ],
-      "prompt": "Arrange the following lines into a valid Python for loop that prints each number from 1 to 3 inclusive. The lines are: (A) print(num) (B) for num in range(1, 4): (C) num = 1",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The for loop header must come first, specifying the iterator variable and the sequence. The print statement belongs inside the indented block and should not reassign the loop variable. The range(1, 4) correctly yields 1, 2, and 3 because the stop value is exclusive."
-    },
-    {
-      "id": "6.4_q16",
-      "type": "fill_in_the_blank",
-      "concept": "the_for_loop_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q15"
-      ],
-      "prompt": "The common pattern for looping over every element in a list uses: for ___ in ___:",
-      "correct_answer": "item, my_list",
-      "accepted_answers": [
-        "item, my_list",
-        "element, my_list",
-        "x, data",
-        "name, names"
-      ],
-      "explanation": "A typical pattern is to use a descriptive variable name such as item or element for the loop variable, and the name of the list or iterable after the in keyword. This makes the code readable and follows Python conventions."
-    },
-    {
-      "id": "6.4_q17",
-      "type": "code_ordering",
-      "concept": "the_for_loop_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q16"
-      ],
-      "prompt": "Arrange the following lines to compute and print the sum of squares for numbers 0 through 2. The lines are: (A) total = 0 (B) for n in range(3): (C) total = total + n ** 2 (D) print('sum of squares:', total)",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The accumulator total must be initialized before the loop begins. Inside the loop, each number is squared and added to total. After the loop, the final sum is printed. Initializing total inside the loop would reset it on every iteration and produce an incorrect result."
-    },
-    {
-      "id": "6.4_q18",
-      "type": "fill_in_the_blank",
-      "concept": "the_for_loop_idioms",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q17"
-      ],
-      "prompt": "A common Python idiom for iterating over a sequence and accessing both the index and the value is: for ___ in ___:",
-      "correct_answer": "index, enumerate(my_list)",
-      "accepted_answers": [
-        "index, enumerate(my_list)",
-        "i, enumerate(data)",
-        "idx, enumerate(items)",
-        "i, range(len(my_list))"
-      ],
-      "explanation": "The enumerate function returns pairs of (index, value), which is a widely used idiom when both the position and the element are needed. An alternative is range(len(my_list)), but enumerate is generally preferred for clarity and efficiency."
-    },
-    {
-      "id": "6.4_q19",
+      "id": "6.4_cand_11",
       "type": "fix_the_code",
-      "concept": "the_for_loop_errors",
+      "concept": "the_for_loop_syntax",
       "skill": "debugging",
-      "diff": "medium",
-      "prerequisites": [
-        "6.4_q18"
+      "difficulty": "easy",
+      "prompt": "Fix the syntax error and indentation in the loop below so it prints each character in `\"DOG\"`.",
+      "starter_code": "for c in \"DOG\"\nprint(c)",
+      "solution_code": "for c in \"DOG\":\n    print(c)",
+      "expected_output": "D\nO\nG",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs D, O, G on separate lines",
+          "expectedOutput": "D\nO\nG",
+          "assertionPython": "assert _raw_stdout.strip() == 'D\\nO\\nG' and 'for c in \"DOG\":' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify c ends at \"G\"",
+          "expectedOutput": "D\nO\nG",
+          "assertionPython": "assert _user_namespace.get('c') == 'G'",
+          "hidden": true
+        }
       ],
-      "micro_lesson": {
-        "title": "Identifying Common for Loop Errors",
-        "content": "The for loop in Python iterates over an iterable. Common errors include using the wrong iterable type, modifying the iterable during iteration, or incorrect indentation. Always ensure the loop variable is assigned correctly and the body is indented consistently.\n\nExample of a valid for loop:\n```\nfor i in range(3):\n    print('Iteration', i)\n```\n\nIf you attempt to modify a list while iterating over it, Python raises a RuntimeError. To avoid this, iterate over a copy of the list or collect changes separately."
-      },
-      "difficulty": "medium",
-      "prompt": "Fix the bug in this code for the for loop errors:",
-      "starter_code": "# Fix this code\nPrint('The for Loop')",
-      "solution_code": "print('The for Loop')",
-      "explanation": "This exercise tests `the for loop errors` in The for Loop. When Python validates this code, it applies the standard rules of the for loop errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Every `for` header requires a colon `:`, and the loop body must be indented by 4 spaces.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
-      "id": "6.4_q20",
+      "id": "6.4_cand_12",
       "type": "fix_the_code",
       "concept": "the_for_loop_fix",
       "skill": "debugging",
-      "diff": "easy",
-      "prerequisites": [
-        "6.4_q19"
+      "difficulty": "easy",
+      "prompt": "The program below resets `total = 0` inside the loop, printing only 3 instead of 6. Move `total = 0` outside before the `for` loop.",
+      "starter_code": "for n in [1, 2, 3]:\n    total = 0\n    total += n\nprint(total)",
+      "solution_code": "total = 0\nfor n in [1, 2, 3]:\n    total += n\nprint(total)",
+      "expected_output": "6",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 6 as total sum",
+          "expectedOutput": "6",
+          "assertionPython": "assert _raw_stdout.strip() == '6' and _user_namespace.get('total') == 6"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures total initialized before for loop",
+          "expectedOutput": "6",
+          "assertionPython": "assert _user_code.index('total = 0') < _user_code.index('for ')",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the code so it prints each number from 0 to 4.",
-      "starter_code": "for i in range(5)\n    print('i is', i)",
-      "solution_code": "for i in range(5):\n    print('i is', i)",
-      "hint": "Check the indentation and colon placement after the for statement.",
-      "explanation": "The for statement must end with a colon, and the body must be indented on the next line. Without the colon and proper indentation, Python raises a SyntaxError.",
-      "difficulty": "easy"
+      "explanation": "Initializing `total = 0` before the loop ensures the sum accumulates across all iterations.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.4_q21",
+      "id": "6.4_cand_13",
       "type": "fix_the_code",
-      "concept": "the_for_loop_edge_cases",
+      "concept": "the_for_loop_fix",
       "skill": "debugging",
-      "diff": "medium",
-      "prerequisites": [
-        "6.4_q20"
+      "difficulty": "easy",
+      "prompt": "The loop `for i in 3:` raises `TypeError: 'int' object is not iterable`. Change `3` to `[1, 2, 3]` so it prints 1, 2, 3.",
+      "starter_code": "for i in 3:\n    print(i)",
+      "solution_code": "for i in [1, 2, 3]:\n    print(i)",
+      "expected_output": "1\n2\n3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 1, 2, 3",
+          "expectedOutput": "1\n2\n3",
+          "assertionPython": "assert _raw_stdout.strip() == '1\\n2\\n3' and 'for i in [1, 2, 3]:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify i reaches 3",
+          "expectedOutput": "1\n2\n3",
+          "assertionPython": "assert _user_namespace.get('i') == 3",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the code so it safely handles an empty list and prints each item.",
-      "starter_code": "items = []\nfor item in items:\n    print('Item:', item)\nprint('Done')",
-      "solution_code": "items = []\nfor item in items:\n    print('Item:', item)\nprint('Done')",
-      "hint": "Consider what happens when the iterable is empty; the loop body simply does not execute.",
-      "explanation": "When the iterable is empty, the for loop body is skipped entirely, and execution continues with the statement after the loop. No error occurs, so no fix is needed beyond ensuring the code structure is valid.",
-      "difficulty": "medium"
+      "explanation": "Replacing integer 3 with a list `[1, 2, 3]` gives the for loop a valid sequence to iterate over.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
-      "id": "6.4_q22",
-      "type": "fix_the_code",
-      "concept": "the_for_loop_runtime",
-      "skill": "debugging",
-      "diff": "medium",
-      "prerequisites": [
-        "6.4_q21"
-      ],
-      "micro_lesson": {
-        "title": "Runtime Errors in for Loops",
-        "content": "Runtime errors occur during execution, not during parsing. In for loops, a common runtime error is trying to iterate over a non-iterable object like an integer. Another is using an undefined variable inside the loop.\n\nExample of a runtime error:\n```\nfor x in 5:\n    print(x)\n```\nThis raises a TypeError because integers are not iterable. Always verify that the object after 'in' supports iteration."
-      },
-      "difficulty": "medium",
-      "prompt": "Fix the bug in this code for the for loop runtime:",
-      "starter_code": "# Fix this code\nPrint('The for Loop')",
-      "solution_code": "print('The for Loop')",
-      "explanation": "This exercise tests `the for loop runtime` in The for Loop. When Python validates this code, it applies the standard rules of the for loop runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "6.4_q23",
+      "id": "6.4_cand_14",
       "type": "fix_the_code",
       "concept": "the_for_loop_logic_repair",
       "skill": "debugging",
-      "diff": "medium",
-      "prerequisites": [
-        "6.4_q22"
-      ],
-      "prompt": "Fix the code so it counts only even numbers from 0 to 9 and prints the total.",
-      "starter_code": "total = 0\nfor num in range(10):\n    if num % 2 == 0\n        total = total + num\nprint('Total even numbers:', total)",
-      "solution_code": "total = 0\nfor num in range(10):\n    if num % 2 == 0:\n        total = total + num\nprint('Total even numbers:', total)",
-      "hint": "Check the if statement for a missing colon and ensure the addition is inside the conditional block.",
-      "explanation": "The if statement requires a colon after the condition, and the indented block must contain the statement that updates total. Without the colon, Python raises a SyntaxError.",
-      "difficulty": "medium"
-    },
-    {
-      "id": "6.4_q24",
-      "type": "fix_the_code",
-      "concept": "the_for_loop_optimization",
-      "skill": "refactoring",
-      "diff": "hard",
-      "prerequisites": [
-        "6.4_q23"
-      ],
-      "prompt": "Refactor the code to use a generator expression inside a for loop for memory-efficient processing of large data.",
-      "starter_code": "numbers = range(1000000)\nresult = []\nfor n in numbers:\n    if n % 2 == 0:\n        result.append(n * n)",
-      "solution_code": "numbers = range(1000000)\nresult = (n * n for n in numbers if n % 2 == 0)\nfor value in result:\n    print(value)",
+      "difficulty": "medium",
+      "prompt": "The code below attempts to sum scores `[10, 20, 30]`, but the loop header uses `total` as both the item variable and the accumulator, overwriting the total. Change the loop header to `for score in [10, 20, 30]:` and update the addition to `total += score`.",
+      "starter_code": "total = 0\nfor total in [10, 20, 30]:\n    total += total\nprint(total)",
+      "solution_code": "total = 0\nfor score in [10, 20, 30]:\n    total += score\nprint(total)",
+      "expected_output": "60",
       "test_cases": [
         {
-          "input": "range(10)",
-          "expected_behavior": "Produces squares of even numbers without storing all values in memory at once."
+          "id": "tc_1",
+          "description": "Computes sum of 10, 20, 30 as 60",
+          "expectedOutput": "60",
+          "assertionPython": "assert _raw_stdout.strip() == '60' and _user_namespace.get('total') == 60"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures loop variable is named score",
+          "expectedOutput": "60",
+          "assertionPython": "assert 'for score in ' in _user_code and 'total += score' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Replace the list accumulation with a generator expression to yield values lazily.",
-      "explanation": "A generator expression uses parentheses and avoids building an intermediate list. This reduces memory usage for large iterables, making the code more scalable and efficient.",
-      "difficulty": "hard"
+      "explanation": "Never use the accumulator variable name as the loop variable. Distinguishing `total` and `score` allows proper accumulation.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.4_q25",
+      "id": "6.4_cand_15",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_syntax",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "Fix the indentation so that both `price = item * 2` and `print(price)` belong to the loop body.",
+      "starter_code": "for item in [5, 10]:\nprice = item * 2\nprint(price)",
+      "solution_code": "for item in [5, 10]:\n    price = item * 2\n    print(price)",
+      "expected_output": "10\n20",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 10 and 20",
+          "expectedOutput": "10\n20",
+          "assertionPython": "assert _raw_stdout.strip() == '10\\n20'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies final price is 20",
+          "expectedOutput": "10\n20",
+          "assertionPython": "assert _user_namespace.get('price') == 20",
+          "hidden": true
+        }
+      ],
+      "explanation": "All statements belonging to the `for` loop body must be indented by 4 spaces.",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "6.4_cand_16",
+      "type": "fix_the_code",
+      "concept": "the_for_loop_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "The program below counts characters in `\"code\"`, but it mistakenly sets `count = 1` inside the loop. Fix it so `count` starts at 0 before the loop and increments `count += 1` inside.",
+      "starter_code": "word = \"code\"\nfor letter in word:\n    count = 1\nprint(count)",
+      "solution_code": "word = \"code\"\ncount = 0\nfor letter in word:\n    count += 1\nprint(count)",
+      "expected_output": "4",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 4 for length of \"code\"",
+          "expectedOutput": "4",
+          "assertionPython": "assert _raw_stdout.strip() == '4' and _user_namespace.get('count') == 4"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures count starts at 0",
+          "expectedOutput": "4",
+          "assertionPython": "assert 'count = 0' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Starting `count = 0` outside and incrementing `count += 1` inside tallies all 4 characters.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.4_cand_17",
       "type": "write_the_code",
       "concept": "the_for_loop_implementation",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q24"
-      ],
-      "prompt": "Write a Python program that uses a for loop to print each number from 1 to 10 on a separate line.",
-      "starter_code": "for i in range(1, 11):\n    print(i)",
-      "solution_code": "for i in range(1, 11):\n    print(i)",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Given `word = \"PYTHON\"`, write a `for` loop that iterates over `word` using variable `letter` and prints each letter in the format: `Letter: {letter}`.",
+      "starter_code": "word = \"PYTHON\"\n# Write for loop over word printing Letter: {letter}\n",
+      "solution_code": "word = \"PYTHON\"\nfor letter in word:\n    print(f\"Letter: {letter}\")",
+      "expected_output": "Letter: P\nLetter: Y\nLetter: T\nLetter: H\nLetter: O\nLetter: N",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Output should contain 10 lines with numbers 1 through 10.",
-          "description": "Output should contain 10 lines with numbers 1 through 10."
+          "id": "tc_1",
+          "description": "Prints Letter: P through Letter: N",
+          "expectedOutput": "Letter: P\nLetter: Y\nLetter: T\nLetter: H\nLetter: O\nLetter: N",
+          "assertionPython": "assert _raw_stdout.strip() == 'Letter: P\\nLetter: Y\\nLetter: T\\nLetter: H\\nLetter: O\\nLetter: N' and 'for ' in _user_code"
         },
         {
-          "input": "",
-          "expected_output": "No extra text or symbols should appear before or after each number.",
-          "description": "No extra text or symbols should appear before or after each number."
+          "id": "tc_2",
+          "description": "Verify letter holds \"N\" at end",
+          "expectedOutput": "Letter: P\nLetter: Y\nLetter: T\nLetter: H\nLetter: O\nLetter: N",
+          "assertionPython": "assert _user_namespace.get('letter') == 'N'",
+          "hidden": true
         }
       ],
-      "hint": "Use range(1, 11) to generate numbers starting at 1 up to and including 10.",
-      "explanation": "The for loop iterates over a sequence created by range(1, 11). Each iteration assigns the next integer to i, and print(i) displays it. This demonstrates the basic structure of a for loop in Python."
+      "explanation": "`for letter in word:` inspects each character in `\"PYTHON\"` and outputs it cleanly with f-string formatting.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.4_q26",
+      "id": "6.4_cand_18",
       "type": "write_the_code",
-      "concept": "the_for_loop_practical",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.4_q25"
-      ],
-      "prompt": "Write a Python program that uses a for loop to print the message 'Item X' for each X from 1 to 5.",
-      "starter_code": "for item in range(1, 6):\n    print('Item ' + item)",
-      "solution_code": "for item in range(1, 6):\n    print('Item ' + str(item))",
+      "concept": "the_for_loop_accumulation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Given item prices `prices = [8, 14, 5, 22]`, initialize `subtotal = 0`, write a `for` loop over `prices` to sum them into `subtotal`, and print `Subtotal: ${subtotal}`.",
+      "starter_code": "prices = [8, 14, 5, 22]\nsubtotal = 0\n# Loop over prices and accumulate subtotal\n",
+      "solution_code": "prices = [8, 14, 5, 22]\nsubtotal = 0\nfor price in prices:\n    subtotal += price\nprint(f\"Subtotal: ${subtotal}\")",
+      "expected_output": "Subtotal: $49",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Output must show 'Item 1' through 'Item 5' on separate lines.",
-          "description": "Output must show 'Item 1' through 'Item 5' on separate lines."
+          "id": "tc_1",
+          "description": "Computes Subtotal: $49 (8 + 14 + 5 + 22)",
+          "expectedOutput": "Subtotal: $49",
+          "assertionPython": "assert _raw_stdout.strip() == 'Subtotal: $49' and _user_namespace.get('subtotal') == 49 and 'for ' in _user_code"
         },
         {
-          "input": "",
-          "expected_output": "Each line must exactly match the format 'Item X' with no extra spaces.",
-          "description": "Each line must exactly match the format 'Item X' with no extra spaces."
+          "id": "tc_2",
+          "description": "Checks accumulator initialized before loop",
+          "expectedOutput": "Subtotal: $49",
+          "assertionPython": "assert 'subtotal = 0' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Remember that range produces integers, but string concatenation requires both operands to be strings, so convert the number using str().",
-      "explanation": "This task reinforces string formatting inside a loop. Without str(), Python raises a TypeError because you cannot concatenate an int and a str. Converting to str() ensures valid concatenation."
+      "explanation": "`subtotal` accumulates all four numbers: 8 + 14 + 5 + 22 = 49.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.4_q27",
+      "id": "6.4_cand_19",
       "type": "write_the_code",
-      "concept": "the_for_loop_advanced",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.4_q26"
-      ],
-      "prompt": "Write a Python program that uses a for loop to print only the even numbers from 1 to 20, each on a new line.",
-      "starter_code": "for num in range(1, 21):\n    if num % 2 == 0:\n        print(num)",
-      "solution_code": "for num in range(2, 21, 2):\n    print(num)",
+      "concept": "the_for_loop_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given `dna_strand = \"ACGTACGTT\"`, count how many times the letter `\"T\"` appears. Initialize `t_count = 0`, iterate through `dna_strand` with a `for` loop, and if a character is `\"T\"`, increment `t_count += 1`. Print `T count: {t_count}`.",
+      "starter_code": "dna_strand = \"ACGTACGTT\"\nt_count = 0\n# Loop through dna_strand and count occurrences of \"T\"\n",
+      "solution_code": "dna_strand = \"ACGTACGTT\"\nt_count = 0\nfor base in dna_strand:\n    if base == \"T\":\n        t_count += 1\nprint(f\"T count: {t_count}\")",
+      "expected_output": "T count: 3",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Output must list 2, 4, 6, 8, 10, 12, 14, 16, 18, 20.",
-          "description": "Output must list 2, 4, 6, 8, 10, 12, 14, 16, 18, 20."
+          "id": "tc_1",
+          "description": "Counts 3 T nucleotides in \"ACGTACGTT\"",
+          "expectedOutput": "T count: 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'T count: 3' and _user_namespace.get('t_count') == 3 and 'for ' in _user_code"
         },
         {
-          "input": "",
-          "expected_output": "No odd numbers should appear in the output.",
-          "description": "No odd numbers should appear in the output."
+          "id": "tc_2",
+          "description": "Verifies conditional comparison inside loop",
+          "expectedOutput": "T count: 3",
+          "assertionPython": "assert '==' in _user_code and '\"T\"' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "range accepts a step argument. Setting the step to 2 starts at 2 and skips every other number, automatically yielding only even values.",
-      "explanation": "Using range(2, 21, 2) is more efficient than checking every number with an if statement. The step parameter controls the increment, so the loop visits only even integers without additional conditional logic inside the loop body."
+      "explanation": "The loop visits each character in the string. When `base == \"T\"`, it increments `t_count`. There are 3 \"T\"s.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.4_q28",
+      "id": "6.4_cand_20",
+      "type": "write_the_code",
+      "concept": "the_for_loop_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given `names = [\"anna\", \"ben\", \"chloe\"]`, write a loop that prints each name in uppercase with an exclamation mark using `.upper()` in the format: `{name.upper()}!`",
+      "starter_code": "names = [\"anna\", \"ben\", \"chloe\"]\n# Loop over names and print each in uppercase with !\n",
+      "solution_code": "names = [\"anna\", \"ben\", \"chloe\"]\nfor name in names:\n    print(f\"{name.upper()}!\")",
+      "expected_output": "ANNA!\nBEN!\nCHLOE!",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs ANNA!, BEN!, CHLOE!",
+          "expectedOutput": "ANNA!\nBEN!\nCHLOE!",
+          "assertionPython": "assert _raw_stdout.strip() == 'ANNA!\\nBEN!\\nCHLOE!' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies name variable ends at chloe",
+          "expectedOutput": "ANNA!\nBEN!\nCHLOE!",
+          "assertionPython": "assert _user_namespace.get('name') == 'chloe'",
+          "hidden": true
+        }
+      ],
+      "explanation": "Calling `.upper()` inside the loop body converts each string in `names` to uppercase.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.4_cand_21",
+      "type": "write_the_code",
+      "concept": "the_for_loop_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Reverse a string using a loop. Given `text = \"LOOP\"`, initialize `reversed_text = \"\"`. In the `for char in text:` loop, prepend `char` to `reversed_text` (`reversed_text = char + reversed_text`). Print `reversed_text`.",
+      "starter_code": "text = \"LOOP\"\nreversed_text = \"\"\n# Prepend each char to reversed_text and print\n",
+      "solution_code": "text = \"LOOP\"\nreversed_text = \"\"\nfor char in text:\n    reversed_text = char + reversed_text\nprint(reversed_text)",
+      "expected_output": "POOL",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Reverses \"LOOP\" to \"POOL\"",
+          "expectedOutput": "POOL",
+          "assertionPython": "assert _raw_stdout.strip() == 'POOL' and _user_namespace.get('reversed_text') == 'POOL' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures prepending concatenation order",
+          "expectedOutput": "POOL",
+          "assertionPython": "assert 'char + reversed_text' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Prepending `char + reversed_text` places each new character at the front: \"\" -> \"L\" -> \"OL\" -> \"OOL\" -> \"POOL\".",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.4_cand_22",
+      "type": "write_the_code",
+      "concept": "the_for_loop_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given numbers `scores = [45, 88, 23, 91, 74]`, find the highest score without using max(). Initialize `highest = 0`. In a `for s in scores:` loop, if `s > highest`, update `highest = s`. Print `Highest: {highest}`.",
+      "starter_code": "scores = [45, 88, 23, 91, 74]\nhighest = 0\n# Loop over scores and track highest\n",
+      "solution_code": "scores = [45, 88, 23, 91, 74]\nhighest = 0\nfor s in scores:\n    if s > highest:\n        highest = s\nprint(f\"Highest: {highest}\")",
+      "expected_output": "Highest: 91",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Finds highest score 91",
+          "expectedOutput": "Highest: 91",
+          "assertionPython": "assert _raw_stdout.strip() == 'Highest: 91' and _user_namespace.get('highest') == 91 and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies conditional comparison inside loop",
+          "expectedOutput": "Highest: 91",
+          "assertionPython": "assert 'if ' in _user_code and 's > highest' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "As the loop visits each score, `highest` updates whenever a larger value is found, finishing at 91.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.4_cand_23",
+      "type": "write_the_code",
+      "concept": "the_for_loop_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given factors `factors = [2, 3, 5]`, initialize `total_product = 1`. In a `for f in factors:` loop, multiply `total_product *= f`. Print `Product: {total_product}`.",
+      "starter_code": "factors = [2, 3, 5]\ntotal_product = 1\n# Multiply factors into total_product\n",
+      "solution_code": "factors = [2, 3, 5]\ntotal_product = 1\nfor f in factors:\n    total_product *= f\nprint(f\"Product: {total_product}\")",
+      "expected_output": "Product: 30",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates product 2 * 3 * 5 = 30",
+          "expectedOutput": "Product: 30",
+          "assertionPython": "assert _raw_stdout.strip() == 'Product: 30' and _user_namespace.get('total_product') == 30 and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Checks initialization at 1",
+          "expectedOutput": "Product: 30",
+          "assertionPython": "assert 'total_product = 1' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Multiplicative accumulators start at 1: 1 * 2 * 3 * 5 = 30.",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "6.4_cand_24",
       "type": "write_the_code",
       "concept": "the_for_loop_challenge",
-      "skill": "problem_solving",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.4_q27"
-      ],
-      "prompt": "Write a Python program that uses a nested for loop to print a 3x3 multiplication table where each row shows the product of the row number and the column number, from 1 to 3.",
-      "starter_code": "for row in range(1, 4):\n    for col in range(1, 4):\n        print(row * col)",
-      "solution_code": "for row in range(1, 4):\n    for col in range(1, 4):\n        print(row * col, end='\t')\n    print()",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "Output must contain 3 rows and 3 columns of products.",
-          "description": "Output must contain 3 rows and 3 columns of products."
-        },
-        {
-          "input": "",
-          "expected_output": "Each row should be separated by a newline, and values within a row should be separated by a tab character.",
-          "description": "Each row should be separated by a newline, and values within a row should be separated by a tab character."
-        }
-      ],
-      "hint": "Use end='\\t' inside the inner print to place a tab after each product, and call print() with no arguments after the inner loop to move to the next line.",
-      "explanation": "Nested loops allow one loop to run completely for each iteration of the outer loop. The inner loop computes row * col for every column, and end='\\t' plus an empty print() call formats the grid cleanly."
-    },
-    {
-      "id": "6.4_q29",
-      "type": "write_the_code",
-      "concept": "the_for_loop_scenario",
       "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.4_q28"
-      ],
-      "prompt": "You are building a simple inventory report. Write a Python program that stores a list of product prices, then uses a for loop to calculate and print the total price of all items.",
-      "starter_code": "prices = [12.5, 3.0, 7.75, 15.2]\ntotal = 0.0\nfor price in prices:\n    total += price\nprint('Total:', total)",
-      "solution_code": "prices = [12.5, 3.0, 7.75, 15.2]\ntotal = 0.0\nfor price in prices:\n    total += price\nprint('Total inventory value: $' + str(round(total, 2)))",
+      "prompt": "A social media bot cleans tags: `tags = [\"#python\", \"coding\", \"#web\", \"ai\"]`. Build a string of formatted tags: for each tag in `tags`, if it does not start with `\"#\"` (`not tag.startswith(\"#\")`), add `\"#\"` to it. Accumulate all tags separated by a space into `cleaned_tags`. Print `cleaned_tags.strip()`.",
+      "starter_code": "tags = [\"#python\", \"coding\", \"#web\", \"ai\"]\ncleaned_tags = \"\"\n# Format tags so each has # prefix, joined by space\n",
+      "solution_code": "tags = [\"#python\", \"coding\", \"#web\", \"ai\"]\ncleaned_tags = \"\"\nfor tag in tags:\n    if not tag.startswith(\"#\"):\n        tag = \"#\" + tag\n    cleaned_tags += tag + \" \"\nprint(cleaned_tags.strip())",
+      "expected_output": "#python #coding #web #ai",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "The total must equal 38.45.",
-          "description": "The total must equal 38.45."
+          "id": "tc_1",
+          "description": "Outputs #python #coding #web #ai",
+          "expectedOutput": "#python #coding #web #ai",
+          "assertionPython": "assert _raw_stdout.strip() == '#python #coding #web #ai' and 'for ' in _user_code"
         },
         {
-          "input": "",
-          "expected_output": "The output string must include the dollar sign and the rounded value to two decimal places.",
-          "description": "The output string must include the dollar sign and the rounded value to two decimal places."
+          "id": "tc_2",
+          "description": "Verifies prefix conditional checking",
+          "expectedOutput": "#python #coding #web #ai",
+          "assertionPython": "assert 'startswith' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Use round(total, 2) to format the monetary value to two decimal places before converting it to a string for concatenation.",
-      "explanation": "This scenario combines list storage with iterative accumulation. The for loop traverses each element of the prices list, adding it to total. Rounding ensures standard currency formatting, and string concatenation produces a readable report line."
+      "explanation": "Tags lacking `#` (`\"coding\"`, `\"ai\"`) have `#` prepended, standardizing all tags before accumulating.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "6.4_q30",
+      "id": "6.4_cand_25",
       "type": "write_the_code",
       "concept": "the_for_loop_mastery",
-      "skill": "mastery",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.4_q29"
-      ],
-      "prompt": "Write a Python program that uses a for loop with enumerate to print each index and value from the list ['apple', 'banana', 'cherry'].",
-      "starter_code": "fruits = ['apple', 'banana', 'cherry']\nfor index, fruit in enumerate(fruits):\n    print(index, fruit)",
-      "solution_code": "fruits = ['apple', 'banana', 'cherry']\nfor index, fruit in enumerate(fruits):\n    print('Index ' + str(index) + ': ' + fruit)",
+      "prompt": "A student received grades `grades = [85, 90, 78, 92, 80]`. Write a loop that calculates:\n1. `total_score`: the sum of all grades.\n2. `count`: the number of grades.\nCompute `average = total_score / count` and print `Average: {average:.1f}`.",
+      "starter_code": "grades = [85, 90, 78, 92, 80]\ntotal_score = 0\ncount = 0\n# Accumulate total_score and count, then print average to 1 decimal place\n",
+      "solution_code": "grades = [85, 90, 78, 92, 80]\ntotal_score = 0\ncount = 0\nfor g in grades:\n    total_score += g\n    count += 1\naverage = total_score / count\nprint(f\"Average: {average:.1f}\")",
+      "expected_output": "Average: 85.0",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Output must show three lines with indices 0, 1, and 2 paired with their corresponding fruit names.",
-          "description": "Output must show three lines with indices 0, 1, and 2 paired with their corresponding fruit names."
+          "id": "tc_1",
+          "description": "Computes Average: 85.0 from 5 grades",
+          "expectedOutput": "Average: 85.0",
+          "assertionPython": "assert _raw_stdout.strip() == 'Average: 85.0' and _user_namespace.get('total_score') == 425 and _user_namespace.get('count') == 5 and 'for ' in _user_code"
         },
         {
-          "input": "",
-          "expected_output": "Each line must follow the exact format 'Index X: Y' with a space after the colon.",
-          "description": "Each line must follow the exact format 'Index X: Y' with a space after the colon."
+          "id": "tc_2",
+          "description": "Verifies division calculation of average",
+          "expectedOutput": "Average: 85.0",
+          "assertionPython": "assert _user_namespace.get('average') == 85.0",
+          "hidden": true
         }
       ],
-      "hint": "enumerate returns pairs of (index, value). Convert both index and fruit to strings before concatenating them into the final output message.",
-      "explanation": "enumerate is a built-in function that simplifies indexed iteration. It yields a tuple containing the counter and the current item on each iteration. Using it avoids manual counter management and makes the code clearer and less error-prone."
+      "explanation": "Total score is 425 over 5 grades, giving an exact average of 85.0.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     }
-  ],
-  "unit_num": 6,
-  "learning_objectives": [
-    "Construct iterative loops using for Loop with proper loop bounds",
-    "Trace variable mutation across loop iterations",
-    "Prevent and debug infinite loop execution bugs",
-    "Apply loop control statements (break and continue) to control execution flow"
-  ],
-  "prerequisites": [
-    "6.3"
   ]
 }

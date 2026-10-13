@@ -3,8 +3,8 @@ import { QuestionMetadata } from '../../../types/question';
 export const FINAL_CHALLENGE_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_final_1',
-    unit: 'unit_01',
-    lesson: 'unit_01_final',
+    unit: 'unit_05',
+    lesson: 'unit_05_checkpoint',
     section: 'Final Challenge 1: Input & Conversion',
     concept: 'input_conversion_arithmetic',
     learning_objective: 'Convert string inputs, perform percentage arithmetic, and format the final total.',
@@ -17,27 +17,29 @@ export const FINAL_CHALLENGE_QUESTIONS: QuestionMetadata[] = [
     test_cases: [
       {
         id: 'tc_1',
-        description: 'Computes total of 60.0',
+        description: 'Computes total of 60.0 and stores in variable total',
         expectedOutput: '60.0',
-        assertionPython: "assert float(_raw_stdout.strip()) == 60.0"
+        assertionPython: "assert float(_raw_stdout.strip()) == 60.0 and _user_namespace.get('total') == 60.0"
       },
       {
         id: 'tc_2',
         description: 'Uses int conversion on bill_text',
         expectedOutput: '60.0',
-        assertionPython: "assert 'int(' in _user_code"
+        assertionPython: "assert 'int(' in _user_code and _user_namespace.get('bill') == 50",
+        hidden: true
       }
     ],
     explanation: '`int("50")` yields `50`. Then `50 * 20 / 100 = 10.0`. Finally `50 + 10.0 = 60.0`.',
     hint: 'bill = int(bill_text), tip_amount = bill * tip_percent / 100, total = bill + tip_amount, print(total)',
+    misconception_tag: 'WRONG_TYPE',
     xp: 35,
     estimated_time: 90,
     order: 1
   },
   {
     id: 'py_fnd_final_2',
-    unit: 'unit_01',
-    lesson: 'unit_01_final',
+    unit: 'unit_05',
+    lesson: 'unit_05_checkpoint',
     section: 'Final Challenge 2: Arithmetic Precedence',
     concept: 'bmi_metric_formula',
     learning_objective: 'Compute Body Mass Index (BMI) using weight in kg and height in meters.',
@@ -50,27 +52,29 @@ export const FINAL_CHALLENGE_QUESTIONS: QuestionMetadata[] = [
     test_cases: [
       {
         id: 'tc_1',
-        description: 'Correctly outputs "Healthy" for BMI ~22.86',
+        description: 'Correctly outputs "Healthy" for BMI ~22.86 and computes bmi variable',
         expectedOutput: 'Healthy',
-        assertionPython: "assert _raw_stdout.strip() == 'Healthy'"
+        assertionPython: "assert _raw_stdout.strip() == 'Healthy' and _user_namespace.get('bmi') is not None and abs(_user_namespace.get('bmi') - (70 / (1.75 * 1.75))) < 0.01"
       },
       {
         id: 'tc_2',
         description: 'Uses parenthesis in denominator to enforce height squared',
         expectedOutput: 'Healthy',
-        assertionPython: "assert '(' in _user_code and ')' in _user_code"
+        assertionPython: "assert '(' in _user_code and ')' in _user_code",
+        hidden: true
       }
     ],
     explanation: '`70 / (1.75 * 1.75)` computes `70 / 3.0625 = 22.86`. Because `22.86 < 25`, the program prints `"Healthy"`.',
     hint: 'Wrap (height * height) in parentheses so division happens after the multiplication.',
+    misconception_tag: 'PRECEDENCE_CONFUSION',
     xp: 40,
     estimated_time: 100,
     order: 2
   },
   {
     id: 'py_fnd_final_3',
-    unit: 'unit_01',
-    lesson: 'unit_01_final',
+    unit: 'unit_05',
+    lesson: 'unit_05_checkpoint',
     section: 'Final Challenge 3: Comparison & Boundary',
     concept: 'overtime_pay_calculator',
     learning_objective: 'Calculate regular and overtime pay with a 40-hour boundary cutoff.',
@@ -83,21 +87,29 @@ export const FINAL_CHALLENGE_QUESTIONS: QuestionMetadata[] = [
     test_cases: [
       {
         id: 'tc_1',
-        description: 'Computes total pay as 950.0',
+        description: 'Computes total pay as 950.0 and stores in total_pay variable',
         expectedOutput: '950.0',
-        assertionPython: "assert float(_raw_stdout.strip()) == 950.0"
+        assertionPython: "assert float(_raw_stdout.strip()) == 950.0 and _user_namespace.get('total_pay') == 950.0"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying overtime calculation and total_pay',
+        expectedOutput: '950.0',
+        assertionPython: "assert _user_namespace.get('overtime_pay') == 150.0 and _user_namespace.get('total_pay') == 950.0",
+        hidden: true
       }
     ],
     explanation: '40 hours * $20 = $800. 5 overtime hours * $30 = $150. Total pay = $950.0.',
     hint: 'Check if hours > 40, calculate 40 * 20 plus 5 * 30.',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 45,
     estimated_time: 120,
     order: 3
   },
   {
     id: 'py_fnd_final_4',
-    unit: 'unit_01',
-    lesson: 'unit_01_final',
+    unit: 'unit_05',
+    lesson: 'unit_05_checkpoint',
     section: 'Final Challenge 4: Condition & Logic',
     concept: 'tiered_shipping_calculator',
     learning_objective: 'Implement a tiered shipping rates calculation using if/elif/else.',
@@ -110,27 +122,29 @@ export const FINAL_CHALLENGE_QUESTIONS: QuestionMetadata[] = [
     test_cases: [
       {
         id: 'tc_1',
-        description: 'Correctly outputs 10 for weight 3.5',
+        description: 'Correctly outputs 10 for weight 3.5 and sets shipping variable',
         expectedOutput: '10',
-        assertionPython: "assert _raw_stdout.strip() == '10'"
+        assertionPython: "assert _raw_stdout.strip() == '10' and _user_namespace.get('shipping') == 10"
       },
       {
         id: 'tc_2',
         description: 'Uses if, elif, and else',
         expectedOutput: '10',
-        assertionPython: "assert 'if ' in _user_code and 'elif ' in _user_code and 'else:' in _user_code"
+        assertionPython: "assert 'if ' in _user_code and 'elif ' in _user_code and 'else:' in _user_code",
+        hidden: true
       }
     ],
     explanation: '3.5 is not <= 2 (False), but is <= 5 (True), so shipping is set to 10.',
     hint: 'if weight <= 2:\n    shipping = 5\nelif weight <= 5:\n    shipping = 10\nelse:\n    shipping = 15\nprint(shipping)',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 40,
     estimated_time: 100,
     order: 4
   },
   {
     id: 'py_fnd_final_5',
-    unit: 'unit_01',
-    lesson: 'unit_01_final',
+    unit: 'unit_05',
+    lesson: 'unit_05_checkpoint',
     section: 'Final Challenge 5: Small Real-World Program',
     concept: 'parking_fee_with_cap',
     learning_objective: 'Write a full parking garage fee calculator with hourly rate and a daily maximum cap.',
@@ -145,17 +159,19 @@ export const FINAL_CHALLENGE_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_1',
         description: 'Outputs Parking Fee: $25 with capped fee',
         expectedOutput: 'Parking Fee: $25',
-        assertionPython: "assert _raw_stdout.strip() == 'Parking Fee: $25'"
+        assertionPython: "assert _raw_stdout.strip() == 'Parking Fee: $25' and _user_namespace.get('fee') == 25"
       },
       {
         id: 'tc_2',
         description: 'Caps fee variable at 25',
         expectedOutput: 'Parking Fee: $25',
-        assertionPython: "assert _user_namespace.get('fee') == 25"
+        assertionPython: "assert _user_namespace.get('fee') == 25",
+        hidden: true
       }
     ],
     explanation: '`8 * 4 = 32`. Since `32 > 25`, the conditional caps `fee` at `25`, printing `"Parking Fee: $25"`.',
     hint: 'Calculate fee = hours_parked * 4, if fee > 25: fee = 25, print("Parking Fee: $" + str(fee))',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 50,
     estimated_time: 120,
     order: 5

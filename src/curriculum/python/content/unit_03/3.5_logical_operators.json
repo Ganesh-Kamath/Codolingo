@@ -1,549 +1,620 @@
 {
   "lesson_id": "3.5",
   "title": "Logical Operators",
-  "unit": "Operators and Math",
+  "unit": "unit_03",
   "items": [
     {
-      "id": "3.5_q1",
-      "type": "micro_lesson",
-      "concept": "logical_operators_overview",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.5_q1"
-      ],
-      "title": "The Three Logical Operators",
-      "content": "Logical operators combine or invert boolean values:\n\n* **`and`**: Returns `True` only if **BOTH** sides are true.\n* **`or`**: Returns `True` if **AT LEAST ONE** side is true.\n* **`not`**: Inverts (flips) the boolean value.\n\nPython uses plain English words (`and`, `or`, `not`), NOT symbols like `&&`, `||`, or `!`.",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
-    },
-    {
-      "id": "3.5_q2",
-      "type": "multiple_choice",
-      "concept": "logical_operators_overview",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.5_q1"
-      ],
-      "prompt": "How do you write the logical 'AND' operator in Python?",
-      "options": [
-        "A. `&&`",
-        "B. `AND`",
-        "C. `and`",
-        "D. `&`"
-      ],
-      "correct_answer": "C",
-      "explanation": "This exercise tests `logical operators overview` in Logical Operators. When Python validates this code, it applies the standard rules of logical operators overview. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.5_q3",
-      "type": "micro_lesson",
-      "concept": "and_operator",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.5_q1"
-      ],
-      "title": "The and Operator",
-      "content": "Both conditions must be met for `and` to succeed:\n\n* `True and True` -> `True`\n* `True and False` -> `False`\n* `False and True` -> `False`\n* `False and False` -> `False`\n\n```python\nhas_ticket = True\nhas_id = True\ncan_enter = has_ticket and has_id  # True\n```",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
-    },
-    {
-      "id": "3.5_q4",
-      "type": "code_prediction",
-      "concept": "and_operator",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.5_q3"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(10 > 5 and 3 > 7)\n```",
-      "options": [
-        "A. True",
-        "B. False",
-        "C. None",
-        "D. SyntaxError"
-      ],
-      "correct_answer": "B",
-      "explanation": "`10 > 5` is True, but `3 > 7` is False. Since both must be true for `and`, it evaluates to `False`."
-    },
-    {
-      "id": "3.5_q5",
-      "type": "micro_lesson",
-      "concept": "or_operator",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.5_q1"
-      ],
-      "title": "The or Operator",
-      "content": "Only one condition needs to be met for `or` to succeed:\n\n* `True or False` -> `True`\n* `False or True` -> `True`\n* `True or True` -> `True`\n* `False or False` -> `False`\n\n`or` only fails if BOTH sides are false.",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
-    },
-    {
-      "id": "3.5_q6",
-      "type": "code_prediction",
-      "concept": "or_operator",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.5_q5"
-      ],
-      "prompt": "What does this code output?\n```python\nis_weekend = False\nis_holiday = True\ncan_sleep_in = is_weekend or is_holiday\nprint(can_sleep_in)\n```",
-      "options": [
-        "A. False",
-        "B. True",
-        "C. is_holiday",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "In Python, `bool` is a subclass of `int`. `int(True)` evaluates to `1` and `int(False)` evaluates to `0`."
-    },
-    {
-      "id": "3.5_q7",
-      "type": "micro_lesson",
-      "concept": "logical_precedence",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.2_q1",
-        "3.5_q1"
-      ],
-      "title": "Precedence: not > and > or",
-      "content": "When combining multiple logical operators without parentheses, Python evaluates them in this strict order:\n\n1. **`not`** evaluates first (highest precedence)\n2. **`and`** evaluates second\n3. **`or`** evaluates last (lowest precedence)\n\n```python\nprint(True or False and False)  # Evaluates (False and False) first -> True or False -> True\n```",
-      "prompt": "",
-      "explanation": "When combining multiple logical operators without parentheses, Python evaluates them in this strict order:\n\n1. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.5_q8",
-      "type": "code_prediction",
-      "concept": "logical_precedence",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q7"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(False and False or True)\n```",
-      "options": [
-        "A. False",
-        "B. True",
-        "C. None",
-        "D. SyntaxError"
-      ],
-      "correct_answer": "B",
-      "explanation": "`and` runs before `or`: `False and False` evaluates to `False`. Then `False or True` evaluates to `True`."
-    },
-    {
-      "id": "3.5_q9",
-      "type": "code_prediction",
-      "concept": "not_precedence",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q7"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(not False and False)\n```",
-      "options": [
-        "A. True",
-        "B. False",
-        "C. not False",
-        "D. None"
-      ],
-      "correct_answer": "B",
-      "explanation": "`not` binds first: `not False` becomes `True`. Then `True and False` evaluates to `False`."
-    },
-    {
-      "id": "3.5_q10",
-      "type": "code_ordering",
-      "concept": "logical_precedence_hierarchy",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "prerequisites": [
-        "3.5_q7"
-      ],
-      "prompt": "Order the 3 logical operators from HIGHEST precedence (evaluates first) to LOWEST precedence (evaluates last).",
-      "options": [
-        "`not`",
-        "`and`",
-        "`or`"
-      ],
-      "correct_answer": [
-        "`not`",
-        "`and`",
-        "`or`"
-      ],
-      "explanation": "This exercise tests `logical precedence hierarchy` in Logical Operators. When Python validates this code, it applies the standard rules of logical precedence hierarchy. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.5_q11",
-      "type": "micro_lesson",
-      "concept": "short_circuit_evaluation",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.5_q3",
-        "3.5_q5"
-      ],
-      "title": "Short-Circuit Evaluation",
-      "content": "Python uses **short-circuit evaluation** for performance and safety:\n\n* **`and` short-circuits**: If the left operand is `False`, the overall result MUST be `False`. Python does not even look at the right side!\n* **`or` short-circuits**: If the left operand is `True`, the overall result MUST be `True`. Python stops immediately without evaluating the right side.",
-      "prompt": "",
-      "explanation": "Python uses **short-circuit evaluation** for performance and safety:\n\n* **`and` short-circuits**: If the left operand is `False`, the overall result MUST be `False`. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.5_q12",
-      "type": "multiple_choice",
-      "concept": "short_circuit_evaluation",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.5_q11"
-      ],
-      "prompt": "Consider this code:\n```python\nFalse and (10 / 0 == 0)\n```\nWhy does this code run without causing a `ZeroDivisionError`?",
-      "options": [
-        "A. Python ignores math errors in parentheses.",
-        "B. Short-circuit evaluation: because the left side is `False`, Python knows the `and` cannot possibly be true, so it never evaluates the right side at all.",
-        "C. Division by zero equals zero in boolean expressions.",
-        "D. `10 / 0` is evaluated in the cloud."
-      ],
-      "correct_answer": "B",
-      "explanation": "Short-circuit evaluation stops immediately once the outcome is guaranteed. The dangerous right-hand side is never executed."
-    },
-    {
-      "id": "3.5_q13",
-      "type": "code_prediction",
-      "concept": "short_circuit_or",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q11"
-      ],
-      "prompt": "What does this code do?\n```python\nprint(True or (5 / 0 == 1))\n```",
-      "options": [
-        "A. Crashes with ZeroDivisionError.",
-        "B. Outputs True because the left side is True, so Python short-circuits and never executes `5 / 0`.",
-        "C. Outputs False.",
-        "D. Outputs None."
-      ],
-      "correct_answer": "B",
-      "explanation": "In Python, `bool` is a subclass of `int`. `int(True)` evaluates to `1` and `int(False)` evaluates to `0`."
-    },
-    {
-      "id": "3.5_q14",
-      "type": "micro_lesson",
-      "concept": "guard_pattern",
+      "id": "3.5_fnd_1",
+      "type": "output_prediction",
+      "concept": "predict_and_logic",
       "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.5_q11"
-      ],
-      "title": "The Guard Pattern",
-      "content": "Short-circuit evaluation enables the **guard pattern**: using the left side to check whether it is safe before executing the right side:\n\n```python\ncount = 0\ntotal = 50\n# The left side guards against dividing by zero!\nif count > 0 and total / count > 5:\n    print(\"High average\")\n```\nBecause `count > 0` is `False`, the division on the right is never attempted.",
-      "prompt": "",
-      "explanation": "Short-circuit evaluation enables the **guard pattern**: using the left side to check whether it is safe before executing the right side:\n\n```python\ncount = 0\ntotal = 50\n# The left side guards against dividing by zero!\nif count > 0 and total / count > 5:\n    print(\"High average\")\n```\nBecause `count > 0` is `False`, the division on the right is never attempted. Mastering these rules prevents runtime errors and establishes robust programming foundations."
-    },
-    {
-      "id": "3.5_q15",
-      "type": "fix_the_code",
-      "concept": "guard_pattern_order",
-      "skill": "debugging",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.5_q14"
-      ],
-      "prompt": "Fix this crashing code by swapping the order of the conditions so the safety check guards the division:",
-      "starter_code": "items = 0\ntotal = 100\nif total / items > 2 and items != 0:\n    print(\"Valid\")",
-      "solution_code": "items = 0\ntotal = 100\nif items != 0 and total / items > 2:\n    print(\"Valid\")",
-      "explanation": "Placing `items != 0` on the left allows short-circuiting to prevent division by zero."
-    },
-    {
-      "id": "3.5_q16",
-      "type": "match_code_to_concept",
-      "concept": "logical_truth_table",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q3",
-        "3.5_q5"
-      ],
-      "prompt": "Match the logical expression to its evaluated boolean.",
-      "options": {
-        "`True and False`": "`False`",
-        "`False or True`": "`True`",
-        "`not (False or False)`": "`True`",
-        "`not True or False`": "`False`"
-      },
-      "correct_answer": {
-        "`True and False`": "`False`",
-        "`False or True`": "`True`",
-        "`not (False or False)`": "`True`",
-        "`not True or False`": "`False`"
-      },
-      "explanation": "This exercise tests `logical truth table` in Logical Operators. When Python validates this code, it applies the standard rules of logical truth table. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "3.5_q17",
-      "type": "micro_lesson",
-      "concept": "value_returning_operators",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.7_q13",
-        "3.5_q11"
-      ],
-      "title": "Logical Operators Return Values, Not Just Bools!",
-      "content": "In Python, `or` and `and` actually return the **value of the deciding operand**, not just `True` or `False`!\n\n* **`A or B`**: If `A` is truthy, returns `A`. Otherwise, returns `B`.\n```python\nusername = \"\" or \"Guest\"  # \"\" is falsy, so returns \"Guest\"\nprint(username)  # \"Guest\"\n```\n* **`A and B`**: If `A` is falsy, returns `A`. Otherwise, returns `B`.\n```python\nprint(0 and \"Hello\")  # 0\nprint(42 and \"Hello\")  # \"Hello\"\n```",
-      "prompt": "",
-      "explanation": "Python operators follow standard mathematical precedence (PEMDAS). Division (`/`) always produces a float, while floor division (`//`) truncates to an integer."
-    },
-    {
-      "id": "3.5_q18",
-      "type": "code_prediction",
-      "concept": "default_value_pattern",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q17"
-      ],
-      "prompt": "What does this code output?\n```python\nuser_name = \"\"\ndisplay_name = user_name or \"Anonymous\"\nprint(display_name)\n```",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "What will this program print?\n```python\nhas_ticket = True\nhas_id = False\nprint(has_ticket and has_id)\n```",
+      "explanation": "`A and B` evaluates to `True` if and only if both `A` and `B` are True. If either operand is False, the result is `False`.",
+      "hint": "Both sides must be True for and to produce True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
       "options": [
-        "A. True",
-        "B. \"\"",
-        "C. Anonymous",
-        "D. False"
+        "False",
+        "True",
+        "None",
+        "Error"
       ],
-      "correct_answer": "C",
-      "explanation": "Because `user_name` is an empty string (falsy), the `or` operator returns the right-hand fallback value `'Anonymous'`."
+      "correct_answer": "False",
+      "code_snippet": "has_ticket = True\nhas_id = False\nprint(has_ticket and has_id)",
+      "codeSnippet": "has_ticket = True\nhas_id = False\nprint(has_ticket and has_id)"
     },
     {
-      "id": "3.5_q19",
-      "type": "code_prediction",
-      "concept": "and_operand_return",
-      "skill": "prediction",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.5_q17"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(\"Python\" and \"Rocks\")\n```",
+      "id": "3.5_fnd_2",
+      "type": "output_prediction",
+      "concept": "predict_or_logic",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "What will this program print?\n```python\nis_weekend = False\nis_holiday = True\nprint(is_weekend or is_holiday)\n```",
+      "explanation": "`A or B` evaluates to `True` if at least one operand is True. Since `is_holiday` is True, `is_weekend or is_holiday` evaluates to `True`.",
+      "hint": "Only one side needs to be True for or to evaluate to True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
       "options": [
-        "A. True",
-        "B. Rocks",
-        "C. Python",
-        "D. Python Rocks"
+        "True",
+        "False",
+        "True or False",
+        "Error"
       ],
-      "correct_answer": "B",
-      "explanation": "`\"Python\"` is truthy, so `and` must evaluate and return the second operand: `'Rocks'`."
+      "correct_answer": "True",
+      "code_snippet": "is_weekend = False\nis_holiday = True\nprint(is_weekend or is_holiday)",
+      "codeSnippet": "is_weekend = False\nis_holiday = True\nprint(is_weekend or is_holiday)"
     },
     {
-      "id": "3.5_q20",
+      "id": "3.5_fnd_3",
+      "type": "multiple_choice",
+      "concept": "truth_table_reasoning_and",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Under what exact circumstances does `condition_A and condition_B` evaluate to `True` in Python?",
+      "explanation": "The logical `and` operator only yields `True` when both left and right expressions evaluate to `True`. If either one is `False`, the entire expression is `False`.",
+      "hint": "Both conditions must be met at the same time.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "options": [
+        "When both condition_A and condition_B are True simultaneously",
+        "When at least one of the conditions is True",
+        "When both conditions are False",
+        "When condition_A is True, regardless of condition_B"
+      ],
+      "correct_answer": "When both condition_A and condition_B are True simultaneously"
+    },
+    {
+      "id": "3.5_fnd_4",
       "type": "fill_in_the_blank",
-      "concept": "default_fallback",
+      "concept": "complete_range_condition",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Complete the statement to check if `age` is a teenager (at least 13 AND at most 19):\n```python\nage = 15\nis_teen = (age >= 13) ____ (age <= 19)\nprint(is_teen)\n```",
+      "explanation": "To check if a number lies within a range [13, 19], both conditions must be satisfied simultaneously, which requires the `and` operator.",
+      "hint": "We need both conditions to hold: use and.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "correct_answer": "and",
+      "accepted_answers": [
+        "and"
+      ],
+      "code_snippet": "age = 15\nis_teen = (age >= 13) ____ (age <= 19)\nprint(is_teen)",
+      "codeSnippet": "age = 15\nis_teen = (age >= 13) ____ (age <= 19)\nprint(is_teen)"
+    },
+    {
+      "id": "3.5_fnd_5",
+      "type": "write_the_code",
+      "concept": "write_compound_boolean_check",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Write a Python program that:\n1. Sets `temp = 72`\n2. Sets `is_comfortable = temp >= 68 and temp <= 78`\n3. Prints `is_comfortable`",
+      "explanation": "Because 72 is >= 68 (True) and <= 78 (True), `True and True` evaluates to `True`.",
+      "hint": "temp = 72, is_comfortable = temp >= 68 and temp <= 78, print(is_comfortable)",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "starter_code": "# Check comfortable temperature range\n",
+      "solution_code": "temp = 72\nis_comfortable = temp >= 68 and temp <= 78\nprint(is_comfortable)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "is_comfortable evaluates to True for 72 degrees",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('is_comfortable') is True and _raw_stdout.strip() == 'True'",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Uses the and operator",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert ' and ' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.5_fnd_6",
+      "type": "fix_the_code",
+      "concept": "debug_and_or_confusion",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "To enter a secure building, an employee must have a valid badge AND know the pin. But the program below currently lets people in if they only have a badge! Fix line 3 to require BOTH.",
+      "explanation": "When both requirements are mandatory, you must use `and`. Using `or` allows entry even when `knows_pin` is False.",
+      "hint": "Replace or with and.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "starter_code": "has_badge = True\nknows_pin = False\ncan_enter = has_badge or knows_pin\nprint(can_enter)",
+      "solution_code": "has_badge = True\nknows_pin = False\ncan_enter = has_badge and knows_pin\nprint(can_enter)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints False because knows_pin is False and both are required",
+          "input": "",
+          "expectedOutput": "False",
+          "assertionPython": "assert _raw_stdout.strip() == 'False' and ' and ' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying can_enter evaluates to False with and",
+          "input": "",
+          "expectedOutput": "False",
+          "assertionPython": "assert _user_namespace.get('can_enter') is False and ' and ' in _user_code",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.5_fnd_7",
+      "type": "trace_execution",
+      "concept": "trace_boolean_not",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Trace the boolean value of `flag` across these lines:\n```python\nflag = True\nflag = not flag\nflag = not flag\n```\nWhat is `flag` after each line finishes?",
+      "explanation": "The `not` operator inverts a boolean. `not True` becomes `False`. Applying `not` again flips `False` back to `True`.",
+      "hint": "not flips True to False, and False to True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 1,
+          "code": "flag = True",
+          "variable": "Value of flag",
+          "expectedValue": "True",
+          "hint": "Initial assignment"
+        },
+        {
+          "step": 2,
+          "line": 2,
+          "code": "flag = not flag",
+          "variable": "Value of flag",
+          "expectedValue": "False",
+          "hint": "not True becomes False"
+        },
+        {
+          "step": 3,
+          "line": 3,
+          "code": "flag = not flag",
+          "variable": "Value of flag",
+          "expectedValue": "True",
+          "hint": "not False inverts back to True"
+        }
+      ]
+    },
+    {
+      "id": "3.5_fnd_8",
+      "type": "write_the_code",
+      "concept": "apply_vip_discount",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A customer qualifies for a special discount if:\n- They are a member (`is_member = True`)\n- AND their purchase is over 50 dollars (`spend = 75`)\n\nWrite code that checks both conditions and prints the resulting boolean.",
+      "explanation": "`is_member and spend > 50` evaluates both conditions: `True and True` produces `True`.",
+      "hint": "qualifies = is_member and spend > 50",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "starter_code": "# Check discount qualification\n",
+      "solution_code": "is_member = True\nspend = 75\nqualifies = is_member and spend > 50\nprint(qualifies)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "qualifies evaluates to True",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('qualifies') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying qualifies boolean variable",
+          "input": "",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get('qualifies') is True",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "3.5_fnd_9",
+      "type": "output_prediction",
+      "concept": "predict_not_comparison",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "What will this program print?\n```python\nx = 3\nprint(not (x > 5))\n```",
+      "explanation": "Inside the parentheses, `3 > 5` evaluates to `False`. The `not` operator in front flips `False` to `True`.",
+      "hint": "First evaluate 3 > 5. Then apply not.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "options": [
+        "True",
+        "False",
+        "3",
+        "Error"
+      ],
+      "correct_answer": "True",
+      "code_snippet": "x = 3\nprint(not (x > 5))",
+      "codeSnippet": "x = 3\nprint(not (x > 5))"
+    },
+    {
+      "id": "3.5_fnd_10",
+      "type": "multiple_choice",
+      "concept": "reason_boolean_precedence",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Look at the following expression:\n```python\nresult = True or False and False\n```\nWhat does this evaluate to, and why?",
+      "explanation": "In Python, `and` has higher precedence than `or`. Therefore `True or False and False` is interpreted as `True or (False and False)`, which is `True or False = True`.",
+      "hint": "and binds tighter than or, just like multiplication binds tighter than addition.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "options": [
+        "True, because and has higher precedence than or in Python, so (False and False) is evaluated first",
+        "False, because it evaluates strictly left to right: (True or False) is True, then True and False is False",
+        "Error: Cannot combine and and or without parentheses",
+        "None"
+      ],
+      "correct_answer": "True, because and has higher precedence than or in Python, so (False and False) is evaluated first"
+    },
+    {
+      "id": "3.5_cand_1",
+      "type": "micro_lesson",
+      "concept": "logical_operators_overview",
+      "skill": "understanding",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "# Logical Operators in Python\n\nPython provides three keywords to combine or negate boolean conditions:\n\n1. **`and`**: Returns `True` only if **both** operands are true.\n2. **`or`**: Returns `True` if **at least one** operand is true.\n3. **`not`**: Inverts the boolean value (`not True -> False`, `not False -> True`).\n\n### Operator Precedence\nAmong logical operators, precedence is:\n`not` (highest) > `and` (medium) > `or` (lowest)\n\n### Short-Circuit Evaluation\nPython uses short-circuiting for efficiency and safety:\n- For `A and B`: If `A` is `False`, Python stops immediately without evaluating `B`.\n- For `A or B`: If `A` is `True`, Python stops immediately without evaluating `B`.",
+      "explanation": "Logical operators and, or, and not combine boolean conditions.",
+      "hint": "not has higher precedence than and, which has higher precedence than or."
+    },
+    {
+      "id": "3.5_cand_2",
+      "type": "code_prediction",
+      "concept": "logical_precedence_not_over_and",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prerequisites": [
+        "logical_operators_overview"
+      ],
+      "prompt": "What does this program print?\n```python\nval = not False and False\nprint(val)\n```",
+      "options": [
+        "False",
+        "True",
+        "SyntaxError",
+        "None"
+      ],
+      "correct_answer": "False",
+      "code_snippet": "val = not False and False\nprint(val)",
+      "explanation": "`not` binds tighter than `and`. `not False` evaluates first to `True`. Then `True and False` evaluates to `False`. To negate the whole expression, parentheses would be needed: `not (False and False) -> True`.",
+      "hint": "not evaluates before and.",
+      "misconception_tag": "PRECEDENCE_CONFUSION"
+    },
+    {
+      "id": "3.5_cand_3",
+      "type": "multiple_choice",
+      "concept": "short_circuit_division_guard",
+      "skill": "reasoning",
+      "difficulty": "hard",
+      "prerequisites": [
+        "logical_operators_overview"
+      ],
+      "prompt": "Why does the following code run safely without crashing on a `ZeroDivisionError`?\n```python\ncount = 0\nsafe = (count > 0) and (100 / count > 5)\nprint(safe)\n```",
+      "options": [
+        "Because count > 0 is False, short-circuit evaluation prevents Python from ever evaluating the right-hand division",
+        "Because Python converts 100 / 0 to 0 automatically",
+        "Because the and operator evaluates right to left",
+        "Because parentheses prevent division errors"
+      ],
+      "correct_answer": "Because count > 0 is False, short-circuit evaluation prevents Python from ever evaluating the right-hand division",
+      "explanation": "Short-circuit evaluation is a crucial safety mechanism in Python. For `A and B`, when `A` is `False`, the result is guaranteed to be `False`. Python never executes `100 / count`, preventing the `ZeroDivisionError`.",
+      "hint": "When the left side of and is False, Python stops immediately.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "3.5_cand_4",
+      "type": "fill_in_the_blank",
+      "concept": "or_operator_syntax",
       "skill": "application",
       "difficulty": "easy",
       "prerequisites": [
-        "3.5_q17"
+        "logical_operators_overview"
       ],
-      "prompt": "Complete the fallback pattern to use `'standard'` if `mode` is empty:\n```python\nactive_mode = mode ___ \"standard\"\n```",
+      "prompt": "Complete the statement so that `can_enter` is `True` if `has_ticket` is true OR `has_vip_pass` is true:\n```python\ncan_enter = has_ticket ___ has_vip_pass\n```",
       "accepted_answers": [
         "or"
       ],
-      "explanation": "This exercise tests `default fallback` in Logical Operators. When Python validates this code, it applies the standard rules of default fallback. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "or",
+      "explanation": "The `or` keyword returns `True` if either operand (or both) is true.",
+      "hint": "Use the keyword or.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "3.5_q21",
-      "type": "error_diagnosis",
-      "concept": "english_logic_trap",
-      "skill": "debugging",
+      "id": "3.5_cand_5",
+      "type": "code_prediction",
+      "concept": "short_circuit_or_evaluation",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "logical_operators_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nis_admin = True\naccess = is_admin or (10 / 0 == 1)\nprint(access)\n```",
+      "options": [
+        "True",
+        "ZeroDivisionError",
+        "False",
+        "None"
+      ],
+      "correct_answer": "True",
+      "code_snippet": "is_admin = True\naccess = is_admin or (10 / 0 == 1)\nprint(access)",
+      "explanation": "Because `is_admin` is `True`, the `or` operator short-circuits. Python already knows the overall expression is `True`, so it never evaluates the division by zero on the right side.",
+      "hint": "If the left side of or is True, Python does not evaluate the right side.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "3.5_cand_6",
+      "type": "code_prediction",
+      "concept": "and_over_or_precedence",
+      "skill": "prediction",
       "difficulty": "hard",
       "prerequisites": [
-        "3.5_q5",
-        "3.5_q17"
+        "logical_operators_overview"
       ],
-      "prompt": "A developer writes:\n```python\nx = 5\nif x == 1 or 2:\n    print(\"Matches\")\n```\nWhy does this always print 'Matches', even when `x` is 5?",
+      "prompt": "What does this program print?\n```python\nval = True or False and False\nprint(val)\n```",
       "options": [
-        "A. `or 2` evaluates `2` independently as truthy! Python parses this as `(x == 1) or (2)`. Since `bool(2)` is `True`, the condition is always True.",
-        "B. 5 is equal to 1 plus 2.",
-        "C. Python only supports numbers 1 and 2 in `if` statements.",
-        "D. `x` is automatically set to 2."
+        "True",
+        "False",
+        "SyntaxError",
+        "None"
       ],
-      "correct_answer": "A",
-      "explanation": "Major beginner trap! `x == 1 or 2` does not mean 'x is 1 or 2'. It evaluates `(x == 1) or (bool(2))`. The correct code is `x == 1 or x == 2` (or `x in (1, 2)`)."
+      "correct_answer": "True",
+      "code_snippet": "val = True or False and False\nprint(val)",
+      "explanation": "In Python, `and` has higher precedence than `or`. Therefore `False and False` evaluates first (`False`). Then `True or False` evaluates to `True`. If evaluated left to right without precedence, `(True or False) and False` would be `False`.",
+      "hint": "and evaluates before or.",
+      "misconception_tag": "PRECEDENCE_CONFUSION"
     },
     {
-      "id": "3.5_q22",
+      "id": "3.5_cand_7",
       "type": "fix_the_code",
-      "concept": "fix_english_logic_trap",
+      "concept": "fix_parentheses_or_before_and",
       "skill": "debugging",
       "difficulty": "medium",
       "prerequisites": [
-        "3.5_q21"
+        "and_over_or_precedence"
       ],
-      "prompt": "Fix this code so it correctly tests whether `role` is either 'admin' or 'moderator':",
-      "starter_code": "if role == \"admin\" or \"moderator\":\n    print(\"Access Granted\")",
-      "solution_code": "if role == \"admin\" or role == \"moderator\":\n    print(\"Access Granted\")",
-      "explanation": "In Python, each condition around 'or' is evaluated separately. 'or \"moderator\"' evaluates as truthy because non-empty strings are True. You must explicitly test `role == \"moderator\"`."
+      "prompt": "A venue allows entry only if a guest is (a member OR with a host) AND is at least 21 years old. Currently an underage 19-year-old member is mistakenly allowed in because `and` binds before `or`. Add parentheses around `is_member or with_host` so the age requirement applies to all guests.",
+      "starter_code": "is_member = True\nwith_host = False\nage = 19\n# Fix parentheses below so (is_member or with_host) is grouped\ncan_enter = is_member or with_host and age >= 21\nprint(can_enter)",
+      "solution_code": "is_member = True\nwith_host = False\nage = 19\ncan_enter = (is_member or with_host) and age >= 21\nprint(can_enter)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Correctly evaluates to False for underage member",
+          "expectedOutput": "False",
+          "assertionPython": "assert _user_namespace.get(\"can_enter\") is False"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies parentheses grouping around is_member or with_host",
+          "assertionPython": "m = _user_namespace.get(\"is_member\")\nh = _user_namespace.get(\"with_host\")\na = _user_namespace.get(\"age\")\nassert _user_namespace.get(\"can_enter\") == ((m or h) and (a >= 21))",
+          "hidden": true
+        }
+      ],
+      "explanation": "Without parentheses, `with_host and age >= 21` is computed first (giving `False`), but `is_member or False` evaluates to `True`, mistakenly admitting an underage guest. Parentheses `(is_member or with_host) and age >= 21` enforce the age rule for everyone.",
+      "hint": "Wrap is_member or with_host in parentheses.",
+      "misconception_tag": "PRECEDENCE_CONFUSION"
     },
     {
-      "id": "3.5_q23",
-      "type": "output_prediction",
-      "concept": "de_morgans_laws",
-      "skill": "analysis",
-      "difficulty": "hard",
+      "id": "3.5_cand_8",
+      "type": "real_world_scenario",
+      "concept": "flight_booking_eligibility",
+      "skill": "application",
+      "difficulty": "medium",
       "prerequisites": [
-        "3.5_q7"
+        "logical_operators_overview"
       ],
-      "prompt": "According to De Morgan's Law, `not (A and B)` is logically identical to:\n```python\nnot A or not B\n```\nIf `A = True` and `B = False`, what do both evaluate to?",
+      "prompt": "A traveler can board a flight if they have a valid passport AND (either a boarding pass OR an active digital e-ticket). Which snippet correctly models this logic?",
       "options": [
-        "A. False",
-        "B. True",
-        "C. None",
-        "D. TypeError"
+        "can_board = has_passport and (has_boarding_pass or has_eticket)",
+        "can_board = has_passport or has_boarding_pass and has_eticket",
+        "can_board = has_passport and has_boarding_pass and has_eticket",
+        "can_board = not has_passport or has_eticket"
       ],
-      "correct_answer": "B",
-      "explanation": "`A and B` is False, so `not False` is `True`. On the right, `not A` (False) `or not B` (True) is `True`."
+      "correct_answer": "can_board = has_passport and (has_boarding_pass or has_eticket)",
+      "explanation": "The passport is mandatory (`has_passport and ...`), while either ticket format is sufficient (`(has_boarding_pass or has_eticket)`).",
+      "hint": "Passport is required and either ticket format is accepted.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "3.5_q24",
+      "id": "3.5_cand_9",
       "type": "write_the_code",
-      "concept": "combined_logical_condition",
+      "concept": "student_scholarship_eligibility",
       "skill": "application",
       "difficulty": "medium",
       "prerequisites": [
-        "3.5_q3"
+        "logical_operators_overview"
       ],
-      "prompt": "Write an expression checking if `age >= 18` and `has_license == True` using variables `age` and `has_license`.",
-      "starter_code": "# TODO: Implement solution for Logical Operators\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "age >= 18 and has_license",
-      "explanation": "This exercise tests `combined logical condition` in Logical Operators. When Python validates this code, it applies the standard rules of combined logical condition. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "prompt": "A university grants a scholarship if a student has `gpa >= 3.8` AND `volunteer_hours >= 50`.\nWrite a program that:\n1. Sets `gpa = 3.9`\n2. Sets `volunteer_hours = 60`\n3. Calculates `qualifies = (gpa >= 3.8) and (volunteer_hours >= 50)`\n4. Prints `qualifies`",
+      "starter_code": "# Write scholarship eligibility logic below\n",
+      "solution_code": "gpa = 3.9\nvolunteer_hours = 60\nqualifies = (gpa >= 3.8) and (volunteer_hours >= 50)\nprint(qualifies)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True for qualified student",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get(\"qualifies\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies boolean and comparison logic",
+          "assertionPython": "g = _user_namespace.get(\"gpa\")\nv = _user_namespace.get(\"volunteer_hours\")\nassert _user_namespace.get(\"qualifies\") == ((g >= 3.8) and (v >= 50))",
+          "hidden": true
+        }
+      ],
+      "explanation": "`3.9 >= 3.8` is `True`, and `60 >= 50` is `True`. `True and True` produces `True`.",
+      "hint": "Use the and keyword to require both conditions.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "3.5_q25",
-      "type": "real_world_scenario",
-      "concept": "discount_eligibility",
-      "skill": "application",
-      "difficulty": "medium",
+      "id": "3.5_cand_10",
+      "type": "code_prediction",
+      "concept": "not_operator_on_comparison",
+      "skill": "prediction",
+      "difficulty": "easy",
       "prerequisites": [
-        "3.5_q5"
+        "logical_operators_overview"
       ],
-      "prompt": "A museum offers free admission to visitors who are either under 12 OR 65 and older. Which condition tests this eligibility?",
-      "correct_answer": "B",
-      "explanation": "A person cannot be both under 12 and over 65 at the same time, so `or` is the required operator.",
+      "prompt": "What will this program print?\n```python\nscore = 45\nis_failing = not (score >= 50)\nprint(is_failing)\n```",
       "options": [
-        "A. age < 12 and age > 65",
-        "B. age < 12 or age > 65",
-        "C. not (age < 12 or age > 65)",
-        "D. age == 12 or age == 65"
-      ]
+        "True",
+        "False",
+        "None",
+        "SyntaxError"
+      ],
+      "correct_answer": "True",
+      "code_snippet": "score = 45\nis_failing = not (score >= 50)\nprint(is_failing)",
+      "explanation": "`score >= 50` is `False` because `45 >= 50` is false. `not False` inverts the value to `True`.",
+      "hint": "45 is less than 50, so score >= 50 is False. not False is True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "3.5_q26",
+      "id": "3.5_cand_11",
+      "type": "fix_the_code",
+      "concept": "fix_and_or_confusion_bug",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prerequisites": [
+        "logical_operators_overview"
+      ],
+      "prompt": "An online account security check requires BOTH an email verification AND a phone verification before enabling full access. The programmer used `or` instead of `and`. Fix the operator.",
+      "starter_code": "email_verified = True\nphone_verified = False\n# Fix operator so both are required\nfull_access = email_verified or phone_verified\nprint(full_access)",
+      "solution_code": "email_verified = True\nphone_verified = False\nfull_access = email_verified and phone_verified\nprint(full_access)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Evaluates full access to False when phone is unverified",
+          "expectedOutput": "False",
+          "assertionPython": "assert _user_namespace.get(\"full_access\") is False"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies and operator between email and phone verification",
+          "assertionPython": "e = _user_namespace.get(\"email_verified\")\np = _user_namespace.get(\"phone_verified\")\nassert _user_namespace.get(\"full_access\") == (e and p)",
+          "hidden": true
+        }
+      ],
+      "explanation": "Changing `or` to `and` ensures that if either verification is `False`, `full_access` evaluates to `False`.",
+      "hint": "Use and so both verifications are required.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "3.5_cand_12",
+      "type": "code_prediction",
+      "concept": "double_negation_boolean",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prerequisites": [
+        "logical_operators_overview"
+      ],
+      "prompt": "What will this program print?\n```python\nactive = False\nprint(not not active)\n```",
+      "options": [
+        "False",
+        "True",
+        "None",
+        "SyntaxError"
+      ],
+      "correct_answer": "False",
+      "code_snippet": "active = False\nprint(not not active)",
+      "explanation": "Inner `not active` inverts `False` to `True`. The outer `not True` inverts it back to `False`.",
+      "hint": "Double negation returns the original boolean value.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "3.5_cand_13",
+      "type": "write_the_code",
+      "concept": "driver_license_and_insurance_check",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [
+        "logical_operators_overview"
+      ],
+      "prompt": "A car rental company requires a renter to be at least 21 years old AND have a valid driver's license AND have insurance.\nWrite a program that:\n1. Sets `age = 23`\n2. Sets `has_license = True`\n3. Sets `has_insurance = True`\n4. Calculates `can_rent = (age >= 21) and has_license and has_insurance`\n5. Prints `can_rent`",
+      "starter_code": "# Write car rental verification logic below\n",
+      "solution_code": "age = 23\nhas_license = True\nhas_insurance = True\ncan_rent = (age >= 21) and has_license and has_insurance\nprint(can_rent)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True for qualified renter",
+          "expectedOutput": "True",
+          "assertionPython": "assert _user_namespace.get(\"can_rent\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies all 3 conditions joined with and",
+          "assertionPython": "a = _user_namespace.get(\"age\")\nl = _user_namespace.get(\"has_license\")\ni = _user_namespace.get(\"has_insurance\")\nassert _user_namespace.get(\"can_rent\") == ((a >= 21) and l and i)",
+          "hidden": true
+        }
+      ],
+      "explanation": "All three conditions are `True`: `23 >= 21` is `True`, `has_license` is `True`, and `has_insurance` is `True`. Chaining with `and` returns `True`.",
+      "hint": "Chain the three requirements with and.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "3.5_cand_14",
       "type": "output_prediction",
-      "concept": "nested_parentheses_logic",
-      "skill": "analysis",
+      "concept": "complex_boolean_expression_prediction",
+      "skill": "prediction",
       "difficulty": "hard",
       "prerequisites": [
-        "3.2_q3",
-        "3.5_q7"
+        "logical_operators_overview"
       ],
-      "prompt": "What does this code output?\n```python\nprint((True or False) and not (False or True))\n```",
+      "prompt": "What will this program print?\n```python\na = True\nb = False\nc = True\nans = (a and not b) or (b and c)\nprint(ans)\n```",
       "options": [
-        "A. True",
-        "B. False",
-        "C. None",
-        "D. SyntaxError"
+        "True",
+        "False",
+        "None",
+        "SyntaxError"
       ],
-      "correct_answer": "B",
-      "explanation": "Left: `(True or False)` is True. Right: `(False or True)` is True, so `not True` is False. `True and False` evaluates to `False`."
+      "correct_answer": "True",
+      "code_snippet": "a = True\nb = False\nc = True\nans = (a and not b) or (b and c)\nprint(ans)",
+      "explanation": "1. `not b` evaluates to `True`. `a and not b` evaluates to `True and True = True`.\n2. `b and c` evaluates to `False and True = False`.\n3. `True or False` evaluates to `True`.",
+      "hint": "Evaluate each parenthesized group first.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
-      "id": "3.5_q27",
-      "type": "multiple_choice",
-      "concept": "bitwise_vs_logical",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q1"
-      ],
-      "prompt": "What is the difference between `and` and `&` in Python?",
-      "options": [
-        "A. They are identical.",
-        "B. `and` is the short-circuiting logical operator for booleans; `&` is the bitwise operator that operates on individual binary bits of numbers.",
-        "C. `&` runs faster on booleans.",
-        "D. `and` was removed in Python 3."
-      ],
-      "correct_answer": "B",
-      "explanation": "Do not confuse logical `and`/`or` with bitwise `&`/`|`. Standard boolean logic in Python uses `and` and `or`."
-    },
-    {
-      "id": "3.5_q28",
+      "id": "3.5_cand_15",
       "type": "mini_challenge",
-      "concept": "login_validator",
-      "skill": "synthesis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "3.5_q3"
-      ],
-      "prompt": "Given `username = \"admin\"` and `password = \"secret123\"`, create a boolean variable `login_success` that checks if `username == \"admin\" and password == \"secret123\"`, and print `login_success`.",
-      "starter_code": "username = \"admin\"\npassword = \"secret123\"\n# Check login_success and print it\n",
-      "solution_code": "username = \"admin\"\npassword = \"secret123\"\nlogin_success = username == \"admin\" and password == \"secret123\"\nprint(login_success)",
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
-    },
-    {
-      "id": "3.5_q29",
-      "type": "real_world_scenario",
-      "concept": "complex_business_rule",
-      "skill": "synthesis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "3.5_q3",
-        "3.5_q5",
-        "3.5_q7"
-      ],
-      "prompt": "A customer receives free shipping if they are a `vip_member` OR if their `cart_total >= 50` AND they have `in_stock == True`. Which expression correctly groups this?",
-      "correct_answer": "A",
-      "explanation": "VIP members always qualify (`vip_member`), or non-VIPs qualify with `$50+` and in-stock items.",
-      "options": [
-        "A. is_vip or order_total >= 50",
-        "B. is_vip and order_total >= 50",
-        "C. not is_vip and order_total < 50",
-        "D. is_vip == order_total"
-      ]
-    },
-    {
-      "id": "3.5_q30",
-      "type": "real_world_scenario",
-      "concept": "unit3_operators_synthesis",
+      "concept": "server_health_monitoring_challenge",
       "skill": "transfer",
       "difficulty": "hard",
       "prerequisites": [
-        "3.1_q1",
-        "3.2_q1",
-        "3.3_q1",
-        "3.4_q1",
-        "3.5_q1",
-        "3.5_q11"
+        "logical_operators_overview"
       ],
-      "prompt": "Congratulations on completing Unit 3! Which statement accurately captures Python's operator ecosystem?",
-      "correct_answer": "A",
-      "explanation": "This synthesizes all arithmetic, assignment, comparison, and logical operators, precedence hierarchies, and short-circuit evaluation in Unit 3.",
-      "options": [
-        "A. Logical operators (not, and, or) perform boolean algebra with short-circuit evaluation, returning operand values rather than forcing booleans.",
-        "B. and always evaluates both operands even if the first is False.",
-        "C. not has lower precedence than or in Python.",
-        "D. Empty strings and zero are considered truthy in logical expressions."
-      ]
+      "prompt": "Build a server alert monitoring system:\n1. Set `cpu_usage = 85` (percent)\n2. Set `memory_usage = 92` (percent)\n3. Set `is_maintenance_mode = False`\n4. Calculate `is_critical = (cpu_usage > 90) or (memory_usage > 90)`\n5. Calculate `trigger_alarm = is_critical and (not is_maintenance_mode)`\n6. Print `is_critical`\n7. Print `trigger_alarm`",
+      "starter_code": "# Complete server alert monitoring logic\n",
+      "solution_code": "cpu_usage = 85\nmemory_usage = 92\nis_maintenance_mode = False\nis_critical = (cpu_usage > 90) or (memory_usage > 90)\ntrigger_alarm = is_critical and (not is_maintenance_mode)\nprint(is_critical)\nprint(trigger_alarm)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True for is_critical and True for trigger_alarm",
+          "expectedOutput": "True\nTrue",
+          "assertionPython": "assert _user_namespace.get(\"is_critical\") is True\nassert _user_namespace.get(\"trigger_alarm\") is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies boolean expressions for critical and alarm triggers",
+          "assertionPython": "cpu = _user_namespace.get(\"cpu_usage\")\nmem = _user_namespace.get(\"memory_usage\")\nmaint = _user_namespace.get(\"is_maintenance_mode\")\nassert _user_namespace.get(\"is_critical\") == ((cpu > 90) or (mem > 90))\nassert _user_namespace.get(\"trigger_alarm\") == (_user_namespace.get(\"is_critical\") and not maint)",
+          "hidden": true
+        }
+      ],
+      "explanation": "`memory_usage > 90` is `True`, so `is_critical` is `True`. Since `is_maintenance_mode` is `False`, `not False` is `True`, so `trigger_alarm` evaluates to `True`.",
+      "hint": "Use or to check if either metric exceeds 90, and not for maintenance mode.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     }
-  ],
-  "unit_num": 3,
-  "learning_objectives": [
-    "Apply Python Logical Operators correctly in mathematical and logical expressions",
-    "Predict evaluation order using operator precedence rules",
-    "Diagnose subtle expression bugs caused by unintended precedence",
-    "Construct compound boolean or arithmetic expressions for real-world logic"
-  ],
-  "prerequisites": [
-    "3.4"
   ]
 }

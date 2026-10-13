@@ -3,8 +3,8 @@ import { QuestionMetadata, LessonStructure } from '../../../types/question';
 export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
   {
     id: 'py_fnd_10_1',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'predict_full_pipeline',
     learning_objective: 'Predict the output of a multi-step program combining variables, conversion, arithmetic, and if/else.',
@@ -31,8 +31,8 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_10_2',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'complete_cart_discount',
     learning_objective: 'Complete conditional discount calculation logic.',
@@ -51,8 +51,8 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_10_3',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'write_temp_converter',
     learning_objective: 'Write a program converting Fahrenheit to Celsius and printing the result.',
@@ -73,19 +73,21 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses parentheses to enforce subtraction before multiplication',
         expectedOutput: '20.0',
-        assertionPython: "assert '(' in _user_code and ')' in _user_code"
+        assertionPython: "assert '(' in _user_code and ')' in _user_code",
+        hidden: true
       }
     ],
     explanation: '`(68 - 32)` computes `36` first due to parentheses, then `36 * 5 / 9 = 20.0`.',
     hint: 'celsius = (fahrenheit - 32) * 5 / 9',
+    misconception_tag: 'PRECEDENCE_CONFUSION',
     xp: 25,
     estimated_time: 75,
     order: 3
   },
   {
     id: 'py_fnd_10_4',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'debug_password_validator',
     learning_objective: 'Debug password length verification to include passwords of exact cutoff length 8.',
@@ -101,6 +103,13 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
         description: 'Prints "Valid" for length of 8 using >=',
         expectedOutput: 'Valid',
         assertionPython: "assert _raw_stdout.strip() == 'Valid' and '>=' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying comparison operator includes 8',
+        expectedOutput: 'Valid',
+        assertionPython: "assert _raw_stdout.strip() == 'Valid'",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -117,8 +126,8 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_10_5',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'trace_ledger_transaction',
     learning_objective: 'Trace a ledger balance across deposit, withdrawal, and fee operations.',
@@ -133,14 +142,15 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
     ],
     explanation: '`100 + 50 = 150`, then `150 - 30 = 120`, then `120 - 5 = 115`.',
     hint: 'Track each balance update sequentially.',
+    misconception_tag: 'VARIABLE_VALUE_CONFUSION',
     xp: 20,
     estimated_time: 60,
     order: 5
   },
   {
     id: 'py_fnd_10_6',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'reason_tax_exemption_boundary',
     learning_objective: 'Reason through boundary conditions in income tax bracket evaluation.',
@@ -163,8 +173,8 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_10_7',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'write_delivery_fee_calc',
     learning_objective: 'Calculate delivery fee based on order distance and minimum spend.',
@@ -180,18 +190,26 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
         description: 'Outputs 5 for order under 50',
         expectedOutput: '5',
         assertionPython: "assert _raw_stdout.strip() == '5' and _user_namespace.get('fee') == 5"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying fee variable calculation',
+        expectedOutput: '5',
+        assertionPython: "assert _user_namespace.get('fee') == 5",
+        hidden: true
       }
     ],
     explanation: 'Since `40 >= 50` is False, the `else` block sets `fee = 5` and prints `5`.',
     hint: 'if order_total >= 50:\n    fee = 0\nelse:\n    fee = 5\nprint(fee)',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 20,
     estimated_time: 60,
     order: 7
   },
   {
     id: 'py_fnd_10_8',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'apply_game_health_resolver',
     learning_objective: 'Apply arithmetic and conditional logic to resolve game character health and status.',
@@ -207,18 +225,26 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
         description: 'Correctly prints Alive with remaining hp 30',
         expectedOutput: 'Alive',
         assertionPython: "assert _raw_stdout.strip() == 'Alive' and _user_namespace.get('hp') == 30"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying hp variable calculation',
+        expectedOutput: 'Alive',
+        assertionPython: "assert _user_namespace.get('hp') == 30",
+        hidden: true
       }
     ],
     explanation: '`50 - 20 = 30`. Since `30 > 0` is True, `"Alive"` is printed.',
     hint: 'hp = 50\nhp = hp - 20\nif hp > 0:\n    print("Alive")\nelse:\n    print("Defeated")',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 25,
     estimated_time: 75,
     order: 8
   },
   {
     id: 'py_fnd_10_9',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'debug_discount_coupon_code',
     learning_objective: 'Debug conditional coupon verification requiring exact string and minimum cart spend.',
@@ -234,6 +260,13 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
         description: 'Uses == for string comparison in if condition',
         expectedOutput: 'Discount Applied',
         assertionPython: "assert _raw_stdout.strip() == 'Discount Applied' and 'code == \"SAVE10\"' in _user_code"
+      },
+      {
+        id: 'tc_2',
+        description: 'Hidden test verifying code equality syntax',
+        expectedOutput: 'Discount Applied',
+        assertionPython: "assert _raw_stdout.strip() == 'Discount Applied' and '==' in _user_code",
+        hidden: true
       }
     ],
     progressive_hints: [
@@ -250,8 +283,8 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
   },
   {
     id: 'py_fnd_10_10',
-    unit: 'unit_01',
-    lesson: '1.10',
+    unit: 'unit_05',
+    lesson: '5.6',
     section: 'Foundations Synthesis',
     concept: 'write_atm_withdrawal_validator',
     learning_objective: 'Build an ATM withdrawal validator testing positive amount and sufficient funds.',
@@ -272,11 +305,13 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
         id: 'tc_2',
         description: 'Uses compound condition with and',
         expectedOutput: 'Transaction Approved',
-        assertionPython: "assert ' and ' in _user_code"
+        assertionPython: "assert ' and ' in _user_code",
+        hidden: true
       }
     ],
     explanation: '`withdraw_amount > 0` (True) and `withdraw_amount <= balance` (200 <= 500 is True). Both are True, so the transaction is approved.',
     hint: 'if withdraw_amount > 0 and withdraw_amount <= balance:\n    print("Transaction Approved")\nelse:\n    print("Transaction Declined")',
+    misconception_tag: 'CONDITION_BOUNDARY',
     xp: 30,
     estimated_time: 90,
     order: 10
@@ -284,12 +319,12 @@ export const LESSON_10_QUESTIONS: QuestionMetadata[] = [
 ];
 
 export const LESSON_10: LessonStructure = {
-  id: '1.10',
-  unitId: 'unit_01',
-  unitTitle: 'Unit 1: Python Foundations',
-  title: 'Foundations Challenge',
-  slug: 'foundations-challenge',
-  order: 10,
+  id: '5.6',
+  unitId: 'unit_05',
+  unitTitle: 'Unit 5: Conditional Logic',
+  title: 'Project: Interactive Calculator',
+  slug: 'project-interactive-calculator',
+  order: 6,
   description: 'Synthesize variables, input, type conversion, arithmetic, comparisons, and conditional branching in deliberate challenge drills.',
   estimatedMinutes: 12,
   xpReward: 50,

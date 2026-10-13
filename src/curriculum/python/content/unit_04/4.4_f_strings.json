@@ -1,626 +1,555 @@
 {
   "lesson_id": "4.4",
   "title": "f-strings",
-  "unit": "User Input and Output",
+  "unit": "unit_04",
   "items": [
     {
       "id": "4.4_q1",
-      "idx": 1,
       "type": "micro_lesson",
-      "skill": "recognition",
-      "diff": "easy",
-      "concept": "fstrings_basics",
-      "title": "What Are f-Strings?",
-      "content": "f-strings (formatted string literals) were introduced in Python 3.6 as a modern, readable way to embed expressions inside string literals. They are prefixed with an f or F and use curly braces {} to evaluate variables or expressions at runtime. Unlike older methods such as % formatting or str.format(), f-strings are concise and evaluated immediately. Example: name = 'Ada'; age = 12; print(f'Hello, {name}! You are {age} years old.') This outputs: Hello, Ada! You are 12 years old. F-strings are especially useful when displaying user input because they keep the code clean and easy to read.",
+      "concept": "f_strings_basics_and_syntax",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [],
-      "prompt": "",
-      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
+      "title": "Modern String Formatting with f-strings",
+      "content": "# Modern String Formatting with f-strings\n\nIntroduced in Python 3.6, **f-strings** (formatted string literals) provide the cleanest, fastest, and most readable way to format text. Prefix the string with the letter `f` (or `F`) and place variables or expressions directly inside curly braces `{}`.\n\n```python\nname = \"Alex\"\nscore = 95\nprint(f\"Player {name} has {score} points!\")\n```\n\n### Key Features & Traps:\n1. **Expressions Inside Braces:** You can execute math and method calls inside braces: `f\"Next year: {age + 1}\"`.\n2. **Float Formatting:** Control decimal places using `:.Nf`. For example, `f\"${price:.2f}\"` formats `19.5` as `\"$19.50\"`.\n3. **Escaping Braces:** To output literal curly braces, double them: `f\"JSON: {{'id': {user_id}}}\"`.\n4. **Missing 'f' Prefix Trap:** Writing `\"Hello {name}\"` without the leading `f` prints literal text `\"Hello {name}\"` without substituting the variable!",
+      "explanation": "Prefix strings with f and embed variables or expressions inside curly braces {} for readable formatting."
     },
     {
       "id": "4.4_q2",
-      "idx": 2,
       "type": "multiple_choice",
+      "concept": "missing_f_prefix_bug",
       "skill": "recall",
-      "diff": "easy",
-      "concept": "fstrings_basics",
-      "prompt": "Which of the following is the correct way to create an f-string in Python?",
-      "options": [
-        "s = 'Hello, ' + name",
-        "s = f'Hello, {name}'",
-        "s = 'fHello, name'",
-        "s = f(Hello, name)"
-      ],
-      "correct_answer": "s = f'Hello, {name}'",
-      "explanation": "An f-string must start with the letter f (or F) before the opening quote. Expressions inside the string are placed in curly braces {}. The other options either use concatenation, omit the f prefix, or use incorrect syntax.",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q1"
-      ]
+      "prompt": "What happens when this program runs?\n```python\nuser = \"Grace\"\nmsg = \"Welcome, {user}!\"\nprint(msg)\n```",
+      "options": [
+        "It prints: Welcome, {user}! (the string lacks the leading f prefix)",
+        "It prints: Welcome, Grace!",
+        "SyntaxError: curly braces require f prefix",
+        "NameError: user is not defined in string"
+      ],
+      "correct_answer": "It prints: Welcome, {user}! (the string lacks the leading f prefix)",
+      "explanation": "Without the leading `f` prefix, Python treats `\"{user}\"` as plain literal text. To perform variable interpolation, write `f\"Welcome, {user}!\"`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.4_q3",
-      "idx": 3,
-      "type": "micro_lesson",
-      "skill": "understanding",
-      "diff": "easy",
-      "concept": "fstrings_syntax",
-      "title": "f-String Syntax Rules",
-      "content": "The basic syntax of an f-string is: f'text {expression} more text'. The expression inside { } can be a variable, a literal, a function call, or even a mathematical operation. Important rules: (1) The f prefix must appear immediately before the opening quote. (2) Curly braces { } are evaluated at runtime. (3) You cannot use single quotes inside an f-string delimited by single quotes without escaping, unless you use double quotes. Example: score = 85; print(f\"Your score is {score}.\") This prints Your score is 85.. Understanding this syntax is essential before combining f-strings with user input.",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q2"
-      ],
-      "prompt": "",
-      "explanation": "Strings in Python are immutable sequences of Unicode characters enclosed in single, double, or triple quotes. Because strings cannot be modified in place, all transformations return new string instances."
-    },
-    {
-      "id": "4.4_q4",
-      "idx": 4,
-      "type": "multiple_choice",
-      "skill": "reasoning",
-      "diff": "easy",
-      "concept": "fstrings_syntax",
-      "prompt": "Given the code below, what will be printed?\n\nname = 'Sam'\nprint(f'Hi {name}')",
-      "options": [
-        "Hi {name}",
-        "Hi Sam",
-        "Error: invalid syntax",
-        "Hi name"
-      ],
-      "correct_answer": "Hi Sam",
-      "explanation": "The variable name is evaluated inside the curly braces and replaced with its value 'Sam'. Therefore, the output is Hi Sam. The braces are not printed literally because this is a valid f-string.",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q3"
-      ]
-    },
-    {
-      "id": "4.4_q5",
-      "idx": 5,
-      "type": "multiple_choice",
-      "skill": "recognition",
-      "diff": "easy",
-      "concept": "fstrings_matching",
-      "prompt": "Which output correctly matches the f-string code?\n\ncity = 'Paris'\nprint(f'I live in {city}.')",
-      "options": [
-        "I live in {city}.",
-        "I live in Paris.",
-        "Error",
-        "I live in city."
-      ],
-      "correct_answer": "I live in Paris.",
-      "explanation": "The variable city is substituted with its value 'Paris' inside the f-string. The period is part of the literal text, so the complete output is I live in Paris..",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q4"
-      ]
-    },
-    {
-      "id": "4.4_q6",
-      "idx": 6,
-      "type": "multiple_choice",
-      "skill": "comprehension",
-      "diff": "easy",
-      "concept": "fstrings_pitfalls",
-      "prompt": "Which of the following is a common pitfall when using f-strings with user input?",
-      "options": [
-        "f-strings cannot display numbers",
-        "User input is automatically converted to uppercase",
-        "Missing the f prefix causes the variable to be printed literally",
-        "f-strings only work with strings, not integers"
-      ],
-      "correct_answer": "Missing the f prefix causes the variable to be printed literally",
-      "explanation": "If you forget the f prefix, Python treats the braces as a literal set of characters and does not evaluate the variable. For example, print('Hello {name}') prints Hello {name} instead of substituting the value. F-strings handle both strings and integers automatically.",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q5"
-      ]
-    },
-    {
-      "id": "4.4_q7",
-      "idx": 7,
-      "type": "code_prediction",
-      "skill": "prediction",
-      "diff": "easy",
-      "concept": "fstrings_execution",
-      "prompt": "What is the output of the following code?\n\nuser_input = '42'\nprint(f'You entered: {user_input}')",
-      "options": [
-        "You entered: 42",
-        "You entered: {user_input}",
-        "Error: cannot convert",
-        "You entered: 42\\n"
-      ],
-      "correct_answer": "You entered: 42",
-      "explanation": "The f-string evaluates user_input and inserts its value '42' into the string. No newline is added unless explicitly written as \\n in the literal.",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q6"
-      ]
-    },
-    {
-      "id": "4.4_q8",
-      "idx": 8,
-      "type": "output_prediction",
-      "skill": "prediction",
-      "diff": "medium",
-      "concept": "fstrings_execution",
-      "prompt": "Predict the exact output of this program:\n\nage = 15\nprint(f'Age: {age}')\nprint(f'Age squared: {age * age}')",
-      "options": [
-        "Age: 15\nAge squared: 225",
-        "Age: 15\nAge squared: 15",
-        "Age: 15\nAge squared: 225\\n",
-        "Error: unsupported operand"
-      ],
-      "correct_answer": "Age: 15\nAge squared: 225",
-      "explanation": "The first f-string prints Age: 15. The second evaluates age * age, which is 15 * 15 = 225, and prints Age squared: 225. print() adds a newline after each statement, so the output appears on two lines without an extra trailing newline in the string itself.",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q7"
-      ]
-    },
-    {
-      "id": "4.4_q9",
-      "idx": 9,
-      "type": "code_prediction",
-      "skill": "prediction",
-      "diff": "medium",
-      "concept": "fstrings_flow",
-      "prompt": "What will this code display?\n\nname = input('Enter your name: ')\nprint(f'Welcome, {name}!')",
-      "options": [
-        "Welcome, name!",
-        "Enter your name: Welcome, name!",
-        "Enter your name: Welcome, Alice!",
-        "Error: input not allowed in f-strings"
-      ],
-      "correct_answer": "Enter your name: Welcome, Alice!",
-      "explanation": "input() pauses execution and waits for the user to type a value. If the user types Alice and presses Enter, name becomes 'Alice'. The f-string then prints Welcome, Alice!. The prompt text appears before the input cursor.",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q8"
-      ]
-    },
-    {
-      "id": "4.4_q10",
-      "idx": 10,
-      "type": "multiple_choice",
-      "skill": "analysis",
-      "diff": "medium",
-      "concept": "fstrings_analysis",
-      "prompt": "Analyze the following code and identify the issue:\n\nscore = 100\nprint(f'Score: {score + 10}')",
-      "options": [
-        "The code is valid and prints Score: 110",
-        "The code raises a TypeError because score is not a string",
-        "The code prints Score: {score + 10} literally",
-        "The code requires parentheses around the expression"
-      ],
-      "correct_answer": "The code is valid and prints Score: 110",
-      "explanation": "F-strings evaluate any valid Python expression inside { }. score + 10 computes 110, so the output is Score: 110. There is no error and no need for extra parentheses.",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q9"
-      ]
-    },
-    {
-      "id": "4.4_q11",
-      "idx": 11,
-      "type": "code_prediction",
-      "skill": "tracing",
-      "diff": "medium",
-      "concept": "fstrings_tracing",
-      "prompt": "Trace the execution and determine the final output:\n\nfirst = 'Jane'\nlast = 'Doe'\nfull = f'{first} {last}'\nprint(full.upper())",
-      "options": [
-        "'JANE DOE'",
-        "'Jane Doe'",
-        "Error: .upper() not supported",
-        "'JANE DOE\\n'"
-      ],
-      "correct_answer": "'JANE DOE'",
-      "explanation": "The f-string creates 'Jane Doe'. Calling .upper() on that string returns 'JANE DOE'. print() displays it without quotes. The output is JANE DOE on one line.",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q10"
-      ]
-    },
-    {
-      "id": "4.4_q12",
-      "idx": 12,
-      "type": "output_prediction",
-      "skill": "prediction",
-      "diff": "medium",
-      "concept": "fstrings_logic",
-      "prompt": "What is the output of this script?\n\nitems = 3\nprint(f'Items: {items}')\nprint(f'Items: {items + 1}')\nprint(f'Items: {items * 2}')",
-      "options": [
-        "Items: 3\nItems: 4\nItems: 6",
-        "Items: 3\nItems: 3\nItems: 6",
-        "Items: 3\nItems: 4\nItems: 3",
-        "Error: mixed types"
-      ],
-      "correct_answer": "Items: 3\nItems: 4\nItems: 6",
-      "explanation": "The first f-string prints the variable items (3). The second evaluates items + 1 (4). The third evaluates items * 2 (6). Each print statement outputs its own line.",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q11"
-      ]
-    },
-    {
-      "id": "4.4_q13",
-      "idx": 13,
       "type": "fill_in_the_blank",
+      "concept": "f_string_prefix_keyword",
       "skill": "syntax",
-      "diff": "easy",
-      "concept": "fstrings_syntax",
-      "prompt": "Complete the f-string: f'Hello, ___!'",
-      "correct_answer": "{name}",
-      "accepted_answers": [
-        "{name}",
-        "{'name'}",
-        "{{name}}"
-      ],
-      "explanation": "To embed a variable named name inside an f-string, you must use curly braces {name}. Without braces, the text is literal. Double braces {{ and }} would escape the braces and print them as characters.",
       "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q12"
-      ]
-    },
-    {
-      "id": "4.4_q14",
-      "idx": 14,
-      "type": "fill_in_the_blank",
-      "skill": "syntax",
-      "diff": "medium",
-      "concept": "fstrings_keywords",
-      "prompt": "Fill in the blank: The f-string prefix must be written as ___ before the opening quote.",
-      "correct_answer": "f",
+      "prompt": "Complete the statement by providing the single-letter prefix that enables string interpolation in Python:\n```python\nname = \"Maya\"\ngreeting = ____\"Hello, {name}!\"\n```",
       "accepted_answers": [
         "f",
         "F"
       ],
-      "explanation": "The f-string literal must begin with the lowercase letter f (or uppercase F) immediately preceding the quote. This tells Python to evaluate expressions inside curly braces at runtime.",
+      "correct_answer": "f",
+      "explanation": "Prefixing string literals with lowercase `f` (or uppercase `F`) designates them as formatted string literals.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.4_q4",
+      "type": "output_prediction",
+      "concept": "f_string_inline_expression_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does this program print?\n```python\nx = 10\ny = 5\nprint(f\"Result: {x * y}\")\n```",
+      "options": [
+        "Result: 50",
+        "Result: {x * y}",
+        "Result: 10 * 5",
+        "TypeError: cannot format math in f-string"
+      ],
+      "correct_answer": "Result: 50",
+      "explanation": "Python evaluates arbitrary valid expressions inside f-string braces. `x * y` evaluates to 50, producing `\"Result: 50\"`.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "4.4_q5",
+      "type": "output_prediction",
+      "concept": "f_string_float_precision_prediction",
+      "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q13"
-      ]
+      "prompt": "What is printed by this code?\n```python\nprice = 8.5\nprint(f\"Total: ${price:.2f}\")\n```",
+      "options": [
+        "Total: $8.50",
+        "Total: $8.5",
+        "Total: $8.500",
+        "Total: $8"
+      ],
+      "correct_answer": "Total: $8.50",
+      "explanation": "The format specifier `:.2f` rounds/pads the floating point number to exactly 2 decimal places, turning `8.5` into `8.50`.",
+      "misconception_tag": "WRONG_TYPE"
+    },
+    {
+      "id": "4.4_q6",
+      "type": "real_world_scenario",
+      "concept": "bank_account_balance_alert",
+      "skill": "application",
+      "difficulty": "easy",
+      "prompt": "A bank notification engine sends alerts. For `account = \"Checking\"` and `balance = 1250.75`, which f-string prints `\"Checking balance: $1250.75\"`?",
+      "options": [
+        "f\"{account} balance: ${balance:.2f}\"",
+        "\"{account} balance: ${balance:.2f}\"",
+        "f\"{account} balance: ${balance:2}\"",
+        "f\"{account} balance: ${str(balance)}\""
+      ],
+      "correct_answer": "f\"{account} balance: ${balance:.2f}\"",
+      "explanation": "`f\"{account} balance: ${balance:.2f}\"` combines variable interpolation with two-decimal-place float formatting.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.4_q7",
+      "type": "real_world_scenario",
+      "concept": "gps_coordinate_formatter",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A mapping app stores `lat = 47.60621` and `lon = -122.33207`. Which f-string formats both coordinates to exactly 3 decimal places?",
+      "options": [
+        "f\"Lat: {lat:.3f}, Lon: {lon:.3f}\"",
+        "f\"Lat: {lat:3}, Lon: {lon:3}\"",
+        "f\"Lat: {lat:.3}, Lon: {lon:.3}\"",
+        "f\"Lat: {lat.round(3)}, Lon: {lon.round(3)}\""
+      ],
+      "correct_answer": "f\"Lat: {lat:.3f}, Lon: {lon:.3f}\"",
+      "explanation": "The format specifier `:.3f` specifies fixed-point floating representation rounded to 3 decimal places.",
+      "misconception_tag": "WRONG_TYPE"
+    },
+    {
+      "id": "4.4_q8",
+      "type": "error_diagnosis",
+      "concept": "empty_braces_in_fstring_syntax_error",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "What error occurs when running this snippet?\n```python\nname = \"Jordan\"\nprint(f\"Hello, {}!\")\n```",
+      "options": [
+        "SyntaxError: f-string: empty expression not allowed",
+        "NameError: missing variable",
+        "It prints: Hello, !",
+        "TypeError: invalid brace sequence"
+      ],
+      "correct_answer": "SyntaxError: f-string: empty expression not allowed",
+      "explanation": "Unlike the old `.format()` method, f-strings do not allow empty curly braces `{}`. Every brace pair in an f-string must contain an expression or variable.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.4_q9",
+      "type": "error_diagnosis",
+      "concept": "escaping_braces_in_fstring",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A developer wants to print literal curly braces: `User: {42}`. How must the literal braces be escaped in an f-string?",
+      "options": [
+        "f\"User: {{{user_id}}}\" (double outer braces escape literal braces)",
+        "f\"User: \\{user_id\\}\" (backslash escaping)",
+        "f\"User: [{user_id}]\"",
+        "f\"User: &lbrace;{user_id}&rbrace;\""
+      ],
+      "correct_answer": "f\"User: {{{user_id}}}\" (double outer braces escape literal braces)",
+      "explanation": "In Python f-strings, double curly braces `{{` and `}}` escape the braces and output literal `{` and `}` characters.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.4_q10",
+      "type": "fix_the_code",
+      "concept": "fix_missing_f_prefix_bug",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "The program below mistakenly prints literal text `Hello {username}!` instead of the user's name. Fix the string by adding the missing prefix.",
+      "starter_code": "username = \"Sam\"\ngreeting = \"Hello {username}!\"\nprint(greeting)",
+      "solution_code": "username = \"Sam\"\ngreeting = f\"Hello {username}!\"\nprint(greeting)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Hello Sam!",
+          "input": "",
+          "expectedOutput": "Hello Sam!",
+          "assertionPython": "assert _raw_stdout.strip() == 'Hello Sam!' and _user_namespace.get('greeting') == 'Hello Sam!'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying greeting variable",
+          "input": "",
+          "expectedOutput": "Hello Sam!",
+          "assertionPython": "assert _user_namespace.get('username') == 'Sam'",
+          "hidden": true
+        }
+      ],
+      "explanation": "Add the letter `f` before the opening quote: `f\"Hello {username}!\"`.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.4_q11",
+      "type": "fix_the_code",
+      "concept": "fix_f_string_float_rounding_specifier",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A cash register program is supposed to display `$14.50`, but currently displays `$14.5`. Fix the format specifier in the f-string to format `amount` to two decimal places.",
+      "starter_code": "amount = 14.5\nreceipt = f\"Total: ${amount}\"\nprint(receipt)",
+      "solution_code": "amount = 14.5\nreceipt = f\"Total: ${amount:.2f}\"\nprint(receipt)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Total: $14.50",
+          "input": "",
+          "expectedOutput": "Total: $14.50",
+          "assertionPython": "assert _raw_stdout.strip() == 'Total: $14.50' and _user_namespace.get('receipt') == 'Total: $14.50'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying two decimal formatting",
+          "input": "",
+          "expectedOutput": "Total: $14.50",
+          "assertionPython": "assert '14.50' in _user_namespace.get('receipt')",
+          "hidden": true
+        }
+      ],
+      "explanation": "Use `:.2f` after the variable name inside the curly braces: `{amount:.2f}`.",
+      "misconception_tag": "WRONG_TYPE"
+    },
+    {
+      "id": "4.4_q12",
+      "type": "write_the_code",
+      "concept": "user_profile_badge_fstring",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a program using an f-string:\n1. Prompt: `name = input(\"Name: \")`\n2. Prompt: `role = input(\"Role: \")`\n3. Print: `f\"Staff: {name} ({role})\"`",
+      "starter_code": "# Format staff badge with f-string\n",
+      "solution_code": "name = input(\"Name: \")\nrole = input(\"Role: \")\nprint(f\"Staff: {name} ({role})\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Formats Staff: Maya (Engineer)",
+          "input": "Maya\nEngineer",
+          "expectedOutput": "Name: Maya\nRole: Engineer\nStaff: Maya (Engineer)",
+          "assertionPython": "assert 'Staff: Maya (Engineer)' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Kai and Designer",
+          "input": "Kai\nDesigner",
+          "expectedOutput": "Name: Kai\nRole: Designer\nStaff: Kai (Designer)",
+          "assertionPython": "assert 'Staff: Kai (Designer)' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "`f\"Staff: {name} ({role})\"` cleanly interpolates both variables into a formatted badge line.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.4_q13",
+      "type": "write_the_code",
+      "concept": "math_summary_inline_fstring",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Write a program that calculates a purchase total with tax using an f-string:\n1. Prompt: `subtotal = float(input(\"Subtotal: \"))`\n2. Prompt: `tax = float(input(\"Tax: \"))`\n3. Create: `total = subtotal + tax`\n4. Print: `f\"Final: ${total:.2f}\"`",
+      "starter_code": "# Print formatted order total with f-string\n",
+      "solution_code": "subtotal = float(input(\"Subtotal: \"))\ntax = float(input(\"Tax: \"))\ntotal = subtotal + tax\nprint(f\"Final: ${total:.2f}\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Subtotal 20.0 and tax 1.50 produces Final: $21.50",
+          "input": "20.0\n1.50",
+          "expectedOutput": "Subtotal: 20.0\nTax: 1.50\nFinal: $21.50",
+          "assertionPython": "assert _user_namespace.get('total') == 21.5 and 'Final: $21.50' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with 40.0 and 3.25 produces Final: $43.25",
+          "input": "40.0\n3.25",
+          "expectedOutput": "Subtotal: 40.0\nTax: 3.25\nFinal: $43.25",
+          "assertionPython": "assert _user_namespace.get('total') == 43.25 and 'Final: $43.25' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Adds subtotal and tax, then formats the resulting float with `:.2f` inside the f-string.",
+      "misconception_tag": "WRONG_TYPE"
+    },
+    {
+      "id": "4.4_q14",
+      "type": "mini_challenge",
+      "concept": "ecommerce_item_summary_card",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "Build an e-commerce checkout receipt summary:\n1. `item = input(\"Product: \")`\n2. `qty = int(input(\"Quantity: \"))`\n3. `price = float(input(\"Price each: \"))`\n4. `total = qty * price`\n5. Print: `f\"{qty}x {item} @ ${price:.2f} = ${total:.2f}\"`",
+      "starter_code": "# E-commerce receipt line formatter\n",
+      "solution_code": "item = input(\"Product: \")\nqty = int(input(\"Quantity: \"))\nprice = float(input(\"Price each: \"))\ntotal = qty * price\nprint(f\"{qty}x {item} @ ${price:.2f} = ${total:.2f}\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "3x Mug @ $12.50 = $37.50",
+          "input": "Mug\n3\n12.50",
+          "expectedOutput": "Product: Mug\nQuantity: 3\nPrice each: 12.50\n3x Mug @ $12.50 = $37.50",
+          "assertionPython": "assert _user_namespace.get('total') == 37.5 and '3x Mug @ $12.50 = $37.50' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with 2x Shirt @ $20.00 = $40.00",
+          "input": "Shirt\n2\n20.00",
+          "expectedOutput": "Product: Shirt\nQuantity: 2\nPrice each: 20.00\n2x Shirt @ $20.00 = $40.00",
+          "assertionPython": "assert _user_namespace.get('total') == 40.0 and '2x Shirt @ $20.00 = $40.00' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Interpolates string, integer, and two floating-point values formatted to two decimal places in a single clear f-string.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.4_q15",
-      "idx": 15,
-      "type": "code_ordering",
-      "skill": "sequencing",
-      "diff": "medium",
-      "concept": "fstrings_sequence",
-      "prompt": "Reorder the following code lines to correctly ask for a user's age and print it using an f-string.",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
+      "type": "mini_challenge",
+      "concept": "server_uptime_health_card",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "Build a server monitoring report card:\n1. `server = input(\"Host: \")`\n2. `uptime_days = int(input(\"Uptime (days): \"))`\n3. `cpu_percent = float(input(\"CPU %: \"))`\n4. Print: `f\"[{server}] Uptime: {uptime_days}d | Load: {cpu_percent:.1f}%\"`",
+      "starter_code": "# Server monitor card generator\n",
+      "solution_code": "server = input(\"Host: \")\nuptime_days = int(input(\"Uptime (days): \"))\ncpu_percent = float(input(\"CPU %: \"))\nprint(f\"[{server}] Uptime: {uptime_days}d | Load: {cpu_percent:.1f}%\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs [web-01] Uptime: 45d | Load: 12.4%",
+          "input": "web-01\n45\n12.42",
+          "expectedOutput": "Host: web-01\nUptime (days): 45\nCPU %: 12.42\n[web-01] Uptime: 45d | Load: 12.4%",
+          "assertionPython": "assert '[web-01] Uptime: 45d | Load: 12.4%' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with db-master 120d 78.9%",
+          "input": "db-master\n120\n78.89",
+          "expectedOutput": "Host: db-master\nUptime (days): 120\nCPU %: 78.89\n[db-master] Uptime: 120d | Load: 78.9%",
+          "assertionPython": "assert '[db-master] Uptime: 120d | Load: 78.9%' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "First, collect input with input(). Then convert it to an integer with int() so it can be used in calculations if needed. Finally, display the result with an f-string. print('How old are you? ') alone is not sufficient because it does not capture the user's response.",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q14"
-      ]
+      "explanation": "Uses `{cpu_percent:.1f}%` to format CPU load to one decimal place alongside integer uptime days.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.4_q16",
-      "type": "fill_in_the_blank",
-      "concept": "fstrings_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q15"
+      "type": "multiple_choice",
+      "concept": "f_string_vs_format_method",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "Why are f-strings generally preferred over `+` concatenation in modern Python?",
+      "options": [
+        "They are more concise, readable, faster, and automatically convert variables without requiring explicit str() casts",
+        "They allow variables to change their types permanently in memory",
+        "They are the only way to output text in Python 3",
+        "They prevent all runtime errors"
       ],
-      "prompt": "Complete the f-string to display the user's name and age: `f'Hello, my name is ___ and I am ___ years old.'`",
-      "correct_answer": "{name} and {age}",
-      "accepted_answers": [
-        "{name} and {age}",
-        "{name} and {age}",
-        "{name} and {age}"
-      ],
-      "explanation": "In an f-string, variables are embedded using curly braces {}. The expressions inside the braces are evaluated and their values are inserted directly into the string. Here, {name} and {age} are placeholders that will be replaced by the actual variable values when the f-string is evaluated."
+      "correct_answer": "They are more concise, readable, faster, and automatically convert variables without requiring explicit str() casts",
+      "explanation": "f-strings eliminate verbose `str()` calls, prevent spacing mistakes, and evaluate expressions at runtime efficiently.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.4_q17",
-      "type": "code_ordering",
-      "concept": "fstrings_algorithm",
-      "skill": "sequencing",
+      "type": "output_prediction",
+      "concept": "f_string_method_call_inside_braces",
+      "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q16"
-      ],
-      "prompt": "Arrange the following code lines in the correct order to create an f-string that greets the user by name:",
+      "prompt": "What will this program print?\n```python\nword = \"python\"\nprint(f\"Learning {word.upper()}!\")\n```",
       "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
+        "Learning PYTHON!",
+        "Learning python!",
+        "Learning {word.upper()}!",
+        "TypeError: methods not allowed in braces"
       ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The correct sequence is: first, prompt the user for input and store it in the variable name; second, use an f-string with {name} to interpolate the variable into the greeting. The f-string must come after the variable is defined, otherwise it will raise a NameError."
+      "correct_answer": "Learning PYTHON!",
+      "explanation": "Expressions inside curly braces are evaluated before string insertion. `word.upper()` evaluates to `\"PYTHON\"`, producing `\"Learning PYTHON!\"`.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "4.4_q18",
-      "type": "fill_in_the_blank",
-      "concept": "fstrings_idioms",
-      "skill": "syntax",
+      "type": "output_prediction",
+      "concept": "f_string_percentage_format_specifier",
+      "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q17"
+      "prompt": "What will this program print?\n```python\nratio = 0.75\nprint(f\"Completion: {ratio:.0%}\")\n```",
+      "options": [
+        "Completion: 75%",
+        "Completion: 0.75%",
+        "Completion: 75.0%",
+        "Completion: 0%"
       ],
-      "prompt": "Fill in the blank to compute the area of a rectangle using an f-string: `print(f'Area: {length * width}')` uses multiplication. To format to 2 decimal places, use: `print(f'Area: {length * width:___}')`",
-      "correct_answer": ".2f",
-      "accepted_answers": [
-        ".2f",
-        ".2f",
-        ".2f"
-      ],
-      "explanation": "The format specifier .2f inside an f-string formats a number as a fixed-point decimal with exactly 2 digits after the decimal point. This is a common idiom for displaying floating-point calculations cleanly."
+      "correct_answer": "Completion: 75%",
+      "explanation": "The `:.0%` format specifier multiplies the number by 100, formats it with 0 decimal places, and appends a `%` sign.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.4_q19",
-      "type": "fix_the_code",
-      "concept": "fstrings_errors",
-      "skill": "debugging",
+      "type": "real_world_scenario",
+      "concept": "sports_scoreboard_banner",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q18"
+      "prompt": "A sports tracker has `home = \"Hawks\"`, `away = \"Eagles\"`, `h_score = 98`, `a_score = 92`. Which f-string creates the score header `Hawks 98 - 92 Eagles`?",
+      "options": [
+        "f\"{home} {h_score} - {a_score} {away}\"",
+        "f\"{home} + {h_score} - {a_score} + {away}\"",
+        "\"{home} {h_score} - {a_score} {away}\"",
+        "f\"{home, h_score} - {a_score, away}\""
       ],
-      "prompt": "Identify the error in this code snippet that attempts to use an f-string.",
-      "starter_code": "x = 10\ny = 20\nprint(f'The sum is {x + y')\n",
-      "solution_code": "x = 10\ny = 20\nprint(f'The sum is {x + y}')\n",
-      "hint": "Check the closing quote and the placement of the expression inside the f-string.",
-      "explanation": "The error is a missing closing single quote after the expression inside the f-string. The correct syntax requires the expression to be enclosed in curly braces and the entire f-string to be closed with a matching quote. The corrected line is: print(f'The sum is {x + y}')."
+      "correct_answer": "f\"{home} {h_score} - {a_score} {away}\"",
+      "explanation": "`f\"{home} {h_score} - {a_score} {away}\"` interpolates all four variables in exact scoreboard order.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.4_q20",
-      "type": "fix_the_code",
-      "concept": "fstrings_fix",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "4.4_q19"
+      "type": "error_diagnosis",
+      "concept": "quote_matching_inside_fstring_braces",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "In Python, why is `f\"Value: {\"hello\"}\"` tricky or potentially confusing in older Python versions?",
+      "options": [
+        "Reusing the exact same double quotes both inside and outside the f-string can prematurely terminate the string literal",
+        "Double quotes are forbidden inside f-string braces",
+        "Strings cannot be placed inside braces",
+        "f-strings cannot be used with print()"
       ],
-      "prompt": "Fix the code so it correctly prints a formatted message using an f-string.",
-      "starter_code": "name = 'Alice'\nprint('Welcome to the class, ' + name + '!')\n",
-      "solution_code": "name = 'Alice'\nprint(f'Welcome to the class, {name}!')\n",
-      "hint": "Replace the string concatenation with an f-string that embeds the variable name.",
-      "explanation": "The original code uses string concatenation with the + operator, which is less readable and error-prone. The fix replaces it with an f-string: f'Welcome to the class, {name}!', which directly interpolates the variable name into the string."
+      "correct_answer": "Reusing the exact same double quotes both inside and outside the f-string can prematurely terminate the string literal",
+      "explanation": "Using the same quotes inside braces as the enclosing quotes (e.g. `f\"...\"`) could confuse the parser in older Python versions. Best practice is to alternate quotes: `f\"Value: {'hello'}\"`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.4_q21",
-      "type": "fix_the_code",
-      "concept": "fstrings_edge_cases",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "flight_countdown_timer_display",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q20"
+      "prompt": "Write a program that:\n1. Prompt: `hours = int(input(\"Hours: \"))`\n2. Prompt: `mins = int(input(\"Minutes: \"))`\n3. Print: `f\"Departure in {hours}h {mins}m\"`",
+      "starter_code": "# Flight departure countdown\n",
+      "solution_code": "hours = int(input(\"Hours: \"))\nmins = int(input(\"Minutes: \"))\nprint(f\"Departure in {hours}h {mins}m\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Departure in 2h 45m",
+          "input": "2\n45",
+          "expectedOutput": "Hours: 2\nMinutes: 45\nDeparture in 2h 45m",
+          "assertionPython": "assert 'Departure in 2h 45m' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with 5h 10m",
+          "input": "5\n10",
+          "expectedOutput": "Hours: 5\nMinutes: 10\nDeparture in 5h 10m",
+          "assertionPython": "assert 'Departure in 5h 10m' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the code to safely display a user's balance, which may be a float, and handle the case where the balance is zero.",
-      "starter_code": "balance = 0.0\nprint(f'Your balance is {balance}')\n",
-      "solution_code": "balance = 0.0\nif balance == 0.0:\n    print(f'Your balance is ${balance:.2f}')\nelse:\n    print(f'Your balance is ${balance:.2f}')\n",
-      "hint": "Ensure the f-string handles the float value correctly and formats it to two decimal places.",
-      "explanation": "The original code works but does not format the float. The fixed code uses the format specifier .2f to ensure consistent decimal display, and the conditional logic ensures the message remains clear even when the balance is zero."
+      "explanation": "Uses an f-string to cleanly embed integer hours and minutes into a departure message.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.4_q22",
-      "type": "fix_the_code",
-      "concept": "fstrings_runtime",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "temperature_weather_report_fstring",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q21"
+      "prompt": "Write a program that:\n1. Prompt: `city = input(\"City: \")`\n2. Prompt: `temp_c = float(input(\"Temp C: \"))`\n3. Print: `f\"Weather in {city}: {temp_c:.1f} C\"`",
+      "starter_code": "# Weather forecast line\n",
+      "solution_code": "city = input(\"City: \")\ntemp_c = float(input(\"Temp C: \"))\nprint(f\"Weather in {city}: {temp_c:.1f} C\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Weather in Tokyo: 22.4 C",
+          "input": "Tokyo\n22.41",
+          "expectedOutput": "City: Tokyo\nTemp C: 22.41\nWeather in Tokyo: 22.4 C",
+          "assertionPython": "assert 'Weather in Tokyo: 22.4 C' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with London: 15.0 C",
+          "input": "London\n15.0",
+          "expectedOutput": "City: London\nTemp C: 15.0\nWeather in London: 15.0 C",
+          "assertionPython": "assert 'Weather in London: 15.0 C' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Diagnose the runtime error in this program that reads a score and displays it.",
-      "starter_code": "score = int(input('Enter your score: '))\nprint(f'Your score is {score_}')\n",
-      "solution_code": "score = int(input('Enter your score: '))\nprint(f'Your score is {score}')\n",
-      "hint": "Compare the variable name used in the input with the variable name used in the f-string.",
-      "explanation": "A NameError occurs at runtime because the f-string references score_ (with an underscore), which was never defined. The variable defined by input is score (without underscore). The fix is to use {score} in the f-string."
+      "explanation": "Formats temperature float to 1 decimal place with `:.1f` in the f-string.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.4_q23",
       "type": "fix_the_code",
-      "concept": "fstrings_logic_repair",
+      "concept": "fix_fstring_inline_addition_parens",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q22"
+      "prompt": "A programmer wrote `f\"Total: {item_count + 1}\"`, but left off the variable name inside the braces. Fix the code to output `Next: 11`.",
+      "starter_code": "num = 10\nmsg = f\"Next: {+ 1}\"\nprint(msg)",
+      "solution_code": "num = 10\nmsg = f\"Next: {num + 1}\"\nprint(msg)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Next: 11",
+          "input": "",
+          "expectedOutput": "Next: 11",
+          "assertionPython": "assert _raw_stdout.strip() == 'Next: 11' and _user_namespace.get('msg') == 'Next: 11'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying msg value",
+          "input": "",
+          "expectedOutput": "Next: 11",
+          "assertionPython": "assert _user_namespace.get('num') == 10",
+          "hidden": true
+        }
       ],
-      "prompt": "Repair the logic so the f-string correctly reports whether a number is even or odd.",
-      "starter_code": "number = 7\nif number % 2 == 0:\n    print(f'{number} is even')\nelse:\n    print(f'{number} is odd')\n",
-      "solution_code": "number = 7\nif number % 2 == 0:\n    print(f'{number} is even')\nelse:\n    print(f'{number} is odd')\n",
-      "hint": "The code structure is correct; verify the modulo operation and f-string placement.",
-      "explanation": "The starter code is actually correct as written. The modulo operator % checks for evenness, and the f-strings correctly embed the number. No changes were needed. This item tests careful reading: sometimes the code works and the 'fix' is to confirm correctness."
+      "explanation": "The expression inside the curly braces must include the variable name `num + 1`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "4.4_q24",
-      "type": "fix_the_code",
-      "concept": "fstrings_optimization",
-      "skill": "refactoring",
+      "type": "mini_challenge",
+      "concept": "fitness_tracker_summary_card",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "4.4_q23"
+      "prompt": "Build a fitness tracker workout summary:\n1. Prompt: `activity = input(\"Activity: \")`\n2. Prompt: `duration_mins = int(input(\"Minutes: \"))`\n3. Prompt: `calories = int(input(\"Calories: \"))`\n4. Calculate `burn_rate = calories / duration_mins`\n5. Print: `f\"[{activity}] {duration_mins}m | {calories} cal ({burn_rate:.1f} cal/min)\"`",
+      "starter_code": "# Fitness activity summary card\n",
+      "solution_code": "activity = input(\"Activity: \")\nduration_mins = int(input(\"Minutes: \"))\ncalories = int(input(\"Calories: \"))\nburn_rate = calories / duration_mins\nprint(f\"[{activity}] {duration_mins}m | {calories} cal ({burn_rate:.1f} cal/min)\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs [Running] 30m | 300 cal (10.0 cal/min)",
+          "input": "Running\n30\n300",
+          "expectedOutput": "Activity: Running\nMinutes: 30\nCalories: 300\n[Running] 30m | 300 cal (10.0 cal/min)",
+          "assertionPython": "assert '[Running] 30m | 300 cal (10.0 cal/min)' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Cycling 45m 360 cal",
+          "input": "Cycling\n45\n360",
+          "expectedOutput": "Activity: Cycling\nMinutes: 45\nCalories: 360\n[Cycling] 45m | 360 cal (8.0 cal/min)",
+          "assertionPython": "assert '[Cycling] 45m | 360 cal (8.0 cal/min)' in _raw_stdout",
+          "hidden": true
+        }
       ],
-      "prompt": "Refactor this inefficient string-building code into a single optimized f-string.",
-      "starter_code": "first = 'John'\nlast = 'Doe'\nage = 30\nmiddle = ' '\nresult = 'Name: ' + first + middle + last + ', Age: ' + str(age) + '\n",
-      "solution_code": "first = 'John'\nlast = 'Doe'\nage = 30\nresult = f'Name: {first} {last}, Age: {age}\\n'\n",
-      "hint": "Use one f-string to combine all variables and avoid explicit concatenation.",
-      "explanation": "The original code uses multiple + operations and an unnecessary middle variable. The refactored version uses a single f-string with {first}, {last}, and {age}, eliminating intermediate variables and improving readability and performance."
+      "explanation": "Combines multiple variables and calculated burn rate formatted to one decimal place.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "4.4_q25",
-      "type": "write_the_code",
-      "concept": "fstrings_implementation",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q24"
-      ],
-      "prompt": "Write a program that asks for the user's first name, last name, and city, then prints a greeting using an f-string.",
-      "starter_code": "# TODO: Implement solution for f-strings\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "first_name = input('Enter your first name: ')\nlast_name = input('Enter your last name: ')\ncity = input('Enter your city: ')\nprint(f'Hello, {first_name} {last_name} from {city}!')\n",
-      "test_cases": [
-        {
-          "input": "Alice\nSmith\nParis",
-          "expected": "Hello, Alice Smith from Paris!"
-        },
-        {
-          "input": "Bob\nJohnson\nLondon",
-          "expected": "Hello, Bob Johnson from London!"
-        }
-      ],
-      "hint": "Use input() for each piece of information and combine them in one f-string.",
-      "explanation": "This application demonstrates collecting multiple user inputs and embedding them into a single f-string. The variables are defined sequentially and then interpolated using {variable_name} syntax."
-    },
-    {
-      "id": "4.4_q26",
-      "type": "write_the_code",
-      "concept": "fstrings_practical",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "4.4_q25"
-      ],
-      "prompt": "Write a program that reads a price and quantity, calculates the total, and displays it formatted to 2 decimal places using an f-string.",
-      "starter_code": "# TODO: Implement solution for f-strings\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "price = float(input('Enter the price: '))\nquantity = int(input('Enter the quantity: '))\ntotal = price * quantity\nprint(f'Total cost: ${total:.2f}')\n",
-      "test_cases": [
-        {
-          "input": "19.99\n3",
-          "expected": "Total cost: $59.97"
-        },
-        {
-          "input": "5.5\n2",
-          "expected": "Total cost: $11.00"
-        }
-      ],
-      "hint": "Convert inputs to the correct numeric types, compute the total, and use .2f in the f-string.",
-      "explanation": "This practical example shows f-strings with arithmetic expressions ({price * quantity}) and format specifiers (.2f) to ensure monetary values display consistently with two decimal places."
-    },
-    {
-      "id": "4.4_q27",
-      "type": "write_the_code",
-      "concept": "fstrings_advanced",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.4_q26"
-      ],
-      "prompt": "Write a program that reads a birth year, computes age (assuming current year is 2024), and prints a personalized message. If age is under 18, add 'You are a minor.'; otherwise, add 'You are an adult.' Use a conditional expression inside the f-string.",
-      "starter_code": "# TODO: Implement solution for f-strings\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "birth_year = int(input('Enter your birth year: '))\nage = 2024 - birth_year\nstatus = 'You are a minor.' if age < 18 else 'You are an adult.'\nprint(f'Born in {birth_year}, you are {age} years old. {status}')\n",
-      "test_cases": [
-        {
-          "input": "2010",
-          "expected": "Born in 2010, you are 14 years old. You are a minor."
-        },
-        {
-          "input": "1990",
-          "expected": "Born in 1990, you are 34 years old. You are an adult."
-        }
-      ],
-      "hint": "Use a ternary conditional expression inside the f-string to choose the status message.",
-      "explanation": "This advanced example combines arithmetic, conditional expressions (if-else inline), and multiple f-string interpolations. The ternary operator is evaluated at runtime and its result is embedded directly in the output string."
-    },
-    {
-      "id": "4.4_q28",
-      "type": "write_the_code",
-      "concept": "fstrings_challenge",
-      "skill": "problem_solving",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.4_q27"
-      ],
-      "prompt": "Challenge: Write a program that reads 3 names, stores them in a list, and prints each name on a separate line prefixed with 'Guest: ' using a loop and an f-string.",
-      "starter_code": "# TODO: Implement solution for f-strings\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "names = []\nfor _ in range(3):\n    name = input('Enter a name: ')\n    names.append(name)\nfor name in names:\n    print(f'Guest: {name}')\n",
-      "test_cases": [
-        {
-          "input": "Anna\nBen\nCara",
-          "expected": [
-            "Guest: Anna",
-            "Guest: Ben",
-            "Guest: Cara"
-          ]
-        },
-        {
-          "input": "X\nY\nZ",
-          "expected": [
-            "Guest: X",
-            "Guest: Y",
-            "Guest: Z"
-          ]
-        }
-      ],
-      "hint": "Build a list with input(), then iterate and print with an f-string inside the loop.",
-      "explanation": "This challenge requires combining list accumulation, iteration, and f-string interpolation. The f-string is used inside a loop to produce dynamic output for each list element."
-    },
-    {
-      "id": "4.4_q29",
-      "type": "write_the_code",
-      "concept": "fstrings_scenario",
+      "type": "mini_challenge",
+      "concept": "coffee_shop_order_confirmation",
       "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "4.4_q28"
-      ],
-      "prompt": "Real-world scenario: Build a simple order summary. Read the item name, unit price, and quantity. Compute the subtotal and, if quantity > 5, apply a 10% discount. Display the final amount formatted as currency using an f-string. Validate that inputs are positive numbers.",
-      "starter_code": "# TODO: Implement solution for f-strings\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "item = input('Item name: ')\nprice = float(input('Unit price: '))\nquantity = int(input('Quantity: '))\nif price <= 0 or quantity <= 0:\n    print('Invalid input: price and quantity must be positive.')\nelse:\n    subtotal = price * quantity\n    if quantity > 5:\n        discount = subtotal * 0.10\n        total = subtotal - discount\n        print(f'{item}: ${subtotal:.2f} with 10% discount applied. Final: ${total:.2f}')\n    else:\n        total = subtotal\n        print(f'{item}: ${subtotal:.2f}. Final: ${total:.2f}')\n",
+      "prompt": "Build a coffee shop digital order screen:\n1. Prompt: `drink = input(\"Drink: \")`\n2. Prompt: `size = input(\"Size (Small/Medium/Large): \")`\n3. Prompt: `price = float(input(\"Price: \"))`\n4. Print: `f\"ORDER #101: {size} {drink} - Total: ${price:.2f}\"`",
+      "starter_code": "# Coffee shop order receipt\n",
+      "solution_code": "drink = input(\"Drink: \")\nsize = input(\"Size (Small/Medium/Large): \")\nprice = float(input(\"Price: \"))\nprint(f\"ORDER #101: {size} {drink} - Total: ${price:.2f}\")",
       "test_cases": [
         {
-          "input": "Widget\n10.00\n6",
-          "expected": "Widget: $60.00 with 10% discount applied. Final: $54.00"
+          "id": "tc_1",
+          "description": "Outputs ORDER #101: Large Latte - Total: $5.25",
+          "input": "Latte\nLarge\n5.25",
+          "expectedOutput": "Drink: Latte\nSize (Small/Medium/Large): Large\nPrice: 5.25\nORDER #101: Large Latte - Total: $5.25",
+          "assertionPython": "assert 'ORDER #101: Large Latte - Total: $5.25' in _raw_stdout"
         },
         {
-          "input": "Gadget\n20.00\n3",
-          "expected": "Gadget: $60.00. Final: $60.00"
+          "id": "tc_2",
+          "description": "Hidden test with Small Americano $3.50",
+          "input": "Americano\nSmall\n3.50",
+          "expectedOutput": "Drink: Americano\nSize (Small/Medium/Large): Small\nPrice: 3.50\nORDER #101: Small Americano - Total: $3.50",
+          "assertionPython": "assert 'ORDER #101: Small Americano - Total: $3.50' in _raw_stdout",
+          "hidden": true
         }
       ],
-      "hint": "Calculate subtotal, apply conditional discount logic, and format all monetary values with .2f in f-strings.",
-      "explanation": "This synthesis task integrates input validation, arithmetic, conditional logic, and formatted output. f-strings are used to present a clean, readable order summary with currency formatting."
-    },
-    {
-      "id": "4.4_q30",
-      "type": "write_the_code",
-      "concept": "fstrings_mastery",
-      "skill": "mastery",
-      "difficulty": "hard",
-      "prerequisites": [
-        "4.4_q29"
-      ],
-      "prompt": "Mastery challenge: Write a program that reads a full name and a birth date (YYYY-MM-DD), parses the date, computes age, and prints a certificate-style message. Use an f-string with a date formatting specifier (strftime) to display the birth date as 'Month Day, Year'.",
-      "starter_code": "# TODO: Implement solution for f-strings\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "import datetime\nfull_name = input('Enter your full name: ')\nbirth_str = input('Enter birth date (YYYY-MM-DD): ')\nbirth_date = datetime.datetime.strptime(birth_str, '%Y-%m-%d')\ncurrent_year = datetime.datetime.now().year\nage = current_year - birth_date.year - ((datetime.datetime.now().month, datetime.datetime.now().day) < (birth_date.month, birth_date.day))\nbirth_formatted = birth_date.strftime('%B %d, %Y')\nprint(f'CERTIFICATE OF COMPLETION\\n')\nprint(f'This certifies that {full_name} was born on {birth_formatted} and is {age} years old as of {datetime.datetime.now().year}.\\n')\nprint(f'Congratulations, {full_name}!')\n",
-      "test_cases": [
-        {
-          "input": "Jane Doe\n1995-07-15",
-          "expected": "CERTIFICATE OF COMPLETION\\nThis certifies that Jane Doe was born on July 15, 1995 and is 29 years old as of 2024.\\nCongratulations, Jane Doe!"
-        },
-        {
-          "input": "Sam Lee\n2000-01-01",
-          "expected": "CERTIFICATE OF COMPLETION\\nThis certifies that Sam Lee was born on January 01, 2000 and is 24 years old as of 2024.\\nCongratulations, Sam Lee!"
-        }
-      ],
-      "hint": "Use datetime.strptime to parse the input, strftime to format the date, and compute age carefully accounting for whether the birthday has passed this year.",
-      "explanation": "This mastery challenge requires datetime manipulation, precise age calculation, and complex f-string formatting with newlines and multiple interpolations. It demonstrates professional-level use of f-strings for structured, readable output."
+      "explanation": "Assembles a professional barista receipt screen using an f-string with fixed-precision currency formatting.",
+      "misconception_tag": "WRONG_TYPE"
     }
-  ],
-  "unit_num": 4,
-  "learning_objectives": [
-    "Manipulate textual data using f-strings",
-    "Apply zero-based indexing and slicing syntax correctly",
-    "Differentiate between in-place mutation and immutable string transformations",
-    "Format and clean user-provided text data safely"
-  ],
-  "prerequisites": [
-    "4.3"
   ]
 }

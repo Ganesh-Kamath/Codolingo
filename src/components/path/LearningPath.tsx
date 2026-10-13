@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useApp } from '../../context/AppContext';
-import { SkillNode, Unit } from '../../types';
+import { SkillNode, Unit, Lesson } from '../../types';
 import { Icon } from '../ui/Icon';
 import { Button, Badge, ProgressBar, Modal } from '../common';
 import { masteryService } from '../../services/masteryService';
+import { progressionService } from '../../services/progressionService';
 import { UNKNOWN_MASTERY_PIPS, UNKNOWN_MASTERY_LABEL, MASTERY_LABELS } from '../../constants/mastery';
 import curriculumStatus from '../../curriculum/python/curriculumStatus.json';
 
@@ -71,19 +72,19 @@ export const LearningPath: React.FC = () => {
   const [pipDetailModal, setPipDetailModal] = useState<{ skillTitle: string; explanation: string } | null>(null);
   const currentNodeRef = useRef<HTMLDivElement | null>(null);
 
-  const [notifiedUnit2, setNotifiedUnit2] = useState<boolean>(() => {
+  const [notifiedUnit7, setNotifiedUnit7] = useState<boolean>(() => {
     try {
-      return localStorage.getItem('codolingo_notify_unit2') === 'true';
+      return localStorage.getItem('codolingo_notify_unit7') === 'true';
     } catch {
       return false;
     }
   });
 
-  const handleToggleNotifyUnit2 = () => {
-    const nextVal = !notifiedUnit2;
-    setNotifiedUnit2(nextVal);
+  const handleToggleNotifyUnit7 = () => {
+    const nextVal = !notifiedUnit7;
+    setNotifiedUnit7(nextVal);
     try {
-      localStorage.setItem('codolingo_notify_unit2', String(nextVal));
+      localStorage.setItem('codolingo_notify_unit7', String(nextVal));
     } catch {}
   };
 
@@ -101,11 +102,8 @@ export const LearningPath: React.FC = () => {
     return idx === -1 ? 0 : idx;
   }, [course.units, userProgress.completedSkillIds]);
 
-  // Track manually expanded units (by default, the active unit is expanded)
-  const [expandedUnitIds, setExpandedUnitIds] = useState<Record<string, boolean>>(() => {
-    const activeUnit = course.units[activeUnitIndex];
-    return activeUnit ? { [activeUnit.id]: true } : {};
-  });
+  // Track manually expanded units (by default, completed units are collapsed and active unit is expanded)
+  const [expandedUnitIds, setExpandedUnitIds] = useState<Record<string, boolean>>({});
 
   const toggleUnitExpanded = (unitId: string) => {
     setExpandedUnitIds(prev => ({
@@ -114,26 +112,28 @@ export const LearningPath: React.FC = () => {
     }));
   };
 
-  // Find the current skill and active lesson to recommend in "Continue Learning"
-  let currentSkill: SkillNode | null = null;
-  for (const unit of course.units) {
-    const s = unit.skills.find(item => item.id === userProgress.currentSkillId);
-    if (s) {
-      currentSkill = s;
-      break;
-    }
-  }
-
-  if (!currentSkill) {
-    currentSkill = course.units[0]?.skills[0];
-  }
-
-  const nextLesson = currentSkill?.lessons[0] || {
+  // Find the exact next lesson across all units to recommend in "Continue Learning"
+  const nextLessonId = progressionService.getNextLesson(userProgress, course) || '1.1';
+  let currentSkill: SkillNode = course.units[0]?.skills[0];
+  let nextLesson: Lesson = currentSkill?.lessons[0] || {
     id: '1.1',
     title: 'What Is Programming?',
     estimatedMinutes: 4,
     xpReward: 25
   };
+  let currentUnit = course.units[0];
+
+  for (const unit of course.units) {
+    for (const skill of unit.skills) {
+      const l = skill.lessons.find(item => item.id === nextLessonId);
+      if (l) {
+        currentSkill = skill;
+        nextLesson = l;
+        currentUnit = unit;
+        break;
+      }
+    }
+  }
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -145,7 +145,14 @@ export const LearningPath: React.FC = () => {
   // Helper to render the serpentine winding SVG track for a given unit's skills
   const renderSerpentineTrack = (unit: Unit) => {
     const skills = unit.skills;
-    const unitCheckpoint = unit.checkpoint;
+    const unitCheckpoint = unit.checkpoint || {
+      id: `chk_${unit.id}`,
+      unitId: unit.id,
+      title: `Unit ${unit.unitNumber} Capstone`,
+      description: unit.description,
+      status: 'unlocked' as const,
+      xpReward: 100
+    };
     const nodeSpacing = 110;
     const centerX = 160;
     const totalHeight = skills.length * nodeSpacing + 100;
@@ -226,8 +233,9 @@ export const LearningPath: React.FC = () => {
             const coord = coords[index];
             const isUnitComingSoon = (curriculumStatus.comingSoonUnits as string[]).includes(unit.id);
             const isCompleted = !isUnitComingSoon && userProgress.completedSkillIds.includes(skill.id);
-            const isCurrent = !isUnitComingSoon && skill.id === userProgress.currentSkillId;
-            const isUnlocked = !isUnitComingSoon && (isCompleted || isCurrent || skill.status === 'unlocked');
+            const isCurrent = !isUnitComingSoon && (skill.id === userProgress.currentSkillId || skill.lessons.some(l => l.id === nextLessonId));
+            const isPrereqCompleted = !skill.requiresSkillId || userProgress.completedSkillIds.includes(skill.requiresSkillId);
+            const isUnlocked = !isUnitComingSoon && (isCompleted || isCurrent || skill.status === 'unlocked' || isPrereqCompleted);
             const isLocked = isUnitComingSoon || !isUnlocked;
             const mastery = userProgress.skillMastery[skill.id] || 0;
 
@@ -254,9 +262,19 @@ export const LearningPath: React.FC = () => {
             }
 
             const prevSkill = index > 0 ? skills[index - 1] : null;
+            let prereqTitle = prevSkill ? prevSkill.title : null;
+            if (!prereqTitle && skill.requiresSkillId) {
+              for (const u of course.units) {
+                const s = u.skills.find(item => item.id === skill.requiresSkillId);
+                if (s) {
+                  prereqTitle = `${s.title} (Unit ${u.unitNumber})`;
+                  break;
+                }
+              }
+            }
             const lockReason = isUnitComingSoon
               ? 'Coming soon: Content in this unit is currently undergoing curriculum verification.'
-              : (isLocked ? (prevSkill ? `Finish ${prevSkill.title} first` : 'Complete preceding skill first') : undefined);
+              : (isLocked ? (prereqTitle ? `Finish ${prereqTitle} first` : 'Complete preceding skill first') : undefined);
 
             return (
               <div
@@ -497,7 +515,7 @@ export const LearningPath: React.FC = () => {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
               <span style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--brand-primary)' }}>
-                CURRENT MODULE • UNIT 1 FOUNDATIONS
+                CURRENT MODULE • UNIT {currentUnit.unitNumber} {currentUnit.title.replace(/^Unit \d+:\s*/i, '').toUpperCase()}
               </span>
               <Badge variant="brand" size="sm">Mastery {userProgress.skillMastery[currentSkill.id] || 0}/5</Badge>
             </div>
@@ -759,8 +777,8 @@ export const LearningPath: React.FC = () => {
                 {/* Sinuous SVG Serpentine Track with 3D Stepping-Stone Nodes */}
                 {renderSerpentineTrack(unit)}
 
-                {/* Visibly locked Unit 2 Coming Soon node after Unit 1 */}
-                {unit.unitNumber === 1 && (
+                {/* Visibly locked Unit 7 Coming Soon node after playable units (Unit 6) */}
+                {unit.unitNumber === 6 && (
                   <div
                     style={{
                       padding: '24px 20px',
@@ -792,21 +810,21 @@ export const LearningPath: React.FC = () => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
                       <Badge variant="neutral" size="sm">Coming Soon</Badge>
-                      <Badge variant="warning" size="sm">Unit 2</Badge>
+                      <Badge variant="warning" size="sm">Unit 7</Badge>
                     </div>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
-                      Unit 2: Data Structures & Loops
+                      Unit 7: Strings & Text Manipulation
                     </h3>
                     <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', maxWidth: '380px', margin: '0 auto 16px', lineHeight: 1.5 }}>
-                      Lists, dictionaries, iteration loops, and nested logic in Python.
+                      Slicing, string formatting, string methods, encoding, and regex fundamentals in Python.
                     </p>
                     <Button
-                      variant={notifiedUnit2 ? "secondary" : "primary"}
+                      variant={notifiedUnit7 ? "secondary" : "primary"}
                       size="sm"
-                      onClick={handleToggleNotifyUnit2}
-                      icon={<Icon name={notifiedUnit2 ? "check" : "bell"} size={14} />}
+                      onClick={handleToggleNotifyUnit7}
+                      icon={<Icon name={notifiedUnit7 ? "check" : "bell"} size={14} />}
                     >
-                      {notifiedUnit2 ? "Notification saved" : "Notify me when available"}
+                      {notifiedUnit7 ? "Notification saved" : "Notify me when available"}
                     </Button>
                   </div>
                 )}
@@ -938,15 +956,22 @@ export const LearningPath: React.FC = () => {
               </div>
 
               {/* Goal 3: Unit 1 Skills */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
-                  <span>Unit 1 Foundations</span>
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    {userProgress.completedSkillIds.length} / 10 Skills
-                  </span>
-                </div>
-                <ProgressBar progress={Math.round((userProgress.completedSkillIds.length / 10) * 100)} height={8} color="#10B981" />
-              </div>
+              {(() => {
+                const unit1 = course.units.find(u => u.unitNumber === 1 || u.id === 'unit_01');
+                const unit1SkillCount = unit1 ? unit1.skills.length : 6;
+                const unit1CompletedCount = unit1 ? unit1.skills.filter(s => userProgress.completedSkillIds.includes(s.id)).length : 0;
+                return (
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', fontWeight: 700, marginBottom: '6px' }}>
+                      <span>Unit 1 Foundations</span>
+                      <span style={{ color: 'var(--text-secondary)' }}>
+                        {unit1CompletedCount} / {unit1SkillCount} Skills
+                      </span>
+                    </div>
+                    <ProgressBar progress={Math.round((unit1CompletedCount / Math.max(unit1SkillCount, 1)) * 100)} height={8} color="#10B981" />
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
@@ -1393,15 +1418,14 @@ export const LearningPath: React.FC = () => {
                 variant="primary"
                 size="md"
                 onClick={() => {
-                  const targetLesson = activeCapstoneUnit.unitNumber === 1 
-                    ? 'unit_01_final'
-                    : (activeCapstoneUnit.skills[activeCapstoneUnit.skills.length - 1]?.lessons[0]?.id || '1.1');
+                  const lastSkill = activeCapstoneUnit.skills[activeCapstoneUnit.skills.length - 1];
+                  const capstoneLessonId = lastSkill?.lessons[lastSkill.lessons.length - 1]?.id || `${activeCapstoneUnit.unitNumber}.1`;
                   setActiveCapstoneUnit(null);
-                  startLesson(targetLesson);
+                  startLesson(capstoneLessonId);
                 }}
                 icon={<Icon name="player-play" size={16} fill="#fff" />}
               >
-                Start Capstone Challenge (+100 XP)
+                Start Capstone Challenge (+{activeCapstoneUnit.checkpoint?.xpReward || 100} XP)
               </Button>
             </div>
           </div>

@@ -1,606 +1,595 @@
 {
   "lesson_id": "6.3",
   "title": "Avoiding Infinite Loops",
-  "unit": "Loops and Repetition",
+  "unit": "unit_06",
   "items": [
     {
-      "id": "6.3_q1",
+      "id": "6.3_cand_1",
       "type": "micro_lesson",
-      "difficulty": "easy",
-      "prerequisites": [],
       "concept": "avoiding_infinite_loops_basics",
       "skill": "recognition",
-      "title": "What Is an Infinite Loop?",
-      "content": "An infinite loop is a loop that never stops running because its condition is always true. In Python, a common example is using a while loop with a condition that never changes inside the loop. For example, running `while True:` without any `break` statement will cause the program to run forever. To avoid infinite loops, always ensure that the loop variable or condition changes in a way that eventually becomes false. Here is an example of a safe loop:\n\n```python\ncount = 0\nwhile count < 5:\n    print('Count is:', count)\n    count += 1\n```\n\nNotice that `count` increases each time, so the loop will stop after 5 iterations.",
+      "difficulty": "easy",
+      "title": "Avoiding Infinite Loops: Convergence & Sentinel Guards",
       "prompt": "",
-      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
+      "explanation": "An infinite loop occurs when a loop's condition never evaluates to False. Every while loop must advance its state variable towards the termination boundary on every iteration to guarantee eventual termination.",
+      "content": "# Avoiding Infinite Loops\n\nAn **infinite loop** is a loop that never stops running because its condition remains `True` forever.\n\n### The 3 Classic Infinite Loop Traps\n\n#### 1. The Forgotten Increment\n```python\n# DANGER: Infinite loop!\ncount = 1\nwhile count <= 5:\n    print(count)\n    # Missing: count += 1!\n```\nBecause `count` is never updated, `1 <= 5` is always `True`.\n\n#### 2. Advancing in the Wrong Direction\n```python\n# DANGER: Moves AWAY from 0!\nseconds = 10\nwhile seconds > 0:\n    print(seconds)\n    seconds += 1   # BUG: increments away from 0!\n```\n\n#### 3. The Unreachable Equality Trap (`!=`)\n```python\n# DANGER: Skips 10! (1, 3, 5, 7, 9, 11, 13...)\nn = 1\nwhile n != 10:\n    n += 2         # Jumps straight from 9 to 11!\n```\n**Pro Tip:** Prefer inequality bounds (`<=`, `>=`) over strict equality (`==`, `!=`) when stepping by values greater than 1."
     },
     {
-      "id": "6.3_q2",
+      "id": "6.3_cand_2",
       "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q1"
-      ],
       "concept": "avoiding_infinite_loops_basics",
       "skill": "recall",
-      "prompt": "Which of the following best describes an infinite loop?",
-      "options": [
-        "A loop that runs exactly 10 times",
-        "A loop that never ends because its condition never becomes false",
-        "A loop that runs only when a variable is negative",
-        "A loop that stops immediately after starting"
-      ],
-      "correct_answer": "A loop that never ends because its condition never becomes false",
-      "explanation": "An infinite loop is defined by a condition that remains true forever, causing the loop to repeat without termination. The other options describe finite or non-existent behaviors."
-    },
-    {
-      "id": "6.3_q3",
-      "type": "micro_lesson",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q2"
-      ],
-      "concept": "avoiding_infinite_loops_syntax",
-      "skill": "understanding",
-      "title": "Updating the Loop Variable",
-      "content": "To prevent an infinite loop, you must update a variable inside the loop so that the loop condition eventually evaluates to false. If you forget to change the variable, the condition stays the same and the loop runs forever. Consider this correct example:\n\n```python\nnumber = 1\nwhile number <= 3:\n    print('Current number:', number)\n    number += 1\n```\n\nHere, `number += 1` increases the value on each iteration. Without this update, `number` would stay at 1 forever and the loop would never exit. Always check that your loop body contains code that moves the loop closer to termination.",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
-    },
-    {
-      "id": "6.3_q4",
-      "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q3"
-      ],
-      "concept": "avoiding_infinite_loops_syntax",
-      "skill": "reasoning",
-      "prompt": "Why does the following code cause an infinite loop?\n\n```python\nvalue = 0\nwhile value < 5:\n    print('value is', value)\n```",
+      "prompt": "What condition guarantees that a `while` loop will terminate rather than looping infinitely?",
       "options": [
-        "The condition is never updated inside the loop",
-        "The condition starts as false",
-        "The print statement stops the loop",
-        "The variable value is reset to 5"
+        "The loop state variable must advance towards a boundary that causes the condition to become False",
+        "The loop must contain at least 10 lines of code",
+        "The loop must iterate over a list or string",
+        "The loop must use double quotes instead of single quotes"
       ],
-      "correct_answer": "The condition is never updated inside the loop",
-      "explanation": "The variable `value` is never changed inside the while loop, so the condition `value < 5` remains true forever. This is the classic cause of an infinite loop."
+      "correct_answer": "The loop state variable must advance towards a boundary that causes the condition to become False",
+      "explanation": "A while loop continues as long as its condition is True. To terminate, the state variable evaluated in the condition must change on each pass in a direction that guarantees the condition will eventually evaluate to False.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.3_q5",
-      "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q4"
-      ],
-      "concept": "avoiding_infinite_loops_matching",
-      "skill": "recognition",
-      "prompt": "Match the loop behavior to the correct description.",
-      "options": [
-        "Loop runs forever: while True with no break",
-        "Loop stops after 3 iterations: while count < 3 with count += 1",
-        "Loop never starts: while False",
-        "Loop runs exactly once: while count == 0 with count = 1 after print"
-      ],
-      "correct_answer": "Loop runs forever: while True with no break",
-      "explanation": "A `while True` loop with no `break` statement will execute indefinitely, which is the definition of an infinite loop. The other options describe finite or zero-iteration loops."
-    },
-    {
-      "id": "6.3_q6",
-      "type": "multiple_choice",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q5"
-      ],
-      "concept": "avoiding_infinite_loops_pitfalls",
-      "skill": "comprehension",
-      "prompt": "Which change fixes the infinite loop in this code?\n\n```python\nsteps = 0\nwhile steps < 4:\n    print('Step', steps)\n```",
-      "options": [
-        "Add `steps = steps + 1` inside the loop",
-        "Change the condition to `while steps > 4`",
-        "Remove the print statement",
-        "Replace `while` with `for` without any changes"
-      ],
-      "correct_answer": "Add `steps = steps + 1` inside the loop",
-      "explanation": "The variable `steps` is never updated, so the condition `steps < 4` stays true forever. Incrementing `steps` inside the loop ensures the condition will eventually become false and the loop will terminate."
-    },
-    {
-      "id": "6.3_q7",
+      "id": "6.3_cand_3",
       "type": "code_prediction",
       "concept": "avoiding_infinite_loops_execution",
       "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q6"
-      ],
-      "prompt": "Consider the following Python code:\n\n```python\ncount = 1\nwhile count < 5:\n    print('count is', count)\n```\n\nWhat will happen when this code is executed?",
+      "prompt": "What does this safe, terminating loop print?",
+      "code_snippet": "fuel = 30\nwhile fuel > 10:\n    fuel -= 10\nprint(f\"Fuel: {fuel}\")",
+      "expected_output": "Fuel: 10",
       "options": [
-        "The loop will print 1 through 4 and then stop",
-        "The loop will print 1 through 5 and then stop",
-        "The loop will run forever",
-        "The code will raise a syntax error"
+        "Fuel: 10",
+        "Fuel: 0",
+        "Fuel: 20",
+        "Fuel: 30"
       ],
-      "correct_answer": "The loop will print 1 through 4 and then stop",
-      "explanation": "The variable `count` starts at 1 and is incremented implicitly only if we add `count = count + 1` or `count += 1` inside the loop. Since `count` is never updated, the condition `count < 5` remains true forever, creating an infinite loop. However, if we assume the code as written lacks an increment, it would actually be infinite. Given the provided code has no increment, the correct behavior is that it runs forever. Correction: the code shown does not increment `count`, so the condition never becomes false. Therefore, the loop runs forever. The correct answer is that the loop will run forever."
+      "correct_answer": "Fuel: 10",
+      "explanation": "Pass 1: fuel starts at 30, `30 > 10` is True, fuel becomes 20. Pass 2: `20 > 10` is True, fuel becomes 10. Pass 3: `10 > 10` is False! The loop ends, and `Fuel: 10` prints.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.3_q8",
-      "type": "output_prediction",
-      "concept": "avoiding_infinite_loops_execution",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q7"
-      ],
-      "prompt": "Consider the following Python code:\n\n```python\ntotal = 0\nwhile total < 10:\n    total = total + 2\n    print(total)\n```\n\nWhat output will this code produce before it terminates?",
-      "options": [
-        "2, 4, 6, 8",
-        "2, 4, 6, 8, 10",
-        "0, 2, 4, 6, 8, 10",
-        "It produces no output"
-      ],
-      "correct_answer": "2, 4, 6, 8",
-      "explanation": "The loop starts with `total = 0`. The condition `total < 10` is checked before each iteration. On the first iteration, `total` becomes 2 and 2 is printed. The values printed are 2, 4, 6, and 8. After printing 8, `total` becomes 10, and the condition `10 < 10` is false, so the loop terminates without printing 10."
-    },
-    {
-      "id": "6.3_q9",
-      "type": "code_prediction",
+      "id": "6.3_cand_4",
+      "type": "multiple_choice",
       "concept": "avoiding_infinite_loops_flow",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q8"
-      ],
-      "prompt": "Consider the following Python code:\n\n```python\nwhile True:\n    user = input('Enter a number: ')\n    if user == 'done':\n        break\n    num = int(user)\n    print(num * 2)\n```\n\nWhat happens if the user enters 'done' on the first input?",
+      "prompt": "Consider this snippet:\n```python\nx = 1\nwhile x != 6:\n    x += 2\n```\nWhat will happen when this program runs?",
       "options": [
-        "The program prints nothing and exits the loop",
-        "The program crashes with a ValueError",
-        "The program loops forever",
-        "The program prints 0"
+        "It loops infinitely because x takes values 1, 3, 5, 7, 9... skipping 6 entirely",
+        "It prints 6 and terminates cleanly",
+        "Python rounds x down to 6 automatically",
+        "Python raises ValueError: cannot step odd into even"
       ],
-      "correct_answer": "The program prints nothing and exits the loop",
-      "explanation": "When the user enters 'done', the `if user == 'done'` condition evaluates to true. The `break` statement immediately terminates the `while True` loop. Since no `print` statement is executed before the break, nothing is printed, and the program continues after the loop."
+      "correct_answer": "It loops infinitely because x takes values 1, 3, 5, 7, 9... skipping 6 entirely",
+      "explanation": "Starting at 1 and adding 2 produces only odd numbers: 1, 3, 5, 7, 9, 11... It jumps directly past 6 without ever equaling 6. Because `x != 6` remains True forever, the loop never stops.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.3_q10",
+      "id": "6.3_cand_5",
       "type": "multiple_choice",
-      "concept": "avoiding_infinite_loops_analysis",
-      "skill": "analysis",
+      "concept": "avoiding_infinite_loops_scenario",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q9"
-      ],
-      "prompt": "Which of the following code snippets is most likely to cause an infinite loop?",
+      "prompt": "A smart thermostat aims to cool a room from 80°F down to 72°F. Which loop will safely converge and terminate at the target temperature without freezing the system?",
       "options": [
-        "```python\ni = 0\nwhile i < 5:\n    i = i + 1\n```",
-        "```python\ni = 0\nwhile i < 5:\n    i = i - 1\n```",
-        "```python\ni = 5\nwhile i > 0:\n    i = i - 1\n```",
-        "```python\ni = 0\nwhile i <= 5:\n    i = i + 1\n```"
+        "temp = 80\nwhile temp > 72:\n    temp -= 2",
+        "temp = 80\nwhile temp > 72:\n    temp += 2",
+        "temp = 80\nwhile temp == 72:\n    temp -= 2",
+        "temp = 80\nwhile temp < 72:\n    temp -= 2"
       ],
-      "correct_answer": "```python\ni = 0\nwhile i < 5:\n    i = i - 1\n```",
-      "explanation": "In option B, `i` starts at 0. The condition `i < 5` is true, but `i = i - 1` keeps `i` at 0 or makes it negative, never reaching 5. Thus the condition remains true forever. Option A terminates when `i` reaches 5. Option C starts at 5 and decrements, terminating when `i` reaches 0. Option D terminates when `i` becomes 6, making `6 <= 5` false."
+      "correct_answer": "temp = 80\nwhile temp > 72:\n    temp -= 2",
+      "explanation": "To cool down from 80 to 72, the temperature must decrement (`temp -= 2`) while `temp > 72`. `temp += 2` would heat the room indefinitely, causing an infinite loop.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.3_q11",
+      "id": "6.3_cand_6",
+      "type": "multiple_choice",
+      "concept": "avoiding_infinite_loops_scenario",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A printer prints pages while `pages_in_queue > 0`. Each print job processes one page (`pages_in_queue -= 1`). What ensures this print queue loop will never run infinitely?",
+      "options": [
+        "Each iteration reduces pages_in_queue by 1, inevitably reaching the termination boundary of 0",
+        "Print statements in Python can only execute 100 times per minute",
+        "The queue variable is stored in read-only memory",
+        "Printers reject while loops by hardware design"
+      ],
+      "correct_answer": "Each iteration reduces pages_in_queue by 1, inevitably reaching the termination boundary of 0",
+      "explanation": "Strict monotonic decrease towards the boundary guarantees convergence. Since `pages_in_queue` decrements by 1 each step, any non-negative integer queue will reach 0 in finite steps.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_7",
+      "type": "multiple_choice",
+      "concept": "avoiding_infinite_loops_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A code review spots this bug:\n```python\nstock = 5\nwhile stock > 0:\n    print(f\"Dispensing item. Stock remaining: {stock}\")\n```\nWhat single line of code must be added inside the loop to prevent an infinite loop?",
+      "options": [
+        "stock -= 1",
+        "stock = 5",
+        "stock += 1",
+        "stock == 0"
+      ],
+      "correct_answer": "stock -= 1",
+      "explanation": "Without `stock -= 1`, `stock` remains 5 forever. Adding `stock -= 1` ensures each dispensed item reduces the inventory until `stock > 0` becomes False.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_8",
+      "type": "multiple_choice",
+      "concept": "avoiding_infinite_loops_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "Spot the bug in this two-variable loop:\n```python\ni = 1\nj = 1\nwhile i <= 5:\n    print(i)\n    j += 1\n```\nWhy does this program freeze with a timeout error?",
+      "options": [
+        "The condition checks i <= 5, but the loop body only increments j, leaving i unchanged at 1",
+        "Two variables cannot be defined before a while loop",
+        "j += 1 must be placed before print(i)",
+        "while loops cannot test variables named i"
+      ],
+      "correct_answer": "The condition checks i <= 5, but the loop body only increments j, leaving i unchanged at 1",
+      "explanation": "This is a common typo bug: the condition tests `i`, but the body increments `j`. Because `i` is never modified, `1 <= 5` remains True forever.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_9",
+      "type": "multiple_choice",
+      "concept": "avoiding_infinite_loops_pitfalls",
+      "skill": "recall",
+      "difficulty": "medium",
+      "prompt": "Why do programming platforms and web browsers enforce execution timeouts (e.g. 6 seconds) on user-submitted Python code?",
+      "options": [
+        "To prevent infinite loops from locking up the browser thread and freezing the user's tab",
+        "Because Python runs out of RAM after 6 seconds of execution",
+        "To force programmers to write code using fewer variables",
+        "Because computer processors require a cooling pause every 6 seconds"
+      ],
+      "correct_answer": "To prevent infinite loops from locking up the browser thread and freezing the user's tab",
+      "explanation": "Web Workers and sandboxes use watchdog timers. If user code gets trapped in an infinite loop, the runtime terminates the process to prevent CPU starvation and unresponsive browser tabs.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_10",
       "type": "code_prediction",
       "concept": "avoiding_infinite_loops_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q10"
-      ],
-      "prompt": "Trace the execution of the following code. What is the value of `x` when the loop finally stops?\n\n```python\nx = 1\nwhile x < 3:\n    x = x + 1\n```",
-      "options": [
-        "1",
-        "2",
-        "3",
-        "The loop never stops"
-      ],
-      "correct_answer": "3",
-      "explanation": "Initially, `x = 1`. The condition `1 < 3` is true, so we enter the loop and set `x = 2`. Next, we check `2 < 3`, which is true, so we set `x = 3`. Next, we check `3 < 3`, which is false, so the loop terminates. The final value of `x` is 3."
-    },
-    {
-      "id": "6.3_q12",
-      "type": "output_prediction",
-      "concept": "avoiding_infinite_loops_logic",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q11"
-      ],
-      "prompt": "Consider the following Python code:\n\n```python\nfound = False\nwhile not found:\n    found = True\nprint('Finished')\n```\n\nWhat is the final output of this program?",
+      "prompt": "What does this program output?",
+      "code_snippet": "level = 1\nwhile level < 4:\n    level += 1\nprint(f\"Final level: {level}\")",
+      "expected_output": "Final level: 4",
       "options": [
-        "Nothing is printed",
-        "Finished",
-        "Finished\nFound",
-        "An infinite loop occurs"
+        "Final level: 4",
+        "Final level: 3",
+        "Final level: 5",
+        "Final level: 1"
       ],
-      "correct_answer": "Finished",
-      "explanation": "The variable `found` is initialized to `False`. The condition `not found` becomes `True`, so the loop executes. Inside the loop, `found` is set to `True`. On the next iteration, `not found` becomes `False`, so the loop terminates. The `print('Finished')` statement outside the loop executes exactly once, producing the output 'Finished'."
+      "correct_answer": "Final level: 4",
+      "explanation": "Iteration 1: level=1, 1 < 4 is True -> level becomes 2. Iteration 2: 2 < 4 is True -> level becomes 3. Iteration 3: 3 < 4 is True -> level becomes 4. Iteration 4: 4 < 4 is False! Loop exits, printing `Final level: 4`.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.3_q13",
-      "type": "fill_in_the_blank",
-      "concept": "avoiding_infinite_loops_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q12"
-      ],
-      "prompt": "Complete the loop below by adding the missing keyword so the loop can eventually stop:\n\ncount = 0\nwhile ____ count < 5:\n    print(count)\n    count += 1",
-      "correct_answer": "count",
-      "accepted_answers": [
-        "count"
-      ],
-      "explanation": "The while loop must check a condition that changes during execution. Without updating count, the condition would never become false, causing an infinite loop. The missing keyword is the variable used in the condition."
-    },
-    {
-      "idx": 14,
-      "type": "fill_in_the_blank",
-      "concept": "avoiding_infinite_loops_keywords",
-      "skill": "syntax",
-      "diff": "medium",
-      "prerequisites": [
-        "6.3_q13"
-      ],
-      "id": "6.3_q14",
-      "prompt": "Fill in the blank with the appropriate keyword to ensure the loop terminates when the user enters 'done':\n\nuser_input = ''\nwhile user_input ____ 'done':\n    user_input = input('Enter a value: ')\nprint('Finished.')",
-      "correct_answer": "!==",
-      "accepted_answers": [
-        "!==",
-        "!="
-      ],
-      "explanation": "To avoid an infinite loop, the condition must eventually evaluate to False. The not-equal operator checks whether the input is different from 'done'. If the user types 'done', the condition becomes False and the loop exits.",
-      "difficulty": "medium"
-    },
-    {
-      "idx": 15,
-      "type": "code_ordering",
-      "concept": "avoiding_infinite_loops_sequence",
-      "skill": "sequencing",
-      "diff": "medium",
-      "prerequisites": [
-        "6.3_q14"
-      ],
-      "id": "6.3_q15",
-      "prompt": "Arrange the following code lines in the correct order to print numbers 1 through 3 without creating an infinite loop.",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The correct sequence initializes the counter before the loop, checks the condition at the start of each iteration, performs the action inside the loop, and updates the counter before the next check. Without initializing number first, the while condition would fail immediately.",
-      "difficulty": "medium"
-    },
-    {
-      "idx": 16,
-      "type": "fill_in_the_blank",
-      "concept": "avoiding_infinite_loops_patterns",
-      "skill": "syntax",
-      "diff": "medium",
-      "prerequisites": [
-        "6.3_q15"
-      ],
-      "id": "6.3_q16",
-      "prompt": "Complete the pattern that safely decrements a countdown from 5 to 1:\n\ncountdown = 5\nwhile countdown ____ 0:\n    print(countdown)\n    countdown -= 1",
-      "correct_answer": ">",
-      "accepted_answers": [
-        ">"
-      ],
-      "explanation": "When counting down, the loop should continue as long as countdown is greater than 0. Using >= would print 0 as well, and using < would prevent the loop from running at all. The > operator ensures the loop stops after reaching 1.",
-      "difficulty": "medium"
-    },
-    {
-      "idx": 17,
-      "type": "code_ordering",
-      "concept": "avoiding_infinite_loops_algorithm",
-      "skill": "sequencing",
-      "diff": "medium",
-      "prerequisites": [
-        "6.3_q16"
-      ],
-      "id": "6.3_q17",
-      "prompt": "Arrange the following lines to create a loop that asks for a password until the correct one is entered, without risking an infinite loop.",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The algorithm must define the target value before the loop begins, prompt for input, evaluate the condition, update the input inside the loop, and print the success message only after the loop exits. Placing the print statement before the loop would always execute immediately.",
-      "difficulty": "medium"
-    },
-    {
-      "idx": 18,
-      "type": "fill_in_the_blank",
-      "concept": "avoiding_infinite_loops_idioms",
-      "skill": "syntax",
-      "diff": "medium",
-      "prerequisites": [
-        "6.3_q17"
-      ],
-      "id": "6.3_q18",
-      "prompt": "Fill in the blank with the correct idiom to exit a loop early when an invalid condition is detected:\n\nvalue = 10\nwhile True:\n    if value < 0:\n        ____\n    print(value)\n    value -= 1",
-      "correct_answer": "break",
-      "accepted_answers": [
-        "break"
-      ],
-      "explanation": "When a sentinel condition such as value < 0 is met, the break statement immediately terminates the loop. Without it, the loop would continue indefinitely because True is always True. This is a common idiom for validating input or detecting edge cases inside an otherwise unbounded loop.",
-      "difficulty": "medium"
-    },
-    {
-      "id": "6.3_q19",
-      "type": "fix_the_code",
-      "concept": "avoiding_infinite_loops_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q18"
-      ],
-      "micro_lesson": {
-        "title": "Recognizing Infinite Loop Symptoms",
-        "content": "An infinite loop occurs when a loop's condition never becomes false, causing the program to run forever. Common causes include a loop variable that is never updated, a condition that always evaluates to True, or updating the variable in the wrong direction. When you see a program hanging or consuming excessive CPU, check whether the loop variable changes inside the loop body and whether the exit condition is reachable. For example, consider this buggy code:\n\n```python\ncount = 0\nwhile count < 5:\n    print('count is:', count)\n    # forgot to increment count\n```\n\nThe loop prints 0 repeatedly because `count` is never modified. To fix this, ensure the loop variable is updated within the loop body so the termination condition can eventually be met."
-      },
-      "prompt": "Fix the bug in this code for avoiding infinite loops errors:",
-      "starter_code": "# Fix this code\nPrint('Avoiding Infinite Loops')",
-      "solution_code": "print('Avoiding Infinite Loops')",
-      "explanation": "This exercise tests `avoiding infinite loops errors` in Avoiding Infinite Loops. When Python validates this code, it applies the standard rules of avoiding infinite loops errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "6.3_q20",
+      "id": "6.3_cand_11",
       "type": "fix_the_code",
       "concept": "avoiding_infinite_loops_fix",
       "skill": "debugging",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.3_q19"
+      "prompt": "The while loop below is an infinite loop because `counter` is never updated. Add `counter += 1` inside the loop body so it counts 1, 2, 3 and exits cleanly.",
+      "starter_code": "counter = 1\nwhile counter <= 3:\n    print(counter)\n",
+      "solution_code": "counter = 1\nwhile counter <= 3:\n    print(counter)\n    counter += 1",
+      "expected_output": "1\n2\n3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 1, 2, 3 without timing out",
+          "expectedOutput": "1\n2\n3",
+          "assertionPython": "assert _raw_stdout.strip() == '1\\n2\\n3' and 'counter += 1' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies final counter value is 4",
+          "expectedOutput": "1\n2\n3",
+          "assertionPython": "assert _user_namespace.get('counter') == 4",
+          "hidden": true
+        }
       ],
-      "prompt": "Below is a simple loop intended to print numbers from 1 to 3. It currently runs forever. Fix the code by adding the missing update statement.",
-      "starter_code": "x = 1\nwhile x <= 3:\n    print('x =', x)",
-      "solution_code": "x = 1\nwhile x <= 3:\n    print('x =', x)\n    x = x + 1",
-      "hint": "The loop variable must change inside the loop body so the condition can eventually become false.",
-      "explanation": "The original code never increments `x`, so `x <= 3` is always true. Adding `x = x + 1` ensures the loop terminates after printing 1, 2, and 3."
+      "explanation": "Adding `counter += 1` inside the loop advances `counter` towards the termination condition `counter <= 3`, cleanly exiting after 3 iterations.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.3_q21",
+      "id": "6.3_cand_12",
       "type": "fix_the_code",
-      "concept": "avoiding_infinite_loops_edge_cases",
+      "concept": "avoiding_infinite_loops_logic_repair",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "The timer code below accidentally uses `+= 1` instead of `-= 1`, causing an infinite loop. Fix the direction to `time_left -= 1` so it counts down from 3 to 1 and prints \"Go!\".",
+      "starter_code": "time_left = 3\nwhile time_left > 0:\n    print(time_left)\n    time_left += 1\nprint(\"Go!\")",
+      "solution_code": "time_left = 3\nwhile time_left > 0:\n    print(time_left)\n    time_left -= 1\nprint(\"Go!\")",
+      "expected_output": "3\n2\n1\nGo!",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 3, 2, 1, Go!",
+          "expectedOutput": "3\n2\n1\nGo!",
+          "assertionPython": "assert _raw_stdout.strip() == '3\\n2\\n1\\nGo!' and 'time_left -= 1' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify time_left reached 0",
+          "expectedOutput": "3\n2\n1\nGo!",
+          "assertionPython": "assert _user_namespace.get('time_left') == 0",
+          "hidden": true
+        }
+      ],
+      "explanation": "Changing `+= 1` to `-= 1` decrements `time_left` towards the boundary 0, safely terminating the countdown.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.3_cand_13",
+      "type": "fix_the_code",
+      "concept": "avoiding_infinite_loops_fix",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q20"
+      "prompt": "The loop below checks `n <= 3`, but accidentally increments `step += 1` instead of `n += 1`. Fix line 5 to increment `n += 1`.",
+      "starter_code": "n = 1\nstep = 0\nwhile n <= 3:\n    print(f\"Round {n}\")\n    step += 1",
+      "solution_code": "n = 1\nstep = 0\nwhile n <= 3:\n    print(f\"Round {n}\")\n    n += 1",
+      "expected_output": "Round 1\nRound 2\nRound 3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Round 1, Round 2, Round 3",
+          "expectedOutput": "Round 1\nRound 2\nRound 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'Round 1\\nRound 2\\nRound 3' and 'n += 1' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify n terminates at 4",
+          "expectedOutput": "Round 1\nRound 2\nRound 3",
+          "assertionPython": "assert _user_namespace.get('n') == 4",
+          "hidden": true
+        }
       ],
-      "prompt": "This loop is meant to stop when a user enters 0, but it enters an infinite loop if the first input is 0. Adjust the code so it handles the edge case correctly.",
-      "starter_code": "user_input = int(input('Enter a number: '))\nwhile user_input != 0:\n    print('Keep going')\n    user_input = int(input('Enter a number: '))",
-      "solution_code": "user_input = int(input('Enter a number: '))\nwhile user_input != 0:\n    print('Keep going')\n    user_input = int(input('Enter a number: '))",
-      "hint": "When the first input is 0, the loop body should not execute at all. Consider whether the input should be requested inside or outside the loop.",
-      "explanation": "In this case, the prompt already asks for input before the loop, so moving the input inside the loop would duplicate the prompt. However, the real fix is to ensure the loop condition is checked after the first prompt. A clearer structure is to place the input inside the loop so it only runs when the condition is checked. The provided starter_code is actually correct for this edge case; the intended fix is to move the input inside the loop to avoid asking twice when the first value is 0. Revised solution:\n\n```python\nuser_input = None\nwhile user_input != 0:\n    user_input = int(input('Enter a number: '))\n    print('Keep going')\n```\n\nThis ensures the prompt appears only when entering the loop and handles the edge case where the first input is 0 gracefully."
+      "explanation": "Incrementing `n` instead of `step` ensures the variable tested in `while n <= 3:` actually changes on each pass.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.3_q22",
-      "type": "fix_the_code",
-      "concept": "avoiding_infinite_loops_runtime",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q21"
-      ],
-      "micro_lesson": {
-        "title": "Runtime Behavior of Infinite Loops",
-        "content": "At runtime, an infinite loop causes the program to hang because the interpreter never reaches the statement following the loop. In Python, you can interrupt execution with Ctrl+C, but the program will not produce further output. Runtime symptoms include high CPU usage and unresponsive terminals. A common runtime mistake is using `and` or `or` in a condition where the left operand is always truthy or falsy. For example:\n\n```python\nflag = True\nwhile flag and True:\n    print('stuck')\n```\n\nHere `flag` is never changed, so the condition is always true. Always verify that every variable in a loop condition is updated within the loop body to prevent runtime hangs."
-      },
-      "prompt": "Fix the bug in this code for avoiding infinite loops runtime:",
-      "starter_code": "# Fix this code\nPrint('Avoiding Infinite Loops')",
-      "solution_code": "print('Avoiding Infinite Loops')",
-      "explanation": "This exercise tests `avoiding infinite loops runtime` in Avoiding Infinite Loops. When Python validates this code, it applies the standard rules of avoiding infinite loops runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "6.3_q23",
+      "id": "6.3_cand_14",
       "type": "fix_the_code",
       "concept": "avoiding_infinite_loops_logic_repair",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q22"
-      ],
-      "prompt": "The following loop is supposed to print numbers from 10 down to 1. It currently loops forever because the update logic is flawed. Repair the code.",
-      "starter_code": "n = 10\nwhile n > 0:\n    print(n)\n    n = n + 1",
-      "solution_code": "n = 10\nwhile n > 0:\n    print(n)\n    n = n - 1",
-      "hint": "To count downward, the loop variable must decrease, not increase.",
-      "explanation": "The original code increments `n` with `n = n + 1`, making `n` grow larger and never reaching 0. Changing it to `n = n - 1` ensures `n` eventually becomes 0 or negative, satisfying the exit condition and printing 10 through 1."
-    },
-    {
-      "id": "6.3_q24",
-      "type": "fix_the_code",
-      "concept": "avoiding_infinite_loops_optimization",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.3_q23"
-      ],
-      "prompt": "Refactor this repetitive loop into a reusable function that safely counts up to a limit without risking an infinite loop. Include input validation and a maximum iteration safeguard.",
-      "starter_code": "limit = int(input('Enter limit: '))\ncount = 0\nwhile count < limit:\n    print('count =', count)\n    count = count + 1\n    if count > limit * 2:\n        break",
-      "solution_code": "def safe_count(limit):\n    if not isinstance(limit, int) or limit < 0:\n        raise ValueError('limit must be a non-negative integer')\n    count = 0\n    max_iterations = limit * 2 + 1\n    while count < limit:\n        print('count =', count)\n        count = count + 1\n        if count > max_iterations:\n            raise RuntimeError('iteration safeguard triggered')\n\nif __name__ == '__main__':\n    try:\n        user_limit = int(input('Enter limit: '))\n        safe_count(user_limit)\n    except ValueError as ve:\n        print('Invalid input:', ve)\n    except RuntimeError as re:\n        print('Safety error:', re)",
+      "prompt": "The loop below steps by 2 starting from 1, checking `while x != 6:`. Because x takes only odd values (1, 3, 5, 7...), it never equals 6 and loops infinitely. Change the condition to `while x < 6:` so it terminates safely.",
+      "starter_code": "x = 1\nwhile x != 6:\n    print(x)\n    x += 2",
+      "solution_code": "x = 1\nwhile x < 6:\n    print(x)\n    x += 2",
+      "expected_output": "1\n3\n5",
       "test_cases": [
         {
-          "input": "5",
-          "expected_output": "count = 0\ncount = 1\ncount = 2\ncount = 3\ncount = 4"
+          "id": "tc_1",
+          "description": "Prints 1, 3, 5 without infinite loop",
+          "expectedOutput": "1\n3\n5",
+          "assertionPython": "assert _raw_stdout.strip() == '1\\n3\\n5' and 'while x < 6:' in _user_code"
         },
         {
-          "input": "-3",
-          "expected_output": "Invalid input: limit must be a non-negative integer"
-        },
-        {
-          "input": "abc",
-          "expected_output": "Invalid input: invalid literal for int() with base 10: 'abc'"
+          "id": "tc_2",
+          "description": "Verifies x is 7 after loop",
+          "expectedOutput": "1\n3\n5",
+          "assertionPython": "assert _user_namespace.get('x') == 7",
+          "hidden": true
         }
       ],
-      "hint": "Encapsulate the loop in a function, validate the input type, and enforce an upper bound on iterations to guarantee termination even with corrupted state.",
-      "explanation": "The refactored version isolates the counting logic in `safe_count`, validates that `limit` is a non-negative integer, and caps iterations at `limit * 2 + 1`. This prevents infinite loops caused by unexpected input or state corruption while maintaining the original behavior for valid inputs."
+      "explanation": "Using inequality `< 6` instead of `!= 6` prevents overshoot: when `x` becomes 7, `7 < 6` evaluates to False and the loop stops.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.3_q25",
-      "idx": 25,
+      "id": "6.3_cand_15",
+      "type": "fix_the_code",
+      "concept": "avoiding_infinite_loops_fix",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "The line `k += 1` is unindented, placed outside the while loop. Indent it by 4 spaces so it runs inside the loop body, preventing an infinite loop.",
+      "starter_code": "k = 1\nwhile k <= 3:\n    print(f\"Item {k}\")\nk += 1",
+      "solution_code": "k = 1\nwhile k <= 3:\n    print(f\"Item {k}\")\n    k += 1",
+      "expected_output": "Item 1\nItem 2\nItem 3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Item 1, Item 2, Item 3",
+          "expectedOutput": "Item 1\nItem 2\nItem 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'Item 1\\nItem 2\\nItem 3'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures k is 4 at conclusion",
+          "expectedOutput": "Item 1\nItem 2\nItem 3",
+          "assertionPython": "assert _user_namespace.get('k') == 4",
+          "hidden": true
+        }
+      ],
+      "explanation": "In Python, code blocks are governed by indentation. Indenting `k += 1` ensures it executes every time the loop body runs.",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "6.3_cand_16",
+      "type": "fix_the_code",
+      "concept": "avoiding_infinite_loops_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "The loop below simulates checking server status. It should stop when `status == \"ready\"`. The code mistakenly checks `while status == \"ready\":` which never runs because status is initially `\"pending\"`. Change the condition to `while status != \"ready\":`.",
+      "starter_code": "status = \"pending\"\nattempts = 0\nwhile status == \"ready\":\n    attempts += 1\n    if attempts == 2:\n        status = \"ready\"\nprint(f\"Ready after {attempts} checks\")",
+      "solution_code": "status = \"pending\"\nattempts = 0\nwhile status != \"ready\":\n    attempts += 1\n    if attempts == 2:\n        status = \"ready\"\nprint(f\"Ready after {attempts} checks\")",
+      "expected_output": "Ready after 2 checks",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Ready after 2 checks",
+          "expectedOutput": "Ready after 2 checks",
+          "assertionPython": "assert _raw_stdout.strip() == 'Ready after 2 checks' and 'while status != \"ready\":' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify status is ready",
+          "expectedOutput": "Ready after 2 checks",
+          "assertionPython": "assert _user_namespace.get('status') == 'ready'",
+          "hidden": true
+        }
+      ],
+      "explanation": "A loop that waits for a target state must run while the state is NOT yet ready (`while status != \"ready\":`).",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_17",
       "type": "write_the_code",
       "concept": "avoiding_infinite_loops_implementation",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q24"
-      ],
-      "prompt": "Write a while loop that prints numbers from 1 to 5. Ensure the loop terminates correctly by updating the counter variable inside the loop body.",
-      "starter_code": "count = 1\nwhile count <= 5:\n    print(count)\n# TODO: add the missing line to update count",
-      "solution_code": "count = 1\nwhile count <= 5:\n    print(count)\n    count += 1",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a safe countdown loop starting at `count = 5`. While `count > 0`, print `count` and subtract 1 on each step (`count -= 1`). After the loop exits, print `\"All clear!\"`.",
+      "starter_code": "count = 5\n# While count > 0, print count and decrement by 1. Then print All clear!\n",
+      "solution_code": "count = 5\nwhile count > 0:\n    print(count)\n    count -= 1\nprint(\"All clear!\")",
+      "expected_output": "5\n4\n3\n2\n1\nAll clear!",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "1\n2\n3\n4\n5\n"
-        }
-      ],
-      "hint": "The loop variable must be incremented inside the while block. Without this update, the condition never becomes False.",
-      "explanation": "An infinite loop occurs when the loop condition never evaluates to False. By incrementing count with count += 1, the condition count <= 5 eventually fails, allowing the loop to exit."
-    },
-    {
-      "id": "6.3_q26",
-      "idx": 26,
-      "type": "write_the_code",
-      "concept": "avoiding_infinite_loops_practical",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.3_q25"
-      ],
-      "prompt": "Create a program that asks the user for a positive integer and keeps asking until a valid number greater than 0 is entered. Print the valid number once received.",
-      "starter_code": "user_input = input('Enter a positive integer: ')\nwhile user_input <= '0':\n    user_input = input('Invalid. Try again: ')\nprint('Valid number:', user_input)",
-      "solution_code": "user_input = input('Enter a positive integer: ')\nwhile int(user_input) <= 0:\n    user_input = input('Invalid. Try again: ')\nprint('Valid number:', user_input)",
-      "test_cases": [
-        {
-          "input": "-2\n0\n5",
-          "expected_output": "Valid number: 5\n"
-        }
-      ],
-      "hint": "Convert the input string to an integer before comparing. Otherwise, string comparison may produce unexpected results.",
-      "explanation": "When user input is not converted to an integer, comparing strings like '0' and '5' lexicographically can behave differently than numeric comparison. Converting with int() ensures correct numeric validation and prevents infinite loops caused by non-numeric input."
-    },
-    {
-      "id": "6.3_q27",
-      "idx": 27,
-      "type": "write_the_code",
-      "concept": "avoiding_infinite_loops_advanced",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.3_q26"
-      ],
-      "prompt": "Write a function that searches for a target value in a list using a while loop. The function should return the index of the target if found, otherwise return -1. Include a safety mechanism to prevent infinite loops if the list is empty or malformed.",
-      "starter_code": "def find_target(data, target):\n    index = 0\n    while index < len(data):\n        if data[index] == target:\n            return index\n    return -1",
-      "solution_code": "def find_target(data, target):\n    if not isinstance(data, list):\n        return -1\n    index = 0\n    while index < len(data):\n        if data[index] == target:\n            return index\n        index += 1\n    return -1",
-      "test_cases": [
-        {
-          "input": "find_target([10, 20, 30], 20)",
-          "expected_output": "1"
+          "id": "tc_1",
+          "description": "Outputs 5 down to 1 then All clear!",
+          "expectedOutput": "5\n4\n3\n2\n1\nAll clear!",
+          "assertionPython": "assert _raw_stdout.strip() == '5\\n4\\n3\\n2\\n1\\nAll clear!' and 'while ' in _user_code"
         },
         {
-          "input": "find_target([], 5)",
-          "expected_output": "-1"
-        },
-        {
-          "input": "find_target('not a list', 1)",
-          "expected_output": "-1"
+          "id": "tc_2",
+          "description": "Final count is 0",
+          "expectedOutput": "5\n4\n3\n2\n1\nAll clear!",
+          "assertionPython": "assert _user_namespace.get('count') == 0",
+          "hidden": true
         }
       ],
-      "hint": "Check the type of data before entering the loop. If data is not a list, return immediately to avoid indexing errors that could cause an infinite loop.",
-      "explanation": "Defensive programming prevents infinite loops by validating inputs. If data is not a list, len(data) may work but indexing data[index] raises an exception. Returning early ensures the function terminates safely."
+      "explanation": "The loop prints 5 down to 1. When `count` reaches 0, `0 > 0` is False, terminating the loop and printing `\"All clear!\"`.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.3_q28",
-      "idx": 28,
+      "id": "6.3_cand_18",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "A bakery has `donuts = 12`. Customers buy in batches of 4. Write a `while donuts >= 4:` loop that prints `Sold 4, remaining: {donuts - 4}` and subtracts `donuts -= 4`. After the loop, print `\"Sold out!\"`.",
+      "starter_code": "donuts = 12\n# While donuts >= 4, sell 4 and print remaining\n",
+      "solution_code": "donuts = 12\nwhile donuts >= 4:\n    donuts -= 4\n    print(f\"Sold 4, remaining: {donuts}\")\nprint(\"Sold out!\")",
+      "expected_output": "Sold 4, remaining: 8\nSold 4, remaining: 4\nSold 4, remaining: 0\nSold out!",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs 3 batches of 4 and Sold out!",
+          "expectedOutput": "Sold 4, remaining: 8\nSold 4, remaining: 4\nSold 4, remaining: 0\nSold out!",
+          "assertionPython": "assert _raw_stdout.strip() == 'Sold 4, remaining: 8\\nSold 4, remaining: 4\\nSold 4, remaining: 0\\nSold out!' and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Final donuts count is 0",
+          "expectedOutput": "Sold 4, remaining: 8\nSold 4, remaining: 4\nSold 4, remaining: 0\nSold out!",
+          "assertionPython": "assert _user_namespace.get('donuts') == 0",
+          "hidden": true
+        }
+      ],
+      "explanation": "Each iteration decrements `donuts` by 4 (12 -> 8 -> 4 -> 0). When `donuts` reaches 0, `0 >= 4` is False, cleanly finishing the loop.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_19",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Simulate a data buffer draining chunks: `buffer_size = 50`. Each iteration processes 15 bytes (`buffer_size -= 15`) and increments `chunks += 1` (starting at `chunks = 0`). Run `while buffer_size > 0:`. Afterwards, print `Processed {chunks} chunks`.",
+      "starter_code": "buffer_size = 50\nchunks = 0\n# Drain buffer by 15 each pass while buffer_size > 0\n",
+      "solution_code": "buffer_size = 50\nchunks = 0\nwhile buffer_size > 0:\n    buffer_size -= 15\n    chunks += 1\nprint(f\"Processed {chunks} chunks\")",
+      "expected_output": "Processed 4 chunks",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Processed 4 chunks (50 -> 35 -> 20 -> 5 -> -10)",
+          "expectedOutput": "Processed 4 chunks",
+          "assertionPython": "assert _raw_stdout.strip() == 'Processed 4 chunks' and _user_namespace.get('chunks') == 4 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies buffer_size is negative or 0",
+          "expectedOutput": "Processed 4 chunks",
+          "assertionPython": "assert _user_namespace.get('buffer_size') <= 0",
+          "hidden": true
+        }
+      ],
+      "explanation": "Pass 1: 35. Pass 2: 20. Pass 3: 5. Pass 4: -10. After 4 chunks, `buffer_size > 0` becomes False, so the loop safely exits.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.3_cand_20",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A server rack temperature is `temp = 86`. The cooling fans drop temperature by 3°F each cycle (`temp -= 3`) and `cycles += 1` (starting at `cycles = 0`). Run `while temp > 75:`. After cooling, print `Cooling done: {temp}F after {cycles} cycles`.",
+      "starter_code": "temp = 86\ncycles = 0\n# Cool by 3 each cycle while temp > 75\n",
+      "solution_code": "temp = 86\ncycles = 0\nwhile temp > 75:\n    temp -= 3\n    cycles += 1\nprint(f\"Cooling done: {temp}F after {cycles} cycles\")",
+      "expected_output": "Cooling done: 74F after 4 cycles",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Reaches 74F after 4 cycles (86 -> 83 -> 80 -> 77 -> 74)",
+          "expectedOutput": "Cooling done: 74F after 4 cycles",
+          "assertionPython": "assert _raw_stdout.strip() == 'Cooling done: 74F after 4 cycles' and _user_namespace.get('cycles') == 4 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Final temp is 74",
+          "expectedOutput": "Cooling done: 74F after 4 cycles",
+          "assertionPython": "assert _user_namespace.get('temp') == 74",
+          "hidden": true
+        }
+      ],
+      "explanation": "86 -> 83 (cycle 1) -> 80 (cycle 2) -> 77 (cycle 3) -> 74 (cycle 4). At 74, `74 > 75` is False, so the loop stops.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.3_cand_21",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A gas pump fills a car tank from `gas = 10` up to `capacity = 25` in increments of 5 gallons (`gas += 5`). Write a `while gas < capacity:` loop that prints `Pumped: {gas} gal`. After the loop finishes, print `\"Tank full: 25 gal\"`.",
+      "starter_code": "gas = 10\ncapacity = 25\n# While gas < capacity, print pumped and add 5\n",
+      "solution_code": "gas = 10\ncapacity = 25\nwhile gas < capacity:\n    gas += 5\n    print(f\"Pumped: {gas} gal\")\nprint(\"Tank full: 25 gal\")",
+      "expected_output": "Pumped: 15 gal\nPumped: 20 gal\nPumped: 25 gal\nTank full: 25 gal",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Fills from 10 to 25 gal in 5 gal increments",
+          "expectedOutput": "Pumped: 15 gal\nPumped: 20 gal\nPumped: 25 gal\nTank full: 25 gal",
+          "assertionPython": "assert _raw_stdout.strip() == 'Pumped: 15 gal\\nPumped: 20 gal\\nPumped: 25 gal\\nTank full: 25 gal' and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Final gas value is 25",
+          "expectedOutput": "Pumped: 15 gal\nPumped: 20 gal\nPumped: 25 gal\nTank full: 25 gal",
+          "assertionPython": "assert _user_namespace.get('gas') == 25",
+          "hidden": true
+        }
+      ],
+      "explanation": "The loop adds 5 to gas: 15, 20, 25. When gas reaches 25, `25 < 25` is False, successfully concluding the fill.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.3_cand_22",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A population of bacteria starts at `bacteria = 5`. It doubles every hour (`bacteria *= 2`) and increments `hours += 1` (starting at `hours = 0`). Stop when population exceeds 100 (`while bacteria <= 100:`). Afterwards, print `Hours: {hours}, Population: {bacteria}`.",
+      "starter_code": "bacteria = 5\nhours = 0\n# Double bacteria each hour while bacteria <= 100\n",
+      "solution_code": "bacteria = 5\nhours = 0\nwhile bacteria <= 100:\n    bacteria *= 2\n    hours += 1\nprint(f\"Hours: {hours}, Population: {bacteria}\")",
+      "expected_output": "Hours: 5, Population: 160",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Reaches 160 bacteria after 5 hours (5 -> 10 -> 20 -> 40 -> 80 -> 160)",
+          "expectedOutput": "Hours: 5, Population: 160",
+          "assertionPython": "assert _raw_stdout.strip() == 'Hours: 5, Population: 160' and _user_namespace.get('hours') == 5 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Final bacteria is 160",
+          "expectedOutput": "Hours: 5, Population: 160",
+          "assertionPython": "assert _user_namespace.get('bacteria') == 160",
+          "hidden": true
+        }
+      ],
+      "explanation": "Hours: 1 (10), 2 (20), 3 (40), 4 (80), 5 (160). When bacteria becomes 160, `160 <= 100` is False, cleanly stopping.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.3_cand_23",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Implement a safety guard counter: `max_retries = 3`, `retries = 0`. Inside `while retries < max_retries:`, print `Attempt {retries + 1}` and increment `retries += 1`. After the loop, print `\"Max retries reached\"`.",
+      "starter_code": "max_retries = 3\nretries = 0\n# Loop while retries < max_retries\n",
+      "solution_code": "max_retries = 3\nretries = 0\nwhile retries < max_retries:\n    print(f\"Attempt {retries + 1}\")\n    retries += 1\nprint(\"Max retries reached\")",
+      "expected_output": "Attempt 1\nAttempt 2\nAttempt 3\nMax retries reached",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Attempt 1, 2, 3 and Max retries reached",
+          "expectedOutput": "Attempt 1\nAttempt 2\nAttempt 3\nMax retries reached",
+          "assertionPython": "assert _raw_stdout.strip() == 'Attempt 1\\nAttempt 2\\nAttempt 3\\nMax retries reached' and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies retries equals 3",
+          "expectedOutput": "Attempt 1\nAttempt 2\nAttempt 3\nMax retries reached",
+          "assertionPython": "assert _user_namespace.get('retries') == 3",
+          "hidden": true
+        }
+      ],
+      "explanation": "Using a dedicated retry counter prevents infinite connection attempts, ensuring the program gives up safely if an operation fails.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.3_cand_24",
       "type": "write_the_code",
       "concept": "avoiding_infinite_loops_challenge",
-      "skill": "problem_solving",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.3_q27"
-      ],
-      "prompt": "You are given a buggy program that should keep asking for a password until the correct one is entered. However, it currently loops forever even after the correct password is submitted. Identify the bug and fix it.",
-      "starter_code": "password = 'secret'\nwhile True:\n    guess = input('Enter password: ')\n    if guess == password:\n        print('Access granted')\n        break\n    else:\n        print('Wrong password')",
-      "solution_code": "password = 'secret'\nwhile True:\n    guess = input('Enter password: ')\n    if guess == password:\n        print('Access granted')\n        break\n    else:\n        print('Wrong password')",
-      "test_cases": [
-        {
-          "input": "wrong\nwrong\nsecret",
-          "expected_output": "Wrong password\nWrong password\nAccess granted\n"
-        }
-      ],
-      "hint": "Trace the loop execution. Does the condition for breaking ever become False? Consider what happens if the input function is not available in the test environment.",
-      "explanation": "The original code is actually correct for standard execution. The challenge lies in recognizing that in automated testing environments, input() may raise an EOFError. A robust solution wraps the input in a try-except block or provides a default, ensuring the loop can terminate safely."
-    },
-    {
-      "id": "6.3_q29",
-      "idx": 29,
-      "type": "write_the_code",
-      "concept": "avoiding_infinite_loops_scenario",
       "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.3_q28"
-      ],
-      "prompt": "Imagine you are writing firmware for a smart thermostat that reads temperature every second. The sensor may occasionally return None due to a temporary fault. Design a while loop that reads the sensor, prints the temperature, and stops after 10 successful readings or after 30 seconds of continuous None readings. Include proper termination logic to avoid an infinite loop.",
-      "starter_code": "import time\n\nreadings = 0\nconsecutive_none = 0\nmax_readings = 10\nmax_none_count = 30\n\nwhile True:\n    temp = read_sensor()  # assume this returns a number or None\n    if temp is None:\n        consecutive_none += 1\n    else:\n        consecutive_none = 0\n        readings += 1\n        print('Temperature:', temp)\n    # TODO: add termination conditions",
-      "solution_code": "import time\n\ndef read_sensor():\n    # Simulated sensor for demonstration\n    import random\n    return random.choice([22.5, None, 23.0, None, 21.8])\n\nreadings = 0\nconsecutive_none = 0\nmax_readings = 10\nmax_none_count = 30\n\nwhile True:\n    temp = read_sensor()\n    if temp is None:\n        consecutive_none += 1\n    else:\n        consecutive_none = 0\n        readings += 1\n        print('Temperature:', temp)\n    if readings >= max_readings:\n        break\n    if consecutive_none >= max_none_count:\n        print('Sensor fault detected. Stopping.')\n        break\n    time.sleep(1)",
+      "prompt": "A reservoir holds `liters = 50`. A leak loses 12 liters each hour (`liters -= 12`), but rainfall adds 2 liters (`liters += 2`), meaning net change is `-10` liters per hour. Increment `hours += 1` (starting at 0). Run `while liters > 0:`. Print `Empty after {hours} hours (final: {liters}L)`.",
+      "starter_code": "liters = 50\nhours = 0\n# Net loss of 10L per hour while liters > 0\n",
+      "solution_code": "liters = 50\nhours = 0\nwhile liters > 0:\n    liters = liters - 12 + 2\n    hours += 1\nprint(f\"Empty after {hours} hours (final: {liters}L)\")",
+      "expected_output": "Empty after 5 hours (final: 0L)",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "A series of temperature readings followed by either 'Sensor fault detected. Stopping.' or completion after 10 readings.\n"
-        }
-      ],
-      "hint": "You need two independent exit conditions: one for successful readings and one for repeated None values. Use break statements for each condition.",
-      "explanation": "Real-world systems require multiple safety exits. Relying on a single condition is risky. By tracking both successful readings and consecutive None values, the thermostat avoids infinite loops caused by sensor failures and ensures predictable operation."
-    },
-    {
-      "id": "6.3_q30",
-      "idx": 30,
-      "type": "write_the_code",
-      "concept": "avoiding_infinite_loops_mastery",
-      "skill": "mastery",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.3_q29"
-      ],
-      "prompt": "A generator function yields values from a list one at a time. Write a wrapper function that consumes the generator using a while loop and stops when the generator is exhausted. Do not use a for loop. Ensure your wrapper never enters an infinite loop even if the generator is malformed.",
-      "starter_code": "def number_generator(values):\n    for v in values:\n        yield v\n\ndef consume_generator(gen):\n    item = next(gen)\n    while item is not None:\n        print(item)\n        item = next(gen)\n    print('Generator exhausted')",
-      "solution_code": "def number_generator(values):\n    for v in values:\n        yield v\n\ndef consume_generator(gen):\n    try:\n        item = next(gen)\n    except StopIteration:\n        print('Generator exhausted')\n        return\n    while True:\n        try:\n            print(item)\n            item = next(gen)\n        except StopIteration:\n            print('Generator exhausted')\n            break",
-      "test_cases": [
-        {
-          "input": "consume_generator(number_generator([10, 20, 30]))",
-          "expected_output": "10\n20\n30\nGenerator exhausted\n"
+          "id": "tc_1",
+          "description": "Drains 50L at net 10L/hr in 5 hours",
+          "expectedOutput": "Empty after 5 hours (final: 0L)",
+          "assertionPython": "assert _raw_stdout.strip() == 'Empty after 5 hours (final: 0L)' and _user_namespace.get('hours') == 5 and 'while ' in _user_code"
         },
         {
-          "input": "consume_generator(number_generator([]))",
-          "expected_output": "Generator exhausted\n"
+          "id": "tc_2",
+          "description": "Final liters is 0",
+          "expectedOutput": "Empty after 5 hours (final: 0L)",
+          "assertionPython": "assert _user_namespace.get('liters') == 0",
+          "hidden": true
         }
       ],
-      "hint": "Calling next() on an exhausted generator raises StopIteration. Catch this exception to break out of the while loop safely.",
-      "explanation": "Mastery of loop termination requires understanding exceptions. The while True loop with a try-except StopIteration block guarantees termination without relying on a sentinel value. This pattern is essential when working with iterators that have no natural end marker."
+      "explanation": "Net change is -10 liters/hour: 50 -> 40 -> 30 -> 20 -> 10 -> 0. After 5 hours, `liters == 0`, so `0 > 0` is False and the loop terminates cleanly.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.3_cand_25",
+      "type": "write_the_code",
+      "concept": "avoiding_infinite_loops_mastery",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "A network request implements exponential backoff. Start with `delay = 1` and `total_wait = 0`. In a `while delay <= 8:` loop:\n- Add `delay` to `total_wait`\n- Double `delay *= 2`\nAfter the loop, print `Total wait: {total_wait}s`.",
+      "starter_code": "delay = 1\ntotal_wait = 0\n# Double delay while delay <= 8 and accumulate total_wait\n",
+      "solution_code": "delay = 1\ntotal_wait = 0\nwhile delay <= 8:\n    total_wait += delay\n    delay *= 2\nprint(f\"Total wait: {total_wait}s\")",
+      "expected_output": "Total wait: 15s",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Accumulates exponential delays 1 + 2 + 4 + 8 = 15s",
+          "expectedOutput": "Total wait: 15s",
+          "assertionPython": "assert _raw_stdout.strip() == 'Total wait: 15s' and _user_namespace.get('total_wait') == 15 and 'while ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies final delay is 16",
+          "expectedOutput": "Total wait: 15s",
+          "assertionPython": "assert _user_namespace.get('delay') == 16",
+          "hidden": true
+        }
+      ],
+      "explanation": "Delays added: 1, 2, 4, 8 (total 15s). After adding 8, delay becomes 16, terminating the loop because `16 <= 8` is False.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 6,
-  "learning_objectives": [
-    "Construct iterative loops using Avoiding Infinite Loops with proper loop bounds",
-    "Trace variable mutation across loop iterations",
-    "Prevent and debug infinite loop execution bugs",
-    "Apply loop control statements (break and continue) to control execution flow"
-  ],
-  "prerequisites": [
-    "6.2"
   ]
 }

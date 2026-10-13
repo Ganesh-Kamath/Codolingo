@@ -1,562 +1,560 @@
 {
   "lesson_id": "5.5",
   "title": "Truthiness",
-  "unit": "Conditional Logic",
+  "unit": "unit_05",
   "items": [
     {
       "id": "5.5_q1",
       "type": "micro_lesson",
-      "title": "Truthiness: What Python Considers True and False",
-      "content": "In Python, any object can be tested for truth value inside an `if` or `while` condition.\n\nThe following are inherently **falsy**:\n- Constants: `None`, `False`\n- Numeric zeros: `0`, `0.0`, `0j`\n- Empty sequences and collections: `\"\"`, `()`, `[]`, `{}`, `set()`\n\nAll other values are **truthy**. This allows concise Pythonic checks like `if items:` instead of `if len(items) > 0:`.",
-      "difficulty": "easy",
-      "concept": "truthiness_rules",
+      "concept": "truthiness_basics",
       "skill": "mental_model",
-      "prerequisites": []
+      "difficulty": "easy",
+      "title": "Truthiness: Truth Value Testing in Python",
+      "content": "# Truthiness in Python\n\nIn Python, every object has an inherent boolean value when placed in an `if` condition or evaluated by the `bool()` function. An object is either **truthy** (evaluates to `True`) or **falsy** (evaluates to `False`).\n\n```python\nusername = \"\"\nif username:\n    print(f\"Welcome, {username}\")\nelse:\n    print(\"Welcome, Guest!\")\n```\n\n### The 5 Core Falsy Values in Python:\n1. **Numbers:** `0`, `0.0`\n2. **Strings:** `\"\"` (empty string with zero characters)\n3. **Sequences / Containers:** `[]` (empty list), `{}` (empty dict), `()` (empty tuple)\n4. **Special:** `None`, `False`\n\n### Everything Else is Truthy!\n- Any non-zero number (e.g. `1`, `-5`, `0.1`) is truthy.\n- Any non-empty string is truthy — including `\"0\"`, `\"False\"`, and even `\" \"` (a string containing a single space character)!",
+      "explanation": "Python evaluates objects in conditional contexts as either truthy or falsy; empty collections, zero numbers, None, and False are falsy, while all non-empty or non-zero objects are truthy."
     },
     {
       "id": "5.5_q2",
       "type": "multiple_choice",
-      "concept": "truthiness_basics",
+      "concept": "truthiness_rules",
       "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q1"
-      ],
-      "prompt": "Which of the following values is considered falsy in Python?",
+      "prompt": "Which of the following values evaluates to `False` when passed to `bool()` in Python?",
       "options": [
-        "The empty string ''",
-        "The integer 1",
-        "The list [0]",
-        "The string 'False'"
+        "0",
+        "\"0\"",
+        "[0]",
+        "\"False\""
       ],
-      "correct_answer": "The empty string ''",
-      "explanation": "In Python, empty sequences such as the empty string '' are falsy. The integer 1 is truthy because it is non-zero. The list [0] is truthy because it is non-empty. The string 'False' is also truthy because it is a non-empty string."
+      "correct_answer": "0",
+      "explanation": "The numeric integer 0 is falsy. In contrast, \"0\", \"[0]\", and \"False\" are all non-empty strings or collections, making them truthy.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q3",
-      "type": "micro_lesson",
-      "concept": "truthiness_syntax",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q2"
+      "type": "output_prediction",
+      "concept": "truthiness_edge_case",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the following code:\n```python\ntext = \"0\"\nif text:\n    print(\"Truthy\")\nelse:\n    print(\"Falsy\")\n```\nWhat will this print?",
+      "code_snippet": "text = \"0\"\nif text:\n    print(\"Truthy\")\nelse:\n    print(\"Falsy\")",
+      "options": [
+        "Truthy",
+        "Falsy",
+        "0",
+        "TypeError"
       ],
-      "title": "Using Truthiness in Conditionals",
-      "content": "You can use any object directly in an if statement without explicitly comparing it to True or False. This is a common Python idiom. For example, checking whether a list has items can be done by testing the list itself rather than its length. Similarly, checking whether a string contains text is done by testing the string directly. Here is how you can use truthiness in practice:\n\n```python\ndef process_items(items):\n    if items:\n        print('Processing', len(items), 'items')\n        for item in items:\n            print('Item:', item)\n    else:\n        print('No items to process')\n\nprocess_items([10, 20, 30])\nprocess_items([])\n```\n\nIn the first call, items is a non-empty list, so it is truthy and the loop executes. In the second call, items is an empty list, so it is falsy and the else branch runs.",
-      "prompt": "",
-      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+      "correct_answer": "Truthy",
+      "explanation": "text is the string \"0\", which has length 1. Any non-empty string is truthy in Python, so \"Truthy\" prints.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "5.5_q4",
-      "type": "multiple_choice",
-      "concept": "truthiness_syntax",
-      "skill": "reasoning",
+      "type": "output_prediction",
+      "concept": "truthiness_execution",
+      "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q3"
-      ],
-      "prompt": "What will the following code print?",
+      "prompt": "Look at the following empty comment check:\n```python\ncomment = \"\"\nif comment:\n    print(\"Valid Comment\")\nelse:\n    print(\"Empty Comment\")\n```\nWhat will this print?",
+      "code_snippet": "comment = \"\"\nif comment:\n    print(\"Valid Comment\")\nelse:\n    print(\"Empty Comment\")",
       "options": [
-        "No items to process",
-        "Processing 0 items",
-        "Processing 3 items",
-        "An error occurs"
+        "Empty Comment",
+        "Valid Comment",
+        "\"\"",
+        "None"
       ],
-      "correct_answer": "No items to process",
-      "explanation": "The list [] is empty, so it evaluates to False in the if condition. Therefore, the else branch executes and prints 'No items to process'. It does not print 'Processing 0 items' because the else branch is taken instead of the if branch."
+      "correct_answer": "Empty Comment",
+      "explanation": "An empty string \"\" contains zero characters and is falsy. The if branch fails and the else branch prints \"Empty Comment\".",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q5",
-      "type": "multiple_choice",
-      "concept": "truthiness_matching",
-      "skill": "recognition",
+      "type": "fill_in_the_blank",
+      "concept": "truthiness_keywords",
+      "skill": "syntax",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q4"
+      "prompt": "Complete the call to inspect the truth value of 0:\n```python\nis_zero_truthy = ____(0)\nprint(is_zero_truthy)  # prints False\n```",
+      "accepted_answers": [
+        "bool"
       ],
-      "prompt": "Match each value to its truthiness classification.",
-      "options": [
-        "'' is falsy, 0 is falsy, [1, 2] is truthy",
-        "'abc' is falsy, None is truthy, () is falsy",
-        "42 is falsy, '0' is falsy, {1} is falsy",
-        "'x' is falsy, -1 is falsy, {1: 'a'} is falsy"
-      ],
-      "correct_answer": "'' is falsy, 0 is falsy, [1, 2] is truthy",
-      "explanation": "The empty string '' is falsy. The integer 0 is falsy. The non-empty list [1, 2] is truthy. All other options contain incorrect classifications."
+      "correct_answer": "bool",
+      "explanation": "The built-in `bool()` function converts any Python value to its boolean equivalent (`True` or `False`).",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "5.5_q6",
       "type": "multiple_choice",
-      "concept": "truthiness_pitfalls",
-      "skill": "comprehension",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q5"
-      ],
-      "prompt": "Which statement correctly describes a common pitfall when using truthiness?",
+      "concept": "truthiness_zero_trap",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A gradebook app checks if a score was submitted using:\n```python\nscore = 0\nif score:\n    print(\"Score recorded\")\nelse:\n    print(\"No score\")\n```\nWhy does it print \"No score\" when a student received 0 points?",
       "options": [
-        "Comparing a variable to True with == is always the safest approach",
-        "An empty dictionary {} is truthy, so it will execute in an if block",
-        "The string 'False' is falsy because it contains the word False",
-        "A non-empty string always evaluates to True in a conditional"
+        "Because 0 is falsy in Python; checking score directly treats 0 as absent",
+        "Because scores must always be floating-point numbers",
+        "Because the else block overrides score variables",
+        "Because print cannot format the number 0"
       ],
-      "correct_answer": "A non-empty string always evaluates to True in a conditional",
-      "explanation": "A common pitfall is assuming that a string containing the word 'False' is falsy; however, any non-empty string is truthy. Option A is not a pitfall but a verbose alternative. Option B is incorrect because {} is falsy. Option C is incorrect because 'False' is truthy."
+      "correct_answer": "Because 0 is falsy in Python; checking score directly treats 0 as absent",
+      "explanation": "The integer 0 is falsy. When testing for valid numeric entries where 0 is a legitimate score, use `if score is not None:` instead of `if score:`.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.5_q7",
-      "type": "code_prediction",
-      "concept": "truthiness_execution",
+      "type": "output_prediction",
+      "concept": "truthiness_edge_cases",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q6"
-      ],
-      "prompt": "What will the following Python code print?\n\n```python\nvalue = 0\nif value:\n    print('true')\nelse:\n    print('false')\n```",
+      "difficulty": "medium",
+      "prompt": "Look at the following single space string:\n```python\nentry = \" \"\nif entry:\n    print(\"Has Input\")\nelse:\n    print(\"No Input\")\n```\nWhat will this print?",
+      "code_snippet": "entry = \" \"\nif entry:\n    print(\"Has Input\")\nelse:\n    print(\"No Input\")",
       "options": [
-        "true",
-        "false",
-        "Error",
-        "None"
+        "Has Input",
+        "No Input",
+        "None",
+        "ValueError"
       ],
-      "correct_answer": "false",
-      "explanation": "In Python, zero (0) is considered falsy. Since value is 0, the else branch executes and prints 'false'. Non-zero numbers, non-empty strings, and non-empty lists are truthy."
+      "correct_answer": "Has Input",
+      "explanation": "entry contains a space character (length 1). Because it is not empty, Python evaluates it as truthy, printing \"Has Input\".",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q8",
-      "type": "output_prediction",
-      "concept": "truthiness_execution",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q7"
-      ],
-      "prompt": "What will the following Python code print?\n\n```python\nitems = [1, 2, 3]\nif items and len(items) > 0:\n    print('has items')\nelse:\n    print('no items')\n```",
+      "type": "multiple_choice",
+      "concept": "truthiness_analysis",
+      "skill": "diagnosis",
+      "difficulty": "easy",
+      "prompt": "Why does `None` trigger the `else` block in `if val: print(\"A\") else: print(\"B\")`?",
       "options": [
-        "has items",
-        "no items",
-        "Error",
-        "None"
+        "None represents the absence of a value and is falsy in Python",
+        "None is an uninitialized variable that raises a Warning",
+        "None is identical to the boolean True",
+        "None only triggers else if val is inside a function"
       ],
-      "correct_answer": "has items",
-      "explanation": "The list items is non-empty, so it is truthy. The condition items and len(items) > 0 evaluates to True. Therefore, the first print statement executes."
+      "correct_answer": "None represents the absence of a value and is falsy in Python",
+      "explanation": "`None` is one of Python's built-in constants representing null/none, and is always evaluated as falsy in boolean contexts.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q9",
-      "type": "code_prediction",
-      "concept": "truthiness_flow",
+      "type": "output_prediction",
+      "concept": "truthiness_runtime",
       "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q8"
-      ],
-      "prompt": "What is the output of the following code?\n\n```python\ndef check(x):\n    if x:\n        return 'positive'\n    elif x == 0:\n        return 'zero'\n    else:\n        return 'negative'\nprint(check(-5))\n```",
+      "difficulty": "easy",
+      "prompt": "Look at this negative number balance check:\n```python\nbalance = -15\nif balance:\n    print(\"Non-Zero Balance\")\nelse:\n    print(\"Zero Balance\")\n```\nWhat will this print?",
+      "code_snippet": "balance = -15\nif balance:\n    print(\"Non-Zero Balance\")\nelse:\n    print(\"Zero Balance\")",
       "options": [
-        "'positive'",
-        "'zero'",
-        "'negative'",
-        "Error"
+        "Non-Zero Balance",
+        "Zero Balance",
+        "-15",
+        "None"
       ],
-      "correct_answer": "'negative'",
-      "explanation": "For x = -5, the first condition if x is True because -5 is non-zero, but the function returns 'positive' only if x is truthy. However, in this specific code, -5 is truthy so 'positive' is returned. Wait, re-evaluating: -5 is truthy, so 'positive' is returned. Correct answer is 'positive'."
+      "correct_answer": "Non-Zero Balance",
+      "explanation": "All non-zero integers (positive or negative) are truthy in Python. Since -15 is not zero, \"Non-Zero Balance\" is printed.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q10",
-      "type": "multiple_choice",
-      "concept": "truthiness_analysis",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q9"
-      ],
-      "prompt": "When evaluating collection containers, which of the following expressions evaluates to False in a boolean context?",
-      "options": [
-        "An empty list []",
-        "The number 1",
-        "A non-empty string 'hello'",
-        "The boolean True"
-      ],
-      "correct_answer": "An empty list []",
-      "explanation": "In Python, empty collections (empty list [], empty tuple (), empty dict {}) evaluate to False in a boolean context."
-    },
-    {
-      "id": "5.5_q11",
-      "type": "code_prediction",
-      "concept": "truthiness_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q10"
-      ],
-      "prompt": "Trace the execution and determine the final value of result.\n\n```python\na = ''\nb = [10]\nif a or b:\n    result = 'yes'\nelse:\n    result = 'no'\nprint(result)\n```",
-      "options": [
-        "'yes'",
-        "'no'",
-        "Error",
-        "None"
-      ],
-      "correct_answer": "'yes'",
-      "explanation": "a is an empty string, which is falsy. b is a non-empty list, which is truthy. The expression a or b evaluates to b (truthy), so the if branch executes and result is set to 'yes'."
-    },
-    {
-      "id": "5.5_q12",
-      "type": "output_prediction",
-      "concept": "truthiness_logic",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q11"
-      ],
-      "prompt": "What will the following Python code print?\n\n```python\nuser_input = ''\nif user_input:\n    print('Input provided')\nelse:\n    print('Input missing')\n```",
-      "options": [
-        "Input provided",
-        "Input missing",
-        "Error",
-        "None"
-      ],
-      "correct_answer": "Input missing",
-      "explanation": "user_input is assigned an empty string, which is falsy in Python. Therefore, the else branch executes and prints 'Input missing'. This is a common pattern for validating that a user has entered a value."
-    },
-    {
-      "id": "5.5_q13",
-      "type": "fill_in_the_blank",
-      "concept": "truthiness_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q12"
-      ],
-      "prompt": "In Python, the expression `if ____:` evaluates to True when the value is truthy. Fill in the blank with the correct keyword that checks whether a value is truthy.",
-      "correct_answer": "bool",
-      "accepted_answers": [
-        "bool",
-        "truthy",
-        "is_truthy"
-      ],
-      "explanation": "Python uses truthiness to evaluate whether a value is True or False in a conditional. The `bool()` function explicitly converts a value to its boolean equivalent, returning True for non-empty or non-zero values and False for empty or zero values."
-    },
-    {
-      "id": "5.5_q14",
-      "type": "fill_in_the_blank",
-      "concept": "truthiness_keywords",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q13"
-      ],
-      "prompt": "To check if a variable `x` is not falsy in a single line, you can use `if not ____:`. Fill in the blank with the appropriate expression.",
-      "correct_answer": "not x",
-      "accepted_answers": [
-        "not x",
-        "x == False",
-        "x is not None"
-      ],
-      "explanation": "The `not` operator inverts the truthiness of a value. When `x` is truthy, `not x` becomes False, and when `x` is falsy, `not x` becomes True. This is a concise way to test for falsiness without explicitly comparing to False."
-    },
-    {
-      "id": "5.5_q15",
-      "type": "code_ordering",
-      "concept": "truthiness_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q14"
-      ],
-      "prompt": "Arrange the following code lines in the correct order to read user input and print whether the input is truthy.",
-      "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The correct sequence first prompts the user for input and stores it in a variable. Then, the `if` statement evaluates the truthiness of that variable. If the input is non-empty (truthy), it prints 'Truthy!'; otherwise, it prints 'Falsy'. The variable must be assigned before it can be checked."
-    },
-    {
-      "id": "5.5_q16",
-      "type": "fill_in_the_blank",
-      "concept": "truthiness_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q15"
-      ],
-      "prompt": "When checking if a list `items` contains at least one element, the idiomatic pattern is `if ____:`. Fill in the blank.",
-      "correct_answer": "items",
-      "accepted_answers": [
-        "items",
-        "len(items) > 0",
-        "bool(items)"
-      ],
-      "explanation": "In Python, empty containers such as lists, strings, and tuples are falsy, while non-empty containers are truthy. Therefore, simply writing `if items:` is the most Pythonic way to check for the presence of elements without needing to call `len()` or `bool()` explicitly."
-    },
-    {
-      "id": "5.5_q17",
-      "type": "error_diagnosis",
-      "question": "A developer wrote this function to format a user's discount points:\n\n```python\ndef display_points(points):\n    if not points:\n        return 'No points available'\n    return f'You have {points} points'\n```\nWhat bug occurs when a user has exactly `0` points?",
-      "options": [
-        "0 is falsy, so display_points(0) returns 'No points available' instead of 'You have 0 points'",
-        "Python raises a ValueError because 0 cannot be interpolated in f-strings",
-        "The function returns None because not 0 is invalid syntax",
-        "The function enters an infinite loop"
-      ],
-      "correct_answer": "0 is falsy, so display_points(0) returns 'No points available' instead of 'You have 0 points'",
-      "explanation": "Because `0` is falsy in Python, `not 0` evaluates to `True`. To distinguish between 'no value provided' (`None`) and 'zero points' (`0`), the code should explicitly check `if points is None:`.",
-      "difficulty": "medium",
-      "concept": "truthiness_zero_trap",
-      "skill": "debugging",
-      "prerequisites": []
-    },
-    {
-      "id": "5.5_q18",
-      "type": "fill_in_the_blank",
-      "concept": "truthiness_idioms",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q17"
-      ],
-      "prompt": "A common idiom to provide a default value for a parameter is `def func(arg=____):`. Fill in the blank with a value that is falsy to allow the argument to be optional.",
-      "correct_answer": "None",
-      "accepted_answers": [
-        "None",
-        "[]",
-        "''",
-        "0"
-      ],
-      "explanation": "Using a falsy default such as `None`, `[]`, `''`, or `0` allows the function to detect whether the caller provided an argument. Inside the function, you can then check `if arg is not None:` or `if arg:` to handle the optional case. `None` is the most common choice because it clearly signals the absence of a value without conflating it with a legitimate empty list or zero."
-    },
-    {
-      "id": "5.5_q19",
-      "type": "fix_the_code",
-      "concept": "truthiness_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q18"
-      ],
-      "prompt": "A student wrote the following code to check whether a list contains any elements. However, the program behaves unexpectedly when the list is empty. Identify the bug related to truthiness.",
-      "starter_code": "def has_items(data):\n    if data == True:\n        return 'Has items'\n    else:\n        return 'Empty'\n\nprint(has_items([1, 2, 3]))\nprint(has_items([]))",
-      "solution_code": "def has_items(data):\n    if data:\n        return 'Has items'\n    else:\n        return 'Empty'\n\nprint(has_items([1, 2, 3]))\nprint(has_items([]))",
-      "hint": "Consider how Python evaluates non-empty and empty containers in a boolean context.",
-      "explanation": "In Python, empty sequences such as [] evaluate to False in a boolean context, while non-empty sequences evaluate to True. The original code explicitly compares data to True, which fails for non-boolean truthy values and is unnecessarily verbose. Using data directly in the if statement relies on truthiness and handles all iterable cases correctly."
-    },
-    {
-      "id": "5.5_q20",
       "type": "fix_the_code",
       "concept": "truthiness_fix",
       "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.5_q19"
+      "difficulty": "medium",
+      "prompt": "A grade recorder mistakenly checks `if score:` which treats a legitimate score of 0 as missing! Fix line 2 to check `if score is not None:` so 0 is recognized as a valid score.",
+      "starter_code": "score = 0\nif score:\n    print(f\"Valid score: {score}\")\nelse:\n    print(\"Missing score\")",
+      "solution_code": "score = 0\nif score is not None:\n    print(f\"Valid score: {score}\")\nelse:\n    print(\"Missing score\")",
+      "expected_output": "Valid score: 0",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Valid score: 0 when checking score is not None",
+          "expectedOutput": "Valid score: 0",
+          "assertionPython": "assert _raw_stdout.strip() == 'Valid score: 0' and 'score is not None' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying score variable is 0",
+          "expectedOutput": "Valid score: 0",
+          "assertionPython": "assert _user_namespace.get('score') == 0",
+          "hidden": true
+        }
       ],
-      "prompt": "The function below should return True if the user input is non-empty and False otherwise. Fix the code so it works correctly for all string inputs.",
-      "starter_code": "def is_non_empty(s):\n    if s == 'True':\n        return True\n    else:\n        return False",
-      "solution_code": "def is_non_empty(s):\n    return bool(s)\n\nprint(is_non_empty('hello'))\nprint(is_non_empty(''))",
-      "hint": "Use the fact that empty strings are falsy and non-empty strings are truthy.",
-      "explanation": "The original code only returns True when s is exactly the string 'True', which is incorrect. By returning bool(s), the function correctly returns True for any non-empty string and False for the empty string, leveraging Python's built-in truthiness."
+      "explanation": "`0` is falsy, so `if score:` fails when `score = 0`. Using `if score is not None:` verifies that a value exists regardless of whether that value is 0.",
+      "hint": "Change if score: on line 2 to: if score is not None:",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.5_q11",
+      "type": "fix_the_code",
+      "concept": "truthiness_logic_repair",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "Fix the `IndentationError` on line 3 in the empty username fallback handler below.",
+      "starter_code": "username = \"\"\nif not username:\nprint(\"Guest\")\nelse:\n    print(username)",
+      "solution_code": "username = \"\"\nif not username:\n    print(\"Guest\")\nelse:\n    print(username)",
+      "expected_output": "Guest",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Guest with indented print",
+          "expectedOutput": "Guest",
+          "assertionPython": "assert _raw_stdout.strip() == 'Guest' and '    print(\"Guest\")' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying username variable",
+          "expectedOutput": "Guest",
+          "assertionPython": "assert _user_namespace.get('username') == ''",
+          "hidden": true
+        }
+      ],
+      "explanation": "The statement under `if not username:` must be indented by 4 spaces.",
+      "hint": "Indent line 3 by 4 spaces:     print(\"Guest\")",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "5.5_q12",
+      "type": "write_the_code",
+      "concept": "truthiness_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a program that uses truthiness to greet a user or default to Guest:\n1. Set `username = \"\"`\n2. If `username`:\n   - Print `f\"Welcome, {username}!\"`\n3. Else:\n   - Print `\"Welcome, Guest!\"` (should print Welcome, Guest!)",
+      "starter_code": "# Username truthiness greeting\n",
+      "solution_code": "username = \"\"\nif username:\n    print(f\"Welcome, {username}!\")\nelse:\n    print(\"Welcome, Guest!\")",
+      "expected_output": "Welcome, Guest!",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Welcome, Guest! for empty string",
+          "expectedOutput": "Welcome, Guest!",
+          "assertionPython": "assert _raw_stdout.strip() == 'Welcome, Guest!' and _user_namespace.get('username') == ''"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying if username conditional structure",
+          "expectedOutput": "Welcome, Guest!",
+          "assertionPython": "assert 'if username:' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "An empty string `\"\"` is falsy, so execution jumps to the `else` block to print `\"Welcome, Guest!\"`.",
+      "hint": "if username: ... else: print(\"Welcome, Guest!\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.5_q13",
+      "type": "write_the_code",
+      "concept": "truthiness_patterns",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "An e-commerce cart checks if a coupon code was provided:\n1. Set `coupon_code = \"SAVE20\"`\n2. If `coupon_code`:\n   - Print `\"Coupon Applied\"`\n3. Else:\n   - Print `\"Standard Price\"` (should print Coupon Applied)",
+      "starter_code": "# Coupon code presence check\n",
+      "solution_code": "coupon_code = \"SAVE20\"\nif coupon_code:\n    print(\"Coupon Applied\")\nelse:\n    print(\"Standard Price\")",
+      "expected_output": "Coupon Applied",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Coupon Applied for non-empty coupon code",
+          "expectedOutput": "Coupon Applied",
+          "assertionPython": "assert _raw_stdout.strip() == 'Coupon Applied' and _user_namespace.get('coupon_code') == 'SAVE20'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying coupon_code variable and truthiness",
+          "expectedOutput": "Coupon Applied",
+          "assertionPython": "assert 'if coupon_code:' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`\"SAVE20\"` is non-empty, evaluating to True and printing `\"Coupon Applied\"`.",
+      "hint": "if coupon_code: print(\"Coupon Applied\") else: print(\"Standard Price\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.5_q14",
+      "type": "write_the_code",
+      "concept": "truthiness_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A shopping cart checkout validator:\n1. Set `items_in_cart = 0`\n2. If `items_in_cart`:\n   - Print `f\"Checkout {items_in_cart} items\"`\n3. Else:\n   - Print `\"Cart is empty\"` (should print Cart is empty)",
+      "starter_code": "# Cart item counter truthiness check\n",
+      "solution_code": "items_in_cart = 0\nif items_in_cart:\n    print(f\"Checkout {items_in_cart} items\")\nelse:\n    print(\"Cart is empty\")",
+      "expected_output": "Cart is empty",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Cart is empty for items_in_cart = 0",
+          "expectedOutput": "Cart is empty",
+          "assertionPython": "assert _raw_stdout.strip() == 'Cart is empty' and _user_namespace.get('items_in_cart') == 0"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying numeric 0 truthiness behavior",
+          "expectedOutput": "Cart is empty",
+          "assertionPython": "assert 'if items_in_cart:' in _user_code and _user_namespace.get('items_in_cart') == 0",
+          "hidden": true
+        }
+      ],
+      "explanation": "`0` is falsy in Python, so `if items_in_cart:` routes directly to the `else` block.",
+      "hint": "if items_in_cart: print(...) else: print(\"Cart is empty\")",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.5_q15",
+      "type": "write_the_code",
+      "concept": "truthiness_mastery_challenge",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "A social network profile completion tracker:\n1. Set `user_bio = \"Software developer and Python learner\"`\n2. If `user_bio`:\n   - Set `status = \"Profile Complete\"`\n3. Else:\n   - Set `status = \"Bio Missing\"`\n4. Print `status` (should print Profile Complete)",
+      "starter_code": "# User bio completion check\n",
+      "solution_code": "user_bio = \"Software developer and Python learner\"\nif user_bio:\n    status = \"Profile Complete\"\nelse:\n    status = \"Bio Missing\"\nprint(status)",
+      "expected_output": "Profile Complete",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Profile Complete for non-empty bio",
+          "expectedOutput": "Profile Complete",
+          "assertionPython": "assert _raw_stdout.strip() == 'Profile Complete' and _user_namespace.get('status') == 'Profile Complete'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying user_bio variable and status assignment",
+          "expectedOutput": "Profile Complete",
+          "assertionPython": "assert 'if user_bio:' in _user_code and _user_namespace.get('status') == 'Profile Complete'",
+          "hidden": true
+        }
+      ],
+      "explanation": "A non-empty string is truthy, assigning `status = \"Profile Complete\"`.",
+      "hint": "if user_bio: status = \"Profile Complete\" else: status = \"Bio Missing\"",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.5_q16",
+      "type": "multiple_choice",
+      "concept": "truthiness_matching",
+      "skill": "recall",
+      "difficulty": "medium",
+      "prompt": "What are the boolean values of `bool([])` and `bool([0])` respectively?",
+      "options": [
+        "bool([]) is False; bool([0]) is True",
+        "Both are False because 0 is inside the second list",
+        "Both are True because both are lists",
+        "bool([]) is True; bool([0]) is False"
+      ],
+      "correct_answer": "bool([]) is False; bool([0]) is True",
+      "explanation": "An empty list `[]` has length 0 and is falsy. A list containing one item `[0]` has length 1 and is non-empty, which makes it truthy regardless of what that item is.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.5_q17",
+      "type": "output_prediction",
+      "concept": "truthiness_sequence",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "Look at the following float zero test:\n```python\nval = 0.0\nif val:\n    print(\"True\")\nelse:\n    print(\"False\")\n```\nWhat will this print?",
+      "code_snippet": "val = 0.0\nif val:\n    print(\"True\")\nelse:\n    print(\"False\")",
+      "options": [
+        "False",
+        "True",
+        "0.0",
+        "None"
+      ],
+      "correct_answer": "False",
+      "explanation": "Floating-point zero (0.0) is numerically zero and evaluates to False in a boolean context.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.5_q18",
+      "type": "output_prediction",
+      "concept": "truthiness_pitfalls",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the string representation of False:\n```python\nflag_str = \"False\"\nif flag_str:\n    print(\"Yes\")\nelse:\n    print(\"No\")\n```\nWhat will this print?",
+      "code_snippet": "flag_str = \"False\"\nif flag_str:\n    print(\"Yes\")\nelse:\n    print(\"No\")",
+      "options": [
+        "Yes",
+        "No",
+        "False",
+        "TypeError"
+      ],
+      "correct_answer": "Yes",
+      "explanation": "\"False\" is a non-empty string of 5 characters. Python tests string truthiness by length, not by reading the word contents!",
+      "misconception_tag": "STRING_VS_NUMBER"
+    },
+    {
+      "id": "5.5_q19",
+      "type": "multiple_choice",
+      "concept": "truthiness_production_transfer",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A web form requires a user's name. A user submits 3 blank spaces `\"   \"`. Because `bool(\"   \")` is `True`, how should the backend check for valid non-whitespace text?",
+      "options": [
+        "Use `if name.strip():` to remove whitespace before checking truthiness",
+        "Use `if name == False:`",
+        "Convert name to an integer first",
+        "Whitespace strings are automatically falsy in Python 3"
+      ],
+      "correct_answer": "Use `if name.strip():` to remove whitespace before checking truthiness",
+      "explanation": "`name.strip()` strips all leading and trailing whitespace. If the string only contained spaces, it becomes `\"\"` which is falsy.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.5_q20",
+      "type": "multiple_choice",
+      "concept": "truthiness_syntax",
+      "skill": "diagnosis",
+      "difficulty": "easy",
+      "prompt": "What is the value of `None == False` in Python?",
+      "options": [
+        "False, because None and False are distinct singleton objects of different types",
+        "True, because both are falsy values",
+        "None, because comparison with None produces None",
+        "SyntaxError"
+      ],
+      "correct_answer": "False, because None and False are distinct singleton objects of different types",
+      "explanation": "Although both `None` and `False` are falsy in an `if` condition, they are not equal (`None == False` is `False`).",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q21",
       "type": "fix_the_code",
-      "concept": "truthiness_edge_cases",
+      "concept": "truthiness_idioms",
       "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q20"
+      "difficulty": "easy",
+      "prompt": "The optional middle name check below accidentally swapped the print statements! When `middle_name = \"\"` (empty), it should print `No middle name`. Fix lines 3 and 5.",
+      "starter_code": "middle_name = \"\"\nif middle_name:\n    print(\"No middle name\")\nelse:\n    print(\"Has middle name\")",
+      "solution_code": "middle_name = \"\"\nif middle_name:\n    print(\"Has middle name\")\nelse:\n    print(\"No middle name\")",
+      "expected_output": "No middle name",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs No middle name for empty middle_name",
+          "expectedOutput": "No middle name",
+          "assertionPython": "assert _raw_stdout.strip() == 'No middle name' and _user_namespace.get('middle_name') == ''"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying branch logic",
+          "expectedOutput": "No middle name",
+          "assertionPython": "assert 'if middle_name:' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "This function is intended to check whether a value represents a valid score. It should return True only when the score is a number greater than zero. The current implementation incorrectly handles zero and None. Correct the logic.",
-      "starter_code": "def is_valid_score(score):\n    if score:\n        return True\n    return False\n\nprint(is_valid_score(10))\nprint(is_valid_score(0))\nprint(is_valid_score(None))",
-      "solution_code": "def is_valid_score(score):\n    if isinstance(score, (int, float)) and score > 0:\n        return True\n    return False\n\nprint(is_valid_score(10))\nprint(is_valid_score(0))\nprint(is_valid_score(None))",
-      "hint": "Zero is falsy, but it is not a valid score. Also consider that None is falsy and must be excluded.",
-      "explanation": "While score > 0 would raise a TypeError if score is None, the original code treated 0 and None as valid because they are falsy. The corrected version first checks the type to ensure score is numeric, then verifies it is strictly greater than zero, properly handling edge cases."
+      "explanation": "An empty string is falsy, so the `else` block executes. The `else` block should print `\"No middle name\"`.",
+      "hint": "Put print(\"Has middle name\") inside the if block, and print(\"No middle name\") in the else block.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q22",
-      "type": "fix_the_code",
-      "concept": "truthiness_runtime",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q21"
+      "type": "write_the_code",
+      "concept": "truthiness_refactoring",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a search engine query validator:\n1. Set `query = \"python tutorials\"`\n2. If `query`:\n   - Print `f\"Searching for: {query}\"`\n3. Else:\n   - Print `\"Please enter a search term\"` (should print Searching for: python tutorials)",
+      "starter_code": "# Search query presence validator\n",
+      "solution_code": "query = \"python tutorials\"\nif query:\n    print(f\"Searching for: {query}\")\nelse:\n    print(\"Please enter a search term\")",
+      "expected_output": "Searching for: python tutorials",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Searching for: python tutorials",
+          "expectedOutput": "Searching for: python tutorials",
+          "assertionPython": "assert _raw_stdout.strip() == 'Searching for: python tutorials' and _user_namespace.get('query') == 'python tutorials'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying query variable and if query conditional",
+          "expectedOutput": "Searching for: python tutorials",
+          "assertionPython": "assert 'if query:' in _user_code and _user_namespace.get('query') == 'python tutorials'",
+          "hidden": true
+        }
       ],
-      "prompt": "A runtime error occurs when the function process_response is called with an empty dictionary. Explain why the error happens and how truthiness is involved.",
-      "starter_code": "def process_response(payload):\n    if payload:\n        return payload['status']\n    return 'default'\n\nprint(process_response({'status': 'ok'}))\nprint(process_response({}))",
-      "solution_code": "def process_response(payload):\n    if payload and 'status' in payload:\n        return payload['status']\n    return 'default'\n\nprint(process_response({'status': 'ok'}))\nprint(process_response({}))",
-      "hint": "An empty dictionary is falsy, but the KeyError can still arise from a non-empty dictionary missing the key.",
-      "explanation": "The original code checks if payload is truthy, which correctly skips the empty dictionary. However, if payload were a non-empty dictionary without a 'status' key, a KeyError would occur. The improved version adds an explicit membership check, making the truthiness guard robust against missing keys in non-empty containers."
+      "explanation": "`\"python tutorials\"` is a non-empty string and evaluates to True, printing `\"Searching for: python tutorials\"`.",
+      "hint": "if query: print(f\"Searching for: {query}\") else: print(\"Please enter a search term\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q23",
-      "type": "fix_the_code",
-      "concept": "truthiness_logic_repair",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "truthiness_debugging",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q22"
+      "prompt": "An email inbox notification badge check:\n1. Set `unread_count = 5`\n2. If `unread_count`:\n   - Print `f\"You have {unread_count} new messages\"`\n3. Else:\n   - Print `\"Inbox is clean\"` (should print You have 5 new messages)",
+      "starter_code": "# Unread notification count truthiness check\n",
+      "solution_code": "unread_count = 5\nif unread_count:\n    print(f\"You have {unread_count} new messages\")\nelse:\n    print(\"Inbox is clean\")",
+      "expected_output": "You have 5 new messages",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs You have 5 new messages for unread_count = 5",
+          "expectedOutput": "You have 5 new messages",
+          "assertionPython": "assert _raw_stdout.strip() == 'You have 5 new messages' and _user_namespace.get('unread_count') == 5"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying unread_count variable",
+          "expectedOutput": "You have 5 new messages",
+          "assertionPython": "assert 'if unread_count:' in _user_code and _user_namespace.get('unread_count') == 5",
+          "hidden": true
+        }
       ],
-      "prompt": "The login function below should return 'Access granted' only when both username and password are provided and non-empty. Repair the conditional logic to use truthiness correctly.",
-      "starter_code": "def login(username, password):\n    if username and password == True:\n        return 'Access granted'\n    return 'Access denied'\n\nprint(login('alice', 'secret'))\nprint(login('', 'secret'))",
-      "solution_code": "def login(username, password):\n    if username and password:\n        return 'Access granted'\n    return 'Access denied'\n\nprint(login('alice', 'secret'))\nprint(login('', 'secret'))",
-      "hint": "Password should be checked for non-emptiness, not compared to the boolean True.",
-      "explanation": "Comparing password to True is incorrect because any non-empty string is already truthy. The condition username and password evaluates to True only when both arguments are non-empty, correctly using Python's truthiness semantics."
+      "explanation": "`5` is non-zero (truthy), so the `if` block executes, printing `\"You have 5 new messages\"`.",
+      "hint": "if unread_count: print(f\"You have {unread_count} new messages\") else: print(\"Inbox is clean\")",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.5_q24",
-      "type": "fix_the_code",
+      "type": "write_the_code",
       "concept": "truthiness_optimization",
-      "skill": "refactoring",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.5_q23"
+      "prompt": "A cloud service validates authentication API tokens:\n1. Set `api_token = \"tok_live_987654321\"`\n2. If `api_token`:\n   - Set `auth_state = \"Authenticated\"`\n3. Else:\n   - Set `auth_state = \"Missing API Key\"`\n4. Print `auth_state` (should print Authenticated)",
+      "starter_code": "# API token verification\n",
+      "solution_code": "api_token = \"tok_live_987654321\"\nif api_token:\n    auth_state = \"Authenticated\"\nelse:\n    auth_state = \"Missing API Key\"\nprint(auth_state)",
+      "expected_output": "Authenticated",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Authenticated for valid api_token",
+          "expectedOutput": "Authenticated",
+          "assertionPython": "assert _raw_stdout.strip() == 'Authenticated' and _user_namespace.get('auth_state') == 'Authenticated'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying api_token and auth_state variables",
+          "expectedOutput": "Authenticated",
+          "assertionPython": "assert 'if api_token:' in _user_code and _user_namespace.get('api_token') == 'tok_live_987654321'",
+          "hidden": true
+        }
       ],
-      "prompt": "Refactor the following function to eliminate redundant checks, improve readability, and preserve exact behavior. The function should return the first truthy value from the arguments, or None if all are falsy.",
-      "starter_code": "def first_truthy(a, b, c):\n    if a:\n        return a\n    if b:\n        return b\n    if c:\n        return c\n    return None\n\nprint(first_truthy(0, 'yes', False))\nprint(first_truthy(0, 0, 0))\nprint(first_truthy('', [], {}))\nprint(first_truthy(None, None, None))",
-      "solution_code": "def first_truthy(a, b, c):\n    return next((x for x in (a, b, c) if x), None)\n\nprint(first_truthy(0, 'yes', False))\nprint(first_truthy(0, 0, 0))\nprint(first_truthy('', [], {}))\nprint(first_truthy(None, None, None))",
-      "hint": "Use a generator expression with next and a default to find the first truthy item concisely.",
-      "explanation": "The original function uses three separate if statements, which is verbose and repeats the return pattern. The refactored version uses a generator expression (a, b, c) filtered by if x, combined with next(..., None) to return the first truthy value or None. This leverages short-circuit evaluation implicitly and reduces the code to a single expressive line while preserving identical behavior for all edge cases."
+      "explanation": "A non-empty string is truthy, assigning `auth_state = \"Authenticated\"`.",
+      "hint": "if api_token: auth_state = \"Authenticated\" else: auth_state = \"Missing API Key\"",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.5_q25",
       "type": "write_the_code",
-      "concept": "truthiness_implementation",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q24"
-      ],
-      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Truthiness.",
-      "starter_code": "def process_5_5_data(items):\n    # Process input according to Truthiness rules\n    pass",
-      "solution_code": "def process_5_5_data(items):\n    return [item for item in items if item is not None]",
-      "test_cases": [
-        {
-          "input": "[1, None, 2, None, 3]",
-          "expected_output": "[1, 2, 3]",
-          "description": "cleans null values using Truthiness rules"
-        }
-      ],
-      "hint": "Focus on applying the central Python idiom for Truthiness.",
-      "explanation": "Constructing pure, robust data transformers for Truthiness avoids unintended side effects and guarantees consistent return contracts."
-    },
-    {
-      "id": "5.5_q26",
-      "type": "fix_the_code",
-      "concept": "truthiness_debugging",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.5_q25"
-      ],
-      "prompt": "Defensive Validation: Implement a verification helper for Truthiness that confirms preconditions and guards against invalid input.",
-      "starter_code": "def validate_5_5_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
-      "solution_code": "def validate_5_5_input(val):\n    if val is None or val == '':\n        return False\n    return True",
-      "test_cases": [
-        {
-          "input": "'valid_token'",
-          "expected_output": "True",
-          "description": "valid input returns True"
-        }
-      ],
-      "hint": "Check the condition and return value carefully.",
-      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
-    },
-    {
-      "id": "5.5_q27",
-      "type": "code_prediction",
-      "concept": "truthiness_edge_case",
-      "skill": "prediction",
+      "concept": "truthiness_flow",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.5_q26"
-      ],
-      "prompt": "What will be the outcome when this code handling Truthiness encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
-      "hint": "An empty input list evaluates as falsy and produces an empty result.",
-      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Truthiness.",
-      "options": [
-        "[]",
-        "None",
-        "IndexError",
-        "ValueError"
-      ],
-      "correct_answer": "[]"
-    },
-    {
-      "id": "5.5_q28",
-      "type": "write_the_code",
-      "concept": "truthiness_production_transfer",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.5_q27"
-      ],
-      "prompt": "Transfer Challenge: Solve a practical problem using Truthiness. Implement the function below to satisfy the stated contract.",
-      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Truthiness\n    return str(val).strip()",
-      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "prompt": "A web submission validator reports errors:\n1. Set `errors_count = 0`\n2. If `errors_count`:\n   - Set `result = f\"Submission rejected: {errors_count} errors\"`\n3. Else:\n   - Set `result = \"Submission accepted: 0 errors\"`\n4. Print `result` (should print Submission accepted: 0 errors)",
+      "starter_code": "# Form submission error reporting\n",
+      "solution_code": "errors_count = 0\nif errors_count:\n    result = f\"Submission rejected: {errors_count} errors\"\nelse:\n    result = \"Submission accepted: 0 errors\"\nprint(result)",
+      "expected_output": "Submission accepted: 0 errors",
       "test_cases": [
         {
-          "input": "'  python  '",
-          "expected_output": "'PYTHON'",
-          "description": "domain sanitization"
-        }
-      ],
-      "hint": "Use a list comprehension to filter records where 'active' is True.",
-      "explanation": "Applying clean functional contracts for Truthiness ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
-    },
-    {
-      "id": "5.5_q29",
-      "type": "fix_the_code",
-      "concept": "truthiness_refactoring",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.5_q28"
-      ],
-      "prompt": "Refactor this procedural snippet for Truthiness into clean, modular, and idiomatic Python:",
-      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
-      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Outputs Submission accepted: 0 errors for errors_count = 0",
+          "expectedOutput": "Submission accepted: 0 errors",
+          "assertionPython": "assert _raw_stdout.strip() == 'Submission accepted: 0 errors' and _user_namespace.get('result') == 'Submission accepted: 0 errors'"
+        },
         {
-          "input": "",
-          "expected_output": "Truthiness Result 29"
+          "id": "tc_2",
+          "description": "Hidden test verifying errors_count variable and truthiness",
+          "expectedOutput": "Submission accepted: 0 errors",
+          "assertionPython": "assert 'if errors_count:' in _user_code and _user_namespace.get('errors_count') == 0",
+          "hidden": true
         }
       ],
-      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
-      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
-    },
-    {
-      "id": "5.5_q30",
-      "type": "write_the_code",
-      "concept": "truthiness_mastery_challenge",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.5_q29"
-      ],
-      "prompt": "Final Capstone Verification: Write a production-grade handler for Truthiness that processes batches and handles empty inputs cleanly.",
-      "starter_code": "def execute_5_5_workflow(batch):\n    # Validate and transform batch\n    pass",
-      "solution_code": "def execute_5_5_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
-      "test_cases": [
-        {
-          "input": "[' a ', 'b ']",
-          "expected_output": "['a', 'b']",
-          "description": "batch processing workflow"
-        }
-      ],
-      "hint": "Validate input first, then execute the transformation.",
-      "explanation": "Production workflows for Truthiness must validate inputs, maintain immutability, and return deterministic results."
+      "explanation": "`errors_count = 0` is falsy, so execution branches to the `else` block, accepting the submission.",
+      "hint": "if errors_count: result = ... else: result = \"Submission accepted: 0 errors\"",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 5,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Truthiness",
-    "Apply idiomatic Python patterns when working with Truthiness",
-    "Debug common runtime exceptions and logic errors associated with Truthiness",
-    "Implement production-ready code utilizing Truthiness"
-  ],
-  "prerequisites": [
-    "5.4"
   ]
 }

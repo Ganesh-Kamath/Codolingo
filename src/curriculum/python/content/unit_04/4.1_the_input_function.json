@@ -1,309 +1,601 @@
 {
   "lesson_id": "4.1",
   "title": "The input() Function",
-  "unit": "User Input and Output",
-  "unit_num": 4,
-  "learning_objectives": [
-    "Understand that input() always returns text (str)",
-    "Display user-friendly prompts with input()",
-    "Clean raw user input with .strip()",
-    "Handle user responses in simple interactive command-line programs"
-  ],
-  "prerequisites": [
-    "3.5"
-  ],
+  "unit": "unit_04",
   "items": [
     {
-      "id": "4.1_q1",
-      "type": "micro_lesson",
-      "concept": "the_input_function_basics",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "title": "How the input() Function Operates",
-      "content": "The `input()` function pauses program execution and waits for the user to type text into the terminal and press Enter.\n\nKey rules:\n1. `input()` ALWAYS returns a string (`str`), even if the user enters digits.\n2. To use the input as a number, it must be explicitly converted (cast) using `int()` or `float()`.\n\n```python\nname = input(\"What is your name? \")\nprint(f\"Hello, {name}!\")\n```",
-      "explanation": "Calling input() halts execution, captures keystrokes from standard input, and always returns the captured text as a str object."
-    },
-    {
-      "id": "4.1_q2",
-      "type": "output_prediction",
-      "concept": "the_input_function_basics",
-      "skill": "mental_model",
-      "difficulty": "easy",
-      "prompt": "Consider the following code:\n\n```python\nage = input(\"Enter your age: \")\n# User types: 25\nprint(type(age))\n```\n\nWhat is printed to the console?",
-      "options": [
-        "<class 'str'>",
-        "<class 'int'>",
-        "<class 'float'>",
-        "TypeError"
-      ],
-      "correct_answer": "<class 'str'>",
-      "explanation": "In Python, the `input()` function ALWAYS returns user entry as a string (`str`), even if the user types digits. To treat the input as a number, it must be explicitly converted using `int()` or `float()`."
-    },
-    {
-      "id": "4.1_q3",
-      "type": "micro_lesson",
-      "concept": "the_input_function_prompts_and_cleaning",
-      "skill": "recognition",
-      "difficulty": "easy",
-      "title": "Prompts and Whitespace Hygiene",
-      "content": "You can pass an optional prompt string to `input(\"Enter age: \")` which displays on screen without a trailing newline.\n\nUsers often introduce accidental spaces when typing. Calling `.strip()` removes leading and trailing whitespace:\n\n```python\nuser_code = input(\"Enter code: \").strip()\n```",
-      "explanation": "Passing a prompt string keeps user entry on the same line, and strip() sanitizes extraneous surrounding whitespace."
-    },
-    {
-      "id": "4.1_q4",
-      "type": "code_prediction",
-      "concept": "the_input_function_basics",
-      "skill": "input_handling",
-      "difficulty": "easy",
-      "prompt": "Consider this code where the user enters their name with extra spaces around it:\n\n```python\nraw_name = \"  Aria  \"\ncleaned_name = raw_name.strip()\nprint(f\"Welcome, [{cleaned_name}]!\")\n```\n\nWhat is the exact output?",
-      "options": [
-        "Welcome, [Aria]!",
-        "Welcome, [  Aria  ]!",
-        "Welcome, [Aria ]!",
-        "SyntaxError"
-      ],
-      "correct_answer": "Welcome, [Aria]!",
-      "explanation": "User input frequently contains accidental leading or trailing whitespace. Calling `.strip()` returns a new string with surrounding whitespace removed."
-    },
-    {
-      "id": "4.1_q5",
-      "type": "fix_the_code",
-      "concept": "the_input_function_basics",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prompt": "Fix the string formatting in the program below so it cleanly outputs `Hello Ganesh!` without awkward extra spaces:\n\n```python\nname = \"Ganesh\"\ngreeting = f\"Hello {name}!\"\nprint(greeting)\n```",
-      "starter_code": "name = \"Ganesh\"\ngreeting = \"Hello \" + \" \" + name + \" !\"\nprint(greeting)",
-      "solution_code": "name = \"Ganesh\"\ngreeting = f\"Hello {name}!\"\nprint(greeting)",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "Hello Ganesh!",
-          "description": "Clean greeting output"
-        }
-      ],
-      "explanation": "Using f-strings (`f\"Hello {name}!\"`) avoids fragile plus-operator concatenation and allows precise control over spacing around variables."
-    },
-    {
-      "id": "4.1_q6",
-      "type": "output_prediction",
-      "concept": "the_input_function_basics",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prompt": "What does the following snippet output?\n\n```python\nfirst = \"Dev\"\nlast = \"Roy\"\nfull_greeting = f\"User: {last.upper()}, {first.capitalize()}\"\nprint(full_greeting)\n```",
-      "options": [
-        "User: ROY, Dev",
-        "User: Roy, Dev",
-        "User: ROY, DEV",
-        "User: Dev, Roy"
-      ],
-      "correct_answer": "User: ROY, Dev",
-      "explanation": "`last.upper()` transforms `'Roy'` to `'ROY'`, while `first.capitalize()` ensures `'Dev'` starts with an uppercase letter and the rest lowercase."
-    },
-    {
-      "id": "4.1_q7",
-      "type": "code_prediction",
-      "concept": "the_input_function_execution",
-      "skill": "prediction",
-      "difficulty": "easy",
-      "prompt": "What is the return type of `input()`, even if the user types digits like `42`?\n```python\nage = input('Enter age: ')\nprint(type(age))\n```",
-      "options": [
-        "A. <class 'str'>",
-        "B. <class 'int'>",
-        "C. <class 'float'>",
-        "D. <class 'number'>"
-      ],
-      "correct_answer": "A",
-      "explanation": "`input()` always returns a string (`str`). If you want an integer, you must explicitly convert it using `int(age)`."
-    },
-    {
-      "id": "4.1_q8",
+      "id": "4.1_fnd_1",
       "type": "multiple_choice",
-      "concept": "the_input_function_execution",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prompt": "What happens if a program executes `val = input()` in a standard interactive terminal?",
+      "concept": "input_return_type",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "When a user types the number `25` into `input()`, what data type does Python return?",
+      "explanation": "The `input()` function always reads raw text from the keyboard and returns it as a string (`str`). Even if the user types digits like 25, Python stores `\"25\"`.",
+      "hint": "Think about keystrokes: the keyboard produces text characters.",
+      "misconception_tag": "INPUT_IS_STRING",
       "options": [
-        "A. Execution pauses and waits until the user presses Enter",
-        "B. Python raises an ImmediateInputError",
-        "C. It returns None immediately without waiting",
-        "D. It generates a random string automatically"
+        "A string (str): \"25\"",
+        "An integer (int): 25",
+        "A float: 25.0",
+        "A boolean: True"
       ],
-      "correct_answer": "A",
-      "explanation": "`input()` pauses program execution and waits for the user to type input and press Enter."
+      "correct_answer": "A string (str): \"25\""
     },
     {
-      "id": "4.1_q9",
-      "type": "fix_the_code",
-      "concept": "the_input_function_flow",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prompt": "Fix this code so that `.strip()` is actually called as a method to remove whitespace before printing:",
-      "starter_code": "name = input('Name: ').strip\nprint(f'Hello {name}')",
-      "solution_code": "name = input('Name: ').strip()\nprint(f'Hello {name}')",
-      "test_cases": [
-        {
-          "input": "Maya\n",
-          "expected_output": "Name: Maya\nHello Maya",
-          "description": "Strips input and prints greeting"
-        }
-      ],
-      "explanation": "`.strip()` is a method call and must include parentheses `()` to execute and return the cleaned string."
-    },
-    {
-      "id": "4.1_q10",
-      "type": "write_the_code",
-      "concept": "the_input_function_basics",
-      "skill": "construction",
-      "difficulty": "medium",
-      "prompt": "Given `first = '  Maya '` and `last = ' Lin  '`, strip surrounding whitespace and print `Greetings, Maya Lin!`:",
-      "starter_code": "first = \"  Maya \"\nlast = \" Lin  \"\n# Strip whitespace and print greeting\n",
-      "solution_code": "first = \"  Maya \"\nlast = \" Lin  \"\nprint(f\"Greetings, {first.strip()} {last.strip()}!\")",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "Greetings, Maya Lin!",
-          "description": "Prints sanitized greeting"
-        }
-      ],
-      "explanation": "Calling `.strip()` on both `first` and `last` removes unintentional leading/trailing whitespace before interpolating them into the greeting."
-    },
-    {
-      "id": "4.1_q11",
-      "type": "multiple_choice",
-      "concept": "the_input_function_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prompt": "Why is it best practice to include a trailing space in an input prompt string like `input('Enter name: ')`?",
-      "options": [
-        "A. To prevent the user's typed text from bunching right against the prompt text",
-        "B. Python syntax requires trailing spaces in string arguments",
-        "C. It forces the terminal to flush its output buffer",
-        "D. It automatically strips newline characters"
-      ],
-      "correct_answer": "A",
-      "explanation": "A space after the colon in `'Enter name: '` creates clean visual separation between the prompt and the user's keystrokes in the terminal."
-    },
-    {
-      "id": "4.1_q12",
+      "id": "4.1_fnd_2",
       "type": "output_prediction",
-      "concept": "the_input_function_logic",
-      "skill": "prediction",
+      "concept": "predict_string_addition_confusion",
+      "skill": "application",
       "difficulty": "medium",
-      "prompt": "What does this snippet display when executed?\n```python\ntext = '  Python  '.strip()\nprint(f'[{text}]')\n```",
+      "prerequisites": [],
+      "prompt": "Suppose a program receives `\"5\"` from input for `a` and `\"2\"` for `b`:\n```python\na = \"5\"\nb = \"2\"\nprint(a + b)\n```\nWhat will this print?",
+      "explanation": "`\"5\" + \"2\"` produces `\"52\"` because `+` on two strings joins them end-to-end. To get 7, you must convert them with `int(a) + int(b)`.",
+      "hint": "Notice the quotes around \"5\" and \"2\". + glues strings together.",
+      "misconception_tag": "INPUT_IS_STRING",
       "options": [
-        "A. [Python]",
-        "B. [  Python  ]",
-        "C. [Python  ]",
-        "D. ['Python']"
+        "52",
+        "7",
+        "Error",
+        "\"7\""
       ],
-      "correct_answer": "A",
-      "explanation": "`.strip()` removes leading and trailing whitespace characters, leaving `[Python]`."
+      "correct_answer": "52"
     },
     {
-      "id": "4.1_q13",
+      "id": "4.1_fnd_3",
       "type": "fill_in_the_blank",
-      "concept": "input_prompt_formatting",
-      "skill": "syntax",
+      "concept": "input_function_syntax",
+      "skill": "application",
       "difficulty": "easy",
-      "prompt": "Fill in the blank to prompt the user with `\"Enter city: \"` and store the result in `city`:\n\n```python\ncity = ___(\"Enter city: \")\n```",
+      "prerequisites": [],
+      "prompt": "Complete the statement to prompt the user with `\"Enter name: \"`:\n```python\nuser_name = ____(\"Enter name: \")\nprint(\"Welcome, \" + user_name)\n```",
+      "explanation": "`input()` is the built-in Python function that displays a prompt string and pauses execution until the user presses Enter.",
+      "hint": "The function name is lowercase: input",
+      "misconception_tag": "SYNTAX_ERROR",
       "correct_answer": "input",
       "accepted_answers": [
         "input"
-      ],
-      "explanation": "Passing a prompt string argument to `input(\"Enter city: \")` displays the prompt text to standard output without adding a trailing newline."
+      ]
     },
     {
-      "id": "4.1_q14",
-      "type": "write_the_code",
-      "concept": "input_normalization_upper",
-      "skill": "transformation",
+      "id": "4.1_fnd_4",
+      "type": "multiple_choice",
+      "concept": "reason_input_arithmetic_failure",
+      "skill": "application",
       "difficulty": "medium",
-      "prompt": "Given `code = 'ny'`, convert the code to uppercase and print `State: NY` using an f-string:",
-      "starter_code": "code = \"ny\"\n# Convert to uppercase and print\n",
-      "solution_code": "code = \"ny\"\nprint(f\"State: {code.upper()}\")",
+      "prerequisites": [],
+      "prompt": "Look at the following code:\n```python\nage = input(\"Enter age: \")\nnext_year = age + 1\n```\nWhy does line 2 crash when the user enters `18`?",
+      "explanation": "Because `input()` returns a string, `age` is `\"18\"`. Writing `\"18\" + 1` tries to add a string and integer, triggering a `TypeError`. You must convert with `int(age) + 1`.",
+      "hint": "input() returns text. You cannot add 1 to text without converting it first.",
+      "misconception_tag": "INPUT_IS_STRING",
+      "options": [
+        "age contains a string (\"18\"), and Python cannot add an integer (1) to a string with +",
+        "Variables created by input() cannot be used in math expressions",
+        "next_year is a reserved keyword in Python",
+        "The user must type the number spelled out in words like \"eighteen\""
+      ],
+      "correct_answer": "age contains a string (\"18\"), and Python cannot add an integer (1) to a string with +"
+    },
+    {
+      "id": "4.1_fnd_5",
+      "type": "write_the_code",
+      "concept": "write_greeting_program",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Write a Python program that:\n1. Creates a variable `city` set to `\"Tokyo\"`\n2. Prints: `Destination: Tokyo`",
+      "explanation": "Setting `city = \"Tokyo\"` and printing `\"Destination: \" + city` combines the label with the variable.",
+      "hint": "city = \"Tokyo\"\nprint(\"Destination: \" + city)",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "starter_code": "# Print the destination\n",
+      "solution_code": "city = \"Tokyo\"\nprint(\"Destination: \" + city)",
       "test_cases": [
         {
+          "id": "tc_1",
+          "description": "Outputs exactly \"Destination: Tokyo\"",
           "input": "",
-          "expected_output": "State: NY",
-          "description": "Prints uppercase state code"
-        }
-      ],
-      "explanation": "Normalizing user text with `.upper()` ensures consistent capitalization across outputs and comparisons."
-    },
-    {
-      "id": "4.1_q15",
-      "type": "write_the_code",
-      "concept": "input_greeting",
-      "skill": "application",
-      "difficulty": "medium",
-      "prompt": "Write code to ask the user 'Name: ' using input(), and print 'Welcome, <name>!':",
-      "starter_code": "# Ask for user name and print welcome\nname = input('Name: ')\n",
-      "solution_code": "name = input('Name: ')\nprint(f'Welcome, {name}!')",
-      "test_cases": [
-        {
-          "input": "Alex\n",
-          "expected_output": "Name: Alex\nWelcome, Alex!",
-          "description": "Prompts for name and greets user"
-        }
-      ],
-      "explanation": "Reading from input('Name: ') captures the user's name and prints the welcome greeting."
-    },
-    {
-      "id": "4.1_q16",
-      "type": "code_prediction",
-      "concept": "input_isdigit_validation",
-      "skill": "validation",
-      "difficulty": "medium",
-      "prompt": "What does `\"42\".isdigit()` return when validating numeric input?",
-      "options": [
-        "True",
-        "False",
-        "TypeError",
-        "42"
-      ],
-      "correct_answer": "True",
-      "explanation": "`.isdigit()` checks if all characters in the string are digits (0-9). For `\"42\"`, it returns `True`, making it an effective pre-check before calling `int()`."
-    },
-    {
-      "id": "4.1_q17",
-      "type": "code_prediction",
-      "concept": "input_return_type",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prompt": "What does this code output when the user types '25'?\n```python\nage = input('Age: ')  # User enters: 25\nprint(age * 2)\n```",
-      "hint": "Remember what data type input() always returns.",
-      "explanation": "`input()` always returns a string (`str`). Multiplying a string by an integer repeats the string (`'25' * 2` becomes `'2525'`), not numeric multiplication.",
-      "options": [
-        "2525",
-        "50",
-        "TypeError: cannot multiply str",
-        "None"
-      ],
-      "correct_answer": "2525"
-    },
-    {
-      "id": "4.1_q18",
-      "type": "write_the_code",
-      "concept": "command_line_confirmation",
-      "skill": "application",
-      "difficulty": "hard",
-      "prompt": "Write code to ask the user 'Proceed? (y/n): ' and print 'Confirmed' if they enter 'y', or 'Cancelled' otherwise:",
-      "starter_code": "ans = input('Proceed? (y/n): ').strip().lower()\nif ans == 'y':\n    print('Confirmed')\nelse:\n    print('Cancelled')",
-      "solution_code": "ans = input('Proceed? (y/n): ').strip().lower()\nif ans == 'y':\n    print('Confirmed')\nelse:\n    print('Cancelled')",
-      "test_cases": [
-        {
-          "input": "y\n",
-          "expected_output": "Proceed? (y/n): y\nConfirmed",
-          "description": "handles y confirmation"
+          "expectedOutput": "Destination: Tokyo",
+          "assertionPython": "assert _raw_stdout.strip() == 'Destination: Tokyo'",
+          "hidden": false
         },
         {
-          "input": "n\n",
-          "expected_output": "Proceed? (y/n): n\nCancelled",
-          "description": "handles cancellation"
+          "id": "tc_2",
+          "description": "Variable city equals Tokyo",
+          "input": "",
+          "expectedOutput": "Destination: Tokyo",
+          "assertionPython": "assert _user_namespace.get('city') == 'Tokyo'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "4.1_fnd_6",
+      "type": "fix_the_code",
+      "concept": "debug_string_concatenation_in_math",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "A developer wanted to add two numbers from input. But when `num1 = \"10\"` and `num2 = \"20\"`, the code below prints `1020` instead of `30`! Fix it using `int()`.",
+      "explanation": "Converting both operands with `int(num1) + int(num2)` converts `\"10\"` and `\"20\"` to numbers `10` and `20`, so Python computes `30` instead of `\"1020\"`.",
+      "hint": "Use int(num1) + int(num2)",
+      "misconception_tag": "INPUT_IS_STRING",
+      "starter_code": "num1 = \"10\"\nnum2 = \"20\"\ntotal = num1 + num2\nprint(total)",
+      "solution_code": "num1 = \"10\"\nnum2 = \"20\"\ntotal = int(num1) + int(num2)\nprint(total)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints mathematical sum 30 using int() conversion",
+          "input": "",
+          "expectedOutput": "30",
+          "assertionPython": "assert _raw_stdout.strip() == '30' and 'int(' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying int conversion and sum",
+          "input": "",
+          "expectedOutput": "30",
+          "assertionPython": "assert _user_namespace.get('total') == 30 and _raw_stdout.strip() == '30'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "4.1_fnd_7",
+      "type": "trace_execution",
+      "concept": "trace_input_variable",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Trace the value of variable `label` step by step:\n```python\nraw = \"Guest\"\nlabel = \"User: \"\nlabel = label + raw\n```\nWhat is the value of `label` after each line?",
+      "explanation": "Line 2 creates `label` with `\"User: \"`. Line 3 appends `\"Guest\"` to produce `\"User: Guest\"`.",
+      "hint": "Concatenate the prefix with the name stored in raw.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "options": [
+        "User: Guest",
+        "User: None",
+        "Guest",
+        "Error"
+      ],
+      "correct_answer": "User: Guest",
+      "trace_steps": [
+        {
+          "step": 1,
+          "line": 1,
+          "code": "raw = \"Guest\"",
+          "variable": "Value of label",
+          "expectedValue": "None",
+          "hint": "label does not exist yet"
+        },
+        {
+          "step": 2,
+          "line": 2,
+          "code": "label = \"User: \"",
+          "variable": "Value of label",
+          "expectedValue": "User: ",
+          "hint": "Initial prefix"
+        },
+        {
+          "step": 3,
+          "line": 3,
+          "code": "label = label + raw",
+          "variable": "Value of label",
+          "expectedValue": "User: Guest",
+          "hint": "Concatenates \"User: \" with \"Guest\""
+        }
+      ]
+    },
+    {
+      "id": "4.1_fnd_8",
+      "type": "write_the_code",
+      "concept": "apply_profile_card",
+      "skill": "application",
+      "difficulty": "medium",
+      "prerequisites": [],
+      "prompt": "Write a program that takes two variables:\n1. `name = \"Maya\"`\n2. `role = \"Engineer\"`\n\nAnd prints:\n```text\n--- BADGE ---\nName: Maya\nRole: Engineer\n```",
+      "explanation": "Using three print calls displays the header and the two formatted field lines.",
+      "hint": "print(\"--- BADGE ---\") then print(\"Name: \" + name) then print(\"Role: \" + role)",
+      "misconception_tag": "INPUT_IS_STRING",
+      "starter_code": "# Print the badge\n",
+      "solution_code": "name = \"Maya\"\nrole = \"Engineer\"\nprint(\"--- BADGE ---\")\nprint(\"Name: \" + name)\nprint(\"Role: \" + role)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints all 3 badge lines accurately",
+          "input": "",
+          "expectedOutput": "--- BADGE ---\nName: Maya\nRole: Engineer",
+          "assertionPython": "assert '--- BADGE ---' in _raw_stdout and 'Name: Maya' in _raw_stdout and 'Role: Engineer' in _raw_stdout",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying name and role variables",
+          "input": "",
+          "expectedOutput": "--- BADGE ---\nName: Maya\nRole: Engineer",
+          "assertionPython": "assert _user_namespace.get('name') == 'Maya' and _user_namespace.get('role') == 'Engineer'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "4.1_fnd_9",
+      "type": "output_prediction",
+      "concept": "predict_type_of_input",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Suppose the user inputs the number `42`. What does this code print?\n```python\nval = \"42\"\nprint(type(val))\n```",
+      "explanation": "`type(\"42\")` evaluates to `<class 'str'>`. All user input without conversion is of type `str`.",
+      "hint": "Anything in quotes is of type str.",
+      "misconception_tag": "INPUT_IS_STRING",
+      "options": [
+        "<class 'str'>",
+        "<class 'int'>",
+        "<class 'number'>",
+        "42"
+      ],
+      "correct_answer": "<class 'str'>"
+    },
+    {
+      "id": "4.1_fnd_10",
+      "type": "fix_the_code",
+      "concept": "debug_missing_assignment",
+      "skill": "application",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "prompt": "Fix the bug in the program below. The developer called `input()`, but forgot to save the result into the `username` variable before printing it!",
+      "explanation": "To remember what the user typed, you must assign the return value of `input()` to a variable: `username = input(\"Your name: \")`.",
+      "hint": "username = input(\"Your name: \")",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "starter_code": "input(\"Your name: \")\nusername = \"Guest\"\nprint(\"Hello, \" + username)",
+      "solution_code": "username = input(\"Your name: \")\nprint(\"Hello, \" + username)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Assigns input directly to username variable",
+          "input": "Alex",
+          "expectedOutput": "Hello, Alex",
+          "assertionPython": "assert 'username = input(' in _user_code or 'username=input(' in _user_code",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with different input name",
+          "input": "Jordan",
+          "expectedOutput": "Hello, Jordan",
+          "assertionPython": "assert 'Hello, Jordan' in _raw_stdout and _user_namespace.get('username') == 'Jordan'",
+          "hidden": true
+        }
+      ]
+    },
+    {
+      "id": "4.1_cand_1",
+      "type": "micro_lesson",
+      "concept": "input_function_mechanics",
+      "skill": "mental_model",
+      "difficulty": "easy",
+      "title": "The input() Function and User Prompts",
+      "content": "# The input() Function\n\nPrograms become dynamic and interactive when they receive user input. In Python, the built-in `input()` function pauses execution and waits for the user to type text in the terminal and press Enter.\n\n```python\nuser_name = input(\"Enter your name: \")\nprint(\"Hello, \" + user_name)\n```\n\n### 3 Core Rules of input():\n1. **Always Returns Text (`str`):** Even if the user types digits like `42`, Python returns the string `\"42\"`.\n2. **Displays a Prompt:** The optional string argument inside `input(\"Prompt: \")` displays on screen before the user cursor.\n3. **Pauses Program:** Execution halts until the user presses Enter. Accidental surrounding spaces can be trimmed with `.strip()`.",
+      "explanation": "input() halts execution, captures keystrokes until Enter, and always returns the captured text as a str."
+    },
+    {
+      "id": "4.1_cand_2",
+      "type": "multiple_choice",
+      "concept": "input_return_type_trap",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "A user runs a program and types `100` into `score = input(\"Score: \")`. What is the Python expression `score == 100` evaluated to?",
+      "options": [
+        "False (score is the string \"100\", while 100 is an int)",
+        "True (Python automatically casts numeric string inputs)",
+        "SyntaxError (cannot compare different types)",
+        "None (input has not been evaluated yet)"
+      ],
+      "correct_answer": "False (score is the string \"100\", while 100 is an int)",
+      "explanation": "`input()` returns a string `str`. The string `\"100\"` is not equal to the integer `100`. In Python, comparing a string and integer with `==` returns `False` without raising an error.",
+      "misconception_tag": "INPUT_IS_STRING"
+    },
+    {
+      "id": "4.1_cand_3",
+      "type": "fill_in_the_blank",
+      "concept": "strip_whitespace_method",
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prompt": "Fill in the method name to remove leading and trailing whitespace from the user input:\n```python\nraw_city = input(\"City: \")\nclean_city = raw_city.____()\n```",
+      "accepted_answers": [
+        "strip"
+      ],
+      "correct_answer": "strip",
+      "explanation": "The `.strip()` method returns a copy of the string with leading and trailing whitespace removed, which is crucial for cleaning user entries.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.1_cand_4",
+      "type": "output_prediction",
+      "concept": "input_string_repetition",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What will this program print if the user inputs `3` for `qty`?\n```python\nqty = \"3\"\nprint(qty * 4)\n```",
+      "options": [
+        "3333",
+        "12",
+        "3 3 3 3",
+        "TypeError: cannot multiply sequence by int"
+      ],
+      "correct_answer": "3333",
+      "explanation": "Because `qty` is a string `\"3\"`, the `*` operator performs string repetition rather than multiplication. Multiplying `\"3\"` by `4` repeats the character 4 times, producing `\"3333\"`.",
+      "misconception_tag": "STRING_VS_NUMBER"
+    },
+    {
+      "id": "4.1_cand_5",
+      "type": "trace_execution",
+      "concept": "trace_user_input_flow",
+      "skill": "tracing",
+      "difficulty": "medium",
+      "prompt": "Trace the value of `greeting` through execution:\n```python\nfirst = \"Ada\"\nlast = \"Lovelace\"\ngreeting = \"Welcome, \" + first + \" \" + last + \"!\"\n```\nWhat is the value of `greeting`?",
+      "options": [
+        "Welcome, Ada Lovelace!",
+        "Welcome, AdaLovelace!",
+        "Welcome, first last!",
+        "Ada Lovelace"
+      ],
+      "correct_answer": "Welcome, Ada Lovelace!",
+      "explanation": "The concatenation joins `\"Welcome, \"` with `\"Ada\"`, a space `\" \"`, `\"Lovelace\"`, and `\"!\"`, yielding `\"Welcome, Ada Lovelace!\"`.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "4.1_cand_6",
+      "type": "real_world_scenario",
+      "concept": "terminal_confirmation_prompt",
+      "skill": "application",
+      "difficulty": "easy",
+      "prompt": "A deployment script asks the system admin: `confirm = input(\"Deploy to production? (yes/no): \")`. To make the check case-insensitive and safe against spaces, what is the best condition?",
+      "options": [
+        "confirm.strip().lower() == \"yes\"",
+        "confirm == \"yes\"",
+        "confirm.upper() == \"yes\"",
+        "confirm == True"
+      ],
+      "correct_answer": "confirm.strip().lower() == \"yes\"",
+      "explanation": "Combining `.strip()` and `.lower()` trims accidental whitespace and normalizes entries like `\" YES \"` or `\"Yes\"` down to `\"yes\"`.",
+      "misconception_tag": "INPUT_IS_STRING"
+    },
+    {
+      "id": "4.1_cand_7",
+      "type": "real_world_scenario",
+      "concept": "login_username_normalization",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A user registration system collects usernames. If a user types `\"  AlexDev  \"`, which expression returns clean lowercase `\"alexdev\"`?",
+      "options": [
+        "user_entry.strip().lower()",
+        "user_entry.clean()",
+        "lower(strip(user_entry))",
+        "str(user_entry)"
+      ],
+      "correct_answer": "user_entry.strip().lower()",
+      "explanation": "Python strings use method chaining: `user_entry.strip()` strips whitespace, and `.lower()` converts to lowercase.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.1_cand_8",
+      "type": "error_diagnosis",
+      "concept": "unassigned_input_error",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A student writes this script:\n```python\ninput(\"Enter discount code: \")\nprint(\"Applied code: \" + code)\n```\nWhat error occurs when this code runs?",
+      "options": [
+        "NameError: name 'code' is not defined",
+        "TypeError: cannot concatenate str to input",
+        "ValueError: invalid literal",
+        "SyntaxError: invalid input syntax"
+      ],
+      "correct_answer": "NameError: name 'code' is not defined",
+      "explanation": "The return value of `input()` was never assigned to any variable. When line 2 attempts to reference `code`, Python raises `NameError` because `code` was never created.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "4.1_cand_9",
+      "type": "fix_the_code",
+      "concept": "fix_forgotten_variable_assignment",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "The program below asks the user for their favorite color, but fails to store it into `favorite_color`. Fix the code so `favorite_color` captures the input and prints `Your color: <color>`.",
+      "starter_code": "input(\"Color: \")\nfavorite_color = \"unknown\"\nprint(\"Your color: \" + favorite_color)",
+      "solution_code": "favorite_color = input(\"Color: \")\nprint(\"Your color: \" + favorite_color)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Captures input blue and prints Your color: blue",
+          "input": "blue",
+          "expectedOutput": "Color: blue\nYour color: blue",
+          "assertionPython": "assert _user_namespace.get('favorite_color') == 'blue' and 'Your color: blue' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with green input",
+          "input": "green",
+          "expectedOutput": "Color: green\nYour color: green",
+          "assertionPython": "assert _user_namespace.get('favorite_color') == 'green' and 'Your color: green' in _raw_stdout",
+          "hidden": true
         }
       ],
-      "hint": "Use .lower() to normalize the response before comparing with 'y'.",
-      "explanation": "Normalizing user input with .strip().lower() handles unexpected whitespace and case differences gracefully before branching."
+      "explanation": "Assign the result of `input(\"Color: \")` directly to `favorite_color`.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "4.1_cand_10",
+      "type": "fix_the_code",
+      "concept": "fix_prompt_argument_placement",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A beginner programmer wrote `input() = name` and placed the prompt in a separate print without variables. Fix the program so it properly prompts for `name` and prints `Hello, <name>!`.",
+      "starter_code": "# Fix the assignment syntax\nname = \"Guest\"\ninput(\"Name: \")\nprint(\"Hello, \" + name + \"!\")",
+      "solution_code": "name = input(\"Name: \")\nprint(\"Hello, \" + name + \"!\")",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prompts Name: and greets Maya",
+          "input": "Maya",
+          "expectedOutput": "Name: Maya\nHello, Maya!",
+          "assertionPython": "assert _user_namespace.get('name') == 'Maya' and 'Hello, Maya!' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Kai",
+          "input": "Kai",
+          "expectedOutput": "Name: Kai\nHello, Kai!",
+          "assertionPython": "assert _user_namespace.get('name') == 'Kai' and 'Hello, Kai!' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Variable names always go on the left side of the assignment operator: `name = input(\"Name: \")`.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "4.1_cand_11",
+      "type": "write_the_code",
+      "concept": "interactive_user_greeter",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a Python program that:\n1. Prompts the user with `\"Enter city: \"` and stores the response in variable `city`.\n2. Prints `\"Visiting \" + city`.",
+      "starter_code": "# Prompt for city and print greeting\n",
+      "solution_code": "city = input(\"Enter city: \")\nprint(\"Visiting \" + city)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prompts and prints Visiting Paris",
+          "input": "Paris",
+          "expectedOutput": "Enter city: Paris\nVisiting Paris",
+          "assertionPython": "assert _user_namespace.get('city') == 'Paris' and 'Visiting Paris' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Berlin",
+          "input": "Berlin",
+          "expectedOutput": "Enter city: Berlin\nVisiting Berlin",
+          "assertionPython": "assert _user_namespace.get('city') == 'Berlin' and 'Visiting Berlin' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "`city = input(\"Enter city: \")` reads user input and `print(\"Visiting \" + city)` combines it with the label.",
+      "misconception_tag": "INPUT_IS_STRING"
+    },
+    {
+      "id": "4.1_cand_12",
+      "type": "write_the_code",
+      "concept": "email_address_formatter",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Write a Python program that:\n1. Prompts for username: `username = input(\"Username: \")`\n2. Prompts for domain: `domain = input(\"Domain: \")`\n3. Creates `email = username + \"@\" + domain`\n4. Prints `\"Contact: \" + email`",
+      "starter_code": "# Build email address from user inputs\n",
+      "solution_code": "username = input(\"Username: \")\ndomain = input(\"Domain: \")\nemail = username + \"@\" + domain\nprint(\"Contact: \" + email)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Builds contact email for dev and company.org",
+          "input": "dev\ncompany.org",
+          "expectedOutput": "Username: dev\nDomain: company.org\nContact: dev@company.org",
+          "assertionPython": "assert _user_namespace.get('email') == 'dev@company.org' and 'Contact: dev@company.org' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with admin and service.net",
+          "input": "admin\nservice.net",
+          "expectedOutput": "Username: admin\nDomain: service.net\nContact: admin@service.net",
+          "assertionPython": "assert _user_namespace.get('email') == 'admin@service.net' and 'Contact: admin@service.net' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Calling `input()` sequentially captures multiple user inputs, which can be concatenated with `\"@\"`.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "4.1_cand_13",
+      "type": "write_the_code",
+      "concept": "receipt_item_tagger",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Write a program that:\n1. Takes product name: `item = input(\"Item: \")`\n2. Takes store code: `store = input(\"Store: \")`\n3. Creates `tag = store + \"-\" + item`\n4. Prints `\"SKU: \" + tag`",
+      "starter_code": "# Create inventory tag\n",
+      "solution_code": "item = input(\"Item: \")\nstore = input(\"Store: \")\ntag = store + \"-\" + item\nprint(\"SKU: \" + tag)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Generates SKU: NY-Coffee",
+          "input": "Coffee\nNY",
+          "expectedOutput": "Item: Coffee\nStore: NY\nSKU: NY-Coffee",
+          "assertionPython": "assert _user_namespace.get('tag') == 'NY-Coffee' and 'SKU: NY-Coffee' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Tea and LA",
+          "input": "Tea\nLA",
+          "expectedOutput": "Item: Tea\nStore: LA\nSKU: LA-Tea",
+          "assertionPython": "assert _user_namespace.get('tag') == 'LA-Tea' and 'SKU: LA-Tea' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Sequential inputs combined with hyphen separators allow clean dynamic SKU formatting.",
+      "misconception_tag": "INPUT_IS_STRING"
+    },
+    {
+      "id": "4.1_cand_14",
+      "type": "mini_challenge",
+      "concept": "customer_support_ticket_generator",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "Create a customer support ticket generator:\n1. Read customer name: `customer = input(\"Customer: \")`\n2. Read issue keyword: `issue = input(\"Issue: \")`\n3. Create `ticket_id = customer + \"_\" + issue`\n4. Print `\"TICKET CREATED\"`\n5. Print `\"ID: \" + ticket_id`",
+      "starter_code": "# Build support ticket generator\n",
+      "solution_code": "customer = input(\"Customer: \")\nissue = input(\"Issue: \")\nticket_id = customer + \"_\" + issue\nprint(\"TICKET CREATED\")\nprint(\"ID: \" + ticket_id)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Generates ticket ID Sam_Billing",
+          "input": "Sam\nBilling",
+          "expectedOutput": "Customer: Sam\nIssue: Billing\nTICKET CREATED\nID: Sam_Billing",
+          "assertionPython": "assert _user_namespace.get('ticket_id') == 'Sam_Billing' and 'TICKET CREATED' in _raw_stdout and 'ID: Sam_Billing' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Riley and Login",
+          "input": "Riley\nLogin",
+          "expectedOutput": "Customer: Riley\nIssue: Login\nTICKET CREATED\nID: Riley_Login",
+          "assertionPython": "assert _user_namespace.get('ticket_id') == 'Riley_Login' and 'TICKET CREATED' in _raw_stdout and 'ID: Riley_Login' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Captures two string inputs and concatenates them with an underscore separator to generate a unique ticket identifier.",
+      "misconception_tag": "INPUT_IS_STRING"
+    },
+    {
+      "id": "4.1_cand_15",
+      "type": "mini_challenge",
+      "concept": "flight_boarding_pass_summary",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "Build a flight boarding pass label maker:\n1. Prompt: `passenger = input(\"Passenger: \")`\n2. Prompt: `flight = input(\"Flight: \")`\n3. Prompt: `seat = input(\"Seat: \")`\n4. Print `\"=== BOARDING PASS ===\"`\n5. Print `\"Passenger: \" + passenger`\n6. Print `\"Flight: \" + flight + \" | Seat: \" + seat`",
+      "starter_code": "# Boarding pass creator\n",
+      "solution_code": "passenger = input(\"Passenger: \")\nflight = input(\"Flight: \")\nseat = input(\"Seat: \")\nprint(\"=== BOARDING PASS ===\")\nprint(\"Passenger: \" + passenger)\nprint(\"Flight: \" + flight + \" | Seat: \" + seat)",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints boarding pass for Elena on AA100 seat 14B",
+          "input": "Elena\nAA100\n14B",
+          "expectedOutput": "Passenger: Elena\nFlight: AA100\nSeat: 14B\n=== BOARDING PASS ===\nPassenger: Elena\nFlight: AA100 | Seat: 14B",
+          "assertionPython": "assert '=== BOARDING PASS ===' in _raw_stdout and 'Elena' in _raw_stdout and 'AA100 | Seat: 14B' in _raw_stdout"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test with Marcus on UA404 seat 21A",
+          "input": "Marcus\nUA404\n21A",
+          "expectedOutput": "Passenger: Marcus\nFlight: UA404\nSeat: 21A\n=== BOARDING PASS ===\nPassenger: Marcus\nFlight: UA404 | Seat: 21A",
+          "assertionPython": "assert '=== BOARDING PASS ===' in _raw_stdout and 'Marcus' in _raw_stdout and 'UA404 | Seat: 21A' in _raw_stdout",
+          "hidden": true
+        }
+      ],
+      "explanation": "Collects multiple string inputs sequentially and formats them into a clean multi-line boarding pass display.",
+      "misconception_tag": "INPUT_IS_STRING"
     }
   ]
 }

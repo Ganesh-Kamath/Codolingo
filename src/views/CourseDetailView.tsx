@@ -13,11 +13,30 @@ interface CourseDetailViewProps {
 }
 
 export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = 'python' }) => {
-  const { userProfile, course: learningCourse, navigateTo } = useApp();
+  const { userProfile, userProgress, course: learningCourse, navigateTo, startLesson } = useApp();
   const course = COURSES.find(c => c.id === courseId) || COURSES[0];
+  const isPython = course.id === 'python';
 
-  const completedCount = userProfile.completedLessonIds.length;
-  const progressPct = Math.round((completedCount / course.totalLessons) * 100);
+  const effectiveModules = isPython
+    ? learningCourse.units.slice(0, 6).map((u, idx) => ({
+        id: u.id,
+        title: u.title,
+        description: u.description,
+        order: idx + 1,
+        lessons: u.skills.flatMap(s => s.lessons)
+      }))
+    : course.modules;
+
+  const totalLessonsCount = isPython
+    ? effectiveModules.reduce((acc, m) => acc + m.lessons.length, 0)
+    : course.totalLessons;
+
+  const completedCount = isPython
+    ? effectiveModules.flatMap(m => m.lessons).filter(l => userProfile.completedLessonIds.includes(l.id)).length
+    : userProfile.completedLessonIds.length;
+
+  const progressPct = totalLessonsCount > 0 ? Math.round((completedCount / totalLessonsCount) * 100) : 0;
+  const currentNextLessonId = progressionService.getNextLesson(userProgress || userProfile, learningCourse) || '1.1';
 
   return (
     <div style={{ maxWidth: '960px', margin: '0 auto', padding: '28px 24px 64px' }} className="animate-fade-in">
@@ -76,7 +95,7 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#D97706', fontWeight: 800, backgroundColor: '#FEF3C7', padding: '6px 12px', borderRadius: '8px' }}>
               <Icon name="sparkles" size={16} fill="#FDE68A" />
-              <span>850 total XP available</span>
+              <span>{totalLessonsCount * 25} total XP available</span>
             </div>
           </div>
         </div>
@@ -84,7 +103,7 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
         <div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '2px solid var(--border-subtle)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
             <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)' }}>Overall Syllabus Completion</span>
-            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)' }}>{completedCount} / {course.totalLessons} lessons</span>
+            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)' }}>{completedCount} / {totalLessonsCount} lessons</span>
           </div>
           <ProgressBar progress={progressPct} height={12} />
         </div>
@@ -92,12 +111,12 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
 
       {/* Modules & Lessons Timeline */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-        {course.modules.map((mod, modIdx) => (
+        {effectiveModules.map((mod, modIdx) => (
           <div key={mod.id}>
             <div style={{ marginBottom: '14px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Module {modIdx + 1}
+                  {isPython ? `Unit ${modIdx + 1}` : `Module ${modIdx + 1}`}
                 </span>
               </div>
               <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)' }}>
@@ -111,13 +130,15 @@ export const CourseDetailView: React.FC<CourseDetailViewProps> = ({ courseId = '
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {mod.lessons.map((lesson) => {
                 const isCompleted = userProfile.completedLessonIds.includes(lesson.id);
-                const isNext = !isCompleted && lesson.id === (progressionService.getNextLesson(userProfile, learningCourse) || 'py_lesson_1');
+                const isNext = !isCompleted && lesson.id === currentNextLessonId;
 
                 return (
                   <div
                     key={lesson.id}
                     onClick={() => {
-                      if (isCompleted || isNext) navigateTo(`/app/lesson/${lesson.id}`);
+                      if (isCompleted || isNext) {
+                        startLesson(lesson.id);
+                      }
                     }}
                     style={{
                       backgroundColor: '#FFFFFF',

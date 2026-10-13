@@ -79,16 +79,16 @@ class PythonCourseProvider implements ICourseProvider {
 
     const executionPromise = (async (): Promise<LessonResolutionResult> => {
       try {
-        // 0. Primary: Check structured Foundations curriculum first
-        const foundationsBlocks = getFoundationsLessonBlocks(lessonId);
-        if (foundationsBlocks && foundationsBlocks.length > 0) {
-          return { status: 'ok', blocks: foundationsBlocks };
-        }
-
-        // 1. Check pre-indexed selected lessons for instant response
+        // 0. Primary: Check pre-indexed selected lessons for instant response (canonical units 1, 2, etc.)
         const preselected = (selectedLessonsMap as Record<string, any>)[lessonId];
         if (preselected && preselected.blocks && preselected.blocks.length > 0) {
           return { status: 'ok', blocks: preselected.blocks as LessonBlock[] };
+        }
+
+        // 1. Fallback: Check structured Foundations curriculum
+        const foundationsBlocks = getFoundationsLessonBlocks(lessonId);
+        if (foundationsBlocks && foundationsBlocks.length > 0) {
+          return { status: 'ok', blocks: foundationsBlocks };
         }
 
         // 2. Direct O(1) indexed raw pool lookup

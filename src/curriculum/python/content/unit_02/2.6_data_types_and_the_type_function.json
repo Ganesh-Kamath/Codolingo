@@ -6,555 +6,510 @@
     {
       "id": "2.6_q1",
       "type": "micro_lesson",
-      "concept": "data_types_concept",
-      "skill": "recognition",
+      "concept": "type_function_definition",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.1_q1"
-      ],
-      "title": "Why Data Types Matter",
-      "content": "In programming, a **data type** defines what kind of value an object holds and what operations you can perform on it.\n\nFor example:\n* You can multiply numbers: `5 * 4 = 20`\n* You can capitalize text: `\"hello\".upper()`\n* But you cannot calculate the square root of a paragraph of text!\n\nPython uses types to know how to store data in memory and how to process operations.",
+      "title": "Inspecting Types with type()",
+      "content": "In Python, every value in memory is an object with a specific data type.\n\nYou can inspect any object's type using the built-in `type()` function:\n```python\nprint(type(42))      # <class 'int'>\nprint(type(3.14))    # <class 'float'>\nprint(type(\"Alex\"))  # <class 'str'>\nprint(type(True))    # <class 'bool'>\n```",
       "prompt": "",
-      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
+      "explanation": "The type() function reveals the class/data type of any value passed to it.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q2",
-      "type": "micro_lesson",
-      "concept": "type_function",
-      "skill": "understanding",
+      "type": "multiple_choice",
+      "concept": "objects_have_types_not_variables",
+      "skill": "recognition",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q1"
+      "prompt": "In Python's execution model, which of the following is true about variables and types?",
+      "options": [
+        "Objects in memory have types; variable names are just labels pointing to them",
+        "Variables have fixed static types declared before execution",
+        "Variables cannot change the type of object they point to",
+        "Only numbers have types in Python"
       ],
-      "title": "The type() Function",
-      "content": "Python has a built-in function named `type()` that tells you the exact data type of any value or variable:\n\n```python\nprint(type(42))        # <class 'int'>\nprint(type(3.14))      # <class 'float'>\nprint(type(\"Hello\"))  # <class 'str'>\nprint(type(True))      # <class 'bool'>\n```",
-      "prompt": "",
-      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
+      "correct_answer": "Objects in memory have types; variable names are just labels pointing to them",
+      "explanation": "Python is dynamically typed: variables are untyped references. The type belongs to the object in memory, not the name tag.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.6_q3",
-      "type": "multiple_choice",
-      "concept": "type_function",
-      "skill": "recognition",
+      "type": "code_prediction",
+      "concept": "type_of_string_prediction",
+      "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q2"
-      ],
-      "prompt": "What does `type(100)` return in Python?",
+      "prompt": "What does this code print?\n```python\nusername = \"coder_42\"\nprint(type(username))\n```",
+      "code_snippet": "username = \"coder_42\"\nprint(type(username))",
       "options": [
-        "A. `<class 'int'>`",
-        "B. `<class 'float'>`",
-        "C. `<class 'number'>`",
-        "D. `100`"
+        "<class 'str'>",
+        "<class 'int'>",
+        "str",
+        "username"
       ],
-      "correct_answer": "A",
-      "explanation": "This exercise tests `type function` in Data Types and the type() Function. When Python validates this code, it applies the standard rules of type function. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "<class 'str'>",
+      "expected_output": "<class 'str'>",
+      "explanation": "username refers to a string object, so type(username) outputs <class 'str'>.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q4",
       "type": "code_prediction",
-      "concept": "type_prediction",
+      "concept": "type_of_float_prediction",
       "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q2"
-      ],
-      "prompt": "What does this code output?\n```python\nx = \"100\"\nprint(type(x))\n```",
+      "prompt": "What does this code print?\n```python\ntemp = 98.6\nprint(type(temp))\n```",
+      "code_snippet": "temp = 98.6\nprint(type(temp))",
       "options": [
-        "A. <class 'int'>",
-        "B. <class 'str'>",
-        "C. <class 'float'>",
-        "D. 100"
+        "<class 'float'>",
+        "<class 'int'>",
+        "float",
+        "98.6"
       ],
-      "correct_answer": "B",
-      "explanation": "Because `\"100\"` is wrapped in quotes, it is a string (`str`), not an integer."
+      "correct_answer": "<class 'float'>",
+      "expected_output": "<class 'float'>",
+      "explanation": "98.6 has a decimal point, making it a float object: <class 'float'>.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q5",
       "type": "code_prediction",
-      "concept": "type_prediction",
+      "concept": "type_of_division_prediction",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q2"
-      ],
-      "prompt": "What does this code output?\n```python\nrate = 0.0\nprint(type(rate))\n```",
+      "difficulty": "medium",
+      "prompt": "What does this code print?\n```python\nresult = 10 / 2\nprint(type(result))\n```",
+      "code_snippet": "result = 10 / 2\nprint(type(result))",
       "options": [
-        "A. <class 'int'>",
-        "B. <class 'float'>",
-        "C. <class 'zero'>",
-        "D. <class 'NoneType'>"
+        "<class 'float'>",
+        "<class 'int'>",
+        "5.0",
+        "<class 'str'>"
       ],
-      "correct_answer": "B",
-      "explanation": "Even though the numeric value is zero, the presence of the decimal point makes `0.0` a `float`."
+      "correct_answer": "<class 'float'>",
+      "expected_output": "<class 'float'>",
+      "explanation": "Division with / in Python always returns a float (5.0), so its type is <class 'float'>.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q6",
-      "type": "match_code_to_concept",
-      "concept": "core_scalar_types",
-      "skill": "analysis",
+      "type": "fill_in_the_blank",
+      "concept": "type_function_name",
+      "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q2"
+      "prompt": "What is the name of the built-in Python function used to inspect the data type of an object? (Type the function name without parentheses)",
+      "accepted_answers": [
+        "type"
       ],
-      "prompt": "Match each Python literal to the type reported by `type()`.",
-      "options": {
-        "`-99`": "`<class 'int'>`",
-        "`99.9`": "`<class 'float'>`",
-        "`\"99\"`": "`<class 'str'>`",
-        "`False`": "`<class 'bool'>`"
-      },
-      "correct_answer": {
-        "`-99`": "`<class 'int'>`",
-        "`99.9`": "`<class 'float'>`",
-        "`\"99\"`": "`<class 'str'>`",
-        "`False`": "`<class 'bool'>`"
-      },
-      "explanation": "This exercise tests `core scalar types` in Data Types and the type() Function. When Python validates this code, it applies the standard rules of core scalar types. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "type",
+      "explanation": "The `type()` function inspects the runtime type of any value.",
+      "hint": "Type the 4-letter function name: type",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q7",
-      "type": "micro_lesson",
-      "concept": "objects_have_types",
-      "skill": "understanding",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.1_q15",
-        "2.6_q1"
+      "type": "code_prediction",
+      "concept": "type_of_boolean_prediction",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "What does this code print?\n```python\nis_ready = True\nprint(type(is_ready))\n```",
+      "code_snippet": "is_ready = True\nprint(type(is_ready))",
+      "options": [
+        "<class 'bool'>",
+        "<class 'boolean'>",
+        "True",
+        "<class 'int'>"
       ],
-      "title": "Objects Have Types, Variables Don't",
-      "content": "A crucial mental model in Python:\n\n**Variables do NOT have types. Objects do.**\n\nA variable name is simply a sticky note (reference). When you inspect `type(x)`, you are actually asking: *'What is the type of the object that `x` is currently pointing to?'*\n\n```python\nx = 10       # x points to an int object\nprint(type(x))  # <class 'int'>\nx = \"ten\"    # x now points to a str object\nprint(type(x))  # <class 'str'>\n```",
-      "prompt": "",
-      "explanation": "In Python, variable names must begin with a letter or underscore, cannot start with a digit, and cannot contain spaces or special punctuation. Following PEP 8 snake_case conventions ensures identifiers remain clear, legal, and unambiguous."
+      "correct_answer": "<class 'bool'>",
+      "expected_output": "<class 'bool'>",
+      "explanation": "In Python, the boolean type is named `bool`, printed as <class 'bool'>.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.6_q8",
       "type": "output_prediction",
-      "concept": "objects_have_types",
+      "concept": "type_comparison_equality",
       "skill": "prediction",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q7"
-      ],
-      "prompt": "What is the output of the second print statement?\n```python\ndata = 5.5\ndata = True\nprint(type(data))\n```",
+      "prompt": "What does this comparison print?\n```python\ncount = 42\nprint(type(count) == int)\n```",
+      "code_snippet": "count = 42\nprint(type(count) == int)",
       "options": [
-        "A. <class 'float'>",
-        "B. <class 'bool'>",
-        "C. <class 'int'>",
-        "D. TypeError"
+        "True",
+        "False",
+        "<class 'int'>",
+        "TypeError"
       ],
-      "correct_answer": "B",
-      "explanation": "Because `data` was reassigned to `True`, it now points to a `bool` object."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "`type(count)` returns the class `int`. Comparing `int == int` evaluates to `True`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q9",
-      "type": "micro_lesson",
-      "concept": "isinstance_function",
-      "skill": "application",
+      "type": "multiple_choice",
+      "concept": "dynamic_typing_reassignment",
+      "skill": "reasoning",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q2"
+      "prompt": "Look at this code:\n```python\ndata = 100\ndata = \"One Hundred\"\n```\nWhat happens in Python?",
+      "options": [
+        "It runs without error; data is reassigned to point to a new string object in memory",
+        "It raises a TypeError because variables cannot change their data type",
+        "data automatically converts into a list of characters",
+        "The integer 100 is overwritten inside the string"
       ],
-      "title": "Checking Types with isinstance()",
-      "content": "While `type()` displays an object's type, the Pythonic way to test whether an object matches a specific type in code logic is **`isinstance(object, type)`**:\n\n```python\nage = 21\nprint(isinstance(age, int))    # True\nprint(isinstance(age, str))    # False\n```\n`isinstance()` returns a clean boolean (`True` or `False`).",
-      "prompt": "",
-      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
+      "correct_answer": "It runs without error; data is reassigned to point to a new string object in memory",
+      "explanation": "Python is dynamically typed. Variables can reference an object of any type at any time.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.6_q10",
-      "type": "code_prediction",
-      "concept": "isinstance_function",
+      "type": "output_prediction",
+      "concept": "isinstance_function_check",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q9"
-      ],
-      "prompt": "What does this code output?\n```python\nprice = 14.99\nprint(isinstance(price, float))\n```",
+      "difficulty": "medium",
+      "prompt": "Python provides `isinstance(object, type)` to check types. What does this print?\n```python\nspeed = 45.5\nprint(isinstance(speed, float))\n```",
+      "code_snippet": "speed = 45.5\nprint(isinstance(speed, float))",
       "options": [
-        "A. True",
-        "B. False",
-        "C. float",
-        "D. 14.99"
+        "True",
+        "False",
+        "float",
+        "None"
       ],
-      "correct_answer": "A",
-      "explanation": "This exercise tests `isinstance function` in Data Types and the type() Function. When Python evaluates this code, it applies the standard rules of isinstance function. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "`isinstance(45.5, float)` tests if 45.5 is an instance of float, returning True.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q11",
-      "type": "fill_in_the_blank",
-      "concept": "isinstance_function",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q9"
+      "type": "fix_the_code",
+      "concept": "fix_unexpected_str_type_arithmetic",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "A sensor packet reads `\"25\"` as a string instead of an int, causing string concatenation instead of addition. Fix `reading` to be the integer `25`.",
+      "starter_code": "reading = \"25\"\nbase = 10\ntotal = reading + base\nprint(total)\n",
+      "solution_code": "reading = 25\nbase = 10\ntotal = reading + base\nprint(total)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints numeric sum 35",
+          "expectedOutput": "35",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 35 and _user_namespace.get('total') == 35",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures reading is integer type",
+          "expectedOutput": "35",
+          "assertionPython": "assert isinstance(_user_namespace.get('reading'), int)",
+          "hidden": true
+        }
       ],
-      "prompt": "Check if `message` is a string using `isinstance`:\n```python\nmessage = \"Hello\"\nis_str = isinstance(message, ___)\n```",
-      "accepted_answers": [
-        "str"
-      ],
-      "explanation": "This exercise tests `isinstance function` in Data Types and the type() Function. When Python validates this code, it applies the standard rules of isinstance function. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Remove quotes from \"25\" so reading is an int. 25 + 10 evaluates to 35.",
+      "hint": "Change \"25\" to 25 without quotes.",
+      "misconception_tag": "STRING_VS_NUMBER"
     },
     {
       "id": "2.6_q12",
-      "type": "micro_lesson",
-      "concept": "everything_is_an_object",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "1.2_q8",
-        "2.6_q2"
+      "type": "write_the_code",
+      "concept": "inspect_types_pipeline",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "Inspect variable types:\n1. Create `user_id = 90210`\n2. Create `user_name = \"Alex\"`\n3. Print `type(user_id)` on line 1\n4. Print `type(user_name)` on line 2.",
+      "starter_code": "# Inspect types below\n",
+      "solution_code": "user_id = 90210\nuser_name = \"Alex\"\nprint(type(user_id))\nprint(type(user_name))\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints <class 'int'> then <class 'str'>",
+          "expectedOutput": "<class 'int'>\n<class 'str'>",
+          "assertionPython": "assert _raw_stdout.strip().splitlines() == [\"<class 'int'>\", \"<class 'str'>\"]",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Validates variables exist with correct types in namespace",
+          "expectedOutput": "<class 'int'>\n<class 'str'>",
+          "assertionPython": "assert isinstance(_user_namespace.get('user_id'), int) and isinstance(_user_namespace.get('user_name'), str)",
+          "hidden": true
+        }
       ],
-      "title": "Why Does type() Say `<class '...'>`?",
-      "content": "In Python, **everything is an object**, and every object is an instance of a class.\n\nWhen `type(42)` returns `<class 'int'>`, it means the number 42 is an instance of the built-in `int` class.\n\nEven functions, modules, and types themselves are objects in memory in Python!",
-      "prompt": "",
-      "explanation": "Python uses explicit type casting (such as `int()`, `float()`, and `str()`) to convert data safely between types. Unintended type mixing triggers TypeError or ValueError if strings contain invalid literals."
+      "explanation": "Prints <class 'int'> for user_id and <class 'str'> for user_name.",
+      "hint": "Use print(type(user_id)) followed by print(type(user_name)).",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q13",
       "type": "multiple_choice",
-      "concept": "everything_is_an_object",
-      "skill": "understanding",
+      "concept": "strongly_typed_nature",
+      "skill": "reasoning",
       "difficulty": "hard",
-      "prerequisites": [
-        "2.6_q12"
-      ],
-      "prompt": "Why does Python print `<class 'str'>` instead of just `'str'` when you call `type(\"test\")`?",
+      "prompt": "Python is called a **strongly typed** language because:",
       "options": [
-        "A. Because strings can only be used inside school classrooms.",
-        "B. Because in Python's object model, `str` is a class and all string values are objects instantiated from that class.",
-        "C. It is a formatting bug in the CPython runtime.",
-        "D. Because strings are stored in external files."
+        "It refuses to implicitly coerce incompatible types in operations like \"5\" + 5",
+        "Variables must be declared with their types at compile time",
+        "It only allows 64-bit integer values",
+        "Variable names must be at least 8 characters long"
       ],
-      "correct_answer": "B",
-      "explanation": "Python is completely object-oriented: built-in types (`int`, `str`, `float`, `bool`) are implemented as classes."
+      "correct_answer": "It refuses to implicitly coerce incompatible types in operations like \"5\" + 5",
+      "explanation": "Strong typing means Python enforces explicit type safety: adding a string and an int raises a TypeError rather than guessing.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q14",
-      "type": "code_prediction",
-      "concept": "type_of_type",
-      "skill": "analysis",
+      "type": "output_prediction",
+      "concept": "type_of_type_prediction",
+      "skill": "prediction",
       "difficulty": "hard",
-      "prerequisites": [
-        "2.6_q12"
-      ],
-      "prompt": "What does `type(print)` output?\n```python\nprint(type(print))\n```",
+      "prompt": "In Python, everything is an object, including types! What does this print?\n```python\nprint(type(int))\n```",
+      "code_snippet": "print(type(int))",
       "options": [
-        "A. <class 'str'>",
-        "B. <class 'builtin_function_or_method'>",
-        "C. <class 'None'>",
-        "D. SyntaxError"
+        "<class 'type'>",
+        "<class 'int'>",
+        "type",
+        "TypeError"
       ],
-      "correct_answer": "B",
-      "explanation": "In Python, even functions are first-class objects! `print` is an object of type `builtin_function_or_method`."
+      "correct_answer": "<class 'type'>",
+      "expected_output": "<class 'type'>",
+      "explanation": "Classes themselves are instances of the metaclass `type`, printed as <class 'type'>.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q15",
-      "type": "code_prediction",
-      "concept": "isinstance_subclass",
-      "skill": "analysis",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.5_q16",
-        "2.6_q9"
-      ],
-      "prompt": "What does this code output?\n```python\nprint(isinstance(True, int))\n```",
+      "type": "real_world_scenario",
+      "concept": "api_payload_validation",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A payment gateway receives an API payload. What expression verifies that `amount` is a float?",
       "options": [
-        "A. False, because booleans are not numbers.",
-        "B. True, because in Python `bool` is a subclass of `int`.",
-        "C. TypeError",
-        "D. None"
+        "type(amount) == float",
+        "amount == float",
+        "type == \"float\"",
+        "amount.is_float()"
       ],
-      "correct_answer": "B",
-      "explanation": "Because `bool` inherits from `int` in Python, any boolean instance is also considered an instance of `int` by `isinstance()`."
+      "correct_answer": "type(amount) == float",
+      "explanation": "Checking `type(amount) == float` or `isinstance(amount, float)` verifies the object's data type.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q16",
-      "type": "multiple_choice",
-      "concept": "type_vs_isinstance",
-      "skill": "reasoning",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.6_q2",
-        "2.6_q9",
-        "2.6_q15"
-      ],
-      "prompt": "Why is `isinstance(x, int)` generally preferred over `type(x) == int` in professional Python code?",
+      "type": "output_prediction",
+      "concept": "type_of_comparison_expression",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What does this print?\n```python\nis_valid = 10 > 5\nprint(type(is_valid))\n```",
+      "code_snippet": "is_valid = 10 > 5\nprint(type(is_valid))",
       "options": [
-        "A. `isinstance` runs 100x faster.",
-        "B. `isinstance` correctly recognizes subclasses (inheritance), whereas `type(x) == int` strictly requires the exact type.",
-        "C. `type()` is deprecated and will be removed from Python.",
-        "D. `type()` only works on numbers."
+        "<class 'bool'>",
+        "<class 'int'>",
+        "True",
+        "<class 'comparison'>"
       ],
-      "correct_answer": "B",
-      "explanation": "`isinstance()` supports polymorphism by considering subclasses (like custom subclasses or `bool`), which is essential in robust object-oriented programming."
+      "correct_answer": "<class 'bool'>",
+      "expected_output": "<class 'bool'>",
+      "explanation": "10 > 5 produces the boolean True, so its type is <class 'bool'>.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "2.6_q17",
-      "type": "fill_in_the_blank",
-      "concept": "type_name_shorthand",
-      "skill": "recognition",
+      "type": "error_diagnosis",
+      "concept": "diagnose_type_error_concat",
+      "skill": "debugging",
       "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q2"
+      "prompt": "Look at this script:\n```python\nage = 30\nprint(\"Age: \" + age)\n```\nWhat is the exact reason for the failure?",
+      "options": [
+        "Cannot concatenate string with an integer; age must be converted with str()",
+        "The word Age cannot contain a colon",
+        "print() cannot take two arguments",
+        "30 is too large to print"
       ],
-      "prompt": "The Python type name for integer is `int`, for string is `str`, and for boolean is ___.",
-      "accepted_answers": [
-        "bool"
-      ],
-      "explanation": "Python logical operators use short-circuit evaluation: `and` stops and returns the first falsy operand, while `or` stops and returns the first truthy operand without evaluating subsequent expressions."
+      "correct_answer": "Cannot concatenate string with an integer; age must be converted with str()",
+      "explanation": "Concatenating a str with an int raises a TypeError. Wrap age in str(age) or use print(\"Age:\", age).",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q18",
-      "type": "code_prediction",
-      "concept": "type_of_comparison",
-      "skill": "prediction",
+      "type": "fix_the_code",
+      "concept": "fix_isinstance_syntax",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.5_q8",
-        "2.6_q2"
+      "prompt": "Fix the syntax in the `isinstance` call so it checks whether `price` is a `float`.",
+      "starter_code": "price = 19.99\ncheck = isinstance(price, \"float\")\nprint(check)\n",
+      "solution_code": "price = 19.99\ncheck = isinstance(price, float)\nprint(check)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True from isinstance check",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('check') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Passes float type object rather than string \"float\"",
+          "expectedOutput": "True",
+          "assertionPython": "assert 'isinstance(price, float)' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "What does this code output?\n```python\nresult = 10 > 3\nprint(type(result))\n```",
-      "options": [
-        "A. <class 'int'>",
-        "B. <class 'bool'>",
-        "C. <class 'str'>",
-        "D. True"
-      ],
-      "correct_answer": "B",
-      "explanation": "`10 > 3` evaluates to the boolean `True`. `type(True)` is `<class 'bool'>`."
+      "explanation": "isinstance() takes the actual type object `float`, not a string `\"float\"`.",
+      "hint": "Remove the quotes from \"float\" so it is the type float.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q19",
-      "type": "write_the_code",
-      "concept": "inspect_type",
-      "skill": "application",
-      "difficulty": "easy",
-      "prerequisites": [
-        "2.6_q2"
+      "type": "output_prediction",
+      "concept": "reassignment_changes_type",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "What does this print?\n```python\nval = 10\nval = val * 2\nval = \"twenty\"\nprint(type(val))\n```",
+      "code_snippet": "val = 10\nval = val * 2\nval = \"twenty\"\nprint(type(val))",
+      "options": [
+        "<class 'str'>",
+        "<class 'int'>",
+        "twenty",
+        "TypeError"
       ],
-      "prompt": "Given a variable `item = 50.0`, write a line of code that prints the type of `item`.",
-      "starter_code": "item = 50.0\n",
-      "solution_code": "item = 50.0\nprint(type(item))",
-      "explanation": "This exercise tests `inspect type` in Data Types and the type() Function. When Python validates this code, it applies the standard rules of inspect type. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "<class 'str'>",
+      "expected_output": "<class 'str'>",
+      "explanation": "The final reassignment binds val to the string \"twenty\", so type(val) is <class 'str'>.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
       "id": "2.6_q20",
-      "type": "error_diagnosis",
-      "concept": "type_comparison_mistake",
-      "skill": "debugging",
+      "type": "multiple_choice",
+      "concept": "isinstance_multiple_types",
+      "skill": "recognition",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q2"
-      ],
-      "prompt": "A beginner writes:\n```python\nx = 15\nif type(x) == \"int\":\n    print(\"Is integer\")\n```\nWhy does the message never print?",
+      "prompt": "How can you check if a number `n` is either an `int` OR a `float` in a single `isinstance` call?",
       "options": [
-        "A. `type(x)` returns the type object `<class 'int'>`, NOT the string `\"int\"`. Comparing a type object to a string always evaluates to `False`.",
-        "B. 15 is a float, not an integer.",
-        "C. Python doesn't allow `if` statements.",
-        "D. Variable names cannot be `x`."
+        "isinstance(n, (int, float))",
+        "isinstance(n, int or float)",
+        "isinstance(n, [int, float])",
+        "isinstance(n, \"int|float\")"
       ],
-      "correct_answer": "A",
-      "explanation": "`type(x)` returns the class `int`, not a text string. The correct comparison is `type(x) is int` or `isinstance(x, int)`."
+      "correct_answer": "isinstance(n, (int, float))",
+      "explanation": "isinstance() accepts a tuple of types as its second argument: `isinstance(n, (int, float))`.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q21",
-      "type": "output_prediction",
-      "concept": "division_type_inspection",
-      "skill": "prediction",
+      "type": "write_the_code",
+      "concept": "type_checker_script",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.3_q7",
-        "2.6_q2"
+      "prompt": "Inspect dynamic typing:\n1. Create `x = 5`\n2. Print `type(x) == int`\n3. Reassign `x = 5.0`\n4. Print `type(x) == float`.",
+      "starter_code": "# Compare variable types below\n",
+      "solution_code": "x = 5\nprint(type(x) == int)\nx = 5.0\nprint(type(x) == float)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True on line 1 and True on line 2",
+          "expectedOutput": "True\nTrue",
+          "assertionPython": "assert _raw_stdout.strip().splitlines() == ['True', 'True'] and _user_namespace.get('x') == 5.0",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies type comparison expressions",
+          "expectedOutput": "True\nTrue",
+          "assertionPython": "assert 'type(x)' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "What does this code output?\n```python\nval = 12 / 3\nprint(type(val))\n```",
-      "options": [
-        "A. <class 'int'>",
-        "B. <class 'float'>",
-        "C. 4",
-        "D. 4.0"
-      ],
-      "correct_answer": "B",
-      "explanation": "Standard division `/` always returns a float (`4.0`), so its type is `<class 'float'>`."
+      "explanation": "When x is 5 it is an int; when updated to 5.0 it is a float. Both checks evaluate to True.",
+      "hint": "Print type(x) == int, update x = 5.0, then print type(x) == float.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q22",
-      "type": "match_code_to_concept",
-      "concept": "type_inspection_methods",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q2",
-        "2.6_q9"
+      "type": "output_prediction",
+      "concept": "bool_subclass_isinstance",
+      "skill": "prediction",
+      "difficulty": "hard",
+      "prompt": "Because `bool` subclasses `int` in Python, what does `isinstance(True, int)` return?\n```python\nprint(isinstance(True, int))\n```",
+      "code_snippet": "print(isinstance(True, int))",
+      "options": [
+        "True",
+        "False",
+        "bool",
+        "TypeError"
       ],
-      "prompt": "Match the inspection tool to its primary purpose.",
-      "options": {
-        "`type(obj)`": "Returns the exact type/class of an object.",
-        "`isinstance(obj, class_or_tuple)`": "Returns True/False checking if an object is an instance of a type or any of its subclasses."
-      },
-      "correct_answer": {
-        "`type(obj)`": "Returns the exact type/class of an object.",
-        "`isinstance(obj, class_or_tuple)`": "Returns True/False checking if an object is an instance of a type or any of its subclasses."
-      },
-      "explanation": "This exercise tests `type inspection methods` in Data Types and the type() Function. When Python validates this code, it applies the standard rules of type inspection methods. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "correct_answer": "True",
+      "expected_output": "True",
+      "explanation": "Because bool inherits from int in Python, isinstance(True, int) returns True.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q23",
-      "type": "code_prediction",
-      "concept": "isinstance_tuple_types",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.6_q9"
+      "type": "fill_in_the_blank",
+      "concept": "str_class_name",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "When you call `type(\"hello\")`, what is the 3-letter name of the class printed inside `<class '...'>`?",
+      "accepted_answers": [
+        "str"
       ],
-      "prompt": "In Python, `isinstance()` can check multiple types at once using a tuple! What does this output?\n```python\nx = 42\nprint(isinstance(x, (int, float)))\n```",
-      "options": [
-        "A. True",
-        "B. False",
-        "C. TypeError",
-        "D. (True, False)"
-      ],
-      "correct_answer": "A",
-      "explanation": "Passing `(int, float)` checks whether `x` is either an `int` OR a `float`. Since 42 is an `int`, it returns `True`."
+      "correct_answer": "str",
+      "explanation": "The Python string type is named `str`.",
+      "hint": "Type the 3-letter name: str",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q24",
-      "type": "multiple_choice",
-      "concept": "api_data_validation",
-      "skill": "application",
+      "type": "fix_the_code",
+      "concept": "fix_type_comparison_string_trap",
+      "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q9"
+      "prompt": "A validation function compares `type(count)` to `\"int\"` as a string instead of the type `int`. Fix the comparison.",
+      "starter_code": "count = 10\nis_number = type(count) == \"int\"\nprint(is_number)\n",
+      "solution_code": "count = 10\nis_number = type(count) == int\nprint(is_number)\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True from type comparison",
+          "expectedOutput": "True",
+          "assertionPython": "assert _raw_stdout.strip() == 'True' and _user_namespace.get('is_number') is True",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Compares with type object int rather than string \"int\"",
+          "expectedOutput": "True",
+          "assertionPython": "assert 'type(count) == int' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "You are processing user input from a web form. You must verify that `user_age` is an integer before saving it to a database. Which code does this?",
-      "options": [
-        "A. `is_valid = isinstance(user_age, int)`",
-        "B. `is_valid = user_age == \"int\"`",
-        "C. `is_valid = type(user_age) == \"number\"`",
-        "D. `is_valid = user_age is 100`"
-      ],
-      "correct_answer": "A",
-      "explanation": "This exercise tests `api data validation` in Data Types and the type() Function. When Python validates this code, it applies the standard rules of api data validation. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "type(count) returns the class int, not the string \"int\". Compare with `int` directly.",
+      "hint": "Remove quotes from \"int\" so it compares to the class int.",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
       "id": "2.6_q25",
-      "type": "output_prediction",
-      "concept": "addition_behavior_by_type",
-      "skill": "reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q1"
-      ],
-      "prompt": "Observe how behavior depends on data type:\n```python\nprint(10 + 10)\nprint(\"10\" + \"10\")\n```\nWhat are the two printed outputs?",
-      "options": [
-        "A. 20 and 20",
-        "B. 1010 and 1010",
-        "C. 20 and 1010",
-        "D. 20 and '10 + 10'"
-      ],
-      "correct_answer": "C",
-      "explanation": "The operator `+` performs arithmetic addition on `int` (20), but string concatenation on `str` ('1010')."
-    },
-    {
-      "id": "2.6_q26",
-      "type": "multiple_choice",
-      "concept": "strongly_typed_python",
-      "skill": "understanding",
-      "difficulty": "hard",
-      "prerequisites": [
-        "1.2_q8",
-        "2.6_q1"
-      ],
-      "prompt": "Python is described as both 'dynamically typed' AND 'strongly typed'. What does 'strongly typed' mean?",
-      "options": [
-        "A. Variables are locked to one type permanently.",
-        "B. Python does not perform unexpected implicit type coercion between incompatible types (e.g. `'5' + 5` raises an error instead of guessing).",
-        "C. Python only runs on computers with high CPU core counts.",
-        "D. You must capitalize all variable names."
-      ],
-      "correct_answer": "B",
-      "explanation": "Strong typing means types are strictly respected: Python will not implicitly convert strings to numbers or vice versa during operations like `+`."
-    },
-    {
-      "id": "2.6_q27",
       "type": "mini_challenge",
-      "concept": "verify_types_script",
-      "skill": "synthesis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q2"
-      ],
-      "prompt": "Write a script that creates `flag = True`, and prints its type using `print(type(flag))`.",
-      "starter_code": "# TODO: Implement solution for Data Types and the type() Function\n# Follow requirements outlined in the prompt\n",
-      "solution_code": "flag = True\nprint(type(flag))",
-      "explanation": "In Python, `bool` is a subclass of `int`. `int(True)` evaluates to `1` and `int(False)` evaluates to `0`."
-    },
-    {
-      "id": "2.6_q28",
-      "type": "fix_the_code",
-      "concept": "fix_isinstance_call",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "2.6_q9"
-      ],
-      "prompt": "Fix the second argument in `isinstance` so it checks against the actual `float` class instead of a string:",
-      "starter_code": "isinstance(3.5, \"float\")",
-      "solution_code": "isinstance(3.5, float)",
-      "explanation": "The second argument to `isinstance()` must be a type/class object (`float`), not a string (`\"float\"`)."
-    },
-    {
-      "id": "2.6_q29",
-      "type": "real_world_scenario",
-      "concept": "debugging_unexpected_str_type",
-      "skill": "diagnosis",
+      "concept": "data_type_inspector_challenge",
+      "skill": "application",
       "difficulty": "hard",
-      "prerequisites": [
-        "2.6_q2",
-        "2.6_q25"
+      "prompt": "Create a multi-type inspector:\n1. `sensor_id = \"TEMP_01\"`\n2. `reading = 24.5`\n3. `is_active = True`\n4. Print `isinstance(sensor_id, str)`\n5. Print `isinstance(reading, float)`\n6. Print `isinstance(is_active, bool)`",
+      "starter_code": "# Build the type inspector below\n",
+      "solution_code": "sensor_id = \"TEMP_01\"\nreading = 24.5\nis_active = True\nprint(isinstance(sensor_id, str))\nprint(isinstance(reading, float))\nprint(isinstance(is_active, bool))\n",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints True on 3 lines",
+          "expectedOutput": "True\nTrue\nTrue",
+          "assertionPython": "assert _raw_stdout.strip().splitlines() == ['True', 'True', 'True']",
+          "hidden": false
+        },
+        {
+          "id": "tc_2",
+          "description": "Validates all 3 variables exist with correct types in namespace",
+          "expectedOutput": "True\nTrue\nTrue",
+          "assertionPython": "assert isinstance(_user_namespace.get('reading'), float) and isinstance(_user_namespace.get('sensor_id'), str)",
+          "hidden": true
+        }
       ],
-      "prompt": "A developer writes an order script:\n```python\nunit_price = \"25\"\nquantity = 2\ntotal = unit_price * quantity\nprint(total)\n```\nIt prints `2525` instead of `50`. What diagnostic tool should they use to uncover the bug?",
-      "correct_answer": "B",
-      "explanation": "Calling `type(unit_price)` immediately reveals that `unit_price` is a string (`str`), explaining why `* 2` performed string repetition.",
-      "options": [
-        "A. Assign a new value without checking.",
-        "B. Check type(unit_price) to see whether it is str instead of int or float.",
-        "C. Restart the operating system.",
-        "D. Delete the variable entirely."
-      ]
-    },
-    {
-      "id": "2.6_q30",
-      "type": "real_world_scenario",
-      "concept": "data_types_synthesis",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "2.6_q1",
-        "2.6_q2",
-        "2.6_q7",
-        "2.6_q9",
-        "2.6_q12",
-        "2.6_q26"
-      ],
-      "prompt": "Which statement accurately captures Python's data type architecture?",
-      "correct_answer": "A",
-      "explanation": "This synthesizes dynamic typing, strong typing, object-bound types, and the roles of `type()` and `isinstance()`.",
-      "options": [
-        "A. Python is dynamically and strongly typed: types belong to objects, not variable names, and implicit incompatible conversions are prohibited.",
-        "B. Python is statically typed: variable types must be declared before assignment.",
-        "C. Python is weakly typed: '5' + 5 automatically evaluates to 10.",
-        "D. Types in Python cannot be inspected at runtime."
-      ]
+      "explanation": "Tests str, float, and bool types sequentially using isinstance(). All 3 evaluate to True.",
+      "hint": "Call isinstance() on each variable with its expected type and print each result.",
+      "misconception_tag": "WRONG_TYPE"
     }
-  ],
-  "unit_num": 2,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Data Types and the type()",
-    "Apply idiomatic Python patterns when working with Data Types and the type()",
-    "Debug common runtime exceptions and logic errors associated with Data Types and the type()",
-    "Implement production-ready code utilizing Data Types and the type()"
-  ],
-  "prerequisites": [
-    "2.5"
   ]
 }

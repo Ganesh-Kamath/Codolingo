@@ -1,619 +1,560 @@
 {
   "lesson_id": "5.2",
   "title": "The else Statement",
-  "unit": "Conditional Logic",
+  "unit": "unit_05",
   "items": [
     {
       "id": "5.2_q1",
       "type": "micro_lesson",
       "concept": "the_else_statement_basics",
-      "skill": "recognition",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [],
-      "title": "Two-Way Decisions with if-else",
-      "content": "An `else` block provides an alternative path when the `if` condition evaluates to `False`:\n\n```python\nbalance = 50\nprice = 75\n\nif balance >= price:\n    print(\"Purchase approved\")\nelse:\n    print(\"Insufficient funds\")\n```\n\nExactly one of the two blocks will execute; they are mutually exclusive.",
-      "explanation": "The else block executes only when the preceding if condition evaluates to False.",
-      "metadata": {
-        "concept": "two_way_branching",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Teaches mutual exclusivity in if-else"
-      }
+      "title": "The else Statement: The Fallback Branch",
+      "content": "# The else Statement\n\nWhen making decisions, you often have an alternative action that should happen whenever the initial condition is `False`. The `else` statement provides this default fallback.\n\n```python\ncart_total = 35\nif cart_total >= 50:\n    print(\"Free Shipping\")\nelse:\n    print(\"Standard Shipping: $5.99\")\n```\n\n### 3 Rules of the else Statement:\n1. **Never Has a Condition:** You cannot write `else condition:`. `else` by definition handles every case where the preceding `if` was False. Writing a condition after `else` is a `SyntaxError`.\n2. **Matching Indentation:** The `else:` keyword must match the exact indentation level of its corresponding `if`.\n3. **Mutual Exclusivity:** Exactly one branch runs: either the `if` block or the `else` block, never both.",
+      "explanation": "The else statement defines a fallback block that executes if and only if the preceding if condition evaluates to False."
     },
     {
       "id": "5.2_q2",
-      "type": "output_prediction",
-      "concept": "the_else_statement_basics",
-      "skill": "mental_model",
+      "type": "multiple_choice",
+      "concept": "the_else_statement_syntax_rules",
+      "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.2_q1"
-      ],
-      "prompt": "Trace the execution of this `if-else` structure:\n\n```python\naccount_balance = 45\nitem_cost = 50\n\nif account_balance >= item_cost:\n    print(\"Purchase approved\")\nelse:\n    print(\"Insufficient funds\")\n```\n\nWhat is output to the terminal?",
+      "prompt": "What happens if a programmer writes `else score < 50:` in Python?",
       "options": [
-        "Insufficient funds",
-        "Purchase approved",
-        "Purchase approved\nInsufficient funds",
-        "SyntaxError"
+        "SyntaxError: invalid syntax",
+        "Python evaluates the condition and runs if score < 50",
+        "TypeError: else does not take arguments",
+        "The code runs but ignores the condition"
       ],
-      "correct_answer": "Insufficient funds",
-      "explanation": "Because `45 >= 50` evaluates to `False`, Python completely skips the `if` body and executes the `else` branch, printing `'Insufficient funds'`.",
-      "metadata": {
-        "concept": "if_else_mutual_exclusion",
-        "skill": "branch_prediction",
-        "learning_objective": "Recognize that exactly one branch executes in an if-else structure",
-        "common_misconception": "Thinking both branches can execute or both can be skipped",
-        "why_this_exercise_exists": "Foundation of two-way conditional branching"
-      }
+      "correct_answer": "SyntaxError: invalid syntax",
+      "explanation": "An `else` statement cannot take a condition. In Python syntax, `else` is followed immediately by a colon `:`. If you need to test another condition, use `elif`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.2_q3",
-      "type": "micro_lesson",
-      "concept": "the_else_statement_syntax_rules",
-      "skill": "recognition",
+      "type": "output_prediction",
+      "concept": "else_even_odd",
+      "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.2_q2"
+      "prompt": "Look at the following number parity check:\n```python\nnum = 14\nif num % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")\n```\nWhat will this program print?",
+      "code_snippet": "num = 14\nif num % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+      "options": [
+        "Even",
+        "Odd",
+        "Even\nOdd",
+        "0"
       ],
-      "title": "Syntax Rules of the else Clause",
-      "content": "Remember these structural rules for `else`:\n\n1. `else:` cannot take a condition. Writing `else x > 5:` is a SyntaxError (use `elif` instead).\n2. `else:` must be aligned at the exact same indentation level as its matching `if:` statement.\n3. An `else` block must contain at least one indented statement (or `pass`).",
-      "explanation": "else is unconditional and acts as the catch-all branch for an if statement.",
-      "metadata": {
-        "concept": "else_syntax_rules",
-        "skill": "recognition",
-        "why_this_exercise_exists": "Prevents common else syntax errors"
-      }
+      "correct_answer": "Even",
+      "explanation": "14 % 2 is 0. Since 0 == 0 is True, Python executes the if block and prints \"Even\". The else block is skipped.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.2_q4",
-      "type": "error_diagnosis",
-      "concept": "the_else_statement_basics",
-      "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.2_q3"
-      ],
-      "prompt": "Identify the syntax error in this code snippet:\n\n```python\nage = 16\nif age >= 18:\n    print(\"Adult\")\nelse age < 18:\n    print(\"Minor\")\n```",
+      "type": "output_prediction",
+      "concept": "the_else_statement_edge_case",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the following inventory check:\n```python\nstock = 0\nif stock > 0:\n    print(\"In Stock\")\nelse:\n    print(\"Out of Stock\")\n```\nWhat will this print?",
+      "code_snippet": "stock = 0\nif stock > 0:\n    print(\"In Stock\")\nelse:\n    print(\"Out of Stock\")",
       "options": [
-        "SyntaxError: 'else' cannot take a condition",
-        "TypeError: comparison operator invalid",
-        "IndentationError: unexpected indent",
-        "NameError: 'Minor' is not defined"
+        "Out of Stock",
+        "In Stock",
+        "0",
+        "In Stock\nOut of Stock"
       ],
-      "correct_answer": "SyntaxError: 'else' cannot take a condition",
-      "explanation": "In Python, an `else` statement acts as a catch-all for when the `if` condition is `False`. It cannot have an expression or condition following it. If you need a condition, use `elif age < 18:`.",
-      "metadata": {
-        "concept": "else_syntax_rules",
-        "skill": "syntax_debugging",
-        "learning_objective": "Recognize that else is unconditional; elif is required for additional conditions",
-        "common_misconception": "Attempting to supply a condition directly to an else clause",
-        "why_this_exercise_exists": "Prevents pervasive syntax errors among beginner programmers"
-      }
+      "correct_answer": "Out of Stock",
+      "explanation": "0 > 0 evaluates to False (0 is not strictly greater than 0). When the if condition evaluates to False, Python routes to the else block, printing \"Out of Stock\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.2_q5",
-      "type": "code_prediction",
+      "type": "fill_in_the_blank",
       "concept": "the_else_statement_basics",
-      "skill": "edge_case_reasoning",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q4"
+      "skill": "syntax",
+      "difficulty": "easy",
+      "prompt": "Complete the fallback clause for unauthorized users:\n```python\nif is_authenticated:\n    print(\"Welcome\")\n____:\n    print(\"Access Denied\")\n```",
+      "accepted_answers": [
+        "else"
       ],
-      "prompt": "What does this snippet print when `items` is an empty list `[]`?\n\n```python\nitems = []\nif items:\n    print(f\"Cart has {len(items)} items\")\nelse:\n    print(\"Cart is empty\")\n```",
-      "options": [
-        "Cart is empty",
-        "Cart has 0 items",
-        "IndexError",
-        "None"
-      ],
-      "correct_answer": "Cart is empty",
-      "explanation": "In Python, empty collections (such as empty lists `[]`, strings `\"\"`, or dicts `{}`) evaluate to `False` in a boolean context (truthiness). Thus, the `if` condition fails and the `else` branch executes.",
-      "metadata": {
-        "concept": "truthiness_in_conditionals",
-        "skill": "idiomatic_python",
-        "learning_objective": "Leverage collection truthiness in if-else constructs",
-        "common_misconception": "Thinking len(items) == 0 must always be written explicitly",
-        "why_this_exercise_exists": "Teaches idiomatic Python truthy/falsy evaluation"
-      }
+      "correct_answer": "else",
+      "explanation": "`else:` specifies the fallback block executed when `if` condition evaluates to False.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.2_q6",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_basics",
-      "skill": "repair",
+      "type": "multiple_choice",
+      "concept": "the_else_statement_flow",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q5"
+      "prompt": "A login system verifies passwords. Why is `if len(pw) >= 8: ... else: ...` preferred over writing two separate checks `if len(pw) >= 8:` and `if len(pw) < 8:`?",
+      "options": [
+        "else guarantees mutual exclusivity and eliminates redundant condition evaluations",
+        "Separate if statements cannot compare integers",
+        "The else keyword runs faster by compiling directly into machine code",
+        "Python does not allow multiple if statements in the same script"
       ],
-      "prompt": "Fix the indentation so that the `else` clause properly aligns with the `if` statement:\n\n```python\nstatus_code = 404\nif status_code == 200:\n    print(\"Success\")\n    else:\n    print(\"Error occurred\")\n```",
-      "starter_code": "status_code = 404\nif status_code == 200:\n    print(\"Success\")\n    else:\n    print(\"Error occurred\")",
-      "solution_code": "status_code = 404\nif status_code == 200:\n    print(\"Success\")\nelse:\n    print(\"Error occurred\")",
-      "explanation": "The `else:` clause must be aligned at the exact same indentation level as its matching `if:` statement (column 0 in this case). Indenting `else:` causes a SyntaxError.",
-      "metadata": {
-        "concept": "else_clause_alignment",
-        "skill": "block_alignment",
-        "learning_objective": "Properly align else with its corresponding if statement",
-        "common_misconception": "Indenting else along with the if body statements",
-        "why_this_exercise_exists": "Ensures structural cleanliness in multi-branch statements"
-      }
+      "correct_answer": "else guarantees mutual exclusivity and eliminates redundant condition evaluations",
+      "explanation": "Using `else` guarantees that exactly one branch executes, handles every possible non-matching case automatically, and avoids computing a second condition test.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.2_q7",
-      "type": "code_prediction",
-      "concept": "the_else_statement_execution",
+      "type": "output_prediction",
+      "concept": "the_else_statement_edge_cases",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.2_q6"
-      ],
-      "prompt": "What does this code output?\n```python\nbalance = -5\nif balance >= 0:\n    print('Positive')\nelse:\n    print('Overdrawn')\n```",
+      "difficulty": "medium",
+      "prompt": "Look at the following public transit fare code:\n```python\nage = 65\nif age >= 65:\n    print(\"Senior Discount\")\nelse:\n    print(\"Standard Fare\")\n```\nWhat will this print?",
+      "code_snippet": "age = 65\nif age >= 65:\n    print(\"Senior Discount\")\nelse:\n    print(\"Standard Fare\")",
       "options": [
-        "Overdrawn",
-        "Positive",
-        "Positive\nOverdrawn",
-        "Error"
+        "Senior Discount",
+        "Standard Fare",
+        "Senior Discount\nStandard Fare",
+        "No output"
       ],
-      "correct_answer": "Overdrawn",
-      "explanation": "Since `balance >= 0` evaluates to False (-5 is less than 0), Python executes the `else` block, printing 'Overdrawn'."
+      "correct_answer": "Senior Discount",
+      "explanation": "65 >= 65 is True because the operator >= is inclusive. Python executes the if block (\"Senior Discount\") and bypasses the else block.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.2_q8",
       "type": "multiple_choice",
-      "concept": "the_else_statement_execution",
-      "skill": "prediction",
+      "concept": "the_else_statement_debugging",
+      "skill": "diagnosis",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q7"
-      ],
-      "prompt": "Can an `else` block have its own condition like `else x > 5:` in Python?",
+      "prompt": "Look at the following code:\n```python\nif is_ready:\n    print(\"Go\")\n    else:\n    print(\"Wait\")\n```\nWhy does Python raise `IndentationError: unindent does not match any outer indentation level`?",
       "options": [
-        "No, `else` takes no condition; use `elif x > 5:` if an additional condition is required",
-        "Yes, Python allows optional conditions after `else`",
-        "Yes, but only if enclosed in parentheses",
-        "No, `else` can only be used with loops, never with `if`"
+        "else must be aligned at the exact same indentation column as the corresponding if statement",
+        "else must always be indented 8 spaces",
+        "print(\"Go\") should not be indented",
+        "is_ready must be compared to True using =="
       ],
-      "correct_answer": "No, `else` takes no condition; use `elif x > 5:` if an additional condition is required",
-      "explanation": "An `else` clause catches all remaining cases and cannot accept a condition. If you need a conditional branch, use `elif`."
+      "correct_answer": "else must be aligned at the exact same indentation column as the corresponding if statement",
+      "explanation": "The `else:` clause belongs to the preceding `if` statement and must align with it at the same indentation level (not indented inside the if block).",
+      "misconception_tag": "INDENTATION_ERROR"
     },
     {
       "id": "5.2_q9",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_flow",
+      "type": "output_prediction",
+      "concept": "the_else_statement_tracing",
       "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q8"
+      "difficulty": "easy",
+      "prompt": "Look at the thermostat control code:\n```python\ntemp = 72\nif temp > 75:\n    mode = \"Cooling\"\nelse:\n    mode = \"Heating\"\nprint(\"Thermostat:\", mode)\n```\nWhat will this print?",
+      "code_snippet": "temp = 72\nif temp > 75:\n    mode = \"Cooling\"\nelse:\n    mode = \"Heating\"\nprint(\"Thermostat:\", mode)",
+      "options": [
+        "Thermostat: Heating",
+        "Thermostat: Cooling",
+        "Thermostat: None",
+        "Thermostat: 72"
       ],
-      "prompt": "Fix this code so that the `else` keyword aligns properly with the `if` statement:",
-      "correct_answer": "45",
-      "explanation": "The `else` keyword must be at the same indentation level as its matching `if` statement.",
-      "starter_code": "user_role = 'guest'\nif user_role == 'admin':\n    print('Full Access')\n    else:\n        print('Guest Access')",
-      "solution_code": "user_role = 'guest'\nif user_role == 'admin':\n    print('Full Access')\nelse:\n    print('Guest Access')"
+      "correct_answer": "Thermostat: Heating",
+      "explanation": "72 > 75 evaluates to False. Execution routes into the else block, setting mode to \"Heating\", then prints \"Thermostat: Heating\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.2_q10",
-      "type": "write_the_code",
-      "concept": "the_else_statement_basics",
-      "skill": "construction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q9"
-      ],
-      "prompt": "Write an `if-else` statement that checks if `password_length >= 8`. If `True`, set `result = \"Valid\"`. Otherwise, set `result = \"Too short\"`. Test with `password_length = 6`.",
-      "starter_code": "password_length = 6\n# Write if-else below:\n",
-      "solution_code": "password_length = 6\nif password_length >= 8:\n    result = \"Valid\"\nelse:\n    result = \"Too short\"\nprint(result)",
-      "explanation": "Since `6 >= 8` is `False`, the `else` branch assigns `'Too short'` to `result`.",
-      "metadata": {
-        "concept": "binary_decision_logic",
-        "skill": "implementation",
-        "learning_objective": "Implement two-way decision logic using if-else",
-        "common_misconception": "Overcomplicating binary logic with redundant checks",
-        "why_this_exercise_exists": "Builds confidence constructing valid validation logic"
-      }
-    },
-    {
-      "id": "5.2_q11",
-      "type": "code_prediction",
-      "concept": "the_else_statement_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q10"
-      ],
-      "prompt": "What does this snippet display?\n```python\nis_weekend = False\nif is_weekend:\n    print('Rest')\nelse:\n    print('Work')\nprint('Done')\n```",
-      "options": [
-        "Work\nDone",
-        "Rest\nDone",
-        "Work",
-        "Rest"
-      ],
-      "correct_answer": "Work\nDone",
-      "explanation": "Because `is_weekend` is False, the `else` branch prints 'Work'. Then, normal sequential execution prints 'Done'."
-    },
-    {
-      "id": "5.2_q12",
-      "type": "output_prediction",
-      "concept": "the_else_statement_logic",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q11"
-      ],
-      "prompt": "What will be printed when this script runs?\n```python\nnum = 14\nif num % 2 == 0:\n    print('Even')\nelse:\n    print('Odd')\n```",
-      "options": [
-        "Even",
-        "Odd",
-        "0",
-        "None"
-      ],
-      "correct_answer": "Even",
-      "explanation": "14 % 2 equals 0, satisfying the `if` condition and printing 'Even'."
-    },
-    {
-      "id": "5.2_q13",
-      "type": "output_prediction",
-      "concept": "the_else_statement_basics",
-      "skill": "logic_tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q12"
-      ],
-      "prompt": "What is printed by this ternary (conditional expression) statement?\n\n```python\nscore = 55\nstatus = \"Pass\" if score >= 60 else \"Retake\"\nprint(status)\n```",
-      "options": [
-        "Retake",
-        "Pass",
-        "Pass Retake",
-        "SyntaxError"
-      ],
-      "correct_answer": "Retake",
-      "explanation": "Python's conditional expression evaluates `X if CONDITION else Y`. Because `55 >= 60` is `False`, it returns `'Retake'`.",
-      "metadata": {
-        "concept": "ternary_conditional_expression",
-        "skill": "idiomatic_branching",
-        "learning_objective": "Read and trace single-line if-else expressions",
-        "common_misconception": "Thinking the condition is evaluated after the else value",
-        "why_this_exercise_exists": "Prepares learners to read real-world concise Python code"
-      }
-    },
-    {
-      "id": "5.2_q14",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_basics",
-      "skill": "refactoring",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q13"
-      ],
-      "prompt": "Refactor the redundant `if-else` code below to directly return the boolean comparison instead of branching unnecessarily:\n\n```python\ndef is_even(num):\n    if num % 2 == 0:\n        return True\n    else:\n        return False\n```",
-      "starter_code": "def is_even(num):\n    if num % 2 == 0:\n        return True\n    else:\n        return False",
-      "solution_code": "def is_even(num):\n    return num % 2 == 0",
-      "explanation": "`num % 2 == 0` already evaluates to a boolean (`True` or `False`). Writing `if condition: return True else: return False` is an anti-pattern; returning `condition` directly is cleaner, faster, and more pythonic.",
-      "metadata": {
-        "concept": "boolean_expression_simplification",
-        "skill": "clean_code",
-        "learning_objective": "Simplify redundant if-else constructs that merely return booleans",
-        "common_misconception": "Thinking return statements must always be wrapped in if-else",
-        "why_this_exercise_exists": "Transforms beginner syntax into clean, professional code"
-      }
-    },
-    {
-      "id": "5.2_q15",
-      "type": "code_ordering",
-      "concept": "the_else_statement_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q14"
-      ],
-      "prompt": "Arrange the lines in correct logical order for The Else Statement Sequence:",
-      "options": [
-        "a_15 = 10",
-        "b_15 = 20",
-        "result_15 = a_15 + b_15",
-        "print(result_15)"
-      ],
-      "correct_answer": [
-        "a_15 = 10",
-        "b_15 = 20",
-        "result_15 = a_15 + b_15",
-        "print(result_15)"
-      ],
-      "explanation": "Variables a_15 and b_15 must be defined before computing their sum and printing."
-    },
-    {
-      "id": "5.2_q16",
-      "type": "code_prediction",
-      "concept": "else_even_odd",
-      "skill": "branch_tracing",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.2_q15"
-      ],
-      "prompt": "What does this code print for `n = 7`?\n\n```python\nn = 7\nif n % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")\n```",
-      "options": [
-        "Odd",
-        "Even",
-        "0",
-        "1"
-      ],
-      "correct_answer": "Odd",
-      "explanation": "`7 % 2` evaluates to 1, so `1 == 0` is `False`. The `else` branch executes, printing `'Odd'`.",
-      "metadata": {
-        "concept": "parity_branching",
-        "skill": "tracing",
-        "why_this_exercise_exists": "Replaces filler with classic even/odd branching"
-      }
-    },
-    {
-      "id": "5.2_q17",
-      "type": "code_ordering",
-      "concept": "the_else_statement_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q16"
-      ],
-      "prompt": "Arrange the lines in correct logical order for The Else Statement Algorithm:",
-      "options": [
-        "a_17 = 10",
-        "b_17 = 20",
-        "result_17 = a_17 + b_17",
-        "print(result_17)"
-      ],
-      "correct_answer": [
-        "a_17 = 10",
-        "b_17 = 20",
-        "result_17 = a_17 + b_17",
-        "print(result_17)"
-      ],
-      "explanation": "Variables a_17 and b_17 must be defined before computing their sum and printing."
-    },
-    {
-      "id": "5.2_q18",
-      "type": "write_the_code",
-      "concept": "else_pass_fail",
-      "skill": "construction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q17"
-      ],
-      "prompt": "Write an `if-else` statement that sets `status = 'Pass'` if `score >= 50`, else `status = 'Fail'`. Test with `score = 48`.",
-      "starter_code": "score = 48\n# Write if-else below:\n",
-      "solution_code": "score = 48\nif score >= 50:\n    status = \"Pass\"\nelse:\n    status = \"Fail\"\nprint(status)",
-      "explanation": "Because `48 >= 50` is `False`, the `else` branch sets `status = 'Fail'`.",
-      "metadata": {
-        "concept": "pass_fail_evaluation",
-        "skill": "construction",
-        "why_this_exercise_exists": "Replaces filler with threshold categorization"
-      }
-    },
-    {
-      "id": "5.2_q19",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q18"
-      ],
-      "prompt": "Fix the capitalization error in this line for The Else Statement Errors:",
-      "starter_code": "Print('else Statement Item 19')",
-      "solution_code": "print('else Statement Item 19')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the else statement errors` in The else Statement. When Python validates this code, it applies the standard rules of the else statement errors. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
-    },
-    {
-      "id": "5.2_q20",
       "type": "fix_the_code",
       "concept": "the_else_statement_fix",
       "skill": "debugging",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.2_q19"
+      "difficulty": "medium",
+      "prompt": "A grading script attempts to categorize passing and failing grades, but it crashes because line 4 mistakenly put a condition after `else`. Fix line 4 so it is a valid `else:` statement.",
+      "starter_code": "score = 45\nif score >= 60:\n    print(\"Pass\")\nelse score < 60:\n    print(\"Fail\")",
+      "solution_code": "score = 45\nif score >= 60:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")",
+      "expected_output": "Fail",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Fail with valid else: syntax",
+          "expectedOutput": "Fail",
+          "assertionPython": "assert _raw_stdout.strip() == 'Fail' and 'else:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying score variable and else keyword",
+          "expectedOutput": "Fail",
+          "assertionPython": "assert _user_namespace.get('score') == 45",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for The Else Statement Fix:",
-      "starter_code": "Print('else Statement Item 20')",
-      "solution_code": "print('else Statement Item 20')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the else statement fix` in The else Statement. When Python validates this code, it applies the standard rules of the else statement fix. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "An `else` clause never takes a condition. Removing `score < 60` leaves `else:`, which correctly catches all scores where `score >= 60` is False.",
+      "hint": "Remove score < 60 on line 4 so that only else: remains.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.2_q11",
+      "type": "fix_the_code",
+      "concept": "the_else_statement_logic_repair",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "The authentication code below crashes with an `IndentationError` because `else:` was indented under the if body. Fix line 4 so `else:` aligns with `if`.",
+      "starter_code": "logged_in = False\nif logged_in:\n    print(\"Welcome\")\n    else:\n    print(\"Please Log In\")",
+      "solution_code": "logged_in = False\nif logged_in:\n    print(\"Welcome\")\nelse:\n    print(\"Please Log In\")",
+      "expected_output": "Please Log In",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Please Log In with aligned else",
+          "expectedOutput": "Please Log In",
+          "assertionPython": "assert _raw_stdout.strip() == 'Please Log In' and '\\nelse:\\n' in ('\\n' + _user_code)"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying logged_in variable",
+          "expectedOutput": "Please Log In",
+          "assertionPython": "assert _user_namespace.get('logged_in') is False",
+          "hidden": true
+        }
+      ],
+      "explanation": "`else:` must align at the exact same indentation column as the corresponding `if` statement.",
+      "hint": "Unindent else: to the left margin so it aligns with if logged_in:",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "5.2_q12",
+      "type": "write_the_code",
+      "concept": "else_even_odd",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a Python program that checks whether an integer is even or odd:\n1. Sets `number = 17`\n2. If `number % 2 == 0`, prints `\"Even\"`\n3. Else, prints `\"Odd\"` (should print Odd)",
+      "starter_code": "# Even or odd parity check\n",
+      "solution_code": "number = 17\nif number % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+      "expected_output": "Odd",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Odd for number = 17",
+          "expectedOutput": "Odd",
+          "assertionPython": "assert _raw_stdout.strip() == 'Odd' and _user_namespace.get('number') == 17"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying parity logic and if-else structure",
+          "expectedOutput": "Odd",
+          "assertionPython": "assert 'if ' in _user_code and 'else:' in _user_code and '%' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`17 % 2` produces `1`. Since `1 == 0` is False, the `else` block executes and prints `\"Odd\"`.",
+      "hint": "if number % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")",
+      "misconception_tag": "WRONG_OPERATOR"
+    },
+    {
+      "id": "5.2_q13",
+      "type": "write_the_code",
+      "concept": "else_pass_fail",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a Python program to evaluate student examination results:\n1. Set `score = 72`\n2. If `score >= 70`, print `\"Pass\"`\n3. Else, print `\"Fail\"` (should print Pass)",
+      "starter_code": "# Examination pass or fail evaluator\n",
+      "solution_code": "score = 72\nif score >= 70:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")",
+      "expected_output": "Pass",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Pass for score = 72",
+          "expectedOutput": "Pass",
+          "assertionPython": "assert _raw_stdout.strip() == 'Pass' and _user_namespace.get('score') == 72"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying threshold comparison operator",
+          "expectedOutput": "Pass",
+          "assertionPython": "assert '>= 70' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`72 >= 70` is True, so the program prints `\"Pass\"` and skips the `else` block.",
+      "hint": "if score >= 70:\n    print(\"Pass\")\nelse:\n    print(\"Fail\")",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.2_q14",
+      "type": "write_the_code",
+      "concept": "the_else_statement_implementation",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "An e-commerce order engine computes customer shipping charges:\n1. Set `order_total = 42.0`\n2. If `order_total >= 50.0`:\n   - Set `shipping = 0.0`\n3. Else:\n   - Set `shipping = 5.99`\n4. Calculate `final_total = order_total + shipping`\n5. Print `final_total` (should print 47.99)",
+      "starter_code": "# Order total with shipping dispatch\n",
+      "solution_code": "order_total = 42.0\nif order_total >= 50.0:\n    shipping = 0.0\nelse:\n    shipping = 5.99\nfinal_total = order_total + shipping\nprint(final_total)",
+      "expected_output": "47.99",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes final_total as 47.99",
+          "expectedOutput": "47.99",
+          "assertionPython": "assert abs(float(_raw_stdout.strip()) - 47.99) < 0.001 and _user_namespace.get('shipping') == 5.99 and abs(_user_namespace.get('final_total') - 47.99) < 0.001"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying if-else structure and shipping variable",
+          "expectedOutput": "47.99",
+          "assertionPython": "assert 'else:' in _user_code and _user_namespace.get('shipping') == 5.99",
+          "hidden": true
+        }
+      ],
+      "explanation": "`42.0 >= 50.0` is False, so the `else` block assigns `shipping = 5.99`. Then `42.0 + 5.99 = 47.99`.",
+      "hint": "if order_total >= 50.0:\n    shipping = 0.0\nelse:\n    shipping = 5.99",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.2_q15",
+      "type": "write_the_code",
+      "concept": "the_else_statement_mastery_challenge",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "A banking ATM application processes cash withdrawal requests:\n1. Set `balance = 150`\n2. Set `withdrawal = 200`\n3. If `withdrawal <= balance`:\n   - Set `balance = balance - withdrawal`\n   - Print `\"Approved\"`\n4. Else:\n   - Print `\"Insufficient Funds\"`\n5. Print `balance` (prints Insufficient Funds then 150)",
+      "starter_code": "# Bank withdrawal guard\n",
+      "solution_code": "balance = 150\nwithdrawal = 200\nif withdrawal <= balance:\n    balance = balance - withdrawal\n    print(\"Approved\")\nelse:\n    print(\"Insufficient Funds\")\nprint(balance)",
+      "expected_output": "Insufficient Funds\n150",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Insufficient Funds and leaves balance at 150",
+          "expectedOutput": "Insufficient Funds\n150",
+          "assertionPython": "assert _raw_stdout.strip() == 'Insufficient Funds\\n150' and _user_namespace.get('balance') == 150"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying withdrawal condition and balance variable",
+          "expectedOutput": "Insufficient Funds\n150",
+          "assertionPython": "assert 'withdrawal <= balance' in _user_code and 'else:' in _user_code and _user_namespace.get('balance') == 150",
+          "hidden": true
+        }
+      ],
+      "explanation": "`200 <= 150` is False, triggering the `else` branch which prints `\"Insufficient Funds\"` while preserving the original `balance` of `150`.",
+      "hint": "Check withdrawal <= balance. In else: print(\"Insufficient Funds\"). Then unindent print(balance).",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.2_q16",
+      "type": "multiple_choice",
+      "concept": "the_else_statement_errors",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "Can an `else` statement exist in Python without a preceding `if` statement?",
+      "options": [
+        "No, Python raises SyntaxError because else must attach to an if statement",
+        "Yes, it acts as an unconditional fallback block",
+        "Yes, but only if placed inside a function",
+        "No, but it raises a NameError instead of a SyntaxError"
+      ],
+      "correct_answer": "No, Python raises SyntaxError because else must attach to an if statement",
+      "explanation": "An `else` clause cannot exist in isolation. It is syntactically tethered to an immediately preceding `if` (or `elif`) statement.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.2_q17",
+      "type": "output_prediction",
+      "concept": "the_else_statement_execution",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "Look at the following code:\n```python\nx = 10\nif x < 5:\n    y = 1\nelse:\n    y = 2\nprint(y)\n```\nWhat is printed?",
+      "code_snippet": "x = 10\nif x < 5:\n    y = 1\nelse:\n    y = 2\nprint(y)",
+      "options": [
+        "2",
+        "1",
+        "10",
+        "None"
+      ],
+      "correct_answer": "2",
+      "explanation": "10 < 5 is False, so the else block executes, assigning y = 2. print(y) outputs 2.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.2_q18",
+      "type": "output_prediction",
+      "concept": "the_else_statement_runtime",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the following user authorization check:\n```python\nrole = \"user\"\nif role == \"admin\":\n    print(\"Full Control\")\nelse:\n    print(\"Standard Viewer\")\n```\nWhat will this print?",
+      "code_snippet": "role = \"user\"\nif role == \"admin\":\n    print(\"Full Control\")\nelse:\n    print(\"Standard Viewer\")",
+      "options": [
+        "Standard Viewer",
+        "Full Control",
+        "Full Control\nStandard Viewer",
+        "None"
+      ],
+      "correct_answer": "Standard Viewer",
+      "explanation": "\"user\" == \"admin\" is False. Execution routes into the else block and prints \"Standard Viewer\".",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.2_q19",
+      "type": "multiple_choice",
+      "concept": "the_else_statement_production_transfer",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "A retail store closes at 21:00 (9:00 PM). The software checks: `if current_hour < 21: print(\"Open\") else: print(\"Closed\")`. When the clock hits exactly `21`, what does the system print?",
+      "options": [
+        "Closed, because 21 < 21 is False and routes to the else block",
+        "Open, because 21 is equal to closing time",
+        "Both Open and Closed",
+        "TypeError: hour is not compatible with integer"
+      ],
+      "correct_answer": "Closed, because 21 < 21 is False and routes to the else block",
+      "explanation": "`21 < 21` is False because strict inequality excludes the boundary value 21. Python routes to the else block, correctly printing \"Closed\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.2_q20",
+      "type": "multiple_choice",
+      "concept": "the_else_statement_syntax_rules",
+      "skill": "diagnosis",
+      "difficulty": "easy",
+      "prompt": "What happens if a developer forgets the colon after `else`:\n```python\nif score >= 50:\n    print(\"Pass\")\nelse\n    print(\"Fail\")\n```",
+      "options": [
+        "SyntaxError: expected ':'",
+        "IndentationError: unexpected indent",
+        "The code executes normally without warning",
+        "NameError: else is not defined"
+      ],
+      "correct_answer": "SyntaxError: expected ':'",
+      "explanation": "Just like `if`, the `else` keyword introduces a compound code block and must conclude with a colon `:`.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.2_q21",
       "type": "fix_the_code",
-      "concept": "the_else_statement_edge_cases",
+      "concept": "the_else_statement_refactoring",
       "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q20"
+      "difficulty": "easy",
+      "prompt": "The account verification script below crashes with a `SyntaxError` on line 4 because a colon was omitted after `else`. Fix line 4.",
+      "starter_code": "is_verified = False\nif is_verified:\n    print(\"Account Active\")\nelse\n    print(\"Verification Required\")",
+      "solution_code": "is_verified = False\nif is_verified:\n    print(\"Account Active\")\nelse:\n    print(\"Verification Required\")",
+      "expected_output": "Verification Required",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Verification Required with colon on else:",
+          "expectedOutput": "Verification Required",
+          "assertionPython": "assert _raw_stdout.strip() == 'Verification Required' and 'else:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying is_verified variable",
+          "expectedOutput": "Verification Required",
+          "assertionPython": "assert _user_namespace.get('is_verified') is False",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for The Else Statement Edge Cases:",
-      "starter_code": "Print('else Statement Item 21')",
-      "solution_code": "print('else Statement Item 21')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the else statement edge cases` in The else Statement. When Python validates this code, it applies the standard rules of the else statement edge cases. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "Adding the missing colon `:` after `else` completes the valid syntax for the fallback block.",
+      "hint": "Add a colon : after else on line 4: else:",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.2_q22",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_runtime",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q21"
+      "type": "write_the_code",
+      "concept": "the_else_statement_logic",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a security door badge checkpoint:\n1. Set `has_badge = False`\n2. If `has_badge`, print `\"Door Unlocked\"`\n3. Else, print `\"Access Denied\"` (should print Access Denied)",
+      "starter_code": "# Security door badge check\n",
+      "solution_code": "has_badge = False\nif has_badge:\n    print(\"Door Unlocked\")\nelse:\n    print(\"Access Denied\")",
+      "expected_output": "Access Denied",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Access Denied for has_badge = False",
+          "expectedOutput": "Access Denied",
+          "assertionPython": "assert _raw_stdout.strip() == 'Access Denied' and _user_namespace.get('has_badge') is False"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying if-else structure",
+          "expectedOutput": "Access Denied",
+          "assertionPython": "assert 'if ' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for The Else Statement Runtime:",
-      "starter_code": "Print('else Statement Item 22')",
-      "solution_code": "print('else Statement Item 22')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the else statement runtime` in The else Statement. When Python validates this code, it applies the standard rules of the else statement runtime. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "`has_badge` is False, skipping the `if` body and triggering the `else` block to print `\"Access Denied\"`.",
+      "hint": "if has_badge:\n    print(\"Door Unlocked\")\nelse:\n    print(\"Access Denied\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.2_q23",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_logic_repair",
-      "skill": "debugging",
+      "type": "write_the_code",
+      "concept": "the_else_statement_algorithm",
+      "skill": "coding",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q22"
+      "prompt": "Write a warehouse inventory restock alert program:\n1. Set `item_count = 3`\n2. If `item_count > 5`, print `\"Stock Healthy\"`\n3. Else, print `\"Reorder Needed\"` (should print Reorder Needed)",
+      "starter_code": "# Inventory stock level alert\n",
+      "solution_code": "item_count = 3\nif item_count > 5:\n    print(\"Stock Healthy\")\nelse:\n    print(\"Reorder Needed\")",
+      "expected_output": "Reorder Needed",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Reorder Needed for item_count = 3",
+          "expectedOutput": "Reorder Needed",
+          "assertionPython": "assert _raw_stdout.strip() == 'Reorder Needed' and _user_namespace.get('item_count') == 3"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying item_count variable and comparison",
+          "expectedOutput": "Reorder Needed",
+          "assertionPython": "assert 'item_count > 5' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for The Else Statement Logic Repair:",
-      "starter_code": "Print('else Statement Item 23')",
-      "solution_code": "print('else Statement Item 23')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the else statement logic repair` in The else Statement. When Python validates this code, it applies the standard rules of the else statement logic repair. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "`3 > 5` evaluates to False, so the `else` branch executes and prints `\"Reorder Needed\"`.",
+      "hint": "if item_count > 5:\n    print(\"Stock Healthy\")\nelse:\n    print(\"Reorder Needed\")",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.2_q24",
-      "type": "fix_the_code",
+      "type": "write_the_code",
       "concept": "the_else_statement_optimization",
-      "skill": "refactoring",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.2_q23"
+      "prompt": "A municipal parking lot offers free parking on weekends, but charges $3/hr on weekdays.\nWrite a program that:\n1. Sets `is_weekend = True`\n2. Sets `hours = 4`\n3. If `is_weekend`:\n   - Set `fee = 0`\n4. Else:\n   - Set `fee = hours * 3`\n5. Print `f\"Parking Fee: ${fee}\"` (should print Parking Fee: $0)",
+      "starter_code": "# Parking fee weekend waiver calculator\n",
+      "solution_code": "is_weekend = True\nhours = 4\nif is_weekend:\n    fee = 0\nelse:\n    fee = hours * 3\nprint(f\"Parking Fee: ${fee}\")",
+      "expected_output": "Parking Fee: $0",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Parking Fee: $0 for weekend",
+          "expectedOutput": "Parking Fee: $0",
+          "assertionPython": "assert _raw_stdout.strip() == 'Parking Fee: $0' and _user_namespace.get('fee') == 0"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying fee variable and if-else logic",
+          "expectedOutput": "Parking Fee: $0",
+          "assertionPython": "assert 'else:' in _user_code and _user_namespace.get('hours') == 4",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the capitalization error in this line for The Else Statement Optimization:",
-      "starter_code": "Print('else Statement Item 24')",
-      "solution_code": "print('else Statement Item 24')",
-      "hint": "Python built-in functions like print() must be written in lowercase.",
-      "explanation": "This exercise tests `the else statement optimization` in The else Statement. When Python validates this code, it applies the standard rules of the else statement optimization. Understanding how this construct behaves prevents common programming errors and ensures predictable execution."
+      "explanation": "`is_weekend` is True, so the `if` body assigns `fee = 0` and the `else` block is skipped.",
+      "hint": "if is_weekend:\n    fee = 0\nelse:\n    fee = hours * 3\nprint(f\"Parking Fee: ${fee}\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.2_q25",
       "type": "write_the_code",
-      "concept": "the_else_statement_implementation",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q24"
-      ],
-      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of The else Statement.",
-      "starter_code": "def process_5_2_data(items):\n    # Process input according to The else Statement rules\n    pass",
-      "solution_code": "def process_5_2_data(items):\n    return [item for item in items if item is not None]",
-      "test_cases": [
-        {
-          "input": "[1, None, 2, None, 3]",
-          "expected_output": "[1, 2, 3]",
-          "description": "cleans null values using The else Statement rules"
-        }
-      ],
-      "hint": "Focus on applying the central Python idiom for The else Statement.",
-      "explanation": "Constructing pure, robust data transformers for The else Statement avoids unintended side effects and guarantees consistent return contracts."
-    },
-    {
-      "id": "5.2_q26",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_debugging",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.2_q25"
-      ],
-      "prompt": "Defensive Validation: Implement a verification helper for The else Statement that confirms preconditions and guards against invalid input.",
-      "starter_code": "def validate_5_2_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
-      "solution_code": "def validate_5_2_input(val):\n    if val is None or val == '':\n        return False\n    return True",
-      "test_cases": [
-        {
-          "input": "'valid_token'",
-          "expected_output": "True",
-          "description": "valid input returns True"
-        }
-      ],
-      "hint": "Check the condition and return value carefully.",
-      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
-    },
-    {
-      "id": "5.2_q27",
-      "type": "code_prediction",
-      "concept": "the_else_statement_edge_case",
-      "skill": "prediction",
+      "concept": "the_else_statement_sequence",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.2_q26"
-      ],
-      "prompt": "What will be the outcome when this code handling The else Statement encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
-      "hint": "An empty input list evaluates as falsy and produces an empty result.",
-      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with The else Statement.",
-      "options": [
-        "[]",
-        "None",
-        "IndexError",
-        "ValueError"
-      ],
-      "correct_answer": "[]"
-    },
-    {
-      "id": "5.2_q28",
-      "type": "write_the_code",
-      "concept": "the_else_statement_production_transfer",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.2_q27"
-      ],
-      "prompt": "Transfer Challenge: Solve a practical problem using The else Statement. Implement the function below to satisfy the stated contract.",
-      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for The else Statement\n    return str(val).strip()",
-      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "prompt": "A boutique hotel calculates billing based on whether breakfast is included ($25 extra per night):\n1. Set `includes_breakfast = False`\n2. Set `nights = 3`\n3. Set `nightly_rate = 120`\n4. If `includes_breakfast`:\n   - Set `total = nights * (nightly_rate + 25)`\n5. Else:\n   - Set `total = nights * nightly_rate`\n6. Print `f\"Hotel Total: ${total}\"` (should print Hotel Total: $360)",
+      "starter_code": "# Hotel billing calculator\n",
+      "solution_code": "includes_breakfast = False\nnights = 3\nnightly_rate = 120\nif includes_breakfast:\n    total = nights * (nightly_rate + 25)\nelse:\n    total = nights * nightly_rate\nprint(f\"Hotel Total: ${total}\")",
+      "expected_output": "Hotel Total: $360",
       "test_cases": [
         {
-          "input": "'  python  '",
-          "expected_output": "'PYTHON'",
-          "description": "domain sanitization"
-        }
-      ],
-      "hint": "Use a list comprehension to filter records where 'active' is True.",
-      "explanation": "Applying clean functional contracts for The else Statement ensures testable domain operations."
-    },
-    {
-      "id": "5.2_q29",
-      "type": "fix_the_code",
-      "concept": "the_else_statement_refactoring",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.2_q28"
-      ],
-      "prompt": "Refactor this procedural snippet for The else Statement into clean, modular, and idiomatic Python:",
-      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
-      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Outputs Hotel Total: $360 without breakfast surcharge",
+          "expectedOutput": "Hotel Total: $360",
+          "assertionPython": "assert _raw_stdout.strip() == 'Hotel Total: $360' and _user_namespace.get('total') == 360"
+        },
         {
-          "input": "",
-          "expected_output": "else Statement Result 29"
+          "id": "tc_2",
+          "description": "Hidden test verifying total variable and nightly_rate",
+          "expectedOutput": "Hotel Total: $360",
+          "assertionPython": "assert 'else:' in _user_code and _user_namespace.get('total') == 360",
+          "hidden": true
         }
       ],
-      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
-      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
-    },
-    {
-      "id": "5.2_q30",
-      "type": "write_the_code",
-      "concept": "the_else_statement_mastery_challenge",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.2_q29"
-      ],
-      "prompt": "Final Capstone Verification: Write a production-grade handler for The else Statement that processes batches and handles empty inputs cleanly.",
-      "starter_code": "def execute_5_2_workflow(batch):\n    # Validate and transform batch\n    pass",
-      "solution_code": "def execute_5_2_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
-      "test_cases": [
-        {
-          "input": "[' a ', 'b ']",
-          "expected_output": "['a', 'b']",
-          "description": "batch processing workflow"
-        }
-      ],
-      "hint": "Validate input first, then execute the transformation.",
-      "explanation": "Production workflows for The else Statement must validate inputs, maintain immutability, and return deterministic results."
+      "explanation": "Since `includes_breakfast` is False, the `else` block calculates `3 * 120 = 360`, printing `\"Hotel Total: $360\"`.",
+      "hint": "if includes_breakfast:\n    total = nights * (nightly_rate + 25)\nelse:\n    total = nights * nightly_rate",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     }
-  ],
-  "unit_num": 5,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of else Statement",
-    "Apply idiomatic Python patterns when working with else Statement",
-    "Debug common runtime exceptions and logic errors associated with else Statement",
-    "Implement production-ready code utilizing else Statement"
-  ],
-  "prerequisites": [
-    "5.1"
   ]
 }

@@ -27,65 +27,115 @@ const RUNNER_SCRIPT = `
 import sys
 import io
 import json
+import builtins
 
 def _run_payload(user_code_str, tests_json_str):
-    tests = json.loads(tests_json_str)
-    
-    stdout_capture = io.StringIO()
-    stderr_capture = io.StringIO()
+    tests = json.loads(tests_json_str) if tests_json_str else []
     orig_stdout = sys.stdout
     orig_stderr = sys.stderr
-    
-    sys.stdout = stdout_capture
-    sys.stderr = stderr_capture
-    
-    exec_error = None
-    user_namespace = {"__name__": "__main__"}
-    
-    try:
-        exec(user_code_str, user_namespace)
-    except SystemExit as se:
-        exec_error = f"SystemExit: {se}"
-    except Exception as e:
-        exec_error = f"{type(e).__name__}: {e}"
-    except BaseException as be:
-        exec_error = f"{type(be).__name__}: {be}"
-    finally:
-        sys.stdout = orig_stdout
-        sys.stderr = orig_stderr
-        
-    raw_stdout = stdout_capture.getvalue()
-    raw_stderr = stderr_capture.getvalue()
+    orig_input = getattr(builtins, 'input', None)
     
     test_results = []
+    first_stdout = ""
+    first_stderr = ""
+    first_error = None
     all_passed = True
     
-    if exec_error is not None:
-        all_passed = False
-        for t in tests:
-            test_results.append({
-                "testId": t.get("id", "t_unknown"),
-                "description": t.get("description", "Execution verification"),
-                "passed": False,
-                "actualOutput": raw_stdout,
-                "expectedOutput": str(t.get("expectedOutput", "")),
-                "error": exec_error
-            })
-        if len(tests) == 0:
-            test_results.append({
-                "testId": "exec_0",
-                "description": "Code execution",
-                "passed": False,
-                "actualOutput": raw_stdout,
-                "expectedOutput": "",
-                "error": exec_error
-            })
-    else:
-        for t in tests:
-            assertion = t.get("assertionPython", "")
-            raw_exp = str(t.get("expectedOutput", ""))
+    # If no tests are provided, run user code once with fallback input
+    if not tests:
+        stdout_capture = io.StringIO()
+        stderr_capture = io.StringIO()
+        sys.stdout = stdout_capture
+        sys.stderr = stderr_capture
+        
+        def mock_input(prompt=""):
+            if prompt:
+                stdout_capture.write(str(prompt))
+            return ""
+        builtins.input = mock_input
+        
+        exec_error = None
+        user_namespace = {"__name__": "__main__"}
+        try:
+            exec(user_code_str, user_namespace)
+        except SystemExit as se:
+            exec_error = f"SystemExit: {se}"
+        except Exception as e:
+            exec_error = f"{type(e).__name__}: {e}"
+        except BaseException as be:
+            exec_error = f"{type(be).__name__}: {be}"
+        finally:
+            sys.stdout = orig_stdout
+            sys.stderr = orig_stderr
+            if orig_input:
+                builtins.input = orig_input
+                
+        raw_stdout = stdout_capture.getvalue()
+        raw_stderr = stderr_capture.getvalue()
+        combined_stdout = raw_stdout + ("\\n" + raw_stderr if raw_stderr else "")
+        return json.dumps({
+            "stdout": combined_stdout,
+            "error": exec_error,
+            "allPassed": exec_error is None,
+            "testResults": []
+        })
+
+    # If tests are provided, execute each test case with its respective scripted input
+    for idx, t in enumerate(tests):
+        stdout_capture = io.StringIO()
+        stderr_capture = io.StringIO()
+        sys.stdout = stdout_capture
+        sys.stderr = stderr_capture
+        
+        raw_inp = str(t.get("input") or "")
+        inp_queue = raw_inp.splitlines() if raw_inp else []
+        def mock_input(prompt=""):
+            if prompt:
+                stdout_capture.write(str(prompt))
+            if not inp_queue:
+                return ""
+            val = inp_queue.pop(0)
+            stdout_capture.write(val + "\\n")
+            return val
+        builtins.input = mock_input
+        
+        exec_error = None
+        user_namespace = {"__name__": "__main__"}
+        try:
+            exec(user_code_str, user_namespace)
+        except SystemExit as se:
+            exec_error = f"SystemExit: {se}"
+        except Exception as e:
+            exec_error = f"{type(e).__name__}: {e}"
+        except BaseException as be:
+            exec_error = f"{type(be).__name__}: {be}"
+        finally:
+            sys.stdout = orig_stdout
+            sys.stderr = orig_stderr
+            if orig_input:
+                builtins.input = orig_input
+                
+        raw_stdout = stdout_capture.getvalue()
+        raw_stderr = stderr_capture.getvalue()
+        
+        if idx == 0:
+            first_stdout = raw_stdout
+            first_stderr = raw_stderr
+            first_error = exec_error
+            
+        test_passed = False
+        test_err = None
+        raw_exp = str(t.get("expectedOutput") or "")
+        
+        if exec_error is not None:
             test_passed = False
-            test_err = None
+            test_err = exec_error
+            all_passed = False
+        else:
+            assertion = t.get("assertionPython", "")
+            user_namespace["_raw_stdout"] = raw_stdout.strip()
+            user_namespace["_user_code"] = user_code_str
+            user_namespace["_user_namespace"] = user_namespace
             
             if assertion:
                 try:
@@ -117,27 +167,24 @@ def _run_payload(user_code_str, tests_json_str):
                 if not test_passed:
                     test_err = f"Expected '{norm_expected}', but got '{norm_actual}'"
             else:
-                test_passed = (exec_error is None)
+                test_passed = True
                 
-            if not test_passed:
-                all_passed = False
-                
-            test_results.append({
-                "testId": t.get("id", "t_unknown"),
-                "description": t.get("description", "Verification test"),
-                "passed": test_passed,
-                "actualOutput": raw_stdout.strip(),
-                "expectedOutput": raw_exp.strip(),
-                "error": test_err
-            })
+        if not test_passed:
+            all_passed = False
             
-        if len(tests) == 0:
-            all_passed = (exec_error is None)
-            
-    combined_stdout = raw_stdout + ("\\n" + raw_stderr if raw_stderr else "")
+        test_results.append({
+            "testId": t.get("id", f"tc_{idx}"),
+            "description": t.get("description", "Verification test"),
+            "passed": test_passed,
+            "actualOutput": raw_stdout.strip(),
+            "expectedOutput": raw_exp.strip(),
+            "error": test_err
+        })
+        
+    combined_stdout = first_stdout + ("\\n" + first_stderr if first_stderr else "")
     return json.dumps({
         "stdout": combined_stdout,
-        "error": exec_error,
+        "error": first_error,
         "allPassed": all_passed,
         "testResults": test_results
     })
@@ -155,11 +202,18 @@ self.onmessage = async (e: MessageEvent) => {
 import sys
 import io
 import traceback
+import builtins
 
 _stdout_buffer = io.StringIO()
 _stderr_buffer = io.StringIO()
 sys.stdout = _stdout_buffer
 sys.stderr = _stderr_buffer
+
+def _mock_input(prompt=""):
+    if prompt:
+        _stdout_buffer.write(str(prompt))
+    return ""
+builtins.input = _mock_input
 
 _runtime_err = ""
 try:

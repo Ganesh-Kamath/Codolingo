@@ -1,568 +1,595 @@
 {
   "lesson_id": "6.1",
   "title": "Why We Need Loops",
-  "unit": "Loops and Repetition",
+  "unit": "unit_06",
   "items": [
     {
-      "id": "6.1_q1",
+      "id": "6.1_cand_1",
       "type": "micro_lesson",
-      "skill": "recognition",
-      "diff": "easy",
       "concept": "why_we_need_loops_basics",
-      "prerequisites": [],
-      "title": "What Is Repetition in Programming?",
-      "content": "In programming, we often need to perform the same action many times. Writing the same code over and over is slow, hard to read, and easy to make mistakes. A loop lets us repeat a block of code without copying it again and again. For example, if you want to print the numbers 1 through 5, you could write five separate print statements, but a loop does it in one place. Here is a simple example:\n\n```python\nfor i in range(1, 6):\n    print('Number:', i)\n```\n\nThis loop runs five times. Instead of typing print five times, we use a loop to repeat the action cleanly and efficiently.",
+      "skill": "recognition",
       "difficulty": "easy",
+      "title": "Why We Need Loops: The DRY Principle",
       "prompt": "",
-      "explanation": "In programming, we often need to perform the same action many times. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "explanation": "Loops automate repetitive tasks, adhering to the \"Don't Repeat Yourself\" (DRY) principle. Rather than writing duplicate lines of code, a loop executes a single code block repeatedly based on dynamic conditions.",
+      "content": "# Why We Need Loops: The DRY Principle\n\nIn programming, we constantly encounter repetitive actions:\n- Printing 100 receipt lines.\n- Processing 500 items in a warehouse cart.\n- Sending alert pings until a server responds.\n\n### The Problem With Copy-Pasting Code\nWithout loops, repeating code requires copy-pasting:\n```python\nprint(\"Processing item 1\")\nprint(\"Processing item 2\")\nprint(\"Processing item 3\")\n```\nThis creates three major issues:\n1. **Maintenance Nightmare:** If the message format changes, you must edit every single copy.\n2. **Error Multiplication:** A typo in one line propagates across the entire program.\n3. **Inflexibility:** You cannot handle dynamic quantities (e.g. what if a customer orders 47 items?).\n\n### The Loop Solution\nA loop consolidates repetitive logic into one clean block:\n```python\nfor i in range(1, 4):\n    print(f\"Processing item {i}\")\n```\nLoops allow programs to scale from 3 items to 3,000,000 items with zero added lines of code."
     },
     {
-      "id": "6.1_q2",
+      "id": "6.1_cand_2",
       "type": "multiple_choice",
+      "concept": "why_we_need_loops_basics",
       "skill": "recall",
-      "diff": "easy",
-      "concept": "why_we_need_loops_basics",
-      "prerequisites": [
-        "6.1_q1"
-      ],
-      "prompt": "Why do programmers use loops?",
-      "options": [
-        "To make programs run faster by default",
-        "To repeat a block of code many times without rewriting it",
-        "To store data in variables",
-        "To create new functions"
-      ],
-      "correct_answer": "To repeat a block of code many times without rewriting it",
-      "explanation": "Loops are designed to reduce repetition. They let you run the same instructions multiple times using one compact block of code, which saves effort and reduces errors.",
-      "difficulty": "easy"
-    },
-    {
-      "id": "6.1_q3",
-      "type": "micro_lesson",
-      "skill": "understanding",
-      "diff": "easy",
-      "concept": "why_we_need_loops_syntax",
-      "prerequisites": [
-        "6.1_q2"
-      ],
-      "title": "The Basic for Loop Syntax",
-      "content": "A for loop in Python uses the for keyword, a variable that tracks each item, the in keyword, and a sequence such as range. The code inside the loop is indented. Here is the general pattern:\n\n```python\nfor item in sequence:\n    # do something with item\n```\n\nWhen you use range(3), the loop variable takes the values 0, 1, and 2. You can also start at a different number. For example, range(2, 6) gives 2, 3, 4, and 5. This lets you control exactly how many times the loop runs and which values are used inside the loop body.\n\n```python\nfor num in range(2, 6):\n    print('Current number:', num)\n```\n\nUnderstanding this syntax helps you write loops that perform repeated tasks in a predictable way.",
       "difficulty": "easy",
-      "prompt": "",
-      "explanation": "Loops repeat a block of code while a condition holds True or across elements in an iterable. Loop termination depends on advancing the state variable or encountering a break statement."
-    },
-    {
-      "id": "6.1_q4",
-      "type": "multiple_choice",
-      "skill": "reasoning",
-      "diff": "easy",
-      "concept": "why_we_need_loops_syntax",
-      "prerequisites": [
-        "6.1_q3"
-      ],
-      "prompt": "Which code correctly prints the numbers 2 through 5 using a for loop?",
+      "prompt": "What primary software engineering principle do loops enforce by preventing copy-pasted code blocks?",
       "options": [
-        "for x in range(1, 5):\n    print('x:', x)",
-        "for x in range(2, 6):\n    print('x:', x)",
-        "for x in range(2, 5):\n    print('x:', x)",
-        "for x in range(5):\n    print('x:', x + 2)"
+        "DRY: Don't Repeat Yourself",
+        "FIFO: First In First Out",
+        "OOP: Object-Oriented Principles",
+        "REPL: Read Eval Print Loop"
       ],
-      "correct_answer": "for x in range(2, 6):\n    print('x:', x)",
-      "explanation": "range(2, 6) produces 2, 3, 4, and 5. The loop variable x takes each of these values, and print displays them. Option C only prints 2, 3, and 4, so it is incorrect.",
-      "difficulty": "easy"
+      "correct_answer": "DRY: Don't Repeat Yourself",
+      "explanation": "The DRY (Don't Repeat Yourself) principle states that every piece of knowledge or logic must have a single, unambiguous representation in a program. Loops replace repetitive duplicate statements with a single reusable control structure.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q5",
-      "type": "multiple_choice",
-      "skill": "recognition",
-      "diff": "easy",
-      "concept": "why_we_need_loops_matching",
-      "prerequisites": [
-        "6.1_q4"
-      ],
-      "prompt": "Match the loop behavior to the correct range call.",
-      "options": [
-        "range(1, 4) prints 1, 2, 3",
-        "range(1, 4) prints 1, 2, 3, 4",
-        "range(3) prints 0, 1, 2",
-        "range(3) prints 1, 2, 3"
-      ],
-      "correct_answer": "range(3) prints 0, 1, 2",
-      "explanation": "range(3) starts at 0 and stops before 3, so it yields 0, 1, and 2. range(1, 4) yields 1, 2, and 3. The stop value in range is exclusive, which is a key idea when matching loop output to range calls.",
-      "difficulty": "easy"
-    },
-    {
-      "id": "6.1_q6",
-      "type": "multiple_choice",
-      "skill": "comprehension",
-      "diff": "easy",
-      "concept": "why_we_need_loops_pitfalls",
-      "prerequisites": [
-        "6.1_q5"
-      ],
-      "prompt": "What happens if you forget to indent the code inside a for loop?",
-      "options": [
-        "The loop runs forever",
-        "Python raises an IndentationError and the loop body is not recognized",
-        "The loop prints nothing but does not crash",
-        "The loop skips the first iteration"
-      ],
-      "correct_answer": "Python raises an IndentationError and the loop body is not recognized",
-      "explanation": "In Python, indentation defines blocks of code. If the statements inside a for loop are not indented, Python cannot tell which code belongs to the loop. This causes an IndentationError, so proper indentation is essential for loops to work.",
-      "difficulty": "easy"
-    },
-    {
-      "id": "6.1_q7",
+      "id": "6.1_cand_3",
       "type": "code_prediction",
+      "concept": "why_we_need_loops_execution",
       "skill": "prediction",
       "difficulty": "easy",
-      "concept": "why_we_need_loops_execution",
-      "prerequisites": [
-        "6.1_q6"
-      ],
-      "prompt": "What is the output of the following code?\n\n```python\nfor i in range(3):\n    print('Count:', i)\n```",
+      "prompt": "What is printed by this loop when it executes?",
+      "code_snippet": "for item in [10, 20, 30]:\n    print(item * 2)",
+      "expected_output": "20\n40\n60",
       "options": [
-        "Count: 0\nCount: 1\nCount: 2",
-        "Count: 1\nCount: 2\nCount: 3",
-        "Count: 3\nCount: 3\nCount: 3",
-        "Error: range() is not defined"
+        "20\n40\n60",
+        "[20, 40, 60]",
+        "10\n20\n30",
+        "60"
       ],
-      "correct_answer": "Count: 0\nCount: 1\nCount: 2",
-      "explanation": "The for loop iterates over range(3), which produces the values 0, 1, and 2. In each iteration, it prints 'Count:' followed by the current value of i. This demonstrates how loops repeat actions without writing the same code multiple times."
+      "correct_answer": "20\n40\n60",
+      "explanation": "The loop executes three times, once for each element in the list: first 10*2=20, then 20*2=40, then 30*2=60. Each print() call outputs on a separate line.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q8",
-      "type": "output_prediction",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "concept": "why_we_need_loops_execution",
-      "prerequisites": [
-        "6.1_q7"
-      ],
-      "prompt": "What is the final output of the following code?\n\n```python\nname = 'Ada'\nfor letter in name:\n    print(letter, end='')\nprint()\n```",
-      "options": [
-        "'Ada'",
-        "A\nd\na",
-        "A\n\nd\n\na",
-        "Error: end='' is invalid"
-      ],
-      "correct_answer": "'Ada'",
-      "explanation": "The loop iterates over each character in the string 'Ada'. The end='' argument in print prevents a newline after each character, so they appear on the same line. A final print() adds a newline. This shows that loops help process each item in a sequence efficiently."
-    },
-    {
-      "id": "6.1_q9",
+      "id": "6.1_cand_4",
       "type": "code_prediction",
+      "concept": "why_we_need_loops_accumulation",
       "skill": "prediction",
-      "difficulty": "medium",
-      "concept": "why_we_need_loops_flow",
-      "prerequisites": [
-        "6.1_q8"
-      ],
-      "prompt": "What is the output of the following code?\n\n```python\nfor n in range(1, 4):\n    if n % 2 == 0:\n        print(n, 'is even')\n    else:\n        print(n, 'is odd')\n```",
+      "difficulty": "easy",
+      "prompt": "What does this program print after the loop completes?",
+      "code_snippet": "total = 0\nfor score in [5, 10, 15]:\n    total = total + score\nprint(total)",
+      "expected_output": "30",
       "options": [
-        "1 is odd\n2 is even\n3 is odd",
-        "1 is odd\n2 is odd\n3 is even",
-        "1 is even\n2 is odd\n3 is even",
-        "2 is even\n3 is odd"
-      ],
-      "correct_answer": "1 is odd\n2 is even\n3 is odd",
-      "explanation": "range(1, 4) generates 1, 2, and 3. The modulo operator % checks for evenness: 1 % 2 == 1 (odd), 2 % 2 == 0 (even), and 3 % 2 == 1 (odd). Loops allow us to test each number in a sequence without writing separate if-else blocks for every value."
-    },
-    {
-      "id": "6.1_q10",
-      "type": "multiple_choice",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "concept": "why_we_need_loops_analysis",
-      "prerequisites": [
-        "6.1_q9"
-      ],
-      "prompt": "Why do programmers use loops instead of copying and pasting the same code many times?",
-      "options": [
-        "Loops make code shorter, easier to read, and simpler to update when requirements change.",
-        "Loops are required by Python syntax for any repeated action.",
-        "Loops automatically fix bugs in repeated code.",
-        "Loops run faster than any non-loop code regardless of the task."
-      ],
-      "correct_answer": "Loops make code shorter, easier to read, and simpler to update when requirements change.",
-      "explanation": "Duplicating code leads to maintenance problems: changing the logic requires editing many places. A loop centralizes the repeated logic, making the program shorter, clearer, and easier to modify. This is the core reason loops exist."
-    },
-    {
-      "id": "6.1_q11",
-      "type": "code_prediction",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "concept": "why_we_need_loops_tracing",
-      "prerequisites": [
-        "6.1_q10"
-      ],
-      "prompt": "What is the output of the following code?\n\n```python\ntotal = 0\nfor x in range(2, 5):\n    total = total + x\nprint(total)\n```",
-      "options": [
+        "30",
+        "15",
         "0",
-        "3",
-        "9",
-        "Error: total is not defined"
+        "5\n10\n15"
       ],
-      "correct_answer": "9",
-      "explanation": "Initially total is 0. The loop iterates over range(2, 5), yielding 2, 3, and 4. In each iteration, total accumulates the value: 0 + 2 = 2, 2 + 3 = 5, 5 + 4 = 9. Finally, print(total) outputs 9. Tracing step-by-step shows how a loop maintains and updates state across repetitions."
+      "correct_answer": "30",
+      "explanation": "The loop runs three times, adding each score to total: 0 + 5 = 5; 5 + 10 = 15; 15 + 15 = 30. Notice print(total) is unindented outside the loop, so it only prints once at the very end.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q12",
-      "type": "output_prediction",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "concept": "why_we_need_loops_logic",
-      "prerequisites": [
-        "6.1_q11"
-      ],
-      "prompt": "What is the output of the following code?\n\n```python\nfor i in range(1, 4):\n    print('*' * i)\n```",
-      "options": [
-        "*\\n**\\n***",
-        "1*\\n2*\\n3*",
-        "***\\n**\\n*",
-        "Error: '*' cannot be multiplied by i"
-      ],
-      "correct_answer": "*\\n**\\n***",
-      "explanation": "range(1, 4) produces 1, 2, and 3. The expression '*' * i repeats the asterisk i times, yielding '*', '**', and '***' respectively. Each print adds a newline. This illustrates a common loop pattern: building a pattern or sequence incrementally, which would be tedious to write manually for many iterations."
-    },
-    {
-      "id": "6.1_q13",
-      "type": "fill_in_the_blank",
-      "concept": "why_we_need_loops_syntax",
-      "skill": "syntax",
+      "id": "6.1_cand_5",
+      "type": "multiple_choice",
+      "concept": "why_we_need_loops_analysis",
+      "skill": "reasoning",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.1_q12"
-      ],
-      "prompt": "Loops allow us to execute a block of code repeatedly without writing it out each time. In Python, the keyword used to start a loop is _____. For example: for i in range(3): print('hello')",
-      "correct_answer": "for",
-      "accepted_answers": [
-        "for",
-        "For"
-      ],
-      "explanation": "The 'for' keyword is required to initiate a loop in Python. It tells the interpreter to repeat the indented block of code for each item in a sequence."
-    },
-    {
-      "id": "6.1_q14",
-      "type": "fill_in_the_blank",
-      "concept": "why_we_need_loops_keywords",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q13"
-      ],
-      "prompt": "To make a loop stop before reaching its full range, we can use the _____ keyword inside the loop body. Example: for i in range(5): if i == 3: _____\nprint('done')",
-      "correct_answer": "break",
-      "accepted_answers": [
-        "break",
-        "break;"
-      ],
-      "explanation": "The 'break' keyword immediately exits the loop, skipping any remaining iterations. This is useful when we want to stop early based on a condition."
-    },
-    {
-      "id": "6.1_q15",
-      "type": "code_ordering",
-      "concept": "why_we_need_loops_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q14"
-      ],
-      "prompt": "Reorder the following code lines so they print 'A', 'B', and 'C' on separate lines using a loop:",
+      "prompt": "A junior developer says: \"Writing 5 print() statements is better than a loop because it executes faster and takes fewer concepts.\" Why is this assertion flawed in real-world software?",
       "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
+        "Copy-pasting code cannot adapt when the number of items varies dynamically at runtime",
+        "Python throws a SyntaxError if more than 3 consecutive print() statements are written",
+        "Print statements cannot access variables unless inside a loop",
+        "Loops are converted to C++ by the operating system"
       ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "The loop must come first, iterating over the list. Inside the loop, print(letter) executes once per item, producing the desired output without extra statements."
+      "correct_answer": "Copy-pasting code cannot adapt when the number of items varies dynamically at runtime",
+      "explanation": "Real-world data is dynamic: a cart might have 1 item or 100 items. Hardcoding statements cannot scale to variable inputs, and editing duplicate code multiplies bug risks.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q16",
-      "type": "fill_in_the_blank",
-      "concept": "why_we_need_loops_patterns",
-      "skill": "syntax",
+      "id": "6.1_cand_6",
+      "type": "multiple_choice",
+      "concept": "why_we_need_loops_scenario",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q15"
-      ],
-      "prompt": "When we want to print numbers from 0 up to (but not including) 4, we write: for i in range(____): print(i). This avoids manually typing four separate print statements.",
-      "correct_answer": "4",
-      "accepted_answers": [
-        "4",
-        "4 "
-      ],
-      "explanation": "range(4) generates the sequence 0, 1, 2, 3. Using a loop with range is more efficient and less error-prone than writing print(0), print(1), print(2), print(3) individually."
-    },
-    {
-      "id": "6.1_q17",
-      "type": "code_ordering",
-      "concept": "why_we_need_loops_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q16"
-      ],
-      "prompt": "Arrange these steps to build a simple program that asks for a name and prints it five times:",
+      "prompt": "A stadium turnstile records incoming fans. If 4 fans pass through, which loop structure correctly tallies each attendee into `fans_entered`?",
       "options": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
+        "fans_entered = 0\nfor fan in [1, 2, 3, 4]:\n    fans_entered += 1",
+        "fans_entered = 0\nfor fan in [1, 2, 3, 4]:\n    fans_entered = 1",
+        "fans_entered = [1, 2, 3, 4] + 1",
+        "for fan in 4:\n    fans_entered += 1"
       ],
-      "correct_answer": [
-        "x = 10",
-        "y = 20",
-        "print(x + y)"
-      ],
-      "explanation": "First, capture the input once. Then use a loop to repeat the print action. Placing input inside the loop would prompt the user repeatedly, which is not the intended algorithm."
+      "correct_answer": "fans_entered = 0\nfor fan in [1, 2, 3, 4]:\n    fans_entered += 1",
+      "explanation": "To accumulate, the counter must start before the loop at 0, and increment by 1 inside the loop using `+= 1`. Resetting `fans_entered = 1` inside the loop would lose previous counts.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.1_q18",
-      "type": "fill_in_the_blank",
-      "concept": "why_we_need_loops_idioms",
-      "skill": "syntax",
+      "id": "6.1_cand_7",
+      "type": "multiple_choice",
+      "concept": "why_we_need_loops_scenario",
+      "skill": "application",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q17"
+      "prompt": "An online bakery charges $4 per pastry. A customer orders a box of 6 pastries. Which code snippet computes the total bill of $24 using repeated addition in an accumulator loop?",
+      "options": [
+        "bill = 0\nfor item in range(6):\n    bill += 4",
+        "bill = 4\nfor item in range(6):\n    bill = 4",
+        "bill = 0\nfor item in 6:\n    bill += 4",
+        "bill = range(6) * 4"
       ],
-      "prompt": "A common Python idiom to process every element in a list is: for item in _____: print(item). This replaces the need for an index variable and manual counting.",
-      "correct_answer": "my_list",
-      "accepted_answers": [
-        "my_list",
-        "items",
-        "the_list"
-      ],
-      "explanation": "Iterating directly over a list with 'for item in my_list' is a standard Python idiom. It is cleaner and less error-prone than using range(len(my_list)) with manual indexing."
+      "correct_answer": "bill = 0\nfor item in range(6):\n    bill += 4",
+      "explanation": "`range(6)` iterates exactly 6 times. Starting `bill = 0` and adding 4 each time results in 0 + 4*6 = 24. Integers cannot be iterated directly (`for item in 6:` raises TypeError).",
+      "misconception_tag": "WRONG_TYPE"
     },
     {
-      "id": "6.1_q19",
-      "type": "fix_the_code",
+      "id": "6.1_cand_8",
+      "type": "multiple_choice",
       "concept": "why_we_need_loops_errors",
-      "skill": "debugging",
+      "skill": "diagnosis",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q18"
+      "prompt": "A developer copy-pasted code to calculate prices for 3 departments:\n```python\ndept1_sales = 100\ndept2_sales = 250\ndept3_sales = 400\ntotal = dept1_sales + dept2_sales + dept2_sales\n```\nWhat bug occurred because of copy-pasting instead of looping through a collection?",
+      "options": [
+        "dept2_sales was added twice instead of adding dept3_sales",
+        "Python raised a NameError on dept3_sales",
+        "The variables were converted to strings automatically",
+        "Addition cannot be performed on more than two variables"
       ],
-      "prompt": "A beginner wrote code to print numbers from 1 to 5 but forgot to repeat the print statement. Identify the problem and explain why repetition is needed.",
-      "starter_code": "x = 1\nprint(x)\nx = x + 1\nprint(x)\nx = x + 1\nprint(x)\nx = x + 1\nprint(x)\nx = x + 1\nprint(x)",
-      "solution_code": "for i in range(1, 6):\n    print(i)",
-      "hint": "Consider how many lines are needed to repeat an action and whether this scales to larger ranges.",
-      "explanation": "Writing the same operation multiple times is tedious, error-prone, and does not scale. A loop automates repetition, making code shorter, clearer, and easier to maintain."
+      "correct_answer": "dept2_sales was added twice instead of adding dept3_sales",
+      "explanation": "Copy-pasting variable names is a classic human error: the developer forgot to change the third variable from `dept2_sales` to `dept3_sales`. A loop iterating through `[100, 250, 400]` eliminates this risk entirely.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.1_q20",
+      "id": "6.1_cand_9",
+      "type": "multiple_choice",
+      "concept": "why_we_need_loops_errors",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "Look at this program:\n```python\nfor count in [1, 2, 3]:\n    print(\"Tick\")\nprint(\"Boom!\")\n```\nHow many times does `\"Boom!\"` print, and why?",
+      "options": [
+        "1 time, because print(\"Boom!\") is unindented and outside the loop",
+        "3 times, because all code after a for statement repeats",
+        "0 times, because the loop stops execution",
+        "4 times, once after each tick and once at the end"
+      ],
+      "correct_answer": "1 time, because print(\"Boom!\") is unindented and outside the loop",
+      "explanation": "In Python, code blocks are defined strictly by indentation. Only the indented `print(\"Tick\")` belongs to the loop body and repeats. The unindented `print(\"Boom!\")` runs once after the loop finishes.",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "6.1_cand_10",
+      "type": "multiple_choice",
+      "concept": "why_we_need_loops_pitfalls",
+      "skill": "diagnosis",
+      "difficulty": "medium",
+      "prompt": "A student wrote this loop to sum numbers, but it prints `3` instead of `6`:\n```python\nfor n in [1, 2, 3]:\n    total = 0\n    total += n\nprint(total)\n```\nWhat is the fundamental bug?",
+      "options": [
+        "total = 0 is placed inside the loop, resetting the sum on every iteration",
+        "total += n does not calculate addition",
+        "range(1, 4) should have been used instead of a list",
+        "The print statement is outside the loop"
+      ],
+      "correct_answer": "total = 0 is placed inside the loop, resetting the sum on every iteration",
+      "explanation": "When `total = 0` is inside the loop body, it resets to 0 at the start of every iteration. On the final iteration, it resets to 0 and adds 3, discarding the previous sums. Accumulators must be initialized before the loop.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.1_cand_11",
       "type": "fix_the_code",
       "concept": "why_we_need_loops_fix",
       "skill": "debugging",
       "difficulty": "easy",
-      "prerequisites": [
-        "6.1_q19"
+      "prompt": "The program below prints three separate warning sirens using duplicate lines. Replace the three duplicate print statements with a single for loop that iterates through `[1, 2, 3]` and prints `Siren #1`, `Siren #2`, `Siren #3`.",
+      "starter_code": "print(\"Siren #1\")\nprint(\"Siren #2\")\nprint(\"Siren #3\")",
+      "solution_code": "for num in [1, 2, 3]:\n    print(f\"Siren #{num}\")",
+      "expected_output": "Siren #1\nSiren #2\nSiren #3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Siren #1 through Siren #3 using for loop",
+          "expectedOutput": "Siren #1\nSiren #2\nSiren #3",
+          "assertionPython": "assert _raw_stdout.strip() == 'Siren #1\\nSiren #2\\nSiren #3' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify loop variable num was used",
+          "expectedOutput": "Siren #1\nSiren #2\nSiren #3",
+          "assertionPython": "assert _user_namespace.get('num') == 3",
+          "hidden": true
+        }
       ],
-      "prompt": "Fix the code so it prints the message 'Hello' three times without repeating the print statement manually.",
-      "starter_code": "print('Hello')\nprint('Hello')\nprint('Hello')",
-      "solution_code": "for _ in range(3):\n    print('Hello')",
-      "hint": "Use a loop with range(3) to repeat the print statement exactly three times.",
-      "explanation": "The loop replaces three nearly identical lines with one reusable block. This demonstrates the core benefit of loops: reducing repetition."
+      "explanation": "Using `for num in [1, 2, 3]:` allows us to write `print(f\"Siren #{num}\")` once. The loop automatically substitutes each number, eliminating duplicate lines.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q21",
+      "id": "6.1_cand_12",
       "type": "fix_the_code",
-      "concept": "why_we_need_loops_edge_cases",
+      "concept": "why_we_need_loops_fix",
       "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q20"
+      "difficulty": "easy",
+      "prompt": "The program below attempts to sum daily walking miles `[3, 4, 2]`, but it resets `total_miles` to 0 on every step. Fix it by initializing `total_miles = 0` outside the loop before it begins.",
+      "starter_code": "for miles in [3, 4, 2]:\n    total_miles = 0\n    total_miles += miles\nprint(total_miles)",
+      "solution_code": "total_miles = 0\nfor miles in [3, 4, 2]:\n    total_miles += miles\nprint(total_miles)",
+      "expected_output": "9",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Sums daily miles to 9",
+          "expectedOutput": "9",
+          "assertionPython": "assert _raw_stdout.strip() == '9' and _user_namespace.get('total_miles') == 9"
+        },
+        {
+          "id": "tc_2",
+          "description": "Ensures total_miles is initialized before for statement",
+          "expectedOutput": "9",
+          "assertionPython": "assert _user_code.index('total_miles = 0') < _user_code.index('for ')",
+          "hidden": true
+        }
       ],
-      "prompt": "The code below should print numbers from 0 to 2, but it produces an incorrect result. Correct it.",
-      "starter_code": "for i in range(1, 3):\n    print(i)",
-      "solution_code": "for i in range(0, 3):\n    print(i)",
-      "hint": "Check the start value of range and how it affects which numbers are included.",
-      "explanation": "range(1, 3) yields 1 and 2, skipping 0. Using range(0, 3) includes 0, 1, and 2, which is the intended sequence. Loops let us precisely control repetition boundaries."
+      "explanation": "Moving `total_miles = 0` before the `for` statement ensures the variable preserves its accumulated value across every iteration, producing the correct total of 9.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.1_q22",
+      "id": "6.1_cand_13",
       "type": "fix_the_code",
-      "concept": "why_we_need_loops_runtime",
+      "concept": "why_we_need_loops_syntax",
       "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q21"
+      "difficulty": "easy",
+      "prompt": "Fix the syntax and indentation error in the loop header below so it prints `\"Lap 1\"`, `\"Lap 2\"`, `\"Lap 3\"`.",
+      "starter_code": "for lap in [1, 2, 3]\nprint(f\"Lap {lap}\")",
+      "solution_code": "for lap in [1, 2, 3]:\n    print(f\"Lap {lap}\")",
+      "expected_output": "Lap 1\nLap 2\nLap 3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Lap 1 through Lap 3",
+          "expectedOutput": "Lap 1\nLap 2\nLap 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'Lap 1\\nLap 2\\nLap 3' and 'for lap in [1, 2, 3]:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Loop variable final value is 3",
+          "expectedOutput": "Lap 1\nLap 2\nLap 3",
+          "assertionPython": "assert _user_namespace.get('lap') == 3",
+          "hidden": true
+        }
       ],
-      "prompt": "This program is supposed to greet a user five times, but it fails when run. Diagnose the runtime issue.",
-      "starter_code": "name = input('Enter name: ')\nprint('Hi, ' + name)\nprint('Hi, ' + name)\nprint('Hi, ' + name)\nprint('Hi, ' + name)\nprint('Hi, ' + name)",
-      "solution_code": "name = input('Enter name: ')\nfor _ in range(5):\n    print('Hi, ' + name)",
-      "hint": "Consider what happens if the user enters a very long name or if the requirement changes to 10 greetings.",
-      "explanation": "Hard-coding repeated statements is inflexible and inefficient. If the requirement changes, every line must be edited. A loop centralizes the repetition, improving runtime behavior and maintainability."
+      "explanation": "Every `for` statement must end with a colon `:`, and its body must be indented by 4 spaces.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
-      "id": "6.1_q23",
+      "id": "6.1_cand_14",
       "type": "fix_the_code",
       "concept": "why_we_need_loops_logic_repair",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q22"
+      "prompt": "A warehouse needs to print countdown tags: `3`, `2`, `1`. The code below iterates in ascending order instead. Change the list so it counts down from 3 to 1.",
+      "starter_code": "for tag in [1, 2, 3]:\n    print(tag)",
+      "solution_code": "for tag in [3, 2, 1]:\n    print(tag)",
+      "expected_output": "3\n2\n1",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints countdown 3, 2, 1",
+          "expectedOutput": "3\n2\n1",
+          "assertionPython": "assert _raw_stdout.strip() == '3\\n2\\n1'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verify last tag is 1",
+          "expectedOutput": "3\n2\n1",
+          "assertionPython": "assert _user_namespace.get('tag') == 1",
+          "hidden": true
+        }
       ],
-      "prompt": "Repair the logic so the program prints 'Even' for every even number from 2 to 8 and 'Odd' for every odd number from 2 to 8.",
-      "starter_code": "for num in [2, 3, 4, 5, 6, 7, 8]:\n    if num % 2 == 0:\n        print('Odd')\n    else:\n        print('Even')",
-      "solution_code": "for num in [2, 3, 4, 5, 6, 7, 8]:\n    if num % 2 == 0:\n        print('Even')\n    else:\n        print('Odd')",
-      "hint": "The labels 'Even' and 'Odd' are swapped in the if-else block.",
-      "explanation": "Loops allow us to iterate over a collection and apply conditional logic to each item. Without a loop, we would need separate if-else blocks for every number."
+      "explanation": "Loops iterate through sequences in their defined order. Reversing the list to `[3, 2, 1]` outputs the numbers descending.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q24",
+      "id": "6.1_cand_15",
       "type": "fix_the_code",
-      "concept": "why_we_need_loops_optimization",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.1_q23"
+      "concept": "why_we_need_loops_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "The code below attempts to multiply quantities `[2, 3, 4]` together, but mistakenly uses `+=` instead of `*=`, and starts at 0. Fix `product` to start at `1` and multiply each factor.",
+      "starter_code": "product = 0\nfor factor in [2, 3, 4]:\n    product += factor\nprint(product)",
+      "solution_code": "product = 1\nfor factor in [2, 3, 4]:\n    product *= factor\nprint(product)",
+      "expected_output": "24",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Computes product of 2, 3, 4 as 24",
+          "expectedOutput": "24",
+          "assertionPython": "assert _raw_stdout.strip() == '24' and _user_namespace.get('product') == 24"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies multiplicative identity 1 initialization",
+          "expectedOutput": "24",
+          "assertionPython": "assert 'product = 1' in _user_code",
+          "hidden": true
+        }
       ],
-      "prompt": "Refactor this code to avoid duplication and improve performance when generating a list of squares from 1 to 100.",
-      "starter_code": "squares = []\nfor i in range(1, 101):\n    squares.append(i * i)\nprint(squares)\nfor i in range(1, 101):\n    squares.append(i * i)\nprint(squares)",
-      "solution_code": "def build_squares(n):\n    return [i * i for i in range(1, n + 1)]\n\nsquares = build_squares(100)\nprint(squares)\nprint(squares)",
-      "hint": "Extract the repeated logic into a reusable function and use a list comprehension for cleaner, faster construction.",
-      "explanation": "The original code repeats the same loop twice and uses imperative append style. By extracting a function and using a list comprehension, we reduce duplication, improve readability, and leverage Python's optimized internal iteration."
+      "explanation": "Multiplicative accumulators must start at 1 (the identity property of multiplication), not 0 (0 * anything is 0). Inside the loop, use `product *= factor`.",
+      "misconception_tag": "WRONG_OPERATOR"
     },
     {
-      "id": "6.1_q25",
+      "id": "6.1_cand_16",
+      "type": "fix_the_code",
+      "concept": "why_we_need_loops_logic_repair",
+      "skill": "debugging",
+      "difficulty": "medium",
+      "prompt": "The code below prints all numbers concatenated on one line instead of separate lines. Use a loop over `[10, 20, 30]` to print each number on its own line.",
+      "starter_code": "print(\"10 20 30\")",
+      "solution_code": "for val in [10, 20, 30]:\n    print(val)",
+      "expected_output": "10\n20\n30",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints 10, 20, 30 across three lines",
+          "expectedOutput": "10\n20\n30",
+          "assertionPython": "assert _raw_stdout.strip() == '10\\n20\\n30' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Check final variable value is 30",
+          "expectedOutput": "10\n20\n30",
+          "assertionPython": "assert _user_namespace.get('val') == 30",
+          "hidden": true
+        }
+      ],
+      "explanation": "Calling `print(val)` inside a `for` loop automatically prints each element on a new line because `print()` ends with a newline by default.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.1_cand_17",
       "type": "write_the_code",
       "concept": "why_we_need_loops_implementation",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q24"
-      ],
-      "prompt": "Write a Python program that prints the numbers from 1 to 5 on separate lines using a loop. Avoid writing five separate print statements.",
-      "starter_code": "for i in range(1, 6):\n    print(i)",
-      "solution_code": "for i in range(1, 6):\n    print(i)",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "An airport gate system announces boarding for groups `[\"A\", \"B\", \"C\"]`. Write a `for` loop that iterates over `[\"A\", \"B\", \"C\"]` using variable `grp` and prints `Boarding Group A`, `Boarding Group B`, `Boarding Group C`.",
+      "starter_code": "# Write a for loop over [\"A\", \"B\", \"C\"]\n",
+      "solution_code": "for grp in [\"A\", \"B\", \"C\"]:\n    print(f\"Boarding Group {grp}\")",
+      "expected_output": "Boarding Group A\nBoarding Group B\nBoarding Group C",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "1\n2\n3\n4\n5\n"
+          "id": "tc_1",
+          "description": "Announces Boarding Group A, B, C",
+          "expectedOutput": "Boarding Group A\nBoarding Group B\nBoarding Group C",
+          "assertionPython": "assert _raw_stdout.strip() == 'Boarding Group A\\nBoarding Group B\\nBoarding Group C' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies grp variable holds \"C\" at conclusion",
+          "expectedOutput": "Boarding Group A\nBoarding Group B\nBoarding Group C",
+          "assertionPython": "assert _user_namespace.get('grp') == 'C'",
+          "hidden": true
         }
       ],
-      "hint": "Use a for loop with range() to iterate through the desired sequence of numbers.",
-      "explanation": "Without a loop, you would need to write print(1), print(2), print(3), print(4), print(5) separately. A loop allows one block of code to execute repeatedly, saving time and reducing errors when the task is repetitive."
+      "explanation": "`for grp in [\"A\", \"B\", \"C\"]:` binds `grp` to `\"A\"`, `\"B\"`, and `\"C\"` in sequence, printing the formatted announcement for each group.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q26",
+      "id": "6.1_cand_18",
       "type": "write_the_code",
-      "concept": "why_we_need_loops_practical",
-      "skill": "application",
-      "difficulty": "medium",
-      "prerequisites": [
-        "6.1_q25"
-      ],
-      "prompt": "Write a Python program that greets a user by name five times using a loop. Store the name in a variable first.",
-      "starter_code": "name = 'Alex'\nfor i in range(5):\n    print('Hello', name)",
-      "solution_code": "name = 'Alex'\nfor i in range(5):\n    print('Hello', name)",
+      "concept": "why_we_need_loops_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "A security sensor sounds 4 warning beeps. Write a `for` loop iterating over `[1, 2, 3, 4]` with variable `beep` that prints `Beep 1!`, `Beep 2!`, `Beep 3!`, `Beep 4!`.",
+      "starter_code": "# Loop over [1, 2, 3, 4] and print Beep {beep}!\n",
+      "solution_code": "for beep in [1, 2, 3, 4]:\n    print(f\"Beep {beep}!\")",
+      "expected_output": "Beep 1!\nBeep 2!\nBeep 3!\nBeep 4!",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Hello Alex\nHello Alex\nHello Alex\nHello Alex\nHello Alex\n"
+          "id": "tc_1",
+          "description": "Outputs Beep 1! through Beep 4!",
+          "expectedOutput": "Beep 1!\nBeep 2!\nBeep 3!\nBeep 4!",
+          "assertionPython": "assert _raw_stdout.strip() == 'Beep 1!\\nBeep 2!\\nBeep 3!\\nBeep 4!' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies beep reaches 4",
+          "expectedOutput": "Beep 1!\nBeep 2!\nBeep 3!\nBeep 4!",
+          "assertionPython": "assert _user_namespace.get('beep') == 4",
+          "hidden": true
         }
       ],
-      "hint": "Define the name variable before the loop, then use the loop to repeat the greeting.",
-      "explanation": "Loops are practical when a task must be performed multiple times with the same logic. Changing the name variable allows you to reuse the same loop structure for different users without rewriting code."
+      "explanation": "The loop executes 4 times, dynamically inserting the iteration number into the f-string.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
     },
     {
-      "id": "6.1_q27",
+      "id": "6.1_cand_19",
       "type": "write_the_code",
-      "concept": "why_we_need_loops_advanced",
-      "skill": "application",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.1_q26"
-      ],
-      "prompt": "Write a Python program that asks the user for a number and then prints the multiplication table for that number from 1 to 10. Use a loop to avoid writing ten separate print statements.",
-      "starter_code": "n = int(input('Enter a number: '))\n# TODO: complete the loop below\nfor i in range(1, 11):\n    print(n, 'x', i, '=', n * i)",
-      "solution_code": "n = int(input('Enter a number: '))\nfor i in range(1, 11):\n    print(n, 'x', i, '=', n * i)",
+      "concept": "why_we_need_loops_accumulation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Given `prices = [12, 25, 8]`, initialize `total = 0`, write a `for` loop over `prices` that adds each price to `total`, and then print `total` once at the end.",
+      "starter_code": "prices = [12, 25, 8]\n# Initialize total and accumulate sum\n",
+      "solution_code": "prices = [12, 25, 8]\ntotal = 0\nfor price in prices:\n    total += price\nprint(total)",
+      "expected_output": "45",
       "test_cases": [
         {
-          "input": "7",
-          "expected_output": "7 x 1 = 7\n7 x 2 = 14\n7 x 3 = 21\n7 x 4 = 28\n7 x 5 = 35\n7 x 6 = 42\n7 x 7 = 49\n7 x 8 = 56\n7 x 9 = 63\n7 x 10 = 70\n"
+          "id": "tc_1",
+          "description": "Computes total price of 45",
+          "expectedOutput": "45",
+          "assertionPython": "assert _raw_stdout.strip() == '45' and _user_namespace.get('total') == 45 and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies accumulation was performed with a loop",
+          "expectedOutput": "45",
+          "assertionPython": "assert 'total = 0' in _user_code and 'for ' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "The for loop already iterates from 1 to 10. Inside the loop, compute the product and print it using the variable n and the loop variable i.",
-      "explanation": "As the range of repetition grows, manually duplicating code becomes impractical and error-prone. A loop scales cleanly: whether you need 10 lines or 10,000 lines, the same loop structure applies. This demonstrates why loops are essential for handling repetitive tasks efficiently."
+      "explanation": "`total` is initialized to 0. During each loop iteration, `total += price` accumulates the next price. Finally, `print(total)` prints 45.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
     },
     {
-      "id": "6.1_q28",
+      "id": "6.1_cand_20",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given `words = [\"cat\", \"elephant\", \"dog\"]`, write a loop that prints the word and its length using `len(word)` in the format: `{word}: {length}`.",
+      "starter_code": "words = [\"cat\", \"elephant\", \"dog\"]\n# Loop over words and print word: length\n",
+      "solution_code": "words = [\"cat\", \"elephant\", \"dog\"]\nfor word in words:\n    print(f\"{word}: {len(word)}\")",
+      "expected_output": "cat: 3\nelephant: 8\ndog: 3",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints words and lengths",
+          "expectedOutput": "cat: 3\nelephant: 8\ndog: 3",
+          "assertionPython": "assert _raw_stdout.strip() == 'cat: 3\\nelephant: 8\\ndog: 3' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Last processed word is dog",
+          "expectedOutput": "cat: 3\nelephant: 8\ndog: 3",
+          "assertionPython": "assert _user_namespace.get('word') == 'dog'",
+          "hidden": true
+        }
+      ],
+      "explanation": "For each word in `words`, `len(word)` calculates the number of characters, which is formatted cleanly using an f-string.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.1_cand_21",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A quality inspector checks bottle weights `[505, 498, 510, 495]`. Starting with `overweight_count = 0`, write a `for` loop that checks each weight: if `weight > 500`, increment `overweight_count` by 1. Print `overweight_count` at the end.",
+      "starter_code": "weights = [505, 498, 510, 495]\noverweight_count = 0\n# Loop through weights and increment if weight > 500\n",
+      "solution_code": "weights = [505, 498, 510, 495]\noverweight_count = 0\nfor weight in weights:\n    if weight > 500:\n        overweight_count += 1\nprint(overweight_count)",
+      "expected_output": "2",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Counts 2 overweight bottles",
+          "expectedOutput": "2",
+          "assertionPython": "assert _raw_stdout.strip() == '2' and _user_namespace.get('overweight_count') == 2 and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies conditional statement inside loop",
+          "expectedOutput": "2",
+          "assertionPython": "assert 'if ' in _user_code and 'weight > 500' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "Combining a loop with an `if` statement allows selective counting: only weights strictly exceeding 500 increment the accumulator.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "6.1_cand_22",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given prices `[20, 50, 100]`, a 10% sales tax is calculated on each. Write a loop that calculates and prints each tax amount (`price * 0.1`) formatted to 1 decimal place: `Tax: ${tax:.1f}`.",
+      "starter_code": "prices = [20, 50, 100]\n# Loop over prices and print Tax: ${price * 0.1:.1f}\n",
+      "solution_code": "prices = [20, 50, 100]\nfor price in prices:\n    tax = price * 0.1\n    print(f\"Tax: ${tax:.1f}\")",
+      "expected_output": "Tax: $2.0\nTax: $5.0\nTax: $10.0",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints tax for 20, 50, 100",
+          "expectedOutput": "Tax: $2.0\nTax: $5.0\nTax: $10.0",
+          "assertionPython": "assert _raw_stdout.strip() == 'Tax: $2.0\\nTax: $5.0\\nTax: $10.0' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Last price evaluated is 100",
+          "expectedOutput": "Tax: $2.0\nTax: $5.0\nTax: $10.0",
+          "assertionPython": "assert _user_namespace.get('price') == 100",
+          "hidden": true
+        }
+      ],
+      "explanation": "Each price is multiplied by 0.1 in the loop body, then formatted with `:.1f` to guarantee a single decimal digit.",
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+    },
+    {
+      "id": "6.1_cand_23",
+      "type": "write_the_code",
+      "concept": "why_we_need_loops_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "Given players `[\"Alice\", \"Bob\", \"Charlie\"]`, initialize `team_roster = \"Team: \"` before the loop. In the loop, append each player followed by a space to `team_roster`. After the loop, print `team_roster.strip()`.",
+      "starter_code": "players = [\"Alice\", \"Bob\", \"Charlie\"]\nteam_roster = \"Team: \"\n# Append each player and a space, then print stripped\n",
+      "solution_code": "players = [\"Alice\", \"Bob\", \"Charlie\"]\nteam_roster = \"Team: \"\nfor player in players:\n    team_roster += player + \" \"\nprint(team_roster.strip())",
+      "expected_output": "Team: Alice Bob Charlie",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Constructs team roster string",
+          "expectedOutput": "Team: Alice Bob Charlie",
+          "assertionPython": "assert _raw_stdout.strip() == 'Team: Alice Bob Charlie' and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies final variable team_roster",
+          "expectedOutput": "Team: Alice Bob Charlie",
+          "assertionPython": "assert 'Charlie' in _user_namespace.get('team_roster', '')",
+          "hidden": true
+        }
+      ],
+      "explanation": "Strings can also accumulate data across loop iterations using string concatenation (`+=`). `.strip()` removes the trailing space at the end.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+    },
+    {
+      "id": "6.1_cand_24",
       "type": "write_the_code",
       "concept": "why_we_need_loops_challenge",
-      "skill": "problem_solving",
-      "difficulty": "hard",
-      "prerequisites": [
-        "6.1_q27"
-      ],
-      "prompt": "Write a Python program that prints only the even numbers from 1 to 10 using a loop. Do not use a list or filter function.",
-      "starter_code": "for num in range(1, 11):\n    # TODO: add condition to print only even numbers\n    pass",
-      "solution_code": "for num in range(1, 11):\n    if num % 2 == 0:\n        print(num)",
-      "test_cases": [
-        {
-          "input": "",
-          "expected_output": "2\n4\n6\n8\n10\n"
-        }
-      ],
-      "hint": "Use the modulo operator % inside the loop to check if a number is divisible by 2 with no remainder.",
-      "explanation": "This challenge requires combining a loop with a conditional check. It reinforces that loops are not just for blind repetition; they can be paired with logic to selectively execute code, which is a common real-world pattern."
-    },
-    {
-      "id": "6.1_q29",
-      "type": "write_the_code",
-      "concept": "why_we_need_loops_scenario",
       "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.1_q28"
-      ],
-      "prompt": "You are building a simple attendance tracker. Write a Python program that reads a list of 5 student names and prints a welcome message for each one using a loop. This simulates processing each record in a database without writing separate print statements for every student.",
-      "starter_code": "students = ['Priya', 'Liam', 'Sofia', 'Noah', 'Emma']\n# TODO: use a loop to print a welcome message for each student\nprint('Done')",
-      "solution_code": "students = ['Priya', 'Liam', 'Sofia', 'Noah', 'Emma']\nfor name in students:\n    print('Welcome,', name, '!')\nprint('Done')",
+      "prompt": "A cinema box office processes ticket ages: `ages = [15, 8, 65]`. Children under 12 (`< 12`) pay $8, seniors 60 and older (`>= 60`) pay $9, and adults pay $14. Write a loop that sums the prices into `total_revenue`, and prints `Total: ${total_revenue}`.",
+      "starter_code": "ages = [15, 8, 65]\ntotal_revenue = 0\n# Determine price per age and add to total_revenue\n",
+      "solution_code": "ages = [15, 8, 65]\ntotal_revenue = 0\nfor age in ages:\n    if age < 12:\n        total_revenue += 8\n    elif age >= 60:\n        total_revenue += 9\n    else:\n        total_revenue += 14\nprint(f\"Total: ${total_revenue}\")",
+      "expected_output": "Total: $31",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Welcome, Priya !\nWelcome, Liam !\nWelcome, Sofia !\nWelcome, Noah !\nWelcome, Emma !\nDone\n"
+          "id": "tc_1",
+          "description": "Computes total ticket revenue $31 (14 + 8 + 9)",
+          "expectedOutput": "Total: $31",
+          "assertionPython": "assert _raw_stdout.strip() == 'Total: $31' and _user_namespace.get('total_revenue') == 31 and 'for ' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying branch logic inside loop",
+          "expectedOutput": "Total: $31",
+          "assertionPython": "assert 'if ' in _user_code and 'elif ' in _user_code",
+          "hidden": true
         }
       ],
-      "hint": "Iterate over the students list and print a formatted string that includes each name.",
-      "explanation": "In real-world software, data sets often contain hundreds or thousands of items. A loop allows a program to process each record uniformly. Without loops, scaling such a task would require exponentially more code and maintenance effort."
+      "explanation": "The loop executes for each age: 15 is an adult ($14), 8 is a child ($8), 65 is a senior ($9). 14 + 8 + 9 = 31 total revenue.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
-      "id": "6.1_q30",
+      "id": "6.1_cand_25",
       "type": "write_the_code",
       "concept": "why_we_need_loops_mastery",
-      "skill": "mastery",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "6.1_q29"
-      ],
-      "prompt": "Write a Python function called repeat_greeting that takes a name and a count, then prints 'Hello, [name]' exactly count times using a loop. Do not hardcode the number of prints inside the function body.",
-      "starter_code": "def repeat_greeting(name, count):\n    # TODO: implement the loop here\n    pass\n\n# Example usage:\nrepeat_greeting('Sam', 3)",
-      "solution_code": "def repeat_greeting(name, count):\n    for i in range(count):\n        print('Hello,', name, '!')\n\n# Example usage:\nrepeat_greeting('Sam', 3)",
+      "prompt": "A fitness app tracks daily steps for 5 days: `daily_steps = [8000, 10500, 7200, 11000, 9500]`. Calculate two metrics using a single loop:\n1. `total_steps`: the sum of all steps.\n2. `goal_days`: the count of days where steps were at least 10,000 (`>= 10000`).\nPrint `Total: {total_steps}, Goal Days: {goal_days}`.",
+      "starter_code": "daily_steps = [8000, 10500, 7200, 11000, 9500]\ntotal_steps = 0\ngoal_days = 0\n# Accumulate total_steps and count goal_days in one loop\n",
+      "solution_code": "daily_steps = [8000, 10500, 7200, 11000, 9500]\ntotal_steps = 0\ngoal_days = 0\nfor steps in daily_steps:\n    total_steps += steps\n    if steps >= 10000:\n        goal_days += 1\nprint(f\"Total: {total_steps}, Goal Days: {goal_days}\")",
+      "expected_output": "Total: 46200, Goal Days: 2",
       "test_cases": [
         {
-          "input": "",
-          "expected_output": "Hello, Sam !\nHello, Sam !\nHello, Sam !\n"
+          "id": "tc_1",
+          "description": "Computes total steps 46200 and 2 goal days",
+          "expectedOutput": "Total: 46200, Goal Days: 2",
+          "assertionPython": "assert _raw_stdout.strip() == 'Total: 46200, Goal Days: 2' and _user_namespace.get('total_steps') == 46200 and _user_namespace.get('goal_days') == 2"
+        },
+        {
+          "id": "tc_2",
+          "description": "Verifies single loop iteration design",
+          "expectedOutput": "Total: 46200, Goal Days: 2",
+          "assertionPython": "assert _user_code.count('for ') == 1",
+          "hidden": true
         }
       ],
-      "hint": "Use a for loop that runs count times. Inside the loop, print the greeting using the parameters passed to the function.",
-      "explanation": "This mastery item demonstrates abstraction and reusability. By encapsulating repetition inside a function with parameters, you show that loops are the foundation of scalable, maintainable code. Hardcoding repetitions would make the function inflexible and violate the DRY (Don't Repeat Yourself) principle."
+      "explanation": "A single loop maintains two distinct accumulators: `total_steps` adds the step count unconditionally, while `goal_days` increments only when the daily threshold `>= 10000` is satisfied.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     }
-  ],
-  "unit_num": 6,
-  "learning_objectives": [
-    "Construct iterative loops using Why We Need Loops with proper loop bounds",
-    "Trace variable mutation across loop iterations",
-    "Prevent and debug infinite loop execution bugs",
-    "Apply loop control statements (break and continue) to control execution flow"
-  ],
-  "prerequisites": [
-    "5.6"
   ]
 }

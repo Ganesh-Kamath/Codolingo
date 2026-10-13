@@ -1,579 +1,560 @@
 {
   "lesson_id": "5.4",
   "title": "Nested Conditions",
-  "unit": "Conditional Logic",
+  "unit": "unit_05",
   "items": [
     {
       "id": "5.4_q1",
       "type": "micro_lesson",
       "concept": "nested_conditions_basics",
-      "skill": "recognition",
+      "skill": "mental_model",
       "difficulty": "easy",
-      "prerequisites": [],
-      "title": "What Are Nested Conditions?",
-      "content": "Nested conditions occur when one conditional statement (like an if statement) is placed inside another conditional statement. This allows you to check multiple criteria in a specific order. For example, you might first check if a user is logged in, and only if they are, check if they have admin privileges. In Python, you simply indent the inner if block under the outer if block. Proper indentation is critical because Python uses indentation to define code blocks.",
-      "prompt": "",
-      "explanation": "Conditional branching with `if`, `elif`, and `else` controls program execution paths. Indentation defines the statement block that executes when a condition evaluates to True."
+      "title": "Nested Conditions: Decisions Inside Decisions",
+      "content": "# Nested Conditions\n\nA conditional statement placed inside another conditional statement is called a **nested condition**.\n\n```python\nheight = 135\nage = 10\nif height >= 120:\n    if age >= 12:\n        print(\"Ride Alone\")\n    else:\n        print(\"Ride with Adult\")\nelse:\n    print(\"Too Short to Ride\")\n```\n\n### 3 Core Rules of Nested Conditions:\n1. **The Outer Gatekeeper:** The inner `if` condition is only ever evaluated if the outer `if` condition evaluates to `True`.\n2. **Indentation Multiplies:** Outer block statements are indented 4 spaces. Statements inside the inner block are indented 8 spaces.\n3. **Else Matches Its Indentation Level:** An `else` clause always pairs with the `if` at the exact same indentation column.",
+      "explanation": "Nested conditions allow multi-level hierarchical decision-making, where inner checks only execute when outer checks succeed."
     },
     {
       "id": "5.4_q2",
       "type": "multiple_choice",
-      "concept": "nested_conditions_basics",
+      "concept": "nested_conditions_flow",
       "skill": "recall",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q1"
-      ],
-      "prompt": "Which statement best describes a nested condition in Python?",
+      "prompt": "Under what circumstance will Python evaluate an inner (nested) `if` condition?",
       "options": [
-        "A condition that runs after a loop finishes",
-        "An if statement placed inside another if statement",
-        "Two separate if statements written on the same line",
-        "A condition that only checks for equality"
+        "Only if the outer if condition evaluates to True",
+        "Whenever the inner if condition is True, regardless of the outer if",
+        "At the same time as the outer condition in parallel",
+        "Only if the outer else block runs"
       ],
-      "correct_answer": "An if statement placed inside another if statement",
-      "explanation": "A nested condition is defined by placing one conditional statement within another. This structure enables layered decision-making, such as checking a primary condition before evaluating a secondary one."
+      "correct_answer": "Only if the outer if condition evaluates to True",
+      "explanation": "The inner if statement lives inside the indented body of the outer if statement. It is only reached if the outer condition evaluates to True.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.4_q3",
-      "type": "micro_lesson",
-      "concept": "nested_conditions_syntax",
-      "skill": "understanding",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q2"
+      "type": "output_prediction",
+      "concept": "nested_conditions_execution",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the theme park ride admission code:\n```python\nheight = 135\nage = 10\nif height >= 120:\n    if age >= 12:\n        print(\"Ride Alone\")\n    else:\n        print(\"Ride with Adult\")\nelse:\n    print(\"Too Short\")\n```\nWhat will this print?",
+      "code_snippet": "height = 135\nage = 10\nif height >= 120:\n    if age >= 12:\n        print(\"Ride Alone\")\n    else:\n        print(\"Ride with Adult\")\nelse:\n    print(\"Too Short\")",
+      "options": [
+        "Ride with Adult",
+        "Ride Alone",
+        "Too Short",
+        "Ride Alone\nRide with Adult"
       ],
-      "title": "Syntax and Indentation Rules",
-      "content": "When writing nested conditions in Python, follow these syntax rules:\n1. Use the `if` keyword to start a condition.\n2. Indent the inner block (typically 4 spaces) so Python recognizes it as belonging to the outer block.\n3. You may use `elif` and `else` at the same indentation level as the outer `if`.\nHere is an example:\n```python\nage = 16\nhas_license = True\n\nif age >= 18:\n    print(\"Adult\")\nelse:\n    if has_license and age >= 16:\n        print(\"Can drive\")\n    else:\n        print(\"Cannot drive\")\n```\nNotice how the inner `if` is indented under the outer `else`. Without correct indentation, Python raises an `IndentationError`.",
-      "prompt": "",
-      "explanation": "When writing nested conditions in Python, follow these syntax rules:\n1. Mastering these rules prevents runtime errors and establishes robust programming foundations."
+      "correct_answer": "Ride with Adult",
+      "explanation": "135 >= 120 is True, entering the outer block. Inside, 10 >= 12 is False, triggering the inner else block to print \"Ride with Adult\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.4_q4",
-      "type": "multiple_choice",
-      "concept": "nested_conditions_syntax",
-      "skill": "reasoning",
+      "type": "output_prediction",
+      "concept": "nested_conditions_edge_cases",
+      "skill": "prediction",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q3"
-      ],
-      "prompt": "Given the following code, what will be printed if age = 16 and has_license = True?\n```python\nage = 16\nhas_license = True\n\nif age >= 18:\n    print(\"Adult\")\nelse:\n    if has_license and age >= 16:\n        print(\"Can drive\")\n    else:\n        print(\"Cannot drive\")\n```",
+      "prompt": "Look at the user portal authentication check:\n```python\nhas_account = False\nis_admin = True\nif has_account:\n    if is_admin:\n        print(\"Admin Portal\")\n    else:\n        print(\"User Portal\")\nelse:\n    print(\"Please Register\")\n```\nWhat will this print?",
+      "code_snippet": "has_account = False\nis_admin = True\nif has_account:\n    if is_admin:\n        print(\"Admin Portal\")\n    else:\n        print(\"User Portal\")\nelse:\n    print(\"Please Register\")",
       "options": [
-        "Adult",
-        "Can drive",
-        "Cannot drive",
-        "IndentationError"
+        "Please Register",
+        "Admin Portal",
+        "User Portal",
+        "Admin Portal\nPlease Register"
       ],
-      "correct_answer": "Can drive",
-      "explanation": "Since age is 16, the first condition `age >= 18` is False, so the code enters the `else` block. Inside the `else`, the nested condition `has_license and age >= 16` evaluates to True, so it prints 'Can drive'."
+      "correct_answer": "Please Register",
+      "explanation": "Because has_account is False, the outer condition fails immediately. Python skips the entire inner block (even though is_admin is True) and executes the outer else block.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.4_q5",
-      "type": "multiple_choice",
-      "concept": "nested_conditions_matching",
-      "skill": "recognition",
+      "type": "fill_in_the_blank",
+      "concept": "nested_conditions_keywords",
+      "skill": "syntax",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q4"
+      "prompt": "Complete the nested check to verify user password:\n```python\nif user_exists:\n    ____ password_correct:\n        print(\"Access Granted\")\n```",
+      "accepted_answers": [
+        "if"
       ],
-      "prompt": "Match each scenario to its correct nested condition structure.",
-      "options": [
-        "if age >= 18: if has_license: print(\"Drive\")",
-        "if age >= 18: print(\"Adult\") else: if has_license: print(\"Drive\")",
-        "if has_license: if age >= 18: print(\"Adult\")",
-        "if age >= 18: print(\"Adult\") if has_license: print(\"Drive\")"
-      ],
-      "correct_answer": "if age >= 18: print(\"Adult\") else: if has_license: print(\"Drive\")",
-      "explanation": "This option correctly uses an outer check for adulthood and a nested check for driving eligibility only when the person is not an adult. Option A lacks an else and is incomplete. Option C reverses the logic. Option D is syntactically invalid because it places a statement after another without proper block structure."
+      "correct_answer": "if",
+      "explanation": "An `if` statement can be nested directly inside the indented block of an outer `if` statement.",
+      "misconception_tag": "SYNTAX_ERROR"
     },
     {
       "id": "5.4_q6",
       "type": "multiple_choice",
-      "concept": "nested_conditions_pitfalls",
-      "skill": "comprehension",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q5"
-      ],
-      "prompt": "Which of the following is a common pitfall when writing nested conditions in Python?",
+      "concept": "nested_conditions_simplification",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "When can a nested conditional structure like:\n```python\nif is_weekend:\n    if is_sunny:\n        print(\"Beach Day\")\n```\nbe safely rewritten as `if is_weekend and is_sunny:`?",
       "options": [
-        "Using too many elif statements instead of nesting",
-        "Forgetting to indent the inner if block, causing an IndentationError",
-        "Using parentheses around conditions, which is always required",
-        "Placing the inner else at the same indentation as the outer if"
+        "When there are no intermediate else blocks or separate operations between the two checks",
+        "Only when both variables are integer numbers",
+        "Whenever the code has fewer than 10 lines",
+        "It can never be rewritten because and has different boolean logic"
       ],
-      "correct_answer": "Forgetting to indent the inner if block, causing an IndentationError",
-      "explanation": "Python relies on indentation to define blocks. If the inner if statement is not indented under the outer if or else, Python cannot determine the block structure and raises an IndentationError. While option D describes a real syntax issue, option B is the most common and fundamental pitfall for beginners learning nested conditions."
+      "correct_answer": "When there are no intermediate else blocks or separate operations between the two checks",
+      "explanation": "If neither check requires an intermediate else or side-effect, nesting can be cleanly flattened into a single compound condition using `and`.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.4_q7",
-      "type": "code_prediction",
-      "concept": "nested_conditions_execution",
+      "type": "output_prediction",
+      "concept": "nested_conditions_tracing",
       "skill": "prediction",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q6"
-      ],
-      "prompt": "What will the following Python code print?\n\n```python\nage = 18\nif age >= 18:\n    if age < 25:\n        print('Young Adult')\n    else:\n        print('Adult')\nelse:\n    print('Minor')\n```",
+      "difficulty": "medium",
+      "prompt": "Look at the airport gate boarding check:\n```python\nhas_ticket = True\nhas_passport = False\nif has_ticket:\n    if has_passport:\n        print(\"Board Flight\")\n    else:\n        print(\"Need Passport\")\nelse:\n    print(\"Need Ticket\")\n```\nWhat will this print?",
+      "code_snippet": "has_ticket = True\nhas_passport = False\nif has_ticket:\n    if has_passport:\n        print(\"Board Flight\")\n    else:\n        print(\"Need Passport\")\nelse:\n    print(\"Need Ticket\")",
       "options": [
-        "Young Adult",
-        "Adult",
-        "Minor",
-        "Error"
+        "Need Passport",
+        "Board Flight",
+        "Need Ticket",
+        "Board Flight\nNeed Passport"
       ],
-      "correct_answer": "Young Adult",
-      "explanation": "The outer condition `age >= 18` is True (18 >= 18). Then the inner condition `age < 25` is also True (18 < 25). Therefore, 'Young Adult' is printed. The `else` blocks are skipped."
+      "correct_answer": "Need Passport",
+      "explanation": "has_ticket is True, so execution enters the outer block. Inside, has_passport is False, so the inner else runs, printing \"Need Passport\".",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     },
     {
       "id": "5.4_q8",
-      "type": "output_prediction",
-      "concept": "nested_conditions_execution",
-      "skill": "prediction",
+      "type": "multiple_choice",
+      "concept": "nested_conditions_debugging",
+      "skill": "diagnosis",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q7"
-      ],
-      "prompt": "What is the output of the following code?\n\n```python\nx = 10\ny = 5\nif x > y:\n    if x % y == 0:\n        print('Divisible')\n    else:\n        print('Not Divisible')\nelse:\n    print('x is not greater than y')\n```",
+      "prompt": "In Python, how does the interpreter determine which `if` statement an `else` clause belongs to?",
       "options": [
-        "Divisible",
-        "Not Divisible",
-        "x is not greater than y",
-        "Error"
+        "By matching the exact indentation column level of the else clause with the preceding if",
+        "It always binds to the outermost if statement regardless of indentation",
+        "It always binds to the closest previous if statement regardless of indentation",
+        "It uses curly braces and semicolons"
       ],
-      "correct_answer": "Divisible",
-      "explanation": "`x > y` evaluates to True (10 > 5). Then `x % y == 0` evaluates to True (10 % 5 == 0). Since both conditions are satisfied, 'Divisible' is printed. The modulo operator checks for remainder; 10 divided by 5 leaves no remainder."
+      "correct_answer": "By matching the exact indentation column level of the else clause with the preceding if",
+      "explanation": "Python resolves the \"dangling else\" ambiguity strictly by indentation: an else binds to the if statement aligned at the same indentation level.",
+      "misconception_tag": "INDENTATION_ERROR"
     },
     {
       "id": "5.4_q9",
-      "type": "code_prediction",
-      "concept": "nested_conditions_flow",
+      "type": "output_prediction",
+      "concept": "nested_conditions_runtime",
       "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q8"
-      ],
-      "prompt": "What will be printed by this code?\n\n```python\nscore = 72\nif score >= 60:\n    if score < 80:\n        print('Pass')\n        print('Good job')\n    else:\n        print('Pass')\n        print('Excellent')\nelse:\n    print('Fail')\n```",
+      "difficulty": "easy",
+      "prompt": "Look at the ATM cash withdrawal validation:\n```python\nis_active = True\nbalance = 100\nif is_active:\n    if balance >= 50:\n        print(\"Dispense Cash\")\n    else:\n        print(\"Low Balance\")\nelse:\n    print(\"Account Frozen\")\n```\nWhat will this print?",
+      "code_snippet": "is_active = True\nbalance = 100\nif is_active:\n    if balance >= 50:\n        print(\"Dispense Cash\")\n    else:\n        print(\"Low Balance\")\nelse:\n    print(\"Account Frozen\")",
       "options": [
-        "Pass\nGood job",
-        "Pass\nExcellent",
-        "Fail",
-        "Error"
+        "Dispense Cash",
+        "Low Balance",
+        "Account Frozen",
+        "Dispense Cash\nLow Balance"
       ],
-      "correct_answer": "Pass\nGood job",
-      "explanation": "Since score is 72, the outer condition `score >= 60` is True, and the inner condition `score < 80` is also True. Both 'Pass' and 'Good job' are printed."
+      "correct_answer": "Dispense Cash",
+      "explanation": "is_active is True, entering outer block. 100 >= 50 is True, executing print(\"Dispense Cash\").",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.4_q10",
-      "type": "multiple_choice",
-      "concept": "nested_conditions_analysis",
-      "skill": "analysis",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q9"
-      ],
-      "prompt": "Consider the following code snippet. What is the purpose of the nested `if` statement?\n\n```python\nif temperature > 0:\n    if temperature < 100:\n        print('Liquid range')\n    else:\n        print('Boiling or above')\nelse:\n    print('Frozen or below')\n```",
-      "options": [
-        "To check two independent conditions separately",
-        "To refine a condition by adding a more specific sub-condition",
-        "To repeat the same check twice for redundancy",
-        "To compare temperature with two different variables"
-      ],
-      "correct_answer": "To refine a condition by adding a more specific sub-condition",
-      "explanation": "The nested `if` first checks if the temperature is above freezing (`> 0`). Only if that is true does it check whether the temperature is below boiling (`< 100`). This creates a more specific category (liquid range) within the broader category (above freezing), demonstrating how nested conditions refine decision-making."
-    },
-    {
-      "id": "5.4_q11",
-      "type": "code_prediction",
-      "concept": "nested_conditions_tracing",
-      "skill": "tracing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q10"
-      ],
-      "prompt": "Trace the execution of the code with `a = 3`, `b = 4`, `c = 5`. What is printed?\n\n```python\nif a + b > c:\n    if a < b:\n        print('First')\n    else:\n        print('Second')\nelse:\n    print('Third')\n```",
-      "options": [
-        "'First'",
-        "'Second'",
-        "'Third'",
-        "Error"
-      ],
-      "correct_answer": "'First'",
-      "explanation": "Step 1: Evaluate `a + b > c` → `3 + 4 > 5` → `7 > 5` → True. Step 2: Enter the first block and evaluate `a < b` → `3 < 4` → True. Step 3: Print 'First'. The `else` blocks are skipped. This demonstrates step-by-step tracing of nested conditions."
-    },
-    {
-      "id": "5.4_q12",
-      "type": "output_prediction",
-      "concept": "nested_conditions_logic",
-      "skill": "prediction",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q11"
-      ],
-      "prompt": "Determine the output of the following program.\n\n```python\nis_student = True\nhas_id = False\nif is_student:\n    if has_id:\n        print('Enter')\n    else:\n        print('Check ID')\nelse:\n    print('Visitor')\n```",
-      "options": [
-        "'Enter'",
-        "'Check ID'",
-        "'Visitor'",
-        "Error"
-      ],
-      "correct_answer": "'Check ID'",
-      "explanation": "The outer condition `is_student` is True, so we enter the first block. The inner condition `has_id` is False (False), so we execute the inner `else` branch and print 'Check ID'. The outer `else` is skipped. This shows how nested conditions allow layered access control based on multiple criteria."
-    },
-    {
-      "id": "5.4_q13",
-      "type": "fill_in_the_blank",
-      "concept": "nested_conditions_syntax",
-      "skill": "syntax",
-      "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q12"
-      ],
-      "prompt": "Complete the code by filling in the blank: if age >= 18: ____ age >= 21: print('Adult') else: print('Minor')",
-      "correct_answer": "elif",
-      "accepted_answers": [
-        "elif",
-        "else if"
-      ],
-      "explanation": "In Python, 'elif' (short for 'else if') is used to chain additional conditions when the first 'if' is false. It must be indented at the same level as the 'if' block and cannot be used after an 'else' without a preceding 'if'."
-    },
-    {
-      "id": "5.4_q14",
-      "type": "fill_in_the_blank",
-      "concept": "nested_conditions_keywords",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q13"
-      ],
-      "prompt": "Fill in the blank with the correct Python keyword: if score > 90: ____ score > 80: print('High') else: print('Standard')",
-      "correct_answer": "elif",
-      "accepted_answers": [
-        "elif"
-      ],
-      "explanation": "The keyword 'elif' introduces a secondary condition only when the preceding 'if' evaluates to False. Without it, Python would raise an IndentationError because the nested 'if' is not valid syntax inside an 'if' block without an 'elif' or 'else'."
-    },
-    {
-      "id": "5.4_q15",
-      "type": "code_ordering",
-      "concept": "nested_conditions_sequence",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q14"
-      ],
-      "prompt": "Arrange the following lines of code in the correct execution order to check a user's age and print an appropriate message.",
-      "options": [
-        "if age < 0: print('Invalid age')",
-        "print('Access granted')",
-        "if age >= 18: print('Adult')",
-        "else: print('Minor')"
-      ],
-      "correct_answer": [
-        "if age < 0: print('Invalid age')",
-        "if age >= 18: print('Adult')",
-        "else: print('Minor')",
-        "print('Access granted')"
-      ],
-      "explanation": "The first check must validate that age is non-negative. Next, the 'if age >= 18' block tests adult status. The 'else' pairs with this 'if' to handle ages below 18. Finally, 'Access granted' prints only when all prior conditions are satisfied (i.e., age is valid and at least 18)."
-    },
-    {
-      "id": "5.4_q16",
-      "type": "fill_in_the_blank",
-      "concept": "nested_conditions_patterns",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q15"
-      ],
-      "prompt": "Complete the pattern: if x > 0: ____ x < 0: print('Negative') else: print('Zero')",
-      "correct_answer": "elif",
-      "accepted_answers": [
-        "elif"
-      ],
-      "explanation": "This is a standard nested-condition pattern where 'elif' separates mutually exclusive branches. The first 'if' handles positive values, the 'elif' handles negative values, and the final 'else' catches zero. Omitting 'elif' would cause a syntax error."
-    },
-    {
-      "id": "5.4_q17",
-      "type": "code_ordering",
-      "concept": "nested_conditions_algorithm",
-      "skill": "sequencing",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q16"
-      ],
-      "prompt": "Order the code lines to implement this algorithm: determine a student's grade based on score. If score >= 90, print 'A'. Else if score >= 80, print 'B'. Else if score >= 70, print 'C'. Otherwise, print 'F'.",
-      "options": [
-        "if score >= 90: print('A')",
-        "elif score >= 80: print('B')",
-        "elif score >= 70: print('C')",
-        "else: print('F')"
-      ],
-      "correct_answer": [
-        "if score >= 90: print('A')",
-        "elif score >= 80: print('B')",
-        "elif score >= 70: print('C')",
-        "else: print('F')"
-      ],
-      "explanation": "The algorithm uses a cascade of 'elif' statements to test thresholds in descending order. Each 'elif' executes only if all preceding conditions are false. The final 'else' acts as a catch-all for scores below 70. Reordering would break the logic because lower thresholds would be reached prematurely."
-    },
-    {
-      "id": "5.4_q18",
-      "type": "fill_in_the_blank",
-      "concept": "nested_conditions_idioms",
-      "skill": "syntax",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q17"
-      ],
-      "prompt": "Complete the idiomatic one-line nested condition: result = 'Pass' if grade >= 60 ____ grade >= 40: 'Fail' else 'Incomplete'",
-      "correct_answer": "elif",
-      "accepted_answers": [
-        "elif"
-      ],
-      "explanation": "In a ternary chain, 'elif' is used to link additional conditional expressions. The structure is: value_if_true if condition else value_if_false, and nested conditions use 'elif' to extend the chain. Using 'else' here would incorrectly group the second condition as the fallback for the first, producing wrong logic."
-    },
-    {
-      "id": "5.4_q19",
-      "type": "fix_the_code",
-      "concept": "nested_conditions_errors",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q18"
-      ],
-      "micro_lesson": {
-        "title": "Identifying Syntax and Logic Errors in Nested Conditions",
-        "content": "Nested conditions occur when one or more if-else statements are placed inside another if or else block. Common errors include incorrect indentation, missing colons, mismatched parentheses, and logic flaws such as unreachable code or incorrect boolean conditions. When debugging nested conditions, always trace execution from the outermost condition inward. Pay special attention to indentation levels in Python, as they define code blocks. A frequent mistake is placing an else clause after a nested if without proper alignment, which raises an IndentationError. Another subtle bug is using = instead of == in a comparison, which creates an assignment rather than a check. Always verify that each conditional branch has a corresponding action and that no branch is logically impossible to reach."
-      },
-      "prompt": "The following code is intended to classify a student's grade based on score and attendance. However, it contains multiple errors. Identify all issues and explain how they affect execution.",
-      "starter_code": "def classify_student(score, attendance):\n    if score >= 90\n        grade = 'A'\n    else if score >= 80\n        grade = 'B'\n    else\n        grade = 'C'\n    if attendance > 0.8:\n        if grade == 'A':\n            status = 'Excellent'\n        else if grade == 'B':\n            status = 'Good'\n        else:\n            status = 'Needs Improvement'\n    return status",
-      "solution_code": "def classify_student(score, attendance):\n    if score >= 90:\n        grade = 'A'\n    elif score >= 80:\n        grade = 'B'\n    else:\n        grade = 'C'\n    if attendance > 0.8:\n        if grade == 'A':\n            status = 'Excellent'\n        elif grade == 'B':\n            status = 'Good'\n        else:\n            status = 'Needs Improvement'\n    return status",
-      "hint": "Check for colons after conditions, use elif instead of else if, and verify indentation levels match Python's block structure.",
-      "explanation": "The starter code fails due to missing colons after if and else statements, incorrect use of else if (Python uses elif), and inconsistent indentation. The corrected version uses proper Python syntax: colons terminate conditional headers, elif chains mutually exclusive conditions, and consistent 4-space indentation defines nested blocks. Without these fixes, the code raises SyntaxError or IndentationError."
-    },
-    {
-      "id": "5.4_q20",
       "type": "fix_the_code",
       "concept": "nested_conditions_fix",
       "skill": "debugging",
       "difficulty": "easy",
-      "prerequisites": [
-        "5.4_q19"
+      "prompt": "The door unlocking code crashes with an `IndentationError` because the inner `if` is not indented. Indent line 4 by 4 spaces and line 5 by 8 spaces so the second check is nested.",
+      "starter_code": "has_key = True\nis_door_locked = True\nif has_key:\nif is_door_locked:\n    print(\"Unlock Door\")",
+      "solution_code": "has_key = True\nis_door_locked = True\nif has_key:\n    if is_door_locked:\n        print(\"Unlock Door\")",
+      "expected_output": "Unlock Door",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Unlock Door with valid nested indentation",
+          "expectedOutput": "Unlock Door",
+          "assertionPython": "assert _raw_stdout.strip() == 'Unlock Door' and '    if is_door_locked:' in _user_code and '        print(\"Unlock Door\")' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying variables and nested structure",
+          "expectedOutput": "Unlock Door",
+          "assertionPython": "assert _user_namespace.get('has_key') is True and _user_namespace.get('is_door_locked') is True",
+          "hidden": true
+        }
       ],
-      "prompt": "The function below is supposed to return 'Adult' if age is 18 or older, and 'Minor' otherwise. Fix the code so it works correctly for all valid integer ages.",
-      "starter_code": "def age_category(age):\n    if age >= 18\n        return 'Adult'\n    else\n        return 'Minor'",
-      "solution_code": "def age_category(age):\n    if age >= 18:\n        return 'Adult'\n    else:\n        return 'Minor'",
-      "hint": "Remember that Python requires a colon at the end of every if and else line.",
-      "explanation": "The original code omitted colons after the if and else statements, which causes a SyntaxError in Python. Adding colons resolves the issue and allows the nested return statements to execute as intended. This is the most fundamental fix when transitioning from pseudocode to valid Python syntax."
+      "explanation": "Code inside an `if` block must be indented by 4 spaces. Statements inside a nested `if` must be indented by 8 spaces.",
+      "hint": "Indent line 4 with 4 spaces:     if is_door_locked:\nIndent line 5 with 8 spaces:         print(\"Unlock Door\")",
+      "misconception_tag": "INDENTATION_ERROR"
     },
     {
-      "id": "5.4_q21",
-      "type": "fix_the_code",
-      "concept": "nested_conditions_edge_cases",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q20"
-      ],
-      "prompt": "This function classifies a number as positive, negative, or zero, but fails on edge cases. Correct the logic to handle zero and negative numbers properly.",
-      "starter_code": "def classify_number(n):\n    if n > 0\n        if n == 0:\n            return 'Zero'\n        else:\n            return 'Positive'\n    else\n        return 'Negative'",
-      "solution_code": "def classify_number(n):\n    if n > 0:\n        return 'Positive'\n    elif n < 0:\n        return 'Negative'\n    else:\n        return 'Zero'",
-      "hint": "The inner condition checking n == 0 is unreachable when n > 0. Reorder conditions to check equality before inequality.",
-      "explanation": "The starter code contains unreachable code: the inner if n == 0 can never execute because it is nested inside n > 0. Additionally, the else clause catches all remaining values including zero, misclassifying zero as negative. The corrected version uses an elif chain to test positive, negative, and zero in mutually exclusive order, ensuring every integer maps to exactly one category."
-    },
-    {
-      "id": "5.4_q22",
-      "type": "fix_the_code",
-      "concept": "nested_conditions_runtime",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q21"
-      ],
-      "micro_lesson": {
-        "title": "Runtime Errors in Nested Conditions",
-        "content": "Runtime errors occur when code executes but produces incorrect results or crashes during execution. In nested conditions, common runtime issues include NameError from undefined variables, TypeError from comparing incompatible types, and logic errors where the wrong branch executes due to operator precedence or incorrect boolean expressions. For example, using 'and' or 'or' without proper parentheses can change the evaluation order. Another runtime pitfall is assuming a variable exists in an inner scope when it was defined only in an outer scope. Always test nested conditions with boundary values and diverse data types to expose latent runtime bugs."
-      },
-      "prompt": "Analyze the following snippet. It is meant to validate a username and password, but crashes at runtime for certain inputs. Identify the runtime error and describe when it occurs.",
-      "starter_code": "def validate_login(username, password):\n    if username == '' and password == '':\n        print('Both empty')\n    else:\n        if username in users and password in passwords:\n            return True\n        else:\n            return False",
-      "solution_code": "def validate_login(username, password, users=None, passwords=None):\n    if users is None:\n        users = {}\n    if passwords is None:\n        passwords = {}\n    if username == '' and password == '':\n        print('Both empty')\n    else:\n        if username in users and password in passwords:\n            return True\n        else:\n            return False",
-      "hint": "The variables users and passwords are used before they are defined. Provide default arguments or initialize them inside the function.",
-      "explanation": "The runtime error is a NameError because users and passwords are referenced in the nested if without prior assignment. In Python, attempting to evaluate username in users when users does not exist raises NameError. The fix introduces default None values and initializes empty dictionaries if needed, ensuring the nested condition has valid operands. This pattern prevents runtime crashes when the function is called without explicit dictionaries."
-    },
-    {
-      "id": "5.4_q23",
+      "id": "5.4_q11",
       "type": "fix_the_code",
       "concept": "nested_conditions_logic_repair",
       "skill": "debugging",
       "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q22"
+      "prompt": "The loyalty beverage reward below has an inner `else` that was misaligned to column 0, causing it to attach to the outer `if` instead of the inner `if`. Fix line 6 so `else:` aligns with the inner `if points >= 50:`.",
+      "starter_code": "member = True\npoints = 40\nif member:\n    if points >= 50:\n        print(\"Free Drink\")\nelse:\n    print(\"Buy Drink\")",
+      "solution_code": "member = True\npoints = 40\nif member:\n    if points >= 50:\n        print(\"Free Drink\")\n    else:\n        print(\"Buy Drink\")",
+      "expected_output": "Buy Drink",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints Buy Drink for member with under 50 points",
+          "expectedOutput": "Buy Drink",
+          "assertionPython": "assert _raw_stdout.strip() == 'Buy Drink' and '    else:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying inner else alignment",
+          "expectedOutput": "Buy Drink",
+          "assertionPython": "assert _user_namespace.get('points') == 40 and _user_namespace.get('member') is True",
+          "hidden": true
+        }
       ],
-      "prompt": "The function below determines shipping cost based on weight and distance. The logic is flawed: it charges premium rates even when weight is low. Repair the nested conditions so the pricing rules are applied correctly.",
-      "starter_code": "def shipping_cost(weight, distance):\n    if weight > 10:\n        if distance > 100:\n            cost = weight * 2\n        else:\n            cost = weight * 1.5\n    else:\n        if distance > 100:\n            cost = weight * 2\n        else:\n            cost = weight * 1\n    return cost",
-      "solution_code": "def shipping_cost(weight, distance):\n    if weight > 10:\n        if distance > 100:\n            cost = weight * 2\n        else:\n            cost = weight * 1.5\n    else:\n        if distance > 100:\n            cost = weight * 1.5\n        else:\n            cost = weight * 1\n    return cost",
-      "hint": "The premium distance multiplier should apply to all weights, not just heavy packages. Restructure the inner condition to depend on distance regardless of weight tier.",
-      "explanation": "The original logic incorrectly applies the distance-based multiplier only within the weight > 10 branch, leaving the weight <= 10 branch with a flat rate regardless of distance. The repaired version keeps the weight-based outer structure but ensures distance > 100 triggers the higher multiplier in both branches. This preserves the intended pricing hierarchy: weight tier sets the base rate, and distance tier adjusts it uniformly."
+      "explanation": "Indenting `else:` by 4 spaces pairs it with `if points >= 50:`. When points is 40, the inner else correctly triggers \"Buy Drink\".",
+      "hint": "Indent else: on line 6 by 4 spaces and indent print(\"Buy Drink\") by 8 spaces.",
+      "misconception_tag": "INDENTATION_ERROR"
+    },
+    {
+      "id": "5.4_q12",
+      "type": "write_the_code",
+      "concept": "nested_conditions_implementation",
+      "skill": "coding",
+      "difficulty": "easy",
+      "prompt": "Write a theme park roller coaster boarding check using nested conditionals:\n1. Set `height = 140`\n2. Set `accompanied_by_adult = True`\n3. If `height >= 120`:\n   - If `accompanied_by_adult`:\n     - Print `\"Allowed to Ride\"`\n   - Else:\n     - Print `\"Must Have Adult\"`\n4. Else:\n   - Print `\"Too Short\"` (should print Allowed to Ride)",
+      "starter_code": "# Theme park roller coaster admittance\n",
+      "solution_code": "height = 140\naccompanied_by_adult = True\nif height >= 120:\n    if accompanied_by_adult:\n        print(\"Allowed to Ride\")\n    else:\n        print(\"Must Have Adult\")\nelse:\n    print(\"Too Short\")",
+      "expected_output": "Allowed to Ride",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Allowed to Ride for height = 140 and accompanied = True",
+          "expectedOutput": "Allowed to Ride",
+          "assertionPython": "assert _raw_stdout.strip() == 'Allowed to Ride' and _user_namespace.get('height') == 140"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying nested condition structure",
+          "expectedOutput": "Allowed to Ride",
+          "assertionPython": "assert 'if accompanied_by_adult:' in _user_code and 'else:' in _user_code",
+          "hidden": true
+        }
+      ],
+      "explanation": "`140 >= 120` is True, entering outer if. `accompanied_by_adult` is True, printing `\"Allowed to Ride\"`.",
+      "hint": "Outer: if height >= 120: Inner: if accompanied_by_adult: print(\"Allowed to Ride\") else: ...",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.4_q13",
+      "type": "write_the_code",
+      "concept": "nested_conditions_patterns",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A security login gate checks two-factor authentication:\n1. Set `password_valid = True`\n2. Set `otp_valid = False`\n3. If `password_valid`:\n   - If `otp_valid`:\n     - Print `\"Access Granted\"`\n   - Else:\n     - Print `\"Invalid OTP\"`\n4. Else:\n   - Print `\"Invalid Password\"` (should print Invalid OTP)",
+      "starter_code": "# Two-factor authentication gate\n",
+      "solution_code": "password_valid = True\notp_valid = False\nif password_valid:\n    if otp_valid:\n        print(\"Access Granted\")\n    else:\n        print(\"Invalid OTP\")\nelse:\n    print(\"Invalid Password\")",
+      "expected_output": "Invalid OTP",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Invalid OTP when password is valid but otp fails",
+          "expectedOutput": "Invalid OTP",
+          "assertionPython": "assert _raw_stdout.strip() == 'Invalid OTP' and _user_namespace.get('password_valid') is True"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying nested structure and fallback",
+          "expectedOutput": "Invalid OTP",
+          "assertionPython": "assert 'if otp_valid:' in _user_code and _user_namespace.get('otp_valid') is False",
+          "hidden": true
+        }
+      ],
+      "explanation": "`password_valid` is True, so outer check passes. `otp_valid` is False, triggering the inner else: `\"Invalid OTP\"`.",
+      "hint": "if password_valid: ... if otp_valid: ... else: print(\"Invalid OTP\") ... else: print(\"Invalid Password\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.4_q14",
+      "type": "write_the_code",
+      "concept": "nested_conditions_algorithm",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "An online store processes customer checkout:\n1. Set `in_stock = True`\n2. Set `price = 45`\n3. Set `wallet = 50`\n4. If `in_stock`:\n   - If `wallet >= price`:\n     - Set `wallet = wallet - price`\n     - Print `\"Purchase Complete\"`\n   - Else:\n     - Print `\"Insufficient Funds\"`\n5. Else:\n   - Print `\"Out of Stock\"`\n6. Print `f\"Wallet: ${wallet}\"` (prints Purchase Complete then Wallet: $5)",
+      "starter_code": "# Store inventory and wallet checkout\n",
+      "solution_code": "in_stock = True\nprice = 45\nwallet = 50\nif in_stock:\n    if wallet >= price:\n        wallet = wallet - price\n        print(\"Purchase Complete\")\n    else:\n        print(\"Insufficient Funds\")\nelse:\n    print(\"Out of Stock\")\nprint(f\"Wallet: ${wallet}\")",
+      "expected_output": "Purchase Complete\nWallet: $5",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Purchase Complete and updates wallet to 5",
+          "expectedOutput": "Purchase Complete\nWallet: $5",
+          "assertionPython": "assert _raw_stdout.strip() == 'Purchase Complete\\nWallet: $5' and _user_namespace.get('wallet') == 5"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying nested conditions and wallet deduction",
+          "expectedOutput": "Purchase Complete\nWallet: $5",
+          "assertionPython": "assert 'if wallet >= price:' in _user_code and _user_namespace.get('wallet') == 5",
+          "hidden": true
+        }
+      ],
+      "explanation": "`in_stock` is True, and `50 >= 45` is True. `wallet` becomes `5` and `\"Purchase Complete\"` is printed.",
+      "hint": "Outer: if in_stock. Inner: if wallet >= price: deduct and print. Else print Insufficient Funds.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.4_q15",
+      "type": "write_the_code",
+      "concept": "nested_conditions_mastery_challenge",
+      "skill": "synthesis",
+      "difficulty": "hard",
+      "prompt": "A loan underwriting system assesses mortgage applications:\n1. Set `credit_score = 720`\n2. Set `annual_income = 65000`\n3. If `credit_score >= 700`:\n   - If `annual_income >= 50000`:\n     - Set `status = \"Approved - Low Interest\"`\n   - Else:\n     - Set `status = \"Approved - Standard Interest\"`\n4. Else:\n   - Set `status = \"Denied\"`\n5. Print `status` (should print Approved - Low Interest)",
+      "starter_code": "# Loan underwriting assessor\n",
+      "solution_code": "credit_score = 720\nannual_income = 65000\nif credit_score >= 700:\n    if annual_income >= 50000:\n        status = \"Approved - Low Interest\"\n    else:\n        status = \"Approved - Standard Interest\"\nelse:\n    status = \"Denied\"\nprint(status)",
+      "expected_output": "Approved - Low Interest",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Approved - Low Interest for high credit score and income",
+          "expectedOutput": "Approved - Low Interest",
+          "assertionPython": "assert _raw_stdout.strip() == 'Approved - Low Interest' and _user_namespace.get('status') == 'Approved - Low Interest'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying credit_score and annual_income logic",
+          "expectedOutput": "Approved - Low Interest",
+          "assertionPython": "assert _user_namespace.get('credit_score') == 720 and _user_namespace.get('annual_income') == 65000",
+          "hidden": true
+        }
+      ],
+      "explanation": "`720 >= 700` is True, entering the qualified bracket. `65000 >= 50000` is True, qualifying for `\"Approved - Low Interest\"`.",
+      "hint": "Outer check credit_score >= 700. Inner check annual_income >= 50000.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.4_q16",
+      "type": "multiple_choice",
+      "concept": "nested_conditions_analysis",
+      "skill": "recall",
+      "difficulty": "easy",
+      "prompt": "Is there a hard syntax limit in Python to how many levels of `if` statements you can nest?",
+      "options": [
+        "No syntax limit, but deeply nested code creates the \"arrow anti-pattern\" and harms readability",
+        "Yes, Python limits nesting to exactly 3 levels",
+        "Yes, Python limits nesting to 5 levels",
+        "Nesting is prohibited unless inside a class definition"
+      ],
+      "correct_answer": "No syntax limit, but deeply nested code creates the \"arrow anti-pattern\" and harms readability",
+      "explanation": "While Python allows arbitrary nesting depth, good software engineering avoids deep nesting by refactoring with guard clauses or boolean operators.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.4_q17",
+      "type": "output_prediction",
+      "concept": "nested_conditions_matching",
+      "skill": "prediction",
+      "difficulty": "medium",
+      "prompt": "Look at the coupon discount calculator:\n```python\nhas_coupon = True\nsubtotal = 80\nif subtotal > 50:\n    if has_coupon:\n        subtotal = subtotal - 10\nprint(subtotal)\n```\nWhat will this print?",
+      "code_snippet": "has_coupon = True\nsubtotal = 80\nif subtotal > 50:\n    if has_coupon:\n        subtotal = subtotal - 10\nprint(subtotal)",
+      "options": [
+        "70",
+        "80",
+        "10",
+        "50"
+      ],
+      "correct_answer": "70",
+      "explanation": "80 > 50 is True. Inside, has_coupon is True, reducing subtotal by 10 to 70.",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.4_q18",
+      "type": "output_prediction",
+      "concept": "nested_conditions_sequence",
+      "skill": "prediction",
+      "difficulty": "easy",
+      "prompt": "Look at the number property evaluator:\n```python\nn = 12\nif n > 0:\n    if n % 2 == 0:\n        print(\"Positive Even\")\n    else:\n        print(\"Positive Odd\")\nelse:\n    print(\"Not Positive\")\n```\nWhat will this print?",
+      "code_snippet": "n = 12\nif n > 0:\n    if n % 2 == 0:\n        print(\"Positive Even\")\n    else:\n        print(\"Positive Odd\")\nelse:\n    print(\"Not Positive\")",
+      "options": [
+        "Positive Even",
+        "Positive Odd",
+        "Not Positive",
+        "12"
+      ],
+      "correct_answer": "Positive Even",
+      "explanation": "12 > 0 is True, entering outer block. 12 % 2 == 0 is True, printing \"Positive Even\".",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.4_q19",
+      "type": "multiple_choice",
+      "concept": "nested_conditions_production_transfer",
+      "skill": "application",
+      "difficulty": "medium",
+      "prompt": "An airport customs declaration rule:\n```python\nif arriving_from_abroad:\n    if goods_value > 800:\n        status = \"Declare Goods\"\n    else:\n        status = \"Green Channel\"\nelse:\n    status = \"Domestic Passenger\"\n```\nIf `arriving_from_abroad = True` and `goods_value = 900`, what is status?",
+      "options": [
+        "Declare Goods",
+        "Green Channel",
+        "Domestic Passenger",
+        "None"
+      ],
+      "correct_answer": "Declare Goods",
+      "explanation": "Because arriving_from_abroad is True and 900 > 800 is True, status is assigned \"Declare Goods\".",
+      "misconception_tag": "CONDITION_BOUNDARY"
+    },
+    {
+      "id": "5.4_q20",
+      "type": "multiple_choice",
+      "concept": "nested_conditions_syntax",
+      "skill": "diagnosis",
+      "difficulty": "easy",
+      "prompt": "What happens if a programmer omits the colon on a nested `if` line:\n```python\nif is_admin:\n    if has_key\n        print(\"Access\")\n```",
+      "options": [
+        "SyntaxError: expected ':'",
+        "IndentationError: unexpected indent",
+        "NameError: has_key is not defined",
+        "TypeError: invalid condition"
+      ],
+      "correct_answer": "SyntaxError: expected ':'",
+      "explanation": "Every `if` condition in Python, whether top-level or nested, must terminate with a colon `:`.",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.4_q21",
+      "type": "fix_the_code",
+      "concept": "nested_conditions_idioms",
+      "skill": "debugging",
+      "difficulty": "easy",
+      "prompt": "Line 4 is missing a colon at the end of the nested if condition. Add the colon to fix the SyntaxError.",
+      "starter_code": "is_member = True\nis_vip = True\nif is_member:\n    if is_vip\n        print(\"VIP Lounge\")",
+      "solution_code": "is_member = True\nis_vip = True\nif is_member:\n    if is_vip:\n        print(\"VIP Lounge\")",
+      "expected_output": "VIP Lounge",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Prints VIP Lounge with colon on nested if",
+          "expectedOutput": "VIP Lounge",
+          "assertionPython": "assert _raw_stdout.strip() == 'VIP Lounge' and '    if is_vip:' in _user_code"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying variables",
+          "expectedOutput": "VIP Lounge",
+          "assertionPython": "assert _user_namespace.get('is_vip') is True",
+          "hidden": true
+        }
+      ],
+      "explanation": "Adding the colon `:` to `if is_vip:` corrects the nested conditional syntax.",
+      "hint": "Add a colon : at the end of line 4:     if is_vip:",
+      "misconception_tag": "SYNTAX_ERROR"
+    },
+    {
+      "id": "5.4_q22",
+      "type": "write_the_code",
+      "concept": "nested_conditions_refactoring",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A holiday promotion computes discounts for VIP shoppers:\n1. Set `is_holiday = True`\n2. Set `is_vip = True`\n3. Set `base_price = 100`\n4. If `is_holiday`:\n   - If `is_vip`:\n     - Set `discount = 30`\n   - Else:\n     - Set `discount = 15`\n5. Else:\n   - Set `discount = 0`\n6. Calculate `final_price = base_price - discount`\n7. Print `final_price` (should print 70)",
+      "starter_code": "# Holiday promotion tiered discount\n",
+      "solution_code": "is_holiday = True\nis_vip = True\nbase_price = 100\nif is_holiday:\n    if is_vip:\n        discount = 30\n    else:\n        discount = 15\nelse:\n    discount = 0\nfinal_price = base_price - discount\nprint(final_price)",
+      "expected_output": "70",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Calculates final_price as 70 for holiday VIP",
+          "expectedOutput": "70",
+          "assertionPython": "assert int(_raw_stdout.strip()) == 70 and _user_namespace.get('discount') == 30 and _user_namespace.get('final_price') == 70"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying nested structure and variables",
+          "expectedOutput": "70",
+          "assertionPython": "assert 'if is_vip:' in _user_code and _user_namespace.get('base_price') == 100",
+          "hidden": true
+        }
+      ],
+      "explanation": "`is_holiday` is True and `is_vip` is True, setting `discount = 30`. `100 - 30 = 70`.",
+      "hint": "Check is_holiday outer, is_vip inner. Calculate final_price = base_price - discount.",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+    },
+    {
+      "id": "5.4_q23",
+      "type": "write_the_code",
+      "concept": "nested_conditions_edge_case",
+      "skill": "coding",
+      "difficulty": "medium",
+      "prompt": "A logistics dispatcher routes parcels by urgency and weight:\n1. Set `is_urgent = True`\n2. Set `weight = 4`\n3. If `is_urgent`:\n   - If `weight <= 5`:\n     - Set `shipping_method = \"Express Air\"`\n   - Else:\n     - Set `shipping_method = \"Priority Cargo\"`\n4. Else:\n   - Set `shipping_method = \"Ground Standard\"`\n5. Print `shipping_method` (should print Express Air)",
+      "starter_code": "# Logistics parcel routing\n",
+      "solution_code": "is_urgent = True\nweight = 4\nif is_urgent:\n    if weight <= 5:\n        shipping_method = \"Express Air\"\n    else:\n        shipping_method = \"Priority Cargo\"\nelse:\n    shipping_method = \"Ground Standard\"\nprint(shipping_method)",
+      "expected_output": "Express Air",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Express Air for urgent parcel under 5 lbs",
+          "expectedOutput": "Express Air",
+          "assertionPython": "assert _raw_stdout.strip() == 'Express Air' and _user_namespace.get('shipping_method') == 'Express Air'"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying weight threshold and nesting",
+          "expectedOutput": "Express Air",
+          "assertionPython": "assert 'if weight <= 5:' in _user_code and _user_namespace.get('weight') == 4",
+          "hidden": true
+        }
+      ],
+      "explanation": "`is_urgent` is True and `4 <= 5` is True, setting `shipping_method = \"Express Air\"`.",
+      "hint": "Outer: if is_urgent. Inner: if weight <= 5.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.4_q24",
-      "type": "refactoring_challenge",
-      "concept": "nested_conditions_simplification",
-      "skill": "refactoring",
+      "type": "write_the_code",
+      "concept": "nested_conditions_pitfalls",
+      "skill": "coding",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.4_q23"
+      "prompt": "An RPG game equipment system checks player level and item inventory:\n1. Set `player_level = 15`\n2. Set `has_item = True`\n3. If `player_level >= 10`:\n   - If `has_item`:\n     - Print `\"Item Equipped\"`\n   - Else:\n     - Print `\"Missing Item\"`\n4. Else:\n   - Print `\"Level Too Low\"` (should print Item Equipped)",
+      "starter_code": "# RPG item equip requirements\n",
+      "solution_code": "player_level = 15\nhas_item = True\nif player_level >= 10:\n    if has_item:\n        print(\"Item Equipped\")\n    else:\n        print(\"Missing Item\")\nelse:\n    print(\"Level Too Low\")",
+      "expected_output": "Item Equipped",
+      "test_cases": [
+        {
+          "id": "tc_1",
+          "description": "Outputs Item Equipped for qualified player",
+          "expectedOutput": "Item Equipped",
+          "assertionPython": "assert _raw_stdout.strip() == 'Item Equipped' and _user_namespace.get('player_level') == 15"
+        },
+        {
+          "id": "tc_2",
+          "description": "Hidden test verifying level threshold and item flag",
+          "expectedOutput": "Item Equipped",
+          "assertionPython": "assert 'if has_item:' in _user_code and _user_namespace.get('has_item') is True",
+          "hidden": true
+        }
       ],
-      "prompt": "The following nested conditional code handles venue admission, but is deeply nested and repetitive. Refactor it using clear guard clauses or boolean operators (`and`) to cleanly determine whether entry is allowed, requires ID, or is rejected for age.\n\n```python\nage = 20\nhas_id = False\n\n# Nested version:\nif age >= 18:\n    if has_id:\n        status = \"Allowed\"\n    else:\n        status = \"Requires ID\"\nelse:\n    status = \"Underage\"\nprint(status)\n```",
-      "starter_code": "age = 20\nhas_id = False\n# Refactor to clean, readable branching\nif age < 18:\n    status = \"Underage\"\nelif not has_id:\n    status = \"Requires ID\"\nelse:\n    status = \"Allowed\"\nprint(status)",
-      "solution_code": "age = 20\nhas_id = False\nif age < 18:\n    status = \"Underage\"\nelif not has_id:\n    status = \"Requires ID\"\nelse:\n    status = \"Allowed\"\nprint(status)",
-      "explanation": "Using guard clauses (`age < 18`, then `not has_id`, then fallback to `\"Allowed\"`) flattens the nested indentation pyramid, making conditions easier to read, test, and debug.",
-      "metadata": {
-        "concept": "guard_clauses_vs_nesting",
-        "skill": "architecture",
-        "learning_objective": "Flatten deeply nested conditionals using guard clauses and elif",
-        "common_misconception": "Assuming nested if blocks are always required for multi-factor decisions",
-        "why_this_exercise_exists": "Directly addresses the 'arrow anti-pattern' in nested logic"
-      }
+      "explanation": "`15 >= 10` is True, and `has_item` is True, printing `\"Item Equipped\"`.",
+      "hint": "Outer: if player_level >= 10. Inner: if has_item.",
+      "misconception_tag": "CONDITION_BOUNDARY"
     },
     {
       "id": "5.4_q25",
       "type": "write_the_code",
-      "concept": "nested_conditions_implementation",
-      "skill": "implementation",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q24"
-      ],
-      "prompt": "Milestone Implementation: Construct a modular, well-tested function that applies the central principles of Nested Conditions.",
-      "starter_code": "def process_5_4_data(items):\n    # Process input according to Nested Conditions rules\n    pass",
-      "solution_code": "def process_5_4_data(items):\n    return [item for item in items if item is not None]",
-      "test_cases": [
-        {
-          "input": "[1, None, 2, None, 3]",
-          "expected_output": "[1, 2, 3]",
-          "description": "cleans null values using Nested Conditions rules"
-        }
-      ],
-      "hint": "Focus on applying the central Python idiom for Nested Conditions.",
-      "explanation": "Constructing pure, robust data transformers for Nested Conditions avoids unintended side effects and guarantees consistent return contracts."
-    },
-    {
-      "id": "5.4_q26",
-      "type": "fix_the_code",
-      "concept": "nested_conditions_debugging",
-      "skill": "debugging",
-      "difficulty": "medium",
-      "prerequisites": [
-        "5.4_q25"
-      ],
-      "prompt": "Defensive Validation: Implement a verification helper for Nested Conditions that confirms preconditions and guards against invalid input.",
-      "starter_code": "def validate_5_4_input(val):\n    # Return True if val is valid, False otherwise\n    pass",
-      "solution_code": "def validate_5_4_input(val):\n    if val is None or val == '':\n        return False\n    return True",
-      "test_cases": [
-        {
-          "input": "'valid_token'",
-          "expected_output": "True",
-          "description": "valid input returns True"
-        }
-      ],
-      "hint": "Check the condition and return value carefully.",
-      "explanation": "Validating preconditions at the boundary prevents null pointer and type exceptions downstream."
-    },
-    {
-      "id": "5.4_q27",
-      "type": "code_prediction",
-      "concept": "nested_conditions_edge_case",
-      "skill": "prediction",
+      "concept": "nested_conditions_logic",
+      "skill": "synthesis",
       "difficulty": "hard",
-      "prerequisites": [
-        "5.4_q26"
-      ],
-      "prompt": "What will be the outcome when this code handling Nested Conditions encounters empty or boundary input?\n```python\ndef process(data):\n    return [x for x in data if x]\nprint(process([]))\n```",
-      "hint": "An empty input list evaluates as falsy and produces an empty result.",
-      "explanation": "Handling empty collections gracefully without raising unexpected exceptions is an essential design pattern when working with Nested Conditions.",
-      "options": [
-        "[]",
-        "None",
-        "IndexError",
-        "ValueError"
-      ],
-      "correct_answer": "[]"
-    },
-    {
-      "id": "5.4_q28",
-      "type": "write_the_code",
-      "concept": "nested_conditions_production_transfer",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.4_q27"
-      ],
-      "prompt": "Transfer Challenge: Solve a practical problem using Nested Conditions. Implement the function below to satisfy the stated contract.",
-      "starter_code": "def handle_domain_task(val):\n    # Implement domain logic for Nested Conditions\n    return str(val).strip()",
-      "solution_code": "def handle_domain_task(val):\n    return str(val).strip().upper()",
+      "prompt": "A high-security bank vault requires two separate keys turned simultaneously:\n1. Set `key1_inserted = True`\n2. Set `key2_inserted = False`\n3. If `key1_inserted`:\n   - If `key2_inserted`:\n     - Print `\"Vault Unlocked\"`\n   - Else:\n     - Print `\"Waiting for Key 2\"`\n4. Else:\n   - Print `\"Waiting for Key 1\"` (should print Waiting for Key 2)",
+      "starter_code": "# Dual key vault authorization\n",
+      "solution_code": "key1_inserted = True\nkey2_inserted = False\nif key1_inserted:\n    if key2_inserted:\n        print(\"Vault Unlocked\")\n    else:\n        print(\"Waiting for Key 2\")\nelse:\n    print(\"Waiting for Key 1\")",
+      "expected_output": "Waiting for Key 2",
       "test_cases": [
         {
-          "input": "'  python  '",
-          "expected_output": "'PYTHON'",
-          "description": "domain sanitization"
-        }
-      ],
-      "hint": "Use a list comprehension to filter records where 'active' is True.",
-      "explanation": "Applying clean functional contracts for Nested Conditions ensures testable domain operations. In Python, understanding this core rule ensures predictable execution, prevents common runtime errors, and establishes robust coding habits."
-    },
-    {
-      "id": "5.4_q29",
-      "type": "fix_the_code",
-      "concept": "nested_conditions_refactoring",
-      "skill": "refactoring",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.4_q28"
-      ],
-      "prompt": "Refactor this procedural snippet for Nested Conditions into clean, modular, and idiomatic Python:",
-      "starter_code": "items = [1, 2, 3, 4]\n# Refactor to use idiomatic transformation\nres = []\nfor x in items:\n    res.append(x * 2)",
-      "solution_code": "items = [1, 2, 3, 4]\nres = [x * 2 for x in items]",
-      "test_cases": [
+          "id": "tc_1",
+          "description": "Outputs Waiting for Key 2 when only key 1 is inserted",
+          "expectedOutput": "Waiting for Key 2",
+          "assertionPython": "assert _raw_stdout.strip() == 'Waiting for Key 2' and _user_namespace.get('key1_inserted') is True"
+        },
         {
-          "input": "",
-          "expected_output": "Nested Conditions Result 29"
+          "id": "tc_2",
+          "description": "Hidden test verifying both keys and nested structure",
+          "expectedOutput": "Waiting for Key 2",
+          "assertionPython": "assert 'if key2_inserted:' in _user_code and _user_namespace.get('key2_inserted') is False",
+          "hidden": true
         }
       ],
-      "hint": "Convert the accumulator `for` loop into a concise list comprehension.",
-      "explanation": "Replacing boilerplate append loops with list comprehensions is a fundamental Python refactoring that improves both readability and execution speed."
-    },
-    {
-      "id": "5.4_q30",
-      "type": "write_the_code",
-      "concept": "nested_conditions_mastery_challenge",
-      "skill": "transfer",
-      "difficulty": "hard",
-      "prerequisites": [
-        "5.4_q29"
-      ],
-      "prompt": "Final Capstone Verification: Write a production-grade handler for Nested Conditions that processes batches and handles empty inputs cleanly.",
-      "starter_code": "def execute_5_4_workflow(batch):\n    # Validate and transform batch\n    pass",
-      "solution_code": "def execute_5_4_workflow(batch):\n    if not batch:\n        return []\n    return [str(x).strip() for x in batch]",
-      "test_cases": [
-        {
-          "input": "[' a ', 'b ']",
-          "expected_output": "['a', 'b']",
-          "description": "batch processing workflow"
-        }
-      ],
-      "hint": "Validate input first, then execute the transformation.",
-      "explanation": "Production workflows for Nested Conditions must validate inputs, maintain immutability, and return deterministic results."
+      "explanation": "`key1_inserted` is True (outer pass), but `key2_inserted` is False, executing the inner else: `\"Waiting for Key 2\"`.",
+      "hint": "if key1_inserted: if key2_inserted: print(\"Vault Unlocked\") else: print(\"Waiting for Key 2\") else: print(\"Waiting for Key 1\")",
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
     }
-  ],
-  "unit_num": 5,
-  "learning_objectives": [
-    "Explain the technical concepts and mechanics of Nested Conditions",
-    "Apply idiomatic Python patterns when working with Nested Conditions",
-    "Debug common runtime exceptions and logic errors associated with Nested Conditions",
-    "Implement production-ready code utilizing Nested Conditions"
-  ],
-  "prerequisites": [
-    "5.3"
   ]
 }
