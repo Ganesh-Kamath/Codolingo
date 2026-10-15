@@ -11,7 +11,14 @@
       "difficulty": "easy",
       "title": "Converting User Input to Numbers",
       "content": "# Processing Numeric Input\n\nBecause `input()` always returns a string, you must explicitly convert user entry to a number before doing arithmetic.\n\n```python\n# Converting to integer (whole number)\nage = int(input(\"Enter age: \"))\nnext_year = age + 1\n\n# Converting to float (decimal number)\nprice = float(input(\"Item price: \"))\ntotal = price * 1.08  # with 8% sales tax\n```\n\n### Common Traps:\n1. **Adding Strings Instead of Math:** `\"10\" + \"5\"` is `\"105\"`, while `int(\"10\") + int(\"5\")` is `15`.\n2. **The Decimal String Trap:** Calling `int(\"3.5\")` raises `ValueError: invalid literal for int() with base 10`. Use `float(\"3.5\")` for numbers with decimals.\n3. **Nesting Order:** Always wrap `input()` inside `int()`, like `int(input(...))`.",
-      "explanation": "Wrap input() in int() or float() to convert user text into numbers for mathematical calculations."
+      "explanation": "Wrap input() in int() or float() to convert user text into numbers for mathematical calculations.",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q2",
@@ -28,7 +35,14 @@
       ],
       "correct_answer": "ValueError: invalid literal for int() with base 10: '4.75'",
       "explanation": "Python's `int()` function cannot directly parse a string containing a decimal point. It raises `ValueError`. To read decimal numbers, use `float(input())`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q3",
@@ -42,7 +56,14 @@
       ],
       "correct_answer": "float",
       "explanation": "The `float()` function parses strings representing decimal numbers into numeric floating-point values.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q4",
@@ -59,7 +80,14 @@
       ],
       "correct_answer": "77",
       "explanation": "Without `int()` conversion, `num` is a string. The `+` operator concatenates `\"7\" + \"7\"` into `\"77\"` rather than adding them mathematically.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q5",
@@ -76,7 +104,14 @@
       ],
       "correct_answer": "5",
       "explanation": "`x` is integer 25 and `y` is integer 5. Floor division `25 // 5` evaluates to integer `5`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q6",
@@ -93,7 +128,14 @@
       ],
       "correct_answer": "per_person = total_bill / roommates",
       "explanation": "Dividing a float `total_bill` by integer `roommates` with true division `/` computes the exact dollar share per person as a float.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q7",
@@ -110,7 +152,14 @@
       ],
       "correct_answer": "total = 12.50 * int(input(\"Tickets: \"))",
       "explanation": "Converting the ticket quantity to an integer with `int()` allows mathematical multiplication by the ticket price `$12.50`.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q8",
@@ -127,7 +176,14 @@
       ],
       "correct_answer": "TypeError: can only concatenate str (not \"int\") to str",
       "explanation": "`score` contains the string `\"85\"`. Adding the integer `10` with `+` triggers `TypeError` because Python forbids mixing string and int with `+`. Wrap with `int(score) + 10`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q9",
@@ -144,7 +200,14 @@
       ],
       "correct_answer": "ValueError: invalid literal for int() with base 10: '19.99'",
       "explanation": "`int()` requires the string to consist strictly of digits. A decimal point `.` causes `ValueError`. Use `float(input())` when parsing decimal values.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q10",
@@ -173,7 +236,14 @@
         }
       ],
       "explanation": "Converting `input()` to an integer with `int(input(...))` enables mathematical multiplication.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q11",
@@ -202,7 +272,14 @@
         }
       ],
       "explanation": "Change `int(input(...))` to `float(input(...))` to handle decimal currency values.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "4.2_q12",
@@ -231,7 +308,14 @@
         }
       ],
       "explanation": "Convert `age` to `int` for subtraction, and convert `birth_year` back to `str` for printing with `+`.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q13",
@@ -260,7 +344,14 @@
         }
       ],
       "explanation": "Reads two integer inputs and computes their product.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q14",
@@ -289,7 +380,14 @@
         }
       ],
       "explanation": "Converts bill to float and tip percentage to int, then calculates total after applying the percentage.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q15",
@@ -318,7 +416,14 @@
         }
       ],
       "explanation": "Reads two float values and computes their product.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q16",
@@ -335,7 +440,14 @@
       ],
       "correct_answer": "int(float(\"49.95\"))",
       "explanation": "First calling `float(\"49.95\")` creates the float `49.95`. Passing that float to `int()` truncates the decimal part to integer `49`. Calling `int(\"49.95\")` directly raises `ValueError`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q17",
@@ -352,7 +464,14 @@
       ],
       "correct_answer": "15.0",
       "explanation": "`float(\"10\")` produces `10.0`. In Python, adding a float and an integer produces a float: `10.0 + 5 == 15.0`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q18",
@@ -369,7 +488,14 @@
       ],
       "correct_answer": "-8",
       "explanation": "`int()` successfully parses leading negative signs. `int(\"-5\")` is `-5`, and `-5 - 3` is `-8`.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q19",
@@ -386,7 +512,14 @@
       ],
       "correct_answer": "months = int(input(\"Months: \"))\ntotal = months * 40",
       "explanation": "Months must be converted to `int` so multiplying by 40 performs numeric multiplication instead of repeating the text.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q20",
@@ -403,7 +536,14 @@
       ],
       "correct_answer": "ValueError: invalid literal for int() with base 10: ''",
       "explanation": "When the user presses Enter immediately, `input()` returns an empty string `\"\"`. Passing `\"\"` to `int()` raises `ValueError`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q21",
@@ -432,7 +572,14 @@
         }
       ],
       "explanation": "Converts input to float and multiplies by the 1.6 conversion factor.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q22",
@@ -461,7 +608,14 @@
         }
       ],
       "explanation": "Multiplies float wage by integer hours to compute total paycheck.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q23",
@@ -490,7 +644,14 @@
         }
       ],
       "explanation": "Correct order: `int(input(\"prompt\"))`. The prompt text belongs to `input()`, and `int()` wraps the returned string.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.2_q24",
@@ -519,7 +680,14 @@
         }
       ],
       "explanation": "Calculates float division of miles by gallons.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.2_q25",
@@ -548,7 +716,19 @@
         }
       ],
       "explanation": "Computes interest and adds it to principal to produce final balance.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Processing Numeric Input.",
+    "Predict output and track variable state changes when executing Processing Numeric Input.",
+    "Write, debug, and apply idiomatic Python solutions using Processing Numeric Input."
   ]
 }

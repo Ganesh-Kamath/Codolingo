@@ -27,6 +27,14 @@ export interface RawCurriculumItem {
     description?: string;
   }>;
   metadata?: any;
+  mental_model?: string;
+  mentalModel?: string;
+  progressive_hints?: [string, string, string];
+  progressiveHints?: [string, string, string];
+  misconception_tag?: string;
+  misconceptionTag?: string;
+  learning_objective?: string;
+  learningObjective?: string;
 }
 
 export interface RawCurriculumLesson {
@@ -196,7 +204,11 @@ export function mapItemToBlock(item: RawCurriculumItem): LessonBlock {
     prompt: item.prompt,
     explanation: item.explanation,
     commonMistake: item.common_mistake,
-    hint: item.hint
+    hint: item.hint,
+    mentalModel: item.mental_model || item.mentalModel,
+    progressiveHints: item.progressive_hints || item.progressiveHints,
+    misconceptionTag: item.misconception_tag || item.misconceptionTag,
+    learning_objective: item.learning_objective || item.learningObjective
   };
 
   switch (item.type) {
@@ -218,7 +230,16 @@ export function mapItemToBlock(item: RawCurriculumItem): LessonBlock {
       const opts = item.options || [];
 
       if (Array.isArray(opts)) {
-        optionsList = opts.map((optText: string, idx: number) => {
+        optionsList = opts.map((optItem: any, idx: number) => {
+          if (typeof optItem === 'object' && optItem !== null) {
+            return {
+              id: optItem.id || `opt_${idx}`,
+              text: optItem.text || '',
+              isCorrect: Boolean(optItem.isCorrect),
+              explanation: optItem.explanation || (optItem.isCorrect ? (item.explanation || 'Correct') : (item.common_mistake || 'Incorrect choice'))
+            };
+          }
+          const optText = String(optItem || '');
           const letter = String.fromCharCode(65 + idx);
           let isCorrect = false;
 

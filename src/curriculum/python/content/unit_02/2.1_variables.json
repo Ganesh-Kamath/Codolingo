@@ -12,7 +12,7 @@
       "prerequisites": [],
       "prompt": "Look at the following code:\n```python\nplayer_name = \"Alex\"\nprint(player_name)\n```\nWhat will this program print?",
       "explanation": "A variable is a labeled name that references a value in memory. When passed to print() without quotes, Python evaluates the variable and prints the value it stores.",
-      "hint": "Because there are no quotes around player_name inside print(), Python looks up the stored value.",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "Alex",
@@ -23,7 +23,13 @@
       "correct_answer": "Alex",
       "code_snippet": "player_name = \"Alex\"\nprint(player_name)",
       "codeSnippet": "player_name = \"Alex\"\nprint(player_name)",
-      "expected_output": "Alex"
+      "expected_output": "Alex",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "2.1_fnd_2",
@@ -34,7 +40,7 @@
       "prerequisites": [],
       "prompt": "Trace the value of variable `x` line by line as Python runs:\n```python\nx = 5\nx = x + 2\nx = x * 2\n```\nWhat is the value of `x` after each line finishes?",
       "explanation": "Line 1 sets x to 5. Line 2 reads x (5), adds 2 to get 7, and assigns 7 back into x. Line 3 reads x (7), multiplies by 2, and assigns 14 back into x.",
-      "hint": "Evaluate the right side of the equals sign first, then assign the result into the variable on the left.",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "14",
@@ -68,6 +74,12 @@
           "expectedValue": "14",
           "hint": "7 * 2 evaluates to 14"
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
       ]
     },
     {
@@ -79,14 +91,20 @@
       "prerequisites": [],
       "prompt": "Complete the code to store the name `\"Ganesh\"` in the variable `name` and then print it:\n```python\nname = \"Ganesh\"\nprint(____)\n```",
       "explanation": "To print the value held in the variable `name`, we pass `name` into print() without quotes.",
-      "hint": "Fill in the variable name that was assigned on the first line.",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "correct_answer": "name",
       "accepted_answers": [
         "name"
       ],
       "code_snippet": "name = \"Ganesh\"\nprint(____)",
-      "codeSnippet": "name = \"Ganesh\"\nprint(____)"
+      "codeSnippet": "name = \"Ganesh\"\nprint(____)",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "2.1_fnd_4",
@@ -97,7 +115,7 @@
       "prerequisites": [],
       "prompt": "What is printed by this program?\n```python\nscore = 20\nscore = score + 5\nprint(score)\n```",
       "explanation": "The right-hand side `score + 5` is evaluated first using the current value of `score` (20), giving 25. Then 25 is stored back into `score`.",
-      "hint": "Compute 20 + 5 first, then store it back into score.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "25",
@@ -108,7 +126,13 @@
       "correct_answer": "25",
       "code_snippet": "score = 20\nscore = score + 5\nprint(score)",
       "codeSnippet": "score = 20\nscore = score + 5\nprint(score)",
-      "expected_output": "25"
+      "expected_output": "25",
+      "mental_model": "Reassigning a variable does not overwrite the old object; it unclips the name tag from the old object and clips it onto a new object in memory.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.1_fnd_5",
@@ -119,7 +143,7 @@
       "prerequisites": [],
       "prompt": "Create a variable called `age` and store the value `18` in it. Then print `age`.",
       "explanation": "Line 1 `age = 18` creates the variable and assigns 18 to it. Line 2 `print(age)` displays its value.",
-      "hint": "First line: age = 18. Second line: print(age)",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "starter_code": "# Write your code below\n",
       "solution_code": "age = 18\nprint(age)",
@@ -149,7 +173,13 @@
           "hidden": false
         }
       ],
-      "expected_output": "18"
+      "expected_output": "18",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "2.1_fnd_6",
@@ -160,7 +190,7 @@
       "prerequisites": [],
       "prompt": "Fix the bug in the program below. Running this raises `NameError: name 'User_Score' is not defined` because the variable name is capitalized differently.",
       "explanation": "In Python, variable identifiers are strictly case-sensitive. `user_score` is not the same identifier as `User_Score`.",
-      "hint": "Make the spelling in print() match the lowercase variable definition.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "starter_code": "user_score = 95\nprint(User_Score)",
       "solution_code": "user_score = 95\nprint(user_score)",
@@ -182,7 +212,13 @@
           "hidden": true
         }
       ],
-      "expected_output": "95"
+      "expected_output": "95",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.1_fnd_7",
@@ -193,7 +229,7 @@
       "prerequisites": [],
       "prompt": "Look at the following code:\n```python\ncoins = 10\ncoins = 25\nprint(coins)\n```\nWhy does this program print `25` instead of `10` or `35`?",
       "explanation": "A variable can only hold a single value at any given moment. When you assign `coins = 25`, the previous value `10` is discarded.",
-      "hint": "Think of a variable as a whiteboard: writing a new value wipes away the old one.",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "Assigning a new value to a variable overwrites whatever value it held previously",
@@ -201,7 +237,13 @@
         "Variables always choose the larger number",
         "10 was stored in a temporary hidden cache"
       ],
-      "correct_answer": "Assigning a new value to a variable overwrites whatever value it held previously"
+      "correct_answer": "Assigning a new value to a variable overwrites whatever value it held previously",
+      "mental_model": "Reassigning a variable does not overwrite the old object; it unclips the name tag from the old object and clips it onto a new object in memory.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "2.1_fnd_8",
@@ -212,7 +254,7 @@
       "prerequisites": [],
       "prompt": "In a game, a player starts with `100` points. They then earn `50` bonus points. Write a Python script that:\n1. Creates a variable `points` set to `100`\n2. Reassigns `points` to add `50` to its current value\n3. Prints `points`",
       "explanation": "`points = 100` followed by `points = points + 50` increments the score to 150 and prints it.",
-      "hint": "Start with points = 100, then points = points + 50, then print(points)",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "starter_code": "# Track the player points\n",
       "solution_code": "points = 100\npoints = points + 50\nprint(points)",
@@ -234,7 +276,13 @@
           "hidden": false
         }
       ],
-      "expected_output": "150"
+      "expected_output": "150",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.1_fnd_9",
@@ -245,7 +293,7 @@
       "prerequisites": [],
       "prompt": "Trace the value of variable `b` across these statements:\n```python\na = 10\nb = a\na = 99\n```\nWhat is the value of `b` after each line?",
       "explanation": "When `b = a` executes, `b` receives the value that `a` currently holds (10). When `a` is later changed to 99, `b` still holds 10. Primitive values are copied by value, not linked by a live wire.",
-      "hint": "Changing variable a later does not automatically update variable b.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "10",
@@ -279,6 +327,12 @@
           "expectedValue": "10",
           "hint": "Changing a does NOT change b!"
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -290,7 +344,7 @@
       "prerequisites": [],
       "prompt": "Fix the syntax error in the code below. In Python, variable names cannot start with a digit (like `1st`).",
       "explanation": "Python identifier naming rules: names must start with a letter (a-z, A-Z) or underscore (_). They can contain numbers, but cannot start with one.",
-      "hint": "Change 1st_place to first_place in both lines.",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "SYNTAX_ERROR",
       "starter_code": "1st_place = \"Gold\"\nprint(1st_place)",
       "solution_code": "first_place = \"Gold\"\nprint(first_place)",
@@ -312,7 +366,13 @@
           "hidden": true
         }
       ],
-      "expected_output": "Gold"
+      "expected_output": "Gold",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "2.1_cand_1",
@@ -324,7 +384,14 @@
       "content": "In Python, a variable is not an empty box that holds data. Instead, it is a **name tag** or **reference** pointing to an object created in memory.\n\nWhen you run `score = 50`, Python creates the integer object `50` in memory, then attaches the label `score` to it.",
       "prompt": "",
       "explanation": "Think of variables as name tags attached to values in memory. When you call the name tag, Python looks at the value it points to.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ],
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right."
     },
     {
       "id": "2.1_cand_2",
@@ -341,7 +408,14 @@
       ],
       "correct_answer": "Python creates an integer object 85 and attaches the label battery_level to it",
       "explanation": "Python creates objects in heap memory and binds variable names as references pointing to those objects.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ],
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right."
     },
     {
       "id": "2.1_cand_3",
@@ -355,8 +429,14 @@
       ],
       "correct_answer": "cart_items",
       "explanation": "The variable name must be on the left side of the assignment operator (=), followed by the value on the right.",
-      "hint": "Type the exact variable name cart_items.",
-      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "2.1_cand_4",
@@ -375,7 +455,14 @@
       "correct_answer": "3",
       "expected_output": "3",
       "explanation": "Passing remaining_lives without quotes causes Python to evaluate the variable and print the integer 3.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ],
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right."
     },
     {
       "id": "2.1_cand_5",
@@ -394,7 +481,14 @@
       "correct_answer": "22.5",
       "expected_output": "22.5",
       "explanation": "Python computes 20.0 + 2.5 on the right side first to produce 22.5, then reassigns that new value into temp_c.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Reassigning a variable does not overwrite the old object; it unclips the name tag from the old object and clips it onto a new object in memory.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.1_cand_6",
@@ -411,7 +505,14 @@
       ],
       "correct_answer": "NameError because username is used before being assigned",
       "explanation": "Python executes line by line top to bottom. Referencing a variable before its assignment statement raises a NameError.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "2.1_cand_7",
@@ -439,8 +540,14 @@
         }
       ],
       "explanation": "Python identifiers are case-sensitive: coffee_price and Coffee_Price are distinct names in memory.",
-      "hint": "Change Coffee_Price to match the exact lowercase coffee_price variable.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line.",
+        "Every statement that belongs inside the conditional branch must be indented by 4 spaces.",
+        "Structure: `if <condition>:` followed by indented code. Use `==` for comparison, not `=`."
+      ]
     },
     {
       "id": "2.1_cand_8",
@@ -468,8 +575,14 @@
         }
       ],
       "explanation": "We initialize song_count to 10, evaluate song_count + 3 (13), and store the updated count back into song_count.",
-      "hint": "Initialize song_count = 10, then update it with song_count = song_count + 3.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.1_cand_9",
@@ -488,7 +601,14 @@
       "correct_answer": "10",
       "expected_output": "10",
       "explanation": "When b = a executes, b is bound to the integer 10. Later reassigning a = 25 does not alter where b points.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A variable in Python is a named tag referencing an object in memory, not a physical storage box. Assigning a = 10 puts a name tag \"a\" on the integer object 10.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ],
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right."
     },
     {
       "id": "2.1_cand_10",
@@ -507,7 +627,14 @@
       "correct_answer": "Red Blue",
       "expected_output": "Red Blue",
       "explanation": "temp holds \"Blue\" while left is updated to \"Red\". Then right receives \"Blue\" from temp. The values have successfully swapped.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ],
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right."
     },
     {
       "id": "2.1_cand_11",
@@ -524,7 +651,14 @@
       ],
       "correct_answer": "= denotes assignment, not algebraic equality; the right side is evaluated first, then stored in the left",
       "explanation": "In programming languages, = is the assignment operator. Python calculates the value of x + 1 first, then binds the result back to x.",
-      "misconception_tag": "ASSIGNMENT_VS_COMPARISON"
+      "misconception_tag": "ASSIGNMENT_VS_COMPARISON",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.1_cand_12",
@@ -552,8 +686,14 @@
         }
       ],
       "explanation": "Variable names must always appear on the left side of the assignment operator =. Literals cannot be assigned into.",
-      "hint": "Put max_users on the left of = and 500 on the right.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.1_cand_13",
@@ -581,8 +721,14 @@
         }
       ],
       "explanation": "Starting at 200, balance increases to 275 after the deposit, and decreases to 245 after the deduction.",
-      "hint": "Update balance twice using addition and subtraction before printing.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.1_cand_14",
@@ -596,8 +742,14 @@
       ],
       "correct_answer": "username",
       "explanation": "Printing username without quotes evaluates the variable and prints \"dev_sam\".",
-      "hint": "Type the unquoted variable name username.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall: In Python, `print()` takes the value inside parentheses and displays it on the screen.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "print() is an output pipeline: Python evaluates the value inside the parentheses, converts it to display text, and writes it to the console with an automatic newline at the end.",
+      "progressive_hints": [
+        "Recall: In Python, `print()` takes the value inside parentheses and displays it on the screen.",
+        "Check whether the prompt asks for text or numbers. Text must be surrounded by quotes; variable names must not.",
+        "Structure: `print(...)` - ensure parentheses match and strings are closed with matching quotes."
+      ]
     },
     {
       "id": "2.1_cand_15",
@@ -616,7 +768,19 @@
       "correct_answer": "3",
       "expected_output": "3",
       "explanation": "Each reassignment overwrites the previous value. When line 4 runs, level references 3.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Reassigning a variable does not overwrite the old object; it unclips the name tag from the old object and clips it onto a new object in memory.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Variables.",
+    "Predict output and track variable state changes when executing Variables.",
+    "Write, debug, and apply idiomatic Python solutions using Variables."
   ]
 }

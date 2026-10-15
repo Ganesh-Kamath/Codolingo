@@ -12,7 +12,14 @@
       "title": "Project: Number Guessing Game Architecture",
       "prompt": "",
       "explanation": "A Number Guessing Game synthesizes loops, conditional branching, user input, state accumulation, and break statements into an interactive CLI application.",
-      "content": "# Project: Building a Number Guessing Game\n\nIn this capstone project for Unit 6, you will combine all core repetition and control flow skills to build an interactive **Number Guessing Game**.\n\n### Core Architecture\nEvery guessing game operates in a continuous control loop:\n```\n+-----------------------+\n|  Initialize Secret    |  (e.g. secret = 42, attempts = 5)\n+-----------------------+\n           |\n           v\n+-----------------------+ <---------------+\n| Prompt Player Guess   |                 |\n+-----------------------+                 |\n           |                              |\n           v                              |\n+-----------------------+                 |\n| Validate Range        | -- [Invalid] ---+ (use continue)\n+-----------------------+\n           |\n      [Valid Number]\n           v\n+-----------------------+\n| Check Guess vs Secret |\n+-----------------------+\n    |         |        \\\n    | Too Low | Too High\\ Match!\n    v         v          v\nPrint Hint Print Hint  Print \"Winner!\" & break\n    |         |\n    +----+----+\n         |\n         v\n  Decrement Attempts\n         |\n    Attempts Left?\n    /            \\\n  [Yes]          [No]\n    |              |\n (Repeat)     Print \"Game Over\" & break\n```\n\n### Testing & Determinism\nIn automated testing, user inputs are scripted as newline-separated strings (e.g. `\"50\\n75\\n68\"`). Each `input()` call consumes the next scripted line in sequence, ensuring completely deterministic and reproducible execution."
+      "content": "# Project: Building a Number Guessing Game\n\nIn this capstone project for Unit 6, you will combine all core repetition and control flow skills to build an interactive **Number Guessing Game**.\n\n### Core Architecture\nEvery guessing game operates in a continuous control loop:\n```\n+-----------------------+\n|  Initialize Secret    |  (e.g. secret = 42, attempts = 5)\n+-----------------------+\n           |\n           v\n+-----------------------+ <---------------+\n| Prompt Player Guess   |                 |\n+-----------------------+                 |\n           |                              |\n           v                              |\n+-----------------------+                 |\n| Validate Range        | -- [Invalid] ---+ (use continue)\n+-----------------------+\n           |\n      [Valid Number]\n           v\n+-----------------------+\n| Check Guess vs Secret |\n+-----------------------+\n    |         |        \\\n    | Too Low | Too High\\ Match!\n    v         v          v\nPrint Hint Print Hint  Print \"Winner!\" & break\n    |         |\n    +----+----+\n         |\n         v\n  Decrement Attempts\n         |\n    Attempts Left?\n    /            \\\n  [Yes]          [No]\n    |              |\n (Repeat)     Print \"Game Over\" & break\n```\n\n### Testing & Determinism\nIn automated testing, user inputs are scripted as newline-separated strings (e.g. `\"50\\n75\\n68\"`). Each `input()` call consumes the next scripted line in sequence, ensuring completely deterministic and reproducible execution.",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_2",
@@ -29,7 +36,14 @@
       ],
       "correct_answer": "Because the number of iterations required to guess correctly is indeterminate and depends on player actions",
       "explanation": "When the number of repetitions is unknown beforehand and depends on a dynamic condition (like whether the guess matches the secret), an indefinite `while` loop is the natural choice.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_3",
@@ -47,7 +61,14 @@
       ],
       "correct_answer": "Too high!",
       "explanation": "55 > 42, so the `elif guess > secret:` branch evaluates to True, printing \"Too high!\".",
-      "misconception_tag": "CONDITION_BOUNDARY"
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_4",
@@ -65,7 +86,14 @@
       ],
       "correct_answer": "3 left 2 left 1 left ",
       "explanation": "When attempts reaches 1, it prints \"1 left\" and decrements to 0. On the next cycle, 0 > 0 is False, so the loop halts.",
-      "misconception_tag": "CONDITION_BOUNDARY"
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_5",
@@ -83,7 +111,14 @@
       ],
       "correct_answer": "elif guess > target:",
       "explanation": "`elif guess > target:` creates the mutually exclusive second branch in Python multi-way conditionals.",
-      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_6",
@@ -102,7 +137,14 @@
       "correct_answer": "TypeError: `<` not supported between instances of `str` and `int`",
       "fixed_code": "secret = 50\nguess = int(input(\"Enter your guess: \"))\nif guess < secret:\n    print(\"Too low\")",
       "explanation": "`input()` returns a string. Comparing a string to an integer with `<` or `>` raises a TypeError. You must convert with `int(input())`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "6.8_cand_7",
@@ -129,7 +171,14 @@
           "input": "25",
           "expected_output": "Correct!\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_8",
@@ -156,7 +205,14 @@
           "input": "50",
           "expected_output": "Valid guess: 50\n"
         }
-      ]
+      ],
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "6.8_cand_9",
@@ -175,7 +231,14 @@
           "input": "20\n40\n60",
           "expected_output": "Guess 1: 20. 2 attempts remaining.\nGuess 2: 40. 1 attempts remaining.\nGuess 3: 60. 0 attempts remaining.\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_10",
@@ -194,7 +257,14 @@
       "correct_answer": "Missing `break` statement inside the `if guess == secret:` branch",
       "fixed_code": "secret = 42\nwhile True:\n    guess = int(input())\n    if guess == secret:\n        print(\"You got it!\")\n        break\n    elif guess < secret:\n        print(\"Too low\")\n    else:\n        print(\"Too high\")",
       "explanation": "Without `break`, a `while True` loop will repeat indefinitely even after the player successfully identifies the secret number.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_11",
@@ -211,7 +281,14 @@
       ],
       "correct_answer": "`break`",
       "explanation": "`break` terminates the infinite `while True` loop immediately so the program can end or display final congratulations.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_12",
@@ -229,7 +306,14 @@
       ],
       "correct_answer": "Higher\\nLower\\nBingo!\\n",
       "explanation": "10 is less than 20 -> \"Higher\". 30 is greater than 20 -> \"Lower\". 20 equals 20 -> \"Bingo!\", followed by break to exit.",
-      "misconception_tag": "CONDITION_BOUNDARY"
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_13",
@@ -247,7 +331,14 @@
       ],
       "correct_answer": "break",
       "explanation": "`break` is the keyword used in Python to immediately exit the enclosing while loop.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_14",
@@ -266,7 +357,14 @@
       "correct_answer": "Re-initializing `secret = 42` inside the loop is redundant, and if randomized, would change the target on every turn!",
       "fixed_code": "secret = 42\nwhile True:\n    guess = int(input())\n    if guess == secret:\n        print(\"Won!\")\n        break",
       "explanation": "The secret number must be initialized before the loop begins. Placing it inside the loop re-creates the variable every iteration, which is devastating if generating a random secret.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_15",
@@ -289,7 +387,14 @@
           "input": "10\n20\n30",
           "expected_output": "Game over! Secret was 50\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_16",
@@ -312,7 +417,14 @@
           "input": "42",
           "expected_output": "You won!\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_17",
@@ -335,7 +447,14 @@
           "input": "10\n20\n30\n40",
           "expected_output": "Too low\nToo low\nToo low\nToo low\nOut of attempts!\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_18",
@@ -352,7 +471,14 @@
       ],
       "correct_answer": "To guarantee deterministic, reproducible test results that verify edge cases consistently",
       "explanation": "Determinism ensures that tests always pass or fail for reproducible, predictable reasons rather than random luck.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_19",
@@ -370,7 +496,14 @@
       ],
       "correct_answer": "Ignored\\nMatched\\n",
       "explanation": "150 is > 100, so it prints \"Ignored\" and continues to the next item. 42 is valid and equals secret, printing \"Matched\".",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "6.8_cand_20",
@@ -393,7 +526,14 @@
           "input": "30",
           "expected_output": "Won! Final Score: 100\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_21",
@@ -412,7 +552,14 @@
       "correct_answer": "`attempts` is never decremented (`attempts -= 1` is missing), creating an infinite loop",
       "fixed_code": "secret = 25\nattempts = 3\nwhile attempts > 0:\n    guess = int(input())\n    if guess == secret:\n        print(\"Won\")\n        break\n    print(\"Try again\")\n    attempts -= 1",
       "explanation": "Because `attempts` remains 3 forever, the loop condition `attempts > 0` never becomes False on incorrect guesses, causing an infinite loop.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_22",
@@ -430,7 +577,14 @@
       ],
       "correct_answer": "Invalid\\nGot it in 1 try\\n",
       "explanation": "When raw = -5, it is < 1, so \"Invalid\" prints and `continue` skips the rest of that iteration, leaving `attempts_used` at 0. When raw = 12, `attempts_used` increments to 1 and it matches the secret.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "6.8_cand_23",
@@ -449,7 +603,14 @@
           "input": "99\n10\n15",
           "expected_output": "Out of range\nKeep guessing\nFound it!\n"
         }
-      ]
+      ],
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "6.8_cand_24",
@@ -472,7 +633,14 @@
           "input": "33",
           "expected_output": "Winner in 1 attempts!\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "6.8_cand_25",
@@ -495,7 +663,19 @@
           "input": "10\n20\n30",
           "expected_output": "Too low\nToo low\nToo low\nGame over! The number was 64.\n"
         }
-      ]
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Project: Number Guessing Game.",
+    "Predict output and track variable state changes when executing Project: Number Guessing Game.",
+    "Write, debug, and apply idiomatic Python solutions using Project: Number Guessing Game."
   ]
 }

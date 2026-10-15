@@ -12,7 +12,13 @@
       "prerequisites": [],
       "prompt": "# Augmented Assignment Operators in Python\n\nPrograms frequently update a variable based on its existing value (e.g. `score = score + 10`). Python provides concise shorthand operators called **augmented assignment**:\n\n- `+=` (Add and assign): `x += 5` is `x = x + 5`\n- `-=` (Subtract and assign): `x -= 3` is `x = x - 3`\n- `*=` (Multiply and assign): `x *= 2` is `x = x * 2`\n- `/=` (True divide and assign): `x /= 2` is `x = x / 2` (always produces a `float`)\n- `//=` (Floor divide and assign): `x //= 2` is `x = x // 2`\n- `%=` (Modulo and assign): `x %= 10` is `x = x % 10`\n- `**=` (Power and assign): `x **= 2` is `x = x ** 2`\n\n### Two Critical Rules:\n1. **Variable must exist first**: `score += 1` raises a `NameError` if `score` was not previously defined.\n2. **Right-hand side evaluates first**: In `x *= 2 + 3`, Python evaluates `(2 + 3) = 5` first, then computes `x = x * 5`.",
       "explanation": "Augmented assignment operators update a variable in place using its previous value.",
-      "hint": "x += 1 is shorthand for x = x + 1."
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q2",
@@ -33,8 +39,14 @@
       "correct_answer": "75",
       "code_snippet": "points = 50\npoints += 25\nprint(points)",
       "explanation": "`points += 25` expands to `points = points + 25`. Since `points` started at `50`, `50 + 25 = 75`.",
-      "hint": "Add 25 to 50.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q3",
@@ -52,8 +64,14 @@
       ],
       "correct_answer": "+=",
       "explanation": "In Python, `+=` increments a variable. Unlike C++ or Java, Python does NOT have a `++` operator.",
-      "hint": "Use the += operator.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q4",
@@ -74,8 +92,14 @@
       "correct_answer": "65",
       "code_snippet": "balance = 100\nbalance -= 35\nprint(balance)",
       "explanation": "`balance -= 35` computes `balance = balance - 35`: `100 - 35 = 65`.",
-      "hint": "Subtract 35 from 100.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q5",
@@ -95,8 +119,14 @@
       ],
       "correct_answer": "A NameError is raised because score has not been defined yet, so Python cannot read its previous value",
       "explanation": "`score += 10` requires evaluating the right side `score + 10`. Because `score` does not exist in memory, attempting to read it triggers `NameError: name 'score' is not defined`.",
-      "hint": "You cannot add to a variable that does not exist yet.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ]
     },
     {
       "id": "3.3_q6",
@@ -117,8 +147,14 @@
       "correct_answer": "25",
       "code_snippet": "x = 5\ny = 2\nx *= y + 3\nprint(x)",
       "explanation": "In augmented assignment, the ENTIRE expression on the right-hand side is evaluated first as if surrounded by parentheses: `(y + 3) = (2 + 3) = 5`. Then `x = x * 5 = 5 * 5 = 25`. It is NOT evaluated as `(x * y) + 3 = (10) + 3 = 13`.",
-      "hint": "Evaluate the right side y + 3 first, then multiply.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.3_q7",
@@ -139,8 +175,14 @@
       "correct_answer": "5.0",
       "code_snippet": "fuel = 20\nfuel /= 4\nprint(fuel)",
       "explanation": "True division `/=` always converts the resulting value into a `float`: `20 / 4 = 5.0`.",
-      "hint": "Single slash division always produces a float.",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Type conversion constructs a brand new object of the target type. int(\"42\") builds a new integer 42 from the characters; it cannot parse letters or decimal dots directly.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q8",
@@ -160,8 +202,14 @@
       ],
       "correct_answer": "`=+` assigns positive 5 directly to x, ignoring and overwriting x's previous value",
       "explanation": "In Python, `x =+ 5` is parsed as `x = (+5)` (assigning positive 5). It overwrites `x` rather than adding to it. The augmented assignment operator must be written as `+=`.",
-      "hint": "= followed by + assigns a positive number, it does not increment.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q9",
@@ -190,8 +238,14 @@
         }
       ],
       "explanation": "Changing `=+` to `+=` performs augmented assignment, accumulating `1000 + 500 = 1500`.",
-      "hint": "Use += instead of =+.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q10",
@@ -212,8 +266,14 @@
       "correct_answer": "Codolingo Python",
       "code_snippet": "text = \"Codolingo\"\ntext += \" Python\"\nprint(text)",
       "explanation": "`+=` works on strings by concatenating the new string to the end: `\"Codolingo\" + \" Python\" = \"Codolingo Python\"`.",
-      "hint": "+= concatenates text strings.",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q11",
@@ -234,8 +294,14 @@
       "correct_answer": "====",
       "code_snippet": "divider = \"=\"\ndivider *= 4\nprint(divider)",
       "explanation": "`*=` on a string repeats the string in place: `\"=\" * 4 = \"====\"`.",
-      "hint": "*= repeats the string 4 times.",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q12",
@@ -264,8 +330,14 @@
         }
       ],
       "explanation": "`50 - 12 = 38`. `38 - 18 = 20`.",
-      "hint": "Use croissants -= 12 then croissants -= 18.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q13",
@@ -286,8 +358,14 @@
       "correct_answer": "3",
       "code_snippet": "pieces = 17\npieces //= 5\nprint(pieces)",
       "explanation": "`pieces //= 5` computes integer floor division: `17 // 5 = 3` (discarding the remainder of 2).",
-      "hint": "Floor division discards the remainder.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q14",
@@ -308,8 +386,14 @@
       "correct_answer": "1",
       "code_snippet": "index = 10\nindex %= 3\nprint(index)",
       "explanation": "`index %= 3` replaces `index` with its remainder modulo 3: `10 = 3 * 3 + 1`. The remainder is `1`.",
-      "hint": "Calculate 10 % 3.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q15",
@@ -338,8 +422,14 @@
         }
       ],
       "explanation": "Initializing `total_cost = 0.0` provides an initial value in memory so Python can read and increment it.",
-      "hint": "Add total_cost = 0.0 on the first line.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q16",
@@ -360,8 +450,14 @@
       "correct_answer": "27",
       "code_snippet": "base = 3\nbase **= 3\nprint(base)",
       "explanation": "`base **= 3` raises `base` to the 3rd power: `3 ** 3 = 3 * 3 * 3 = 27`.",
-      "hint": "Calculate 3 to the 3rd power.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q17",
@@ -381,8 +477,14 @@
       ],
       "correct_answer": "In Python, augmented assignments are statements that do not return a value, so they cannot be chained",
       "explanation": "In Python, assignments are statements, not expressions. They produce no value, so chaining augmented assignment like `a += b += 1` raises `SyntaxError: invalid syntax`.",
-      "hint": "Assignments are statements in Python, not expressions.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q18",
@@ -411,8 +513,14 @@
         }
       ],
       "explanation": "`100 - 25 = 75`. `75 + 15 = 90`. `90 - 10 = 80`.",
-      "hint": "Start with health = 100, then use -= and += in order.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q19",
@@ -432,8 +540,14 @@
       ],
       "correct_answer": "fare = 3.50\nfare += 5 * 2.00\nprint(fare)",
       "explanation": "`5 * 2.00 = 10.00`. `fare += 10.00` adds to base `$3.50`, yielding `$13.50`.",
-      "hint": "Initialize fare to 3.50, then use += with 5 * 2.00.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q20",
@@ -454,8 +568,14 @@
       "correct_answer": "35",
       "code_snippet": "score = 10\nscore *= 3\nscore += 5\nprint(score)",
       "explanation": "First `score *= 3` updates `score` to `30`. Then `score += 5` updates `score` to `35`.",
-      "hint": "Multiply by 3 first, then add 5.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q21",
@@ -484,8 +604,14 @@
         }
       ],
       "explanation": "`16 * 2 = 32`. `32 + 8 = 40`. Using `*=` doubles the initial memory.",
-      "hint": "Use server_memory *= 2.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q22",
@@ -506,8 +632,14 @@
       "correct_answer": "25",
       "code_snippet": "fuel_gallons = 50\nfuel_gallons -= 10\nfuel_gallons -= 15\nprint(fuel_gallons)",
       "explanation": "`50 - 10 = 40`. `40 - 15 = 25`.",
-      "hint": "Subtract 10, then subtract 15.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q23",
@@ -536,8 +668,14 @@
         }
       ],
       "explanation": "`100.0 + 25.50 + 30.25 = 155.75`. `155.75 - 15.75 = 140.0`.",
-      "hint": "Start with savings = 100.0, use += twice, then -= once.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q24",
@@ -558,8 +696,14 @@
       "correct_answer": "20",
       "code_snippet": "angle = 350\nangle += 30\nangle %= 360\nprint(angle)",
       "explanation": "`angle += 30` makes `angle = 380`. Then `380 %= 360` computes `380 % 360 = 20`.",
-      "hint": "350 + 30 = 380. Find remainder when divided by 360.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.3_q25",
@@ -588,8 +732,19 @@
         }
       ],
       "explanation": "`0 + 100 = 100`. `100 * 2 = 200`. `200 - 50 = 150`. `150 * 3 = 450`.",
-      "hint": "Start with score = 0, then += 100, *= 2, -= 50, *= 3 in order.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Assignment Operators.",
+    "Predict output and track variable state changes when executing Assignment Operators.",
+    "Write, debug, and apply idiomatic Python solutions using Assignment Operators."
   ]
 }

@@ -145,6 +145,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
   const [matchedPairs, setMatchedPairs] = useState<Record<string, string>>({});
   const [code, setCode] = useState<string>('');
   const [showHint, setShowHint] = useState<boolean>(false);
+  const [currentHintLevel, setCurrentHintLevel] = useState<number>(0);
   const [hintsUsedCount, setHintsUsedCount] = useState<number>(0);
   const [feedbackMsg, setFeedbackMsg] = useState<{ title: string; msg: string; detail?: string }>({ title: '', msg: '' });
   const [executionOutput, setExecutionOutput] = useState<string>('');
@@ -229,6 +230,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     setSelectedOptionId(null);
     setBlankAnswer('');
     setShowHint(false);
+    setCurrentHintLevel(0);
     setExecutionOutput('');
     setFeedbackMsg({ title: '', msg: '' });
 
@@ -1288,6 +1290,148 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
     );
   }
 
+  const renderMentalModelCard = (model?: string) => {
+    if (!model) return null;
+    return (
+      <div style={{
+        backgroundColor: '#EFF6FF',
+        border: '1.5px solid #BFDBFE',
+        borderRadius: 'var(--radius-lg, 12px)',
+        padding: '12px 16px',
+        marginBottom: '18px',
+        fontSize: '0.88rem',
+        color: '#1E40AF',
+        lineHeight: 1.5,
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '10px'
+      }}>
+        <Icon name="bulb" size={18} style={{ flexShrink: 0, marginTop: '2px', color: '#2563EB' }} />
+        <div>
+          <span style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#1D4ED8', display: 'block', marginBottom: '2px' }}>
+            Mental Model
+          </span>
+          {model}
+        </div>
+      </div>
+    );
+  };
+
+  const renderHintLadder = (block: LessonBlock) => {
+    const progHints = block.progressiveHints || (block as any).progressive_hints;
+    const hasProgHints = Array.isArray(progHints) && progHints.length > 0;
+    const hasSingleHint = Boolean(block.hint && block.hint.trim());
+
+    if (!hasProgHints && !hasSingleHint) return null;
+
+    if (hasProgHints) {
+      const maxLevels = progHints.length;
+      const isAllRevealed = currentHintLevel >= maxLevels;
+
+      return (
+        <div style={{ marginBottom: '18px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: currentHintLevel > 0 ? '10px' : '0' }}>
+            <button
+              onClick={() => {
+                if (!isAllRevealed) {
+                  setCurrentHintLevel(l => Math.min(maxLevels, l + 1));
+                  setHintsUsedCount(c => c + 1);
+                } else {
+                  setCurrentHintLevel(0);
+                }
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#2563EB',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: 0
+              }}
+            >
+              <Icon name="sparkles" size={16} />
+              {currentHintLevel === 0
+                ? `Need a hint? (Level 1/${maxLevels})`
+                : isAllRevealed
+                  ? 'Hide hints'
+                  : `Next hint (Level ${currentHintLevel + 1}/${maxLevels})`}
+            </button>
+          </div>
+
+          {currentHintLevel > 0 && (
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {progHints.slice(0, currentHintLevel).map((hText: string, hIdx: number) => {
+                const labels = ['Concept Recall', 'Next Step', 'Structural Clue', 'Targeted Rule'];
+                const label = labels[hIdx] || `Hint ${hIdx + 1}`;
+                return (
+                  <div
+                    key={hIdx}
+                    style={{
+                      backgroundColor: 'var(--brand-light, #EFF6FF)',
+                      border: '1px solid var(--brand-border, #BFDBFE)',
+                      borderRadius: 'var(--radius-md, 8px)',
+                      padding: '10px 14px',
+                      color: 'var(--brand-primary, #1E40AF)',
+                      fontSize: '0.88rem',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '8px'
+                    }}
+                  >
+                    <Icon name="bulb" size={16} style={{ flexShrink: 0, marginTop: '2px', color: '#2563EB' }} />
+                    <div>
+                      <strong style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: '#1D4ED8', display: 'block', marginBottom: '2px' }}>
+                        {label}:
+                      </strong>
+                      {hText}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ marginBottom: '18px' }}>
+        <button
+          onClick={() => {
+            if (!showHint) setHintsUsedCount(c => c + 1);
+            setShowHint(prev => !prev);
+          }}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#2563EB',
+            fontWeight: 700,
+            fontSize: '0.85rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: 0,
+            marginBottom: showHint ? '10px' : 0
+          }}
+        >
+          <Icon name="sparkles" size={16} />
+          {showHint ? 'Hide Hint' : 'Need a hint?'}
+        </button>
+        {showHint && (
+          <div className="animate-fade-in" style={{ backgroundColor: 'var(--brand-light, #EFF6FF)', border: '1px solid var(--brand-border, #BFDBFE)', borderRadius: 'var(--radius-lg, 12px)', padding: '12px 16px', color: 'var(--brand-primary, #1E40AF)', fontSize: '0.9rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+            <Icon name="bulb" size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div><strong>Hint:</strong> {block.hint}</div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // Render specific interaction component based on block type
   const renderBlockContent = () => {
     switch (currentBlock.type) {
@@ -1298,6 +1442,7 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
           <div className="animate-fade-in" style={{ paddingBottom: '120px' }}>
             <div style={{ backgroundColor: 'var(--bg-app)', padding: '28px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default)' }}>
               {renderFormattedMarkdown(currentBlock.content || currentBlock.contentMarkdown)}
+              {renderMentalModelCard(currentBlock.mentalModel || (currentBlock as any).mental_model)}
             </div>
           </div>
         );
@@ -1332,6 +1477,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             <div style={{ marginBottom: '20px' }}>
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
+
+            {renderMentalModelCard(currentBlock.mentalModel || (currentBlock as any).mental_model)}
+            {renderHintLadder(currentBlock)}
 
             {/* Code Snippet (if provided separately) */}
             {currentBlock.codeSnippet && !((currentBlock.content || currentBlock.prompt || '').includes(currentBlock.codeSnippet)) && (
@@ -1661,6 +1809,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
 
+            {renderMentalModelCard(currentBlock.mentalModel || (currentBlock as any).mental_model)}
+            {renderHintLadder(currentBlock)}
+
             <div style={{ backgroundColor: 'var(--bg-app, #F9FAFB)', padding: '24px', borderRadius: 'var(--radius-xl, 16px)', border: '1px solid var(--border-default, #E5E7EB)' }}>
               <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '8px' }}>
                 Your Answer (exact syntax or keyword):
@@ -1720,6 +1871,9 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
             <div style={{ marginBottom: '24px' }}>
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
+
+            {renderMentalModelCard(currentBlock.mentalModel || (currentBlock as any).mental_model)}
+            {renderHintLadder(currentBlock)}
 
             <SortableCodeList
               items={orderedItems}
@@ -1944,21 +2098,6 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
                 </Badge>
                 {sessionPhase === 'review' && <Badge variant="warning" size="sm">REVIEW REINFORCEMENT</Badge>}
               </div>
-
-              {currentBlock.hint && (
-                <button
-                  onClick={() => {
-                    if (!showHint) {
-                      setHintsUsedCount(c => c + 1);
-                    }
-                    setShowHint(prev => !prev);
-                  }}
-                  style={{ background: 'none', border: 'none', color: '#2563EB', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
-                >
-                  <Icon name="sparkles" size={16} />
-                  {showHint ? 'Hide Hint' : 'Show Hint'}
-                </button>
-              )}
             </div>
 
             {/* Prompt Instructions */}
@@ -1966,13 +2105,8 @@ export const MultiStepLessonView: React.FC<MultiStepLessonViewProps> = ({ lesson
               {renderFormattedMarkdown(currentBlock.content || currentBlock.prompt)}
             </div>
 
-            {/* Hint Box */}
-            {showHint && currentBlock.hint && (
-              <div className="animate-fade-in" style={{ backgroundColor: 'var(--brand-light)', border: '1px solid var(--brand-border)', borderRadius: 'var(--radius-lg, 12px)', padding: '14px 18px', marginBottom: '18px', color: 'var(--brand-primary)', fontSize: '0.9rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                <Icon name="bulb" size={16} style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div><strong>Hint:</strong> {currentBlock.hint}</div>
-              </div>
-            )}
+            {renderMentalModelCard(currentBlock.mentalModel || (currentBlock as any).mental_model)}
+            {renderHintLadder(currentBlock)}
 
             {/* Engine Warming Indicator */}
             {isEngineWarming && (

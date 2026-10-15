@@ -12,7 +12,7 @@
       "prerequisites": [],
       "prompt": "When a user types the number `25` into `input()`, what data type does Python return?",
       "explanation": "The `input()` function always reads raw text from the keyboard and returns it as a string (`str`). Even if the user types digits like 25, Python stores `\"25\"`.",
-      "hint": "Think about keystrokes: the keyboard produces text characters.",
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
       "misconception_tag": "INPUT_IS_STRING",
       "options": [
         "A string (str): \"25\"",
@@ -20,7 +20,13 @@
         "A float: 25.0",
         "A boolean: True"
       ],
-      "correct_answer": "A string (str): \"25\""
+      "correct_answer": "A string (str): \"25\"",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ]
     },
     {
       "id": "4.1_fnd_2",
@@ -31,7 +37,7 @@
       "prerequisites": [],
       "prompt": "Suppose a program receives `\"5\"` from input for `a` and `\"2\"` for `b`:\n```python\na = \"5\"\nb = \"2\"\nprint(a + b)\n```\nWhat will this print?",
       "explanation": "`\"5\" + \"2\"` produces `\"52\"` because `+` on two strings joins them end-to-end. To get 7, you must convert them with `int(a) + int(b)`.",
-      "hint": "Notice the quotes around \"5\" and \"2\". + glues strings together.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "INPUT_IS_STRING",
       "options": [
         "52",
@@ -39,7 +45,13 @@
         "Error",
         "\"7\""
       ],
-      "correct_answer": "52"
+      "correct_answer": "52",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "4.1_fnd_3",
@@ -50,11 +62,17 @@
       "prerequisites": [],
       "prompt": "Complete the statement to prompt the user with `\"Enter name: \"`:\n```python\nuser_name = ____(\"Enter name: \")\nprint(\"Welcome, \" + user_name)\n```",
       "explanation": "`input()` is the built-in Python function that displays a prompt string and pauses execution until the user presses Enter.",
-      "hint": "The function name is lowercase: input",
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
       "misconception_tag": "SYNTAX_ERROR",
       "correct_answer": "input",
       "accepted_answers": [
         "input"
+      ],
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
       ]
     },
     {
@@ -66,7 +84,7 @@
       "prerequisites": [],
       "prompt": "Look at the following code:\n```python\nage = input(\"Enter age: \")\nnext_year = age + 1\n```\nWhy does line 2 crash when the user enters `18`?",
       "explanation": "Because `input()` returns a string, `age` is `\"18\"`. Writing `\"18\" + 1` tries to add a string and integer, triggering a `TypeError`. You must convert with `int(age) + 1`.",
-      "hint": "input() returns text. You cannot add 1 to text without converting it first.",
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
       "misconception_tag": "INPUT_IS_STRING",
       "options": [
         "age contains a string (\"18\"), and Python cannot add an integer (1) to a string with +",
@@ -74,7 +92,13 @@
         "next_year is a reserved keyword in Python",
         "The user must type the number spelled out in words like \"eighteen\""
       ],
-      "correct_answer": "age contains a string (\"18\"), and Python cannot add an integer (1) to a string with +"
+      "correct_answer": "age contains a string (\"18\"), and Python cannot add an integer (1) to a string with +",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ]
     },
     {
       "id": "4.1_fnd_5",
@@ -85,7 +109,7 @@
       "prerequisites": [],
       "prompt": "Write a Python program that:\n1. Creates a variable `city` set to `\"Tokyo\"`\n2. Prints: `Destination: Tokyo`",
       "explanation": "Setting `city = \"Tokyo\"` and printing `\"Destination: \" + city` combines the label with the variable.",
-      "hint": "city = \"Tokyo\"\nprint(\"Destination: \" + city)",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "starter_code": "# Print the destination\n",
       "solution_code": "city = \"Tokyo\"\nprint(\"Destination: \" + city)",
@@ -106,6 +130,12 @@
           "assertionPython": "assert _user_namespace.get('city') == 'Tokyo'",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -117,7 +147,7 @@
       "prerequisites": [],
       "prompt": "A developer wanted to add two numbers from input. But when `num1 = \"10\"` and `num2 = \"20\"`, the code below prints `1020` instead of `30`! Fix it using `int()`.",
       "explanation": "Converting both operands with `int(num1) + int(num2)` converts `\"10\"` and `\"20\"` to numbers `10` and `20`, so Python computes `30` instead of `\"1020\"`.",
-      "hint": "Use int(num1) + int(num2)",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "INPUT_IS_STRING",
       "starter_code": "num1 = \"10\"\nnum2 = \"20\"\ntotal = num1 + num2\nprint(total)",
       "solution_code": "num1 = \"10\"\nnum2 = \"20\"\ntotal = int(num1) + int(num2)\nprint(total)",
@@ -138,6 +168,12 @@
           "assertionPython": "assert _user_namespace.get('total') == 30 and _raw_stdout.strip() == '30'",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -149,7 +185,7 @@
       "prerequisites": [],
       "prompt": "Trace the value of variable `label` step by step:\n```python\nraw = \"Guest\"\nlabel = \"User: \"\nlabel = label + raw\n```\nWhat is the value of `label` after each line?",
       "explanation": "Line 2 creates `label` with `\"User: \"`. Line 3 appends `\"Guest\"` to produce `\"User: Guest\"`.",
-      "hint": "Concatenate the prefix with the name stored in raw.",
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "User: Guest",
@@ -183,6 +219,12 @@
           "expectedValue": "User: Guest",
           "hint": "Concatenates \"User: \" with \"Guest\""
         }
+      ],
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
       ]
     },
     {
@@ -194,7 +236,7 @@
       "prerequisites": [],
       "prompt": "Write a program that takes two variables:\n1. `name = \"Maya\"`\n2. `role = \"Engineer\"`\n\nAnd prints:\n```text\n--- BADGE ---\nName: Maya\nRole: Engineer\n```",
       "explanation": "Using three print calls displays the header and the two formatted field lines.",
-      "hint": "print(\"--- BADGE ---\") then print(\"Name: \" + name) then print(\"Role: \" + role)",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "INPUT_IS_STRING",
       "starter_code": "# Print the badge\n",
       "solution_code": "name = \"Maya\"\nrole = \"Engineer\"\nprint(\"--- BADGE ---\")\nprint(\"Name: \" + name)\nprint(\"Role: \" + role)",
@@ -215,6 +257,12 @@
           "assertionPython": "assert _user_namespace.get('name') == 'Maya' and _user_namespace.get('role') == 'Engineer'",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -226,7 +274,7 @@
       "prerequisites": [],
       "prompt": "Suppose the user inputs the number `42`. What does this code print?\n```python\nval = \"42\"\nprint(type(val))\n```",
       "explanation": "`type(\"42\")` evaluates to `<class 'str'>`. All user input without conversion is of type `str`.",
-      "hint": "Anything in quotes is of type str.",
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
       "misconception_tag": "INPUT_IS_STRING",
       "options": [
         "<class 'str'>",
@@ -234,7 +282,13 @@
         "<class 'number'>",
         "42"
       ],
-      "correct_answer": "<class 'str'>"
+      "correct_answer": "<class 'str'>",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ]
     },
     {
       "id": "4.1_fnd_10",
@@ -245,7 +299,7 @@
       "prerequisites": [],
       "prompt": "Fix the bug in the program below. The developer called `input()`, but forgot to save the result into the `username` variable before printing it!",
       "explanation": "To remember what the user typed, you must assign the return value of `input()` to a variable: `username = input(\"Your name: \")`.",
-      "hint": "username = input(\"Your name: \")",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "starter_code": "input(\"Your name: \")\nusername = \"Guest\"\nprint(\"Hello, \" + username)",
       "solution_code": "username = input(\"Your name: \")\nprint(\"Hello, \" + username)",
@@ -266,6 +320,12 @@
           "assertionPython": "assert 'Hello, Jordan' in _raw_stdout and _user_namespace.get('username') == 'Jordan'",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -276,7 +336,14 @@
       "difficulty": "easy",
       "title": "The input() Function and User Prompts",
       "content": "# The input() Function\n\nPrograms become dynamic and interactive when they receive user input. In Python, the built-in `input()` function pauses execution and waits for the user to type text in the terminal and press Enter.\n\n```python\nuser_name = input(\"Enter your name: \")\nprint(\"Hello, \" + user_name)\n```\n\n### 3 Core Rules of input():\n1. **Always Returns Text (`str`):** Even if the user types digits like `42`, Python returns the string `\"42\"`.\n2. **Displays a Prompt:** The optional string argument inside `input(\"Prompt: \")` displays on screen before the user cursor.\n3. **Pauses Program:** Execution halts until the user presses Enter. Accidental surrounding spaces can be trimmed with `.strip()`.",
-      "explanation": "input() halts execution, captures keystrokes until Enter, and always returns the captured text as a str."
+      "explanation": "input() halts execution, captures keystrokes until Enter, and always returns the captured text as a str.",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.1_cand_2",
@@ -293,7 +360,14 @@
       ],
       "correct_answer": "False (score is the string \"100\", while 100 is an int)",
       "explanation": "`input()` returns a string `str`. The string `\"100\"` is not equal to the integer `100`. In Python, comparing a string and integer with `==` returns `False` without raising an error.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.1_cand_3",
@@ -307,7 +381,14 @@
       ],
       "correct_answer": "strip",
       "explanation": "The `.strip()` method returns a copy of the string with leading and trailing whitespace removed, which is crucial for cleaning user entries.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_4",
@@ -324,7 +405,14 @@
       ],
       "correct_answer": "3333",
       "explanation": "Because `qty` is a string `\"3\"`, the `*` operator performs string repetition rather than multiplication. Multiplying `\"3\"` by `4` repeats the character 4 times, producing `\"3333\"`.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.1_cand_5",
@@ -341,7 +429,14 @@
       ],
       "correct_answer": "Welcome, Ada Lovelace!",
       "explanation": "The concatenation joins `\"Welcome, \"` with `\"Ada\"`, a space `\" \"`, `\"Lovelace\"`, and `\"!\"`, yielding `\"Welcome, Ada Lovelace!\"`.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.1_cand_6",
@@ -358,7 +453,14 @@
       ],
       "correct_answer": "confirm.strip().lower() == \"yes\"",
       "explanation": "Combining `.strip()` and `.lower()` trims accidental whitespace and normalizes entries like `\" YES \"` or `\"Yes\"` down to `\"yes\"`.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_7",
@@ -375,7 +477,14 @@
       ],
       "correct_answer": "user_entry.strip().lower()",
       "explanation": "Python strings use method chaining: `user_entry.strip()` strips whitespace, and `.lower()` converts to lowercase.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_8",
@@ -392,7 +501,14 @@
       ],
       "correct_answer": "NameError: name 'code' is not defined",
       "explanation": "The return value of `input()` was never assigned to any variable. When line 2 attempts to reference `code`, Python raises `NameError` because `code` was never created.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "4.1_cand_9",
@@ -421,7 +537,14 @@
         }
       ],
       "explanation": "Assign the result of `input(\"Color: \")` directly to `favorite_color`.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right.",
+        "Look at the variable name requested in the prompt. Variable names in Python are case-sensitive and must not start with a digit.",
+        "Structure: `<variable_name> = <value>` followed by your next instruction on a new line."
+      ],
+      "hint": "Recall: Variable assignment uses `=`. The variable name goes on the left, and the value goes on the right."
     },
     {
       "id": "4.1_cand_10",
@@ -450,7 +573,14 @@
         }
       ],
       "explanation": "Variable names always go on the left side of the assignment operator: `name = input(\"Name: \")`.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_11",
@@ -479,7 +609,14 @@
         }
       ],
       "explanation": "`city = input(\"Enter city: \")` reads user input and `print(\"Visiting \" + city)` combines it with the label.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_12",
@@ -508,7 +645,14 @@
         }
       ],
       "explanation": "Calling `input()` sequentially captures multiple user inputs, which can be concatenated with `\"@\"`.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "4.1_cand_13",
@@ -537,7 +681,14 @@
         }
       ],
       "explanation": "Sequential inputs combined with hyphen separators allow clean dynamic SKU formatting.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_14",
@@ -566,7 +717,14 @@
         }
       ],
       "explanation": "Captures two string inputs and concatenates them with an underscore separator to generate a unique ticket identifier.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.1_cand_15",
@@ -595,7 +753,19 @@
         }
       ],
       "explanation": "Collects multiple string inputs sequentially and formats them into a clean multi-line boarding pass display.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of The input() Function.",
+    "Predict output and track variable state changes when executing The input() Function.",
+    "Write, debug, and apply idiomatic Python solutions using The input() Function."
   ]
 }

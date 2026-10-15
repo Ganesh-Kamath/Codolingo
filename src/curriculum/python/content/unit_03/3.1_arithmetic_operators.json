@@ -12,7 +12,7 @@
       "prerequisites": [],
       "prompt": "What will this program print without parentheses?\n```python\nresult = 2 + 3 * 4\nprint(result)\n```",
       "explanation": "Python follows standard PEMDAS order of operations: multiplication (*) happens before addition (+). Thus `3 * 4 = 12`, then `2 + 12 = 14`.",
-      "hint": "Multiplication is computed before addition.",
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
       "misconception_tag": "PRECEDENCE_CONFUSION",
       "options": [
         "14",
@@ -22,7 +22,13 @@
       ],
       "correct_answer": "14",
       "code_snippet": "result = 2 + 3 * 4\nprint(result)",
-      "codeSnippet": "result = 2 + 3 * 4\nprint(result)"
+      "codeSnippet": "result = 2 + 3 * 4\nprint(result)",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.1_fnd_2",
@@ -33,7 +39,7 @@
       "prerequisites": [],
       "prompt": "Look at the following code:\n```python\nval = 10 / 2\nprint(val)\n```\nWhat does this print, and why?",
       "explanation": "In Python, the `/` operator always performs true float division, giving `5.0`. If you want integer floor division, you use `//`.",
-      "hint": "Single slash division always produces a number with a decimal point.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "options": [
         "5.0, because single slash (/) division always returns a float in Python",
@@ -41,7 +47,13 @@
         "Error, because integers cannot be divided",
         "0, because it only returns the remainder"
       ],
-      "correct_answer": "5.0, because single slash (/) division always returns a float in Python"
+      "correct_answer": "5.0, because single slash (/) division always returns a float in Python",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_fnd_3",
@@ -52,14 +64,20 @@
       "prerequisites": [],
       "prompt": "Complete the statement to calculate the area of a rectangle with `width = 5` and `height = 8`:\n```python\nwidth = 5\nheight = 8\narea = width ____ height\nprint(area)\n```",
       "explanation": "In Python, the asterisk `*` is the arithmetic operator for multiplication. `x` is not valid Python syntax for multiplying numbers.",
-      "hint": "Use the asterisk symbol above the number 8 key.",
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
       "misconception_tag": "WRONG_OPERATOR",
       "correct_answer": "*",
       "accepted_answers": [
         "*"
       ],
       "code_snippet": "width = 5\nheight = 8\narea = width ____ height\nprint(area)",
-      "codeSnippet": "width = 5\nheight = 8\narea = width ____ height\nprint(area)"
+      "codeSnippet": "width = 5\nheight = 8\narea = width ____ height\nprint(area)",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.1_fnd_4",
@@ -70,7 +88,7 @@
       "prerequisites": [],
       "prompt": "Now observe parentheses grouping the addition first. What will this program print?\n```python\ntotal = (2 + 3) * 4\nprint(total)\n```",
       "explanation": "Parentheses `()` have the highest precedence in Python. `(2 + 3)` evaluates to 5 first, then `5 * 4 = 20`.",
-      "hint": "Calculate inside the parentheses first.",
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
       "misconception_tag": "PRECEDENCE_CONFUSION",
       "options": [
         "20",
@@ -80,7 +98,13 @@
       ],
       "correct_answer": "20",
       "code_snippet": "total = (2 + 3) * 4\nprint(total)",
-      "codeSnippet": "total = (2 + 3) * 4\nprint(total)"
+      "codeSnippet": "total = (2 + 3) * 4\nprint(total)",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.1_fnd_5",
@@ -91,7 +115,7 @@
       "prerequisites": [],
       "prompt": "A book costs `25` dollars and a pen costs `5` dollars. Write a Python program that:\n1. Creates a variable `book` equal to `25`\n2. Creates a variable `pen` equal to `5`\n3. Creates a variable `total` equal to `book + pen`\n4. Prints `total`",
       "explanation": "We store numbers in variables `book` and `pen`, sum them into `total`, and print the result `30`.",
-      "hint": "book = 25, pen = 5, total = book + pen, print(total)",
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
       "misconception_tag": "WRONG_OPERATOR",
       "starter_code": "# Calculate total cost\n",
       "solution_code": "book = 25\npen = 5\ntotal = book + pen\nprint(total)",
@@ -120,6 +144,12 @@
           "assertionPython": "assert _raw_stdout.strip() == '30'",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
       ]
     },
     {
@@ -131,7 +161,7 @@
       "prerequisites": [],
       "prompt": "A store wants to find the average of two test scores: 80 and 100. The developer wrote the code below, but it prints 130.0 instead of 90.0! Fix the formula using parentheses.",
       "explanation": "Without parentheses, `score2 / 2` (50) is calculated first, then added to 80 (130). Adding parentheses `(score1 + score2) / 2` forces the sum to happen first (180 / 2 = 90.0).",
-      "hint": "Wrap the addition inside parentheses: (score1 + score2) / 2",
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
       "misconception_tag": "PRECEDENCE_CONFUSION",
       "starter_code": "score1 = 80\nscore2 = 100\naverage = score1 + score2 / 2\nprint(average)",
       "solution_code": "score1 = 80\nscore2 = 100\naverage = (score1 + score2) / 2\nprint(average)",
@@ -152,6 +182,12 @@
           "assertionPython": "assert _user_namespace.get('average') == 90.0",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
       ]
     },
     {
@@ -163,7 +199,7 @@
       "prerequisites": [],
       "prompt": "Trace the value of variable `balance` step by step:\n```python\nbalance = 100\nbalance = balance + 50\nbalance = balance - 20\n```\nWhat is `balance` after each line finishes?",
       "explanation": "balance starts at 100. Adding 50 brings it to 150. Subtracting 20 leaves 130.",
-      "hint": "Track how each line updates the single balance variable.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "VARIABLE_VALUE_CONFUSION",
       "options": [
         "130",
@@ -197,6 +233,12 @@
           "expectedValue": "130",
           "hint": "150 - 20"
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -208,7 +250,7 @@
       "prerequisites": [],
       "prompt": "You have `130` minutes. Write a Python script that calculates how many hours and remaining minutes that is.\n1. Set `total_minutes = 130`\n2. Set `hours = total_minutes // 60` (integer division)\n3. Set `minutes = total_minutes % 60` (remainder / modulo)\n4. Print `hours` then print `minutes` on separate lines",
       "explanation": "`130 // 60` computes full hours (2), and `130 % 60` computes remaining leftover minutes (10).",
-      "hint": "hours = total_minutes // 60, minutes = total_minutes % 60",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_OPERATOR",
       "starter_code": "# Convert 130 minutes into hours and remaining minutes\n",
       "solution_code": "total_minutes = 130\nhours = total_minutes // 60\nminutes = total_minutes % 60\nprint(hours)\nprint(minutes)",
@@ -229,6 +271,12 @@
           "assertionPython": "assert _raw_stdout.strip() == '2\\n10'",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -240,7 +288,7 @@
       "prerequisites": [],
       "prompt": "What will this program print?\n```python\nremainder = 14 % 4\nprint(remainder)\n```",
       "explanation": "The `%` operator returns the remainder after division. 14 divided by 4 is 3 with 2 left over. Thus `14 % 4 = 2`.",
-      "hint": "Think of dividing 14 candies among 4 friends equally. How many are left in the jar?",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_OPERATOR",
       "options": [
         "2",
@@ -250,7 +298,13 @@
       ],
       "correct_answer": "2",
       "code_snippet": "remainder = 14 % 4\nprint(remainder)",
-      "codeSnippet": "remainder = 14 % 4\nprint(remainder)"
+      "codeSnippet": "remainder = 14 % 4\nprint(remainder)",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_fnd_10",
@@ -261,7 +315,7 @@
       "prerequisites": [],
       "prompt": "A cashier has a 50 dollar bill and purchases an item for 15 dollars. The change should be 35 dollars, but this code prints -35! Fix the subtraction order.",
       "explanation": "Order matters in subtraction! `paid - cost` gives `50 - 15 = 35`, whereas `cost - paid` gives `-35`.",
-      "hint": "Switch the order: paid - cost",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_OPERATOR",
       "starter_code": "paid = 50\ncost = 15\nchange = cost - paid\nprint(change)",
       "solution_code": "paid = 50\ncost = 15\nchange = paid - cost\nprint(change)",
@@ -282,6 +336,12 @@
           "assertionPython": "assert _user_namespace.get('change') == 35",
           "hidden": true
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -293,7 +353,13 @@
       "prerequisites": [],
       "prompt": "# Python Arithmetic Operators\n\nPython provides standard mathematical operators for performing numerical computations:\n\n- `+` (Addition): `5 + 3 -> 8`\n- `-` (Subtraction): `10 - 4 -> 6`\n- `*` (Multiplication): `6 * 7 -> 42`\n- `/` (True Division): `7 / 2 -> 3.5` (always returns a `float`)\n- `//` (Floor Division): `7 // 2 -> 3` (discards remainder)\n- `%` (Modulo): `7 % 2 -> 1` (calculates remainder)\n- `**` (Exponentiation): `2 ** 3 -> 8` (2 raised to the 3rd power)\n\n### Key Trap:\nIn Python, `^` is bitwise XOR, NOT power! Always use `**` to calculate exponents.",
       "explanation": "Python arithmetic operators let you perform mathematical operations with numbers.",
-      "hint": "Use ** for exponents and / for true division."
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.1_cand_2",
@@ -313,8 +379,14 @@
       ],
       "correct_answer": "`/` always returns a float with decimals, while `//` truncates the fraction and returns the integer floor",
       "explanation": "Single slash `/` performs true float division (e.g. `10 / 2 -> 5.0`). Double slash `//` performs floor division, rounding down to the nearest integer.",
-      "hint": "Single slash always produces a number with a decimal point.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_3",
@@ -335,8 +407,14 @@
       "correct_answer": "4",
       "code_snippet": "current_hour = 9\nhours_added = 7\nnew_hour = (current_hour + hours_added) % 12\nprint(new_hour)",
       "explanation": "`9 + 7 = 16`. Then `16 % 12` calculates the remainder when 16 is divided by 12: `16 = 1 * 12 + 4`. The remainder is `4`.",
-      "hint": "Divide 16 by 12 and find the remainder.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.1_cand_4",
@@ -353,8 +431,14 @@
       ],
       "correct_answer": "**",
       "explanation": "In Python, the exponentiation operator is `**`. Writing `5 ** 3` evaluates to `125`. Remember that `^` is bitwise XOR, not exponentiation.",
-      "hint": "Two asterisks represent power in Python.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_5",
@@ -375,8 +459,14 @@
       "correct_answer": "1",
       "code_snippet": "val = 2 ^ 3\nprint(val)",
       "explanation": "In Python, `^` is the bitwise XOR operator, NOT exponentiation! Binary `010 ^ 011 = 001` (which is integer `1`). To calculate `2` to the power of `3`, use `2 ** 3 -> 8`.",
-      "hint": "^ is bitwise XOR in Python, not exponentiation.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_6",
@@ -396,8 +486,14 @@
       ],
       "correct_answer": "2, because Python floor division rounds toward negative infinity (-7 // 3 is -3), and -7 - (-3 * 3) = 2",
       "explanation": "Python defines modulo satisfying `a = (a // b) * b + (a % b)`. For `-7 % 3`: `-7 // 3 = -3`. Then `-3 * 3 = -9`. `-7 - (-9) = 2`. The result always has the same sign as the divisor `b`.",
-      "hint": "Python floor division rounds down toward negative infinity.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_7",
@@ -417,8 +513,14 @@
       ],
       "correct_answer": "A ZeroDivisionError is raised because division or modulo by zero is mathematically undefined",
       "explanation": "In Python, dividing or moduloing by zero with `/`, `//`, or `%` immediately raises a `ZeroDivisionError`.",
-      "hint": "Division by zero raises a runtime error.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_8",
@@ -438,8 +540,14 @@
       ],
       "correct_answer": "total = 85.50\nshare = total / 3\nprint(share)",
       "explanation": "Single slash `/` performs exact floating point division: `85.50 / 3 -> 28.5`. Floor division `//` would truncate to `28.0`, dropping fifty cents from the split.",
-      "hint": "You need exact float division for currency splits.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_9",
@@ -468,8 +576,14 @@
         }
       ],
       "explanation": "In Python, replace `^` with `**` to calculate exponents. `side ** 2` squares `6` to produce `36`.",
-      "hint": "Replace ^ with **.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_10",
@@ -498,8 +612,14 @@
         }
       ],
       "explanation": "`95 // 12` calculates how many full groups of 12 fit in 95 (`7`). `95 % 12` calculates the remainder (`11`).",
-      "hint": "Use // for full boxes and % for leftover items.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_11",
@@ -520,8 +640,14 @@
       "correct_answer": "False",
       "code_snippet": "sample = 17\nis_even = (sample % 2 == 0)\nprint(is_even)",
       "explanation": "`17 % 2` evaluates to `1` because 17 divided by 2 leaves a remainder of 1. `1 == 0` evaluates to `False`.",
-      "hint": "17 is an odd number, so remainder modulo 2 is 1.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_12",
@@ -550,8 +676,14 @@
         }
       ],
       "explanation": "Change is calculated by subtracting `bill` from `amount_paid`: `50.00 - 34.25 = 15.75`.",
-      "hint": "Subtract the bill from the amount paid.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_13",
@@ -572,8 +704,14 @@
       "correct_answer": "50.0",
       "code_snippet": "val = 100 / 4 * 2\nprint(val)",
       "explanation": "`/` and `*` have equal precedence and are evaluated strictly from left to right: `100 / 4 = 25.0`, then `25.0 * 2 = 50.0`. Since `/` was involved, the result is a float.",
-      "hint": "Evaluate left to right: 100 / 4 first, then multiply by 2.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.1_cand_14",
@@ -602,8 +740,14 @@
         }
       ],
       "explanation": "`3665 // 3600 = 1` hour. `3665 % 3600 = 65` remaining seconds. `65 // 60 = 1` minute. `65 % 60 = 5` seconds.",
-      "hint": "3600 seconds per hour, 60 seconds per minute.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall: `break` exits the entire loop immediately, while `continue` skips only the rest of the current iteration.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `break` exits the entire loop immediately, while `continue` skips only the rest of the current iteration.",
+        "Trace where the loop condition or if statement triggers the control flow change.",
+        "Check indentation: make sure the break or continue statement is inside the if check."
+      ]
     },
     {
       "id": "3.1_cand_15",
@@ -632,8 +776,19 @@
         }
       ],
       "explanation": "`40.0 * 3 = 120.0`. `120.0 * 0.10 = 12.0`. `120.0 - 12.0 = 108.0`.",
-      "hint": "Multiply price by quantity, then subtract 10% discount.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Arithmetic Operators.",
+    "Predict output and track variable state changes when executing Arithmetic Operators.",
+    "Write, debug, and apply idiomatic Python solutions using Arithmetic Operators."
   ]
 }

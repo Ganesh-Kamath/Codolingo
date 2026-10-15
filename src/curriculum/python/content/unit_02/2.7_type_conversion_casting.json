@@ -12,7 +12,7 @@
       "prerequisites": [],
       "prompt": "What will this program print?\n```python\ntext_num = \"42\"\nresult = int(text_num) + 8\nprint(result)\n```",
       "explanation": "`int(\"42\")` parses the string `\"42\"` into the integer `42`. Then `42 + 8` evaluates mathematically to `50`.",
-      "hint": "int(\"42\") changes the string into the number 42.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "INPUT_IS_STRING",
       "options": [
         "50",
@@ -23,7 +23,13 @@
       "correct_answer": "50",
       "code_snippet": "text_num = \"42\"\nresult = int(text_num) + 8\nprint(result)",
       "codeSnippet": "text_num = \"42\"\nresult = int(text_num) + 8\nprint(result)",
-      "expected_output": "50"
+      "expected_output": "50",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_2",
@@ -34,7 +40,7 @@
       "prerequisites": [],
       "prompt": "Look at the following code:\n```python\nval = int(\"hello\")\nprint(val)\n```\nWhat happens when this program runs?",
       "explanation": "`int()` requires the string to contain valid digits (like `\"123\"` or `\"-5\"`). Passing `\"hello\"` triggers a `ValueError`.",
-      "hint": "Can you turn the word \"hello\" into a number?",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "options": [
         "ValueError: invalid literal for int() with base 10",
@@ -45,7 +51,13 @@
       "correct_answer": "ValueError: invalid literal for int() with base 10",
       "code_snippet": "val = int(\"hello\")\nprint(val)",
       "codeSnippet": "val = int(\"hello\")\nprint(val)",
-      "expected_output": "ValueError"
+      "expected_output": "ValueError",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_3",
@@ -56,14 +68,20 @@
       "prerequisites": [],
       "prompt": "Complete the statement to convert the integer `items` to text so it can concatenate with the string:\n```python\nitems = 5\nmsg = \"Cart items: \" + ____(items)\nprint(msg)\n```",
       "explanation": "`str()` is the built-in function that converts any value into its string representation.",
-      "hint": "Use the 3-letter abbreviation for string: str",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "STRING_VS_NUMBER",
       "correct_answer": "str",
       "accepted_answers": [
         "str"
       ],
       "code_snippet": "items = 5\nmsg = \"Cart items: \" + ____(items)\nprint(msg)",
-      "codeSnippet": "items = 5\nmsg = \"Cart items: \" + ____(items)\nprint(msg)"
+      "codeSnippet": "items = 5\nmsg = \"Cart items: \" + ____(items)\nprint(msg)",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_4",
@@ -74,7 +92,7 @@
       "prerequisites": [],
       "prompt": "Look at these two statements:\n```python\na = float(\"3.14\")  # Line 1: Works\nb = int(\"3.14\")    # Line 2: Crashes\n```\nWhy does line 2 crash with a ValueError?",
       "explanation": "`int()` expects only digits `0-9` (and optional sign) in a string literal. A decimal point `.` causes an immediate ValueError unless parsed by `float()` first.",
-      "hint": "int() does not understand a decimal point when parsing directly from a string.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "options": [
         "int() only converts strings containing pure integer digits; it cannot parse a decimal point directly from a string",
@@ -82,7 +100,13 @@
         "Strings cannot be converted to floats",
         "Variable b was not defined"
       ],
-      "correct_answer": "int() only converts strings containing pure integer digits; it cannot parse a decimal point directly from a string"
+      "correct_answer": "int() only converts strings containing pure integer digits; it cannot parse a decimal point directly from a string",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_5",
@@ -93,7 +117,7 @@
       "prerequisites": [],
       "prompt": "You have a string price `price_str = \"10.0\"`. Write code that:\n1. Sets `price_str = \"10.0\"`\n2. Converts it to a float `price = float(price_str)`\n3. Adds `2.5` for shipping: `total = price + 2.5`\n4. Prints `total`",
       "explanation": "`float(\"10.0\")` converts the text to `10.0`, allowing arithmetic addition of `2.5` to yield `12.5`.",
-      "hint": "price = float(price_str), total = price + 2.5, print(total)",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "starter_code": "# Convert string price and add shipping\n",
       "solution_code": "price_str = \"10.0\"\nprice = float(price_str)\ntotal = price + 2.5\nprint(total)",
@@ -115,7 +139,13 @@
           "hidden": true
         }
       ],
-      "expected_output": "12.5"
+      "expected_output": "12.5",
+      "mental_model": "Type conversion constructs a brand new object of the target type. int(\"42\") builds a new integer 42 from the characters; it cannot parse letters or decimal dots directly.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_6",
@@ -126,7 +156,7 @@
       "prerequisites": [],
       "prompt": "A store clerk calculates the cost of 3 tickets at $15 each. But the program below prints `151515` because `quantity` was multiplied by a string! Fix it so it prints `45`.",
       "explanation": "Multiplying a string by an integer repeats the string (`\"15\" * 3 = \"151515\"`). Converting with `int(price)` performs mathematical multiplication (`15 * 3 = 45`).",
-      "hint": "Convert price with int(price): total = int(price) * quantity",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "STRING_VS_NUMBER",
       "starter_code": "price = \"15\"\nquantity = 3\ntotal = price * quantity\nprint(total)",
       "solution_code": "price = \"15\"\nquantity = 3\ntotal = int(price) * quantity\nprint(total)",
@@ -148,7 +178,13 @@
           "hidden": true
         }
       ],
-      "expected_output": "45"
+      "expected_output": "45",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_7",
@@ -159,7 +195,7 @@
       "prerequisites": [],
       "prompt": "Trace the value of variable `val` step by step:\n```python\nval = \"10\"\nval = int(val) * 2\nval = str(val) + \"!\"\n```\nWhat is the value of `val` after each line?",
       "explanation": "`val` starts as the string `\"10\"`. Next, `int(\"10\") * 2` yields the integer `20`. Finally, `str(20) + \"!\"` creates the string `\"20!\"`.",
-      "hint": "Watch how the data type changes from string to integer and back to string.",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "options": [
         "20!",
@@ -193,6 +229,12 @@
           "expectedValue": "20!",
           "hint": "Converted back to string \"20\" and concatenated with \"!\""
         }
+      ],
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
       ]
     },
     {
@@ -204,7 +246,7 @@
       "prerequisites": [],
       "prompt": "Write a program for a bus ticket machine:\n1. Set `riders_str = \"4\"`\n2. Set `fare_per_rider = 5`\n3. Calculate `total_fare = int(riders_str) * fare_per_rider`\n4. Print: `Total: $20`",
       "explanation": "We convert `riders_str` with `int()`, compute `4 * 5 = 20`, and convert back with `str(total_fare)` for printing.",
-      "hint": "total_fare = int(riders_str) * fare_per_rider, print(\"Total: $\" + str(total_fare))",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "starter_code": "# Calculate and print total bus fare\n",
       "solution_code": "riders_str = \"4\"\nfare_per_rider = 5\ntotal_fare = int(riders_str) * fare_per_rider\nprint(\"Total: $\" + str(total_fare))",
@@ -226,7 +268,13 @@
           "hidden": true
         }
       ],
-      "expected_output": "Total: $20"
+      "expected_output": "Total: $20",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_9",
@@ -237,7 +285,7 @@
       "prerequisites": [],
       "prompt": "The code below crashes with `ValueError: invalid literal for int() with base 10: '19.99'`. Fix it so it converts using `float()` instead of `int()`.",
       "explanation": "`int()` fails on `\"19.99\"` because of the decimal point. Using `float(price_text)` properly parses decimal numbers.",
-      "hint": "Replace int(price_text) with float(price_text)",
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
       "misconception_tag": "WRONG_TYPE",
       "starter_code": "price_text = \"19.99\"\nprice = int(price_text)\nprint(price)",
       "solution_code": "price_text = \"19.99\"\nprice = float(price_text)\nprint(price)",
@@ -259,7 +307,13 @@
           "hidden": true
         }
       ],
-      "expected_output": "19.99"
+      "expected_output": "19.99",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_fnd_10",
@@ -270,7 +324,7 @@
       "prerequisites": [],
       "prompt": "Which of the following values can be safely converted to an integer using `int(x)` without raising an error?",
       "explanation": "`int()` can convert positive and negative whole numbers in string form (`\"-10\"` -> `-10`). Decimals, symbols, and words will raise a `ValueError`.",
-      "hint": "Look for whole numbers without decimals or currency symbols.",
+      "hint": "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line.",
       "misconception_tag": "WRONG_TYPE",
       "options": [
         "\"-10\"",
@@ -278,7 +332,13 @@
         "\"one\"",
         "\"$50\""
       ],
-      "correct_answer": "\"-10\""
+      "correct_answer": "\"-10\"",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line.",
+        "Every statement that belongs inside the conditional branch must be indented by 4 spaces.",
+        "Structure: `if <condition>:` followed by indented code. Use `==` for comparison, not `=`."
+      ]
     },
     {
       "id": "2.7_cand_1",
@@ -290,7 +350,14 @@
       "content": "Python will not automatically convert incompatible types. You must explicitly convert (cast) values using constructor functions:\n- `int(\"42\")` converts text `\"42\"` to integer `42`.\n- `float(\"3.14\")` converts text `\"3.14\"` to float `3.14`.\n- `str(100)` converts integer `100` to text `\"100\"`.\n- `bool(x)` converts any value to its truth value.",
       "prompt": "",
       "explanation": "Type conversion transforms a value of one data type into another using explicit constructor functions.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_2",
@@ -307,7 +374,14 @@
       ],
       "correct_answer": "9 (it truncates/chops off the decimal part towards zero)",
       "explanation": "The `int()` function does NOT round numbers; it simply truncates (discards) the decimal portion.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_3",
@@ -326,7 +400,14 @@
       "correct_answer": "Score: 95",
       "expected_output": "Score: 95",
       "explanation": "`str(score)` converts integer 95 to string \"95\", allowing clean concatenation with \"Score: \".",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_4",
@@ -340,8 +421,14 @@
       ],
       "correct_answer": "float",
       "explanation": "Use the `float()` function to parse a numeric decimal string into a floating-point number.",
-      "hint": "Type the function name: float",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_cand_5",
@@ -358,7 +445,14 @@
       ],
       "correct_answer": "ValueError because int() cannot parse a string containing a decimal point",
       "explanation": "`int()` expects only whole number digits in a string. To convert `\"12.5\"`, you must chain `int(float(\"12.5\"))`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_6",
@@ -377,7 +471,14 @@
       "correct_answer": "24",
       "expected_output": "24",
       "explanation": "`float(\"24.95\")` creates 24.95. Then `int(24.95)` truncates to 24.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_7",
@@ -405,8 +506,14 @@
         }
       ],
       "explanation": "Wrap rank in `str(rank)` to convert the integer 1 into text before concatenating.",
-      "hint": "Use str(rank) to convert the number to text.",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall: In Python, `print()` takes the value inside parentheses and displays it on the screen.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "print() is an output pipeline: Python evaluates the value inside the parentheses, converts it to display text, and writes it to the console with an automatic newline at the end.",
+      "progressive_hints": [
+        "Recall: In Python, `print()` takes the value inside parentheses and displays it on the screen.",
+        "Check whether the prompt asks for text or numbers. Text must be surrounded by quotes; variable names must not.",
+        "Structure: `print(...)` - ensure parentheses match and strings are closed with matching quotes."
+      ]
     },
     {
       "id": "2.7_cand_8",
@@ -434,8 +541,14 @@
         }
       ],
       "explanation": "float(\"12.50\") + float(\"7.50\") = 12.5 + 7.5 = 20.0.",
-      "hint": "Use float(price1) + float(price2) and print total.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_cand_9",
@@ -454,7 +567,14 @@
       "correct_answer": "True",
       "expected_output": "True",
       "explanation": "`bool(string)` tests if the string is non-empty. Since `\"False\"` has 5 characters, it evaluates to True! Only empty string `bool(\"\")` is False.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_10",
@@ -473,7 +593,14 @@
       "correct_answer": "False",
       "expected_output": "False",
       "explanation": "An empty string has length 0 and is falsy, so bool(\"\") returns False.",
-      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_11",
@@ -490,7 +617,14 @@
       ],
       "correct_answer": "str (string)",
       "explanation": "User input is always captured as text (str). You must explicitly convert it with int() or float() to perform math.",
-      "misconception_tag": "INPUT_IS_STRING"
+      "misconception_tag": "INPUT_IS_STRING",
+      "mental_model": "input() pauses program execution, displays a prompt, and waits for Enter. It ALWAYS returns whatever was typed as a string (str), even if the user typed numbers.",
+      "progressive_hints": [
+        "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`).",
+        "If you need to perform calculations with the user response, remember that text cannot be multiplied or added as numbers directly.",
+        "Structure: Use `int(input(...))` or `float(input(...))` to convert the input text into a number before calculating."
+      ],
+      "hint": "Recall: `input()` prompts the user and returns whatever they typed as a string (`str`)."
     },
     {
       "id": "2.7_cand_12",
@@ -518,8 +652,14 @@
         }
       ],
       "explanation": "Convert `qty_text` using `int(qty_text)` so you add 5 + 2 = 7.",
-      "hint": "Use int(qty_text) + 2.",
-      "misconception_tag": "STRING_VS_NUMBER"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "STRING_VS_NUMBER",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "2.7_cand_13",
@@ -538,7 +678,14 @@
       "correct_answer": "10.0",
       "expected_output": "10.0",
       "explanation": "Converting an integer to a float appends `.0`, yielding 10.0.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_14",
@@ -555,7 +702,14 @@
       ],
       "correct_answer": "int(\"forty_two\")",
       "explanation": "`int()` cannot convert arbitrary English words into numbers; it only parses digits in base 10.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "2.7_cand_15",
@@ -583,8 +737,19 @@
         }
       ],
       "explanation": "Converts \"21.6\" -> 21.6 -> 21 -> \"Degrees: 21\".",
-      "hint": "Chain the conversions float(), int(), and str() as instructed.",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Type Conversion (Casting).",
+    "Predict output and track variable state changes when executing Type Conversion (Casting).",
+    "Write, debug, and apply idiomatic Python solutions using Type Conversion (Casting)."
   ]
 }

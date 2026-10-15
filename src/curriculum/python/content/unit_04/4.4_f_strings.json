@@ -11,7 +11,14 @@
       "difficulty": "easy",
       "title": "Modern String Formatting with f-strings",
       "content": "# Modern String Formatting with f-strings\n\nIntroduced in Python 3.6, **f-strings** (formatted string literals) provide the cleanest, fastest, and most readable way to format text. Prefix the string with the letter `f` (or `F`) and place variables or expressions directly inside curly braces `{}`.\n\n```python\nname = \"Alex\"\nscore = 95\nprint(f\"Player {name} has {score} points!\")\n```\n\n### Key Features & Traps:\n1. **Expressions Inside Braces:** You can execute math and method calls inside braces: `f\"Next year: {age + 1}\"`.\n2. **Float Formatting:** Control decimal places using `:.Nf`. For example, `f\"${price:.2f}\"` formats `19.5` as `\"$19.50\"`.\n3. **Escaping Braces:** To output literal curly braces, double them: `f\"JSON: {{'id': {user_id}}}\"`.\n4. **Missing 'f' Prefix Trap:** Writing `\"Hello {name}\"` without the leading `f` prints literal text `\"Hello {name}\"` without substituting the variable!",
-      "explanation": "Prefix strings with f and embed variables or expressions inside curly braces {} for readable formatting."
+      "explanation": "Prefix strings with f and embed variables or expressions inside curly braces {} for readable formatting.",
+      "mental_model": "Strings are ordered, immutable sequences of characters. Each character sits at a fixed index starting from 0.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q2",
@@ -28,7 +35,14 @@
       ],
       "correct_answer": "It prints: Welcome, {user}! (the string lacks the leading f prefix)",
       "explanation": "Without the leading `f` prefix, Python treats `\"{user}\"` as plain literal text. To perform variable interpolation, write `f\"Welcome, {user}!\"`.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q3",
@@ -43,7 +57,14 @@
       ],
       "correct_answer": "f",
       "explanation": "Prefixing string literals with lowercase `f` (or uppercase `F`) designates them as formatted string literals.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q4",
@@ -60,7 +81,14 @@
       ],
       "correct_answer": "Result: 50",
       "explanation": "Python evaluates arbitrary valid expressions inside f-string braces. `x * y` evaluates to 50, producing `\"Result: 50\"`.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q5",
@@ -77,7 +105,14 @@
       ],
       "correct_answer": "Total: $8.50",
       "explanation": "The format specifier `:.2f` rounds/pads the floating point number to exactly 2 decimal places, turning `8.5` into `8.50`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q6",
@@ -94,7 +129,14 @@
       ],
       "correct_answer": "f\"{account} balance: ${balance:.2f}\"",
       "explanation": "`f\"{account} balance: ${balance:.2f}\"` combines variable interpolation with two-decimal-place float formatting.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q7",
@@ -111,7 +153,14 @@
       ],
       "correct_answer": "f\"Lat: {lat:.3f}, Lon: {lon:.3f}\"",
       "explanation": "The format specifier `:.3f` specifies fixed-point floating representation rounded to 3 decimal places.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "4.4_q8",
@@ -128,7 +177,14 @@
       ],
       "correct_answer": "SyntaxError: f-string: empty expression not allowed",
       "explanation": "Unlike the old `.format()` method, f-strings do not allow empty curly braces `{}`. Every brace pair in an f-string must contain an expression or variable.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "A SyntaxError happens before any code runs (at parsing time). Python refuses to start executing if the grammar rules are broken.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q9",
@@ -145,7 +201,14 @@
       ],
       "correct_answer": "f\"User: {{{user_id}}}\" (double outer braces escape literal braces)",
       "explanation": "In Python f-strings, double curly braces `{{` and `}}` escape the braces and output literal `{` and `}` characters.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q10",
@@ -174,7 +237,14 @@
         }
       ],
       "explanation": "Add the letter `f` before the opening quote: `f\"Hello {username}!\"`.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q11",
@@ -203,7 +273,14 @@
         }
       ],
       "explanation": "Use `:.2f` after the variable name inside the curly braces: `{amount:.2f}`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line.",
+        "Every statement that belongs inside the conditional branch must be indented by 4 spaces.",
+        "Structure: `if <condition>:` followed by indented code. Use `==` for comparison, not `=`."
+      ],
+      "hint": "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line."
     },
     {
       "id": "4.4_q12",
@@ -232,7 +309,14 @@
         }
       ],
       "explanation": "`f\"Staff: {name} ({role})\"` cleanly interpolates both variables into a formatted badge line.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q13",
@@ -261,7 +345,14 @@
         }
       ],
       "explanation": "Adds subtotal and tax, then formats the resulting float with `:.2f` inside the f-string.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q14",
@@ -290,7 +381,14 @@
         }
       ],
       "explanation": "Interpolates string, integer, and two floating-point values formatted to two decimal places in a single clear f-string.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q15",
@@ -319,7 +417,14 @@
         }
       ],
       "explanation": "Uses `{cpu_percent:.1f}%` to format CPU load to one decimal place alongside integer uptime days.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q16",
@@ -336,7 +441,14 @@
       ],
       "correct_answer": "They are more concise, readable, faster, and automatically convert variables without requiring explicit str() casts",
       "explanation": "f-strings eliminate verbose `str()` calls, prevent spacing mistakes, and evaluate expressions at runtime efficiently.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "4.4_q17",
@@ -353,7 +465,14 @@
       ],
       "correct_answer": "Learning PYTHON!",
       "explanation": "Expressions inside curly braces are evaluated before string insertion. `word.upper()` evaluates to `\"PYTHON\"`, producing `\"Learning PYTHON!\"`.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q18",
@@ -370,7 +489,14 @@
       ],
       "correct_answer": "Completion: 75%",
       "explanation": "The `:.0%` format specifier multiplies the number by 100, formats it with 0 decimal places, and appends a `%` sign.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line.",
+        "Every statement that belongs inside the conditional branch must be indented by 4 spaces.",
+        "Structure: `if <condition>:` followed by indented code. Use `==` for comparison, not `=`."
+      ],
+      "hint": "Recall: An `if` statement tests a boolean condition. Don't forget the colon (`:`) at the end of the line."
     },
     {
       "id": "4.4_q19",
@@ -387,7 +513,14 @@
       ],
       "correct_answer": "f\"{home} {h_score} - {a_score} {away}\"",
       "explanation": "`f\"{home} {h_score} - {a_score} {away}\"` interpolates all four variables in exact scoreboard order.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q20",
@@ -404,7 +537,14 @@
       ],
       "correct_answer": "Reusing the exact same double quotes both inside and outside the f-string can prematurely terminate the string literal",
       "explanation": "Using the same quotes inside braces as the enclosing quotes (e.g. `f\"...\"`) could confuse the parser in older Python versions. Best practice is to alternate quotes: `f\"Value: {'hello'}\"`.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q21",
@@ -433,7 +573,14 @@
         }
       ],
       "explanation": "Uses an f-string to cleanly embed integer hours and minutes into a departure message.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q22",
@@ -462,7 +609,14 @@
         }
       ],
       "explanation": "Formats temperature float to 1 decimal place with `:.1f` in the f-string.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q23",
@@ -491,7 +645,14 @@
         }
       ],
       "explanation": "The expression inside the curly braces must include the variable name `num + 1`.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q24",
@@ -520,7 +681,14 @@
         }
       ],
       "explanation": "Combines multiple variables and calculated burn rate formatted to one decimal place.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     },
     {
       "id": "4.4_q25",
@@ -549,7 +717,19 @@
         }
       ],
       "explanation": "Assembles a professional barista receipt screen using an f-string with fixed-precision currency formatting.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ],
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first."
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of f-strings.",
+    "Predict output and track variable state changes when executing f-strings.",
+    "Write, debug, and apply idiomatic Python solutions using f-strings."
   ]
 }

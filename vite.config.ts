@@ -1,8 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const { authoringPlugin } = require('./scripts/authoring/authoringApiMiddleware.cjs');
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), authoringPlugin()],
   build: {
     rollupOptions: {
       output: {

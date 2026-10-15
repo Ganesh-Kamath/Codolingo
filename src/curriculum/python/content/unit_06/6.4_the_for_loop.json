@@ -12,7 +12,14 @@
       "title": "The for Loop: Definite Iteration Over Sequences",
       "prompt": "",
       "explanation": "A for loop executes a code block once for each item in a sequence (such as a string, list, or range). It automatically assigns each element to the loop variable and terminates when all elements have been visited.",
-      "content": "# The for Loop: Definite Iteration\n\nWhile a `while` loop runs based on a boolean condition, a `for` loop performs **definite iteration**: it iterates across a collection of items, executing once per item.\n\n### Basic Syntax\n```python\nfor item in sequence:\n    # Indented body executes once per element\n    print(item)\n```\n\n### Iterating Over Strings\nStrings are sequences of characters. A `for` loop visits every character from left to right:\n```python\nfor char in \"CODE\":\n    print(char)\n# Output:\n# C\n# O\n# D\n# E\n```\n\n### The Loop Variable Scope\nIn Python, the loop variable remains accessible in the namespace after the loop finishes, retaining the **last value** it held.\n\n### The Accumulator Pattern\nTo calculate totals or counts across a sequence:\n1. Initialize the accumulator (`total = 0` or `result = \"\"`) **before** the loop.\n2. Inside the loop, update the accumulator (`total += item`).\n3. Access the accumulated result **after** the loop completes."
+      "content": "# The for Loop: Definite Iteration\n\nWhile a `while` loop runs based on a boolean condition, a `for` loop performs **definite iteration**: it iterates across a collection of items, executing once per item.\n\n### Basic Syntax\n```python\nfor item in sequence:\n    # Indented body executes once per element\n    print(item)\n```\n\n### Iterating Over Strings\nStrings are sequences of characters. A `for` loop visits every character from left to right:\n```python\nfor char in \"CODE\":\n    print(char)\n# Output:\n# C\n# O\n# D\n# E\n```\n\n### The Loop Variable Scope\nIn Python, the loop variable remains accessible in the namespace after the loop finishes, retaining the **last value** it held.\n\n### The Accumulator Pattern\nTo calculate totals or counts across a sequence:\n1. Initialize the accumulator (`total = 0` or `result = \"\"`) **before** the loop.\n2. Inside the loop, update the accumulator (`total += item`).\n3. Access the accumulated result **after** the loop completes.",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_2",
@@ -29,7 +36,14 @@
       ],
       "correct_answer": "The variable item is automatically bound to the next element in the sequence, and the indented body runs",
       "explanation": "Python's for loop is a \"for-each\" construct. On each pass, it retrieves the next item from the iterable, binds it to the loop variable name, and executes the loop body.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_3",
@@ -48,7 +62,14 @@
       ],
       "correct_answer": "H\nI\n!",
       "explanation": "The string \"HI!\" has 3 characters: \"H\", \"I\", and \"!\". The for loop prints each character on its own line.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_4",
@@ -67,7 +88,14 @@
       ],
       "correct_answer": "Final: Z",
       "explanation": "In Python, variables defined in a `for` loop header are not restricted to block scope. When the loop ends, `letter` remains defined and retains its last value, `\"Z\"`.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_5",
@@ -84,7 +112,14 @@
       ],
       "correct_answer": "vowels = 0\nfor char in text:\n    if char in \"aeiou\":\n        vowels += 1",
       "explanation": "Initializing `vowels = 0` before the loop and incrementing it conditionally for each vowel correctly counts the vowels. Re-initializing `vowels = 0` inside the loop would lose previous counts.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_6",
@@ -101,7 +136,14 @@
       ],
       "correct_answer": "0 -> 15 -> 40 -> 80",
       "explanation": "Pass 1: 0 + 15 = 15. Pass 2: 15 + 25 = 40. Pass 3: 40 + 40 = 80. The accumulator preserves the sum across iterations.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_7",
@@ -118,7 +160,14 @@
       ],
       "correct_answer": "score = 0 is placed inside the loop body, wiping out the accumulated points on every iteration",
       "explanation": "Because `score = 0` is inside the loop, each iteration resets `score` back to 0 before adding 10. Accumulators must be initialized before the loop starts.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_8",
@@ -135,7 +184,14 @@
       ],
       "correct_answer": "TypeError: 'int' object is not iterable",
       "explanation": "Integers are scalar numbers, not sequences. Python cannot iterate over a raw `int`. To loop 5 times, you must wrap the number in `range(5)`.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_9",
@@ -152,7 +208,14 @@
       ],
       "correct_answer": "3 iterations (one for \"C\", one for \"A\", one for \"T\")",
       "explanation": "Strings in Python are sequences of individual 1-character strings. Iterating over `\"CAT\"` executes the loop body exactly 3 times.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_10",
@@ -171,7 +234,14 @@
       ],
       "correct_answer": "P-Y-!-",
       "explanation": "On each pass, `ch + \"-\"` is appended to `res`: \"\" + \"P-\" = \"P-\"; \"P-\" + \"Y-\" = \"P-Y-\"; \"P-Y-\" + \"!-\" = \"P-Y-!-\".",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_11",
@@ -199,7 +269,14 @@
         }
       ],
       "explanation": "Every `for` header requires a colon `:`, and the loop body must be indented by 4 spaces.",
-      "misconception_tag": "SYNTAX_ERROR"
+      "misconception_tag": "SYNTAX_ERROR",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_12",
@@ -227,7 +304,14 @@
         }
       ],
       "explanation": "Initializing `total = 0` before the loop ensures the sum accumulates across all iterations.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_13",
@@ -255,7 +339,14 @@
         }
       ],
       "explanation": "Replacing integer 3 with a list `[1, 2, 3]` gives the for loop a valid sequence to iterate over.",
-      "misconception_tag": "WRONG_TYPE"
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_14",
@@ -283,7 +374,14 @@
         }
       ],
       "explanation": "Never use the accumulator variable name as the loop variable. Distinguishing `total` and `score` allows proper accumulation.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_15",
@@ -311,7 +409,14 @@
         }
       ],
       "explanation": "All statements belonging to the `for` loop body must be indented by 4 spaces.",
-      "misconception_tag": "INDENTATION_ERROR"
+      "misconception_tag": "INDENTATION_ERROR",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_16",
@@ -339,7 +444,14 @@
         }
       ],
       "explanation": "Starting `count = 0` outside and incrementing `count += 1` inside tallies all 4 characters.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_17",
@@ -367,7 +479,14 @@
         }
       ],
       "explanation": "`for letter in word:` inspects each character in `\"PYTHON\"` and outputs it cleanly with f-string formatting.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_18",
@@ -395,7 +514,14 @@
         }
       ],
       "explanation": "`subtotal` accumulates all four numbers: 8 + 14 + 5 + 22 = 49.",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_19",
@@ -423,7 +549,14 @@
         }
       ],
       "explanation": "The loop visits each character in the string. When `base == \"T\"`, it increments `t_count`. There are 3 \"T\"s.",
-      "misconception_tag": "CONDITION_BOUNDARY"
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_20",
@@ -451,7 +584,14 @@
         }
       ],
       "explanation": "Calling `.upper()` inside the loop body converts each string in `names` to uppercase.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_21",
@@ -479,7 +619,14 @@
         }
       ],
       "explanation": "Prepending `char + reversed_text` places each new character at the front: \"\" -> \"L\" -> \"OL\" -> \"OOL\" -> \"POOL\".",
-      "misconception_tag": "VARIABLE_VALUE_CONFUSION"
+      "misconception_tag": "VARIABLE_VALUE_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_22",
@@ -507,7 +654,14 @@
         }
       ],
       "explanation": "As the loop visits each score, `highest` updates whenever a larger value is found, finishing at 91.",
-      "misconception_tag": "CONDITION_BOUNDARY"
+      "misconception_tag": "CONDITION_BOUNDARY",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_23",
@@ -535,7 +689,14 @@
         }
       ],
       "explanation": "Multiplicative accumulators start at 1: 1 * 2 * 3 * 5 = 30.",
-      "misconception_tag": "WRONG_OPERATOR"
+      "misconception_tag": "WRONG_OPERATOR",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_24",
@@ -563,7 +724,14 @@
         }
       ],
       "explanation": "Tags lacking `#` (`\"coding\"`, `\"ai\"`) have `#` prepended, standardizing all tags before accumulating.",
-      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION"
+      "misconception_tag": "BOOLEAN_LOGIC_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     },
     {
       "id": "6.4_cand_25",
@@ -591,7 +759,19 @@
         }
       ],
       "explanation": "Total score is 425 over 5 grades, giving an exact average of 85.0.",
-      "misconception_tag": "LOOP_EXECUTION_CONFUSION"
+      "misconception_tag": "LOOP_EXECUTION_CONFUSION",
+      "mental_model": "A for loop iterates over an iterable collection (like range, list, or string) one element at a time, automatically assigning each item to the loop variable.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ],
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`."
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of The for Loop.",
+    "Predict output and track variable state changes when executing The for Loop.",
+    "Write, debug, and apply idiomatic Python solutions using The for Loop."
   ]
 }

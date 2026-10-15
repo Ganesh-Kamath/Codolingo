@@ -120,3 +120,32 @@ node scripts/validate-exercises.cjs
 ### Gate Behavior:
 - **On Failure**: Prints a readable report grouped by Lesson and Exercise ID with specific failure reasons, marks the unit unplayable in [`src/curriculum/python/curriculumStatus.json`](file:///c:/Users/kamat/Desktop/Codolingo/src/curriculum/python/curriculumStatus.json), and exits with exit code `1`.
 - **On Success**: Prints verification badges for all exercises, generates/updates [`src/curriculum/python/curriculumStatus.json`](file:///c:/Users/kamat/Desktop/Codolingo/src/curriculum/python/curriculumStatus.json) marking the unit playable, and exits with exit code `0`.
+
+---
+
+## 6. Teaching Quality Standard & Authoring Engine
+
+For instructional principles, mental models, progressive hint ladders, and the 10-dimension evaluation rubric, see the comprehensive [Codolingo Teaching Content Standard](file:///c:/Users/kamat/Desktop/Codolingo/docs/TEACHING_CONTENT_STANDARD.md).
+
+### Automated Teaching Quality Test Gate
+```bash
+npm run test:teaching
+```
+Validates that:
+- Lessons provide structured computational mental models.
+- Hints follow a strict 3-tier progressive ladder without leaking answers in Tiers 1 and 2.
+- Content is free of boilerplate filler statements.
+- Lessons include explicit step-by-step reasoning.
+
+### Offline Curriculum Authoring CLI
+```bash
+# Audit teaching quality across all playable units
+npm run author -- --audit
+
+# Improve playable lessons with mental models and hint ladders
+npm run author -- --improve-playable
+
+# Synchronize content files with the selected playable curriculum
+npm run author -- --sync
+```
+

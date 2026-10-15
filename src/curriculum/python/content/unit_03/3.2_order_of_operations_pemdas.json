@@ -12,7 +12,13 @@
       "prerequisites": [],
       "prompt": "# Order of Operations (PEMDAS) in Python\n\nWhen an expression contains multiple operators, Python evaluates them in a strict mathematical hierarchy:\n\n1. **Parentheses `()`**: Highest priority. Force inner expressions to evaluate first.\n2. **Exponents `**`**: Evaluated next (from right-to-left!).\n3. **Multiplication, Division, Floor Div, Modulo (`*`, `/`, `//`, `%`)**: Equal precedence, evaluated from left to right.\n4. **Addition and Subtraction (`+`, `-`)**: Lowest precedence among basic math, evaluated from left to right.\n\n### The Golden Rule\nWhen in doubt, **use parentheses**! Parentheses make your mathematical intent completely unambiguous both to Python and to fellow programmers reading your code.",
       "explanation": "Python adheres to mathematical PEMDAS precedence.",
-      "hint": "Parentheses always evaluate first."
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q2",
@@ -33,8 +39,14 @@
       "correct_answer": "23",
       "code_snippet": "val = 3 + 4 * 5\nprint(val)",
       "explanation": "Multiplication has higher precedence than addition: `4 * 5` is calculated first (`20`), then `3 + 20 = 23`. If evaluated strictly left-to-right it would be `(3 + 4) * 5 = 35`, which violates PEMDAS.",
-      "hint": "Multiply 4 by 5 first, then add 3.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ]
     },
     {
       "id": "3.2_q3",
@@ -55,8 +67,14 @@
       "correct_answer": "35",
       "code_snippet": "val = (3 + 4) * 5\nprint(val)",
       "explanation": "Parentheses override default precedence: `(3 + 4)` evaluates first to `7`, then `7 * 5 = 35`.",
-      "hint": "Calculate inside the parentheses first.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q4",
@@ -73,8 +91,14 @@
       ],
       "correct_answer": "(",
       "explanation": "An opening parenthesis `(` pairs with `)` to group `(10 + 2)`, forcing the addition to evaluate to `12` before multiplying by `3`.",
-      "hint": "Use an opening parenthesis.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q5",
@@ -95,8 +119,14 @@
       "correct_answer": "24",
       "code_snippet": "val = 3 * 2 ** 3\nprint(val)",
       "explanation": "Exponentiation (`**`) binds tighter than multiplication (`*`). `2 ** 3` evaluates first to `8`, then `3 * 8 = 24`. Computing `(3 * 2) ** 3` would give `6 ** 3 = 216`, which is incorrect.",
-      "hint": "Calculate 2 ** 3 first, then multiply by 3.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q6",
@@ -116,8 +146,14 @@
       ],
       "correct_answer": "512, because exponentiation associates from right to left (evaluating 3 ** 2 = 9 first, then 2 ** 9 = 512)",
       "explanation": "Unlike addition or multiplication which associate left-to-right, Python's exponentiation operator `**` associates right-to-left: `2 ** (3 ** 2) = 2 ** 9 = 512`.",
-      "hint": "Exponents evaluate right-to-left.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q7",
@@ -146,8 +182,14 @@
         }
       ],
       "explanation": "`score1 + score2 / 2` evaluates `score2 / 2` first (`45`), giving `80 + 45 = 125.0`. Wrapping the sum in parentheses `(score1 + score2) / 2` produces `(170) / 2 = 85.0`.",
-      "hint": "Wrap score1 + score2 in parentheses.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q8",
@@ -168,8 +210,14 @@
       "correct_answer": "-9",
       "code_snippet": "val = -3 ** 2\nprint(val)",
       "explanation": "In Python, `**` has higher precedence than unary negation `-`! `3 ** 2` is evaluated first to `9`, and then negated to `-9`. If you want `(-3) ** 2 = 9`, you must write parentheses explicitly.",
-      "hint": "Exponentiation happens before the negative sign.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q9",
@@ -190,8 +238,14 @@
       "correct_answer": "8.0",
       "code_snippet": "ans = ((10 - 2) * (3 + 1)) / 4\nprint(ans)",
       "explanation": "Innermost parentheses evaluate first: `(10 - 2) = 8` and `(3 + 1) = 4`. Then `8 * 4 = 32`. Finally `32 / 4 = 8.0` (float division).",
-      "hint": "Evaluate innermost parentheses first.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q10",
@@ -211,8 +265,14 @@
       ],
       "correct_answer": "f = 68\nc = (f - 32) * 5 / 9\nprint(c)",
       "explanation": "Parentheses around `(f - 32)` ensure subtraction happens first (`68 - 32 = 36`). Then `36 * 5 / 9 = 180 / 9 = 20.0`. Without parentheses, `32 * 5 / 9` would be computed first.",
-      "hint": "Subtract 32 before multiplying by 5.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ]
     },
     {
       "id": "3.2_q11",
@@ -233,8 +293,14 @@
       "correct_answer": "16",
       "code_snippet": "val = 15 + 10 % 3\nprint(val)",
       "explanation": "Modulo `%` has the same precedence rank as multiplication/division, which is higher than addition `+`. `10 % 3` evaluates first to `1`. Then `15 + 1 = 16`.",
-      "hint": "Modulo happens before addition.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q12",
@@ -263,8 +329,14 @@
         }
       ],
       "explanation": "`price * 1 - 0.20` computes `100.0 * 1` first (`100.0`), then subtracts `0.20` giving `99.80`. Using `(1 - 0.20)` evaluates to `0.80`, so `100.0 * 0.80 = 80.0`.",
-      "hint": "Wrap (1 - 0.20) in parentheses.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q13",
@@ -285,8 +357,14 @@
       "correct_answer": "17",
       "code_snippet": "val = 14 + 20 // 6\nprint(val)",
       "explanation": "Floor division `//` happens before addition `+`. `20 // 6` evaluates to `3`. Then `14 + 3 = 17`.",
-      "hint": "Calculate 20 // 6 first, then add 14.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q14",
@@ -315,8 +393,14 @@
         }
       ],
       "explanation": "`radius ** 2 = 9.0`. Then `3.14159 * 9.0 * 5.0 = 141.37155`.",
-      "hint": "Square the radius first, then multiply by pi and height.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q15",
@@ -336,8 +420,14 @@
       ],
       "correct_answer": "val becomes the list [9, 9, 9] because square brackets create a list and * performs list repetition",
       "explanation": "In Python, only round parentheses `()` group mathematical expressions. Square brackets `[]` create a `list`. Thus `[4 + 5]` creates `[9]`, and `3 * [9]` repeats the list to `[9, 9, 9]`.",
-      "hint": "Square brackets create lists in Python, not mathematical grouping.",
-      "misconception_tag": "WRONG_TYPE"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "WRONG_TYPE",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q16",
@@ -358,8 +448,14 @@
       "correct_answer": "3.0",
       "code_snippet": "val = 24 / 4 / 2\nprint(val)",
       "explanation": "Division associates left-to-right: `(24 / 4) / 2 = 6.0 / 2 = 3.0`. Computing right-to-left would give `24 / (4 / 2) = 24 / 2.0 = 12.0`, which is incorrect.",
-      "hint": "Divide 24 by 4 first, then divide by 2.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q17",
@@ -388,8 +484,14 @@
         }
       ],
       "explanation": "`1.75 ** 2 = 3.0625`. Then `70.0 / 3.0625 = 22.857...`.",
-      "hint": "Divide weight by (height squared).",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall: `for item in range(start, stop)` visits numbers starting at `start` and stops at `stop - 1`.",
+        "Remember that the `stop` boundary is exclusive: `range(0, 5)` loops 5 times with values 0, 1, 2, 3, 4.",
+        "Structure: `for <var> in range(...):` followed by indented instructions using `<var>`."
+      ]
     },
     {
       "id": "3.2_q18",
@@ -409,8 +511,14 @@
       ],
       "correct_answer": "When adding parentheses clarifies the programmer's intent and makes complex math easier to read",
       "explanation": "Explicit is better than implicit. While Python knows exact precedence rules, adding parentheses to group related math operations prevents subtle logic bugs.",
-      "hint": "Parentheses clarify human readability.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q19",
@@ -431,8 +539,14 @@
       "correct_answer": "16\n-16",
       "code_snippet": "print((-2) ** 4)\nprint(-2 ** 4)",
       "explanation": "`(-2) ** 4` raises negative 2 to the 4th power: `(-2) * (-2) * (-2) * (-2) = 16`. Without parentheses, `2 ** 4 = 16` happens first, and the negative sign is applied after, yielding `-16`.",
-      "hint": "Parentheses include the negative sign in the power.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q20",
@@ -461,8 +575,14 @@
         }
       ],
       "explanation": "`(1 + 0.05) = 1.05`. `1.05 ** 2 = 1.1025`. `1000.0 * 1.1025 = 1102.5`.",
-      "hint": "Wrap (1 + rate) in parentheses before raising to years.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q21",
@@ -483,8 +603,14 @@
       "correct_answer": "2",
       "code_snippet": "val = 25 % 7 // 2\nprint(val)",
       "explanation": "`%` and `//` have equal precedence and evaluate left to right: `25 % 7 = 4` (since `3 * 7 = 21`). Then `4 // 2 = 2`.",
-      "hint": "Evaluate left to right: 25 % 7 first, then floor divide by 2.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q22",
@@ -505,8 +631,14 @@
       "correct_answer": "9",
       "code_snippet": "val = 10 - 3 + 2\nprint(val)",
       "explanation": "`-` and `+` have equal precedence and are evaluated from left to right: `10 - 3 = 7`, then `7 + 2 = 9`. Adding first would give `10 - 5 = 5`, which is a common PEMDAS misconception.",
-      "hint": "Addition and subtraction evaluate strictly left to right.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q23",
@@ -535,8 +667,14 @@
         }
       ],
       "explanation": "`90 * 0.2 = 18.0`. `80 * 0.3 = 24.0`. `85 * 0.5 = 42.5`. `18.0 + 24.0 + 42.5 = 84.5`.",
-      "hint": "Multiply each score by its weight and add them up.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     },
     {
       "id": "3.2_q24",
@@ -557,8 +695,14 @@
       "correct_answer": "13",
       "code_snippet": "val = 2 + 3 * 2 ** 2 - 1\nprint(val)",
       "explanation": "1. `2 ** 2 = 4`\n2. `3 * 4 = 12`\n3. `2 + 12 = 14`\n4. `14 - 1 = 13`",
-      "hint": "Power first, then multiply, then add and subtract left to right.",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Predicting code: read top-to-bottom, track the exact state of variables at each line, and evaluate expressions before output.",
+      "progressive_hints": [
+        "Recall: Python follows PEMDAS precedence: parentheses first, then multiplication/division, then addition/subtraction.",
+        "Trace which operation Python computes first. Does an operator need parentheses to force earlier evaluation?",
+        "Check the difference between `/` (always produces a float) and `//` (integer floor division)."
+      ]
     },
     {
       "id": "3.2_q25",
@@ -587,8 +731,19 @@
         }
       ],
       "explanation": "`velocity * t = 20.0 * 2.0 = 40.0`. `t ** 2 = 4.0`. `0.5 * 9.8 * 4.0 = 19.6`. `40.0 - 19.6 = 20.4`.",
-      "hint": "Calculate velocity * t, then subtract 0.5 * gravity * (t squared).",
-      "misconception_tag": "PRECEDENCE_CONFUSION"
+      "hint": "Recall the core rule: review the concept syntax and what Python evaluates first.",
+      "misconception_tag": "PRECEDENCE_CONFUSION",
+      "mental_model": "Python is a single-threaded reader: it starts at line 1 and reads strictly top-to-bottom. It does not know what is on line 10 until lines 1 through 9 have completed.",
+      "progressive_hints": [
+        "Recall the core rule: review the concept syntax and what Python evaluates first.",
+        "Break down the problem: identify what value or variable needs to be inspected or created next.",
+        "Structural clue: check your operators, indentation, colon placement, or matching delimiters."
+      ]
     }
+  ],
+  "learning_objectives": [
+    "Explain the core mental model and execution behavior of Order of Operations (PEMDAS).",
+    "Predict output and track variable state changes when executing Order of Operations (PEMDAS).",
+    "Write, debug, and apply idiomatic Python solutions using Order of Operations (PEMDAS)."
   ]
 }
