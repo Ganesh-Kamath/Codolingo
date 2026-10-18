@@ -149,13 +149,17 @@ class PythonCourseProvider implements ICourseProvider {
       try {
         const mod = (await loader()) as any;
         const data = (mod.default || mod) as RawCurriculumLesson;
+        if (!data || !Array.isArray(data.items)) {
+          throw new Error(`Curriculum lesson payload for "${lessonId}" is corrupted or missing an "items" array.`);
+        }
         rawLessonCache.set(lessonId, data);
         if (data.lesson_id) {
           rawLessonCache.set(data.lesson_id, data);
         }
         return data;
-      } catch (e) {
-        console.error(`Failed to load raw lesson ${lessonId}:`, e);
+      } catch (e: any) {
+        console.error(`[courseService] Critical failure loading raw lesson "${lessonId}":`, e);
+        throw new Error(`Failed to load or parse curriculum payload for lesson "${lessonId}": ${e?.message || e}`);
       }
     }
 

@@ -64,7 +64,9 @@ export const CourseExplorerView: React.FC = () => {
           const isPython = course.id === 'python';
           // Calculate progress for Python
           const completedCount = isPython ? userProfile.completedLessonIds.length : 0;
-          const progressPct = isPython ? Math.round((completedCount / course.totalLessons) * 100) : 0;
+          const progressPct = isPython && course.totalLessons > 0 
+            ? Math.min(100, Math.round((completedCount / course.totalLessons) * 100)) 
+            : 0;
 
           return (
             <Card

@@ -12,7 +12,7 @@ export const COURSES: Course[] = [
     borderColor: 'var(--course-python-border)',
     difficulty: 'Beginner',
     estimatedHours: 24,
-    totalLessons: 6,
+    totalLessons: 36,
     isPrimary: true,
     isLocked: false,
     skillsTaught: ['Variables & Memory', 'Control Flow', 'Functions & Scope', 'Lists & Dicts', 'Error Handling'],
