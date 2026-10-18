@@ -316,8 +316,16 @@ export interface UserProgressState {
   freezeUsedDates?: string[];
   lastActiveDate?: string;
   streakRescuePending?: boolean;
+  // Temporal Decay Mastery Records (Settles & Meeder 2016 Half-Life Regression)
+  skillMasteryRecords?: Record<string, SkillMasteryRecord>;
   _version?: number;
   _curriculumVersion?: number;
+}
+
+export interface SkillMasteryRecord {
+  pips: number;            // 0 - 5
+  lastPracticedAt: string; // ISO 8601 string
+  halfLifeDays: number;    // Half life in days (7, 14, 30)
 }
 
 export type UserProfile = UserProgressState;

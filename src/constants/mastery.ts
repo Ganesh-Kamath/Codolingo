@@ -30,3 +30,19 @@ export const MASTERY_LABELS: Record<number, string> = {
 
 export const UNKNOWN_MASTERY_LABEL = 'Completed (Mastery unknown)';
 export const UNKNOWN_MASTERY_PIPS = -1; // Sentinel value representing completed legacy skills awaiting rescoring
+
+/**
+ * Temporal Decay Half-Life Tiers (Settles & Meeder 2016 Half-Life Regression)
+ * Base half-life in days per earned pip tier
+ */
+export const HALF_LIFE_TIERS = {
+  BEGINNER: 7,   // 1 - 2 pips: 7 days half-life
+  COMPETENT: 14, // 3 - 4 pips: 14 days half-life
+  MASTERED: 30   // 5 pips: 30 days half-life
+} as const;
+
+export function getHalfLifeForPips(pips: number): number {
+  if (pips >= 5) return HALF_LIFE_TIERS.MASTERED;
+  if (pips >= 3) return HALF_LIFE_TIERS.COMPETENT;
+  return HALF_LIFE_TIERS.BEGINNER;
+}

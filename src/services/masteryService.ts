@@ -3,8 +3,11 @@ import {
   MASTERY_PENALTIES, 
   MASTERY_LABELS, 
   UNKNOWN_MASTERY_PIPS, 
-  UNKNOWN_MASTERY_LABEL 
+  UNKNOWN_MASTERY_LABEL,
+  HALF_LIFE_TIERS,
+  getHalfLifeForPips
 } from '../constants/mastery';
+import { SkillMasteryRecord } from '../types';
 
 export interface LessonAttemptStats {
   firstAttemptCorrectCount: number;
@@ -24,6 +27,15 @@ export interface MasteryEvaluation {
   hintsUsed: number;
   unresolvedMistakesCount: number;
   explanation: string;
+}
+
+export interface EffectiveMasteryResult {
+  initialPips: number;
+  effectivePips: number;
+  decayFactor: number;
+  needsReview: boolean;
+  daysSincePractice: number;
+  halfLifeDays: number;
 }
 
 export const masteryService = {
@@ -125,5 +137,85 @@ export const masteryService = {
       return newPips;
     }
     return Math.max(currentPips, newPips);
+  },
+
+  /**
+   * Evaluates effective pips using Settles & Meeder (2016) Half-Life Regression decay:
+   * decayFactor = 2^(- delta_t / halfLifeDays)
+   * effectivePips = max(1, round(initialPips * decayFactor)) (for initialPips >= 1)
+   * needsReview = initialPips > 0 && (effectivePips < initialPips || decayFactor < 0.70)
+   */
+  getEffectivePips(record?: SkillMasteryRecord | null, currentDate: Date = new Date()): EffectiveMasteryResult {
+    if (!record || typeof record.pips !== 'number') {
+      return {
+        initialPips: 0,
+        effectivePips: 0,
+        decayFactor: 1.0,
+        needsReview: false,
+        daysSincePractice: 0,
+        halfLifeDays: HALF_LIFE_TIERS.BEGINNER
+      };
+    }
+
+    const practicedTime = new Date(record.lastPracticedAt).getTime();
+    const currentTime = currentDate.getTime();
+    const diffMs = Math.max(0, isNaN(practicedTime) ? 0 : currentTime - practicedTime);
+    const daysSincePractice = diffMs / (1000 * 60 * 60 * 24);
+    const halfLifeDays = record.halfLifeDays || getHalfLifeForPips(record.pips);
+
+    const decayFactor = Math.pow(2, -daysSincePractice / halfLifeDays);
+
+    let effectivePips = record.pips;
+    if (record.pips > 0) {
+      effectivePips = Math.max(1, Math.round(record.pips * decayFactor));
+    } else {
+      effectivePips = 0;
+    }
+
+    const needsReview = record.pips > 0 && (effectivePips < record.pips || decayFactor < 0.70);
+
+    return {
+      initialPips: record.pips,
+      effectivePips,
+      decayFactor,
+      needsReview,
+      daysSincePractice,
+      halfLifeDays
+    };
+  },
+
+  /**
+   * Explains temporal decay in learner-friendly terms
+   */
+  formatDecayExplanation(effectivePips: number, initialPips: number, daysSincePractice: number): string {
+    const days = Math.floor(daysSincePractice);
+    const daysText = days === 1 ? '1 day' : `${days} days`;
+    if (effectivePips < initialPips) {
+      return `Needs Review: Practiced ${daysText} ago. Mastery decayed from ${initialPips}/5 to ${effectivePips}/5 pips. Quick refresh to restore full strength!`;
+    }
+    return `Skill memory is fading (last practiced ${daysText} ago). Quick refresh to keep it at ${initialPips}/5 pips!`;
+  },
+
+  /**
+   * Creates a fresh SkillMasteryRecord
+   */
+  createMasteryRecord(pips: number, date: Date = new Date()): SkillMasteryRecord {
+    return {
+      pips,
+      lastPracticedAt: date.toISOString(),
+      halfLifeDays: getHalfLifeForPips(pips)
+    };
+  },
+
+  /**
+   * Restores a SkillMasteryRecord upon Quick Refresh or full lesson practice
+   */
+  restoreMasteryRecord(record: SkillMasteryRecord, restoredPips?: number): SkillMasteryRecord {
+    const pips = restoredPips !== undefined ? restoredPips : record.pips;
+    return {
+      pips,
+      lastPracticedAt: new Date().toISOString(),
+      halfLifeDays: getHalfLifeForPips(pips)
+    };
   }
 };

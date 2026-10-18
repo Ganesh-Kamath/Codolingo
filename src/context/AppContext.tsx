@@ -13,6 +13,7 @@ import { COURSES } from '../data/courses';
 import { sound } from '../utils/audio';
 import { progressionService } from '../services/progressionService';
 import { LessonAttemptStats } from '../services/masteryService';
+import { getHalfLifeForPips } from '../constants/mastery';
 import { loadAndMigrateProgress, saveProgress, CURRENT_STORAGE_KEY } from '../services/migrationService';
 
 const STORAGE_KEY = CURRENT_STORAGE_KEY;
@@ -37,6 +38,7 @@ const INITIAL_PROGRESS: UserProgressState = {
   skillMastery: {
     'py_skill_1_1': 0
   },
+  skillMasteryRecords: {},
   mistakes: [],
   dailyGoal: {
     lessonsTarget: 2,
@@ -102,6 +104,7 @@ interface AppContextType {
   streakRescuePending: boolean;
   isStreakAtRisk: boolean;
   dismissStreakRescue: () => void;
+  refreshSkillMastery: (skillId: string) => void;
   skipSkillsViaPlacement: (skillIds: string[], lessonIds: string[]) => void;
   selectedSkillForModal: SkillNode | null;
   setSelectedSkillForModal: (skill: SkillNode | null) => void;
@@ -282,10 +285,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       // If this mistake was tied to a skill, resolving it can help lift mastery by 1 pip
       const updatedMastery = { ...prev.skillMastery };
+      const updatedMasteryRecords = { ...(prev.skillMasteryRecords || {}) };
       if (target.skillId && typeof updatedMastery[target.skillId] === 'number') {
         const currentPips = updatedMastery[target.skillId];
         if (currentPips >= 0 && currentPips < 5) {
-          updatedMastery[target.skillId] = currentPips + 1;
+          const newPips = currentPips + 1;
+          updatedMastery[target.skillId] = newPips;
+          updatedMasteryRecords[target.skillId] = {
+            pips: newPips,
+            lastPracticedAt: new Date().toISOString(),
+            halfLifeDays: getHalfLifeForPips(newPips)
+          };
         }
       }
 
@@ -309,6 +319,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         totalXp: prev.totalXp + 50,
         mistakes: updatedMistakes,
         skillMastery: updatedMastery,
+        skillMasteryRecords: updatedMasteryRecords,
         achievements: updatedAchievements,
         freezeInventory: freezeOutcome.freezeInventory,
         freezeRepairsProgress: freezeOutcome.freezeRepairsProgress
@@ -316,17 +327,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
+  const refreshSkillMastery = (skillId: string) => {
+    setUserProgress(prev => {
+      const refreshed = progressionService.refreshSkillMastery(prev, skillId, 15);
+      sound.playSuccess();
+      return refreshed;
+    });
+  };
+
   const skipSkillsViaPlacement = (skillIds: string[], lessonIds: string[]) => {
     setUserProgress(prev => {
       const updatedLessons = Array.from(new Set([...prev.completedLessonIds, ...lessonIds]));
       const updatedMastery = { ...prev.skillMastery };
+      const updatedMasteryRecords = { ...(prev.skillMasteryRecords || {}) };
       skillIds.forEach(sId => {
         updatedMastery[sId] = 5; // Mastered (Skipped via placement test)
+        updatedMasteryRecords[sId] = {
+          pips: 5,
+          lastPracticedAt: new Date().toISOString(),
+          halfLifeDays: getHalfLifeForPips(5)
+        };
       });
       return {
         ...prev,
         completedLessonIds: updatedLessons,
         skillMastery: updatedMastery,
+        skillMasteryRecords: updatedMasteryRecords,
         totalXp: prev.totalXp + (skillIds.length * 50)
       };
     });
@@ -432,6 +458,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         streakRescuePending: Boolean(userProgress.streakRescuePending),
         isStreakAtRisk,
         dismissStreakRescue,
+        refreshSkillMastery,
         skipSkillsViaPlacement,
         selectedSkillForModal,
         setSelectedSkillForModal,

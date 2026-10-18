@@ -53,7 +53,8 @@ export const LearningPath: React.FC = () => {
     startLesson, 
     selectedSkillForModal, 
     setSelectedSkillForModal,
-    navigateTo 
+    navigateTo,
+    refreshSkillMastery
   } = useApp();
 
   const [activeCapstoneUnit, setActiveCapstoneUnit] = useState<Unit | null>(null);
@@ -67,6 +68,10 @@ export const LearningPath: React.FC = () => {
     lockReason?: string;
     masteryPips: number;
     isComingSoon?: boolean;
+    needsReview?: boolean;
+    initialPips?: number;
+    daysSincePractice?: number;
+    decayExplanation?: string;
   }
   const [previewState, setPreviewState] = useState<SkillPreviewState | null>(null);
   const [pipDetailModal, setPipDetailModal] = useState<{ skillTitle: string; explanation: string } | null>(null);
@@ -237,7 +242,16 @@ export const LearningPath: React.FC = () => {
             const isPrereqCompleted = !skill.requiresSkillId || userProgress.completedSkillIds.includes(skill.requiresSkillId);
             const isUnlocked = !isUnitComingSoon && (isCompleted || isCurrent || skill.status === 'unlocked' || isPrereqCompleted);
             const isLocked = isUnitComingSoon || !isUnlocked;
-            const mastery = userProgress.skillMastery[skill.id] || 0;
+            const rawMastery = userProgress.skillMastery[skill.id] || 0;
+            const masteryRecord = userProgress.skillMasteryRecords?.[skill.id] || (isCompleted && rawMastery > 0 ? {
+              pips: rawMastery,
+              lastPracticedAt: new Date().toISOString(),
+              halfLifeDays: masteryService.getEffectivePips({ pips: rawMastery, lastPracticedAt: '', halfLifeDays: 14 }).halfLifeDays
+            } : null);
+
+            const decayResult = masteryRecord ? masteryService.getEffectivePips(masteryRecord) : null;
+            const effectivePips = decayResult ? decayResult.effectivePips : rawMastery;
+            const needsReview = isCompleted && Boolean(decayResult?.needsReview);
 
             let bgColor = 'var(--bg-surface)';
             let borderColor = 'var(--border-default)';
@@ -259,6 +273,13 @@ export const LearningPath: React.FC = () => {
               borderColor = 'var(--locked-border)';
               bevelColor = 'var(--locked-bevel)';
               iconColor = 'var(--locked-text)';
+            }
+
+            let nodeBoxShadow = `0 6px 0 ${bevelColor}`;
+            if (needsReview) {
+              borderColor = '#F59E0B';
+              bevelColor = '#B45309';
+              nodeBoxShadow = '0 0 14px rgba(245, 158, 11, 0.55), 0 6px 0 #B45309';
             }
 
             const prevSkill = index > 0 ? skills[index - 1] : null;
@@ -299,8 +320,12 @@ export const LearningPath: React.FC = () => {
                       isCompleted,
                       isCurrent,
                       lockReason,
-                      masteryPips: mastery,
-                      isComingSoon: isUnitComingSoon
+                      masteryPips: effectivePips,
+                      isComingSoon: isUnitComingSoon,
+                      needsReview,
+                      initialPips: decayResult?.initialPips || rawMastery,
+                      daysSincePractice: decayResult?.daysSincePractice || 0,
+                      decayExplanation: decayResult ? masteryService.formatDecayExplanation(effectivePips, decayResult.initialPips, decayResult.daysSincePractice) : undefined
                     });
                   }}
                   style={{
@@ -309,7 +334,7 @@ export const LearningPath: React.FC = () => {
                     borderRadius: '50%',
                     backgroundColor: bgColor,
                     border: `3px solid ${borderColor}`,
-                    boxShadow: `0 6px 0 ${bevelColor}`,
+                    boxShadow: nodeBoxShadow,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -354,6 +379,34 @@ export const LearningPath: React.FC = () => {
                       {isCompleted ? 'CONTINUE' : 'START'}
                     </div>
                   )}
+
+                  {/* Needs Review Badge for Decayed Nodes */}
+                  {needsReview && !isCurrent && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '-24px',
+                        backgroundColor: '#FEF3C7',
+                        color: '#92400E',
+                        fontSize: '0.64rem',
+                        fontWeight: 800,
+                        fontFamily: 'var(--font-display)',
+                        padding: '2px 8px',
+                        borderRadius: 'var(--radius-full)',
+                        letterSpacing: '0.04em',
+                        border: '1.5px solid #F59E0B',
+                        boxShadow: '0 2px 6px rgba(245, 158, 11, 0.25)',
+                        zIndex: 20,
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Icon name="refresh-cw" size={10} />
+                      NEEDS REVIEW
+                    </div>
+                  )}
                 </button>
 
                 {/* Skill Title & Mastery Indicators */}
@@ -386,11 +439,11 @@ export const LearningPath: React.FC = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         const expl = masteryService.formatPipsExplanation(
-                          mastery,
-                          mastery === 5 ? 10 : (mastery >= 3 ? 7 : 4),
+                          effectivePips,
+                          effectivePips === 5 ? 10 : (effectivePips >= 3 ? 7 : 4),
                           10,
-                          mastery >= 4 ? 0 : 2,
-                          mastery >= 4 ? 0 : 1
+                          effectivePips >= 4 ? 0 : 2,
+                          effectivePips >= 4 ? 0 : 1
                         );
                         setPipDetailModal({ skillTitle: skill.title, explanation: expl });
                       }}
@@ -405,22 +458,27 @@ export const LearningPath: React.FC = () => {
                         padding: '2px 4px'
                       }}
                     >
-                      {mastery === UNKNOWN_MASTERY_PIPS ? (
+                      {rawMastery === UNKNOWN_MASTERY_PIPS ? (
                         <span style={{ fontSize: '0.62rem', color: 'var(--text-muted)', fontWeight: 700 }}>
                           Calibrating...
                         </span>
                       ) : (
-                        [1, 2, 3, 4, 5].map((level) => (
-                          <div
-                            key={level}
-                            style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              backgroundColor: level <= mastery ? '#10B981' : '#D5C9B7'
-                            }}
-                          />
-                        ))
+                        [1, 2, 3, 4, 5].map((level) => {
+                          const isSolid = level <= effectivePips;
+                          const isDecayed = needsReview && level > effectivePips && level <= (decayResult?.initialPips || 0);
+                          return (
+                            <div
+                              key={level}
+                              style={{
+                                width: '6px',
+                                height: '6px',
+                                borderRadius: '50%',
+                                backgroundColor: isSolid ? (needsReview ? '#F59E0B' : '#10B981') : (isDecayed ? 'transparent' : '#D5C9B7'),
+                                border: isDecayed ? '1.5px dashed #F59E0B' : 'none'
+                              }}
+                            />
+                          );
+                        })
                       )}
                     </div>
                   )}
@@ -1074,6 +1132,11 @@ export const LearningPath: React.FC = () => {
                       <Icon name="lock" size={12} style={{ marginRight: 4 }} />
                       Locked
                     </Badge>
+                  ) : previewState.needsReview ? (
+                    <Badge variant="warning" size="sm">
+                      <Icon name="refresh-cw" size={12} style={{ marginRight: 4 }} />
+                      Needs Review
+                    </Badge>
                   ) : previewState.isCompleted ? (
                     <Badge variant="success" size="sm">
                       <Icon name="check" size={12} style={{ marginRight: 4 }} />
@@ -1127,6 +1190,32 @@ export const LearningPath: React.FC = () => {
             <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '16px' }}>
               {previewState.skill.description || 'Master fundamental concepts through real interactive Python challenges.'}
             </p>
+
+            {/* Needs Review Alert Banner */}
+            {previewState.needsReview && (
+              <div
+                style={{
+                  padding: '12px 14px',
+                  backgroundColor: '#FEF3C7',
+                  border: '1.5px solid #F59E0B',
+                  borderRadius: 'var(--radius-md)',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <Icon name="refresh-cw" size={20} style={{ color: '#D97706', flexShrink: 0 }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.84rem', color: '#92400E' }}>
+                    Needs Review ({previewState.masteryPips}/{previewState.initialPips || 5} pips)
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: '#B45309', marginTop: '2px' }}>
+                    {previewState.decayExplanation || 'Skill memory has decayed over time. Quick refresh restores full mastery!'}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Derived Meta Stats: Question count and Estimated Time */}
             <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
@@ -1236,7 +1325,7 @@ export const LearningPath: React.FC = () => {
             )}
 
             {/* Action Buttons */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', flexWrap: 'wrap' }}>
               <Button
                 variant="secondary"
                 size="md"
@@ -1244,9 +1333,22 @@ export const LearningPath: React.FC = () => {
               >
                 Close
               </Button>
+              {previewState.needsReview && !previewState.isLocked && !previewState.isComingSoon && (
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={() => {
+                    refreshSkillMastery(previewState.skill.id);
+                    setPreviewState(null);
+                  }}
+                  icon={<Icon name="sparkles" size={16} />}
+                >
+                  Quick Refresh (+15 XP)
+                </Button>
+              )}
               {!previewState.isLocked && !previewState.isComingSoon && (
                 <Button
-                  variant={previewState.isCompleted ? "secondary" : "primary"}
+                  variant={previewState.isCompleted && !previewState.needsReview ? "secondary" : (previewState.needsReview ? "secondary" : "primary")}
                   size="md"
                   onClick={() => {
                     const lessonToRun = previewState.skill.lessons[0] || nextLesson;
@@ -1255,7 +1357,7 @@ export const LearningPath: React.FC = () => {
                   }}
                   icon={<Icon name={previewState.isCompleted ? "refresh-cw" : "player-play"} size={16} />}
                 >
-                  {previewState.isCompleted ? 'Practice again' : (previewState.isCurrent ? 'Continue' : 'Start Lesson')}
+                  {previewState.isCompleted ? 'Replay full lesson' : (previewState.isCurrent ? 'Continue' : 'Start Lesson')}
                 </Button>
               )}
             </div>

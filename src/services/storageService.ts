@@ -27,6 +27,7 @@ export const INITIAL_PROFILE: UserProfile = {
   skillMastery: {
     'py_skill_1_1': 0
   },
+  skillMasteryRecords: {},
   mistakes: [],
   dailyGoal: {
     lessonsTarget: 2,

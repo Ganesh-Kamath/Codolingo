@@ -1,5 +1,5 @@
-import { UserProgressState } from '../types';
-import { UNKNOWN_MASTERY_PIPS } from '../constants/mastery';
+import { UserProgressState, SkillMasteryRecord } from '../types';
+import { UNKNOWN_MASTERY_PIPS, getHalfLifeForPips } from '../constants/mastery';
 
 export const CURRENT_STORAGE_KEY = 'codolingo_progress_v4';
 
@@ -76,6 +76,25 @@ export function migrateProgressData(raw: any, fallbackInitial: UserProgressState
   for (const [k, v] of Object.entries(rawMastery)) {
     if (migrated.skillMastery[k] === undefined && typeof v === 'number') {
       migrated.skillMastery[k] = isLegacyVersion && v === 5 ? UNKNOWN_MASTERY_PIPS : v;
+    }
+  }
+
+  // Temporal Decay Mastery Records (Settles & Meeder 2016):
+  migrated.skillMasteryRecords = {};
+  const rawRecords = (raw.skillMasteryRecords || {}) as Record<string, SkillMasteryRecord>;
+  for (const [skillId, pips] of Object.entries(migrated.skillMastery)) {
+    if (rawRecords[skillId] && typeof rawRecords[skillId].pips === 'number') {
+      migrated.skillMasteryRecords[skillId] = {
+        pips: rawRecords[skillId].pips,
+        lastPracticedAt: rawRecords[skillId].lastPracticedAt || new Date().toISOString(),
+        halfLifeDays: rawRecords[skillId].halfLifeDays || getHalfLifeForPips(rawRecords[skillId].pips)
+      };
+    } else if (pips > 0) {
+      migrated.skillMasteryRecords[skillId] = {
+        pips,
+        lastPracticedAt: new Date().toISOString(),
+        halfLifeDays: getHalfLifeForPips(pips)
+      };
     }
   }
 
@@ -163,27 +182,46 @@ export function migrateProgressData(raw: any, fallbackInitial: UserProgressState
       migrated.currentSkillId = legacySkillMapping[migrated.currentSkillId];
     }
 
-    // 4. Remap skillMastery keys
+    // 4. Remap skillMastery and skillMasteryRecords keys
     for (const [oldSkill, newSkill] of Object.entries(legacySkillMapping)) {
       if (oldSkill in migrated.skillMastery) {
         migrated.skillMastery[newSkill] = migrated.skillMastery[oldSkill];
         delete migrated.skillMastery[oldSkill];
       }
+      if (migrated.skillMasteryRecords && oldSkill in migrated.skillMasteryRecords) {
+        migrated.skillMasteryRecords[newSkill] = migrated.skillMasteryRecords[oldSkill];
+        delete migrated.skillMasteryRecords[oldSkill];
+      }
     }
     if ('py_skill_1_2' in migrated.skillMastery && !('py_skill_2_1' in migrated.skillMastery)) {
       migrated.skillMastery['py_skill_2_1'] = migrated.skillMastery['py_skill_1_2'];
+      if (migrated.skillMasteryRecords && 'py_skill_1_2' in migrated.skillMasteryRecords) {
+        migrated.skillMasteryRecords['py_skill_2_1'] = migrated.skillMasteryRecords['py_skill_1_2'];
+      }
     }
     if ('py_skill_1_3' in migrated.skillMastery && !('py_skill_3_1' in migrated.skillMastery)) {
       migrated.skillMastery['py_skill_3_1'] = migrated.skillMastery['py_skill_1_3'];
+      if (migrated.skillMasteryRecords && 'py_skill_1_3' in migrated.skillMasteryRecords) {
+        migrated.skillMasteryRecords['py_skill_3_1'] = migrated.skillMasteryRecords['py_skill_1_3'];
+      }
     }
     if ('py_skill_1_4' in migrated.skillMastery && !('py_skill_2_4' in migrated.skillMastery)) {
       migrated.skillMastery['py_skill_2_4'] = migrated.skillMastery['py_skill_1_4'];
+      if (migrated.skillMasteryRecords && 'py_skill_1_4' in migrated.skillMasteryRecords) {
+        migrated.skillMasteryRecords['py_skill_2_4'] = migrated.skillMasteryRecords['py_skill_1_4'];
+      }
     }
     if ('py_skill_1_5' in migrated.skillMastery && !('py_skill_4_1' in migrated.skillMastery)) {
       migrated.skillMastery['py_skill_4_1'] = migrated.skillMastery['py_skill_1_5'];
+      if (migrated.skillMasteryRecords && 'py_skill_1_5' in migrated.skillMasteryRecords) {
+        migrated.skillMasteryRecords['py_skill_4_1'] = migrated.skillMasteryRecords['py_skill_1_5'];
+      }
     }
     if ('py_skill_1_6' in migrated.skillMastery && !('py_skill_2_7' in migrated.skillMastery)) {
       migrated.skillMastery['py_skill_2_7'] = migrated.skillMastery['py_skill_1_6'];
+      if (migrated.skillMasteryRecords && 'py_skill_1_6' in migrated.skillMasteryRecords) {
+        migrated.skillMasteryRecords['py_skill_2_7'] = migrated.skillMasteryRecords['py_skill_1_6'];
+      }
     }
   }
 

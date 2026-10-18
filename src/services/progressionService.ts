@@ -1,7 +1,29 @@
 import { UserProgressState, LearningCourse } from '../types';
 import { masteryService, LessonAttemptStats } from './masteryService';
+import { getHalfLifeForPips } from '../constants/mastery';
 
 export const progressionService = {
+  // Refreshes a decayed skill mastery record back to full strength with bonus XP
+  refreshSkillMastery: (userProgress: UserProgressState, skillId: string, bonusXp = 15): UserProgressState => {
+    const existingPips = userProgress.skillMasteryRecords?.[skillId]?.pips ?? userProgress.skillMastery[skillId] ?? 5;
+    const restoredPips = Math.max(existingPips, 5);
+    const updatedMastery = { ...userProgress.skillMastery, [skillId]: restoredPips };
+    const updatedRecords = {
+      ...(userProgress.skillMasteryRecords || {}),
+      [skillId]: {
+        pips: restoredPips,
+        lastPracticedAt: new Date().toISOString(),
+        halfLifeDays: getHalfLifeForPips(restoredPips)
+      }
+    };
+    return {
+      ...userProgress,
+      totalXp: userProgress.totalXp + bonusXp,
+      skillMastery: updatedMastery,
+      skillMasteryRecords: updatedRecords
+    };
+  },
+
   // Returns the next available lesson in the course
   getNextLesson: (userProgress: UserProgressState, course: LearningCourse): string | null => {
     const completed = userProgress.completedLessonIds;
@@ -192,6 +214,7 @@ export const progressionService = {
 
     const updatedCompletedSkills = [...userProgress.completedSkillIds];
     const updatedSkillMastery = { ...userProgress.skillMastery };
+    const updatedSkillMasteryRecords = { ...(userProgress.skillMasteryRecords || {}) };
 
     if (completedSkillId) {
       if (!updatedCompletedSkills.includes(completedSkillId)) {
@@ -215,10 +238,29 @@ export const progressionService = {
         });
 
         const currentPips = userProgress.skillMastery[completedSkillId];
-        updatedSkillMastery[completedSkillId] = masteryService.updateSkillMastery(currentPips, evalResult.pips);
+        const newPips = masteryService.updateSkillMastery(currentPips, evalResult.pips);
+        updatedSkillMastery[completedSkillId] = newPips;
+        updatedSkillMasteryRecords[completedSkillId] = {
+          pips: newPips,
+          lastPracticedAt: new Date().toISOString(),
+          halfLifeDays: getHalfLifeForPips(newPips)
+        };
       } else if (updatedSkillMastery[completedSkillId] === undefined) {
         // Fallback for callers without attempt stats
         updatedSkillMastery[completedSkillId] = 3;
+        updatedSkillMasteryRecords[completedSkillId] = {
+          pips: 3,
+          lastPracticedAt: new Date().toISOString(),
+          halfLifeDays: getHalfLifeForPips(3)
+        };
+      } else {
+        // Replayed without attempt stats: preserve pips but reset decay timer
+        const existingPips = updatedSkillMastery[completedSkillId];
+        updatedSkillMasteryRecords[completedSkillId] = {
+          pips: existingPips,
+          lastPracticedAt: new Date().toISOString(),
+          halfLifeDays: getHalfLifeForPips(existingPips)
+        };
       }
     }
 
@@ -289,6 +331,7 @@ export const progressionService = {
       completedSkillIds: updatedCompletedSkills,
       currentSkillId: nextSkillId,
       skillMastery: updatedSkillMastery,
+      skillMasteryRecords: updatedSkillMasteryRecords,
       totalXp: newTotalXp,
       level: levelInfo.level,
       dailyGoalEarnedXp,
