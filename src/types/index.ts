@@ -318,6 +318,10 @@ export interface UserProgressState {
   streakRescuePending?: boolean;
   // Temporal Decay Mastery Records (Settles & Meeder 2016 Half-Life Regression)
   skillMasteryRecords?: Record<string, SkillMasteryRecord>;
+  // Diagnostic Onboarding & Placement (v4)
+  hasCompletedOnboarding?: boolean;
+  onboardingPlacementTier?: number;
+  diagnosedMisconceptions?: string[];
   _version?: number;
   _curriculumVersion?: number;
 }

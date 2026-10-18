@@ -14,6 +14,7 @@ import { sound } from '../utils/audio';
 import { progressionService } from '../services/progressionService';
 import { LessonAttemptStats } from '../services/masteryService';
 import { getHalfLifeForPips } from '../constants/mastery';
+import { PlacementEvaluationResult } from '../services/placementDiagnosticService';
 import { loadAndMigrateProgress, saveProgress, CURRENT_STORAGE_KEY } from '../services/migrationService';
 
 const STORAGE_KEY = CURRENT_STORAGE_KEY;
@@ -106,6 +107,7 @@ interface AppContextType {
   dismissStreakRescue: () => void;
   refreshSkillMastery: (skillId: string) => void;
   skipSkillsViaPlacement: (skillIds: string[], lessonIds: string[]) => void;
+  applyDiagnosticPlacementResult: (result: PlacementEvaluationResult) => void;
   selectedSkillForModal: SkillNode | null;
   setSelectedSkillForModal: (skill: SkillNode | null) => void;
   soundEnabled: boolean;
@@ -358,6 +360,42 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
+  const applyDiagnosticPlacementResult = (result: PlacementEvaluationResult) => {
+    setUserProgress(prev => {
+      const updatedCompletedSkills = Array.from(new Set([...prev.completedSkillIds, ...result.masteredSkillIds]));
+      const updatedCompletedLessons = Array.from(new Set([...prev.completedLessonIds, ...result.masteredLessonIds]));
+      const updatedMastery = { ...prev.skillMastery };
+      const updatedMasteryRecords = { ...(prev.skillMasteryRecords || {}) };
+
+      result.masteredSkillIds.forEach(sId => {
+        updatedMastery[sId] = 5;
+        updatedMasteryRecords[sId] = {
+          pips: 5,
+          lastPracticedAt: new Date().toISOString(),
+          halfLifeDays: getHalfLifeForPips(5)
+        };
+      });
+
+      const existingMistakeKeys = new Set(prev.mistakes.map(m => `${m.skillId}_${m.mistakeType}`));
+      const newMistakes = result.mistakeRecords.filter(m => !existingMistakeKeys.has(`${m.skillId}_${m.mistakeType}`));
+      const updatedMistakes = [...newMistakes, ...prev.mistakes];
+
+      return {
+        ...prev,
+        completedSkillIds: updatedCompletedSkills,
+        completedLessonIds: updatedCompletedLessons,
+        currentSkillId: result.nextSkillId,
+        skillMastery: updatedMastery,
+        skillMasteryRecords: updatedMasteryRecords,
+        totalXp: prev.totalXp + result.awardedXp,
+        mistakes: updatedMistakes,
+        hasCompletedOnboarding: true,
+        onboardingPlacementTier: result.placementTier,
+        diagnosedMisconceptions: result.diagnosedMisconceptions
+      };
+    });
+  };
+
   const [reducedMotion, setReducedMotion] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem('codolingo_reduced_motion');
@@ -460,6 +498,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         dismissStreakRescue,
         refreshSkillMastery,
         skipSkillsViaPlacement,
+        applyDiagnosticPlacementResult,
         selectedSkillForModal,
         setSelectedSkillForModal,
         soundEnabled,
