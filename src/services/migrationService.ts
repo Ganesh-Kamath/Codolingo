@@ -1,9 +1,10 @@
 import { UserProgressState } from '../types';
 import { UNKNOWN_MASTERY_PIPS } from '../constants/mastery';
 
-export const CURRENT_STORAGE_KEY = 'codolingo_progress_v3';
+export const CURRENT_STORAGE_KEY = 'codolingo_progress_v4';
 
 export const LEGACY_STORAGE_KEYS = [
+  'codolingo_progress_v3',
   'codolingo_progress_v2',
   'codolingo_python_curriculum_v1',
   'codolingo_progress_v1',
@@ -186,8 +187,22 @@ export function migrateProgressData(raw: any, fallbackInitial: UserProgressState
     }
   }
 
+  // Streak Freeze & Protection Migration (v4):
+  const rawStreak = typeof raw.streak === 'number' ? raw.streak : 0;
+  migrated.freezeInventory = typeof raw.freezeInventory === 'number'
+    ? Math.min(2, Math.max(0, raw.freezeInventory))
+    : (rawStreak >= 3 ? 1 : 0); // Grace grant 1 freeze to users with existing streaks >= 3
+
+  migrated.freezeRepairsProgress = typeof raw.freezeRepairsProgress === 'number'
+    ? Math.min(2, Math.max(0, raw.freezeRepairsProgress))
+    : 0;
+
+  migrated.freezeUsedDates = Array.isArray(raw.freezeUsedDates) ? [...raw.freezeUsedDates] : [];
+  migrated.lastActiveDate = raw.lastActiveDate || raw.activityHistory?.[raw.activityHistory.length - 1]?.date || '';
+  migrated.streakRescuePending = Boolean(raw.streakRescuePending);
+
   // Tag with current schema and curriculum versions
-  migrated._version = 3;
+  migrated._version = 4;
   migrated._curriculumVersion = 2;
 
   return migrated;
@@ -202,7 +217,7 @@ export function loadAndMigrateProgress(fallbackInitial: UserProgressState): User
   }
 
   try {
-    // 1. Check current v3 storage key
+    // 1. Check current v4 storage key
     const currentRaw = localStorage.getItem(CURRENT_STORAGE_KEY);
     if (currentRaw) {
       const parsed = JSON.parse(currentRaw);
@@ -215,7 +230,7 @@ export function loadAndMigrateProgress(fallbackInitial: UserProgressState): User
       if (legacyRaw) {
         const parsed = JSON.parse(legacyRaw);
         const migrated = migrateProgressData(parsed, fallbackInitial);
-        // Persist immediately into v3 key
+        // Persist immediately into v4 key
         saveProgress(migrated);
         return migrated;
       }
@@ -228,7 +243,7 @@ export function loadAndMigrateProgress(fallbackInitial: UserProgressState): User
 }
 
 /**
- * Persists user progress to current v3 storage
+ * Persists user progress to current v4 storage
  */
 export function saveProgress(progress: UserProgressState): void {
   if (typeof window === 'undefined' || !window.localStorage) {
@@ -237,7 +252,7 @@ export function saveProgress(progress: UserProgressState): void {
   try {
     const withVersion = {
       ...progress,
-      _version: 3,
+      _version: 4,
       _curriculumVersion: 2
     };
     localStorage.setItem(CURRENT_STORAGE_KEY, JSON.stringify(withVersion));

@@ -45,6 +45,10 @@ const INITIAL_PROGRESS: UserProgressState = {
     xpEarned: 0
   },
   activityHistory: [],
+  freezeInventory: 1,
+  freezeRepairsProgress: 0,
+  freezeUsedDates: [],
+  streakRescuePending: false,
   achievements: [
     {
       id: 'first_code',
@@ -93,6 +97,11 @@ interface AppContextType {
   completeLesson: (lessonId: string, xpReward: number, attemptStats?: LessonAttemptStats) => void;
   recordMistake: (mistake: Omit<MistakeRecord, 'id' | 'timestamp' | 'frequency' | 'resolved'>) => void;
   resolveMistake: (mistakeId: string) => void;
+  freezeInventory: number;
+  freezeRepairsProgress: number;
+  streakRescuePending: boolean;
+  isStreakAtRisk: boolean;
+  dismissStreakRescue: () => void;
   skipSkillsViaPlacement: (skillIds: string[], lessonIds: string[]) => void;
   selectedSkillForModal: SkillNode | null;
   setSelectedSkillForModal: (skill: SkillNode | null) => void;
@@ -165,6 +174,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     saveProgress(userProgress);
   }, [userProgress]);
+
+  // Check and apply streak freeze protection on boot
+  useEffect(() => {
+    setUserProgress(prev => progressionService.checkAndApplyStreakFreeze(prev));
+  }, []);
+
+  const dismissStreakRescue = () => {
+    setUserProgress(prev => ({ ...prev, streakRescuePending: false }));
+  };
+
+  const isStreakAtRisk = (() => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const practicedToday = (userProgress.activityHistory || []).some(a => a.date === todayStr);
+    const currentHour = new Date().getHours();
+    return !practicedToday && userProgress.streak > 0 && currentHour >= 18;
+  })();
 
   // Sync hash
   useEffect(() => {
@@ -273,12 +298,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return ach;
       });
 
+      // Earn streak freeze progress (1 freeze per 3 resolved mistakes, capped at 2)
+      const freezeOutcome = progressionService.recordMistakeResolution(prev);
+      if (freezeOutcome.freezeEarned) {
+        sound.playRepair();
+      }
+
       return {
         ...prev,
         totalXp: prev.totalXp + 50,
         mistakes: updatedMistakes,
         skillMastery: updatedMastery,
-        achievements: updatedAchievements
+        achievements: updatedAchievements,
+        freezeInventory: freezeOutcome.freezeInventory,
+        freezeRepairsProgress: freezeOutcome.freezeRepairsProgress
       };
     });
   };
@@ -394,6 +427,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         completeLesson,
         recordMistake,
         resolveMistake,
+        freezeInventory: userProgress.freezeInventory ?? 1,
+        freezeRepairsProgress: userProgress.freezeRepairsProgress ?? 0,
+        streakRescuePending: Boolean(userProgress.streakRescuePending),
+        isStreakAtRisk,
+        dismissStreakRescue,
         skipSkillsViaPlacement,
         selectedSkillForModal,
         setSelectedSkillForModal,

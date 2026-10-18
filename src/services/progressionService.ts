@@ -60,14 +60,82 @@ export const progressionService = {
     };
   },
 
-  // Update streak based on current date
+  // Check if a streak freeze should protect missed activity and return updated state
+  checkAndApplyStreakFreeze: (userProgress: UserProgressState, today = new Date()): UserProgressState => {
+    const todayStr = today.toISOString().split('T')[0];
+    const history = userProgress.activityHistory || [];
+    const todayActivity = history.find(a => a.date === todayStr);
+
+    // If already practiced today, streak is safe
+    if (todayActivity) {
+      return userProgress;
+    }
+
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    const yesterdayActivity = history.find(a => a.date === yesterdayStr);
+    const usedDates = userProgress.freezeUsedDates || [];
+
+    // If practiced yesterday or yesterday was already protected by a freeze, streak holds
+    if (yesterdayActivity || usedDates.includes(yesterdayStr)) {
+      return userProgress;
+    }
+
+    // Yesterday was missed. Can we rescue it with a freeze?
+    const inventory = userProgress.freezeInventory || 0;
+    if (inventory > 0 && userProgress.streak > 0) {
+      // Consume 1 freeze to preserve the streak
+      return {
+        ...userProgress,
+        freezeInventory: inventory - 1,
+        freezeUsedDates: [...usedDates, yesterdayStr],
+        streakRescuePending: true
+      };
+    }
+
+    return userProgress;
+  },
+
+  // Record mistake repair drill completion toward earning a streak freeze
+  recordMistakeResolution: (userProgress: UserProgressState): {
+    freezeInventory: number;
+    freezeRepairsProgress: number;
+    freezeEarned: boolean;
+  } => {
+    const currentInventory = userProgress.freezeInventory || 0;
+    const currentProgress = userProgress.freezeRepairsProgress || 0;
+    const nextProgress = currentProgress + 1;
+
+    if (nextProgress >= 3) {
+      // Reached 3 repairs -> award 1 freeze (cap at 2)
+      const newInventory = Math.min(2, currentInventory + 1);
+      return {
+        freezeInventory: newInventory,
+        freezeRepairsProgress: 0,
+        freezeEarned: newInventory > currentInventory
+      };
+    }
+
+    return {
+      freezeInventory: currentInventory,
+      freezeRepairsProgress: nextProgress,
+      freezeEarned: false
+    };
+  },
+
+  // Update streak based on current date and freeze history
   updateStreak: (userProgress: UserProgressState): Partial<UserProgressState> => {
     const todayStr = new Date().toISOString().split('T')[0];
     const history = [...userProgress.activityHistory];
     const todayActivity = history.find(a => a.date === todayStr);
     
     if (todayActivity) {
-      return { activityHistory: history };
+      return { 
+        activityHistory: history,
+        lastActiveDate: todayStr
+      };
     }
 
     let currentStreak = userProgress.streak;
@@ -76,8 +144,9 @@ export const progressionService = {
     const yesterdayStr = yesterday.toISOString().split('T')[0];
     
     const yesterdayActivity = history.find(a => a.date === yesterdayStr);
+    const yesterdayFrozen = (userProgress.freezeUsedDates || []).includes(yesterdayStr);
     
-    if (yesterdayActivity) {
+    if (yesterdayActivity || yesterdayFrozen) {
       currentStreak += 1;
     } else {
       currentStreak = 1;
@@ -87,7 +156,8 @@ export const progressionService = {
 
     return {
       streak: currentStreak,
-      bestStreak
+      bestStreak,
+      lastActiveDate: todayStr
     };
   },
 

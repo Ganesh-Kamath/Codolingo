@@ -18,7 +18,15 @@ import {
 import { MisconceptionTag } from '../types/question';
 
 export const MistakeReviewView: React.FC = () => {
-  const { mistakes, resolveMistake, navigateTo, theme, currentRoute } = useApp();
+  const { 
+    mistakes, 
+    resolveMistake, 
+    navigateTo, 
+    theme, 
+    currentRoute,
+    freezeInventory,
+    freezeRepairsProgress
+  } = useApp();
 
   // Active repair drill state
   const [activeDrill, setActiveDrill] = useState<ConceptRepairDrill | null>(null);
@@ -606,6 +614,63 @@ export const MistakeReviewView: React.FC = () => {
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', margin: 0, maxWidth: '680px', lineHeight: 1.5 }}>
           Master Python by targeting tricky misconceptions. Each drill walks you through a 4-step repair: Spot It, Understand Why, Fix It, and Prove It.
         </p>
+      </div>
+
+      {/* Streak Freeze Earning Card */}
+      <div
+        style={{
+          background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(14, 165, 233, 0.12) 100%)',
+          border: '1.5px solid #38BDF8',
+          borderRadius: 'var(--radius-xl)',
+          padding: '16px 22px',
+          marginBottom: '28px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '14px'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div
+            style={{
+              width: '42px',
+              height: '42px',
+              borderRadius: '50%',
+              background: '#E0F2FE',
+              border: '2px solid #38BDF8',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.35rem',
+              flexShrink: 0
+            }}
+          >
+            ❄️
+          </div>
+          <div>
+            <div style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+              Earn Streak Protection
+            </div>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+              Resolve 3 misconceptions to earn a Streak Freeze ({freezeRepairsProgress}/3 resolved). Owned: <strong>{freezeInventory}/2</strong>
+            </div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          {[0, 1, 2].map(idx => (
+            <div
+              key={idx}
+              style={{
+                width: '32px',
+                height: '8px',
+                borderRadius: '4px',
+                backgroundColor: idx < freezeRepairsProgress ? '#0284C7' : 'rgba(2, 132, 199, 0.2)'
+              }}
+              title={idx < freezeRepairsProgress ? 'Resolved bug' : 'Pending resolution'}
+            />
+          ))}
+        </div>
       </div>
 
       {/* If 0 mistakes total: Inviting All Clear banner */}

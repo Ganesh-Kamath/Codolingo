@@ -310,6 +310,12 @@ export interface UserProgressState {
   dailyGoal: DailyGoal;
   activityHistory: DailyActivity[];
   achievements: Achievement[];
+  // Streak Freeze & Protection (v4)
+  freezeInventory?: number;
+  freezeRepairsProgress?: number;
+  freezeUsedDates?: string[];
+  lastActiveDate?: string;
+  streakRescuePending?: boolean;
   _version?: number;
   _curriculumVersion?: number;
 }

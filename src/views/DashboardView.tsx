@@ -5,6 +5,7 @@ import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { Card } from '../components/common/Card';
 import { ProgressBar } from '../components/common/ProgressBar';
+import { StreakRescueModal } from '../components/common/StreakRescueModal';
 import { progressionService } from '../services/progressionService';
 
 // Circular SVG Daily Goal Ring
@@ -56,7 +57,17 @@ const DailyGoalRing: React.FC<{
 };
 
 export const DashboardView: React.FC = () => {
-  const { userProgress, course, mistakes, navigateTo, startLesson } = useApp();
+  const { 
+    userProgress, 
+    course, 
+    mistakes, 
+    navigateTo, 
+    startLesson,
+    freezeInventory,
+    streakRescuePending,
+    dismissStreakRescue,
+    isStreakAtRisk
+  } = useApp();
 
   // Dynamic greeting based on time of day
   const getGreeting = () => {
@@ -156,6 +167,46 @@ export const DashboardView: React.FC = () => {
   return (
     <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
       
+      <StreakRescueModal
+        isOpen={streakRescuePending}
+        streak={userProgress.streak}
+        remainingFreezes={freezeInventory}
+        onDismiss={dismissStreakRescue}
+        onGoToFixItLab={() => navigateTo('/mistakes')}
+      />
+
+      {/* At-Risk Streak Warning Banner */}
+      {isStreakAtRisk && (
+        <div
+          style={{
+            background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.12) 0%, rgba(239, 68, 68, 0.12) 100%)',
+            border: '1.5px solid #F59E0B',
+            borderRadius: 'var(--radius-lg)',
+            padding: '14px 20px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>🔥</span>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
+                Your {userProgress.streak}-Day Streak is at Risk!
+              </div>
+              <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                Complete a 3-minute lesson before midnight to protect your flame.
+              </div>
+            </div>
+          </div>
+          <Button variant="primary" size="sm" onClick={() => startLesson(nextLessonId)}>
+            Practice Now
+          </Button>
+        </div>
+      )}
+
       {/* Top Greeting */}
       <div style={{ marginBottom: '28px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
@@ -292,7 +343,7 @@ export const DashboardView: React.FC = () => {
 
         {/* B. Streak Calendar: 30-Day Activity Heatmap */}
         <Card variant="default" padding="lg">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Icon name="flame" size={18} fill="#FDA4AF" style={{ color: 'var(--streak-color)' }} />
@@ -300,9 +351,27 @@ export const DashboardView: React.FC = () => {
                   {userProgress.streak} Day Streak
                 </h3>
               </div>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                Last 30 days activity heatmap
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  Last 30 days activity
+                </span>
+                <span
+                  style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    color: '#0284C7',
+                    background: '#E0F2FE',
+                    padding: '2px 8px',
+                    borderRadius: '12px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                  title="Streak Freezes protect your streak when you miss a day. Earn more by resolving mistakes in Fix-It Lab!"
+                >
+                  ❄️ {freezeInventory}/2 Freezes
+                </span>
+              </div>
             </div>
             <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', backgroundColor: 'var(--bg-app)', padding: '2px 8px', borderRadius: '6px' }}>
               Best: {Math.max(userProgress.streak, userProgress.bestStreak || userProgress.streak)}d
