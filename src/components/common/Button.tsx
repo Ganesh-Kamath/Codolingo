@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
+  variant?: 'primary' | 'secondary' | 'mastery' | 'outline' | 'ghost' | 'danger' | 'success';
   size?: 'sm' | 'md' | 'lg';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
@@ -27,9 +27,9 @@ export const Button: React.FC<ButtonProps> = ({
       case 'primary':
         return {
           backgroundColor: 'var(--brand-primary)',
-          color: '#FFFFFF',
+          color: 'var(--text-on-brand)',
           border: '1px solid var(--brand-bevel)',
-          boxShadow: 'var(--tactile-primary)'
+          boxShadow: '0 0 16px rgba(0, 245, 212, 0.35)'
         };
       case 'secondary':
         return {
@@ -37,6 +37,13 @@ export const Button: React.FC<ButtonProps> = ({
           color: 'var(--text-primary)',
           border: '1px solid var(--border-default)',
           boxShadow: 'var(--shadow-xs)'
+        };
+      case 'mastery':
+        return {
+          backgroundColor: 'var(--secondary-solid)',
+          color: '#FFFFFF',
+          border: '1px solid var(--secondary-border)',
+          boxShadow: '0 0 16px rgba(121, 40, 202, 0.35)'
         };
       case 'outline':
         return {
@@ -54,10 +61,10 @@ export const Button: React.FC<ButtonProps> = ({
         };
       case 'success':
         return {
-          backgroundColor: 'var(--secondary-solid)',
-          color: '#FFFFFF',
-          border: '1px solid var(--secondary-bevel)',
-          boxShadow: 'none'
+          backgroundColor: 'var(--success-solid)',
+          color: 'var(--text-on-brand)',
+          border: '1px solid var(--success-border)',
+          boxShadow: '0 0 16px rgba(0, 245, 212, 0.3)'
         };
       case 'danger':
         return {

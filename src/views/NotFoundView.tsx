@@ -47,14 +47,14 @@ export const NotFoundView: React.FC = () => {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#F59E0B' }} />
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10B981' }} />
-            <span style={{ color: '#888', marginLeft: '6px' }}>codolingo_router.py:404</span>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#363941' }} />
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00F5D4' }} />
+            <span style={{ color: '#888', marginLeft: '6px' }}>vyntax_router.py:404</span>
           </div>
           <div>Traceback (most recent call last):</div>
-          <div style={{ color: '#9CA3AF' }}>  File &quot;codolingo/router.py&quot;, line 404, in resolve_route</div>
+          <div style={{ color: '#9CA3AF' }}>  File &quot;vyntax/router.py&quot;, line 404, in resolve_route</div>
           <div style={{ color: '#F87171', fontWeight: 600, marginTop: '4px' }}>
-            RouteNotFoundError: Path &apos;{currentRoute}&apos; was not found.
+            RouteNotFoundError: Vector &apos;{currentRoute}&apos; was not found.
           </div>
         </div>
 

@@ -20,7 +20,7 @@ export const PrivacyView: React.FC = () => {
       <div style={{ maxWidth: '680px', margin: '0 auto' }}>
         {/* Navigation & Brand */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
-          <BrandLogo size="md" onClick={() => navigateTo('/app')} />
+          <BrandLogo size="md" showSubtitle={true} subtitle="Systems Architecture" onClick={() => navigateTo('/app')} />
           <Button
             variant="secondary"
             size="sm"
@@ -33,8 +33,8 @@ export const PrivacyView: React.FC = () => {
 
         {/* Header */}
         <header style={{ marginBottom: '36px' }}>
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Legal & Data
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
+            LEGAL // PRIVACY PROTOCOL
           </span>
           <h1
             style={{
@@ -46,10 +46,10 @@ export const PrivacyView: React.FC = () => {
               color: 'var(--text-primary)'
             }}
           >
-            Privacy Policy
+            Privacy Protocol
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6 }}>
-            Last updated: October 2026. Codolingo is built local-first. We don&apos;t track you, sell your data, or maintain remote user databases.
+            Last updated: October 2026. VYNTAX is built local-first. We don&apos;t track you, sell your data, or maintain remote user databases.
           </p>
         </header>
 
@@ -60,7 +60,7 @@ export const PrivacyView: React.FC = () => {
               1. Where your data lives
             </h2>
             <p>
-              All of your learning progress, completed units, daily streaks, XP points, sandbox files, and mistake repair records are stored exclusively in your browser&apos;s local storage (<code style={{ backgroundColor: 'var(--bg-surface-subtle)', padding: '2px 6px', borderRadius: '4px', fontSize: '0.85em', color: 'var(--brand-primary)' }}>localStorage</code>).
+              All of your learning progress, completed units, daily streaks, XP points, sandbox files, and mistake repair records are stored exclusively in your browser&apos;s local storage (<code style={{ backgroundColor: 'var(--bg-surface-subtle)', padding: '2px 6px', borderRadius: '4px', fontSize: '0.85em', color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>localStorage</code>).
             </p>
             <p style={{ marginTop: '8px' }}>
               Nothing is transmitted to a central database or cloud account. If you clear your browser cookies and site data, your progress will be cleared unless you export a backup.
@@ -69,10 +69,10 @@ export const PrivacyView: React.FC = () => {
 
           <section>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px' }}>
-              2. Python code execution
+              2. Code execution
             </h2>
             <p>
-              When you write and run Python exercises in Codolingo, your code executes locally inside your browser via WebAssembly (Pyodide). No Python source code, scripts, or stdout logs are sent over the network to external code execution servers.
+              When you write and run exercises in VYNTAX, your code executes locally inside your browser via WebAssembly (Pyodide). No source code, scripts, or stdout logs are sent over the network to external code execution servers.
             </p>
           </section>
 
@@ -81,7 +81,7 @@ export const PrivacyView: React.FC = () => {
               3. Telemetry and tracking
             </h2>
             <p>
-              Codolingo does not use Google Analytics, Meta Pixel, advertising beacons, fingerprinting scripts, or third-party cookies. We do not track your activity across other sites or sell learner information.
+              VYNTAX does not use Google Analytics, Meta Pixel, advertising beacons, fingerprinting scripts, or third-party cookies. We do not track your activity across other sites or sell learner information.
             </p>
           </section>
 
@@ -107,14 +107,14 @@ export const PrivacyView: React.FC = () => {
               5. Questions & feedback
             </h2>
             <p>
-              If you have any questions regarding this privacy policy or local data storage, email us at <a href="mailto:privacy@codolingo.app" style={{ color: 'var(--brand-primary)', textDecoration: 'underline' }}>privacy@codolingo.app</a>.
+              If you have any questions regarding this privacy policy or local data storage, email us at <a href="mailto:privacy@vyntax.dev" style={{ color: 'var(--brand-primary)', textDecoration: 'underline' }}>privacy@vyntax.dev</a>.
             </p>
           </section>
         </div>
 
         {/* Footer */}
         <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid var(--border-default)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>© 2026 Codolingo. Local-first learning.</span>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>© 2026 VYNTAX Systems Architecture. Local-first learning.</span>
           <Button variant="ghost" size="sm" onClick={() => navigateTo('/terms')}>
             View Terms of Service
           </Button>

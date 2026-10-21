@@ -621,7 +621,7 @@ export const PlaygroundWorkspace: React.FC<PlaygroundWorkspaceProps> = ({ onBack
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {[
               { keys: ['Ctrl / ⌘', 'Enter'], desc: 'Run Python code in Pyodide engine', highlight: true },
-              { keys: ['Ctrl / ⌘', 'K'], desc: 'Open global Codolingo Command Palette', highlight: false },
+              { keys: ['Ctrl / ⌘', 'K'], desc: 'Open global VYNTAX Command Palette', highlight: false },
               { keys: ['Ctrl / ⌘', 'S'], desc: 'Autosave code to local storage', highlight: false },
               { keys: ['Esc'], desc: 'Dismiss active modal or palette', highlight: false },
               { keys: ['Tab'], desc: 'Indent 4 spaces (soft tabs)', highlight: false },

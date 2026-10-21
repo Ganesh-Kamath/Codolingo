@@ -80,34 +80,34 @@ export const AppContent: React.FC = () => {
 
   // Dynamic Route Document Titles
   useEffect(() => {
-    let title = 'Codolingo — Python Deliberate Learning';
+    let title = 'VYNTAX — Algorithmic Mastery & Forward Momentum';
     if (currentRoute === '/' || currentRoute === '/landing') {
-      title = 'Codolingo — Learn Python Through Deliberate Practice';
+      title = 'VYNTAX — Learn to code. Practice with purpose. Become a developer.';
     } else if (currentRoute === '/app' || currentRoute === '/app/learn') {
-      title = 'Learning Path — Codolingo';
+      title = 'Curriculum Matrix — VYNTAX';
     } else if (currentRoute === '/app/dashboard') {
-      title = 'Dashboard — Codolingo';
+      title = 'Flight Dashboard — VYNTAX';
     } else if (currentRoute.startsWith('/app/practice')) {
-      title = 'Practice Drills — Codolingo';
+      title = 'Code Engine & Practice — VYNTAX';
     } else if (currentRoute.startsWith('/app/projects')) {
-      title = 'Projects — Codolingo';
+      title = 'Systems Projects — VYNTAX';
     } else if (currentRoute.startsWith('/app/review')) {
-      title = 'Fix-It Lab — Codolingo';
+      title = 'Fix-It Telemetry Lab — VYNTAX';
     } else if (currentRoute.startsWith('/app/profile')) {
-      title = 'Settings & Profile — Codolingo';
+      title = 'Operator Profile & Preferences — VYNTAX';
     } else if (currentRoute.startsWith('/app/lesson/')) {
       const id = currentRoute.replace('/app/lesson/', '');
-      title = `Lesson ${id} — Codolingo`;
+      title = `Flight Mission ${id} — VYNTAX`;
     } else if (currentRoute === '/privacy') {
-      title = 'Privacy Policy — Codolingo';
+      title = 'Privacy Protocol — VYNTAX';
     } else if (currentRoute === '/terms') {
-      title = 'Terms of Service — Codolingo';
+      title = 'Terms of Service — VYNTAX';
     } else if (currentRoute === '/changelog') {
-      title = 'Changelog — Codolingo';
+      title = 'System Changelog — VYNTAX';
     } else if (currentRoute === '/onboarding') {
-      title = 'Welcome — Codolingo';
+      title = 'Welcome Operator — VYNTAX';
     } else {
-      title = 'Page Not Found — Codolingo';
+      title = '404 Vector Lost — VYNTAX';
     }
     document.title = title;
   }, [currentRoute]);
@@ -324,19 +324,59 @@ export const AppContent: React.FC = () => {
       >
         <div
           style={{
-            maxWidth: '1240px',
+            maxWidth: '1500px',
             margin: '0 auto',
-            padding: '0 var(--space-5)',
+            padding: '0 28px',
             height: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            position: 'relative'
+            position: 'relative',
+            gap: '16px'
           }}
         >
-          {/* Brand Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-            <BrandLogo size="md" onClick={() => navigateTo('/app')} />
+          {/* Brand Logo & Telemetry Badge */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexShrink: 0 }}>
+            <BrandLogo size="md" showSubtitle={true} subtitle="Systems Architecture" onClick={() => navigateTo('/app')} />
+
+            <div
+              className="desktop-only"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: 'var(--bg-surface-elevated)',
+                border: '1px solid var(--border-default)',
+                marginLeft: 'var(--space-2)',
+                whiteSpace: 'nowrap',
+                userSelect: 'none'
+              }}
+            >
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--brand-primary)',
+                  boxShadow: '0 0 6px var(--brand-primary)',
+                  flexShrink: 0
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
+                  color: 'var(--brand-primary)',
+                  textTransform: 'uppercase'
+                }}
+              >
+                MATRIX v2025.1
+              </span>
+            </div>
 
             {/* Quick Command Palette Button */}
             <button
@@ -348,7 +388,7 @@ export const AppContent: React.FC = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '4px 10px',
+                padding: '5px 12px',
                 backgroundColor: 'var(--bg-surface-subtle)',
                 border: '1px solid var(--border-default)',
                 borderRadius: 'var(--radius-md)',
@@ -356,7 +396,9 @@ export const AppContent: React.FC = () => {
                 fontWeight: 600,
                 color: 'var(--text-secondary)',
                 cursor: 'pointer',
-                marginLeft: 'var(--space-2)'
+                marginLeft: 'var(--space-1)',
+                whiteSpace: 'nowrap',
+                transition: 'border-color var(--transition-fast)'
               }}
               title="Search curriculum, actions, views (Cmd+K)"
               aria-label="Open Command Palette"
@@ -365,17 +407,18 @@ export const AppContent: React.FC = () => {
               <span>Search</span>
               <kbd style={{
                 fontSize: '0.625rem',
-                padding: '1px 4px',
+                padding: '1px 5px',
                 borderRadius: '3px',
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-default)',
-                fontFamily: 'var(--font-mono)'
+                fontFamily: 'var(--font-mono)',
+                color: 'var(--text-muted)'
               }}>⌘K</kbd>
             </button>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav style={{ display: 'flex', gap: 'var(--space-1)' }} className="desktop-only" aria-label="Main Navigation">
+          <nav style={{ display: 'flex', gap: 'var(--space-1)', alignItems: 'center', flexShrink: 0 }} className="desktop-only" aria-label="Main Navigation">
             {navTabs.map((tab) => {
               const isActive = currentTab === tab.id;
 
@@ -386,8 +429,8 @@ export const AppContent: React.FC = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    padding: '6px 12px',
+                    gap: '7px',
+                    padding: '7px 14px',
                     borderRadius: 'var(--radius-md)',
                     fontSize: 'var(--text-sm)',
                     fontWeight: isActive ? 600 : 500,
@@ -396,12 +439,14 @@ export const AppContent: React.FC = () => {
                     border: '1px solid',
                     borderColor: isActive ? 'var(--brand-border)' : 'transparent',
                     transition: 'all var(--transition-fast)',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap',
+                    flexShrink: 0
                   }}
                   className={isActive ? '' : 'nav-hover-item'}
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <Icon name={tab.iconName} size={15} />
+                  <Icon name={tab.iconName} size={16} />
                   <span>{tab.label}</span>
                   {tab.badge ? (
                     <span
@@ -424,7 +469,7 @@ export const AppContent: React.FC = () => {
           </nav>
 
           {/* Gamification HUD Indicators & Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexShrink: 0 }}>
             {/* Streak Pill */}
             <Tooltip content={`${userProgress.streak} day streak (Click for stats)`}>
               <button

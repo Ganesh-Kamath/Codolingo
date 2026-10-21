@@ -1,8 +1,10 @@
 import React from 'react';
 
 interface BrandLogoProps {
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   showWordmark?: boolean;
+  showSubtitle?: boolean;
+  subtitle?: string;
   onClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
@@ -11,19 +13,22 @@ interface BrandLogoProps {
 export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   showWordmark = true,
+  showSubtitle = false,
+  subtitle = 'SYSTEMS ARCHITECTURE',
   onClick,
   className = '',
   style
 }) => {
   const dimensions = {
-    sm: { icon: 26, radius: 6, font: '0.9375rem', gap: 8, stroke: 2 },
-    md: { icon: 32, radius: 8, font: '1.0625rem', gap: 10, stroke: 2.2 },
-    lg: { icon: 40, radius: 10, font: '1.35rem', gap: 12, stroke: 2.5 }
+    sm: { icon: 28, font: '1rem', subFont: '9px', gap: 8 },
+    md: { icon: 34, font: '1.25rem', subFont: '10px', gap: 10 },
+    lg: { icon: 42, font: '1.5rem', subFont: '11px', gap: 12 },
+    xl: { icon: 52, font: '1.875rem', subFont: '12px', gap: 14 }
   }[size];
 
-  const content = (
+  return (
     <div
-      className={`brand-logo-lockup ${className}`}
+      className={`vyntax-brand-lockup ${className}`}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
@@ -41,64 +46,104 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
         userSelect: 'none',
         ...style
       }}
+      aria-label="VYNTAX"
     >
+      {/* VYNTAX Ascending Syntax Prism Symbol */}
       <div
         style={{
           width: `${dimensions.icon}px`,
           height: `${dimensions.icon}px`,
-          borderRadius: `${dimensions.radius}px`,
-          backgroundColor: 'var(--brand-primary)',
-          border: '1px solid var(--brand-bevel)',
-          boxShadow: 'var(--shadow-xs)',
+          flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          flexShrink: 0
+          position: 'relative'
         }}
-        aria-hidden="true"
       >
         <svg
-          width={dimensions.icon * 0.65}
-          height={dimensions.icon * 0.65}
-          viewBox="0 0 24 24"
+          viewBox="0 0 600 600"
+          width="100%"
+          height="100%"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          style={{
+            filter: 'drop-shadow(0 0 8px rgba(0, 245, 212, 0.4))'
+          }}
         >
+          <defs>
+            <linearGradient id={`vyn-icon-grad-${size}`} x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#00C9A7" />
+              <stop offset="50%" stopColor="#00F5D4" />
+              <stop offset="100%" stopColor="#7928CA" />
+            </linearGradient>
+          </defs>
+
+          {/* Precision Pillar (Left Wing) */}
+          <path d="M140 180 L230 180 L300 350 L250 430 Z" fill="#00C9A7" opacity="0.9" />
+
+          {/* Ascending Terminal Beam (Right Wing) */}
           <path
-            d="M6 6L13 12L6 18"
-            stroke="#FFFFFF"
-            strokeWidth={dimensions.stroke}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            d="M250 430 L300 350 L410 140 L470 140 L320 460 L280 460 Z"
+            fill={`url(#vyn-icon-grad-${size})`}
           />
-          <line
-            x1="14"
-            y1="18"
-            x2="19"
-            y2="18"
-            stroke="#FFFFFF"
-            strokeWidth={dimensions.stroke}
-            strokeLinecap="round"
-          />
+
+          {/* Syntax Spark Prism Center */}
+          <polygon points="300,240 340,300 300,360 260,300" fill="#7928CA" opacity="0.95" />
+          <polygon points="300,265 325,300 300,335 275,300" fill="#00F5D4" />
+          <circle cx="300" cy="300" r="10" fill="#FFFFFF" />
+
+          {/* Dynamic Momentum Strokes */}
+          <path d="M180 230 L220 310" stroke="#00F5D4" strokeWidth="8" strokeLinecap="round" opacity="0.6" />
+          <path d="M430 210 L380 310" stroke="#9D4EDD" strokeWidth="8" strokeLinecap="round" opacity="0.7" />
         </svg>
       </div>
 
+      {/* Wordmark and Optional Subtitle */}
       {showWordmark && (
-        <span
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: dimensions.font,
-            letterSpacing: '-0.03em',
-            color: 'var(--text-primary)',
-            lineHeight: 1
-          }}
-        >
-          Codolingo
-        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 700,
+              fontSize: dimensions.font,
+              letterSpacing: '0.04em',
+              color: 'var(--text-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2px'
+            }}
+          >
+            VYNTAX
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--brand-primary)',
+                marginLeft: '3px',
+                boxShadow: '0 0 6px var(--brand-primary)',
+                display: 'inline-block'
+              }}
+            />
+          </span>
+
+          {showSubtitle && (
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: dimensions.subFont,
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                color: 'var(--text-secondary)',
+                marginTop: '3px',
+                textTransform: 'uppercase'
+              }}
+            >
+              {subtitle}
+            </span>
+          )}
+        </div>
       )}
     </div>
   );
-
-  return content;
 };

@@ -78,7 +78,7 @@ export const Card: React.FC<CardProps> = ({
       onClick={onClick}
       onKeyDown={handleKeyDown}
       style={{
-        borderRadius: 'var(--radius-xl)',
+        borderRadius: 'var(--radius-lg)',
         padding: getPaddingStyle(),
         ...getVariantStyles(),
         ...style

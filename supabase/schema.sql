@@ -1,4 +1,4 @@
--- Codolingo Supabase Schema (Draft)
+-- VYNTAX Supabase Schema (Draft)
 
 -- 1. Users & Auth mapping
 -- In Supabase, auth.users handles login. We'll map to public.profiles.

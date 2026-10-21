@@ -31,7 +31,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ errorInfo });
-    console.error('Codolingo Error Boundary caught an exception:', error, errorInfo);
+    console.error('VYNTAX Error Boundary caught an exception:', error, errorInfo);
   }
 
   componentDidUpdate(prevProps: Props) {

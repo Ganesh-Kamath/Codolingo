@@ -18,34 +18,34 @@ interface ChangelogEntry {
 
 const CHANGELOG_DATA: ChangelogEntry[] = [
   {
-    version: 'v1.2.0',
+    version: 'v2025.1',
     date: 'October 2026',
     isLatest: true,
-    summary: 'Refined visual hierarchy, editorial landing page, calm unit path layout, and motion restraint.',
+    summary: 'Brand evolution from Codolingo to VYNTAX — algorithmic mastery, aerospace flight telemetry, and hyper-cyan cybernetic cockpit.',
     changes: [
       {
         category: 'Design',
         items: [
-          'Restrained color system: indigo brand, emerald success, amber rewards, red streak/errors.',
-          'Tactile 3D bevel buttons reserved exclusively for single primary actions.',
-          'Calm Learning Path: active unit is prominent; completed and upcoming units collapse quietly.',
-          'Tabular numbers for all XP counts, streaks, and score counters.'
-        ]
-      },
-      {
-        category: 'Performance',
-        items: [
-          'Standardized motion tokens (120ms/200ms/320ms) with full reduced-motion switch.',
-          'Anti-overlapping Web Audio engine with subtle frequencies and master volume control.',
-          'Single-toast notifications with automatic 3.2s dismissal.'
+          'Full brand migration to VYNTAX: "Learn to code. Practice with purpose. Become a developer."',
+          'Integrated official Google Stitch Brand Identity: The Ascending Syntax Prism symbol & custom wordmark.',
+          'Cybernetic flight telemetry color palette: Hyper Cyan (#00F5D4), Syntax Violet (#7928CA), and Obsidian Core (#0A0D14).',
+          'Tripartite typography: Space Grotesk (display), Inter (interface), and JetBrains Mono (telemetry & code).'
         ]
       },
       {
         category: 'Features',
         items: [
-          'Unified 5-destination navigation structure on mobile and desktop.',
-          'New editorial landing page with interactive browser code sandbox.',
-          'Added local-first Privacy Policy, Terms of Service, and Keyboard Shortcuts sheet.'
+          'Stitch Flight Cockpit: live execution telemetry, test assertion benches, and microsecond profiling.',
+          'VYNTAX Systems Architecture track matrix with 43 comprehensive units.',
+          'Adaptive mistake repair in Fix-It Telemetry Lab.'
+        ]
+      },
+      {
+        category: 'Performance',
+        items: [
+          'Client-side WebAssembly compiler execution with instant stdout and error streams.',
+          'Standardized motion tokens with reduced-motion support.',
+          'Local-first data persistence with zero tracking.'
         ]
       }
     ]
@@ -59,14 +59,14 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
         category: 'Features',
         items: [
           'Command palette (⌘K) to quickly jump across lessons, units, and views.',
-          'Diagnostic error analyzer translating Python exceptions into clear human explanations.',
-          'Quick Sandbox practice arena for open-ended Python experimentation.'
+          'Diagnostic error analyzer translating exceptions into clear mental models.',
+          'Quick Sandbox practice arena for open-ended code experimentation.'
         ]
       },
       {
         category: 'Performance',
         items: [
-          'Client-side WebAssembly Pyodide execution with instant stdout and error streams.',
+          'Client-side WebAssembly execution with instant profiling.',
           'Route-level code splitting with lightweight skeleton loaders.'
         ]
       }
@@ -75,12 +75,12 @@ const CHANGELOG_DATA: ChangelogEntry[] = [
   {
     version: 'v1.0.0',
     date: 'August 2026',
-    summary: 'Initial release of Codolingo Python curriculum and deliberate practice runner.',
+    summary: 'Initial release of core programming curriculum and deliberate practice runner.',
     changes: [
       {
         category: 'Features',
         items: [
-          '43 bite-sized Python units covering foundations through capstone projects.',
+          '43 bite-sized units covering foundations through capstone projects.',
           'Multi-step lesson runner with syntax highlighting and instant unit testing.',
           'Mistake Bank capturing missed questions for targeted review.',
           'Full local progress persistence and JSON backup export/import.'
@@ -106,7 +106,7 @@ export const ChangelogView: React.FC = () => {
       <div style={{ maxWidth: '680px', margin: '0 auto' }}>
         {/* Navigation & Brand */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
-          <BrandLogo size="md" onClick={() => navigateTo('/app')} />
+          <BrandLogo size="md" showSubtitle={true} subtitle="Systems Architecture" onClick={() => navigateTo('/app')} />
           <Button
             variant="secondary"
             size="sm"
@@ -119,8 +119,8 @@ export const ChangelogView: React.FC = () => {
 
         {/* Header */}
         <header style={{ marginBottom: '40px' }}>
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Product Updates
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)' }}>
+            SYSTEM RELEASES // TELEMETRY LOGS
           </span>
           <h1
             style={{
@@ -132,10 +132,10 @@ export const ChangelogView: React.FC = () => {
               color: 'var(--text-primary)'
             }}
           >
-            Changelog
+            System Changelog
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6 }}>
-            Real, shipped improvements and polish passes to the Codolingo platform.
+            Real, shipped improvements and architectural releases to the VYNTAX platform.
           </p>
         </header>
 
@@ -146,8 +146,8 @@ export const ChangelogView: React.FC = () => {
               key={entry.version}
               style={{
                 backgroundColor: 'var(--bg-surface)',
-                borderRadius: 'var(--radius-xl)',
-                border: '1.5px solid var(--border-default)',
+                borderRadius: 'var(--radius-lg)',
+                border: '1px solid var(--border-default)',
                 padding: '24px 28px',
                 boxShadow: 'var(--shadow-xs)'
               }}
@@ -170,7 +170,7 @@ export const ChangelogView: React.FC = () => {
                     </Badge>
                   )}
                 </div>
-                <time style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                <time style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
                   {entry.date}
                 </time>
               </div>
@@ -187,9 +187,10 @@ export const ChangelogView: React.FC = () => {
                         fontSize: '0.72rem',
                         fontWeight: 700,
                         textTransform: 'uppercase',
-                        letterSpacing: '0.04em',
+                        letterSpacing: '0.08em',
                         color: 'var(--brand-primary)',
-                        marginBottom: '6px'
+                        marginBottom: '6px',
+                        fontFamily: 'var(--font-mono)'
                       }}
                     >
                       {group.category}
@@ -210,7 +211,7 @@ export const ChangelogView: React.FC = () => {
 
         {/* Footer */}
         <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid var(--border-default)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>© 2026 Codolingo</span>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>© 2026 VYNTAX Systems Architecture</span>
           <Button variant="ghost" size="sm" onClick={() => navigateTo('/app')}>
             Start practicing
           </Button>

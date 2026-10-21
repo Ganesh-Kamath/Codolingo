@@ -178,7 +178,7 @@ export const MistakeReviewView: React.FC = () => {
           }
 
           if (tc.assertionPython) {
-            const assertScript = `${userCode}\n\n# Codolingo Test Assertion\n${tc.assertionPython}`;
+            const assertScript = `${userCode}\n\n# VYNTAX Test Assertion\n${tc.assertionPython}`;
             const assertRes = await codeExecutionService.executeRaw(assertScript);
             if (assertRes.error) {
               allPassed = false;

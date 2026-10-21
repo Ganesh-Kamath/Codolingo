@@ -1,8 +1,9 @@
 :root {
   /* ========================================================
-     CODOLINGO CORE DESIGN TOKENS
-     Restrained, Disciplined Design System
-     Indigo Brand • Warm Parchment Light • Technical Obsidian Dark
+     VYNTAX CORE DESIGN TOKENS
+     Algorithmic Mastery & Forward Momentum
+     Cybernetic Precision & Dark Flight Telemetry
+     Hyper Cyan (#00F5D4) • Syntax Violet (#7928CA) • Obsidian (#0A0D14)
      ======================================================== */
 
   /* Spacing Scale (4, 8, 12, 16, 20, 24, 32, 40, 48, 64) */
@@ -19,19 +20,19 @@
   --space-16: 64px;
   --space-20: 80px;
 
-  /* Restrained Radius Scale (subtle, disciplined curves) */
+  /* Stitch Geometric Radii (Soft Technical: 4px baseline, max 8px panels) */
   --radius-none: 0px;
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 20px;
-  --radius-full: 9999px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px; /* Reserved strictly for status LEDs & telemetry pills */
 
-  /* Typography Scale */
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Stitch Tripartite Typography Hierarchy */
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --text-xs: 0.75rem;       /* 12px */
@@ -43,73 +44,207 @@
   --text-2xl: 1.5rem;       /* 24px */
   --text-3xl: 1.875rem;     /* 30px */
   --text-4xl: 2.25rem;      /* 36px */
-  --text-5xl: 2.75rem;      /* 44px */
+  --text-5xl: 3.5rem;       /* 56px - display hero */
 
-  /* Light Theme (Default: Warm Architectural Parchment) */
-  --bg-app: #FBF9F4;
-  --bg-surface: #FFFFFF;
-  --bg-surface-elevated: #FFFFFF;
-  --bg-surface-subtle: #F6F3EC;
-  --bg-surface-muted: #EFECE4;
-  --bg-surface-high: #E5E1D6;
-  --bg-overlay: rgba(20, 19, 18, 0.6);
+  /* Telemetry Spec Variables */
+  --telemetry-micro: 10px;
+  --telemetry-micro-tracking: 0.08em;
+  --telemetry-metric: 20px;
 
-  /* Text & Content */
-  --text-primary: #1C1917;
-  --text-secondary: #44403C;
-  --text-muted: #57534E;
-  --text-on-brand: #FFFFFF;
-  --text-link: #4338CA;
+  /* ========================================================
+     DEFAULT THEME: VYNTAX CYBERNETIC COCKPIT (DARK FLIGHT CORE)
+     ======================================================== */
+  --bg-app: #0A0D14;
+  --bg-surface: #101524;
+  --bg-surface-elevated: #161D31;
+  --bg-surface-subtle: #0E121E;
+  --bg-surface-muted: #141A2B;
+  --bg-surface-high: #1E2640;
+  --bg-overlay: rgba(10, 13, 20, 0.85);
+
+  /* Text & Telemetry Content */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-on-brand: #0A0D14;
+  --text-link: #00F5D4;
 
   /* Code Surface Tokens */
-  --code-surface: #1E1E24;
-  --code-border: #2D3139;
-  --code-text: #E5E7EB;
+  --code-surface: #0B0E15;
+  --code-border: #1F293D;
+  --code-text: #F8FAFC;
 
-  /* Borders & Dividers */
-  --border-subtle: #EFECE4;
-  --border-default: #E2DDD3;
-  --border-strong: #CDC6B9;
-  --border-focus: #4338CA;
+  /* Hairline Boundary & Structural Graticules */
+  --border-subtle: #161C2C;
+  --border-default: #1F293D;
+  --border-strong: #2A364F;
+  --border-focus: #00F5D4;
 
-  /* Palette Discipline:
-     Indigo = Brand only
-     Emerald = Success / solved only
-     Amber = XP / reward only
-     Red = Error / streak risk only
-     Neutrals = Everything else */
+  /* Kinetic Accents: Hyper Cyan (#00F5D4) */
+  --brand-primary: #00F5D4;
+  --brand-hover: #09E5B8;
+  --brand-active: #00C9A7;
+  --brand-light: rgba(0, 245, 212, 0.12);
+  --brand-subtle: rgba(0, 245, 212, 0.06);
+  --brand-border: rgba(0, 245, 212, 0.35);
+  --brand-text: #00F5D4;
+  --brand-bevel: #00C9A7;
 
-  /* 1. Primary Brand: Indigo */
-  --brand-primary: #4338CA;
-  --brand-hover: #3730A3;
-  --brand-active: #312E81;
-  --brand-light: #EEF2FF;
-  --brand-subtle: #F5F7FF;
-  --brand-border: #C7D2FE;
-  --brand-text: #3730A3;
-  --brand-bevel: #312E81;
+  /* Syntax Violet Secondary (#7928CA) */
+  --secondary-solid: #7928CA;
+  --secondary-hover: #9D4EDD;
+  --secondary-bevel: #6807BA;
+  --secondary-light: rgba(121, 40, 202, 0.16);
+  --secondary-border: rgba(121, 40, 202, 0.4);
+  --secondary-text: #DBB8FF;
 
-  /* 2. Success: Emerald (Strictly for correct answers & completed units) */
-  --secondary-solid: #047857;
-  --secondary-hover: #065F46;
-  --secondary-bevel: #022C22;
+  /* Quantum Mint Tertiary (#09E5B8 / #36F5C7) */
+  --tertiary-solid: #09E5B8;
+  --tertiary-hover: #36F5C7;
+  --tertiary-light: rgba(9, 229, 184, 0.12);
+
+  /* Affirmative / Solved: Cyan-Mint Hybrid */
+  --success-bg: rgba(0, 245, 212, 0.1);
+  --success-border: rgba(0, 245, 212, 0.35);
+  --success-text: #00F5D4;
+  --success-solid: #00F5D4;
+  --success-bevel: #00C9A7;
+
+  /* XP / Mastery Rewards: Violet Authority */
+  --warning-bg: rgba(121, 40, 202, 0.12);
+  --warning-border: rgba(121, 40, 202, 0.4);
+  --warning-text: #DBB8FF;
+  --warning-solid: #7928CA;
+  --warning-hover: #9D4EDD;
+  --warning-bevel: #6807BA;
+  --xp-color: #00F5D4;
+  --xp-bg: rgba(0, 245, 212, 0.1);
+
+  /* Error / Streak Warning: Red-Coral */
+  --error-bg: rgba(239, 68, 68, 0.12);
+  --error-border: rgba(239, 68, 68, 0.35);
+  --error-text: #FFB4AB;
+  --error-solid: #EF4444;
+  --error-hover: #DC2626;
+  --error-bevel: #991B1B;
+  --streak-color: #00F5D4;
+  --streak-bg: rgba(0, 245, 212, 0.1);
+
+  /* Functional Neutrals */
+  --info-bg: #101524;
+  --info-border: #1F293D;
+  --info-text: #94A3B8;
+  --info-solid: #475569;
+  --info-bevel: #1F293D;
+
+  --locked-bg: #0B0E15;
+  --locked-border: #161C2C;
+  --locked-bevel: #101524;
+  --locked-text: #475569;
+
+  /* Course Track Accents */
+  --course-python: #00F5D4;
+  --course-python-bg: rgba(0, 245, 212, 0.1);
+  --course-python-border: rgba(0, 245, 212, 0.3);
+  --course-js: #F59E0B;
+  --course-js-bg: rgba(245, 158, 11, 0.1);
+  --course-js-border: rgba(245, 158, 11, 0.3);
+  --course-dsa: #7928CA;
+  --course-dsa-bg: rgba(121, 40, 202, 0.12);
+  --course-dsa-border: rgba(121, 40, 202, 0.35);
+
+  /* Kinetic Laser Glow Elevation (Replaces blurry gray drop shadows) */
+  --tactile-primary: 0 0 16px rgba(0, 245, 212, 0.4);
+  --tactile-primary-pressed: 0 0 8px rgba(0, 245, 212, 0.5);
+  --tactile-secondary: 0 0 16px rgba(121, 40, 202, 0.3);
+  --tactile-secondary-pressed: 0 0 8px rgba(121, 40, 202, 0.4);
+  --tactile-gold: none;
+  --tactile-gold-pressed: none;
+  --tactile-danger: none;
+  --tactile-danger-pressed: none;
+  --tactile-card: none;
+  --tactile-card-pressed: none;
+
+  /* Precise structural shadows and glows */
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
+  --shadow-xl: 0 16px 36px rgba(0, 0, 0, 0.8);
+  --shadow-2xl: 0 24px 50px rgba(0, 0, 0, 0.9);
+  --shadow-cyan-glow: 0 0 20px rgba(0, 245, 212, 0.35);
+  --shadow-violet-glow: 0 0 24px rgba(121, 40, 202, 0.3);
+
+  /* Standardized Motion Tokens */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 120ms var(--ease-out);
+  --transition-base: 200ms var(--ease-out);
+  --transition-slow: 320ms var(--ease-out);
+
+  /* Dimensions */
+  --topbar-height: 64px;
+  --bottomnav-height: 60px;
+}
+
+/* ========================================================
+   LIGHT THEME (OPTIONAL HIGH-CONTRAST LABORATORY LIGHT)
+   ======================================================== */
+[data-theme="light"] {
+  --bg-app: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F1F5F9;
+  --bg-surface-subtle: #F8FAFC;
+  --bg-surface-muted: #E2E8F0;
+  --bg-surface-high: #E2E8F0;
+  --bg-overlay: rgba(15, 23, 42, 0.6);
+
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --text-on-brand: #0A0D14;
+  --text-link: #008775;
+
+  --code-surface: #0F172A;
+  --code-border: #CBD5E1;
+  --code-text: #F8FAFC;
+
+  --border-subtle: #F1F5F9;
+  --border-default: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --border-focus: #00C9A7;
+
+  --brand-primary: #00C9A7;
+  --brand-hover: #00B394;
+  --brand-active: #009E83;
+  --brand-light: rgba(0, 201, 167, 0.12);
+  --brand-subtle: rgba(0, 201, 167, 0.05);
+  --brand-border: #99EEDB;
+  --brand-text: #007A66;
+  --brand-bevel: #007A66;
+
+  --secondary-solid: #7928CA;
+  --secondary-hover: #6807BA;
+  --secondary-bevel: #470083;
+  --secondary-light: #F3E8FF;
+  --secondary-border: #D8B4FE;
+  --secondary-text: #6807BA;
+
   --success-bg: #ECFDF5;
   --success-border: #A7F3D0;
   --success-text: #065F46;
-  --success-solid: #047857;
-  --success-bevel: #065F46;
+  --success-solid: #059669;
+  --success-bevel: #047857;
 
-  /* 3. Reward / XP: Amber (Strictly for score & XP points) */
   --warning-bg: #FFFBEB;
   --warning-border: #FDE68A;
   --warning-text: #92400E;
   --warning-solid: #D97706;
   --warning-hover: #B45309;
   --warning-bevel: #92400E;
-  --xp-color: #D97706;
-  --xp-bg: #FFFBEB;
+  --xp-color: #7928CA;
+  --xp-bg: #F3E8FF;
 
-  /* 4. Danger / Streak: Red / Rose (Strictly for errors & streak counter) */
   --error-bg: #FEF2F2;
   --error-border: #FECACA;
   --error-text: #991B1B;
@@ -119,173 +254,120 @@
   --streak-color: #E11D48;
   --streak-bg: #FFF1F2;
 
-  /* 5. Functional Neutrals */
   --info-bg: #F8FAFC;
   --info-border: #E2E8F0;
   --info-text: #334155;
   --info-solid: #475569;
   --info-bevel: #334155;
 
-  --locked-bg: #F5F2EB;
-  --locked-border: #E5E1D6;
-  --locked-bevel: #CDC6B9;
-  --locked-text: #8A857D;
+  --locked-bg: #F1F5F9;
+  --locked-border: #E2E8F0;
+  --locked-bevel: #CBD5E1;
+  --locked-text: #94A3B8;
 
-  /* Course Track Accents (Restrained) */
-  --course-python: #4338CA;
-  --course-python-bg: #EEF2FF;
-  --course-python-border: #C7D2FE;
-  --course-js: #D97706;
-  --course-js-bg: #FFFBEB;
-  --course-js-border: #FDE68A;
-  --course-dsa: #475569;
-  --course-dsa-bg: #F8FAFC;
-  --course-dsa-border: #E2E8F0;
+  --course-python: #008775;
+  --course-python-bg: #ECFDF5;
+  --course-python-border: #A7F3D0;
 
-  /* Tactile 3D Extrusion Elevation
-     RESERVED STRICTLY FOR THE SINGLE PRIMARY ACTION PER SCREEN */
-  --tactile-primary: 0 3px 0 var(--brand-bevel);
-  --tactile-primary-pressed: 0 1px 0 var(--brand-bevel);
-  --tactile-secondary: none;
-  --tactile-secondary-pressed: none;
-  --tactile-gold: none;
-  --tactile-gold-pressed: none;
-  --tactile-danger: none;
-  --tactile-danger-pressed: none;
-  --tactile-card: none;
-  --tactile-card-pressed: none;
+  --tactile-primary: 0 0 16px rgba(0, 201, 167, 0.35);
+  --tactile-primary-pressed: 0 0 8px rgba(0, 201, 167, 0.45);
+  --tactile-secondary: 0 0 16px rgba(121, 40, 202, 0.25);
+  --tactile-secondary-pressed: 0 0 8px rgba(121, 40, 202, 0.35);
 
-  /* Clean, Quiet Modern Shadows (No heavy muddy blurs) */
-  --shadow-none: none;
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-
-  /* Standardized Motion Tokens (120ms / 200ms / 320ms, unified ease-out curve) */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-fast: 120ms var(--ease-out);
-  --transition-base: 200ms var(--ease-out);
-  --transition-slow: 320ms var(--ease-out);
-
-  /* Compact Dimensions */
-  --topbar-height: 56px;
-  --bottomnav-height: 60px;
+  --shadow-cyan-glow: 0 0 16px rgba(0, 201, 167, 0.3);
+  --shadow-violet-glow: 0 0 16px rgba(121, 40, 202, 0.25);
 }
 
-/* ========================================================
-   DARK THEME OVERRIDES (Obsidian Charcoal / Calm Studio Dark)
-   ======================================================== */
+/* Explicit Dark Theme selector */
 [data-theme="dark"] {
-  /* Canvas & Dark Surfaces */
-  --bg-app: #111215;
-  --bg-surface: #18191E;
-  --bg-surface-elevated: #202229;
-  --bg-surface-subtle: #141519;
-  --bg-surface-muted: #242630;
-  --bg-surface-high: #2C2F3C;
-  --bg-overlay: rgba(0, 0, 0, 0.72);
+  --bg-app: #0A0D14;
+  --bg-surface: #101524;
+  --bg-surface-elevated: #161D31;
+  --bg-surface-subtle: #0E121E;
+  --bg-surface-muted: #141A2B;
+  --bg-surface-high: #1E2640;
+  --bg-overlay: rgba(10, 13, 20, 0.85);
 
-  /* Text & Content */
-  --text-primary: #F3F4F6;
-  --text-secondary: #D1D5DB;
-  --text-muted: #9CA3AF;
-  --text-on-brand: #FFFFFF;
-  --text-link: #818CF8;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-on-brand: #0A0D14;
+  --text-link: #00F5D4;
 
-  /* Code Surface Tokens in Dark */
-  --code-surface: #141519;
-  --code-border: #272A35;
-  --code-text: #F3F4F6;
+  --code-surface: #0B0E15;
+  --code-border: #1F293D;
+  --code-text: #F8FAFC;
 
-  /* Borders & Dividers */
-  --border-subtle: #1E2028;
-  --border-default: #272A35;
-  --border-strong: #383C4C;
-  --border-focus: #818CF8;
+  --border-subtle: #161C2C;
+  --border-default: #1F293D;
+  --border-strong: #2A364F;
+  --border-focus: #00F5D4;
 
-  /* 1. Primary Brand: Indigo */
-  --brand-primary: #6366F1;
-  --brand-hover: #4F46E5;
-  --brand-active: #4338CA;
-  --brand-light: rgba(99, 102, 241, 0.14);
-  --brand-subtle: rgba(99, 102, 241, 0.06);
-  --brand-border: #4F46E5;
-  --brand-text: #C7D2FE;
-  --brand-bevel: #3730A3;
+  --brand-primary: #00F5D4;
+  --brand-hover: #09E5B8;
+  --brand-active: #00C9A7;
+  --brand-light: rgba(0, 245, 212, 0.12);
+  --brand-subtle: rgba(0, 245, 212, 0.06);
+  --brand-border: rgba(0, 245, 212, 0.35);
+  --brand-text: #00F5D4;
+  --brand-bevel: #00C9A7;
 
-  /* 2. Success: Emerald */
-  --secondary-solid: #10B981;
-  --secondary-hover: #059669;
-  --secondary-bevel: #047857;
-  --success-bg: rgba(16, 185, 129, 0.12);
-  --success-border: #059669;
-  --success-text: #6EE7B7;
-  --success-solid: #10B981;
-  --success-bevel: #047857;
+  --secondary-solid: #7928CA;
+  --secondary-hover: #9D4EDD;
+  --secondary-bevel: #6807BA;
+  --secondary-light: rgba(121, 40, 202, 0.16);
+  --secondary-border: rgba(121, 40, 202, 0.4);
+  --secondary-text: #DBB8FF;
 
-  /* 3. Reward / XP: Amber */
-  --warning-bg: rgba(245, 158, 11, 0.12);
-  --warning-border: #D97706;
-  --warning-text: #FCD34D;
-  --warning-solid: #F59E0B;
-  --warning-hover: #D97706;
-  --warning-bevel: #B45309;
-  --xp-color: #FBBF24;
-  --xp-bg: rgba(245, 158, 11, 0.14);
+  --tertiary-solid: #09E5B8;
+  --tertiary-hover: #36F5C7;
+  --tertiary-light: rgba(9, 229, 184, 0.12);
 
-  /* 4. Danger / Streak: Red / Rose */
+  --success-bg: rgba(0, 245, 212, 0.1);
+  --success-border: rgba(0, 245, 212, 0.35);
+  --success-text: #00F5D4;
+  --success-solid: #00F5D4;
+  --success-bevel: #00C9A7;
+
+  --warning-bg: rgba(121, 40, 202, 0.12);
+  --warning-border: rgba(121, 40, 202, 0.4);
+  --warning-text: #DBB8FF;
+  --warning-solid: #7928CA;
+  --warning-hover: #9D4EDD;
+  --warning-bevel: #6807BA;
+  --xp-color: #00F5D4;
+  --xp-bg: rgba(0, 245, 212, 0.1);
+
   --error-bg: rgba(239, 68, 68, 0.12);
-  --error-border: #DC2626;
-  --error-text: #FCA5A5;
+  --error-border: rgba(239, 68, 68, 0.35);
+  --error-text: #FFB4AB;
   --error-solid: #EF4444;
   --error-hover: #DC2626;
   --error-bevel: #991B1B;
-  --streak-color: #FB7185;
-  --streak-bg: rgba(225, 29, 72, 0.14);
+  --streak-color: #00F5D4;
+  --streak-bg: rgba(0, 245, 212, 0.1);
 
-  /* 5. Functional Neutrals */
-  --info-bg: #15161B;
-  --info-border: #272A35;
+  --info-bg: #101524;
+  --info-border: #1F293D;
   --info-text: #94A3B8;
-  --info-solid: #64748B;
-  --info-bevel: #475569;
+  --info-solid: #475569;
+  --info-bevel: #1F293D;
 
-  --locked-bg: #141519;
-  --locked-border: #22242D;
-  --locked-bevel: #1C1E25;
-  --locked-text: #6B7280;
+  --locked-bg: #0B0E15;
+  --locked-border: #161C2C;
+  --locked-bevel: #101524;
+  --locked-text: #475569;
 
-  /* Course Track Accents in Dark */
-  --course-python: #818CF8;
-  --course-python-bg: rgba(99, 102, 241, 0.12);
-  --course-python-border: #4F46E5;
-  --course-js: #FBBF24;
-  --course-js-bg: rgba(245, 158, 11, 0.12);
-  --course-js-border: #D97706;
-  --course-dsa: #94A3B8;
-  --course-dsa-bg: #15161B;
-  --course-dsa-border: #272A35;
+  --course-python: #00F5D4;
+  --course-python-bg: rgba(0, 245, 212, 0.1);
+  --course-python-border: rgba(0, 245, 212, 0.3);
 
-  /* Tactile 3D Extrusion Elevation in Dark */
-  --tactile-primary: 0 3px 0 #3730A3;
-  --tactile-primary-pressed: 0 1px 0 #3730A3;
-  --tactile-secondary: none;
-  --tactile-secondary-pressed: none;
-  --tactile-gold: none;
-  --tactile-gold-pressed: none;
-  --tactile-danger: none;
-  --tactile-danger-pressed: none;
-  --tactile-card: none;
-  --tactile-card-pressed: none;
-
-  /* Shadows in Dark */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.45);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --shadow-cyan-glow: 0 0 20px rgba(0, 245, 212, 0.35);
+  --shadow-violet-glow: 0 0 24px rgba(121, 40, 202, 0.3);
 }

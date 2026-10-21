@@ -465,3 +465,241 @@ button {
     display: none !important;
   }
 }
+
+/* ========================================================
+   VYNTAX AEROSPACE TELEMETRY & GLOW UTILITIES
+   ======================================================== */
+.font-display-hero {
+  font-family: var(--font-display);
+}
+
+.telemetry-micro {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.telemetry-metric {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.glow-cyan {
+  box-shadow: 0 0 16px rgba(0, 245, 212, 0.4);
+}
+
+.glow-violet {
+  box-shadow: 0 0 20px rgba(121, 40, 202, 0.35);
+}
+
+.graticule-border {
+  border: 1px solid var(--border-default);
+}
+
+/* Custom Sleek Dark Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ========================================================
+   REDESIGNED LEARNING PATH ROADMAP & RESPONSIVE LAYOUT
+   ======================================================== */
+.learning-path-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 32px 28px 80px;
+}
+
+.learning-path-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .learning-path-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .learning-path-container {
+    padding: 20px 16px 80px;
+  }
+}
+
+/* Progression Spine */
+.path-progression-wrap {
+  position: relative;
+  width: 100%;
+  padding: 24px 0 32px;
+}
+
+.path-vertical-spine {
+  position: absolute;
+  top: 32px;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .path-vertical-spine {
+    left: 35px;
+  }
+}
+
+/* Step Row */
+.path-step-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 108px;
+  margin-bottom: 24px;
+  z-index: 2;
+}
+
+.path-step-row:last-child {
+  margin-bottom: 0;
+}
+
+.path-card-left {
+  width: calc(50% - 48px);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.path-card-right {
+  width: calc(50% - 48px);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.path-spacer {
+  width: calc(50% - 48px);
+}
+
+.path-node-center {
+  width: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .path-step-row {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .path-node-center {
+    width: 70px;
+    justify-content: center;
+  }
+  .path-spacer {
+    display: none;
+  }
+  .path-card-left,
+  .path-card-right {
+    width: calc(100% - 70px);
+    justify-content: flex-start;
+  }
+}
+
+/* Node Button */
+.path-node-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  position: relative;
+  user-select: none;
+  border-width: 2.5px;
+  border-style: solid;
+  outline: none;
+}
+
+.path-node-btn:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+.path-node-btn:hover {
+  transform: scale(1.06);
+}
+
+/* Interactive Lesson Card */
+.path-lesson-card {
+  width: 100%;
+  max-width: 380px;
+  background-color: var(--bg-surface);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  text-align: left;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.path-lesson-card:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+.path-lesson-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.path-lesson-card.is-current {
+  border-color: var(--brand-border);
+  background-color: var(--bg-surface-elevated);
+  box-shadow: 0 0 16px rgba(0, 245, 212, 0.12), var(--shadow-sm);
+}
+
+.path-lesson-card.is-completed {
+  border-color: rgba(0, 245, 212, 0.2);
+}
+
+.path-lesson-card.is-locked {
+  background-color: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+  opacity: 0.85;
+}
+
+

@@ -1,15 +1,30 @@
-# Codolingo
+# VYNTAX
 
-> **Interactive Python mastery through deliberate practice.**  
+> **"Learn to code. Practice with purpose. Become a developer."**  
+> Interactive Python & Systems mastery through deliberate practice and flight telemetry.  
 > Learn → Code → Make Mistakes → Understand Why → Repair → Master.
 
-Codolingo is a local-first, distraction-free educational web application built to teach Python from first principles to professional algorithmic thinking. It couples bite-sized micro-lessons with browser-native Python execution (WebAssembly via Pyodide), diagnostic misconception tracking, and an active **Fix-It Lab** that guides learners through 4-step repair drills whenever they make a mistake.
+VYNTAX is a modern, high-precision educational engineering platform built to guide learners from first syntax principles to production-grade software architecture. Inspired by the **Google Stitch Design Identity System** ("Cybernetic Precision & Dark Flight Telemetry"), VYNTAX couples deep pedagogical diagnostics with browser-native Python execution (WebAssembly via Pyodide), cognitive misconception tracking, and an active **Fix-It Lab** that guides learners through systematic 4-step repair drills whenever they encounter an error.
+
+---
+
+## Design System & Brand Identity
+
+VYNTAX's visual language is established by the Google Stitch Brand Identity system:
+
+- **Ascending Syntax Prism (`#00F5D4` & `#7928CA`):** Symbolizes the transformation from raw character input to compiled, illuminated execution.
+- **Surface Hierarchy:** Deep Obsidian (`#0A0D14`), Flight Telemetry Panels (`#101524`), and Tactical Raised Cards (`#161D31`).
+- **Typography:**
+  - **Headings & Badges:** `Space Grotesk` (Technical, Geometric, High-Tech)
+  - **Body & Explanations:** `Inter` (Precise, Modern Humanist)
+  - **Code & Telemetry Data:** `JetBrains Mono` (Monospaced, Clean Ligatures)
+- **Visual Telemetry:** Status beacons, graticule gridlines, fuel ring gauges, radar activity heatmaps, and syntax glow accents.
 
 ---
 
 ## Visual Showcase
 
-| Learning Path | Interactive Lesson Runner |
+| Learning Path & Mission Matrix | Interactive Lesson Runner & IDE |
 |:---:|:---:|
 | ![Learning Path](docs/screenshots/1_pathway_desktop.png) | ![Lesson Runner](docs/screenshots/7_lesson_desktop.png) |
 
@@ -17,7 +32,7 @@ Codolingo is a local-first, distraction-free educational web application built t
 |:---:|:---:|
 | ![Mistake Review](docs/screenshots/5_review_desktop.png) | ![Project Workspace](docs/screenshots/4_project_workspace.png) |
 
-| Practice Arena | Profile, Stats & Achievements |
+| Practice Arena | Profile, Flight Telemetry & Achievements |
 |:---:|:---:|
 | ![Practice Arena](docs/screenshots/3_practice_desktop.png) | ![Profile](docs/screenshots/6_profile_desktop.png) |
 
@@ -41,7 +56,7 @@ Codolingo is a local-first, distraction-free educational web application built t
   - Skill mastery is dynamically computed from first-attempt accuracy, hints used, and mistake recurrence (0 to 5 pips).
   - Never hardcoded to 5 pips on first completion.
 - **Local-First & Offline Ready:**
-  - Progress, XP, streaks, levels, daily goals, and achievements persist entirely in `localStorage` (Schema v3).
+  - Progress, XP, streaks, levels, daily goals, and achievements persist entirely in `localStorage`.
   - Fully functional without an active internet connection.
 
 ---
@@ -51,11 +66,12 @@ Codolingo is a local-first, distraction-free educational web application built t
 | Layer | Technology |
 |---|---|
 | **Core Framework** | React 19 + TypeScript |
+| **Design System** | Google Stitch Design Tokens (Obsidian `#0A0D14`, Hyper-Cyan `#00F5D4`, Syntax Violet `#7928CA`) |
 | **Build & Tooling** | Vite 8 + Rolldown bundler |
 | **Code Execution** | Pyodide (Python 3.12 WebAssembly runtime in a Dedicated Web Worker) |
 | **Code Editor** | Monaco Editor (`@monaco-editor/react`) |
 | **Interactive Exercises** | `@dnd-kit` (Drag & drop code ordering), Tabler Icons |
-| **Styling** | Vanilla CSS Design Tokens (HSL Palettes, Dark/Light modes, Glassmorphism) |
+| **Typography** | Space Grotesk, Inter, JetBrains Mono |
 | **Quality & Testing** | Playwright, Axe-core (Accessibility audit), Node.js test runners |
 
 ---
@@ -101,7 +117,7 @@ npm run preview
 
 ## Validation & Automated Testing
 
-Codolingo enforces strict quality gates to guarantee curriculum accuracy, Python assertion correctness, and progression integrity.
+VYNTAX enforces strict quality gates to guarantee curriculum accuracy, Python assertion correctness, and progression integrity.
 
 ```bash
 # Run the authoritative curriculum exercise quality gate (audits all 821 exercises in Units 1-6)
@@ -120,7 +136,7 @@ npm run test:e2e
 ## Repository Structure
 
 ```
-Codolingo/
+vyntax/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml               # GitHub Actions CI (build, validate, test on push)
@@ -130,7 +146,7 @@ Codolingo/
 │   ├── CONTENT_GUIDE.md         # Exercise design principles & quality standards
 │   └── CURRICULUM_MAP.md        # Syllabus specifications across Units 1–43
 ├── public/
-│   ├── favicon.svg              # Brand icon
+│   ├── favicon.svg              # Brand icon (Ascending Syntax Prism)
 │   ├── manifest.webmanifest     # PWA manifest
 │   └── pyodide/                 # Bundled WebAssembly binaries for offline execution
 ├── scripts/
@@ -174,7 +190,7 @@ Codolingo/
 
 ## How to Add or Modify a Lesson
 
-Codolingo lessons are authored using a **15-question session pool** designed to provide diverse pedagogical challenges:
+VYNTAX lessons are authored using a **15-question session pool** designed to provide diverse pedagogical challenges:
 
 1. **Locate or Create the Content File:**
    - Units 2–43 live in `src/curriculum/python/content/unit_XX/`.
@@ -242,10 +258,10 @@ Codolingo lessons are authored using a **15-question session pool** designed to 
 
 ## Offline Architecture & Pyodide Binaries
 
-Codolingo bundles Pyodide WebAssembly assets (`pyodide.asm.wasm`, `pyodide.asm.mjs`, `python_stdlib.zip`) directly inside `public/pyodide/`.
+VYNTAX bundles Pyodide WebAssembly assets (`pyodide.asm.wasm`, `pyodide.asm.mjs`, `python_stdlib.zip`) directly inside `public/pyodide/`.
 
 ### Why are binaries committed in `public/pyodide/`?
-- **True Offline Execution:** Zero dependency on remote CDNs (such as `cdn.jsdelivr.net`). Codolingo can be developed, tested, and used completely offline, on flights, or in restricted intranet environments.
+- **True Offline Execution:** Zero dependency on remote CDNs (such as `cdn.jsdelivr.net`). VYNTAX can be developed, tested, and used completely offline, on flights, or in restricted intranet environments.
 - **Deterministic Reproducibility:** Eliminates version mismatches between npm package types and external CDN releases.
 - **Instant First-Run:** New contributors clone the repository and run `npm run dev` with immediate working code execution—no extra download or post-install steps required.
 - **Repository Health:** The entire bundled Pyodide directory is ~13.5 MB, well within standard Git file limits (far below GitHub's 100 MB per-file threshold).

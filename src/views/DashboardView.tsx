@@ -8,13 +8,13 @@ import { ProgressBar } from '../components/common/ProgressBar';
 import { StreakRescueModal } from '../components/common/StreakRescueModal';
 import { progressionService } from '../services/progressionService';
 
-// Circular SVG Daily Goal Ring
+// Circular SVG Daily Goal Ring with Stitch Cyan-Violet Arc
 const DailyGoalRing: React.FC<{
   earned: number;
   target: number;
   size?: number;
 }> = ({ earned, target, size = 110 }) => {
-  const strokeWidth = 10;
+  const strokeWidth = 8;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const percentage = Math.min(100, Math.round((earned / (target || 50)) * 100));
@@ -27,7 +27,7 @@ const DailyGoalRing: React.FC<{
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="var(--border-default)"
+          stroke="#1F293D"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
@@ -35,21 +35,24 @@ const DailyGoalRing: React.FC<{
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={percentage >= 100 ? 'var(--state-success)' : 'var(--brand-primary)'}
+          stroke={percentage >= 100 ? '#36F5C7' : '#00F5D4'}
           strokeWidth={strokeWidth}
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           strokeLinecap="round"
           fill="transparent"
-          style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+          style={{
+            transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+            filter: 'drop-shadow(0 0 6px rgba(0, 245, 212, 0.4))'
+          }}
         />
       </svg>
       <div style={{ position: 'absolute', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <span style={{ fontSize: '1.25rem', fontWeight: 900, fontFamily: 'var(--font-display)', color: 'var(--text-primary)', lineHeight: 1 }}>
+        <span style={{ fontSize: '1.25rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#F8FAFC', lineHeight: 1 }}>
           {percentage}%
         </span>
-        <span style={{ fontSize: '0.625rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>
-          GOAL
+        <span style={{ fontSize: '9px', fontWeight: 700, color: 'var(--brand-primary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
+          FUEL
         </span>
       </div>
     </div>
@@ -69,7 +72,6 @@ export const DashboardView: React.FC = () => {
     isStreakAtRisk
   } = useApp();
 
-  // Dynamic greeting based on time of day
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -81,7 +83,6 @@ export const DashboardView: React.FC = () => {
   const unresolvedMistakes = mistakes.filter(m => !m.resolved);
   const primaryWeakness = unresolvedMistakes[0];
 
-  // Resolve current active unit, skill, and lesson details
   let activeUnit = course.units[0];
   let activeSkill = course.units[0]?.skills[0];
   let activeLesson = activeSkill?.lessons[0];
@@ -98,7 +99,6 @@ export const DashboardView: React.FC = () => {
     }
   }
 
-  // Calculate course completion stats
   let totalLessonsCount = 0;
   for (const unit of course.units) {
     for (const skill of unit.skills) {
@@ -108,12 +108,10 @@ export const DashboardView: React.FC = () => {
   const completedLessonsCount = userProgress.completedLessonIds.length;
   const courseProgressPct = totalLessonsCount > 0 ? Math.round((completedLessonsCount / totalLessonsCount) * 100) : 0;
 
-  // Active unit progress
   const unitLessons = activeUnit ? activeUnit.skills.flatMap(s => s.lessons) : [];
   const completedUnitLessons = unitLessons.filter(l => userProgress.completedLessonIds.includes(l.id)).length;
   const unitProgressPct = unitLessons.length > 0 ? Math.round((completedUnitLessons / unitLessons.length) * 100) : 0;
 
-  // Generate 30-Day Activity Heatmap Data
   const heatmapDays = React.useMemo(() => {
     const days: Array<{ date: string; dayNumber: number; xp: number; hasActivity: boolean; isToday: boolean }> = [];
     const today = new Date();
@@ -136,7 +134,6 @@ export const DashboardView: React.FC = () => {
     return days;
   }, [userProgress.activityHistory]);
 
-  // Generate 7-Day Weekly Chart Data
   const weeklyData = React.useMemo(() => {
     const past7Days: Array<{ label: string; date: string; xp: number; isToday: boolean }> = [];
     const today = new Date();
@@ -165,39 +162,39 @@ export const DashboardView: React.FC = () => {
   const dailyXpEarned = userProgress.dailyGoal?.xpEarned || userProgress.dailyGoalEarnedXp || 0;
 
   return (
-    <div style={{ maxWidth: '1180px', margin: '0 auto', padding: '24px 20px 80px' }} className="animate-fade-in">
-      
+    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '28px 24px 80px' }} className="animate-fade-in">
       <StreakRescueModal
         isOpen={streakRescuePending}
         streak={userProgress.streak}
         remainingFreezes={freezeInventory}
         onDismiss={dismissStreakRescue}
-        onGoToFixItLab={() => navigateTo('/mistakes')}
+        onGoToFixItLab={() => navigateTo('/app/review')}
       />
 
       {/* At-Risk Streak Warning Banner */}
       {isStreakAtRisk && (
         <div
           style={{
-            background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.12) 0%, rgba(239, 68, 68, 0.12) 100%)',
-            border: '1.5px solid #F59E0B',
+            background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%)',
+            border: '1px solid #EF4444',
             borderRadius: 'var(--radius-lg)',
             padding: '14px 20px',
-            marginBottom: '20px',
+            marginBottom: '24px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '12px'
+            gap: '12px',
+            boxShadow: '0 0 16px rgba(239, 68, 68, 0.2)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>🔥</span>
+            <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>⚡</span>
             <div>
-              <div style={{ fontWeight: 800, fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
-                Your {userProgress.streak}-Day Streak is at Risk!
+              <div style={{ fontWeight: 700, fontSize: '0.9375rem', color: '#F8FAFC', fontFamily: 'var(--font-display)' }}>
+                TELEMETRY WARNING: {userProgress.streak}-Day Flight Streak at Risk!
               </div>
-              <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                Complete a 3-minute lesson before midnight to protect your flame.
+              <div style={{ fontSize: '0.8125rem', color: '#94A3B8' }}>
+                Complete an orbital practice session before 23:59 UTC to retain your forward momentum.
               </div>
             </div>
           </div>
@@ -207,174 +204,306 @@ export const DashboardView: React.FC = () => {
         </div>
       )}
 
-      {/* Top Greeting */}
-      <div style={{ marginBottom: '28px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-          <h1 style={{ fontSize: '1.875rem', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--text-primary)', margin: 0 }}>
-            {getGreeting()}, {userProgress.name.split(' ')[0]}
-          </h1>
-          <Badge variant="brand" size="sm"><span className="tabular-nums">Level {userProgress.level || 1}</span></Badge>
-        </div>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', margin: 0 }}>
-          You are on a <strong style={{ color: 'var(--text-primary)' }} className="tabular-nums">{userProgress.streak}-day streak</strong>. Pick up where you left off below.
-        </p>
-      </div>
-
-      {/* 1. DOMINANT "CONTINUE LEARNING" HERO CARD */}
-      <div
-        className="card-plate animate-slide-up"
-        style={{
-          padding: '28px 32px',
-          marginBottom: '28px',
-          backgroundColor: 'var(--bg-surface)',
-          borderRadius: 'var(--radius-xl)',
-          border: '1px solid var(--border-default)',
-          boxShadow: 'var(--shadow-xs)',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '20px' }}>
-          <div style={{ flex: 1, minWidth: '280px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <Badge variant="brand" size="sm">
-                UNIT {activeUnit?.unitNumber || 1} • {activeUnit?.title || 'PYTHON FOUNDATIONS'}
-              </Badge>
-              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-muted)' }} className="tabular-nums">
-                {completedUnitLessons} of {unitLessons.length} lessons in unit
-              </span>
-            </div>
-
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.25 }}>
-              {activeSkill?.title}: {activeLesson?.title || 'Interactive Challenge'}
-            </h2>
-
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: 1.55, maxWidth: '640px', marginBottom: '20px' }}>
-              {activeLesson?.description || 'Build solid muscle memory with immediate code evaluation, interactive test assertions, and diagnostic feedback.'}
-            </p>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '22px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                <Icon name="clock" size={16} style={{ color: 'var(--text-muted)' }} />
-                <span className="tabular-nums">~{activeLesson?.estimatedMinutes || 4} min session</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                <Icon name="sparkles" size={16} style={{ color: 'var(--warning-text)' }} />
-                <span className="tabular-nums">+{activeLesson?.xpReward || 25} XP</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                <Icon name="terminal" size={16} style={{ color: 'var(--text-muted)' }} />
-                <span>Interactive Python</span>
-              </div>
-            </div>
-
-            {/* Inline Module Progress Bar */}
-            <div style={{ maxWidth: '420px', backgroundColor: 'var(--bg-app)', padding: '12px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem', fontWeight: 700 }}>
-                <span style={{ color: 'var(--text-secondary)' }}>Unit Progress</span>
-                <span style={{ color: 'var(--brand-primary)' }} className="tabular-nums">{unitProgressPct}% Completed</span>
-              </div>
-              <ProgressBar progress={unitProgressPct} height={8} />
-            </div>
+      {/* Flight Cockpit Top Header */}
+      <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                fontWeight: 700,
+                color: 'var(--brand-primary)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase'
+              }}
+            >
+              SYS.HUD // OPERATOR CONSOLE
+            </span>
+            <span style={{ color: '#475569' }}>•</span>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                color: '#94A3B8',
+                letterSpacing: '0.08em'
+              }}
+            >
+              FLIGHT VECTOR ONLINE
+            </span>
           </div>
 
-          {/* Action Trigger Button (Single Primary Tactile Action) */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => startLesson(nextLessonId)}
-              icon={<Icon name="player-play" size={18} fill="currentColor" />}
-              iconPosition="left"
-              style={{ padding: '14px 28px', fontSize: '1.05rem', minWidth: '220px' }}
-            >
-              Resume Lesson
-            </Button>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px', fontWeight: 500 }}>
-              Press Enter or click to begin
+          <h1
+            style={{
+              fontSize: '2rem',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              color: '#F8FAFC',
+              fontFamily: 'var(--font-display)',
+              margin: 0
+            }}
+          >
+            {getGreeting()}, {userProgress.name.split(' ')[0]}
+          </h1>
+          <p style={{ color: '#94A3B8', fontSize: '0.9375rem', margin: '4px 0 0' }}>
+            Current flight streak: <strong style={{ color: 'var(--brand-primary)', fontFamily: 'var(--font-mono)' }}>{userProgress.streak} DAYS</strong>. Vector velocity synchronized.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div
+            style={{
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-sm)',
+              backgroundColor: '#101524',
+              border: '1px solid var(--border-default)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#94A3B8' }}>RANK:</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: '#DBB8FF' }}>
+              TIER {userProgress.level || 1} ARCHITECT
+            </span>
+          </div>
+          <div
+            style={{
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-sm)',
+              backgroundColor: '#101524',
+              border: '1px solid var(--border-default)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#94A3B8' }}>TOTAL XP:</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--brand-primary)' }}>
+              {userProgress.totalXp.toLocaleString()}
             </span>
           </div>
         </div>
       </div>
 
-      {/* 2. STATS ROW: DAILY GOAL RING + 30-DAY STREAK HEATMAP + WEEKLY XP */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '28px' }}>
-        
-        {/* A. Daily Goal Ring */}
-        <Card variant="default" padding="lg">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-            <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                Daily Learning Goal
-              </h3>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                Session target for today
+      {/* 1. DOMINANT "ACTIVE FLIGHT MISSION" HERO CARD */}
+      <div
+        style={{
+          padding: '28px 32px',
+          marginBottom: '28px',
+          backgroundColor: '#101524',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--border-default)',
+          boxShadow: '0 8px 30px rgba(0, 0, 0, 0.4)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+        className="hover-glow-cyan"
+      >
+        {/* Accent Top Progressive Edge */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '2px',
+            background: 'linear-gradient(90deg, #7928CA 0%, #00F5D4 100%)'
+          }}
+        />
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '24px' }}>
+          <div style={{ flex: 1, minWidth: '300px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  color: 'var(--brand-primary)',
+                  backgroundColor: 'rgba(0, 245, 212, 0.1)',
+                  padding: '3px 8px',
+                  borderRadius: 'var(--radius-xs)',
+                  border: '1px solid rgba(0, 245, 212, 0.25)',
+                  textTransform: 'uppercase'
+                }}
+              >
+                MISSION // UNIT {activeUnit?.unitNumber || 1} • {activeUnit?.title || 'FOUNDATIONS'}
+              </span>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#64748B' }}>
+                {completedUnitLessons}/{unitLessons.length} NODES COMPLETED
               </span>
             </div>
-            <Badge variant={dailyXpEarned >= dailyXpTarget ? 'success' : 'brand'} size="sm">
-              {dailyXpEarned >= dailyXpTarget ? 'Goal Achieved' : 'In Progress'}
-            </Badge>
+
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: '#F8FAFC',
+                marginBottom: '8px',
+                lineHeight: 1.2
+              }}
+            >
+              {activeSkill?.title}: {activeLesson?.title || 'Interactive Challenge'}
+            </h2>
+
+            <p style={{ fontSize: '0.95rem', color: '#94A3B8', lineHeight: 1.6, maxWidth: '680px', marginBottom: '20px' }}>
+              {activeLesson?.description || 'Build solid muscle memory with immediate code evaluation, interactive test assertions, and diagnostic feedback.'}
+            </p>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '18px', flexWrap: 'wrap', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
+                <Icon name="clock" size={15} style={{ color: 'var(--brand-primary)' }} />
+                <span>~{activeLesson?.estimatedMinutes || 4} MIN FLIGHT</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: '#DBB8FF' }}>
+                <Icon name="sparkles" size={15} style={{ color: '#DBB8FF' }} />
+                <span>+{activeLesson?.xpReward || 25} XP MILESTONE</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: '#36F5C7' }}>
+                <Icon name="terminal" size={15} style={{ color: '#36F5C7' }} />
+                <span>WASM INTERACTIVE RUNTIME</span>
+              </div>
+            </div>
+
+            {/* Inline Module Progress Bar */}
+            <div style={{ maxWidth: '440px', backgroundColor: '#0B0E15', padding: '12px 14px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700 }}>
+                <span style={{ color: '#94A3B8' }}>UNIT VECTOR PROGRESS</span>
+                <span style={{ color: 'var(--brand-primary)' }}>{unitProgressPct}% COMPLETE</span>
+              </div>
+              <ProgressBar progress={unitProgressPct} height={6} />
+            </div>
+          </div>
+
+          {/* Action Trigger Button */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center' }}>
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => startLesson(nextLessonId)}
+              icon={<Icon name="player-play" size={18} fill="#0A0D14" />}
+              iconPosition="left"
+              style={{
+                padding: '14px 32px',
+                fontSize: '1rem',
+                minWidth: '220px',
+                boxShadow: '0 0 20px rgba(0, 245, 212, 0.4)'
+              }}
+            >
+              Resume Flight Mission
+            </Button>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#64748B', marginTop: '8px' }}>
+              Press ↵ or click to execute
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. STATS ROW: DAILY GOAL FUEL + 30-DAY RADAR + WEEKLY RHYTHM */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '28px' }}>
+        
+        {/* A. Daily Fuel Ring */}
+        <div
+          style={{
+            backgroundColor: '#101524',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '24px'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+            <div>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#F8FAFC', margin: 0, fontFamily: 'var(--font-display)' }}>
+                Daily Orbit Target
+              </h3>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
+                TELEMETRY FUEL QUOTA
+              </span>
+            </div>
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                fontWeight: 700,
+                color: dailyXpEarned >= dailyXpTarget ? '#36F5C7' : 'var(--brand-primary)',
+                backgroundColor: 'rgba(0, 245, 212, 0.1)',
+                padding: '2px 8px',
+                borderRadius: 'var(--radius-xs)',
+                border: '1px solid rgba(0, 245, 212, 0.25)'
+              }}
+            >
+              {dailyXpEarned >= dailyXpTarget ? 'QUOTA ACHIEVED' : 'IN FLIGHT'}
+            </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <DailyGoalRing earned={dailyXpEarned} target={dailyXpTarget} size={110} />
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
               <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                  Daily XP Progress
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
+                  XP DELIVERED
                 </div>
-                <div style={{ fontSize: '1.15rem', fontWeight: 900, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>
-                  {dailyXpEarned} <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>/ {dailyXpTarget} XP</span>
+                <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#F8FAFC', fontFamily: 'var(--font-mono)' }}>
+                  {dailyXpEarned} <span style={{ fontSize: '0.85rem', color: '#94A3B8' }}>/ {dailyXpTarget} XP</span>
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                  Lessons Target
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>
+                  MISSION UNITS
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-secondary)' }}>
-                  {userProgress.dailyGoal?.lessonsCompleted || (dailyXpEarned > 0 ? 1 : 0)} / {userProgress.dailyGoal?.lessonsTarget || 2} Lessons
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#94A3B8', fontFamily: 'var(--font-mono)' }}>
+                  {userProgress.dailyGoal?.lessonsCompleted || (dailyXpEarned > 0 ? 1 : 0)} / {userProgress.dailyGoal?.lessonsTarget || 2} NODES
                 </div>
               </div>
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* B. Streak Calendar: 30-Day Activity Heatmap */}
-        <Card variant="default" padding="lg">
+        <div
+          style={{
+            backgroundColor: '#101524',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '24px'
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Icon name="flame" size={18} fill="#FDA4AF" style={{ color: 'var(--streak-color)' }} />
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                  {userProgress.streak} Day Streak
+                <Icon name="flame" size={18} style={{ color: 'var(--brand-primary)' }} />
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#F8FAFC', margin: 0, fontFamily: 'var(--font-display)' }}>
+                  {userProgress.streak} Day Vector Streak
                 </h3>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
-                <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                  Last 30 days activity
+                <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
+                  LAST 30 FLIGHT CYCLES
                 </span>
                 <span
                   style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 800,
-                    color: '#0284C7',
-                    background: '#E0F2FE',
-                    padding: '2px 8px',
-                    borderRadius: '12px',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px'
+                    fontSize: '10px',
+                    fontFamily: 'var(--font-mono)',
+                    fontWeight: 700,
+                    color: '#36F5C7',
+                    background: 'rgba(54, 245, 199, 0.1)',
+                    padding: '2px 6px',
+                    borderRadius: 'var(--radius-xs)',
+                    border: '1px solid rgba(54, 245, 199, 0.25)'
                   }}
-                  title="Streak Freezes protect your streak when you miss a day. Earn more by resolving mistakes in Fix-It Lab!"
+                  title="Streak Freezes protect your flight streak. Earn more by repairing concepts in Fix-It Lab!"
                 >
-                  ❄️ {freezeInventory}/2 Freezes
+                  ❄️ {freezeInventory}/2 FREEZES
                 </span>
               </div>
             </div>
-            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', backgroundColor: 'var(--bg-app)', padding: '2px 8px', borderRadius: '6px' }}>
-              Best: {Math.max(userProgress.streak, userProgress.bestStreak || userProgress.streak)}d
+            <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#94A3B8', backgroundColor: '#0B0E15', padding: '2px 8px', borderRadius: 'var(--radius-xs)' }}>
+              PEAK: {Math.max(userProgress.streak, userProgress.bestStreak || userProgress.streak)}D
             </span>
           </div>
 
@@ -390,26 +519,27 @@ export const DashboardView: React.FC = () => {
             {heatmapDays.map((day) => (
               <div
                 key={day.date}
-                title={`${day.date}: ${day.hasActivity ? `${day.xp} XP earned` : 'No activity recorded'}${day.isToday ? ' (Today)' : ''}`}
+                title={`${day.date}: ${day.hasActivity ? `${day.xp} XP earned` : 'No mission executed'}${day.isToday ? ' (Today)' : ''}`}
                 style={{
                   aspectRatio: '1',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: 'var(--radius-xs)',
                   backgroundColor: day.hasActivity
-                    ? 'var(--secondary-solid)'
+                    ? '#00F5D4'
                     : day.isToday
-                    ? 'var(--brand-light)'
-                    : 'var(--bg-app)',
+                    ? 'rgba(0, 245, 212, 0.2)'
+                    : '#0B0E15',
                   border: day.isToday
-                    ? '1.5px solid var(--brand-primary)'
+                    ? '1px solid #00F5D4'
                     : '1px solid var(--border-default)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '0.625rem',
-                  fontWeight: 800,
-                  color: day.hasActivity ? '#FFFFFF' : 'var(--text-muted)',
+                  fontSize: '9px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  color: day.hasActivity ? '#0A0D14' : '#64748B',
                   cursor: 'default',
-                  transition: 'transform var(--transition-fast)'
+                  boxShadow: day.hasActivity ? '0 0 6px rgba(0, 245, 212, 0.3)' : 'none'
                 }}
               >
                 {day.dayNumber}
@@ -417,32 +547,39 @@ export const DashboardView: React.FC = () => {
             ))}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-            <span>30 days ago</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px', fontSize: '10px', fontFamily: 'var(--font-mono)', color: '#64748B' }}>
+            <span>T-30D</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--bg-app)', border: '1px solid var(--border-default)' }} />
-              <span>Rest</span>
-              <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--secondary-solid)', marginLeft: '6px' }} />
-              <span>Learned</span>
+              <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#0B0E15', border: '1px solid var(--border-default)' }} />
+              <span>DOCK</span>
+              <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: '#00F5D4', marginLeft: '6px' }} />
+              <span>ACTIVE</span>
             </div>
-            <span>Today</span>
+            <span>TODAY</span>
           </div>
-        </Card>
+        </div>
 
         {/* C. Weekly XP Chart */}
-        <Card variant="default" padding="lg">
+        <div
+          style={{
+            backgroundColor: '#101524',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '24px'
+          }}
+        >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
             <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                Weekly XP Rhythm
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#F8FAFC', margin: 0, fontFamily: 'var(--font-display)' }}>
+                Weekly Velocity
               </h3>
-              <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-                {totalWeeklyXp} XP earned this week
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
+                {totalWeeklyXp} XP LOGGED THIS WEEK
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--success-text)', fontWeight: 800, backgroundColor: 'var(--state-success-subtle)', padding: '2px 8px', borderRadius: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--brand-primary)', fontWeight: 700, backgroundColor: 'rgba(0, 245, 212, 0.1)', padding: '2px 8px', borderRadius: 'var(--radius-xs)' }}>
               <Icon name="trending-up" size={14} stroke={2.5} />
-              <span>Active</span>
+              <span>OPTIMAL</span>
             </div>
           </div>
 
@@ -463,25 +600,26 @@ export const DashboardView: React.FC = () => {
 
               return (
                 <div key={d.date} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', flex: 1 }}>
-                  <span style={{ fontSize: '0.58rem', fontWeight: 800, color: d.xp > 0 ? 'var(--brand-primary)' : 'transparent' }}>
+                  <span style={{ fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: d.xp > 0 ? 'var(--brand-primary)' : 'transparent' }}>
                     {d.xp}
                   </span>
                   <div
                     style={{
-                      width: '20px',
+                      width: '18px',
                       height: `${heightPct}%`,
                       backgroundColor: d.isToday
-                        ? 'var(--brand-primary)'
+                        ? '#00F5D4'
                         : d.xp > 0
-                        ? 'var(--secondary-solid)'
-                        : 'var(--bg-app)',
-                      borderRadius: '4px 4px 0 0',
+                        ? '#7928CA'
+                        : '#0B0E15',
+                      borderRadius: '2px 2px 0 0',
                       border: d.xp === 0 ? '1px dashed var(--border-default)' : 'none',
+                      boxShadow: d.isToday ? '0 0 10px rgba(0, 245, 212, 0.4)' : 'none',
                       transition: 'height 400ms ease'
                     }}
                     title={`${d.label} (${d.date}): ${d.xp} XP`}
                   />
-                  <span style={{ fontSize: '0.68rem', fontWeight: d.isToday ? 800 : 600, color: d.isToday ? 'var(--brand-primary)' : 'var(--text-secondary)' }}>
+                  <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: d.isToday ? 700 : 500, color: d.isToday ? 'var(--brand-primary)' : '#94A3B8' }}>
                     {d.label}
                   </span>
                 </div>
@@ -489,94 +627,102 @@ export const DashboardView: React.FC = () => {
             })}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-            <span>Weekly Total:</span>
-            <strong style={{ color: 'var(--text-primary)' }}>{totalWeeklyXp} XP</strong>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
+            <span>WEEKLY OUTPUT:</span>
+            <strong style={{ color: '#F8FAFC' }}>{totalWeeklyXp} XP</strong>
           </div>
-        </Card>
+        </div>
       </div>
 
-      {/* 3. OPTIONAL MISTAKE BANK ALERT (If any unresolved mistakes exist) */}
+      {/* 3. OPTIONAL MISTAKE BANK ALERT */}
       {primaryWeakness && (
         <div
           style={{
-            backgroundColor: 'var(--warning-bg)',
-            border: '1.5px solid var(--warning-border)',
+            backgroundColor: '#161D31',
+            border: '1px solid rgba(121, 40, 202, 0.4)',
             borderRadius: 'var(--radius-lg)',
-            padding: '18px 22px',
+            padding: '20px 24px',
             marginBottom: '28px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            gap: '16px'
+            gap: '16px',
+            boxShadow: '0 0 20px rgba(121, 40, 202, 0.15)'
           }}
-          className="hover-elevate"
         >
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', maxWidth: '640px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', maxWidth: '720px' }}>
             <div
               style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '10px',
-                backgroundColor: 'var(--warning-border)',
+                width: '40px',
+                height: '40px',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: 'rgba(121, 40, 202, 0.3)',
+                border: '1px solid rgba(121, 40, 202, 0.5)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#FFFFFF',
+                color: '#DBB8FF',
                 flexShrink: 0
               }}
             >
               <Icon name="history" size={20} stroke={2.5} />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--warning-text)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Mistake Bank • Adaptive Review Needed
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#DBB8FF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  FIX-IT TELEMETRY LAB // ADAPTIVE CALIBRATION
                 </span>
-                <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--error-bg)', color: 'var(--error-solid)', fontWeight: 800, padding: '2px 8px', borderRadius: '6px', border: '1px solid var(--error-border)' }}>
-                  Failed {primaryWeakness.frequency}x
+                <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#FFB4AB', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--radius-xs)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                  {primaryWeakness.frequency}× MISCONCEPTION
                 </span>
               </div>
-              <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--text-primary)', margin: '0 0 3px' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#F8FAFC', margin: '0 0 4px', fontFamily: 'var(--font-display)' }}>
                 {primaryWeakness.conceptName}: {primaryWeakness.explanation}
               </h4>
-              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.45 }}>
-                Strengthen mental models and clarify misconceptions before taking the unit capstone synthesis challenge.
+              <p style={{ fontSize: '0.85rem', color: '#94A3B8', margin: 0, lineHeight: 1.5 }}>
+                Repair faulty cognitive heuristics and verify algorithmic correctness before ascending to higher tiers.
               </p>
             </div>
           </div>
 
           <Button
-            variant="secondary"
+            variant="mastery"
             size="md"
             onClick={() => navigateTo('/app/review')}
             icon={<Icon name="player-play" size={15} />}
           >
-            Start Repair Drill
+            Execute Repair Drill
           </Button>
         </div>
       )}
 
-      {/* 4. COURSE CURRICULUM OVERVIEW */}
-      <Card variant="default" padding="lg">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+      {/* 4. TRACK MATRIX CURRICULUM OVERVIEW */}
+      <div
+        style={{
+          backgroundColor: '#101524',
+          border: '1px solid var(--border-default)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '24px'
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-              Python Track Curriculum Summary
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#F8FAFC', margin: 0, fontFamily: 'var(--font-display)' }}>
+              Python Systems Track Matrix
             </h3>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              {course.units.length} total units • {totalLessonsCount} interactive lessons
+            <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#94A3B8' }}>
+              {course.units.length} TOTAL UNITS • {totalLessonsCount} INTERACTIVE FLIGHT MISSIONS
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--brand-primary)' }} className="tabular-nums">
-                {courseProgressPct}% Completed
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--brand-primary)' }}>
+                {courseProgressPct}% VERIFIED
               </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }} className="tabular-nums">
-                {completedLessonsCount} of {totalLessonsCount} lessons
+              <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: '#64748B' }}>
+                {completedLessonsCount} OF {totalLessonsCount} NODES
               </div>
             </div>
             <Button
@@ -585,13 +731,13 @@ export const DashboardView: React.FC = () => {
               onClick={() => navigateTo('/app')}
               icon={<Icon name="map" size={15} />}
             >
-              Open Full Map
+              Curriculum Matrix
             </Button>
           </div>
         </div>
 
-        <ProgressBar progress={courseProgressPct} height={10} />
-      </Card>
+        <ProgressBar progress={courseProgressPct} height={8} />
+      </div>
 
     </div>
   );

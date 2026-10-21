@@ -75,7 +75,7 @@ export const ProfileView: React.FC = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `codolingo-progress-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.download = `vyntax-progress-backup-${new Date().toISOString().slice(0, 10)}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -98,7 +98,7 @@ export const ProfileView: React.FC = () => {
       setImportJsonText('');
     } else {
       sound.playError();
-      setImportError('Invalid backup JSON format. Please ensure you pasted a valid Codolingo backup.');
+      setImportError('Invalid backup JSON format. Please ensure you pasted a valid VYNTAX backup.');
     }
   };
 
@@ -599,7 +599,7 @@ export const ProfileView: React.FC = () => {
         </div>
       </div>
 
-      {/* 7. About Codolingo Card */}
+      {/* 7. About VYNTAX Card */}
       <div className="card-plate" style={{ padding: '24px', backgroundColor: 'var(--bg-surface)', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -609,9 +609,9 @@ export const ProfileView: React.FC = () => {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                  About Codolingo
+                  About VYNTAX
                 </h2>
-                <Badge variant="brand" size="sm">v1.2.0</Badge>
+                <Badge variant="brand" size="sm">v2025.1</Badge>
               </div>
               <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
                 Client-side Python deliberate practice. Runs locally in your browser.
@@ -619,7 +619,7 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
           <a
-            href="mailto:feedback@codolingo.app?subject=Codolingo%20Feedback"
+            href="mailto:feedback@vyntax.dev?subject=VYNTAX%20Feedback"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
